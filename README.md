@@ -10,19 +10,19 @@ It preserves the polished, layered, rounded, gradient-rich character already use
 
 Material structure + liquid depth and fluidity + One UI ergonomics + GoreeCloud privacy, identity, and simplicity = Glaze UI.
 
-## Glaze UI 1.0
+## Glaze UI 1.1
 
-The 1.0 foundation defines:
+The 1.1 foundation includes everything in 1.0 and expands the reusable contract with:
 
-- semantic design tokens for light and dark themes;
-- Canvas, Solid, Raised, Glaze, and Overlay surface roles;
-- shared component and interaction-state contracts;
-- Compact, Medium, Expanded, and Wide adaptive layout ranges;
-- a restrained motion vocabulary with reduced-motion behavior;
-- practical target sizing, visible focus, increased-contrast and forced-colors support;
-- solid fallbacks when translucency or backdrop filtering is unavailable;
-- privacy-conscious local/system assets with no tracking or remote UI dependency requirement;
-- stable-release conformance and visual-acceptance gates.
+- semantic `info`, `onAccent`, and modal scrim roles;
+- shared hover, pressed, focus, and selected state-layer semantics;
+- standard icon sizes and compact/comfortable density guidance;
+- adaptive gutters and safe-area helpers for modern mobile/device layouts;
+- reusable navigation-item, toolbar, badge, dialog, menu, toast, scrim, and icon primitives;
+- broader typography roles and stronger cross-platform semantic mapping;
+- exact-version conformance evidence for stable GoreeCloud consumers.
+
+The established 1.0 architecture remains intact: semantic light/dark tokens; Canvas, Solid, Raised, Glaze, and Overlay surfaces; Compact/Medium/Expanded/Wide layouts; restrained motion; practical targets and focus; accessibility/resilience fallbacks; local/privacy-conscious presentation dependencies; and stable-release visual acceptance.
 
 ## Repository layout
 
@@ -62,7 +62,7 @@ The validator uses only the Python standard library.
 
 ## Versioning
 
-Glaze UI follows semantic versioning. Patch releases fix or clarify compatible behavior. Minor releases add compatible tokens or components. Major releases may change required semantics. GoreeCloud applications should record the Glaze UI version they target.
+Glaze UI follows semantic versioning. Patch releases fix or clarify compatible behavior. Minor releases add compatible tokens, primitives, or components. Major releases may change required semantics. GoreeCloud applications should record the exact Glaze UI version they target.
 
 ## License
 
