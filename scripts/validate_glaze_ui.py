@@ -9,22 +9,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TOKENS = ROOT / "tokens" / "glaze.tokens.json"
-REQUIRED = [
-    ROOT / "README.md",
-    ROOT / "LICENSE",
-    ROOT / "VERSION",
-    ROOT / "CHANGELOG.md",
-    ROOT / "COMPONENTS.md",
-    ROOT / "CONFORMANCE.md",
-    ROOT / "ADOPTION.md",
-    ROOT / "CONTRIBUTING.md",
-    ROOT / "SECURITY.md",
-    ROOT / "tokens" / "README.md",
-    TOKENS,
-    ROOT / "css" / "glaze.css",
-    ROOT / "css" / "glaze.accessibility.css",
-    ROOT / "reference" / "index.html",
-]
+REQUIRED = [ROOT / name for name in ("README.md","LICENSE","VERSION","CHANGELOG.md","COMPONENTS.md","CONFORMANCE.md","ADOPTION.md","CONTRIBUTING.md","SECURITY.md")]
+REQUIRED += [ROOT / "tokens" / "README.md", TOKENS, ROOT / "css" / "glaze.css", ROOT / "css" / "glaze.accessibility.css", ROOT / "reference" / "index.html"]
 
 
 def require(condition: bool, message: str) -> None:
@@ -43,84 +29,57 @@ def main() -> None:
     require(data["meta"]["version"] == version, "VERSION and token version differ")
     require(data["meta"]["name"] == "Glaze UI", "token identity is not Glaze UI")
 
-    required_colors = (
-        "canvas",
-        "canvasAccent",
-        "surface",
-        "surfaceStrong",
-        "surfaceMuted",
-        "text",
-        "muted",
-        "line",
-        "accent",
-        "accentSecondary",
-        "success",
-        "warning",
-        "danger",
-    )
+    required_colors = ("canvas","canvasAccent","surface","surfaceStrong","surfaceMuted","text","muted","line","accent","accentSecondary","onAccent","info","success","warning","danger","scrim")
     for theme in ("light", "dark"):
         colors = data["color"][theme]
         for name in required_colors:
             require(name in colors, f"missing {theme} semantic color: {name}")
 
+    for state in ("hover", "pressed", "focus", "selected"):
+        require(0 < data["stateLayer"][state] < 1, f"invalid state-layer opacity: {state}")
+    require(data["stateLayer"]["hover"] < data["stateLayer"]["pressed"] <= data["stateLayer"]["focus"], "state layers are not ordered")
+
     require(data["target"]["minimum"] >= 44, "minimum target size must remain at least 44px")
     require(data["target"]["comfortable"] >= data["target"]["minimum"], "comfortable target is smaller than minimum")
+    require(list(data["icon"].values()) == sorted(data["icon"].values()), "icon sizes are not ordered")
 
     motion = data["motion"]
     require(motion["instant"] < motion["fast"] < motion["standard"] < motion["emphasized"], "motion durations are not ordered")
-
     bp = data["breakpoint"]
     require(bp["mediumMin"] == bp["compactMax"] + 1, "Compact/Medium breakpoint gap")
     require(bp["expandedMin"] == bp["mediumMax"] + 1, "Medium/Expanded breakpoint gap")
     require(bp["wideMin"] == bp["expandedMax"] + 1, "Expanded/Wide breakpoint gap")
+    layout = data["layout"]
+    require(layout["gutterCompact"] <= layout["gutterMedium"] <= layout["gutterExpanded"] <= layout["gutterWide"], "adaptive gutters are not ordered")
 
     css = (ROOT / "css" / "glaze.css").read_text(encoding="utf-8")
     accessibility = (ROOT / "css" / "glaze.accessibility.css").read_text(encoding="utf-8")
     reference = (ROOT / "reference" / "index.html").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    components = (ROOT / "COMPONENTS.md").read_text(encoding="utf-8")
+    conformance = (ROOT / "CONFORMANCE.md").read_text(encoding="utf-8")
 
-    required_css_tokens = (
-        "--glaze-canvas",
-        "--glaze-surface",
-        "--glaze-surface-strong",
-        "--glaze-accent",
-        "--glaze-accent-2",
-        "--glaze-radius-xl",
-        "--glaze-motion-standard",
-        "--glaze-target-min",
-        "--glaze-focus-width",
-    )
+    required_css_tokens = ("--glaze-canvas","--glaze-surface","--glaze-surface-strong","--glaze-accent","--glaze-accent-2","--glaze-on-accent","--glaze-info","--glaze-scrim","--glaze-state-hover","--glaze-state-pressed","--glaze-icon-md","--glaze-gutter","--glaze-radius-xl","--glaze-motion-standard","--glaze-target-min","--glaze-focus-width")
     for token in required_css_tokens:
         require(token in css, f"canonical CSS missing {token}")
 
     for surface in (".glaze-canvas", ".glaze-surface-solid", ".glaze-surface-raised", ".glaze-surface", ".glaze-overlay"):
         require(surface in css, f"canonical CSS missing surface role {surface}")
+    for primitive in (".glaze-scrim", ".glaze-nav-item", ".glaze-toolbar", ".glaze-dialog", ".glaze-menu", ".glaze-toast", ".glaze-badge", ".glaze-safe-area"):
+        require(primitive in css, f"canonical CSS missing 1.1 primitive {primitive}")
 
-    for contract in (
-        "prefers-reduced-motion",
-        "prefers-reduced-transparency",
-        "prefers-contrast",
-        "forced-colors",
-        "@supports not",
-    ):
+    for contract in ("prefers-reduced-motion","prefers-reduced-transparency","prefers-contrast","forced-colors","@supports not"):
         require(contract in accessibility, f"accessibility CSS missing {contract}")
 
-    forbidden_remote_markers = (
-        "fonts.googleapis",
-        "fonts.gstatic",
-        "cdn.jsdelivr",
-        "unpkg.com",
-        "cdnjs.cloudflare",
-        "google-analytics",
-        "googletagmanager",
-    )
+    forbidden_remote_markers = ("fonts.googleapis","fonts.gstatic","cdn.jsdelivr","unpkg.com","cdnjs.cloudflare","google-analytics","googletagmanager")
     lowered_reference = reference.lower()
     for marker in forbidden_remote_markers:
         require(marker not in lowered_reference, f"reference page contains forbidden remote dependency marker: {marker}")
-
     require("http://" not in lowered_reference and "https://" not in lowered_reference, "reference page must remain network-independent")
-    require(f"Glaze UI 1.0" in reference, "reference page Glaze UI 1.0 identity missing")
+    require(f"Glaze UI {version}" in reference, "reference page exact Glaze UI version identity missing")
     require("Beauty is a requirement" in readme, "README must preserve the visual-quality principle")
+    require("state-layer" in components.lower(), "component contract must document state layers")
+    require(f"Glaze UI {version.rsplit('.', 1)[0]} conformant" in conformance, "conformance claim does not match current minor version")
     require("MIT License" in (ROOT / "LICENSE").read_text(encoding="utf-8"), "MIT license text missing")
 
     print(f"Glaze UI {version} repository validated")
