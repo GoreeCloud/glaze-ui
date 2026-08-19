@@ -2,6 +2,28 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
+## 1.1.0 — 2026-08-18
+
+Compatible design-system expansion focused on richer reusable semantics and cross-platform application ergonomics.
+
+### Added
+
+- `info`, `onAccent`, and semantic modal-scrim color roles for light and dark appearances.
+- Shared hover, pressed, focus, and selected state-layer opacity tokens.
+- Standard 16/20/24/32 icon sizing roles.
+- Compact and comfortable density guidance that preserves 44px minimum actionable targets.
+- Expanded typography roles, adaptive gutter tokens, and safe-area support.
+- Reusable web primitives for navigation items, toolbars, badges, dialogs, menus, toasts, scrims, and icons.
+- Stronger cross-platform and exact-version consumer conformance requirements.
+
+### Preserved
+
+- Canvas, Solid, Raised, Glaze, and Overlay hierarchy.
+- Compact, Medium, Expanded, and Wide adaptive model.
+- Existing motion vocabulary and accessibility/resilience requirements.
+- Local-first privacy boundary and dependency-free reference direction.
+- Product personality and the rule that visual quality must not regress for the sake of standardization.
+
 ## 1.0.0 — 2026-08-16
 
 Initial canonical Glaze UI design-system foundation.
