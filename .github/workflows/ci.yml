@@ -17,7 +17,9 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      - name: Compile validator
-        run: python3 -m py_compile scripts/validate_glaze_ui.py
+      - name: Compile validators
+        run: python3 -m py_compile scripts/validate_glaze_ui.py website/build.py website/validate.py
       - name: Validate Glaze UI repository
         run: python3 scripts/validate_glaze_ui.py
+      - name: Build and validate public design site
+        run: python3 website/validate.py
