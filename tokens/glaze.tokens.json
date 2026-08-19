@@ -1,9 +1,9 @@
 {
   "meta": {
     "name": "Glaze UI",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "format": "GoreeCloud semantic token map v1",
-    "principle": "Preserve visual delight while standardizing semantics, accessibility, and behavior."
+    "principle": "Preserve visual delight while standardizing semantics, accessibility, behavior, and cross-product consistency."
   },
   "color": {
     "light": {
@@ -17,9 +17,12 @@
       "line": "rgba(95,116,146,0.16)",
       "accent": "#366CF6",
       "accentSecondary": "#7C5CFF",
+      "onAccent": "#FFFFFF",
+      "info": "#2463D4",
       "success": "#197A4B",
       "warning": "#A15C00",
-      "danger": "#B42318"
+      "danger": "#B42318",
+      "scrim": "rgba(8,18,34,0.42)"
     },
     "dark": {
       "canvas": "#0D1119",
@@ -32,10 +35,19 @@
       "line": "rgba(193,207,229,0.12)",
       "accent": "#7AA2FF",
       "accentSecondary": "#A594FF",
+      "onAccent": "#0B1020",
+      "info": "#8AB4FF",
       "success": "#73D9A2",
       "warning": "#F7C36C",
-      "danger": "#FF8A80"
+      "danger": "#FF8A80",
+      "scrim": "rgba(0,0,0,0.62)"
     }
+  },
+  "stateLayer": {
+    "hover": 0.08,
+    "pressed": 0.12,
+    "focus": 0.14,
+    "selected": 0.12
   },
   "space": {
     "1": 4,
@@ -61,6 +73,18 @@
   "target": {
     "minimum": 44,
     "comfortable": 48
+  },
+  "icon": {
+    "sm": 16,
+    "md": 20,
+    "lg": 24,
+    "xl": 32
+  },
+  "density": {
+    "compactControlPadding": 12,
+    "comfortableControlPadding": 16,
+    "compactGap": 8,
+    "comfortableGap": 12
   },
   "blur": {
     "glaze": 22,
@@ -98,10 +122,14 @@
   },
   "typography": {
     "family": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
-    "body": 16,
-    "small": 14,
+    "caption": 12,
     "label": 13,
+    "small": 14,
+    "body": 16,
+    "bodyLarge": 18,
+    "titleSmall": 20,
     "title": 28,
+    "headline": 32,
     "display": 38,
     "lineHeightBody": 1.55,
     "lineHeightTight": 1.1,
@@ -112,12 +140,17 @@
   },
   "layout": {
     "contentMax": 1180,
-    "readingMax": 760
+    "readingMax": 760,
+    "gutterCompact": 16,
+    "gutterMedium": 24,
+    "gutterExpanded": 32,
+    "gutterWide": 40
   },
   "zIndex": {
     "base": 0,
     "raised": 10,
     "navigation": 100,
+    "scrim": 900,
     "overlay": 1000,
     "toast": 1100
   }
