@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" fill="none">
-  <title>Glaze UI Logo Lockup</title>
-  <rect x="10" y="10" width="160" height="160" rx="48" fill="#EEF3FF"/>
-  <path d="M128 72C117 51 92 38 64 38C23 38 0 67 0 90C0 131 23 142 64 142C91 142 112 130 128 112V92H64V114H102C92 124 79 128 64 128C40 128 24 112 24 90C24 66 40 52 64 52C81 52 95 59 104 70L128 72Z" transform="translate(24 0)" fill="#5B5CEB"/>
-  <text x="210" y="108" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="700" fill="#14213D">Glaze UI</text>
-</svg>
