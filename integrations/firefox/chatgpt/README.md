@@ -80,9 +80,17 @@ The builder creates a deterministic unsigned local-test XPI at `integrations/fir
 
 The permanent ChatGPT extension validator builds the package twice in isolated temporary directories and fails CI if the bytes or SHA-256 evidence differ.
 
+### Exact-head workflow artifact
+
+After all repository, Firefox-integration, ChatGPT-extension, public-site, and rendered-reference validation steps pass, Glaze UI CI builds the same deterministic XPI again, verifies its `.sha256` record, and uploads both files as a GitHub Actions workflow artifact named for the exact source revision. This gives runtime testing a reviewable package that is directly tied to the CI-validated commit instead of requiring an untracked rebuild on the test workstation.
+
+The workflow artifact is retained for 14 days and remains an **unsigned local-test artifact**. Its availability does not imply Mozilla review, signing, persistent-install approval, runtime acceptance, Stable promotion, or production readiness. The SHA-256 inside the artifact identifies the XPI bytes; GitHub's outer workflow-artifact digest is a separate transport-level integrity value.
+
+The artifact upload uses GitHub's official `actions/upload-artifact` action pinned to the verified `v7.0.1` commit rather than an unpinned moving tag.
+
 ## Privacy-preserving acceptance evidence
 
-After building the exact XPI that will be tested, generate an acceptance record with `collect_acceptance.py`:
+After obtaining the exact XPI that will be tested, generate an acceptance record with `collect_acceptance.py`:
 
 ```bash
 python3 integrations/firefox/chatgpt/collect_acceptance.py \
@@ -109,6 +117,7 @@ When OpenAI changes markup, presentation may partially regress without breaking 
 - validate the manifest and all local file references;
 - confirm requested permissions remain minimal and documented;
 - produce and record the deterministic local-test package SHA-256;
+- obtain the exact-head CI workflow artifact or reproduce identical package bytes locally;
 - generate the privacy-preserving acceptance template with `collect_acceptance.py`;
 - load the extension in current Firefox;
 - validate current `chatgpt.com` conversation, new-chat, sidebar, composer, dialogs, menus, code blocks, and settings surfaces;
@@ -123,9 +132,9 @@ When OpenAI changes markup, presentation may partially regress without breaking 
 
 ## Current validation evidence
 
-The toolbar-control implementation at exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The documentation successor `2434e7a1a1715f4a5c4cf7c2640b25d808b98a45` passed Glaze UI CI run #51 (`32370046772`). Packaging/acceptance head `b43c4a8f3d7f2a3d23bada10ff093dfd1c7a8b0c` passed Glaze UI CI run #55 (`32371082274`), including deterministic XPI packaging.
+The toolbar-control implementation at exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The documentation successor `2434e7a1a1715f4a5c4cf7c2640b25d808b98a45` passed Glaze UI CI run #51 (`32370046772`). Packaging/acceptance head `b43c4a8f3d7f2a3d23bada10ff093dfd1c7a8b0c` passed Glaze UI CI run #55 (`32371082274`), including deterministic XPI packaging. Privacy-preserving evidence-collector head `44510ec523e26657f6728049b0ac96984bac1a64` passed Glaze UI CI run #61 (`32371901432`), including generated-evidence structure and privacy-boundary validation.
 
-The current privacy-preserving evidence-collector successor must receive its own exact-head CI result before it is represented as validated. Source/CI and reproducible-package evidence do **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
+The current exact-head workflow-artifact successor must receive its own CI result before it is represented as validated. Source/CI, reproducible-package, generated-template, and workflow-artifact evidence do **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
 
 ## Maintenance
 
