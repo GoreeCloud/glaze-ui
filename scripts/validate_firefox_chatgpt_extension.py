@@ -3,12 +3,18 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EXT = ROOT / "integrations" / "firefox" / "chatgpt"
 MANIFEST = EXT / "manifest.json"
+BUILD = EXT / "build_extension.py"
+ACCEPTANCE = EXT / "ACCEPTANCE.md"
 
 ALLOWED_PERMISSIONS = {"storage"}
 ALLOWED_HOSTS = {"https://chatgpt.com/*", "https://chat.openai.com/*"}
@@ -28,7 +34,7 @@ FORBIDDEN_SOURCE_MARKERS = (
     "google-analytics",
     "googletagmanager",
 )
-SOURCE_SUFFIXES = {".js", ".css", ".html", ".json"}
+SOURCE_SUFFIXES = {".js", ".css", ".html", ".json", ".py", ".md"}
 
 
 def require(condition: bool, message: str) -> None:
@@ -83,7 +89,7 @@ def validate_local_references(manifest: dict) -> None:
 def validate_source_policy() -> None:
     source_files = [
         path for path in EXT.rglob("*")
-        if path.is_file() and path.suffix.lower() in SOURCE_SUFFIXES
+        if path.is_file() and path.suffix.lower() in SOURCE_SUFFIXES and "dist" not in path.parts
     ]
     require(source_files, "extension contains no source files")
 
@@ -101,14 +107,49 @@ def validate_source_policy() -> None:
         "does not intentionally read, store, transmit, export, index, or analyze ChatGPT conversation content",
         "does not intercept authentication material or session tokens",
         "no analytics",
+        "deterministic unsigned local-test XPI",
+        "ACCEPTANCE.md",
     ):
-        require(phrase.lower() in readme.lower(), f"README privacy contract missing phrase: {phrase}")
+        require(phrase.lower() in readme.lower(), f"README privacy/release contract missing phrase: {phrase}")
+
+
+def validate_acceptance_contract() -> None:
+    require(ACCEPTANCE.is_file(), "ACCEPTANCE.md is missing")
+    text = ACCEPTANCE.read_text(encoding="utf-8").lower()
+    for phrase in (
+        "source validation and deterministic packaging are prerequisites, not substitutes",
+        "built xpi sha-256",
+        "keyboard-only navigation",
+        "browser zoom/reflow remains usable at 200 percent",
+        "no extension-authored network request",
+        "does not modify chatgpt authentication or session handling",
+        "compatibility / dom-drift review",
+        "stable acceptance requires all required scenarios to pass",
+    ):
+        require(phrase in text, f"acceptance contract missing phrase: {phrase}")
+
+
+def validate_deterministic_packaging() -> None:
+    require(BUILD.is_file(), "build_extension.py is missing")
+    subprocess.run([sys.executable, "-m", "py_compile", str(BUILD)], check=True)
+
+    with tempfile.TemporaryDirectory() as first_dir, tempfile.TemporaryDirectory() as second_dir:
+        first = Path(first_dir) / "extension.xpi"
+        second = Path(second_dir) / "extension.xpi"
+        subprocess.run([sys.executable, str(BUILD), "--output", str(first)], check=True, stdout=subprocess.PIPE, text=True)
+        subprocess.run([sys.executable, str(BUILD), "--output", str(second)], check=True, stdout=subprocess.PIPE, text=True)
+        require(first.read_bytes() == second.read_bytes(), "extension packaging is not deterministic")
+        digest = hashlib.sha256(first.read_bytes()).hexdigest()
+        recorded = first.with_suffix(".xpi.sha256").read_text(encoding="utf-8").split()[0]
+        require(recorded == digest, "generated package SHA-256 record does not match package bytes")
 
 
 def main() -> None:
     manifest = validate_manifest()
     validate_local_references(manifest)
     validate_source_policy()
+    validate_acceptance_contract()
+    validate_deterministic_packaging()
     print("Firefox ChatGPT Glaze UI extension validation passed.")
 
 
