@@ -18,7 +18,7 @@ ALLOWED_TAGS = {
     "stop", "g", "path", "rect", "circle", "ellipse", "polygon", "polyline", "line"
 }
 FORBIDDEN_TEXT = (
-    "<script", "javascript:", "data:", "http://", "https://", "<foreignObject",
+    "<script", "javascript:", "data:", "<foreignObject",
     "<image", "<animate", "<set", "<iframe", "<!DOCTYPE", "<!ENTITY"
 )
 
@@ -59,6 +59,8 @@ def validate_svg(path: Path) -> None:
                 fail(f"{path.name} contains non-local reference {value!r}")
             if "url(" in value and not re.fullmatch(r".*url\(#[A-Za-z_][\w.-]*\).*", value):
                 fail(f"{path.name} contains non-local url() reference")
+            if value.startswith(("http://", "https://", "//")):
+                fail(f"{path.name} contains remote attribute value {value!r}")
 
 
 def main() -> int:
