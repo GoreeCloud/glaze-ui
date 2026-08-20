@@ -20,7 +20,9 @@ New 1.2 capabilities include:
 - field-group spacing and placeholder semantics for consistent form composition;
 - reusable field, help/error message, textarea, checkbox/radio, switch, segmented-control/tab, progress, and banner primitives;
 - stronger validation requirements for form semantics, selection controls, focus treatment, and exact-version documentation;
-- more explicit adoption guidance for replacing product-local control styling with shared Glaze semantics without erasing product identity.
+- more explicit adoption guidance for replacing product-local control styling with shared Glaze semantics without erasing product identity;
+- a canonical Stable-release acceptance protocol with exact representative viewports and accessibility modes;
+- Chromium-rendered CI acceptance for Compact/Expanded, light/dark, reduced-motion, and forced-colors reference behavior.
 
 The established 1.0 and 1.1 architecture remains intact: semantic light/dark tokens; Canvas, Solid, Raised, Glaze, and Overlay surfaces; Compact/Medium/Expanded/Wide layouts; restrained motion; practical targets and focus; accessibility/resilience fallbacks; local/privacy-conscious presentation dependencies; shared interaction state layers; safe-area semantics; and stable-release visual acceptance.
 
@@ -34,8 +36,11 @@ The established 1.0 and 1.1 architecture remains intact: semantic light/dark tok
 - `COMPONENTS.md` — component behavior and state contract.
 - `CONFORMANCE.md` — stable-release conformance gates.
 - `ADOPTION.md` — integration guidance for GoreeCloud applications.
+- `ACCEPTANCE.md` — Stable-release rendered visual/accessibility acceptance protocol.
 - `reference/index.html` — dependency-free visual reference.
+- `reference/acceptance.html` — browser-render acceptance harness.
 - `scripts/validate_glaze_ui.py` — zero-dependency repository validator.
+- `scripts/validate_rendered_reference.py` — Chromium-rendered reference acceptance validator.
 
 ## Surface hierarchy
 
@@ -53,13 +58,19 @@ Glaze UI creates a family resemblance, not cloned interfaces. Applications may v
 
 ## Validation
 
-Run:
+Repository/source validation:
 
 ```bash
 python3 scripts/validate_glaze_ui.py
 ```
 
-The validator uses only the Python standard library.
+Rendered reference acceptance, on systems with a supported Chromium-family browser:
+
+```bash
+python3 scripts/validate_rendered_reference.py
+```
+
+The source validator uses only the Python standard library. The rendered validator also uses only the Python standard library and an installed Chromium-family browser; it does not add a JavaScript package or remote UI dependency.
 
 ## Versioning
 
