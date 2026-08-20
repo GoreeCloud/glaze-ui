@@ -27,6 +27,7 @@ REQUIRED += [
     ROOT / "tokens" / "README.md",
     TOKENS,
     ROOT / "css" / "glaze.css",
+    ROOT / "css" / "glaze.controls.css",
     ROOT / "css" / "glaze.accessibility.css",
     ROOT / "reference" / "index.html",
 ]
@@ -65,6 +66,8 @@ def main() -> None:
         "warning",
         "danger",
         "scrim",
+        "focusRing",
+        "selection",
     )
     for theme in ("light", "dark"):
         colors = data["color"][theme]
@@ -84,6 +87,9 @@ def main() -> None:
         "comfortable target is smaller than minimum",
     )
     require(list(data["icon"].values()) == sorted(data["icon"].values()), "icon sizes are not ordered")
+    require(0 < data["opacity"]["placeholder"] <= 1, "placeholder opacity must be within (0, 1]")
+    require(data["control"]["fieldGap"] > 0, "field gap must be positive")
+    require(data["control"]["groupGap"] >= data["control"]["fieldGap"], "group gap must not be smaller than field gap")
 
     motion = data["motion"]
     require(
@@ -101,11 +107,13 @@ def main() -> None:
     )
 
     css = (ROOT / "css" / "glaze.css").read_text(encoding="utf-8")
+    controls = (ROOT / "css" / "glaze.controls.css").read_text(encoding="utf-8")
     accessibility = (ROOT / "css" / "glaze.accessibility.css").read_text(encoding="utf-8")
     reference = (ROOT / "reference" / "index.html").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     components = (ROOT / "COMPONENTS.md").read_text(encoding="utf-8")
     conformance = (ROOT / "CONFORMANCE.md").read_text(encoding="utf-8")
+    adoption = (ROOT / "ADOPTION.md").read_text(encoding="utf-8")
 
     required_css_tokens = (
         "--glaze-canvas",
@@ -148,7 +156,35 @@ def main() -> None:
         ".glaze-badge",
         ".glaze-safe-area",
     ):
-        require(primitive in css, f"canonical CSS missing 1.1 primitive {primitive}")
+        require(primitive in css, f"canonical CSS missing core primitive {primitive}")
+
+    required_control_tokens = (
+        "--glaze-focus-ring",
+        "--glaze-selection",
+        "--glaze-field-gap",
+        "--glaze-group-gap",
+        "--glaze-opacity-placeholder",
+    )
+    for token in required_control_tokens:
+        require(token in controls, f"controls CSS missing {token}")
+
+    for primitive in (
+        ".glaze-field",
+        ".glaze-field-label",
+        ".glaze-field-message",
+        ".glaze-textarea",
+        ".glaze-choice",
+        ".glaze-switch",
+        ".glaze-segmented",
+        ".glaze-progress",
+        ".glaze-banner",
+    ):
+        require(primitive in controls, f"controls CSS missing 1.2 primitive {primitive}")
+
+    require("accent-color: var(--glaze-accent)" in controls, "native checkbox/radio accent mapping missing")
+    require("input:checked + .glaze-switch-track" in controls, "switch checked-state styling missing")
+    require("aria-selected=\"true\"" in controls, "segmented selected-state semantic missing")
+    require("--glaze-progress-value" in controls, "progress value semantic missing")
 
     required_state_usage = (
         "opacity: var(--glaze-state-hover)",
@@ -163,10 +199,7 @@ def main() -> None:
         '.glaze-button[data-variant="primary"]' in css and ".glaze-button::after" in css,
         "primary button interaction layer is missing",
     )
-    require(
-        "color: var(--glaze-on-accent)" in css,
-        "primary controls must use the semantic on-accent role",
-    )
+    require("color: var(--glaze-on-accent)" in css, "primary controls must use the semantic on-accent role")
 
     for contract in (
         "prefers-reduced-motion",
@@ -189,17 +222,14 @@ def main() -> None:
     lowered_reference = reference.lower()
     for marker in forbidden_remote_markers:
         require(marker not in lowered_reference, f"reference page contains forbidden remote dependency marker: {marker}")
-    require(
-        "http://" not in lowered_reference and "https://" not in lowered_reference,
-        "reference page must remain network-independent",
-    )
+    require("http://" not in lowered_reference and "https://" not in lowered_reference, "reference page must remain network-independent")
     require(f"Glaze UI {version}" in reference, "reference page exact Glaze UI version identity missing")
+    require("glaze.controls.css" in reference, "reference page must load the 1.2 controls layer")
     require("Beauty is a requirement" in readme, "README must preserve the visual-quality principle")
-    require("state-layer" in components.lower(), "component contract must document state layers")
-    require(
-        f"Glaze UI {version.rsplit('.', 1)[0]} conformant" in conformance,
-        "conformance claim does not match current minor version",
-    )
+    require("selection controls" in components.lower(), "component contract must document selection controls")
+    require("persistent" in components.lower() and "label" in components.lower(), "component contract must require persistent field labels")
+    require(f"Glaze UI {version.rsplit('.', 1)[0]} conformant" in conformance, "conformance claim does not match current minor version")
+    require("native platform controls" in adoption.lower(), "adoption guide must protect native control semantics")
     require("MIT License" in (ROOT / "LICENSE").read_text(encoding="utf-8"), "MIT license text missing")
 
     print(f"Glaze UI {version} repository validated")
