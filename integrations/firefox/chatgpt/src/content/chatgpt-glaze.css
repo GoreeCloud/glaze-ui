@@ -17,6 +17,7 @@
   --gc-focus: light-dark(#315ae8, #adc0ff);
   --gc-selection: light-dark(rgba(76, 101, 216, 0.08), rgba(140, 161, 255, 0.14));
   --gc-selection-strong: light-dark(rgba(76, 101, 216, 0.13), rgba(140, 161, 255, 0.2));
+  --gc-user-surface: light-dark(rgba(76, 101, 216, 0.075), rgba(140, 161, 255, 0.13));
   --gc-shadow: 0 20px 52px rgba(5, 10, 25, 0.12);
   --gc-shadow-soft: 0 8px 28px rgba(5, 10, 25, 0.075);
   --gc-radius-compact: 12px;
@@ -36,6 +37,7 @@
   --sidebar-surface-tertiary: var(--gc-solid);
   --composer-surface: var(--gc-glaze);
   --menu-surface: var(--gc-overlay);
+  --message-surface: var(--gc-user-surface);
   --border-light: var(--gc-line);
   --border-medium: var(--gc-line-strong);
   color-scheme: light dark;
@@ -53,7 +55,7 @@
  * affordances while preserving native scrolling behavior and accessibility. */
 :root[data-goreecloud-glaze-ui="enabled"] * {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--gc-muted) 30%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--gc-muted) 24%, transparent) transparent;
 }
 
 /* App shell. Keep the content canvas quiet and give the sidebar one continuous material.
@@ -108,7 +110,7 @@
 }
 
 :root[data-goreecloud-glaze-ui="enabled"] :is(button, [role="button"], a, textarea, input, select):focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--gc-focus) 62%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--gc-focus) 48%, transparent) !important;
   outline-offset: 2px !important;
 }
 
@@ -116,6 +118,13 @@
 :root[data-goreecloud-glaze-ui="enabled"] main article,
 :root[data-goreecloud-glaze-ui="enabled"] [data-testid^="conversation-turn-"] {
   border-radius: var(--gc-radius-expressive);
+}
+
+/* User messages gain a restrained Glaze accent without changing message geometry. */
+:root[data-goreecloud-glaze-ui="enabled"] [data-message-author-role="user"] :is([class*="bg-token-message-surface"], [class*="message-surface"]) {
+  background: var(--gc-user-surface) !important;
+  border: 1px solid color-mix(in srgb, var(--gc-accent) 9%, transparent) !important;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--gc-accent) 4%, transparent);
 }
 
 :root[data-goreecloud-glaze-ui="enabled"] main pre {
@@ -127,6 +136,16 @@
 
 :root[data-goreecloud-glaze-ui="enabled"] main code {
   font-variant-ligatures: none;
+}
+
+/* Native progress states stay recognizable but inherit the calmer GoreeCloud accent. */
+:root[data-goreecloud-glaze-ui="enabled"] [role="progressbar"] {
+  border-radius: 999px !important;
+  accent-color: var(--gc-accent);
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] [role="progressbar"] > * {
+  border-radius: inherit !important;
 }
 
 /* Composer. Style only the actual prompt form instead of arbitrary forms elsewhere in ChatGPT. */
@@ -151,9 +170,9 @@
 :root[data-goreecloud-glaze-ui="enabled"] form:has(#prompt-textarea):focus-within > div,
 :root[data-goreecloud-glaze-ui="enabled"] form:has(textarea[placeholder]):focus-within > div,
 :root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"][data-virtualkeyboard]):focus-within > div {
-  border-color: color-mix(in srgb, var(--gc-focus) 34%, var(--gc-line-strong)) !important;
+  border-color: color-mix(in srgb, var(--gc-focus) 24%, var(--gc-line-strong)) !important;
   box-shadow:
-    0 0 0 3px color-mix(in srgb, var(--gc-focus) 10%, transparent),
+    0 0 0 2px color-mix(in srgb, var(--gc-focus) 7%, transparent),
     var(--gc-shadow-soft) !important;
 }
 
@@ -198,6 +217,26 @@
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] [data-radix-popper-content-wrapper] > * {
   background: var(--gc-overlay) !important;
   backdrop-filter: blur(28px) saturate(122%);
+}
+
+/* Search/settings dialogs: remove the stock hard-blue text-field treatment and keep the active
+ * section visually connected to the same Glaze selection language used in the sidebar. */
+:root[data-goreecloud-glaze-ui="enabled"] [role="dialog"] input {
+  border-color: var(--gc-line-strong) !important;
+  border-radius: var(--gc-radius-standard) !important;
+  background: color-mix(in srgb, var(--gc-solid) 88%, transparent) !important;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 20%, transparent);
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] [role="dialog"] input:focus-visible {
+  outline: none !important;
+  border-color: color-mix(in srgb, var(--gc-focus) 26%, var(--gc-line-strong)) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gc-focus) 7%, transparent) !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] [role="dialog"] :is([aria-selected="true"], [aria-current="page"]) {
+  background: var(--gc-selection) !important;
+  border-radius: var(--gc-radius-compact) !important;
 }
 
 :root[data-goreecloud-glaze-ui="enabled"] [role="menu"] :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]) {
