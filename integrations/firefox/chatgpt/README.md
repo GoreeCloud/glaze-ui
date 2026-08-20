@@ -36,6 +36,8 @@ It does not intentionally read, store, transmit, export, index, or analyze ChatG
 
 ```text
 integrations/firefox/chatgpt/
+├── ACCEPTANCE.md
+├── build_extension.py
 ├── manifest.json
 ├── README.md
 ├── icons/
@@ -65,6 +67,18 @@ integrations/firefox/chatgpt/
 
 A temporary add-on is removed when Firefox restarts. Signed/persistent release packaging is a separate acceptance gate.
 
+## Deterministic local-test package
+
+Run:
+
+```bash
+python3 integrations/firefox/chatgpt/build_extension.py
+```
+
+The builder creates a deterministic unsigned local-test XPI at `integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi` plus a matching `.sha256` record. Rebuilding identical reviewed source must produce identical package bytes. The package is for development and runtime acceptance; it is not a claim of Mozilla signing or distribution approval.
+
+The permanent ChatGPT extension validator builds the package twice in isolated temporary directories and fails CI if the bytes or SHA-256 evidence differ.
+
 ## Compatibility model
 
 ChatGPT is an externally controlled web application whose DOM may change without notice. This integration therefore prefers semantic HTML and ARIA selectors over generated CSS class names and avoids replacing application behavior.
@@ -73,15 +87,16 @@ When OpenAI changes markup, presentation may partially regress without breaking 
 
 ## Acceptance gates
 
-Before a Stable extension release:
+`ACCEPTANCE.md` is the authoritative runtime acceptance record for this extension. Before a Stable extension release:
 
 - validate the manifest and all local file references;
 - confirm requested permissions remain minimal and documented;
+- produce and record the deterministic local-test package SHA-256;
 - load the extension in current Firefox;
 - validate current `chatgpt.com` conversation, new-chat, sidebar, composer, dialogs, menus, code blocks, and settings surfaces;
 - validate toolbar-popup state persistence and synchronization with the full settings page;
 - test light and dark appearance;
-- test keyboard-only navigation and visible focus;
+- test keyboard-only navigation, 200 percent zoom/reflow, and visible focus;
 - test `prefers-reduced-motion`, increased contrast, forced colors, and translucency-disabled operation;
 - verify the extension does not alter ChatGPT authentication, message submission, file upload, tool use, or conversation navigation behavior;
 - verify no network requests are introduced by the extension;
@@ -90,9 +105,9 @@ Before a Stable extension release:
 
 ## Current validation evidence
 
-The toolbar-control implementation at exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The run completed repository validation, general Firefox integration validation, the ChatGPT extension privacy/source validator, public design-site validation, and Chromium-rendered canonical Glaze UI reference acceptance.
+The toolbar-control implementation at exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The documentation successor `2434e7a1a1715f4a5c4cf7c2640b25d808b98a45` passed Glaze UI CI run #51 (`32370046772`). Both runs completed repository validation, general Firefox integration validation, the ChatGPT extension privacy/source validator, public design-site validation, and Chromium-rendered canonical Glaze UI reference acceptance.
 
-The current documentation successor must receive its own exact-head CI result before it is represented as validated. Source/CI evidence does **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
+The current packaging/acceptance successor must receive its own exact-head CI result before it is represented as validated. Source/CI and reproducible-package evidence do **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
 
 ## Maintenance
 
