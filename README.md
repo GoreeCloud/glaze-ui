@@ -6,35 +6,44 @@ It preserves the polished, layered, rounded, gradient-rich character already use
 
 **Beauty is a requirement, not a regression risk.** Glaze UI standardizes semantics and behavior without flattening individual GoreeCloud applications into identical screens.
 
-## Design formula
+## Design lineage
 
-Material structure + liquid depth and fluidity + One UI ergonomics + GoreeCloud privacy, identity, and simplicity = Glaze UI.
+Glaze UI is heavily inspired by a deliberate combination of **Samsung One UI 8.5**, **Apple Liquid Glass**, and **Google Material 3 Expressive**, then reinterpreted through GoreeCloud's own privacy, accessibility, identity, resilience, and cross-platform requirements.
 
-## Glaze UI 1.2
+The design formula is:
 
-The 1.2 foundation extends Glaze UI from a visual/component vocabulary into a more complete application-interface contract.
+**One UI 8.5 ergonomics + Liquid Glass hierarchy and fluid material + Material 3 Expressive shape, motion, and adaptive expression + GoreeCloud privacy, identity, accessibility, and simplicity = Glaze UI.**
 
-New 1.2 capabilities include:
+These systems are references, not templates. A GoreeCloud interface must not look like a Samsung, Apple, or Google skin.
 
-- dedicated semantic focus-ring and text-selection roles for more predictable accessibility across light and dark appearances;
-- field-group spacing and placeholder semantics for consistent form composition;
-- reusable field, help/error message, textarea, checkbox/radio, switch, segmented-control/tab, progress, and banner primitives;
-- stronger validation requirements for form semantics, selection controls, focus treatment, and exact-version documentation;
-- more explicit adoption guidance for replacing product-local control styling with shared Glaze semantics without erasing product identity;
-- a canonical Stable-release acceptance protocol with exact representative viewports and accessibility modes;
-- Chromium-rendered CI acceptance for Compact/Expanded, light/dark, reduced-motion, and forced-colors reference behavior.
+## Glaze UI 1.3
 
-The established 1.0 and 1.1 architecture remains intact: semantic light/dark tokens; Canvas, Solid, Raised, Glaze, and Overlay surfaces; Compact/Medium/Expanded/Wide layouts; restrained motion; practical targets and focus; accessibility/resilience fallbacks; local/privacy-conscious presentation dependencies; shared interaction state layers; safe-area semantics; and stable-release visual acceptance.
+Glaze UI 1.3 is the expressive-hierarchy evolution of the system. It adds stronger personality and modern interaction while preserving the disciplined 1.0–1.2 foundation.
+
+New 1.3 capabilities include:
+
+- **functional glass** for navigation, controls, toolbars, and transient chrome, separating interactive glass from ordinary content;
+- a more transparent **clear glass** role reserved for controls floating over visually rich media;
+- an expressive shape scale for compact, standard, expressive, hero, and pressed states;
+- separate **effects motion** and **spatial motion** semantics so color/opacity feedback can remain quick while geometry and hierarchy transitions feel more fluid;
+- expressive action and tile primitives with bounded shape morphing and press response;
+- adaptive button groups that give important actions more room without changing action order;
+- compact-screen **reachability composition** that can place frequent actions in the lower interaction zone while preserving logical and keyboard order;
+- stronger hero/supporting typography semantics for intentional dramatic hierarchy;
+- explicit reduced-motion, reduced-transparency, forced-colors, and no-backdrop-filter fallbacks for the new expressive layer.
+
+The established architecture remains intact: semantic light/dark tokens; Canvas, Solid, Raised, Glaze, and Overlay surfaces; Compact/Medium/Expanded/Wide layouts; practical targets and focus; accessibility/resilience fallbacks; privacy-conscious local presentation dependencies; form and selection semantics; safe-area handling; and Stable-release visual acceptance.
 
 ## Repository layout
 
 - `VERSION` — current Glaze UI version.
 - `tokens/glaze.tokens.json` — platform-neutral semantic token source.
 - `css/glaze.css` — canonical web variables and core primitives.
-- `css/glaze.controls.css` — canonical form, selection, progress, and banner primitives introduced in 1.2.
+- `css/glaze.controls.css` — canonical form, selection, progress, and banner primitives.
+- `css/glaze.expressive.css` — Glaze UI 1.3 functional glass, expressive shape/motion, adaptive groups, reachability, and hero-type primitives.
 - `css/glaze.accessibility.css` — accessibility and resilience fallbacks.
 - `COMPONENTS.md` — component behavior and state contract.
-- `CONFORMANCE.md` — stable-release conformance gates.
+- `CONFORMANCE.md` — Stable-release conformance gates.
 - `ADOPTION.md` — integration guidance for GoreeCloud applications.
 - `ACCEPTANCE.md` — Stable-release rendered visual/accessibility acceptance protocol.
 - `acceptance/` — version-specific Stable promotion evidence.
@@ -43,15 +52,21 @@ The established 1.0 and 1.1 architecture remains intact: semantic light/dark tok
 - `scripts/validate_glaze_ui.py` — zero-dependency repository validator.
 - `scripts/validate_rendered_reference.py` — Chromium-rendered reference acceptance validator.
 
-## Surface hierarchy
+## Surface and material hierarchy
 
 1. **Canvas** — atmospheric application background; may carry restrained GoreeCloud gradients.
-2. **Solid** — high-readability surface used when translucency would reduce clarity or performance.
+2. **Solid** — high-readability content surface.
 3. **Raised** — solid or nearly solid panel with soft elevation.
-4. **Glaze** — selectively translucent surface with blur/saturation and a mandatory solid fallback.
+4. **Glaze / Functional Glass** — selectively translucent functional layer used primarily for controls and navigation.
 5. **Overlay** — dialogs, menus, sheets, and other attention-priority surfaces with the strongest separation.
 
+Clear glass is an additional specialized material for controls over photos, video, artwork, maps, or similarly rich backgrounds. It is not a general content-card style.
+
 Glass is never mandatory everywhere. Depth should be visible, not noisy.
+
+## Expression model
+
+Glaze UI uses expression intentionally rather than uniformly. Ordinary utility interactions remain calm and predictable. Prominent actions, hero moments, selected states, product identity, and high-value transitions may use stronger shape, motion, typography, or color expression when it improves comprehension or delight.
 
 ## Product personality
 
