@@ -24,7 +24,6 @@
       const result = document.getElementById('result');
       frame.style.width = `${width}px`;
       frame.style.height = `${height}px`;
-      frame.src = './index.html';
 
       const fail = (messages) => {
         result.dataset.status = 'fail';
@@ -38,10 +37,22 @@
         document.title = 'PASS — Glaze UI rendered acceptance';
       };
 
+      let settled = false;
+      const settle = (fn, messages) => {
+        if (settled) return;
+        settled = true;
+        fn(messages);
+      };
+
+      const safetyTimer = setTimeout(() => {
+        settle(fail, ['acceptance frame did not finish loading']);
+      }, 8000);
+
       frame.addEventListener('load', () => {
+        clearTimeout(safetyTimer);
         const win = frame.contentWindow;
         const doc = frame.contentDocument;
-        if (!win || !doc) return fail(['frame document unavailable']);
+        if (!win || !doc) return settle(fail, ['frame document unavailable']);
 
         doc.documentElement.dataset.theme = theme;
         requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -112,9 +123,11 @@
           notes.push(`viewport ${width}×${height}`);
           notes.push(`theme ${theme}`);
           notes.push(`mode ${expectedMode}`);
-          if (errors.length) fail([...notes, ...errors]); else pass(notes);
+          if (errors.length) settle(fail, [...notes, ...errors]); else settle(pass, notes);
         }));
       }, { once: true });
+
+      frame.src = './index.html';
     })();
   </script>
 </body>
