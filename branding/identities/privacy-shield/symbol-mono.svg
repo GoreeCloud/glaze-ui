@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Privacy Shield monochrome symbol</title>
+  <desc id="desc">Single-color Privacy Shield mark for technical, small-size, and print use.</desc>
+  <path d="M128 18 218 50v72c0 58-34 99-90 118-56-19-90-60-90-118V50l90-32Zm0 24L60 66v55c0 43 23 75 68 93 45-18 68-50 68-93V66l-68-24Z" fill="currentColor" fill-rule="evenodd"/>
+  <path d="M128 76c-28 0-50 22-50 50s22 50 50 50c18 0 34-9 43-23l-21-13a27 27 0 1 1 0-28l21-13c-9-14-25-23-43-23Z" fill="currentColor"/>
+  <circle cx="128" cy="126" r="13" fill="currentColor"/>
+  <path d="M128 139v23" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+</svg>
