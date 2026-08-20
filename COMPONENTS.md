@@ -1,18 +1,38 @@
-# Glaze UI 1.2 Component Contract
+# Glaze UI 1.3 Component Contract
 
 Glaze UI standardizes component semantics and interaction quality without forcing every GoreeCloud application into the same composition.
 
 ## Universal component rules
 
-Every interactive component must have a clear accessible name, a visible focus state, a minimum 44px practical pointer/touch target when directly actionable, and predictable disabled/loading behavior. Components should use semantic tokens instead of product-local literal colors, radii, spacing, icon sizes, state-layer opacity, focus colors, or motion values when a corresponding token exists.
+Every interactive component must have a clear accessible name, a visible focus state, a minimum 44px practical pointer/touch target when directly actionable, and predictable disabled/loading behavior. Components should use semantic tokens instead of product-local literal colors, radii, spacing, icon sizes, state-layer opacity, focus colors, material values, or motion values when a corresponding token exists.
 
 State vocabulary, where relevant: **default, hover, pressed, focused, selected, disabled, loading, info, success, warning, error, destructive**.
 
 Glaze UI defines shared state-layer semantics for hover, pressed, focus, and selected presentation so feedback remains recognizable across products without requiring identical component artwork.
 
-## Buttons
+## Material and glass
+
+Ordinary content should default to Solid or Raised surfaces. Functional Glass is reserved primarily for navigation, controls, toolbars, floating action regions, and transient chrome where translucency reinforces hierarchy. Clear Glass is reserved for controls over visually rich media such as photos, video, artwork, or maps.
+
+Glass must never become the default treatment for every card or content container. All translucent components require a readable solid fallback for reduced-transparency preferences, unsupported backdrop filtering, increased contrast, forced colors, and contexts where the background would make the foreground difficult to read.
+
+## Shape and expression
+
+The shared expressive shape scale is **Compact, Standard, Expressive, Hero, and Pressed**. Shape communicates role, hierarchy, grouping, selection, and state; it is not arbitrary decoration.
+
+Utility controls should normally use Compact or Standard shapes. Expressive shapes may identify prominent actions, selected containers, product-defining moments, or adaptive groups. Hero shapes are reserved for high-value visual moments. Pressed geometry may temporarily tighten during direct interaction when motion preferences permit.
+
+## Motion
+
+Effects motion governs changes such as color, opacity, border, glow, and subtle emphasis. Spatial motion governs geometry, layout, position, size, container transformation, navigation, and hero transitions. Prominent or hero interactions may use stronger spatial motion; repetitive utility controls should remain calm and quick.
+
+Reduced-motion mode removes nonessential shape morphing, scaling, and spatial transformation rather than merely speeding them up.
+
+## Buttons and adaptive action groups
 
 Primary buttons use the Glaze accent treatment and may use the characteristic accent-to-secondary gradient. Secondary buttons use a quieter surface. Destructive actions use the danger semantic and must not rely on color alone. Loading buttons retain their label context and expose busy state to assistive technology. Compact density may reduce horizontal padding, but it must not reduce the minimum actionable target.
+
+Expressive actions may use the expressive shape role and bounded press morphing. Adaptive button groups may allocate more horizontal space to a high-emphasis action while preserving document order, focus order, accessible names, and equivalent access to sibling actions. Layout emphasis must not imply that a destructive action is safer than it is.
 
 ## Icon buttons and icons
 
@@ -30,15 +50,19 @@ Checkboxes and radio controls should prefer platform-native controls with Glaze 
 
 Switches represent immediate binary settings, not arbitrary action buttons. Their labels remain visible, their checked state is programmatic, and their visual track/thumb state is not the sole indication of the value.
 
-Segmented controls and tabs expose a single selected item within a small related set. Tabs must preserve tab/list semantics and keyboard interaction when implemented as a tab interface; segmented action groups must use the appropriate pressed/selected semantics for their platform.
+Segmented controls and tabs expose a single selected item within a small related set. Tabs must preserve tab/list semantics and keyboard interaction when implemented as a tab interface; segmented action groups must use the appropriate pressed/selected semantics for their platform. Expressive selected-state geometry may be used when it remains stable, legible, and predictable.
 
-## Cards and panels
+## Cards, panels, and expressive tiles
 
-Cards may use Solid, Raised, or Glaze surfaces. A card is not automatically translucent. Interactive cards must have a clear focus/hover affordance and cannot hide separate nested actions behind one ambiguous click target.
+Cards may use Solid, Raised, or Glaze surfaces only when the material role is intentional. A card is not automatically translucent. Interactive cards must have a clear focus/hover affordance and cannot hide separate nested actions behind one ambiguous click target.
+
+Expressive tiles may use stronger shape hierarchy for selected, featured, or product-defining content. Ordinary dense data and repeated lists should generally use quieter geometry to avoid visual noise.
 
 ## Navigation and toolbars
 
 Compact layouts may use bottom navigation, compact headers, drawers, or sheets. Expanded layouts may use sidebars or navigation rails. Current location must be visually and semantically identifiable using `aria-current`, selected state, or a platform-native equivalent. Navigation transforms by breakpoint rather than simply shrinking. Toolbars group related actions and preserve target sizing even when visual density is compact.
+
+Functional Glass is particularly appropriate for navigation and toolbars that float above scrolling content because it creates separation without visually replacing the content layer.
 
 ## Dialogs, menus, sheets, overlays, and scrims
 
@@ -58,10 +82,16 @@ Toasts, banners, badges, status indicators, loading states, empty states, and er
 
 Banners are persistent or semi-persistent in-context feedback and may include a concise action or dismissal control. Destructive or security-sensitive banners must explain the condition in text rather than relying only on a red border or icon.
 
-## Safe areas and mobile ergonomics
+## Hero typography and hierarchy
+
+Hero typography may use stronger scale, weight, and tighter display spacing to establish a memorable product moment. It should remain concise and is paired with readable supporting text. Hero typography must respect user font scaling, localization, reflow, and platform accessibility behavior.
+
+## Safe areas, reachability, and mobile ergonomics
 
 Client interfaces must account for display cutouts, system bars, gesture regions, and platform safe-area insets where applicable. Glaze UI safe-area helpers are additive; platform-native clients should map them to the operating system's native inset APIs.
 
+On compact touch layouts, frequent actions may be composed in a lower reachability zone when that improves one-handed use. This visual placement must not reorder the DOM, keyboard sequence, reading order, or programmatic relationship of the interface.
+
 ## Product-specific expression
 
-Applications may vary accent emphasis, artwork, information density, navigation composition, hero treatments, data visualization, and specialized components. The goal is a family resemblance, not identical screens.
+Applications may vary accent emphasis, artwork, information density, navigation composition, hero treatments, data visualization, and specialized components. The goal is a family resemblance, not identical screens. Expression should strengthen a product's Role and Purpose rather than exist only to make the interface busier.
