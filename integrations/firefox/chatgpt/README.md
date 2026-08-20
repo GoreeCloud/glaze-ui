@@ -90,9 +90,9 @@ Before a Stable extension release:
 
 ## Current validation evidence
 
-Exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The run completed repository validation, general Firefox integration validation, the ChatGPT extension privacy/source validator, public design-site validation, and Chromium-rendered canonical Glaze UI reference acceptance.
+The toolbar-control implementation at exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The run completed repository validation, general Firefox integration validation, the ChatGPT extension privacy/source validator, public design-site validation, and Chromium-rendered canonical Glaze UI reference acceptance.
 
-This evidence validates source structure and shared design-system behavior. It does **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
+The current documentation successor must receive its own exact-head CI result before it is represented as validated. Source/CI evidence does **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
 
 ## Maintenance
 
