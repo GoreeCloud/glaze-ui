@@ -5,16 +5,18 @@
 
 :root[data-goreecloud-glaze-ui="enabled"] {
   --gc-canvas: light-dark(#f4f7fb, #0b0e13);
-  --gc-solid: light-dark(rgba(255, 255, 255, 0.94), rgba(18, 22, 29, 0.96));
-  --gc-raised: light-dark(rgba(255, 255, 255, 0.82), rgba(27, 32, 41, 0.88));
-  --gc-glaze: light-dark(rgba(255, 255, 255, 0.66), rgba(24, 30, 39, 0.7));
-  --gc-overlay: light-dark(rgba(255, 255, 255, 0.98), rgba(22, 27, 35, 0.98));
+  --gc-solid: light-dark(rgba(255, 255, 255, 0.96), rgba(18, 22, 29, 0.97));
+  --gc-raised: light-dark(rgba(255, 255, 255, 0.86), rgba(27, 32, 41, 0.9));
+  --gc-glaze: light-dark(rgba(255, 255, 255, 0.72), rgba(24, 30, 39, 0.76));
+  --gc-overlay: light-dark(rgba(255, 255, 255, 0.985), rgba(22, 27, 35, 0.985));
   --gc-line: light-dark(rgba(31, 41, 55, 0.1), rgba(255, 255, 255, 0.1));
-  --gc-line-strong: light-dark(rgba(31, 41, 55, 0.18), rgba(255, 255, 255, 0.18));
+  --gc-line-strong: light-dark(rgba(31, 41, 55, 0.17), rgba(255, 255, 255, 0.18));
   --gc-text: light-dark(#172033, #f2f5fa);
   --gc-muted: light-dark(#596579, #aeb8c8);
   --gc-accent: light-dark(#4c65d8, #8ca1ff);
   --gc-focus: light-dark(#315ae8, #adc0ff);
+  --gc-selection: light-dark(rgba(76, 101, 216, 0.10), rgba(140, 161, 255, 0.14));
+  --gc-selection-strong: light-dark(rgba(76, 101, 216, 0.15), rgba(140, 161, 255, 0.2));
   --gc-shadow: 0 18px 50px rgba(5, 10, 25, 0.12);
   --gc-shadow-soft: 0 8px 28px rgba(5, 10, 25, 0.08);
   --gc-radius-compact: 12px;
@@ -23,56 +25,84 @@
   --gc-radius-hero: 30px;
   --gc-motion-effects: 160ms;
   --gc-motion-spatial: 320ms;
+
+  /* ChatGPT's own semantic surface tokens are preferred over generated class names.
+   * If a token disappears upstream, these assignments simply become inert. */
+  --main-surface-primary: var(--gc-canvas);
+  --main-surface-secondary: var(--gc-raised);
+  --main-surface-tertiary: var(--gc-solid);
+  --sidebar-surface-primary: var(--gc-glaze);
+  --sidebar-surface-secondary: var(--gc-raised);
+  --sidebar-surface-tertiary: var(--gc-solid);
+  --composer-surface: var(--gc-glaze);
+  --menu-surface: var(--gc-overlay);
+  --border-light: var(--gc-line);
+  --border-medium: var(--gc-line-strong);
   color-scheme: light dark;
 }
 
 :root[data-goreecloud-glaze-ui="enabled"] body {
   background:
-    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--gc-accent) 12%, transparent), transparent 34rem),
-    radial-gradient(circle at 90% 12%, color-mix(in srgb, var(--gc-accent) 7%, transparent), transparent 28rem),
+    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--gc-accent) 10%, transparent), transparent 34rem),
+    radial-gradient(circle at 90% 12%, color-mix(in srgb, var(--gc-accent) 6%, transparent), transparent 28rem),
     var(--gc-canvas) !important;
   color: var(--gc-text);
 }
 
-/* App shell and sidebar. Use semantic/role-oriented selectors where ChatGPT exposes them,
- * with restrained structural fallbacks to reduce coupling to generated class names. */
-:root[data-goreecloud-glaze-ui="enabled"] nav,
-:root[data-goreecloud-glaze-ui="enabled"] aside {
+/* App shell. Keep the content canvas quiet and give the sidebar one continuous material.
+ * #stage-slideover-sidebar is a stable ChatGPT shell id; semantic nav/aside remain fallbacks. */
+:root[data-goreecloud-glaze-ui="enabled"] main {
+  background: transparent !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] :is(#stage-slideover-sidebar, nav, aside) {
   border-color: var(--gc-line) !important;
 }
 
-:root[data-goreecloud-glaze-ui="enabled"] nav {
-  background: color-mix(in srgb, var(--gc-glaze) 96%, transparent) !important;
+:root[data-goreecloud-glaze-ui="enabled"] #stage-slideover-sidebar,
+:root[data-goreecloud-glaze-ui="enabled"] aside:has(nav),
+:root[data-goreecloud-glaze-ui="enabled"] nav[aria-label] {
+  background: var(--gc-glaze) !important;
   border-right: 1px solid var(--gc-line) !important;
 }
 
-:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] nav {
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] #stage-slideover-sidebar,
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] aside:has(nav),
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] nav[aria-label] {
   backdrop-filter: blur(24px) saturate(128%);
 }
 
-/* Buttons, interactive controls, and links retain ChatGPT behavior; only presentation changes. */
+/* Selected/current navigation rows should read as Glaze selection, not an unrelated gray pill. */
+:root[data-goreecloud-glaze-ui="enabled"] :is(nav, aside) :is([aria-current="page"], [aria-selected="true"]),
+:root[data-goreecloud-glaze-ui="enabled"] :is(nav, aside) a[data-active="true"] {
+  background: var(--gc-selection-strong) !important;
+  border: 1px solid color-mix(in srgb, var(--gc-accent) 16%, transparent) !important;
+  border-radius: var(--gc-radius-compact) !important;
+}
+
+/* Buttons retain native geometry and hit targets. Earlier builds globally forced 44px heights,
+ * which distorted ChatGPT menus and compact header actions at runtime. */
 :root[data-goreecloud-glaze-ui="enabled"] button,
 :root[data-goreecloud-glaze-ui="enabled"] [role="button"] {
   border-radius: var(--gc-radius-compact) !important;
   transition:
     background-color var(--gc-motion-effects) ease,
     border-color var(--gc-motion-effects) ease,
-    box-shadow var(--gc-motion-effects) ease,
-    transform var(--gc-motion-effects) ease !important;
+    box-shadow var(--gc-motion-effects) ease !important;
 }
 
-:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-expression="on"] button:hover,
-:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-expression="on"] [role="button"]:hover {
-  transform: translateY(-1px);
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-expression="on"] :is(button, [role="button"]):hover {
+  box-shadow: 0 5px 16px color-mix(in srgb, var(--gc-accent) 9%, transparent);
 }
 
-:root[data-goreecloud-glaze-ui="enabled"] :is(button, [role="button"], a, textarea, input, select):focus-visible {
+:root[data-goreecloud-glaze-ui="enabled"] :is(button, [role="button"], a, textarea, input, select, [contenteditable="true"]):focus-visible {
   outline: 3px solid color-mix(in srgb, var(--gc-focus) 68%, transparent) !important;
   outline-offset: 2px !important;
 }
 
-/* Conversation content: messages remain visually distinct without replacing ChatGPT semantics. */
-:root[data-goreecloud-glaze-ui="enabled"] main article {
+/* Conversation content. Preserve ChatGPT's readable content column while softening code/media surfaces. */
+:root[data-goreecloud-glaze-ui="enabled"] main article,
+:root[data-goreecloud-glaze-ui="enabled"] [data-testid^="conversation-turn-"] {
   border-radius: var(--gc-radius-expressive);
 }
 
@@ -87,26 +117,35 @@
   font-variant-ligatures: none;
 }
 
-/* Composer: rounded raised/glaze material while preserving the native textarea and controls. */
-:root[data-goreecloud-glaze-ui="enabled"] form:has(textarea),
-:root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"]) {
+/* Composer. Style only the actual prompt form instead of arbitrary forms elsewhere in ChatGPT. */
+:root[data-goreecloud-glaze-ui="enabled"] form:has(#prompt-textarea),
+:root[data-goreecloud-glaze-ui="enabled"] form:has(textarea[placeholder]),
+:root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"][data-virtualkeyboard]) {
   border-radius: var(--gc-radius-hero) !important;
 }
 
-:root[data-goreecloud-glaze-ui="enabled"] form:has(textarea) > div,
-:root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"]) > div {
-  border-color: var(--gc-line-strong) !important;
+:root[data-goreecloud-glaze-ui="enabled"] form:has(#prompt-textarea) > div,
+:root[data-goreecloud-glaze-ui="enabled"] form:has(textarea[placeholder]) > div,
+:root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"][data-virtualkeyboard]) > div {
+  border: 1px solid var(--gc-line-strong) !important;
   border-radius: var(--gc-radius-hero) !important;
-  box-shadow: var(--gc-shadow) !important;
+  box-shadow: var(--gc-shadow-soft) !important;
 }
 
-:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has(textarea) > div,
-:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has([contenteditable="true"]) > div {
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has(#prompt-textarea) > div,
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has(textarea[placeholder]) > div,
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has([contenteditable="true"][data-virtualkeyboard]) > div {
   background: var(--gc-glaze) !important;
   backdrop-filter: blur(22px) saturate(125%);
 }
 
-/* Dialogs, menus, popovers. */
+/* Keep the bottom composer region visually connected to the canvas instead of a separate slab. */
+:root[data-goreecloud-glaze-ui="enabled"] #thread-bottom-container,
+:root[data-goreecloud-glaze-ui="enabled"] main > div:has(#prompt-textarea) {
+  background: transparent !important;
+}
+
+/* Dialogs, menus, and popovers. Menu rows keep native height and gain a restrained Glaze hover. */
 :root[data-goreecloud-glaze-ui="enabled"] [role="dialog"],
 :root[data-goreecloud-glaze-ui="enabled"] [role="menu"],
 :root[data-goreecloud-glaze-ui="enabled"] [data-radix-popper-content-wrapper] > * {
@@ -121,13 +160,21 @@
   backdrop-filter: blur(24px) saturate(128%);
 }
 
-/* Comfortable/compact density preference. */
-:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-density="comfortable"] :is(button, [role="button"]) {
-  min-height: 44px;
+:root[data-goreecloud-glaze-ui="enabled"] [role="menu"] :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]) {
+  min-height: 0 !important;
+  border-radius: var(--gc-radius-compact) !important;
 }
 
-:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-density="compact"] :is(button, [role="button"]) {
-  min-height: 36px;
+:root[data-goreecloud-glaze-ui="enabled"] [role="menu"] :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]):hover {
+  background: var(--gc-selection) !important;
+}
+
+/* Density is intentionally subtle on the live ChatGPT surface. Do not resize every native control. */
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-density="compact"] {
+  --gc-radius-compact: 10px;
+  --gc-radius-standard: 16px;
+  --gc-radius-expressive: 20px;
+  --gc-radius-hero: 26px;
 }
 
 /* Prevent decorative treatment from impacting rendered media. */
@@ -168,6 +215,7 @@
 
 @media (forced-colors: active) {
   :root[data-goreecloud-glaze-ui="enabled"] body,
+  :root[data-goreecloud-glaze-ui="enabled"] #stage-slideover-sidebar,
   :root[data-goreecloud-glaze-ui="enabled"] nav,
   :root[data-goreecloud-glaze-ui="enabled"] [role="dialog"],
   :root[data-goreecloud-glaze-ui="enabled"] [role="menu"] {
@@ -179,9 +227,9 @@
 }
 
 @supports not (backdrop-filter: blur(1px)) {
+  :root[data-goreecloud-glaze-ui="enabled"] #stage-slideover-sidebar,
   :root[data-goreecloud-glaze-ui="enabled"] nav,
-  :root[data-goreecloud-glaze-ui="enabled"] form:has(textarea) > div,
-  :root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"]) > div,
+  :root[data-goreecloud-glaze-ui="enabled"] form:has(#prompt-textarea) > div,
   :root[data-goreecloud-glaze-ui="enabled"] [role="dialog"],
   :root[data-goreecloud-glaze-ui="enabled"] [role="menu"] {
     background: var(--gc-solid) !important;
