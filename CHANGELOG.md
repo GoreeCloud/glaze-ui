@@ -2,7 +2,7 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
-## 1.2.0 — 2026-08-20
+## 1.2.0 — Candidate — 2026-08-20
 
 Compatible application-interface expansion focused on form semantics, selection controls, explicit focus treatment, feedback completeness, and stronger adoption safety.
 
@@ -14,12 +14,21 @@ Compatible application-interface expansion focused on form semantics, selection 
 - Reusable field, field-label, help/error message, textarea, checkbox/radio choice, switch, segmented-control/tab, progress, and banner primitives.
 - Explicit form and selection conformance requirements covering persistent labels, programmatic help/error relationships, checked/selected state, binary switch semantics, and determinate progress values.
 - Stronger adoption guidance favoring platform-native control semantics before custom visual replacement.
+- `ACCEPTANCE.md`, defining the exact representative web matrix, 1.2-specific visual/accessibility checks, required evidence, and the rule that an unexecuted required gate cannot be silently treated as passed.
 
 ### Improved
 
 - Focus treatment is now governed by a dedicated semantic color role rather than being derived only from accent/current color mixing.
 - Consumer contract testing guidance now includes form relationships, selection semantics, and presentation dependency boundaries.
-- Visual acceptance guidance now explicitly covers form errors, selection controls, progress, banners, and overlays.
+- Visual acceptance guidance now explicitly covers form errors, selection controls, progress, banners, overlays, 200% zoom/reflow, and exact Compact 390 × 844 and Expanded 1280 × 900 viewports.
+- Increased-contrast and forced-colors coverage now includes textarea, switch, segmented selection, progress, banners, selected/checked states, and focus treatment.
+- Repository validation now fails closed if the 1.2 accessibility fallbacks or release-acceptance protocol disappear.
+
+### Validation
+
+- Exact candidate head `43a9b4a8e2f8bf0c515b554aa60dd0309bd12ea6` passed Glaze UI CI run `32341099002` after forced-colors hardening.
+- Exact candidate head `4f4b00396a1e70bf2ba911f6236ea1192ead2698` passed Glaze UI CI run `32341496773` after acceptance-protocol enforcement.
+- Stable promotion remains blocked until the representative rendered visual/accessibility matrix is executed and recorded for the final exact candidate revision.
 
 ### Preserved
 
