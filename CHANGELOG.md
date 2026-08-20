@@ -4,7 +4,7 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## 1.3.0 — 2026-08-20
 
-Expressive-hierarchy candidate based on the documented Glaze UI lineage of One UI 8.5, Liquid Glass, and Material 3 Expressive while preserving GoreeCloud's original identity and accessibility/privacy requirements.
+Stable expressive-hierarchy release based on the documented Glaze UI lineage of One UI 8.5, Liquid Glass, and Material 3 Expressive while preserving GoreeCloud's original identity and accessibility/privacy requirements.
 
 ### Added
 
@@ -20,6 +20,7 @@ Expressive-hierarchy candidate based on the documented Glaze UI lineage of One U
 - Hero and supporting typography primitives for more intentional expressive hierarchy.
 - Reduced-motion, reduced-transparency, forced-colors, and no-backdrop-filter fallbacks for the new expressive layer.
 - 1.3-specific source, public-site, and rendered-acceptance gates.
+- `acceptance/1.3.0.md` as the Stable release evidence record.
 
 ### Improved
 
@@ -28,7 +29,15 @@ Expressive-hierarchy candidate based on the documented Glaze UI lineage of One U
 - Mobile ergonomics now include one-handed reachability as a first-class composition consideration.
 - Motion guidance now separates effect changes from spatial/geometry changes so interaction feedback can stay quick while larger transitions feel fluid.
 - Adaptive action groups can communicate priority through space allocation without changing order or semantics.
-- The public design site, reference implementation, release protocol, and fail-closed validator now describe and test the 1.3 candidate while continuing to identify 1.2.0 as Stable until promotion.
+- The public design site, reference implementation, release protocol, and fail-closed validator describe and test the Stable 1.3 contract while retaining 1.2.0 as a historical baseline.
+
+### Validation and Stable promotion
+
+- Exact candidate head `e206c3da3f5c0df1f1d0e73d7339f9b45b0e1f16` passed Glaze UI CI run `#29`, run ID `32345605986`.
+- The validate job passed exact-source checkout, validator compilation, canonical repository validation, deterministic public design-site build validation, and Chromium-rendered reference acceptance.
+- PR #6 was moved from draft to ready for review only after that exact-head evidence was available.
+- PR #6 was squash-merged with expected-head protection as Stable merge commit `2ac8d0cd444c8234e908e31b05b2cb4dc7d3e5a9` with release title `Glaze UI 1.3.0`.
+- Glaze UI 1.3.0 is now the Stable canonical baseline. Glaze UI 1.2.0 remains part of historical and compatibility records.
 
 ### Preserved
 
@@ -37,11 +46,6 @@ Expressive-hierarchy candidate based on the documented Glaze UI lineage of One U
 - Complete Glaze UI 1.2 application-interface semantics and rendered-acceptance coverage.
 - 44px minimum actionable targets, visible focus, semantic state layers, form/selection semantics, safe-area handling, privacy boundaries, and resilience fallbacks.
 - Product personality and the rule that visual quality must not regress for the sake of standardization.
-
-### Candidate status
-
-- Glaze UI 1.3.0 remains a candidate on `agent/glaze-ui-1.3-expressive`.
-- Glaze UI 1.2.0 remains the Stable canonical baseline on `main` until 1.3 passes exact-head CI, rendered acceptance, review, and explicit promotion.
 
 ## 1.2.0 — 2026-08-20
 
