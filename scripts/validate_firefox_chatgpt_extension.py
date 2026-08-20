@@ -16,6 +16,8 @@ MANIFEST = EXT / "manifest.json"
 BUILD = EXT / "build_extension.py"
 COLLECT = EXT / "collect_acceptance.py"
 ACCEPTANCE = EXT / "ACCEPTANCE.md"
+CI = ROOT / ".github" / "workflows" / "ci.yml"
+UPLOAD_ARTIFACT_SHA = "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
 
 ALLOWED_PERMISSIONS = {"storage"}
 ALLOWED_HOSTS = {"https://chatgpt.com/*", "https://chat.openai.com/*"}
@@ -111,6 +113,7 @@ def validate_source_policy() -> None:
         "deterministic unsigned local-test XPI",
         "ACCEPTANCE.md",
         "collect_acceptance.py",
+        "workflow artifact",
     ):
         require(phrase.lower() in readme.lower(), f"README privacy/release contract missing phrase: {phrase}")
 
@@ -131,6 +134,21 @@ def validate_acceptance_contract() -> None:
         "collect_acceptance.py",
     ):
         require(phrase in text, f"acceptance contract missing phrase: {phrase}")
+
+
+def validate_ci_package_publication() -> None:
+    require(CI.is_file(), "Glaze UI CI workflow is missing")
+    text = CI.read_text(encoding="utf-8")
+    for phrase in (
+        "python3 integrations/firefox/chatgpt/build_extension.py",
+        "sha256sum --check integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi.sha256",
+        f"actions/upload-artifact@{UPLOAD_ARTIFACT_SHA}",
+        "integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi",
+        "integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi.sha256",
+        "if-no-files-found: error",
+        "retention-days: 14",
+    ):
+        require(phrase in text, f"CI package-publication contract missing phrase: {phrase}")
 
 
 def validate_deterministic_packaging_and_evidence() -> None:
@@ -188,6 +206,7 @@ def main() -> None:
     validate_local_references(manifest)
     validate_source_policy()
     validate_acceptance_contract()
+    validate_ci_package_publication()
     validate_deterministic_packaging_and_evidence()
     print("Firefox ChatGPT Glaze UI extension validation passed.")
 
