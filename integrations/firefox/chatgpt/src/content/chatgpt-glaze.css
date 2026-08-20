@@ -4,21 +4,21 @@
  */
 
 :root[data-goreecloud-glaze-ui="enabled"] {
-  --gc-canvas: light-dark(#f4f7fb, #0b0e13);
-  --gc-solid: light-dark(rgba(255, 255, 255, 0.96), rgba(18, 22, 29, 0.97));
-  --gc-raised: light-dark(rgba(255, 255, 255, 0.86), rgba(27, 32, 41, 0.9));
-  --gc-glaze: light-dark(rgba(255, 255, 255, 0.72), rgba(24, 30, 39, 0.76));
-  --gc-overlay: light-dark(rgba(255, 255, 255, 0.985), rgba(22, 27, 35, 0.985));
-  --gc-line: light-dark(rgba(31, 41, 55, 0.1), rgba(255, 255, 255, 0.1));
-  --gc-line-strong: light-dark(rgba(31, 41, 55, 0.17), rgba(255, 255, 255, 0.18));
+  --gc-canvas: light-dark(#f8f9fc, #0b0e13);
+  --gc-solid: light-dark(rgba(255, 255, 255, 0.97), rgba(18, 22, 29, 0.97));
+  --gc-raised: light-dark(rgba(255, 255, 255, 0.9), rgba(27, 32, 41, 0.9));
+  --gc-glaze: light-dark(rgba(255, 255, 255, 0.78), rgba(24, 30, 39, 0.78));
+  --gc-overlay: light-dark(rgba(255, 255, 255, 0.975), rgba(22, 27, 35, 0.975));
+  --gc-line: light-dark(rgba(31, 41, 55, 0.09), rgba(255, 255, 255, 0.1));
+  --gc-line-strong: light-dark(rgba(31, 41, 55, 0.15), rgba(255, 255, 255, 0.18));
   --gc-text: light-dark(#172033, #f2f5fa);
   --gc-muted: light-dark(#596579, #aeb8c8);
   --gc-accent: light-dark(#4c65d8, #8ca1ff);
   --gc-focus: light-dark(#315ae8, #adc0ff);
-  --gc-selection: light-dark(rgba(76, 101, 216, 0.10), rgba(140, 161, 255, 0.14));
-  --gc-selection-strong: light-dark(rgba(76, 101, 216, 0.15), rgba(140, 161, 255, 0.2));
-  --gc-shadow: 0 18px 50px rgba(5, 10, 25, 0.12);
-  --gc-shadow-soft: 0 8px 28px rgba(5, 10, 25, 0.08);
+  --gc-selection: light-dark(rgba(76, 101, 216, 0.08), rgba(140, 161, 255, 0.14));
+  --gc-selection-strong: light-dark(rgba(76, 101, 216, 0.13), rgba(140, 161, 255, 0.2));
+  --gc-shadow: 0 20px 52px rgba(5, 10, 25, 0.12);
+  --gc-shadow-soft: 0 8px 28px rgba(5, 10, 25, 0.075);
   --gc-radius-compact: 12px;
   --gc-radius-standard: 18px;
   --gc-radius-expressive: 24px;
@@ -43,10 +43,17 @@
 
 :root[data-goreecloud-glaze-ui="enabled"] body {
   background:
-    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--gc-accent) 10%, transparent), transparent 34rem),
-    radial-gradient(circle at 90% 12%, color-mix(in srgb, var(--gc-accent) 6%, transparent), transparent 28rem),
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--gc-accent) 5%, transparent), transparent 30rem),
+    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--gc-accent) 3%, transparent), transparent 24rem),
     var(--gc-canvas) !important;
   color: var(--gc-text);
+}
+
+/* Keep Firefox scrollbars quiet and continuous. This avoids visually noisy custom scroll
+ * affordances while preserving native scrolling behavior and accessibility. */
+:root[data-goreecloud-glaze-ui="enabled"] * {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--gc-muted) 30%, transparent) transparent;
 }
 
 /* App shell. Keep the content canvas quiet and give the sidebar one continuous material.
@@ -69,15 +76,20 @@
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] #stage-slideover-sidebar,
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] aside:has(nav),
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] nav[aria-label] {
-  backdrop-filter: blur(24px) saturate(128%);
+  backdrop-filter: blur(24px) saturate(122%);
 }
 
 /* Selected/current navigation rows should read as Glaze selection, not an unrelated gray pill. */
 :root[data-goreecloud-glaze-ui="enabled"] :is(nav, aside) :is([aria-current="page"], [aria-selected="true"]),
-:root[data-goreecloud-glaze-ui="enabled"] :is(nav, aside) a[data-active="true"] {
+:root[data-goreecloud-glaze-ui="enabled"] :is(nav, aside) a[data-active="true"],
+:root[data-goreecloud-glaze-ui="enabled"] :is(nav, aside) [data-active="true"] {
   background: var(--gc-selection-strong) !important;
-  border: 1px solid color-mix(in srgb, var(--gc-accent) 16%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--gc-accent) 14%, transparent) !important;
   border-radius: var(--gc-radius-compact) !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] :is(nav, aside) :is(a, button, [role="button"]):hover {
+  background-color: var(--gc-selection) !important;
 }
 
 /* Buttons retain native geometry and hit targets. Earlier builds globally forced 44px heights,
@@ -92,11 +104,11 @@
 }
 
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-expression="on"] :is(button, [role="button"]):hover {
-  box-shadow: 0 5px 16px color-mix(in srgb, var(--gc-accent) 9%, transparent);
+  box-shadow: 0 5px 16px color-mix(in srgb, var(--gc-accent) 7%, transparent);
 }
 
-:root[data-goreecloud-glaze-ui="enabled"] :is(button, [role="button"], a, textarea, input, select, [contenteditable="true"]):focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--gc-focus) 68%, transparent) !important;
+:root[data-goreecloud-glaze-ui="enabled"] :is(button, [role="button"], a, textarea, input, select):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--gc-focus) 62%, transparent) !important;
   outline-offset: 2px !important;
 }
 
@@ -130,13 +142,40 @@
   border: 1px solid var(--gc-line-strong) !important;
   border-radius: var(--gc-radius-hero) !important;
   box-shadow: var(--gc-shadow-soft) !important;
+  transition:
+    border-color var(--gc-motion-effects) ease,
+    box-shadow var(--gc-motion-effects) ease,
+    background-color var(--gc-motion-effects) ease !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] form:has(#prompt-textarea):focus-within > div,
+:root[data-goreecloud-glaze-ui="enabled"] form:has(textarea[placeholder]):focus-within > div,
+:root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"][data-virtualkeyboard]):focus-within > div {
+  border-color: color-mix(in srgb, var(--gc-focus) 34%, var(--gc-line-strong)) !important;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--gc-focus) 10%, transparent),
+    var(--gc-shadow-soft) !important;
+}
+
+/* The editable itself should not expose ChatGPT's internal blue rule. Focus is represented by
+ * the composer shell above, preserving a clear keyboard-visible state without double outlines. */
+:root[data-goreecloud-glaze-ui="enabled"] :is(#prompt-textarea, [contenteditable="true"][data-virtualkeyboard]) {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] :is(#prompt-textarea, [contenteditable="true"][data-virtualkeyboard])::before,
+:root[data-goreecloud-glaze-ui="enabled"] :is(#prompt-textarea, [contenteditable="true"][data-virtualkeyboard])::after {
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has(#prompt-textarea) > div,
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has(textarea[placeholder]) > div,
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has([contenteditable="true"][data-virtualkeyboard]) > div {
   background: var(--gc-glaze) !important;
-  backdrop-filter: blur(22px) saturate(125%);
+  backdrop-filter: blur(22px) saturate(120%);
 }
 
 /* Keep the bottom composer region visually connected to the canvas instead of a separate slab. */
@@ -149,15 +188,16 @@
 :root[data-goreecloud-glaze-ui="enabled"] [role="dialog"],
 :root[data-goreecloud-glaze-ui="enabled"] [role="menu"],
 :root[data-goreecloud-glaze-ui="enabled"] [data-radix-popper-content-wrapper] > * {
-  border: 1px solid var(--gc-line) !important;
+  border: 1px solid var(--gc-line-strong) !important;
   border-radius: var(--gc-radius-expressive) !important;
   box-shadow: var(--gc-shadow) !important;
 }
 
 :root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] [role="dialog"],
-:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] [role="menu"] {
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] [role="menu"],
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] [data-radix-popper-content-wrapper] > * {
   background: var(--gc-overlay) !important;
-  backdrop-filter: blur(24px) saturate(128%);
+  backdrop-filter: blur(28px) saturate(122%);
 }
 
 :root[data-goreecloud-glaze-ui="enabled"] [role="menu"] :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]) {
@@ -165,7 +205,8 @@
   border-radius: var(--gc-radius-compact) !important;
 }
 
-:root[data-goreecloud-glaze-ui="enabled"] [role="menu"] :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]):hover {
+:root[data-goreecloud-glaze-ui="enabled"] [role="menu"] :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]):hover,
+:root[data-goreecloud-glaze-ui="enabled"] [role="menu"] :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]):focus-visible {
   background: var(--gc-selection) !important;
 }
 
