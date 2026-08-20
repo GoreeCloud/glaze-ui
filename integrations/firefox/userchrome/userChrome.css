@@ -1,0 +1,212 @@
+/* Glaze UI 1.3 for upstream Firefox
+ * Optional, removable browser-chrome styling.
+ * Firefox remains Mozilla Firefox; GoreeCloud Browser remains a separate product.
+ */
+
+:root {
+  --gc-canvas: #eef3f9;
+  --gc-canvas-accent: #f8fbff;
+  --gc-surface-solid: #ffffff;
+  --gc-surface-raised: rgba(255, 255, 255, 0.94);
+  --gc-functional-glass: rgba(255, 255, 255, 0.78);
+  --gc-surface-muted: rgba(244, 247, 251, 0.86);
+  --gc-text: #172033;
+  --gc-muted: #67748a;
+  --gc-line: rgba(95, 116, 146, 0.16);
+  --gc-accent: #366cf6;
+  --gc-focus: #244fc6;
+  --gc-shape-compact: 12px;
+  --gc-shape-standard: 18px;
+  --gc-shape-expressive: 26px;
+  --gc-shape-pressed: 14px;
+  --gc-shadow-soft: 0 8px 30px rgba(37, 55, 82, 0.05);
+  --gc-shadow-raised: 0 18px 48px rgba(37, 55, 82, 0.09);
+  --gc-effects-fast: 140ms;
+  --gc-effects-standard: 220ms;
+  --gc-ease-effects: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gc-canvas: #0d1119;
+    --gc-canvas-accent: #121824;
+    --gc-surface-solid: #181f2c;
+    --gc-surface-raised: rgba(24, 31, 44, 0.96);
+    --gc-functional-glass: rgba(25, 32, 45, 0.78);
+    --gc-surface-muted: rgba(31, 39, 54, 0.86);
+    --gc-text: #f3f6fb;
+    --gc-muted: #a1aec0;
+    --gc-line: rgba(193, 207, 229, 0.12);
+    --gc-accent: #7aa2ff;
+    --gc-focus: #a9c2ff;
+    --gc-shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.16);
+    --gc-shadow-raised: 0 18px 54px rgba(0, 0, 0, 0.24);
+  }
+}
+
+#navigator-toolbox {
+  background: var(--gc-functional-glass) !important;
+  color: var(--gc-text) !important;
+  border-bottom: 1px solid var(--gc-line) !important;
+  -moz-window-dragging: drag;
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  #navigator-toolbox {
+    backdrop-filter: blur(24px) saturate(145%);
+  }
+}
+
+#TabsToolbar,
+#nav-bar,
+#PersonalToolbar {
+  background: transparent !important;
+  color: var(--gc-text) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#nav-bar {
+  padding-block: 4px !important;
+}
+
+.tabbrowser-tab .tab-background {
+  border-radius: var(--gc-shape-compact) !important;
+  margin-block: 3px !important;
+  border: 1px solid transparent !important;
+  transition:
+    background-color var(--gc-effects-fast) var(--gc-ease-effects),
+    border-color var(--gc-effects-fast) var(--gc-ease-effects),
+    box-shadow var(--gc-effects-standard) var(--gc-ease-effects) !important;
+}
+
+.tabbrowser-tab:hover .tab-background {
+  background: var(--gc-surface-muted) !important;
+}
+
+.tabbrowser-tab[selected] .tab-background {
+  background: var(--gc-surface-raised) !important;
+  border-color: var(--gc-line) !important;
+  box-shadow: var(--gc-shadow-soft) !important;
+}
+
+.tabbrowser-tab[selected] .tab-label {
+  color: var(--gc-text) !important;
+  font-weight: 600 !important;
+}
+
+#urlbar-background,
+#searchbar {
+  background: var(--gc-surface-raised) !important;
+  border: 1px solid var(--gc-line) !important;
+  border-radius: var(--gc-shape-standard) !important;
+  box-shadow: var(--gc-shadow-soft) !important;
+  transition:
+    border-color var(--gc-effects-fast) var(--gc-ease-effects),
+    box-shadow var(--gc-effects-standard) var(--gc-ease-effects) !important;
+}
+
+#urlbar[focused] > #urlbar-background {
+  border-color: var(--gc-focus) !important;
+  border-radius: var(--gc-shape-expressive) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gc-focus) 30%, transparent), var(--gc-shadow-raised) !important;
+}
+
+#urlbar-input,
+#searchbar input {
+  color: var(--gc-text) !important;
+}
+
+.urlbarView {
+  background: var(--gc-surface-raised) !important;
+  color: var(--gc-text) !important;
+  border-radius: var(--gc-shape-expressive) !important;
+  border: 1px solid var(--gc-line) !important;
+  box-shadow: var(--gc-shadow-raised) !important;
+}
+
+.panel-subview-body,
+menupopup {
+  background: var(--gc-surface-solid) !important;
+  color: var(--gc-text) !important;
+}
+
+.urlbarView-row[selected],
+.urlbarView-row:hover,
+menuitem[_moz-menuactive="true"],
+menu[_moz-menuactive="true"] {
+  background: var(--gc-surface-muted) !important;
+  color: var(--gc-text) !important;
+}
+
+#PersonalToolbar {
+  padding-block: 3px !important;
+}
+
+.bookmark-item,
+toolbarbutton {
+  border-radius: var(--gc-shape-compact) !important;
+  transition: background-color var(--gc-effects-fast) var(--gc-ease-effects) !important;
+}
+
+toolbarbutton:hover,
+.bookmark-item:hover {
+  background: var(--gc-surface-muted) !important;
+}
+
+toolbarbutton:active,
+.bookmark-item:active {
+  border-radius: var(--gc-shape-pressed) !important;
+}
+
+toolbarbutton:focus-visible,
+.bookmark-item:focus-visible,
+.tabbrowser-tab:focus-visible {
+  outline: 3px solid var(--gc-focus) !important;
+  outline-offset: 2px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabbrowser-tab .tab-background,
+  #urlbar-background,
+  #searchbar,
+  .bookmark-item,
+  toolbarbutton {
+    transition: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  #navigator-toolbox,
+  #urlbar-background,
+  #searchbar,
+  .tabbrowser-tab[selected] .tab-background,
+  .urlbarView {
+    border-color: currentColor !important;
+  }
+}
+
+@media (forced-colors: active) {
+  #navigator-toolbox,
+  #TabsToolbar,
+  #nav-bar,
+  #PersonalToolbar,
+  #urlbar-background,
+  #searchbar,
+  .tabbrowser-tab .tab-background,
+  .urlbarView,
+  .panel-subview-body,
+  menupopup {
+    background: Canvas !important;
+    color: CanvasText !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  #urlbar[focused] > #urlbar-background,
+  toolbarbutton:focus-visible,
+  .bookmark-item:focus-visible,
+  .tabbrowser-tab:focus-visible {
+    outline-color: Highlight !important;
+  }
+}
