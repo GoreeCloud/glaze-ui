@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Privacy Shield symbol</title>
+  <desc id="desc">A layered shield with a protected inner aperture representing privacy boundaries and controlled visibility.</desc>
+  <defs>
+    <linearGradient id="ps-bg" x1="32" y1="28" x2="224" y2="228" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#DDF7FF"/>
+      <stop offset="0.48" stop-color="#A9D8FF"/>
+      <stop offset="1" stop-color="#8F9CFF"/>
+    </linearGradient>
+    <linearGradient id="ps-core" x1="90" y1="74" x2="170" y2="184" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#EAF5FF" stop-opacity="0.72"/>
+    </linearGradient>
+  </defs>
+  <path d="M128 18 218 50v72c0 58-34 99-90 118-56-19-90-60-90-118V50l90-32Z" fill="url(#ps-bg)"/>
+  <path d="M128 42 196 66v55c0 43-23 75-68 93-45-18-68-50-68-93V66l68-24Z" fill="#FFFFFF" fill-opacity="0.25" stroke="#FFFFFF" stroke-opacity="0.72" stroke-width="6"/>
+  <path d="M128 76c-28 0-50 22-50 50s22 50 50 50c18 0 34-9 43-23l-21-13a27 27 0 1 1 0-28l21-13c-9-14-25-23-43-23Z" fill="url(#ps-core)"/>
+  <circle cx="128" cy="126" r="13" fill="#4D63D9"/>
+  <path d="M128 139v23" stroke="#4D63D9" stroke-width="10" stroke-linecap="round"/>
+</svg>
