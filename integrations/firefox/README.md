@@ -48,6 +48,8 @@ The generated `.xpi` is for controlled development/runtime acceptance. Distribut
 
 `ACCEPTANCE.md` contains the authoritative runtime matrix, commands, required scenarios, and acceptance rules.
 
+`WORKSTATION.md` records the primary Zorin OS/Wayland workstation target and the conservative test order appropriate to that daily-use system. It is target documentation only; it does not convert an unexecuted workstation test into acceptance evidence.
+
 ## Safety and Product Boundary
 
 This integration must never:
@@ -71,6 +73,7 @@ Firefox-native behavior takes precedence when a cosmetic override would reduce a
 integrations/firefox/
 ├── ACCEPTANCE.md
 ├── README.md
+├── WORKSTATION.md
 ├── build_theme.py
 ├── collect_acceptance.py
 ├── install_userchrome.py
@@ -87,6 +90,6 @@ integrations/firefox/
 
 `ACCEPTANCE.md` defines the Release/ESR runtime matrix and required evidence. Source presence, source validation, deterministic packaging, and canonical Glaze CI do not constitute Firefox runtime acceptance.
 
-Before stable promotion, validate representative supported Firefox desktop Release and ESR lines on a GoreeCloud Linux workstation across light/dark appearance, keyboard-only navigation, focused URL/search fields, menus and panels, bookmarks toolbar, sidebars, private browsing, security and identity indicators, reduced motion, increased contrast/forced colors where supported, and 200% zoom/reflow where applicable.
+Before stable promotion, validate representative supported Firefox desktop Release and ESR lines on the target GoreeCloud Linux workstation across light/dark appearance, keyboard-only navigation, focused URL/search fields, menus and panels, bookmarks toolbar, sidebars, private browsing, security and identity indicators, reduced motion, increased contrast/forced colors where supported, and 200% zoom/reflow where applicable.
 
 Rollback is always removal of the theme and/or `userChrome.css`; profile data must remain intact.

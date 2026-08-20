@@ -15,6 +15,7 @@ MANIFEST = ROOT / "theme" / "manifest.json"
 USERCHROME = ROOT / "userchrome" / "userChrome.css"
 README = ROOT / "README.md"
 ACCEPTANCE = ROOT / "ACCEPTANCE.md"
+WORKSTATION = ROOT / "WORKSTATION.md"
 BUILDER = ROOT / "build_theme.py"
 INSTALLER = ROOT / "install_userchrome.py"
 COLLECTOR = ROOT / "collect_acceptance.py"
@@ -111,6 +112,7 @@ def validate_documentation() -> None:
         "runtime visual and accessibility acceptance",
         "Deterministic Test Package",
         "Rollback",
+        "WORKSTATION.md",
     ):
         require(marker.lower() in text.lower(), f"integration README missing required boundary: {marker}")
 
@@ -127,6 +129,18 @@ def validate_documentation() -> None:
         "does not read Firefox history",
     ):
         require(marker.lower() in acceptance.lower(), f"acceptance contract missing marker: {marker}")
+
+    workstation = WORKSTATION.read_text(encoding="utf-8")
+    for marker in (
+        "Zorin OS 17.3 Pro",
+        "Wayland",
+        "Intel UHD Graphics",
+        "8 GB RAM",
+        "explicitly selected Firefox profile path",
+        "solid fallback",
+        "Firefox Release and ESR remain separate tracks",
+    ):
+        require(marker.lower() in workstation.lower(), f"workstation target missing marker: {marker}")
 
 
 def validate_deterministic_package() -> None:
@@ -176,7 +190,7 @@ def validate_runtime_tools() -> None:
 
 
 def main() -> None:
-    for path in (MANIFEST, USERCHROME, README, ACCEPTANCE, BUILDER, INSTALLER, COLLECTOR):
+    for path in (MANIFEST, USERCHROME, README, ACCEPTANCE, WORKSTATION, BUILDER, INSTALLER, COLLECTOR):
         require(path.is_file(), f"missing required file: {path.relative_to(ROOT.parent.parent)}")
     validate_manifest()
     validate_userchrome()
