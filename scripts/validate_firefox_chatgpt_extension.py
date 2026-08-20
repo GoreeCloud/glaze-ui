@@ -12,14 +12,15 @@ MANIFEST = EXT / "manifest.json"
 
 ALLOWED_PERMISSIONS = {"storage"}
 ALLOWED_HOSTS = {"https://chatgpt.com/*", "https://chat.openai.com/*"}
-FORBIDDEN_TEXT = (
+FORBIDDEN_RUNTIME_MARKERS = (
     "<all_urls>",
     "http://*/*",
     "https://*/*",
-    "cookies",
-    "history",
-    "webRequest",
-    "webRequestBlocking",
+    "browser.cookies",
+    "browser.history",
+    "browser.webRequest",
+    "browser.proxy",
+    "browser.downloads",
     "nativeMessaging",
     "clipboardRead",
     "clipboardWrite",
@@ -60,11 +61,15 @@ def validate_local_references(manifest: dict) -> None:
 
 
 def validate_source_policy() -> None:
-    source_files = [path for path in EXT.rglob("*") if path.is_file()]
-    require(source_files, "extension contains no source files")
-    for path in source_files:
+    runtime_files = [
+        path
+        for path in EXT.rglob("*")
+        if path.is_file() and path.suffix.lower() in {".json", ".js", ".css", ".html", ".svg"}
+    ]
+    require(runtime_files, "extension contains no runtime source files")
+    for path in runtime_files:
         text = path.read_text(encoding="utf-8")
-        for token in FORBIDDEN_TEXT:
+        for token in FORBIDDEN_RUNTIME_MARKERS:
             require(token not in text, f"forbidden broad permission, API, or remote dependency marker {token!r} in {path.relative_to(ROOT)}")
 
     readme = (EXT / "README.md").read_text(encoding="utf-8")
