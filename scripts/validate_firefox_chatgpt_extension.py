@@ -141,7 +141,8 @@ def validate_ci_package_publication() -> None:
     text = CI.read_text(encoding="utf-8")
     for phrase in (
         "python3 integrations/firefox/chatgpt/build_extension.py",
-        "sha256sum --check integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi.sha256",
+        "working-directory: integrations/firefox/chatgpt/dist",
+        "sha256sum --check goreecloud-glaze-ui-chatgpt.xpi.sha256",
         f"actions/upload-artifact@{UPLOAD_ARTIFACT_SHA}",
         "integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi",
         "integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi.sha256",
