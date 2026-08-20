@@ -2,6 +2,32 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
+## 1.2.0 — 2026-08-20
+
+Compatible application-interface expansion focused on form semantics, selection controls, explicit focus treatment, feedback completeness, and stronger adoption safety.
+
+### Added
+
+- Dedicated semantic `focusRing` and text-selection color roles for light and dark appearances.
+- Placeholder opacity and field/group/message spacing semantics.
+- `css/glaze.controls.css` as the canonical 1.2 control-primitives layer.
+- Reusable field, field-label, help/error message, textarea, checkbox/radio choice, switch, segmented-control/tab, progress, and banner primitives.
+- Explicit form and selection conformance requirements covering persistent labels, programmatic help/error relationships, checked/selected state, binary switch semantics, and determinate progress values.
+- Stronger adoption guidance favoring platform-native control semantics before custom visual replacement.
+
+### Improved
+
+- Focus treatment is now governed by a dedicated semantic color role rather than being derived only from accent/current color mixing.
+- Consumer contract testing guidance now includes form relationships, selection semantics, and presentation dependency boundaries.
+- Visual acceptance guidance now explicitly covers form errors, selection controls, progress, banners, and overlays.
+
+### Preserved
+
+- Canvas, Solid, Raised, Glaze, and Overlay hierarchy.
+- Compact, Medium, Expanded, and Wide adaptive model.
+- Shared state-layer, motion, safe-area, privacy, and resilience contracts.
+- Product personality and the rule that visual quality must not regress for the sake of standardization.
+
 ## 1.1.0 — 2026-08-18
 
 Compatible design-system expansion focused on richer reusable semantics and cross-platform application ergonomics.
