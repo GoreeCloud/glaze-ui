@@ -3,13 +3,18 @@
 
 from __future__ import annotations
 
+import hashlib
+import importlib.util
 import json
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 MANIFEST = ROOT / "theme" / "manifest.json"
 USERCHROME = ROOT / "userchrome" / "userChrome.css"
 README = ROOT / "README.md"
+ACCEPTANCE = ROOT / "ACCEPTANCE.md"
+BUILDER = ROOT / "build_theme.py"
 
 REQUIRED_THEME_COLORS = {
     "frame",
@@ -101,17 +106,47 @@ def validate_documentation() -> None:
         "GoreeCloud Browser",
         "Mozilla Firefox",
         "runtime visual and accessibility acceptance",
+        "Deterministic Test Package",
         "Rollback",
     ):
         require(marker.lower() in text.lower(), f"integration README missing required boundary: {marker}")
 
+    acceptance = ACCEPTANCE.read_text(encoding="utf-8")
+    for marker in (
+        "Firefox Release",
+        "Firefox ESR",
+        "Pending",
+        "theme package SHA-256",
+        "userChrome.css",
+        "profile-data loss",
+    ):
+        require(marker.lower() in acceptance.lower(), f"acceptance contract missing marker: {marker}")
+
+
+def validate_deterministic_package() -> None:
+    spec = importlib.util.spec_from_file_location("firefox_theme_builder", BUILDER)
+    require(spec is not None and spec.loader is not None, "unable to load Firefox theme builder")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as first, tempfile.TemporaryDirectory() as second:
+        first_package, first_digest = module.build(Path(first))
+        second_package, second_digest = module.build(Path(second))
+        first_bytes = first_package.read_bytes()
+        second_bytes = second_package.read_bytes()
+        require(first_bytes == second_bytes, "theme package build is not deterministic")
+        digest = hashlib.sha256(first_bytes).hexdigest()
+        require(first_digest.read_text(encoding="utf-8").startswith(digest), "first SHA-256 record does not match package")
+        require(second_digest.read_text(encoding="utf-8").startswith(digest), "second SHA-256 record does not match package")
+
 
 def main() -> None:
-    for path in (MANIFEST, USERCHROME, README):
+    for path in (MANIFEST, USERCHROME, README, ACCEPTANCE, BUILDER):
         require(path.is_file(), f"missing required file: {path.relative_to(ROOT.parent.parent)}")
     validate_manifest()
     validate_userchrome()
     validate_documentation()
+    validate_deterministic_package()
     print("Firefox Glaze UI integration source validation passed.")
 
 
