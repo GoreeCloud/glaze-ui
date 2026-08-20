@@ -12,6 +12,14 @@
     "https://chatgpt.com/*",
     "https://chat.openai.com/*"
   ],
+  "action": {
+    "default_title": "Glaze UI for ChatGPT",
+    "default_icon": {
+      "48": "icons/glaze-chatgpt.svg",
+      "96": "icons/glaze-chatgpt.svg"
+    },
+    "default_popup": "src/popup/popup.html"
+  },
   "content_scripts": [
     {
       "matches": [
