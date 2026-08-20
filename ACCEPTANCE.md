@@ -38,13 +38,13 @@ The review must confirm all of the following:
 11. Banners remain readable in normal, increased-contrast, and forced-colors modes.
 12. Reduced motion removes nonessential movement rather than merely accelerating it.
 13. Reduced transparency and unsupported backdrop-filter conditions produce readable solid fallbacks.
-14. Forced-colors mode preserves visible focus, selection, checked state, progress state, and destructive distinction.
+14. Forced-colors mode preserves visible focus, selection, checked state, progress state, destructive distinction, and usable expressive controls.
 15. Light and Dark appearances both remain recognizably Glaze UI rather than generic or visually flattened.
 16. The reference remains free of remote fonts, remote icons, analytics, tracking, and UI runtime dependencies.
 
-## 1.2-specific acceptance
+## 1.2 application-interface acceptance retained by 1.3
 
-Glaze UI 1.2 adds form and selection primitives. Stable promotion therefore also requires representative acceptance of:
+Glaze UI 1.3 preserves the complete 1.2 application-interface contract. Stable promotion therefore continues to require representative acceptance of:
 
 - persistent field labels;
 - help and error relationships;
@@ -55,6 +55,22 @@ Glaze UI 1.2 adds form and selection primitives. Stable promotion therefore also
 - progress indicators;
 - informational, success, warning, error, and destructive banners where demonstrated;
 - dedicated semantic focus-ring and text-selection treatment.
+
+## 1.3-specific expressive acceptance
+
+Glaze UI 1.3 additionally requires representative acceptance of:
+
+- **Functional Glass** on navigation, controls, toolbars, floating actions, or transient chrome without converting ordinary content surfaces into universal glass;
+- **Clear Glass** only when demonstrated over visually rich media, with foreground controls remaining readable in both appearances;
+- readable Solid/Raised fallbacks for all new glass roles when transparency is reduced or backdrop filtering is unavailable;
+- the Compact, Standard, Expressive, Hero, and Pressed shape hierarchy without uncontrolled shape noise;
+- expressive press/shape response without layout instability, accidental activation, or loss of focus visibility;
+- distinct effects-motion and spatial-motion behavior, with expressive spatial motion concentrated in prominent interactions;
+- reduced-motion removal of nonessential scaling, shape morphing, and spatial transformation;
+- adaptive button-group emphasis that preserves DOM order, focus order, accessible names, and equivalent access to sibling actions;
+- compact reachability composition that can place frequent actions lower in the visual layout without changing reading or keyboard order;
+- hero typography that remains readable under reflow, localization pressure, and user text scaling;
+- visual confirmation that stronger expression still feels recognizably Glaze UI rather than like a Samsung, Apple, or Google skin.
 
 ## Acceptance record
 
