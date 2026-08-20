@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "round": "round-01",
+  "status": "unapproved-review-only",
+  "issue": 16,
+  "canonical_identity": null,
+  "public_site_integration_allowed": false,
+  "approval_requires_exact_candidate": true,
+  "required_review_modes": [
+    "presentation-128px",
+    "compact-24px",
+    "favicon-16px",
+    "light-background",
+    "dark-background",
+    "monochrome"
+  ],
+  "decision_states": ["pending", "rejected", "approved"],
+  "candidates": [
+    {
+      "id": "01-layered-aperture",
+      "file": "01-layered-aperture.svg",
+      "git_blob_sha": "3f0d0036f9f7b3a371b576e0697133d7f60f8915",
+      "concept": "layered hierarchy and controlled aperture",
+      "approval": "pending"
+    },
+    {
+      "id": "02-flow-bands",
+      "file": "02-flow-bands.svg",
+      "git_blob_sha": "291d9556c3940d8affa485f62ae3bb6b1b3dc8e8",
+      "concept": "fluid continuity and motion separation",
+      "approval": "pending"
+    },
+    {
+      "id": "03-faceted-surface",
+      "file": "03-faceted-surface.svg",
+      "git_blob_sha": "82b86d38c0fd54d7b9a19be36bf8d621eec8658b",
+      "concept": "modular surfaces and expressive geometry",
+      "approval": "pending"
+    }
+  ]
+}

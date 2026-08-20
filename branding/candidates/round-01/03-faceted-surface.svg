@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Glaze UI identity candidate 03 - Faceted Surface</title>
+  <desc id="desc">Four offset facets create a directional layered surface with a clear center and asymmetric silhouette.</desc>
+  <defs>
+    <linearGradient id="p1" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#386EFF"/>
+      <stop offset="1" stop-color="#7658FF"/>
+    </linearGradient>
+    <linearGradient id="p2" x1="12" y1="52" x2="54" y2="10" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68A0FF"/>
+      <stop offset="1" stop-color="#A66CFF"/>
+    </linearGradient>
+  </defs>
+  <path d="M10 12h25l8 9-10 9H10c-3 0-5-2-5-5v-8c0-3 2-5 5-5Z" fill="url(#p1)"/>
+  <path d="M54 17v24l-9 8-9-10V17c0-3 2-5 5-5h8c3 0 5 2 5 5Z" fill="url(#p2)" fill-opacity=".9"/>
+  <path d="M54 52H30l-9-9 10-9h23c3 0 5 2 5 5v8c0 3-2 5-5 5Z" fill="#172033" fill-opacity=".94"/>
+  <path d="M11 47V23l9-8 9 10v22c0 3-2 5-5 5h-8c-3 0-5-2-5-5Z" fill="#F7F9FF" fill-opacity=".86"/>
+  <path d="M26 26h12v12H26z" fill="#172033"/>
+</svg>
