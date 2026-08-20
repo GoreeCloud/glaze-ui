@@ -18,6 +18,7 @@ The first release focuses on:
 - visible keyboard focus;
 - reduced-motion, increased-contrast, forced-colors, and no-backdrop-filter fallbacks;
 - local-only extension preferences;
+- a Firefox toolbar popup for fast enable/disable, density, Functional Glass, and expressive-motion controls;
 - simple rollback through an extension enable/disable preference or normal Firefox extension removal.
 
 ## Privacy and security boundary
@@ -43,10 +44,14 @@ integrations/firefox/chatgpt/
     ├── content/
     │   ├── chatgpt-glaze.css
     │   └── chatgpt-glaze.js
-    └── options/
-        ├── options.css
-        ├── options.html
-        └── options.js
+    ├── options/
+    │   ├── options.css
+    │   ├── options.html
+    │   └── options.js
+    └── popup/
+        ├── popup.css
+        ├── popup.html
+        └── popup.js
 ```
 
 ## Temporary installation for development
@@ -56,7 +61,7 @@ integrations/firefox/chatgpt/
 3. Select **Load Temporary Add-on…**.
 4. Select `integrations/firefox/chatgpt/manifest.json` from a checked-out copy of this repository.
 5. Open or reload ChatGPT.
-6. Use the extension's Preferences/Options page to adjust density, functional glass, expressive motion, or disable the presentation layer.
+6. Use the extension toolbar button for fast appearance controls, or open the full Preferences/Options page for the same local settings.
 
 A temporary add-on is removed when Firefox restarts. Signed/persistent release packaging is a separate acceptance gate.
 
@@ -74,6 +79,7 @@ Before a Stable extension release:
 - confirm requested permissions remain minimal and documented;
 - load the extension in current Firefox;
 - validate current `chatgpt.com` conversation, new-chat, sidebar, composer, dialogs, menus, code blocks, and settings surfaces;
+- validate toolbar-popup state persistence and synchronization with the full settings page;
 - test light and dark appearance;
 - test keyboard-only navigation and visible focus;
 - test `prefers-reduced-motion`, increased contrast, forced colors, and translucency-disabled operation;
