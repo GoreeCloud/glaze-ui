@@ -20,6 +20,8 @@ These systems are references, not templates. A GoreeCloud interface must not loo
 
 Glaze UI 1.3 is the expressive-hierarchy evolution of the system. It adds stronger personality and modern interaction while preserving the disciplined 1.0–1.2 foundation.
 
+**Release status:** 1.3.0 is an active release candidate in pull request #6. Glaze UI 1.2.0 on `main` remains the Stable baseline until the exact 1.3 candidate passes source CI, Chromium-rendered acceptance, review, and explicit Stable promotion.
+
 New 1.3 capabilities include:
 
 - **functional glass** for navigation, controls, toolbars, and transient chrome, separating interactive glass from ordinary content;
