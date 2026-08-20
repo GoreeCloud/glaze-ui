@@ -8,6 +8,11 @@ This directory contains the first post-regression concept round developed under 
 
 File: `01-layered-aperture.svg`
 
+<p>
+  <img src="01-layered-aperture.svg" alt="Candidate 01 Layered Aperture at presentation size" width="128" height="128">
+  <img src="01-layered-aperture.svg" alt="Candidate 01 Layered Aperture at compact size" width="24" height="24">
+</p>
+
 Concept: overlapping surface layers open into a compact internal aperture. The intended association is hierarchy, controlled translucency, compositional depth, and a system that reveals structure without becoming a literal glass-pane icon.
 
 Review focus:
@@ -21,6 +26,11 @@ Review focus:
 
 File: `02-flow-bands.svg`
 
+<p>
+  <img src="02-flow-bands.svg" alt="Candidate 02 Flow Bands at presentation size" width="128" height="128">
+  <img src="02-flow-bands.svg" alt="Candidate 02 Flow Bands at compact size" width="24" height="24">
+</p>
+
 Concept: three independent bands move through a shared directional rhythm. The intended association is fluid interaction, motion separation, continuity across platforms, and calm structure with selective expression.
 
 Review focus:
@@ -33,6 +43,11 @@ Review focus:
 ## Candidate 03 — Faceted Surface
 
 File: `03-faceted-surface.svg`
+
+<p>
+  <img src="03-faceted-surface.svg" alt="Candidate 03 Faceted Surface at presentation size" width="128" height="128">
+  <img src="03-faceted-surface.svg" alt="Candidate 03 Faceted Surface at compact size" width="24" height="24">
+</p>
 
 Concept: four asymmetric facets form a structured center while remaining visibly separate layers. The intended association is modular surfaces, adaptive composition, strong hierarchy, and expressive geometry.
 
