@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation candidate for **Glaze UI 1.3.0**. Runtime visual and accessibility acceptance against the target Firefox desktop release remains required before this integration is considered stable.
+Implementation candidate for **Glaze UI 1.3.0**. Source validation and deterministic theme packaging are automated. Runtime visual and accessibility acceptance against representative supported Firefox desktop Release and ESR lines remains required before this integration is considered stable.
 
 ## Purpose
 
@@ -34,6 +34,12 @@ The mapping is deliberately restrained:
 
 `userchrome/userChrome.css` provides deeper local browser-chrome adaptation where Firefox's supported theme API is insufficient. This layer is optional and version-sensitive because browser-chrome selectors are not a stable public extension API.
 
+## Deterministic Test Package
+
+Run `python3 integrations/firefox/build_theme.py` to create an unsigned local-test `.xpi` and matching SHA-256 record under `integrations/firefox/dist/`. The builder canonicalizes the manifest, uses fixed ZIP metadata, and packages only the local theme manifest so identical source produces identical package bytes.
+
+The generated `.xpi` is for controlled development/runtime acceptance. Distribution through Mozilla signing or another approved release channel is a separate release action and must not be inferred from local package creation.
+
 ## Safety and Product Boundary
 
 This integration must never:
@@ -55,7 +61,9 @@ Firefox-native behavior takes precedence when a cosmetic override would reduce a
 
 ```text
 integrations/firefox/
+├── ACCEPTANCE.md
 ├── README.md
+├── build_theme.py
 ├── validate.py
 ├── theme/
 │   ├── README.md
@@ -67,6 +75,8 @@ integrations/firefox/
 
 ## Acceptance Boundary
 
-Source presence and validation do not constitute Firefox runtime acceptance. Before stable promotion, validate the intended Firefox release on a representative GoreeCloud Linux workstation across light and dark appearance, keyboard-only navigation, focused URL/search fields, menus and panels, bookmarks toolbar, sidebars, private browsing, browser warnings and identity indicators, reduced motion, increased contrast/forced colors where supported, and 200% zoom/reflow where applicable.
+`ACCEPTANCE.md` defines the Release/ESR runtime matrix and required evidence. Source presence, source validation, deterministic packaging, and canonical Glaze CI do not constitute Firefox runtime acceptance.
+
+Before stable promotion, validate representative supported Firefox desktop Release and ESR lines on a GoreeCloud Linux workstation across light/dark appearance, keyboard-only navigation, focused URL/search fields, menus and panels, bookmarks toolbar, sidebars, private browsing, security and identity indicators, reduced motion, increased contrast/forced colors where supported, and 200% zoom/reflow where applicable.
 
 Rollback is always removal of the theme and/or `userChrome.css`; profile data must remain intact.
