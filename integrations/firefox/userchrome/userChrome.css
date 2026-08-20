@@ -1,4 +1,4 @@
-/* Glaze UI 1.3 for upstream Firefox
+/* Glaze UI 1.4 for upstream Firefox
  * Optional, removable browser-chrome styling.
  * Firefox remains Mozilla Firefox; GoreeCloud Browser remains a separate product.
  * Runtime refinement target: Firefox 154 on Zorin OS 17.3 / Wayland.
@@ -19,10 +19,10 @@
   --gc-line-strong: rgba(76, 99, 132, 0.24);
   --gc-accent: #366cf6;
   --gc-focus: #244fc6;
-  --gc-shape-compact: 12px;
-  --gc-shape-standard: 18px;
-  --gc-shape-expressive: 26px;
-  --gc-shape-pressed: 14px;
+  --gc-shape-compact: 10px;
+  --gc-shape-standard: 16px;
+  --gc-shape-expressive: 24px;
+  --gc-shape-pressed: 12px;
   --gc-shadow-soft: 0 8px 30px rgba(37, 55, 82, 0.05);
   --gc-shadow-raised: 0 18px 48px rgba(37, 55, 82, 0.09);
   --gc-effects-fast: 140ms;
@@ -51,7 +51,8 @@
   }
 }
 
-/* Functional Glass browser chrome. Keep browser/security identity native. */
+/* Functional Glass browser chrome. Keep Firefox identity, site identity,
+ * security controls, account state, extension identity, and native wording. */
 #navigator-toolbox {
   background: var(--gc-functional-glass) !important;
   color: var(--gc-text) !important;
@@ -60,9 +61,7 @@
 }
 
 @supports (backdrop-filter: blur(1px)) {
-  #navigator-toolbox {
-    backdrop-filter: blur(24px) saturate(145%);
-  }
+  #navigator-toolbox { backdrop-filter: blur(22px) saturate(140%); }
 }
 
 #TabsToolbar,
@@ -74,135 +73,84 @@
   box-shadow: none !important;
 }
 
-/* Keep the navigation row integrated with the toolbox instead of turning the
- * whole row into one oversized capsule. Individual controls carry Glaze shape. */
-#nav-bar {
-  padding: 3px 6px 5px !important;
-}
-
+#nav-bar { padding: 3px 6px 5px !important; }
 #nav-bar-customization-target,
-#PanelUI-button {
-  align-items: center !important;
-}
+#PanelUI-button { align-items: center !important; }
 
-/* Tabs: quiet inactive state, raised selected state. */
-.tabbrowser-tab {
-  padding-inline: 2px !important;
-}
+/* Tabs: compact native geometry with a quiet inactive state and clearly raised
+ * selected state. The selected tab remains visually connected to Firefox. */
+.tabbrowser-tab { padding-inline: 2px !important; }
 
 .tabbrowser-tab .tab-background {
   border-radius: var(--gc-shape-compact) !important;
   margin-block: 3px !important;
   border: 1px solid transparent !important;
-  transition:
-    background-color var(--gc-effects-fast) var(--gc-ease-effects),
-    border-color var(--gc-effects-fast) var(--gc-ease-effects),
-    box-shadow var(--gc-effects-standard) var(--gc-ease-effects),
-    transform var(--gc-effects-fast) var(--gc-ease-effects) !important;
+  transition: background-color var(--gc-effects-fast) var(--gc-ease-effects), border-color var(--gc-effects-fast) var(--gc-ease-effects), box-shadow var(--gc-effects-standard) var(--gc-ease-effects) !important;
 }
 
-.tabbrowser-tab:not([selected]):hover .tab-background {
-  background: var(--gc-surface-hover) !important;
-}
-
+.tabbrowser-tab:not([selected]):hover .tab-background { background: var(--gc-surface-hover) !important; }
 .tabbrowser-tab[selected] .tab-background {
   background: var(--gc-surface-raised) !important;
   border-color: var(--gc-line-strong) !important;
   box-shadow: var(--gc-shadow-soft) !important;
 }
+.tabbrowser-tab[selected] .tab-label { color: var(--gc-text) !important; font-weight: 600 !important; }
+.tabbrowser-tab[pinned] .tab-background { border-radius: var(--gc-shape-compact) !important; }
 
-.tabbrowser-tab[selected] .tab-label {
-  color: var(--gc-text) !important;
-  font-weight: 600 !important;
-}
-
-.tabbrowser-tab[pinned] .tab-background {
-  border-radius: 50% !important;
-}
-
-/* Toolbar buttons remain recognizably Firefox controls while adopting Glaze
- * geometry and interaction states. */
+/* Toolbar controls keep native Firefox semantics and icons. */
 #nav-bar toolbarbutton,
 #PersonalToolbar toolbarbutton,
 .bookmark-item {
   border-radius: var(--gc-shape-compact) !important;
-  transition:
-    background-color var(--gc-effects-fast) var(--gc-ease-effects),
-    border-radius var(--gc-effects-fast) var(--gc-ease-effects) !important;
+  transition: background-color var(--gc-effects-fast) var(--gc-ease-effects), border-radius var(--gc-effects-fast) var(--gc-ease-effects) !important;
 }
-
 #nav-bar toolbarbutton:hover,
 #PersonalToolbar toolbarbutton:hover,
-.bookmark-item:hover {
-  background: var(--gc-surface-hover) !important;
-}
-
+.bookmark-item:hover { background: var(--gc-surface-hover) !important; }
 #nav-bar toolbarbutton:active,
 #PersonalToolbar toolbarbutton:active,
-.bookmark-item:active {
-  background: var(--gc-surface-active) !important;
-  border-radius: var(--gc-shape-pressed) !important;
-}
+.bookmark-item:active { background: var(--gc-surface-active) !important; border-radius: var(--gc-shape-pressed) !important; }
 
-/* Address/search controls form the primary functional surface. */
+/* Address/search controls are the primary functional surface. Preserve native
+ * site/security identity blocks and Firefox page identity chips. */
 #urlbar-background,
 #searchbar {
   background: var(--gc-surface-raised) !important;
   border: 1px solid var(--gc-line) !important;
   border-radius: var(--gc-shape-standard) !important;
   box-shadow: var(--gc-shadow-soft) !important;
-  transition:
-    border-color var(--gc-effects-fast) var(--gc-ease-effects),
-    border-radius var(--gc-effects-fast) var(--gc-ease-effects),
-    box-shadow var(--gc-effects-standard) var(--gc-ease-effects) !important;
+  transition: border-color var(--gc-effects-fast) var(--gc-ease-effects), box-shadow var(--gc-effects-standard) var(--gc-ease-effects) !important;
 }
 
 #urlbar[focused] > #urlbar-background,
 #urlbar[open] > #urlbar-background {
   border-color: var(--gc-focus) !important;
-  border-radius: var(--gc-shape-standard) !important;
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gc-focus) 28%, transparent), var(--gc-shadow-raised) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gc-focus) 24%, transparent), var(--gc-shadow-raised) !important;
 }
-
 #urlbar-input,
-#searchbar input {
-  color: var(--gc-text) !important;
-}
+#searchbar input { color: var(--gc-text) !important; }
 
-/* URL suggestions: connected to the address field but visually distinct. */
+/* Firefox 154 URL results render inside the expanded urlbar. Shape the result
+ * rows instead of drawing a second competing border around the entire view. */
 .urlbarView {
   background: var(--gc-surface-raised) !important;
   color: var(--gc-text) !important;
-  border: 1px solid var(--gc-line-strong) !important;
-  border-radius: 0 0 var(--gc-shape-standard) var(--gc-shape-standard) !important;
-  box-shadow: var(--gc-shadow-raised) !important;
+  border: 0 !important;
+  border-top: 1px solid var(--gc-line) !important;
+  box-shadow: none !important;
   margin-top: 4px !important;
-  overflow: hidden !important;
+  padding-block: 4px !important;
 }
-
-.urlbarView-row {
-  border-radius: var(--gc-shape-compact) !important;
-  margin: 2px 6px !important;
-}
-
+.urlbarView-row { border-radius: var(--gc-shape-compact) !important; margin: 2px 6px !important; }
 .urlbarView-row[selected],
-.urlbarView-row:hover {
-  background: var(--gc-surface-hover) !important;
-  color: var(--gc-text) !important;
-}
+.urlbarView-row:hover { background: var(--gc-surface-hover) !important; color: var(--gc-text) !important; }
 
-/* Bookmarks stay lightweight so they do not compete with the primary chrome. */
-#PersonalToolbar {
-  padding: 2px 6px 4px !important;
-  border-top: 1px solid color-mix(in srgb, var(--gc-line) 70%, transparent) !important;
-}
+/* Bookmarks stay lightweight so they do not compete with the address bar. */
+#PersonalToolbar { padding: 2px 6px 4px !important; border-top: 1px solid color-mix(in srgb, var(--gc-line) 70%, transparent) !important; }
+.bookmark-item { padding-inline: 6px !important; }
 
-.bookmark-item {
-  padding-inline: 6px !important;
-}
-
-/* Firefox panel system: Glaze surface hierarchy without replacing native menu
- * content, security language, icons, or control semantics. */
+/* Firefox panel system. Apply hierarchy to the native panel containers and
+ * rows while preserving extension/account/security content untouched. */
 panelmultiview,
 .panel-viewstack,
 .panel-subview-body,
@@ -213,56 +161,33 @@ menupopup {
 
 panelmultiview,
 menupopup {
-  border-radius: var(--gc-shape-standard) !important;
   border: 1px solid var(--gc-line-strong) !important;
+  border-radius: var(--gc-shape-standard) !important;
   box-shadow: var(--gc-shadow-raised) !important;
   overflow: hidden !important;
 }
 
+.panel-subview-body { padding: 4px !important; }
 .subviewbutton,
 menuitem,
-menu {
-  border-radius: var(--gc-shape-compact) !important;
-}
-
+menu { border-radius: var(--gc-shape-compact) !important; margin-block: 1px !important; }
 .subviewbutton:hover,
 menuitem[_moz-menuactive="true"],
-menu[_moz-menuactive="true"] {
-  background: var(--gc-surface-hover) !important;
-  color: var(--gc-text) !important;
-}
-
-.subviewbutton:active {
-  background: var(--gc-surface-active) !important;
-  border-radius: var(--gc-shape-pressed) !important;
-}
-
+menu[_moz-menuactive="true"] { background: var(--gc-surface-hover) !important; color: var(--gc-text) !important; }
+.subviewbutton:active { background: var(--gc-surface-active) !important; border-radius: var(--gc-shape-pressed) !important; }
 panelview .panel-header,
 panelview .panel-subview-body > toolbarseparator,
-menuseparator {
-  border-color: var(--gc-line) !important;
-}
+menuseparator { border-color: var(--gc-line) !important; }
 
-/* Sidebar should read as a secondary Glaze surface rather than another page. */
-#sidebar-box {
-  background: var(--gc-surface-solid) !important;
-  color: var(--gc-text) !important;
-  border-inline-end: 1px solid var(--gc-line) !important;
-}
-
-#sidebar-header {
-  background: var(--gc-surface-muted) !important;
-  border-bottom: 1px solid var(--gc-line) !important;
-}
+/* Sidebars remain secondary surfaces. */
+#sidebar-box { background: var(--gc-surface-solid) !important; color: var(--gc-text) !important; border-inline-end: 1px solid var(--gc-line) !important; }
+#sidebar-header { background: var(--gc-surface-muted) !important; border-bottom: 1px solid var(--gc-line) !important; }
 
 /* Accessibility and resilient interaction states. */
 toolbarbutton:focus-visible,
 .bookmark-item:focus-visible,
 .tabbrowser-tab:focus-visible,
-.subviewbutton:focus-visible {
-  outline: 3px solid var(--gc-focus) !important;
-  outline-offset: 2px !important;
-}
+.subviewbutton:focus-visible { outline: 3px solid var(--gc-focus) !important; outline-offset: 2px !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .tabbrowser-tab .tab-background,
@@ -270,9 +195,7 @@ toolbarbutton:focus-visible,
   #searchbar,
   .bookmark-item,
   toolbarbutton,
-  .subviewbutton {
-    transition: none !important;
-  }
+  .subviewbutton { transition: none !important; }
 }
 
 @media (prefers-contrast: more) {
@@ -280,12 +203,9 @@ toolbarbutton:focus-visible,
   #urlbar-background,
   #searchbar,
   .tabbrowser-tab[selected] .tab-background,
-  .urlbarView,
   panelmultiview,
   menupopup,
-  #sidebar-box {
-    border-color: currentColor !important;
-  }
+  #sidebar-box { border-color: currentColor !important; }
 }
 
 @media (forced-colors: active) {
@@ -308,12 +228,9 @@ toolbarbutton:focus-visible,
     box-shadow: none !important;
     backdrop-filter: none !important;
   }
-
   #urlbar[focused] > #urlbar-background,
   toolbarbutton:focus-visible,
   .bookmark-item:focus-visible,
   .tabbrowser-tab:focus-visible,
-  .subviewbutton:focus-visible {
-    outline-color: Highlight !important;
-  }
+  .subviewbutton:focus-visible { outline-color: Highlight !important; }
 }
