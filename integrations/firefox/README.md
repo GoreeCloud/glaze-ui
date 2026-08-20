@@ -40,6 +40,14 @@ Run `python3 integrations/firefox/build_theme.py` to create an unsigned local-te
 
 The generated `.xpi` is for controlled development/runtime acceptance. Distribution through Mozilla signing or another approved release channel is a separate release action and must not be inferred from local package creation.
 
+## Runtime Acceptance Tooling
+
+`install_userchrome.py` provides explicit-profile install, verification, backup, and removal for the optional `userChrome.css` layer. It never guesses which Firefox profile to modify and intentionally does not edit Firefox preference files.
+
+`collect_acceptance.py` creates a privacy-preserving Markdown evidence record for either the Firefox Release or ESR track. It records Firefox/environment/package metadata and the required acceptance checklist without reading browser history, bookmarks, credentials, cookies, URLs, tabs, or profile contents.
+
+`ACCEPTANCE.md` contains the authoritative runtime matrix, commands, required scenarios, and acceptance rules.
+
 ## Safety and Product Boundary
 
 This integration must never:
@@ -64,6 +72,8 @@ integrations/firefox/
 ├── ACCEPTANCE.md
 ├── README.md
 ├── build_theme.py
+├── collect_acceptance.py
+├── install_userchrome.py
 ├── validate.py
 ├── theme/
 │   ├── README.md
