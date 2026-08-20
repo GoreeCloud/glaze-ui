@@ -1,0 +1,49 @@
+{
+  "manifest_version": 2,
+  "name": "Glaze UI for Firefox",
+  "version": "0.1.0",
+  "description": "A removable Glaze UI appearance layer for upstream Mozilla Firefox.",
+  "theme": {
+    "colors": {
+      "frame": "#EEF3F9",
+      "frame_inactive": "#F8FBFF",
+      "tab_background_text": "#172033",
+      "tab_text": "#172033",
+      "tab_selected": "#FFFFFF",
+      "tab_line": "#366CF6",
+      "toolbar": "#F8FBFF",
+      "toolbar_text": "#172033",
+      "toolbar_field": "#FFFFFF",
+      "toolbar_field_text": "#172033",
+      "toolbar_field_border": "#D7E0EC",
+      "toolbar_field_focus": "#FFFFFF",
+      "toolbar_field_text_focus": "#172033",
+      "toolbar_field_border_focus": "#366CF6",
+      "toolbar_top_separator": "#D7E0EC",
+      "toolbar_bottom_separator": "#D7E0EC",
+      "bookmark_text": "#172033",
+      "icons": "#67748A",
+      "icons_attention": "#366CF6",
+      "button_background_hover": "#E6EDFA",
+      "button_background_active": "#DCE6F7",
+      "popup": "#FFFFFF",
+      "popup_text": "#172033",
+      "popup_border": "#D7E0EC",
+      "popup_highlight": "#E6EDFA",
+      "popup_highlight_text": "#172033",
+      "sidebar": "#F8FBFF",
+      "sidebar_text": "#172033",
+      "sidebar_border": "#D7E0EC",
+      "sidebar_highlight": "#E6EDFA",
+      "sidebar_highlight_text": "#172033",
+      "ntp_background": "#EEF3F9",
+      "ntp_text": "#172033"
+    }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "glaze-ui-firefox@goreecloud.com",
+      "strict_min_version": "128.0"
+    }
+  }
+}
