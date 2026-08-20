@@ -18,12 +18,28 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Compile validators
-        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_rendered_reference.py website/build.py website/validate.py integrations/firefox/validate.py
+        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_rendered_reference.py scripts/validate_firefox_chatgpt_extension.py website/build.py website/validate.py integrations/firefox/validate.py
       - name: Validate Glaze UI repository
         run: python3 scripts/validate_glaze_ui.py
       - name: Validate Firefox integration
         run: python3 integrations/firefox/validate.py
+      - name: Validate Firefox ChatGPT extension
+        run: python3 scripts/validate_firefox_chatgpt_extension.py
       - name: Build and validate public design site
         run: python3 website/validate.py
       - name: Validate rendered Glaze UI reference
         run: python3 scripts/validate_rendered_reference.py
+      - name: Build exact-head Firefox ChatGPT test package
+        run: python3 integrations/firefox/chatgpt/build_extension.py
+      - name: Verify Firefox ChatGPT package checksum
+        working-directory: integrations/firefox/chatgpt/dist
+        run: sha256sum --check goreecloud-glaze-ui-chatgpt.xpi.sha256
+      - name: Upload Firefox ChatGPT test package evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: goreecloud-chatgpt-firefox-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi
+            integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi.sha256
+          if-no-files-found: error
+          retention-days: 14

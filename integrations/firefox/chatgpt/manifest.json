@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "GoreeCloud Glaze UI for ChatGPT",
+  "version": "0.1.0",
+  "description": "A privacy-conscious Glaze UI presentation layer for ChatGPT in Firefox.",
+  "icons": {
+    "48": "icons/glaze-chatgpt.svg",
+    "96": "icons/glaze-chatgpt.svg"
+  },
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*"
+  ],
+  "action": {
+    "default_title": "Glaze UI for ChatGPT",
+    "default_icon": {
+      "48": "icons/glaze-chatgpt.svg",
+      "96": "icons/glaze-chatgpt.svg"
+    },
+    "default_popup": "src/popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "css": ["src/content/chatgpt-glaze.css"],
+      "js": ["src/content/chatgpt-glaze.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "chatgpt-glaze-ui@goreecloud.com",
+      "strict_min_version": "128.0"
+    }
+  }
+}

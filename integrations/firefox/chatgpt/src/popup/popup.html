@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glaze UI for ChatGPT</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="panel" aria-labelledby="title">
+    <header class="hero">
+      <img src="../../icons/glaze-chatgpt.svg" width="40" height="40" alt="">
+      <div>
+        <h1 id="title">Glaze UI for ChatGPT</h1>
+        <p>Local Firefox presentation controls</p>
+      </div>
+    </header>
+
+    <label class="row switch-row">
+      <span><strong>Enabled</strong><small>Apply Glaze UI on ChatGPT</small></span>
+      <input id="enabled" type="checkbox">
+    </label>
+
+    <label class="field">
+      <span>Density</span>
+      <select id="density">
+        <option value="comfortable">Comfortable</option>
+        <option value="compact">Compact</option>
+      </select>
+    </label>
+
+    <label class="row switch-row">
+      <span><strong>Functional glass</strong><small>Use translucent navigation and composer surfaces</small></span>
+      <input id="translucency" type="checkbox">
+    </label>
+
+    <label class="row switch-row">
+      <span><strong>Expressive motion</strong><small>Allow subtle Glaze UI hover motion</small></span>
+      <input id="expression" type="checkbox">
+    </label>
+
+    <button id="open-options" type="button">Open full settings</button>
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
