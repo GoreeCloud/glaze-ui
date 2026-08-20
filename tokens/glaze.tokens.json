@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Glaze UI",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "format": "GoreeCloud semantic token map v1",
     "principle": "Preserve visual delight while standardizing semantics, accessibility, behavior, and cross-product consistency."
   },
@@ -22,7 +22,9 @@
       "success": "#197A4B",
       "warning": "#A15C00",
       "danger": "#B42318",
-      "scrim": "rgba(8,18,34,0.42)"
+      "scrim": "rgba(8,18,34,0.42)",
+      "focusRing": "#244FC6",
+      "selection": "rgba(54,108,246,0.18)"
     },
     "dark": {
       "canvas": "#0D1119",
@@ -40,7 +42,9 @@
       "success": "#73D9A2",
       "warning": "#F7C36C",
       "danger": "#FF8A80",
-      "scrim": "rgba(0,0,0,0.62)"
+      "scrim": "rgba(0,0,0,0.62)",
+      "focusRing": "#A9C2FF",
+      "selection": "rgba(122,162,255,0.24)"
     }
   },
   "stateLayer": {
@@ -92,7 +96,8 @@
   },
   "opacity": {
     "disabled": 0.55,
-    "quiet": 0.72
+    "quiet": 0.72,
+    "placeholder": 0.72
   },
   "shadow": {
     "soft": "0 8px 30px rgba(37,55,82,0.05)",
@@ -145,6 +150,11 @@
     "gutterMedium": 24,
     "gutterExpanded": 32,
     "gutterWide": 40
+  },
+  "control": {
+    "fieldGap": 8,
+    "groupGap": 16,
+    "messageGap": 6
   },
   "zIndex": {
     "base": 0,

@@ -10,31 +10,38 @@ It preserves the polished, layered, rounded, gradient-rich character already use
 
 Material structure + liquid depth and fluidity + One UI ergonomics + GoreeCloud privacy, identity, and simplicity = Glaze UI.
 
-## Glaze UI 1.1
+## Glaze UI 1.2
 
-The 1.1 foundation includes everything in 1.0 and expands the reusable contract with:
+The 1.2 foundation extends Glaze UI from a visual/component vocabulary into a more complete application-interface contract.
 
-- semantic `info`, `onAccent`, and modal scrim roles;
-- shared hover, pressed, focus, and selected state-layer semantics;
-- standard icon sizes and compact/comfortable density guidance;
-- adaptive gutters and safe-area helpers for modern mobile/device layouts;
-- reusable navigation-item, toolbar, badge, dialog, menu, toast, scrim, and icon primitives;
-- broader typography roles and stronger cross-platform semantic mapping;
-- exact-version conformance evidence for stable GoreeCloud consumers.
+New 1.2 capabilities include:
 
-The established 1.0 architecture remains intact: semantic light/dark tokens; Canvas, Solid, Raised, Glaze, and Overlay surfaces; Compact/Medium/Expanded/Wide layouts; restrained motion; practical targets and focus; accessibility/resilience fallbacks; local/privacy-conscious presentation dependencies; and stable-release visual acceptance.
+- dedicated semantic focus-ring and text-selection roles for more predictable accessibility across light and dark appearances;
+- field-group spacing and placeholder semantics for consistent form composition;
+- reusable field, help/error message, textarea, checkbox/radio, switch, segmented-control/tab, progress, and banner primitives;
+- stronger validation requirements for form semantics, selection controls, focus treatment, and exact-version documentation;
+- more explicit adoption guidance for replacing product-local control styling with shared Glaze semantics without erasing product identity;
+- a canonical Stable-release acceptance protocol with exact representative viewports and accessibility modes;
+- Chromium-rendered CI acceptance for Compact/Expanded, light/dark, reduced-motion, and forced-colors reference behavior.
+
+The established 1.0 and 1.1 architecture remains intact: semantic light/dark tokens; Canvas, Solid, Raised, Glaze, and Overlay surfaces; Compact/Medium/Expanded/Wide layouts; restrained motion; practical targets and focus; accessibility/resilience fallbacks; local/privacy-conscious presentation dependencies; shared interaction state layers; safe-area semantics; and stable-release visual acceptance.
 
 ## Repository layout
 
 - `VERSION` — current Glaze UI version.
 - `tokens/glaze.tokens.json` — platform-neutral semantic token source.
-- `css/glaze.css` — canonical web variables and primitives.
+- `css/glaze.css` — canonical web variables and core primitives.
+- `css/glaze.controls.css` — canonical form, selection, progress, and banner primitives introduced in 1.2.
 - `css/glaze.accessibility.css` — accessibility and resilience fallbacks.
 - `COMPONENTS.md` — component behavior and state contract.
 - `CONFORMANCE.md` — stable-release conformance gates.
 - `ADOPTION.md` — integration guidance for GoreeCloud applications.
+- `ACCEPTANCE.md` — Stable-release rendered visual/accessibility acceptance protocol.
+- `acceptance/` — version-specific Stable promotion evidence.
 - `reference/index.html` — dependency-free visual reference.
+- `reference/acceptance.html` — browser-render acceptance harness.
 - `scripts/validate_glaze_ui.py` — zero-dependency repository validator.
+- `scripts/validate_rendered_reference.py` — Chromium-rendered reference acceptance validator.
 
 ## Surface hierarchy
 
@@ -52,13 +59,19 @@ Glaze UI creates a family resemblance, not cloned interfaces. Applications may v
 
 ## Validation
 
-Run:
+Repository/source validation:
 
 ```bash
 python3 scripts/validate_glaze_ui.py
 ```
 
-The validator uses only the Python standard library.
+Rendered reference acceptance, on systems with a supported Chromium-family browser:
+
+```bash
+python3 scripts/validate_rendered_reference.py
+```
+
+The source validator uses only the Python standard library. The rendered validator also uses only the Python standard library and an installed Chromium-family browser; it does not add a JavaScript package or remote UI dependency.
 
 ## Versioning
 

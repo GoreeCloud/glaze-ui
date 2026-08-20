@@ -1,14 +1,14 @@
-# Glaze UI 1.1 Component Contract
+# Glaze UI 1.2 Component Contract
 
 Glaze UI standardizes component semantics and interaction quality without forcing every GoreeCloud application into the same composition.
 
 ## Universal component rules
 
-Every interactive component must have a clear accessible name, a visible focus state, a minimum 44px practical pointer/touch target when directly actionable, and predictable disabled/loading behavior. Components should use semantic tokens instead of product-local literal colors, radii, spacing, icon sizes, state-layer opacity, or motion values when a corresponding token exists.
+Every interactive component must have a clear accessible name, a visible focus state, a minimum 44px practical pointer/touch target when directly actionable, and predictable disabled/loading behavior. Components should use semantic tokens instead of product-local literal colors, radii, spacing, icon sizes, state-layer opacity, focus colors, or motion values when a corresponding token exists.
 
 State vocabulary, where relevant: **default, hover, pressed, focused, selected, disabled, loading, info, success, warning, error, destructive**.
 
-Glaze UI 1.1 defines shared state-layer semantics for hover, pressed, focus, and selected presentation so feedback remains recognizable across products without requiring identical component artwork.
+Glaze UI defines shared state-layer semantics for hover, pressed, focus, and selected presentation so feedback remains recognizable across products without requiring identical component artwork.
 
 ## Buttons
 
@@ -18,13 +18,19 @@ Primary buttons use the Glaze accent treatment and may use the characteristic ac
 
 Icon-only controls require an accessible name. They use compact rounded geometry, minimum target sizing, visible focus, and optional tooltip support for unfamiliar actions. Shared icon sizes are 16, 20, 24, and 32 pixels or documented platform-native equivalents. Product icons and security/privacy identities remain governed by their separate GoreeCloud branding standards.
 
-## Inputs, search, and selects
+## Fields, inputs, search, textareas, and selects
 
-Inputs use readable labels, persistent error/help relationships, and rounded surface geometry. Placeholder text is not a substitute for a label. Search may use pill geometry where appropriate but must preserve normal keyboard and screen-reader behavior.
+Every user-editable field must have a persistent accessible label. Placeholder text is supplementary and never substitutes for a label. Help and error messages must be associated programmatically with their field when the platform supports that relationship. Error presentation uses the semantic danger role plus explanatory text; color alone is insufficient.
+
+Textareas preserve readable line height and user-resizable behavior unless a documented product requirement justifies another approach. Search may use pill geometry where appropriate but must preserve normal keyboard, screen-reader, autofill, and browser behavior.
 
 ## Selection controls
 
-Checkboxes, radio controls, switches, tabs, segmented controls, and chips expose selected/checked state semantically. Custom visual controls must retain platform accessibility semantics and remain usable in forced-colors mode.
+Checkboxes and radio controls should prefer platform-native controls with Glaze accent semantics whenever native behavior satisfies the product need. Custom visual controls must preserve checked state, focus, disabled behavior, target sizing, and forced-colors resilience.
+
+Switches represent immediate binary settings, not arbitrary action buttons. Their labels remain visible, their checked state is programmatic, and their visual track/thumb state is not the sole indication of the value.
+
+Segmented controls and tabs expose a single selected item within a small related set. Tabs must preserve tab/list semantics and keyboard interaction when implemented as a tab interface; segmented action groups must use the appropriate pressed/selected semantics for their platform.
 
 ## Cards and panels
 
@@ -38,13 +44,19 @@ Compact layouts may use bottom navigation, compact headers, drawers, or sheets. 
 
 Overlays use the Overlay surface level, trap focus only while modal, restore focus on close, support Escape when appropriate, expose a programmatic name, and remain readable without blur/translucency. Modal experiences use the semantic scrim role rather than arbitrary product-local backdrop colors. Dialogs and sheets must account for safe areas and viewport bounds on mobile devices.
 
+## Progress and loading
+
+Progress indicators communicate determinate progress when a meaningful value is known and indeterminate loading only when duration or completion is unknown. Progress bars require an accessible name and value semantics when they represent measurable progress. Loading states must not silently remove the user's task context or make destructive actions appear available while work is pending.
+
 ## Tables and dense data
 
 Tables prioritize scanability and accessible header relationships. Compact layouts may transform tables into card/list presentations when horizontal compression would harm readability. Status must not be communicated by color alone. Dense administrative surfaces may use compact spacing while keeping interactive targets accessible.
 
-## Feedback
+## Feedback and banners
 
 Toasts, banners, badges, status indicators, loading states, empty states, and errors are first-class components. Feedback is concise, actionable when possible, and announced to assistive technology when the state change requires it. `info`, `success`, `warning`, `error`, and `destructive` are distinct semantic states.
+
+Banners are persistent or semi-persistent in-context feedback and may include a concise action or dismissal control. Destructive or security-sensitive banners must explain the condition in text rather than relying only on a red border or icon.
 
 ## Safe areas and mobile ergonomics
 

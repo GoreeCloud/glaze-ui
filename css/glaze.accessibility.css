@@ -41,8 +41,17 @@
   .glaze-button,
   .glaze-input,
   .glaze-select,
-  .glaze-icon-button {
+  .glaze-textarea,
+  .glaze-icon-button,
+  .glaze-switch-track,
+  .glaze-segmented,
+  .glaze-banner {
     border-width: 2px;
+  }
+
+  .glaze-progress {
+    outline: 1px solid currentColor;
+    outline-offset: 1px;
   }
 }
 
@@ -55,8 +64,13 @@
   .glaze-button,
   .glaze-input,
   .glaze-select,
+  .glaze-textarea,
   .glaze-icon-button,
-  .glaze-chip {
+  .glaze-chip,
+  .glaze-switch-track,
+  .glaze-segmented,
+  .glaze-banner,
+  .glaze-progress {
     background: Canvas;
     color: CanvasText;
     border-color: ButtonText;
@@ -75,12 +89,43 @@
     border-style: double;
   }
 
+  .glaze-switch > input:checked + .glaze-switch-track,
+  .glaze-segmented > [aria-selected="true"],
+  .glaze-segmented > [aria-pressed="true"],
+  .glaze-segmented > [data-selected="true"] {
+    background: Highlight;
+    color: HighlightText;
+    border-color: Highlight;
+    forced-color-adjust: none;
+  }
+
+  .glaze-switch > input:checked + .glaze-switch-track::after {
+    background: HighlightText;
+  }
+
+  .glaze-progress > span {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+
+  .glaze-banner[data-state="error"],
+  .glaze-banner[data-state="destructive"] {
+    border-style: double;
+  }
+
   .glaze-button:focus-visible,
   .glaze-icon-button:focus-visible,
   .glaze-input:focus-visible,
   .glaze-select:focus-visible,
-  .glaze-focusable:focus-visible {
+  .glaze-textarea:focus-visible,
+  .glaze-nav-item:focus-visible,
+  .glaze-focusable:focus-visible,
+  .glaze-choice:has(input:focus-visible),
+  .glaze-switch > input:focus-visible + .glaze-switch-track,
+  .glaze-segmented > button:focus-visible,
+  .glaze-segmented > [role="tab"]:focus-visible {
     outline: 3px solid Highlight;
+    outline-offset: 2px;
   }
 }
 
