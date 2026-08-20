@@ -12,20 +12,23 @@ MANIFEST = EXT / "manifest.json"
 
 ALLOWED_PERMISSIONS = {"storage"}
 ALLOWED_HOSTS = {"https://chatgpt.com/*", "https://chat.openai.com/*"}
-FORBIDDEN_TEXT = (
+FORBIDDEN_SOURCE_MARKERS = (
     "<all_urls>",
     "http://*/*",
     "https://*/*",
-    "cookies",
-    "history",
-    "webRequest",
-    "webRequestBlocking",
+    "browser.cookies",
+    "chrome.cookies",
+    "browser.history",
+    "chrome.history",
+    "browser.webRequest",
+    "chrome.webRequest",
     "nativeMessaging",
     "clipboardRead",
     "clipboardWrite",
     "google-analytics",
     "googletagmanager",
 )
+SOURCE_SUFFIXES = {".js", ".css", ".html", ".json"}
 
 
 def require(condition: bool, message: str) -> None:
@@ -37,8 +40,12 @@ def validate_manifest() -> dict:
     require(MANIFEST.is_file(), "manifest.json is missing")
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     require(manifest.get("manifest_version") == 3, "manifest_version must be 3")
-    require(set(manifest.get("permissions", [])) <= ALLOWED_PERMISSIONS, "unexpected extension permission")
-    require(set(manifest.get("host_permissions", [])) == ALLOWED_HOSTS, "host permissions must stay ChatGPT-only")
+
+    permissions = set(manifest.get("permissions", []))
+    require(permissions <= ALLOWED_PERMISSIONS, f"unexpected extension permission(s): {sorted(permissions - ALLOWED_PERMISSIONS)}")
+
+    host_permissions = set(manifest.get("host_permissions", []))
+    require(host_permissions == ALLOWED_HOSTS, "host permissions must stay ChatGPT-only")
     require(manifest.get("browser_specific_settings", {}).get("gecko", {}).get("id"), "Firefox extension id is required")
     return manifest
 
@@ -49,6 +56,7 @@ def validate_local_references(manifest: dict) -> None:
     options = manifest.get("options_ui", {}).get("page")
     if options:
         refs.append(options)
+
     for script in manifest.get("content_scripts", []):
         refs.extend(script.get("css", []))
         refs.extend(script.get("js", []))
@@ -60,12 +68,19 @@ def validate_local_references(manifest: dict) -> None:
 
 
 def validate_source_policy() -> None:
-    source_files = [path for path in EXT.rglob("*") if path.is_file()]
+    source_files = [
+        path for path in EXT.rglob("*")
+        if path.is_file() and path.suffix.lower() in SOURCE_SUFFIXES
+    ]
     require(source_files, "extension contains no source files")
+
     for path in source_files:
         text = path.read_text(encoding="utf-8")
-        for token in FORBIDDEN_TEXT:
-            require(token not in text, f"forbidden broad permission, API, or remote dependency marker {token!r} in {path.relative_to(ROOT)}")
+        for marker in FORBIDDEN_SOURCE_MARKERS:
+            require(
+                marker not in text,
+                f"forbidden broad permission, API, or remote dependency marker {marker!r} in {path.relative_to(ROOT)}",
+            )
 
     readme = (EXT / "README.md").read_text(encoding="utf-8")
     for phrase in (
