@@ -13,7 +13,7 @@ if DIST.exists():
 for name in ("index.html", "404.html", "_headers"):
     shutil.copy2(SOURCE / name, DIST / name)
 
-for name in ("site.css", "site.js"):
+for name in ("site.css", "site.js", "glaze-ui-mark.svg"):
     shutil.copy2(SOURCE / name, DIST / "assets" / name)
 
 for name in ("glaze.css", "glaze.controls.css", "glaze.expressive.css", "glaze.accessibility.css"):
