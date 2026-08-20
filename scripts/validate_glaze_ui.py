@@ -210,6 +210,19 @@ def main() -> None:
     ):
         require(contract in accessibility, f"accessibility CSS missing {contract}")
 
+    for marker in (
+        ".glaze-textarea",
+        ".glaze-switch-track",
+        ".glaze-segmented",
+        ".glaze-progress",
+        ".glaze-banner",
+        "input:checked + .glaze-switch-track",
+        "[aria-selected=\"true\"]",
+        ".glaze-progress > span",
+        "forced-color-adjust: none",
+    ):
+        require(marker in accessibility, f"accessibility CSS missing 1.2 control fallback: {marker}")
+
     forbidden_remote_markers = (
         "fonts.googleapis",
         "fonts.gstatic",
