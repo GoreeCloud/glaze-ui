@@ -2,6 +2,47 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
+## 1.3.0 — 2026-08-20
+
+Expressive-hierarchy candidate based on the documented Glaze UI lineage of One UI 8.5, Liquid Glass, and Material 3 Expressive while preserving GoreeCloud's original identity and accessibility/privacy requirements.
+
+### Added
+
+- Explicit Glaze UI design-lineage metadata and documentation.
+- `css/glaze.expressive.css` as the canonical 1.3 expressive layer.
+- Functional Glass for navigation, controls, toolbars, floating actions, and transient chrome.
+- Clear Glass for controls over visually rich media, with a stricter usage boundary than ordinary Glaze surfaces.
+- Compact, Standard, Expressive, Hero, and Pressed shape semantics.
+- Separate effects-motion and spatial-motion duration/easing semantics.
+- Expressive action and tile primitives with bounded shape morphing.
+- Adaptive button groups with visual emphasis that preserves logical/action order.
+- Compact reachability composition helpers that support lower action zones without DOM or keyboard reordering.
+- Hero and supporting typography primitives for more intentional expressive hierarchy.
+- Reduced-motion, reduced-transparency, forced-colors, and no-backdrop-filter fallbacks for the new expressive layer.
+- 1.3-specific source, public-site, and rendered-acceptance gates.
+
+### Improved
+
+- Material guidance now explicitly treats glass as a functional hierarchy layer rather than a universal content-card treatment.
+- Component and conformance contracts now distinguish calm utility interactions from high-value expressive moments.
+- Mobile ergonomics now include one-handed reachability as a first-class composition consideration.
+- Motion guidance now separates effect changes from spatial/geometry changes so interaction feedback can stay quick while larger transitions feel fluid.
+- Adaptive action groups can communicate priority through space allocation without changing order or semantics.
+- The public design site, reference implementation, release protocol, and fail-closed validator now describe and test the 1.3 candidate while continuing to identify 1.2.0 as Stable until promotion.
+
+### Preserved
+
+- Canvas, Solid, Raised, Glaze, and Overlay hierarchy.
+- Compact, Medium, Expanded, and Wide adaptive model.
+- Complete Glaze UI 1.2 application-interface semantics and rendered-acceptance coverage.
+- 44px minimum actionable targets, visible focus, semantic state layers, form/selection semantics, safe-area handling, privacy boundaries, and resilience fallbacks.
+- Product personality and the rule that visual quality must not regress for the sake of standardization.
+
+### Candidate status
+
+- Glaze UI 1.3.0 remains a candidate on `agent/glaze-ui-1.3-expressive`.
+- Glaze UI 1.2.0 remains the Stable canonical baseline on `main` until 1.3 passes exact-head CI, rendered acceptance, review, and explicit promotion.
+
 ## 1.2.0 — 2026-08-20
 
 Stable application-interface expansion focused on form semantics, selection controls, explicit focus treatment, feedback completeness, rendered acceptance, and stronger adoption safety.
