@@ -37,6 +37,7 @@ The established 1.0 and 1.1 architecture remains intact: semantic light/dark tok
 - `CONFORMANCE.md` — stable-release conformance gates.
 - `ADOPTION.md` — integration guidance for GoreeCloud applications.
 - `ACCEPTANCE.md` — Stable-release rendered visual/accessibility acceptance protocol.
+- `acceptance/` — version-specific Stable promotion evidence.
 - `reference/index.html` — dependency-free visual reference.
 - `reference/acceptance.html` — browser-render acceptance harness.
 - `scripts/validate_glaze_ui.py` — zero-dependency repository validator.
