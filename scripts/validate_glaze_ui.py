@@ -19,6 +19,7 @@ REQUIRED = [
         "COMPONENTS.md",
         "CONFORMANCE.md",
         "ADOPTION.md",
+        "ACCEPTANCE.md",
         "CONTRIBUTING.md",
         "SECURITY.md",
     )
@@ -114,6 +115,7 @@ def main() -> None:
     components = (ROOT / "COMPONENTS.md").read_text(encoding="utf-8")
     conformance = (ROOT / "CONFORMANCE.md").read_text(encoding="utf-8")
     adoption = (ROOT / "ADOPTION.md").read_text(encoding="utf-8")
+    acceptance = (ROOT / "ACCEPTANCE.md").read_text(encoding="utf-8")
 
     required_css_tokens = (
         "--glaze-canvas",
@@ -243,6 +245,22 @@ def main() -> None:
     require("persistent" in components.lower() and "label" in components.lower(), "component contract must require persistent field labels")
     require(f"Glaze UI {version.rsplit('.', 1)[0]} conformant" in conformance, "conformance claim does not match current minor version")
     require("native platform controls" in adoption.lower(), "adoption guide must protect native control semantics")
+
+    for marker in (
+        "390 × 844",
+        "1280 × 900",
+        "forced-colors: active",
+        "200% browser zoom",
+        "persistent field labels",
+        "textarea behavior",
+        "checkbox and radio choices",
+        "switches",
+        "segmented controls/tabs",
+        "progress indicators",
+        "If any required check cannot be executed, the release remains a candidate.",
+    ):
+        require(marker in acceptance, f"acceptance protocol missing release gate: {marker}")
+
     require("MIT License" in (ROOT / "LICENSE").read_text(encoding="utf-8"), "MIT license text missing")
 
     print(f"Glaze UI {version} repository validated")
