@@ -47,12 +47,22 @@ def validate_manifest() -> dict:
     host_permissions = set(manifest.get("host_permissions", []))
     require(host_permissions == ALLOWED_HOSTS, "host permissions must stay ChatGPT-only")
     require(manifest.get("browser_specific_settings", {}).get("gecko", {}).get("id"), "Firefox extension id is required")
+
+    action = manifest.get("action", {})
+    require(action.get("default_popup") == "src/popup/popup.html", "toolbar popup must remain the local Glaze control surface")
     return manifest
 
 
 def validate_local_references(manifest: dict) -> None:
     refs: list[str] = []
     refs.extend(manifest.get("icons", {}).values())
+
+    action = manifest.get("action", {})
+    refs.extend(action.get("default_icon", {}).values())
+    popup = action.get("default_popup")
+    if popup:
+        refs.append(popup)
+
     options = manifest.get("options_ui", {}).get("page")
     if options:
         refs.append(options)
@@ -65,6 +75,9 @@ def validate_local_references(manifest: dict) -> None:
     for ref in refs:
         require(not ref.startswith(("http://", "https://", "//")), f"remote resource reference is forbidden: {ref}")
         require((EXT / ref).is_file(), f"referenced extension file does not exist: {ref}")
+
+    popup_html = (EXT / "src/popup/popup.html").read_text(encoding="utf-8")
+    require("popup.css" in popup_html and "popup.js" in popup_html, "toolbar popup must load local CSS and JavaScript")
 
 
 def validate_source_policy() -> None:
