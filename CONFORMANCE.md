@@ -2,7 +2,7 @@
 
 Glaze UI conformance protects both beauty and usability. An application is conformant when it uses the shared semantic contract without flattening its product personality.
 
-## Required gates
+## Fifteen required gates
 
 1. **Identity** — recognizably GoreeCloud; no accidental upstream/default-framework identity.
 2. **Tokens** — semantic colors, spacing, radii, expressive shapes, typography, icon sizing, density, material, motion, focus, state layers, target sizes, layout gutters, field composition, and safe-area behavior map to Glaze tokens or documented platform-native equivalents.
