@@ -8,7 +8,7 @@ Record the Glaze UI version used by the application in its project documentation
 
 ## 2. Map semantics before replacing visuals
 
-Start with semantic roles rather than copying literal CSS values. Map the application's existing canvas, surfaces, text, status colors, spacing, radii, focus treatment, motion, and breakpoints to Glaze UI tokens.
+Start with semantic roles rather than copying literal CSS values. Map the application's existing canvas, surfaces, text, status colors, spacing, radii, focus treatment, motion, breakpoints, form states, selection controls, and feedback patterns to Glaze UI tokens and primitives.
 
 Do not replace a successful product-specific composition merely to make it look like another GoreeCloud application.
 
@@ -22,11 +22,17 @@ Do not replace a successful product-specific composition merely to make it look 
 
 A screen made entirely of translucent cards is not a Glaze UI requirement.
 
-## 4. Preserve accessibility from the beginning
+## 4. Adopt controls as semantic units
 
-Adopt visible keyboard focus, practical 44px minimum actionable targets, semantic names and states, reduced-motion behavior, increased-contrast handling, forced-colors support, and solid translucency fallbacks as part of the first implementation rather than as a later styling pass.
+Treat labels, fields, help/error text, selection controls, switches, segmented controls, progress, and banners as complete behavioral units rather than isolated visual decorations.
 
-## 5. Adapt navigation by available space
+Prefer native platform controls when they already provide the required semantics and ergonomics. Apply Glaze UI through tokens, spacing, typography, focus treatment, state feedback, and surrounding composition before replacing proven native accessibility behavior with custom controls.
+
+## 5. Preserve accessibility from the beginning
+
+Adopt visible keyboard focus, practical 44px minimum actionable targets, semantic names and states, persistent field labels, programmatically related error/help text, reduced-motion behavior, increased-contrast handling, forced-colors support, and solid translucency fallbacks as part of the first implementation rather than as a later styling pass.
+
+## 6. Adapt navigation by available space
 
 Use the four shared ranges:
 
@@ -37,17 +43,17 @@ Use the four shared ranges:
 
 Transform navigation and information density when crossing ranges. Do not simply compress desktop layouts onto smaller screens.
 
-## 6. Keep appearance preferences local by default
+## 7. Keep appearance preferences local by default
 
 Theme or appearance preferences should remain on the client unless a documented product requirement justifies account-level synchronization. Glaze UI itself does not require analytics, remote fonts, remote icons, or third-party UI runtimes.
 
-## 7. Add an application-level contract test
+## 8. Add an application-level contract test
 
-Each stable application should validate the subset of Glaze UI that it actually implements. Tests should focus on durable contracts—semantic tokens, accessible states, fallbacks, and dependency boundaries—rather than fragile screenshots or exact DOM structure unless those are truly required.
+Each stable application should validate the subset of Glaze UI that it actually implements. Tests should focus on durable contracts—semantic tokens, accessible states, form relationships, selection semantics, fallbacks, and dependency boundaries—rather than fragile screenshots or exact DOM structure unless those are truly required.
 
-## 8. Perform visual acceptance
+## 9. Perform visual acceptance
 
-Before a stable release, manually review representative Compact and Expanded layouts in both light and dark appearances. Confirm that the result still feels polished, layered, spacious, and distinctly GoreeCloud.
+Before a stable release, manually review representative Compact and Expanded layouts in both light and dark appearances. Confirm that forms, focus, errors, selection controls, progress, banners, overlays, and navigation remain polished and usable. Confirm that the result still feels layered, spacious, and distinctly GoreeCloud.
 
 ## Platform-native clients
 
