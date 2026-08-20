@@ -38,6 +38,7 @@ It does not intentionally read, store, transmit, export, index, or analyze ChatG
 integrations/firefox/chatgpt/
 ├── ACCEPTANCE.md
 ├── build_extension.py
+├── collect_acceptance.py
 ├── manifest.json
 ├── README.md
 ├── icons/
@@ -79,6 +80,22 @@ The builder creates a deterministic unsigned local-test XPI at `integrations/fir
 
 The permanent ChatGPT extension validator builds the package twice in isolated temporary directories and fails CI if the bytes or SHA-256 evidence differ.
 
+## Privacy-preserving acceptance evidence
+
+After building the exact XPI that will be tested, generate an acceptance record with `collect_acceptance.py`:
+
+```bash
+python3 integrations/firefox/chatgpt/collect_acceptance.py \
+  --xpi integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi \
+  --revision <exact-git-sha> \
+  --firefox-version <version> \
+  --firefox-channel release \
+  --desktop <desktop-environment> \
+  --output acceptance/firefox-chatgpt.md
+```
+
+The collector records package identity, Firefox/environment metadata, Glaze preference states, and the required manual checklist. It intentionally does not read or record conversation text, prompts, responses, account identifiers, authentication material, cookies, session tokens, uploaded-file contents, URLs, browsing history, bookmarks, or Firefox profile databases. The generated checklist still requires a human runtime decision; the tool does not claim that scenarios passed merely because it created an evidence file.
+
 ## Compatibility model
 
 ChatGPT is an externally controlled web application whose DOM may change without notice. This integration therefore prefers semantic HTML and ARIA selectors over generated CSS class names and avoids replacing application behavior.
@@ -92,6 +109,7 @@ When OpenAI changes markup, presentation may partially regress without breaking 
 - validate the manifest and all local file references;
 - confirm requested permissions remain minimal and documented;
 - produce and record the deterministic local-test package SHA-256;
+- generate the privacy-preserving acceptance template with `collect_acceptance.py`;
 - load the extension in current Firefox;
 - validate current `chatgpt.com` conversation, new-chat, sidebar, composer, dialogs, menus, code blocks, and settings surfaces;
 - validate toolbar-popup state persistence and synchronization with the full settings page;
@@ -105,9 +123,9 @@ When OpenAI changes markup, presentation may partially regress without breaking 
 
 ## Current validation evidence
 
-The toolbar-control implementation at exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The documentation successor `2434e7a1a1715f4a5c4cf7c2640b25d808b98a45` passed Glaze UI CI run #51 (`32370046772`). Both runs completed repository validation, general Firefox integration validation, the ChatGPT extension privacy/source validator, public design-site validation, and Chromium-rendered canonical Glaze UI reference acceptance.
+The toolbar-control implementation at exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The documentation successor `2434e7a1a1715f4a5c4cf7c2640b25d808b98a45` passed Glaze UI CI run #51 (`32370046772`). Packaging/acceptance head `b43c4a8f3d7f2a3d23bada10ff093dfd1c7a8b0c` passed Glaze UI CI run #55 (`32371082274`), including deterministic XPI packaging.
 
-The current packaging/acceptance successor must receive its own exact-head CI result before it is represented as validated. Source/CI and reproducible-package evidence do **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
+The current privacy-preserving evidence-collector successor must receive its own exact-head CI result before it is represented as validated. Source/CI and reproducible-package evidence do **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
 
 ## Maintenance
 
