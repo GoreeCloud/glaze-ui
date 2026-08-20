@@ -159,7 +159,7 @@ def validate_runtime_tools() -> None:
         "This tool intentionally does not modify Firefox preferences",
     ):
         require(marker in installer, f"installer missing safety marker: {marker}")
-    require("prefs.js").lower() in installer.lower(), "installer must recognize Firefox profile markers")
+    require("prefs.js" in installer.lower(), "installer must recognize Firefox profile markers")
     require("write_text" not in installer and "user.js" not in installer, "installer must not modify Firefox preference files")
 
     collector = COLLECTOR.read_text(encoding="utf-8")
