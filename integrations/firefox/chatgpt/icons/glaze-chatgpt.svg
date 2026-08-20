@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">GoreeCloud Glaze UI for ChatGPT</title>
+  <desc id="desc">Rounded layered GoreeCloud Glaze UI extension mark.</desc>
+  <defs>
+    <linearGradient id="bg" x1="18" y1="12" x2="110" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8CA1FF"/>
+      <stop offset="0.52" stop-color="#677FEA"/>
+      <stop offset="1" stop-color="#425CCB"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="34" y1="30" x2="96" y2="98" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.88"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.42"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="34" fill="url(#bg)"/>
+  <path d="M34 43c0-7.18 5.82-13 13-13h34c7.18 0 13 5.82 13 13v29c0 7.18-5.82 13-13 13H63L47 98V85c-7.18 0-13-5.82-13-13V43Z" fill="url(#glass)" stroke="#fff" stroke-opacity="0.62" stroke-width="3"/>
+  <circle cx="51" cy="58" r="5" fill="#415ACB"/>
+  <circle cx="64" cy="58" r="5" fill="#415ACB"/>
+  <circle cx="77" cy="58" r="5" fill="#415ACB"/>
+</svg>
