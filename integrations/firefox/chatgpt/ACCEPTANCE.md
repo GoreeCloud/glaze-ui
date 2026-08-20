@@ -23,7 +23,21 @@ Record:
 - whether the optional Functional Glass and expressive-motion preferences were enabled;
 - pass/fail result and notes for each scenario.
 
-Do not record ChatGPT conversation contents, prompts, responses, account identifiers, authentication material, cookies, session tokens, uploaded file contents, or browsing history as acceptance evidence.
+Do not record ChatGPT conversation contents, prompts, responses, account identifiers, authentication material, cookies, session tokens, uploaded file contents, URLs, browsing history, bookmarks, or Firefox profile databases as acceptance evidence.
+
+Generate the initial privacy-preserving evidence template with `collect_acceptance.py`, using the exact XPI that will be tested:
+
+```bash
+python3 integrations/firefox/chatgpt/collect_acceptance.py \
+  --xpi integrations/firefox/chatgpt/dist/goreecloud-glaze-ui-chatgpt.xpi \
+  --revision <exact-git-sha> \
+  --firefox-version <version> \
+  --firefox-channel release \
+  --desktop <desktop-environment> \
+  --output acceptance/firefox-chatgpt.md
+```
+
+The collector records only package/environment metadata and unchecked scenario prompts. It does not determine pass/fail automatically and must not be modified to scrape ChatGPT content or Firefox profile databases.
 
 ## Functional scenarios
 
