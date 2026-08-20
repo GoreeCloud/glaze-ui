@@ -1,0 +1,193 @@
+/* GoreeCloud Glaze UI for ChatGPT
+ * Presentation-only consumer of Glaze UI 1.3 semantics.
+ * Scope is intentionally limited to chatgpt.com/chat.openai.com by manifest.json.
+ */
+
+:root[data-goreecloud-glaze-ui="enabled"] {
+  --gc-canvas: light-dark(#f4f7fb, #0b0e13);
+  --gc-solid: light-dark(rgba(255, 255, 255, 0.94), rgba(18, 22, 29, 0.96));
+  --gc-raised: light-dark(rgba(255, 255, 255, 0.82), rgba(27, 32, 41, 0.88));
+  --gc-glaze: light-dark(rgba(255, 255, 255, 0.66), rgba(24, 30, 39, 0.7));
+  --gc-overlay: light-dark(rgba(255, 255, 255, 0.98), rgba(22, 27, 35, 0.98));
+  --gc-line: light-dark(rgba(31, 41, 55, 0.1), rgba(255, 255, 255, 0.1));
+  --gc-line-strong: light-dark(rgba(31, 41, 55, 0.18), rgba(255, 255, 255, 0.18));
+  --gc-text: light-dark(#172033, #f2f5fa);
+  --gc-muted: light-dark(#596579, #aeb8c8);
+  --gc-accent: light-dark(#4c65d8, #8ca1ff);
+  --gc-focus: light-dark(#315ae8, #adc0ff);
+  --gc-shadow: 0 18px 50px rgba(5, 10, 25, 0.12);
+  --gc-shadow-soft: 0 8px 28px rgba(5, 10, 25, 0.08);
+  --gc-radius-compact: 12px;
+  --gc-radius-standard: 18px;
+  --gc-radius-expressive: 24px;
+  --gc-radius-hero: 30px;
+  --gc-motion-effects: 160ms;
+  --gc-motion-spatial: 320ms;
+  color-scheme: light dark;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] body {
+  background:
+    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--gc-accent) 12%, transparent), transparent 34rem),
+    radial-gradient(circle at 90% 12%, color-mix(in srgb, var(--gc-accent) 7%, transparent), transparent 28rem),
+    var(--gc-canvas) !important;
+  color: var(--gc-text);
+}
+
+/* App shell and sidebar. Use semantic/role-oriented selectors where ChatGPT exposes them,
+ * with restrained structural fallbacks to reduce coupling to generated class names. */
+:root[data-goreecloud-glaze-ui="enabled"] nav,
+:root[data-goreecloud-glaze-ui="enabled"] aside {
+  border-color: var(--gc-line) !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] nav {
+  background: color-mix(in srgb, var(--gc-glaze) 96%, transparent) !important;
+  border-right: 1px solid var(--gc-line) !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] nav {
+  backdrop-filter: blur(24px) saturate(128%);
+}
+
+/* Buttons, interactive controls, and links retain ChatGPT behavior; only presentation changes. */
+:root[data-goreecloud-glaze-ui="enabled"] button,
+:root[data-goreecloud-glaze-ui="enabled"] [role="button"] {
+  border-radius: var(--gc-radius-compact) !important;
+  transition:
+    background-color var(--gc-motion-effects) ease,
+    border-color var(--gc-motion-effects) ease,
+    box-shadow var(--gc-motion-effects) ease,
+    transform var(--gc-motion-effects) ease !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-expression="on"] button:hover,
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-expression="on"] [role="button"]:hover {
+  transform: translateY(-1px);
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] :is(button, [role="button"], a, textarea, input, select):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--gc-focus) 68%, transparent) !important;
+  outline-offset: 2px !important;
+}
+
+/* Conversation content: messages remain visually distinct without replacing ChatGPT semantics. */
+:root[data-goreecloud-glaze-ui="enabled"] main article {
+  border-radius: var(--gc-radius-expressive);
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] main pre {
+  border: 1px solid var(--gc-line) !important;
+  border-radius: var(--gc-radius-standard) !important;
+  box-shadow: var(--gc-shadow-soft);
+  overflow: clip auto;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] main code {
+  font-variant-ligatures: none;
+}
+
+/* Composer: rounded raised/glaze material while preserving the native textarea and controls. */
+:root[data-goreecloud-glaze-ui="enabled"] form:has(textarea),
+:root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"]) {
+  border-radius: var(--gc-radius-hero) !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"] form:has(textarea) > div,
+:root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"]) > div {
+  border-color: var(--gc-line-strong) !important;
+  border-radius: var(--gc-radius-hero) !important;
+  box-shadow: var(--gc-shadow) !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has(textarea) > div,
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] form:has([contenteditable="true"]) > div {
+  background: var(--gc-glaze) !important;
+  backdrop-filter: blur(22px) saturate(125%);
+}
+
+/* Dialogs, menus, popovers. */
+:root[data-goreecloud-glaze-ui="enabled"] [role="dialog"],
+:root[data-goreecloud-glaze-ui="enabled"] [role="menu"],
+:root[data-goreecloud-glaze-ui="enabled"] [data-radix-popper-content-wrapper] > * {
+  border: 1px solid var(--gc-line) !important;
+  border-radius: var(--gc-radius-expressive) !important;
+  box-shadow: var(--gc-shadow) !important;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] [role="dialog"],
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-translucency="on"] [role="menu"] {
+  background: var(--gc-overlay) !important;
+  backdrop-filter: blur(24px) saturate(128%);
+}
+
+/* Comfortable/compact density preference. */
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-density="comfortable"] :is(button, [role="button"]) {
+  min-height: 44px;
+}
+
+:root[data-goreecloud-glaze-ui="enabled"][data-goreecloud-glaze-density="compact"] :is(button, [role="button"]) {
+  min-height: 36px;
+}
+
+/* Prevent decorative treatment from impacting rendered media. */
+:root[data-goreecloud-glaze-ui="enabled"] :is(img, video, canvas) {
+  backdrop-filter: none;
+}
+
+@media (max-width: 599px) {
+  :root[data-goreecloud-glaze-ui="enabled"] {
+    --gc-radius-standard: 16px;
+    --gc-radius-expressive: 20px;
+    --gc-radius-hero: 24px;
+  }
+
+  :root[data-goreecloud-glaze-ui="enabled"] main {
+    padding-inline: max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-right));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-goreecloud-glaze-ui="enabled"] *,
+  :root[data-goreecloud-glaze-ui="enabled"] *::before,
+  :root[data-goreecloud-glaze-ui="enabled"] *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root[data-goreecloud-glaze-ui="enabled"] {
+    --gc-line: currentColor;
+    --gc-line-strong: currentColor;
+    --gc-glaze: var(--gc-solid);
+  }
+}
+
+@media (forced-colors: active) {
+  :root[data-goreecloud-glaze-ui="enabled"] body,
+  :root[data-goreecloud-glaze-ui="enabled"] nav,
+  :root[data-goreecloud-glaze-ui="enabled"] [role="dialog"],
+  :root[data-goreecloud-glaze-ui="enabled"] [role="menu"] {
+    background: Canvas !important;
+    color: CanvasText !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  :root[data-goreecloud-glaze-ui="enabled"] nav,
+  :root[data-goreecloud-glaze-ui="enabled"] form:has(textarea) > div,
+  :root[data-goreecloud-glaze-ui="enabled"] form:has([contenteditable="true"]) > div,
+  :root[data-goreecloud-glaze-ui="enabled"] [role="dialog"],
+  :root[data-goreecloud-glaze-ui="enabled"] [role="menu"] {
+    background: var(--gc-solid) !important;
+  }
+}
+
+:root[data-goreecloud-glaze-ui="disabled"] body {
+  /* Explicit no-op marker for rollback/debugging. */
+}
