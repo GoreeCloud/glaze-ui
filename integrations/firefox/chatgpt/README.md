@@ -88,6 +88,12 @@ Before a Stable extension release:
 - verify disabling/removing the extension restores the original ChatGPT presentation;
 - package and sign through the approved Firefox extension release process before persistent normal use.
 
+## Current validation evidence
+
+Exact head `519c3cf21ba3ea97874a03dac837588020b5c098` passed Glaze UI CI run #48 (`32369865335`). The run completed repository validation, general Firefox integration validation, the ChatGPT extension privacy/source validator, public design-site validation, and Chromium-rendered canonical Glaze UI reference acceptance.
+
+This evidence validates source structure and shared design-system behavior. It does **not** replace authenticated runtime acceptance of the extension against the live ChatGPT interface in Firefox.
+
 ## Maintenance
 
 This integration follows the canonical Glaze UI version in this repository. It should remain a thin consumer layer rather than becoming an independent design system. ChatGPT-specific selectors and compatibility notes belong here; canonical Glaze UI tokens and component semantics remain owned by the repository's shared Glaze UI sources.
