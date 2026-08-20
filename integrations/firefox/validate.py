@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import py_compile
 import tempfile
 from pathlib import Path
 
@@ -15,6 +16,8 @@ USERCHROME = ROOT / "userchrome" / "userChrome.css"
 README = ROOT / "README.md"
 ACCEPTANCE = ROOT / "ACCEPTANCE.md"
 BUILDER = ROOT / "build_theme.py"
+INSTALLER = ROOT / "install_userchrome.py"
+COLLECTOR = ROOT / "collect_acceptance.py"
 
 REQUIRED_THEME_COLORS = {
     "frame",
@@ -119,6 +122,9 @@ def validate_documentation() -> None:
         "theme package SHA-256",
         "userChrome.css",
         "profile-data loss",
+        "install_userchrome.py",
+        "collect_acceptance.py",
+        "does not read Firefox history",
     ):
         require(marker.lower() in acceptance.lower(), f"acceptance contract missing marker: {marker}")
 
@@ -140,13 +146,43 @@ def validate_deterministic_package() -> None:
         require(second_digest.read_text(encoding="utf-8").startswith(digest), "second SHA-256 record does not match package")
 
 
+def validate_runtime_tools() -> None:
+    for script in (INSTALLER, COLLECTOR):
+        py_compile.compile(str(script), doraise=True)
+
+    installer = INSTALLER.read_text(encoding="utf-8")
+    for marker in (
+        'parser.add_argument("--profile", required=True',
+        "Target does not look like a Firefox profile",
+        "backup_existing",
+        "toolkit.legacyUserProfileCustomizations.stylesheets=true",
+        "This tool intentionally does not modify Firefox preferences",
+    ):
+        require(marker in installer, f"installer missing safety marker: {marker}")
+    require("prefs.js" in installer.lower(), "installer must recognize Firefox profile markers")
+    require("write_text" not in installer and "user.js" not in installer, "installer must not modify Firefox preference files")
+
+    collector = COLLECTOR.read_text(encoding="utf-8")
+    for marker in (
+        "privacy-preserving",
+        "Theme package SHA-256",
+        "Firefox Glaze UI Runtime Acceptance Record",
+        "does not collect browsing history",
+        'choices=("release", "esr")',
+    ):
+        require(marker.lower() in collector.lower(), f"acceptance collector missing marker: {marker}")
+    for forbidden in ("places.sqlite", "cookies.sqlite", "logins.json", "key4.db", "sessionstore"):
+        require(forbidden not in collector.lower(), f"acceptance collector must not inspect profile data: {forbidden}")
+
+
 def main() -> None:
-    for path in (MANIFEST, USERCHROME, README, ACCEPTANCE, BUILDER):
+    for path in (MANIFEST, USERCHROME, README, ACCEPTANCE, BUILDER, INSTALLER, COLLECTOR):
         require(path.is_file(), f"missing required file: {path.relative_to(ROOT.parent.parent)}")
     validate_manifest()
     validate_userchrome()
     validate_documentation()
     validate_deterministic_package()
+    validate_runtime_tools()
     print("Firefox Glaze UI integration source validation passed.")
 
 
