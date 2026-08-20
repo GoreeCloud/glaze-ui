@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>GoreeCloud Glaze UI for ChatGPT</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">GoreeCloud · Glaze UI 1.3</p>
+      <h1>ChatGPT appearance</h1>
+      <p>Customize ChatGPT locally in Firefox without collecting browsing history, cookies, credentials, or conversation content.</p>
+    </header>
+
+    <section class="settings" aria-labelledby="appearance-heading">
+      <h2 id="appearance-heading">Appearance</h2>
+
+      <label class="setting">
+        <span><strong>Enable Glaze UI</strong><small>Apply GoreeCloud presentation styling to ChatGPT.</small></span>
+        <input id="enabled" type="checkbox">
+      </label>
+
+      <label class="setting select-setting">
+        <span><strong>Density</strong><small>Choose comfortable or compact interaction sizing.</small></span>
+        <select id="density">
+          <option value="comfortable">Comfortable</option>
+          <option value="compact">Compact</option>
+        </select>
+      </label>
+
+      <label class="setting">
+        <span><strong>Functional glass</strong><small>Use selective translucency for navigation and controls.</small></span>
+        <input id="translucency" type="checkbox">
+      </label>
+
+      <label class="setting">
+        <span><strong>Expressive motion</strong><small>Allow subtle hover lift and expressive feedback.</small></span>
+        <input id="expressive" type="checkbox">
+      </label>
+    </section>
+
+    <section class="privacy" aria-labelledby="privacy-heading">
+      <h2 id="privacy-heading">Privacy boundary</h2>
+      <p>This extension is presentation-only. It stores these appearance preferences locally and does not transmit them to GoreeCloud, OpenAI, or third-party analytics services.</p>
+    </section>
+
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>
