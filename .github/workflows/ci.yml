@@ -18,9 +18,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Compile validators
-        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_rendered_reference.py website/build.py website/validate.py
+        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_rendered_reference.py scripts/validate_firefox_chatgpt_extension.py website/build.py website/validate.py
       - name: Validate Glaze UI repository
         run: python3 scripts/validate_glaze_ui.py
+      - name: Validate Firefox ChatGPT integration
+        run: python3 scripts/validate_firefox_chatgpt_extension.py
       - name: Build and validate public design site
         run: python3 website/validate.py
       - name: Validate rendered Glaze UI reference
