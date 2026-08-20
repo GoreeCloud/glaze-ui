@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Glaze UI identity candidate 01 — Layered Aperture</title>
+  <desc id="desc">Three offset translucent panels form a compact layered aperture without using a lettermark.</desc>
+  <defs>
+    <linearGradient id="a" x1="10" y1="12" x2="50" y2="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2F6BFF"/>
+      <stop offset="1" stop-color="#7257FF"/>
+    </linearGradient>
+    <linearGradient id="b" x1="14" y1="48" x2="54" y2="14" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5A7DFF"/>
+      <stop offset="1" stop-color="#9A63FF"/>
+    </linearGradient>
+  </defs>
+  <path d="M14 10h24c8 0 14 6 14 14v8H34c-7 0-12 5-12 12v10h-8C6 54 2 48 4 40L9 20c1-6 2-10 5-10Z" fill="url(#a)"/>
+  <path d="M28 6h10c10 0 18 8 18 18v16c0 10-8 18-18 18H24c-7 0-12-5-12-12V34h14c8 0 14-6 14-14V10c0-2-4-4-12-4Z" fill="url(#b)" fill-opacity=".78"/>
+  <path d="M20 18h22c5 0 8 4 8 9v2H34c-10 0-18 8-18 18v1h-1c-3 0-5-2-5-5V29c0-6 4-11 10-11Z" fill="#F7F9FF" fill-opacity=".88"/>
+  <path d="M28 24h12c4 0 7 3 7 7v3H35c-5 0-9 4-9 9v5h-3c-2 0-4-2-4-4V33c0-5 4-9 9-9Z" fill="#172033" fill-opacity=".94"/>
+</svg>
