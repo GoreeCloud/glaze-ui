@@ -22,11 +22,25 @@ The shared expressive shape scale is **Compact, Standard, Expressive, Hero, and 
 
 Utility controls should normally use Compact or Standard shapes. Expressive shapes may identify prominent actions, selected containers, product-defining moments, or adaptive groups. Hero shapes are reserved for high-value visual moments. Pressed geometry may temporarily tighten during direct interaction when motion preferences permit.
 
+Circular icon controls, pill-shaped search and action controls, and rounded card or panel containers are characteristic Glaze forms when they fit the component role. These forms should remain internally consistent within a surface and must not be applied so aggressively that unrelated controls become visually indistinguishable.
+
+## Visual depth, adaptive color, and grouping
+
+Glaze components should participate in a coherent visual field rather than appear as isolated widgets. Layering may use restrained blur, translucency, subtle highlight or reflection cues, soft shadow, borders, and floating separation to make the relationship between Canvas, Solid, Raised, Functional Glass, Clear Glass, and Overlay immediately understandable.
+
+Color should adapt to the surrounding canvas and product accent through semantic roles. Soft tints, deeper accents, and neutral surfaces may shift between light and dark appearances or product contexts, but readable foreground contrast, semantic status meaning, focus visibility, and destructive-state clarity remain authoritative.
+
+Complex screens should use deliberate whitespace, rounded grouping, aligned control clusters, and clear container hierarchy so information feels organized without becoming crowded. Data-dense products may use tighter density, but they should preserve recognizable grouping, scan paths, and separation between primary, supporting, and transient information.
+
+Important content may use stronger weight, larger hero or display typography, and additional spacing to establish immediate hierarchy. Supporting content should remain quieter and readable so oversized type does not become the default for ordinary information.
+
 ## Motion
 
 Effects motion governs changes such as color, opacity, border, glow, and subtle emphasis. Spatial motion governs geometry, layout, position, size, container transformation, navigation, and hero transitions. Prominent or hero interactions may use stronger spatial motion; repetitive utility controls should remain calm and quick.
 
-Reduced-motion mode removes nonessential shape morphing, scaling, and spatial transformation rather than merely speeding them up.
+Where appropriate, expressive controls may feel physical through bounded stretch, shift, compression, rebound, or shape morphing. Spring-like or bounce-like feedback should be brief and purposeful, should never interfere with task completion or target stability, and should not be used continuously across repetitive utility interactions.
+
+Reduced-motion mode removes nonessential shape morphing, scaling, spring/rebound behavior, and spatial transformation rather than merely speeding them up.
 
 ## Buttons and adaptive action groups
 
