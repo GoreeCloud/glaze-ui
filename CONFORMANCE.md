@@ -2,7 +2,7 @@
 
 Glaze UI conformance protects both beauty and usability. An application is conformant when it uses the shared semantic contract without flattening its product personality.
 
-## Sixteen required gates
+## Seventeen required gates
 
 1. **Identity** — recognizably GoreeCloud; no accidental upstream/default-framework identity.
 2. **Tokens** — semantic colors, spacing, radii, expressive shapes, typography, icon sizing, density, material, motion, focus, state layers, target sizes, layout gutters, field composition, and safe-area behavior map to Glaze tokens or documented platform-native equivalents.
@@ -20,6 +20,7 @@ Glaze UI conformance protects both beauty and usability. An application is confo
 14. **Product personality and visual character** — applications may vary composition, accent emphasis, imagery, information architecture, visualization, and specialized components while retaining a recognizable Glaze family resemblance. Where appropriate to the product and platform, that resemblance includes layered depth, selective translucency and blur, restrained reflection/highlight cues, soft elevation, rounded/circular/pill geometry, coordinated adaptive tints and accents, deliberate whitespace and grouping, bold information hierarchy, and tactile but bounded motion. No single effect is mandatory everywhere, and beauty must not override readability, semantic contrast, accessibility, performance, or the application's Role and Purpose.
 15. **Cross-platform mapping** — web, Linux, Android, iOS, and other clients use the same semantic roles even when platform-native implementation primitives differ. Platform-native clients may diverge in navigation and composition when required to provide the correct phone, tablet, or desktop experience.
 16. **Visual acceptance** — light and dark modes are reviewed visually at representative phone/Compact, tablet/Medium, desktop/Expanded, and Wide layouts for every supported target before stable release; products with native clients also require representative real-client acceptance. Review must consider the complete visual character—material depth, coordinated color, geometry, spacing, hierarchy, grouping, and motion quality—rather than treating the presence of rounded cards or blur as sufficient Glaze UI evidence.
+17. **Stability and lifecycle** — Stable consumers target only Glaze UI capabilities classified Stable in `COMPONENT_STATUS.md` unless a documented application-specific exception explicitly adopts Candidate behavior. Stable releases follow `STABILITY.md`: exact-revision evidence, compatibility assessment, fail-closed validation, documented rollback, no silent Candidate/Experimental dependency, and no speculative roadmap concept represented as shipping functionality.
 
 ## Form-factor acceptance expectations
 
@@ -41,6 +42,10 @@ For multi-form-factor products, evidence should include representative phone, ta
 
 Visual evidence should also demonstrate that the application feels compositionally connected rather than assembled from unrelated widgets. When the target supports the relevant effects, reviewers should check coordinated surface depth, background-aware color relationships, recognizable geometry, readable hierarchy, deliberate grouping, and responsive interaction feedback while confirming that accessibility and solid-surface fallbacks remain intact.
 
+Stability evidence should identify the lifecycle status of any Glaze capability the product consumes. A Stable product must not silently depend on a Candidate, Experimental, or merely Planned capability. When a Candidate is intentionally adopted for evaluation, that state must be explicit and must not be described as Stable conformance.
+
 ## Conformance statement
 
 A product may claim `Glaze UI 1.3 conformant` only when all applicable gates above are satisfied or every deviation is covered by an explicit, documented GoreeCloud exception. Conformance is version-specific and should be re-evaluated when a product changes its presentation architecture or adopts a new major or minor Glaze UI version that expands applicable semantics.
+
+A Stable claim additionally requires compliance with `STABILITY.md` and may use only the Stable lifecycle surface recorded in `COMPONENT_STATUS.md`, except where a separately documented exception explicitly states otherwise.
