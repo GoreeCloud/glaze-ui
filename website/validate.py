@@ -36,16 +36,20 @@ js = (DIST / "assets/site.js").read_text(encoding="utf-8")
 expressive = (DIST / "assets/glaze.expressive.css").read_text(encoding="utf-8")
 
 for needle in [
-    "Glaze UI 1.3.0 Stable",
-    "Fluid where it helps. Expressive where it matters.",
-    "Depth with restraint",
+    "Glaze UI 1.3 Stable",
+    "1.4 Form-Factor Candidate",
+    "One design language. Four interaction environments.",
+    "Mobile",
+    "Tablet",
+    "Desktop",
+    "TV",
     "Canvas",
     "Solid",
     "Raised",
     "Glaze",
     "Overlay",
-    "Functional Glass",
-    "Fifteen gates",
+    "Shared semantics, flexible composition",
+    "Stable semantics protect beauty and usability",
     "Skip to content",
 ]:
     if needle not in html:
@@ -82,4 +86,4 @@ for directive in ["Content-Security-Policy:", "frame-ancestors 'none'", "Permiss
 if "localStorage" not in js or "data-theme-choice" not in html:
     raise SystemExit("local appearance preference contract missing")
 
-print("Glaze UI 1.3 Stable public design site regression repair validation passed")
+print("Glaze UI 1.3 Stable / 1.4 Form-Factor Candidate public design site validation passed")
