@@ -12,7 +12,7 @@ The canonical web reference and public design-site source must be reviewed at mi
 
 | Dimension | Required coverage |
 | --- | --- |
-| Viewport | Compact: 390 × 844; Expanded: 1280 × 900 |
+| Viewport | Phone/Compact: 390 × 844; Tablet/Medium: 820 × 1180; Desktop/Expanded: 1280 × 900; Wide: 1600 × 1000 |
 | Appearance | Light and Dark |
 | Input | Keyboard navigation and pointer/touch-target geometry |
 | Motion | Normal and `prefers-reduced-motion: reduce` |
@@ -21,11 +21,13 @@ The canonical web reference and public design-site source must be reviewed at mi
 | Forced colors | `forced-colors: active` or equivalent platform High Contrast mode |
 | Zoom/reflow | 200% browser zoom or an equivalent narrow/reflow check |
 
+For products that do not support one of the form-factor classes above, the omission must be explicitly recorded. Unsupported is acceptable; silently untested is not.
+
 ## Core acceptance checks
 
 The review must confirm all of the following:
 
-1. No horizontal overflow occurs at Compact or Expanded representative widths.
+1. No horizontal overflow occurs at representative phone, tablet, desktop, or Wide widths.
 2. The Canvas, Solid, Raised, Glaze, and Overlay hierarchy remains visually understandable.
 3. Primary, secondary, destructive, icon, navigation, and appearance controls preserve visible focus and practical 44-pixel minimum targets.
 4. Field labels remain visible independently of placeholder text.
@@ -41,6 +43,34 @@ The review must confirm all of the following:
 14. Forced-colors mode preserves visible focus, selection, checked state, progress state, destructive distinction, and usable expressive controls.
 15. Light and Dark appearances both remain recognizably Glaze UI rather than generic or visually flattened.
 16. The reference remains free of remote fonts, remote icons, analytics, tracking, and UI runtime dependencies.
+17. Phone, tablet, and desktop layouts use purpose-built navigation, density, pane structure, and interaction patterns rather than scaled variants of one shell.
+18. Form-factor transitions preserve task continuity, reading order, keyboard order, focus order, and access to critical actions.
+19. Foldable, resizable-window, and desktop-mode mobile environments select composition from the effective window/input context rather than a fixed device-name assumption.
+
+## Form-factor fidelity acceptance
+
+For every supported form factor, acceptance must include a representative task flow—not just a static screenshot—and confirm the following.
+
+### Phone
+
+- Navigation and action placement are reachable and touch-first.
+- Primary tasks do not depend on desktop-style multi-column density.
+- Sheets, dialogs, menus, and overlays remain viewport-bounded and safe-area aware.
+- The result does not look or behave like a shrunken tablet or desktop interface.
+
+### Tablet
+
+- Additional space is used intentionally through panes, rails, split views, master-detail structure, richer previews, or equivalent tablet-appropriate composition where useful.
+- Controls remain touch-appropriate even when information density increases.
+- Orientation or window-size changes preserve task state and hierarchy.
+- The result does not look like a stretched phone interface.
+
+### Desktop
+
+- Pointer and keyboard workflows are complete where applicable, including visible hover/focus treatment and discoverable shortcuts or menus when the product supports them.
+- Larger work areas may use persistent navigation, toolbars, contextual regions, multi-pane workflows, denser tables, or drag-and-drop where useful.
+- Resizable windows remain usable across the supported desktop range.
+- The result does not look like an enlarged mobile shell.
 
 ## 1.2 application-interface acceptance retained by 1.3
 
@@ -79,11 +109,12 @@ A Stable promotion record should include:
 - exact candidate SHA;
 - CI run ID and conclusion;
 - renderer/browser and operating system;
-- viewport and appearance matrix completed;
+- phone, tablet, desktop, and Wide viewport/appearance matrix completed for supported targets;
+- representative task flows exercised per supported form factor;
 - accessibility modes exercised;
 - defects discovered during acceptance;
 - commits that corrected those defects;
 - final exact SHA accepted;
-- any approved exception with reason, impact, fallback, and review condition.
+- any unsupported form-factor class or approved exception with reason, impact, fallback, and review condition.
 
 If any required check cannot be executed, the release remains a candidate. The missing check must be recorded rather than silently treated as passed.

@@ -2,6 +2,21 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
+## Unreleased
+
+### Added
+
+- Purpose-built phone, tablet, and desktop UI requirements as distinct form-factor experiences rather than scaled variants of one responsive shell.
+- Form-factor fidelity as a Stable conformance gate covering navigation, density, pane structure, interaction patterns, resizable windows, foldables, and desktop-mode mobile environments.
+- Representative Stable acceptance coverage for Phone/Compact 390 × 844, Tablet/Medium 820 × 1180, Desktop/Expanded 1280 × 900, and Wide 1600 × 1000 layouts.
+- Representative task-flow acceptance for each supported form factor, including explicit rejection of shrunken desktop/tablet phone UIs, stretched phone tablet UIs, and enlarged mobile desktop shells.
+
+### Improved
+
+- Acceptance now treats unsupported form factors as an explicit recorded state rather than allowing untested targets to be silently treated as passed.
+- Form-factor transitions must preserve task continuity, reading order, keyboard/focus order, and critical-action access.
+- The canonical repository validator now fails closed if phone/tablet/desktop guidance or the expanded acceptance matrix is removed.
+
 ## 1.3.0 — 2026-08-20
 
 Stable expressive-hierarchy release based on the documented Glaze UI lineage of One UI 8.5, Liquid Glass, and Material 3 Expressive while preserving GoreeCloud's original identity and accessibility/privacy requirements.
