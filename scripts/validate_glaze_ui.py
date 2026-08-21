@@ -17,6 +17,8 @@ REQUIRED = [
         "VERSION",
         "CHANGELOG.md",
         "COMPONENTS.md",
+        "COMPONENT_STATUS.md",
+        "STABILITY.md",
         "CONFORMANCE.md",
         "ADOPTION.md",
         "ACCEPTANCE.md",
@@ -108,6 +110,8 @@ def main() -> None:
     rendered_harness = (ROOT / "reference" / "acceptance.html").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     components = (ROOT / "COMPONENTS.md").read_text(encoding="utf-8")
+    component_status = (ROOT / "COMPONENT_STATUS.md").read_text(encoding="utf-8")
+    stability = (ROOT / "STABILITY.md").read_text(encoding="utf-8")
     conformance = (ROOT / "CONFORMANCE.md").read_text(encoding="utf-8")
     adoption = (ROOT / "ADOPTION.md").read_text(encoding="utf-8")
     acceptance = (ROOT / "ACCEPTANCE.md").read_text(encoding="utf-8")
@@ -166,12 +170,25 @@ def main() -> None:
 
     require("Beauty is a requirement" in readme, "README must preserve the visual-quality principle")
     require("One UI 8.5" in readme and "Liquid Glass" in readme and "Material 3 Expressive" in readme, "README design lineage is incomplete")
+    require("## Stability priority" in readme, "README must make stabilization-first policy explicit")
+    require("STABILITY.md" in readme and "COMPONENT_STATUS.md" in readme, "README must link stability governance")
     require("selection controls" in components.lower(), "component contract must document selection controls")
     require("persistent" in components.lower() and "label" in components.lower(), "component contract must require persistent field labels")
     require("Functional Glass" in components and "Clear Glass" in components, "component contract missing material boundaries")
+
+    for marker in ("### Stable", "### Candidate", "### Experimental", "### Planned", "Glaze UI 1.3 Stable foundations", "Candidate form-factor layer", "Experimental and roadmap boundary"):
+        require(marker in component_status, f"component lifecycle record missing {marker}")
+    require("Glaze Intelligence Layer" in component_status and "Planned/roadmap concepts" in component_status, "roadmap concepts must remain non-shipping in lifecycle record")
+
+    for marker in ("Stable baseline", "Glaze UI 1.3.0", "Stable promotion gate", "If any applicable gate is incomplete, the release remains Candidate.", "Regression blockers", "Consumer compatibility"):
+        require(marker in stability, f"stability contract missing {marker}")
+    require("speculative intelligence" in stability.lower() and "roadmap concept" in stability.lower(), "stability contract must exclude speculative roadmap features from Stable")
+
     require(f"Glaze UI {version.rsplit('.', 1)[0]} conformant" in conformance, "conformance claim does not match current minor version")
     require("form-factor fidelity" in conformance.lower(), "conformance contract missing form-factor fidelity gate")
     require("phone" in conformance.lower() and "tablet" in conformance.lower() and "desktop" in conformance.lower(), "conformance contract missing phone/tablet/desktop coverage")
+    require("Stability and lifecycle" in conformance, "conformance contract missing stability/lifecycle gate")
+    require("COMPONENT_STATUS.md" in conformance and "STABILITY.md" in conformance, "conformance must bind lifecycle and stability records")
     require("native platform controls" in adoption.lower(), "adoption guide must protect native control semantics")
     require("## 8. Design explicitly for phone, tablet, and desktop" in adoption, "adoption guide missing explicit form-factor guidance")
     require("shrunken tablet or desktop" in adoption.lower(), "phone anti-scaling rule missing")
@@ -183,6 +200,7 @@ def main() -> None:
         "persistent field labels", "textarea behavior", "checkbox and radio choices", "switches", "segmented controls/tabs",
         "progress indicators", "Functional Glass", "Clear Glass", "adaptive button-group emphasis", "compact reachability",
         "Form-factor fidelity acceptance", "Phone", "Tablet", "Desktop", "representative task flow",
+        "Stability promotion acceptance", "COMPONENT_STATUS.md", "STABILITY.md",
         "If any required check cannot be executed, the release remains a candidate.",
     ):
         require(marker in acceptance, f"acceptance protocol missing release gate: {marker}")
