@@ -19,6 +19,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 - The canonical repository validator now fails closed if phone/tablet/desktop guidance or the expanded acceptance matrix is removed.
 - Component and conformance guidance now distinguish recognizable Glaze visual character from superficial use of blur or rounded cards, while preserving selective-glass boundaries, readability, semantic contrast, accessibility, reduced-motion behavior, privacy, and product-specific purpose.
 
+### Validation and integration
+
+- Exact visual-character contract head `03d10b98df0805b618d6c6614e4b4d58460385ec` passed Glaze UI CI `#104`, run ID `32528873999`, including exact-source checkout, repository validation, Firefox integration validation, deterministic public design-site validation, and Chromium-rendered Glaze UI reference acceptance.
+- Pull request #26, `Clarify canonical Glaze UI visual character`, was promoted from draft only after the complete exact-head gate passed and was squash-merged with expected-head protection as canonical main commit `f3b7da7bb302116cf09d793236a6fc4264037fb9`.
+- This work clarified the existing Stable Glaze UI 1.3.0 visual contract without changing the version, accepted material hierarchy, accessibility/privacy boundaries, downstream consumer state, or production infrastructure.
+
 ## 1.3.0 — 2026-08-20
 
 Stable expressive-hierarchy release based on the documented Glaze UI lineage of One UI 8.5, Liquid Glass, and Material 3 Expressive while preserving GoreeCloud's original identity and accessibility/privacy requirements.
