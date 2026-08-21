@@ -10,12 +10,14 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 - Form-factor fidelity as a Stable conformance gate covering navigation, density, pane structure, interaction patterns, resizable windows, foldables, and desktop-mode mobile environments.
 - Representative Stable acceptance coverage for Phone/Compact 390 × 844, Tablet/Medium 820 × 1180, Desktop/Expanded 1280 × 900, and Wide 1600 × 1000 layouts.
 - Representative task-flow acceptance for each supported form factor, including explicit rejection of shrunken desktop/tablet phone UIs, stretched phone tablet UIs, and enlarged mobile desktop shells.
+- A canonical visual-character contract defining Glaze UI as a coordinated system of layered depth, selective blur and reflection cues, rounded/circular/pill geometry, background-aware color, bold information hierarchy, deliberate whitespace and grouping, and tactile bounded interaction motion.
 
 ### Improved
 
 - Acceptance now treats unsupported form factors as an explicit recorded state rather than allowing untested targets to be silently treated as passed.
 - Form-factor transitions must preserve task continuity, reading order, keyboard/focus order, and critical-action access.
 - The canonical repository validator now fails closed if phone/tablet/desktop guidance or the expanded acceptance matrix is removed.
+- Component and conformance guidance now distinguish recognizable Glaze visual character from superficial use of blur or rounded cards, while preserving selective-glass boundaries, readability, semantic contrast, accessibility, reduced-motion behavior, privacy, and product-specific purpose.
 
 ## 1.3.0 — 2026-08-20
 
