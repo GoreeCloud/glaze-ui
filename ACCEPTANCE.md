@@ -2,9 +2,20 @@
 
 Glaze UI Stable promotion requires both exact-revision source validation and representative rendered visual/accessibility acceptance. Automated repository conformance is necessary but does not replace rendered acceptance.
 
+`STABILITY.md` is the governing compatibility and promotion contract. `COMPONENT_STATUS.md` identifies which foundations and components are Stable, Candidate, Experimental, or Planned. Acceptance evidence must be consistent with both records before a Stable claim is permitted.
+
 ## Required evidence
 
 Acceptance must identify the exact candidate commit SHA and record the browser or native rendering environment used. Evidence is valid only for that exact revision unless a later change is proven presentation-neutral.
+
+The release record must also identify:
+
+- current Stable baseline;
+- proposed release status;
+- component lifecycle changes, if any;
+- compatibility and migration impact;
+- unresolved or explicitly deferred acceptance cases;
+- rollback commit or branch boundary.
 
 ## Representative web matrix
 
@@ -46,6 +57,8 @@ The review must confirm all of the following:
 17. Phone, tablet, and desktop layouts use purpose-built navigation, density, pane structure, and interaction patterns rather than scaled variants of one shell.
 18. Form-factor transitions preserve task continuity, reading order, keyboard order, focus order, and access to critical actions.
 19. Foldable, resizable-window, and desktop-mode mobile environments select composition from the effective window/input context rather than a fixed device-name assumption.
+20. Stable release documentation does not claim Candidate, Experimental, or Planned capabilities as part of the Stable compatibility surface.
+21. Version metadata, lifecycle status, conformance, changelog, and release status agree on the exact final candidate revision.
 
 ## Form-factor fidelity acceptance
 
@@ -102,6 +115,20 @@ Glaze UI 1.3 additionally requires representative acceptance of:
 - hero typography that remains readable under reflow, localization pressure, and user text scaling;
 - visual confirmation that stronger expression still feels recognizably Glaze UI rather than like a Samsung, Apple, or Google skin.
 
+## Stability promotion acceptance
+
+Before a Candidate becomes Stable, acceptance must additionally confirm:
+
+1. `COMPONENT_STATUS.md` accurately classifies every capability introduced or materially changed by the candidate.
+2. No Experimental or Planned capability is required by the Stable reference, validator, or consumer contract.
+3. Any Candidate capability being promoted has documented semantics, accessibility/resilience behavior, validation coverage, compatibility impact, and migration guidance.
+4. The exact final candidate passes source validation and rendered/native acceptance after the last presentation-affecting change.
+5. A failed acceptance case is corrected without removing, bypassing, or weakening the affected assertion unless a separately reviewed governance change justifies the new requirement.
+6. Stable documentation does not contain transient statements that become false immediately after merge.
+7. Rollback is possible through an identified Git revision without unrelated production-infrastructure changes.
+
+If a candidate introduces platform-native behavior that the browser reference cannot prove, representative native/real-device evidence remains mandatory before Stable promotion for that capability.
+
 ## Acceptance record
 
 A Stable promotion record should include:
@@ -115,6 +142,9 @@ A Stable promotion record should include:
 - defects discovered during acceptance;
 - commits that corrected those defects;
 - final exact SHA accepted;
-- any unsupported form-factor class or approved exception with reason, impact, fallback, and review condition.
+- component lifecycle changes;
+- compatibility/migration assessment;
+- any unsupported form-factor class or approved exception with reason, impact, fallback, and review condition;
+- final Stable merge commit and rollback point.
 
 If any required check cannot be executed, the release remains a candidate. The missing check must be recorded rather than silently treated as passed.
