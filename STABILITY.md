@@ -95,6 +95,20 @@ A GoreeCloud application may remain on an older Stable Glaze UI release while a 
 
 Platform-native controls remain preferred where they provide stronger native accessibility or interaction behavior. Glaze conformance is semantic, not a requirement to reproduce web implementation details on every platform.
 
+### Consumer compatibility registry
+
+`CONSUMERS.md` and `consumers/registry.json` maintain the central evidence-backed consumer audit. The registry distinguishes:
+
+- `aligned-current-stable` consumers that explicitly target the current Stable semantic version;
+- `aligned-older-stable` consumers that intentionally remain on an earlier Stable release with version-specific evidence;
+- `unverified` consumers whose repository evidence has not yet established a version-specific Glaze contract.
+
+The registry is not a migration scheduler and must not convert an older Stable target into an automatic defect. A consumer's reviewed version/revision anchor remains valid until the application intentionally adopts another Glaze release or a material compatibility review requires renewed evidence. Documentation-only or governance-only commits on Glaze UI `main` do not by themselves force every aligned consumer to repin.
+
+Unverified means an evidence gap, not a non-conformance finding. A repository should gain a version-specific local contract before claiming Glaze conformance or production UI acceptance, but the central audit must not infer failure merely because that evidence has not yet been recorded.
+
+The registry must never classify Candidate or Experimental Glaze behavior as Stable consumer alignment. CI validates the registry vocabulary, Stable baseline, version relationships, evidence requirements, and human-readable consumer contract.
+
 ## Stability review cadence
 
 Before a Stable release or material Stable contract change, review:
@@ -107,6 +121,7 @@ Before a Stable release or material Stable contract change, review:
 - accessibility and resilience behavior;
 - privacy/runtime-dependency boundaries;
 - downstream migration impact;
+- the consumer compatibility registry and unresolved consumer evidence gaps;
 - rollback instructions;
 - unresolved defects or candidate-only assumptions.
 
