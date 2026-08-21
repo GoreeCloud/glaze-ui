@@ -74,6 +74,19 @@ Glaze UI uses expression intentionally rather than uniformly. Ordinary utility i
 
 Glaze UI creates a family resemblance, not cloned interfaces. Applications may vary composition, artwork, accent emphasis, information density, navigation arrangement, visualization, and specialized components when those choices support the application's Role and Purpose.
 
+## Visual character
+
+Glaze UI should feel polished, translucent, layered, tactile, spacious, expressive, and visually connected. Its recognizable character comes from the coordinated use of material, geometry, color, typography, spacing, depth, and motion rather than from any single effect.
+
+- **Layered glass-like depth** — selective translucency, soft blur, subtle reflection or highlight cues, restrained shadows, and floating separation may establish depth between functional layers. These effects must remain controlled enough that content stays readable and the hierarchy remains obvious.
+- **Soft expressive geometry** — rounded cards and panels, circular icon controls, pill-shaped actions and search fields, and smoothly changing container shapes create an approachable family resemblance. Geometry should communicate role, grouping, emphasis, or state rather than become decoration for its own sake.
+- **Adaptive coordinated color** — light and dark palettes should respond naturally to the surrounding canvas and product accent, combining soft tints, deeper accents, and neutral surfaces into one connected composition. Semantic contrast and status meaning remain authoritative even when the palette adapts to background context.
+- **Bold information hierarchy** — important information may use strong weight, oversized hero or display typography, and generous visual separation so the most important content is immediately noticeable. Supporting and dense information remains quieter, readable, and appropriately scaled.
+- **Spacious grouping** — rounded containers, deliberate whitespace, and clearly grouped controls should make complex screens easier to scan without making them feel sparse or fragmented. Density may increase for data-heavy products, but grouping and hierarchy must remain legible.
+- **Physical responsive motion** — expressive interactions may gently stretch, shift, compress, rebound, or morph shape to make controls feel responsive and material. Spring-like or bounce-like feedback must be bounded, brief, purposeful, and concentrated in meaningful interactions; repetitive utility controls remain calm, and reduced-motion mode removes nonessential physical transformation.
+
+The goal is an immersive visual experience in which transparency, expressive color, playful geometry, precise spacing, practical hierarchy, and tactile interaction reinforce one another without sacrificing accessibility, privacy, performance, or product-specific purpose.
+
 ## Validation
 
 Repository/source validation:
