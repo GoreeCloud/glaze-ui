@@ -170,13 +170,20 @@ def main() -> None:
     require("persistent" in components.lower() and "label" in components.lower(), "component contract must require persistent field labels")
     require("Functional Glass" in components and "Clear Glass" in components, "component contract missing material boundaries")
     require(f"Glaze UI {version.rsplit('.', 1)[0]} conformant" in conformance, "conformance claim does not match current minor version")
-    require("15" in conformance or "fifteen" in conformance.lower(), "1.3 conformance gate expansion missing")
+    require("form-factor fidelity" in conformance.lower(), "conformance contract missing form-factor fidelity gate")
+    require("phone" in conformance.lower() and "tablet" in conformance.lower() and "desktop" in conformance.lower(), "conformance contract missing phone/tablet/desktop coverage")
     require("native platform controls" in adoption.lower(), "adoption guide must protect native control semantics")
+    require("## 8. Design explicitly for phone, tablet, and desktop" in adoption, "adoption guide missing explicit form-factor guidance")
+    require("shrunken tablet or desktop" in adoption.lower(), "phone anti-scaling rule missing")
+    require("stretched phone" in adoption.lower(), "tablet anti-scaling rule missing")
+    require("enlarged mobile" in adoption.lower(), "desktop anti-scaling rule missing")
 
     for marker in (
-        "390 × 844", "1280 × 900", "forced-colors: active", "200% browser zoom", "persistent field labels", "textarea behavior",
-        "checkbox and radio choices", "switches", "segmented controls/tabs", "progress indicators", "Functional Glass", "Clear Glass",
-        "adaptive button-group emphasis", "compact reachability", "If any required check cannot be executed, the release remains a candidate.",
+        "390 × 844", "820 × 1180", "1280 × 900", "1600 × 1000", "forced-colors: active", "200% browser zoom",
+        "persistent field labels", "textarea behavior", "checkbox and radio choices", "switches", "segmented controls/tabs",
+        "progress indicators", "Functional Glass", "Clear Glass", "adaptive button-group emphasis", "compact reachability",
+        "Form-factor fidelity acceptance", "Phone", "Tablet", "Desktop", "representative task flow",
+        "If any required check cannot be executed, the release remains a candidate.",
     ):
         require(marker in acceptance, f"acceptance protocol missing release gate: {marker}")
     for marker in ("functional glass did not render", "clear glass did not render", "1.3 expressive roles rendered"):
