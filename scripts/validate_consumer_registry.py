@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "consumers" / "registry.json"
+CONSUMERS_DOC = ROOT / "CONSUMERS.md"
 VERSION = ROOT / "VERSION"
 ALLOWED_STATUS = {
     "aligned-current-stable",
@@ -31,10 +32,21 @@ def version_tuple(value: str) -> tuple[int, int, int]:
 
 def main() -> None:
     require(REGISTRY.is_file(), "missing consumers/registry.json")
+    require(CONSUMERS_DOC.is_file(), "missing CONSUMERS.md")
     require(VERSION.is_file(), "missing VERSION")
 
     stable_version = VERSION.read_text(encoding="utf-8").strip()
     data = json.loads(REGISTRY.read_text(encoding="utf-8"))
+    consumer_doc = CONSUMERS_DOC.read_text(encoding="utf-8")
+
+    for marker in (
+        "Aligned — current Stable",
+        "Aligned — older Stable",
+        "Unverified",
+        "consumers/registry.json",
+        "must not silently depend on Candidate or Experimental",
+    ):
+        require(marker in consumer_doc, f"CONSUMERS.md missing required contract marker: {marker}")
 
     require(data.get("schemaVersion") == 1, "unsupported registry schemaVersion")
     require(data.get("stableBaseline") == stable_version, "registry Stable baseline differs from VERSION")
