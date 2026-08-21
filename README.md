@@ -36,6 +36,14 @@ New 1.3 capabilities include:
 
 The established architecture remains intact: semantic light/dark tokens; Canvas, Solid, Raised, Glaze, and Overlay surfaces; Compact/Medium/Expanded/Wide layouts; practical targets and focus; accessibility/resilience fallbacks; privacy-conscious local presentation dependencies; form and selection semantics; safe-area handling; and Stable-release visual acceptance.
 
+## Stability priority
+
+Glaze UI is currently operating under a stabilization-first policy. **Glaze UI 1.3.0 remains the Stable compatibility baseline while newer work is isolated as Candidate or roadmap material.** Stable maintenance prioritizes correctness, compatibility, accessibility, deterministic validation, documentation accuracy, and controlled consumer adoption over feature expansion.
+
+The repository's stability rules are defined in `STABILITY.md`, and every canonical foundation/component is classified in `COMPONENT_STATUS.md` as Stable, Candidate, Experimental, or Planned. A newer Candidate does not automatically change Stable semantics or migrate downstream GoreeCloud applications.
+
+Speculative intelligence, ambient-computing, voice, agent, operating-experience, and other future concepts are roadmap ideas only unless separately implemented, versioned, validated, and promoted through the Stable release gate.
+
 ## Repository layout
 
 - `VERSION` — current Glaze UI version.
@@ -45,6 +53,8 @@ The established architecture remains intact: semantic light/dark tokens; Canvas,
 - `css/glaze.expressive.css` — Glaze UI 1.3 functional glass, expressive shape/motion, adaptive groups, reachability, and hero-type primitives.
 - `css/glaze.accessibility.css` — accessibility and resilience fallbacks.
 - `COMPONENTS.md` — component behavior and state contract.
+- `COMPONENT_STATUS.md` — lifecycle status of Stable, Candidate, Experimental, and Planned foundations/components.
+- `STABILITY.md` — Stable compatibility, promotion, regression-blocker, maintenance, and rollback contract.
 - `CONFORMANCE.md` — Stable-release conformance gates.
 - `ADOPTION.md` — integration guidance for GoreeCloud applications.
 - `ACCEPTANCE.md` — Stable-release rendered visual/accessibility acceptance protocol.
@@ -105,7 +115,9 @@ The source validator uses only the Python standard library. The rendered validat
 
 ## Versioning
 
-Glaze UI follows semantic versioning. Patch releases fix or clarify compatible behavior. Minor releases add compatible tokens, primitives, or components. Major releases may change required semantics. GoreeCloud applications should record the exact Glaze UI version they target.
+Glaze UI follows semantic versioning. Patch releases fix or clarify compatible behavior. Minor releases add compatible tokens, primitives, components, or platform semantics. Major releases may change required semantics or remove established contracts.
+
+A version number alone does not make a release Stable. New minor/major lines remain Candidate until the exact final revision satisfies `STABILITY.md` and `ACCEPTANCE.md`. GoreeCloud applications should record the exact Glaze UI version they target and migrate through controlled, application-specific adoption rather than assuming automatic compatibility.
 
 ## License
 
