@@ -115,7 +115,8 @@
             if (themeButtons.length !== 3) errors.push('appearance controls incomplete');
             const themeButton = themeButtons.find((button) => button.dataset.themeChoice === theme);
             if (themeButton) { themeButton.focus(); if (doc.activeElement !== themeButton) errors.push('appearance control cannot receive focus'); }
-            notes.push('1.4 candidate retains 1.3 expressive roles');
+            notes.push('1.3 expressive roles rendered');
+            notes.push('1.4 form-factor roles rendered');
           };
 
           const checkFormFactor = () => {
