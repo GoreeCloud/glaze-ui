@@ -21,7 +21,7 @@ Version-specific evidence has not yet been established. Unverified is an evidenc
 - **GoreeCloud Manager** — `aligned-older-stable`, target 1.3.0, evidence `docs/glaze-ui.md`.
 - **GoreeCloud Website** — `aligned-older-stable`, target 1.1.0, evidence `docs/glaze-ui-conformance.md`.
 - **GoreeCloud Tasks** — `adoption-candidate`, target 1.3.0, evidence `docs/glaze-ui.md`; automated representative acceptance passed but final native/manual production acceptance remains pending.
-- **GoreeCloud Launcher** — `adoption-candidate`, target 1.4.0, evidence `docs/glaze-ui-adoption.md`; native semantic mapping has started while Glaze-specific automated contract, phone/tablet visual acceptance, and physical-device acceptance remain pending.
+- **GoreeCloud Launcher** — `adoption-candidate`, target 1.4.0, evidence `docs/glaze-ui-adoption.md`; the mapped native token/evidence subset is enforced by launcher CI while phone/tablet visual/native and physical-device acceptance remain pending.
 - **GoreeCloud Notes** — `unverified`.
 - **GoreeCloud Monitor** — `unverified`.
 
