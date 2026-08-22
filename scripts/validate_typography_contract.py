@@ -38,25 +38,34 @@ def main() -> None:
         if phrase not in policy_lower:
             fail(f"typography.sourcePolicy must state {phrase!r}")
 
+    # Scan presentation/runtime source, not policy documents or validators that
+    # intentionally name prohibited hosts as examples. This keeps the gate
+    # focused on actual loadable UI source while allowing the policy itself to
+    # document what is forbidden.
     forbidden_runtime_hosts = (
         "fonts.googleapis.com",
         "fonts.gstatic.com",
         "use.typekit.net",
         "fonts.adobe.com",
     )
-    tracked_text = "\n".join(
+    runtime_suffixes = {".css", ".html", ".js", ".mjs", ".json"}
+    runtime_text = "\n".join(
         path.read_text(encoding="utf-8", errors="ignore")
         for path in ROOT.rglob("*")
         if path.is_file()
         and ".git" not in path.parts
-        and path.suffix.lower() in {".css", ".html", ".js", ".json", ".md", ".py", ".yml", ".yaml"}
+        and path.suffix.lower() in runtime_suffixes
     ).lower()
     for host in forbidden_runtime_hosts:
-        if host in tracked_text:
+        if host in runtime_text:
             fail(f"forbidden third-party runtime font host referenced: {host}")
 
     readme = TOKEN_README.read_text(encoding="utf-8").lower()
-    for phrase in ("system/platform-native first", "third-party runtime font-delivery service", "locally bundled open-source font"):
+    for phrase in (
+        "system/platform-native first",
+        "third-party runtime font-delivery service",
+        "locally bundled open-source font",
+    ):
         if phrase not in readme:
             fail(f"tokens/README.md must document {phrase!r}")
 
