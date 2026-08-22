@@ -4,7 +4,7 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased
 
-No unreleased design-system changes are recorded after the Glaze UI 1.4.0 Stable promotion candidate.
+No unreleased design-system changes are recorded after the Glaze UI 1.4.0 Stable promotion.
 
 ## 1.4.0 — 2026-08-21
 
@@ -36,7 +36,8 @@ Stable form-factor evolution release preserving the complete Glaze UI 1.3 expres
 - The stale candidate branch was reconciled onto hardened Stable main `1120f576eeeb2f5725896f85847b5470907f91cf` before promotion.
 - Promotion gating caught and corrected missing historical Phone terminology, missing representative-task-flow wording, accidental removal of the retained 1.3 expressive rendered assertion, a validator wording mismatch for the stronger TV/Wide-Desktop rule, and lost live 1.3 reference examples/44px appearance targets. No gate was removed or weakened.
 - Exact reconciled content-bearing head `777844030f365c3ce45205633ef05135e4df5067` passed Glaze UI CI #125 / run `32541270573`: canonical repository validation, dedicated 1.4 form-factor validation, consumer-registry validation, Firefox integration, deterministic public design-site validation, and the complete Chromium-rendered reference/form-factor matrix.
-- The final documentation-bearing PR head is required to pass the entire exact-head gate again before PR #28 leaves draft status or merges.
+- Final exact promotion head `a8dfb979e85b2636130880bfd11cdfd4c7679b60` passed the entire promotion stack again in Glaze UI CI #128 / run `32541459970`, including the retained 1.2/1.3 rendered assertions and the complete Mobile, Tablet, Desktop, Wide Desktop, TV, reduced-motion, and TV forced-colors matrix.
+- PR #28 was promoted from draft only after CI #128 passed and was squash-merged with expected-head protection as canonical Stable commit `01c86323f8b747373d308026adc8b0881855cdc5`.
 
 ### Compatibility
 
@@ -78,9 +79,9 @@ Stable expressive-hierarchy release based on the documented Glaze UI lineage of 
 
 - Exact candidate head `e206c3da3f5c0df1f1d0e73d7339f9b45b0e1f16` passed Glaze UI CI run `#29`, run ID `32345605986`.
 - The validate job passed exact-source checkout, validator compilation, canonical repository validation, deterministic public design-site build validation, and Chromium-rendered reference acceptance.
-- PR #6 was moved from draft to ready for review only after that exact-head evidence was available.
+- PR #6 was moved from draft to ready for review only after the exact-head workflow succeeded.
 - PR #6 was squash-merged with expected-head protection as Stable merge commit `2ac8d0cd444c8234e908e31b05b2cb4dc7d3e5a9` with release title `Glaze UI 1.3.0`.
-- Glaze UI 1.3.0 became the Stable canonical baseline at that release point. Glaze UI 1.2.0 remains part of historical and compatibility records.
+- Glaze UI 1.3.0 is now the supported older Stable baseline. Glaze UI 1.2.0 remains part of historical and compatibility records.
 
 ### Preserved
 
@@ -92,7 +93,7 @@ Stable expressive-hierarchy release based on the documented Glaze UI lineage of 
 
 ## 1.2.0 — 2026-08-20
 
-Stable application-interface expansion focused on form semantics, selection controls, explicit focus treatment, feedback completeness, rendered acceptance, and stronger adoption safety.
+Stable application-interface expansion focused on form semantics, selection controls, explicit focus treatment, feedback completeness, and stronger adoption safety.
 
 ### Added
 
