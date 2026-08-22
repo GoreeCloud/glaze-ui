@@ -22,6 +22,8 @@ Glaze UI 1.3.0 remains a supported older Stable release for consumers that have 
 
 Glaze UI remains stabilization-first. `STABILITY.md` governs compatibility and promotion; `COMPONENT_STATUS.md` governs Stable, Candidate, Experimental, and Planned lifecycle state; `CONSUMERS.md` and `consumers/registry.json` track evidence-backed consumer alignment. A Stable design-system release never substitutes for application-specific adoption, native mapping, or product acceptance.
 
+Release-state consistency is now a permanent CI contract. `scripts/validate_release_state.py` binds `VERSION`, token metadata, the README Stable declaration, stability/lifecycle records, and the changelog so a future release cannot silently leave contradictory current-version claims behind.
+
 Speculative intelligence, agent, automation, ambient-computing, voice, and operating-experience concepts remain roadmap-only unless separately implemented, versioned, validated, and promoted.
 
 ## Future typography reference
@@ -47,7 +49,7 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `ACCEPTANCE.md` — Stable acceptance protocol.
 - `acceptance/` — version-specific promotion evidence.
 - `reference/index.html` and `reference/formfactors.html` — dependency-free references.
-- `scripts/validate_glaze_ui.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, and `scripts/validate_rendered_reference.py` — fail-closed validation.
+- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, and `scripts/validate_rendered_reference.py` — fail-closed validation.
 
 ## Material hierarchy
 
@@ -64,6 +66,7 @@ Canvas → Solid → Raised → Functional Glass → Overlay. Clear Glass is spe
 
 ```bash
 python3 scripts/validate_glaze_ui.py
+python3 scripts/validate_release_state.py
 python3 scripts/validate_form_factors.py
 python3 scripts/validate_consumer_registry.py
 python3 scripts/validate_rendered_reference.py
