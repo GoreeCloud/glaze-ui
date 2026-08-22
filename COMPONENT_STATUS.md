@@ -35,6 +35,17 @@ The 1.3 semantic color, surface, typography, spacing, shape, effects/spatial mot
 
 Historical promotion boundary: these form-factor capabilities were the **Candidate form-factor layer** while Glaze UI 1.4 was under review. They are now Stable in 1.4.0. No active 1.4 form-factor capability remains Candidate after promotion.
 
+## Experimental typography layer
+
+| Area | Status | Boundary |
+| --- | --- | --- |
+| Glaze Sans first-party typeface | Experimental | Visual direction and provenance engineering are under review. The rejected 0.1 alpha is not reusable; Stable system-font typography remains authoritative. |
+| Glaze Sans Text optical intention | Experimental | Planned high-legibility application role; no production font artifact is approved. |
+| Glaze Sans Display optical intention | Experimental | Planned expressive large-type role; must remain recognizably Latin and subordinate to readability. |
+| Glaze Sans local/self-hosted delivery | Experimental | Required architectural direction; packaging and cross-platform acceptance are not yet complete. |
+
+Glaze Sans may not become a mandatory consumer dependency until the human visual approval gate, reproducible source/provenance review, glyph coverage, accessibility review, packaging validation, and exact rendered/native acceptance requirements in `typography/glaze-sans/` pass.
+
 ## Experimental and roadmap boundary
 
 Glaze Intelligence Layer, Glaze Agents, Glaze Memory, automation, ambient computing, voice, operating-experience, app-store, and other speculative 1.7/1.8/2.0 ideas remain **Planned/roadmap concepts** and are not shipping Stable behavior.
