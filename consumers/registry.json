@@ -1,68 +1,13 @@
 {
   "schemaVersion": 1,
-  "stableBaseline": "1.3.0",
+  "stableBaseline": "1.4.0",
   "auditedAt": "2026-08-21",
-  "statusVocabulary": [
-    "aligned-current-stable",
-    "aligned-older-stable",
-    "adoption-candidate",
-    "unverified"
-  ],
+  "statusVocabulary": ["aligned-current-stable","aligned-older-stable","adoption-candidate","unverified"],
   "consumers": [
-    {
-      "name": "GoreeCloud Manager",
-      "repository": "GoreeCloud/goreecloud-manager",
-      "status": "aligned-current-stable",
-      "targetVersion": "1.3.0",
-      "referenceRevision": "0cd084d9c888a9697cbd9fdd2c4d2bd91286c56c",
-      "evidence": "docs/glaze-ui.md",
-      "automatedContract": true,
-      "visualAcceptance": "application-specific review required for material interface changes",
-      "notes": "Manager has an explicit repository-local Glaze UI 1.3.0 Stable contract. Its recorded reviewed revision remains a valid version-specific consumer anchor; stabilization governance does not require automatic repinning to every compatible documentation-only main commit."
-    },
-    {
-      "name": "GoreeCloud Website",
-      "repository": "GoreeCloud/goreecloud-website",
-      "status": "aligned-older-stable",
-      "targetVersion": "1.1.0",
-      "referenceRevision": "5c8320de4f770614a3e2bcf9de2a27f7fcfd920c",
-      "evidence": "docs/glaze-ui-conformance.md",
-      "automatedContract": true,
-      "visualAcceptance": "preserved for the recorded 1.1 adoption; material changes require renewed manual review",
-      "notes": "The public website intentionally remains on an older Stable Glaze UI release. This is permitted by the Stable consumer-compatibility policy and must not be treated as automatic migration debt."
-    },
-    {
-      "name": "GoreeCloud Tasks",
-      "repository": "GoreeCloud/goreecloud-tasks",
-      "status": "adoption-candidate",
-      "targetVersion": "1.3.0",
-      "referenceRevision": "96cc27050c098a5f06f571923f0cb9be54989a92",
-      "evidence": "docs/glaze-ui.md",
-      "automatedContract": true,
-      "visualAcceptance": "representative automated Chromium acceptance passed for compact and desktop light/dark, reduced-motion, and forced-colors profiles; final native/manual production acceptance remains pending",
-      "notes": "Tasks PR #44 passed exact-head source, rendered, Django, cross-application, backup/recovery, security, and deployment-readiness gates at 2267ec109786bb08eb8f33475e31c269f365b603 and was squash-merged as 231de4fc7fb6d0c194716d0b06ecab1e46a28d9b. Adoption Candidate records real evidence without overstating final Stable-aligned production acceptance."
-    },
-    {
-      "name": "GoreeCloud Notes",
-      "repository": "GoreeCloud/goreecloud-notes",
-      "status": "unverified",
-      "targetVersion": null,
-      "referenceRevision": null,
-      "evidence": null,
-      "automatedContract": false,
-      "visualAcceptance": "not established by this audit",
-      "notes": "The native Notes repository is initialized for original application development, but the reviewed repository surface does not yet establish a version-specific Glaze UI consumer contract."
-    },
-    {
-      "name": "GoreeCloud Monitor",
-      "repository": "GoreeCloud/goreecloud-monitor",
-      "status": "unverified",
-      "targetVersion": null,
-      "referenceRevision": null,
-      "evidence": null,
-      "automatedContract": false,
-      "visualAcceptance": "not established by this audit",
-      "notes": "The native Monitor repository is under active development, but the reviewed repository surface does not yet establish a version-specific Glaze UI consumer contract."
-    }
+    {"name":"GoreeCloud Manager","repository":"GoreeCloud/goreecloud-manager","status":"aligned-older-stable","targetVersion":"1.3.0","referenceRevision":"0cd084d9c888a9697cbd9fdd2c4d2bd91286c56c","evidence":"docs/glaze-ui.md","automatedContract":true,"visualAcceptance":"application-specific review required for material interface changes","notes":"Manager remains intentionally pinned to its reviewed Glaze UI 1.3.0 Stable contract. 1.4 promotion does not auto-migrate consumers."},
+    {"name":"GoreeCloud Website","repository":"GoreeCloud/goreecloud-website","status":"aligned-older-stable","targetVersion":"1.1.0","referenceRevision":"5c8320de4f770614a3e2bcf9de2a27f7fcfd920c","evidence":"docs/glaze-ui-conformance.md","automatedContract":true,"visualAcceptance":"preserved for the recorded 1.1 adoption; material changes require renewed manual review","notes":"The public website consumer remains intentionally pinned to Glaze UI 1.1.0 Stable."},
+    {"name":"GoreeCloud Tasks","repository":"GoreeCloud/goreecloud-tasks","status":"adoption-candidate","targetVersion":"1.3.0","referenceRevision":"96cc27050c098a5f06f571923f0cb9be54989a92","evidence":"docs/glaze-ui.md","automatedContract":true,"visualAcceptance":"representative automated Chromium acceptance passed; final native/manual production acceptance remains pending","notes":"Tasks remains an Adoption Candidate against supported older Stable 1.3.0; design-system 1.4 promotion does not alter its application-specific acceptance boundary."},
+    {"name":"GoreeCloud Notes","repository":"GoreeCloud/goreecloud-notes","status":"unverified","targetVersion":null,"referenceRevision":null,"evidence":null,"automatedContract":false,"visualAcceptance":"not established by this audit","notes":"Version-specific Glaze evidence has not yet been established."},
+    {"name":"GoreeCloud Monitor","repository":"GoreeCloud/goreecloud-monitor","status":"unverified","targetVersion":null,"referenceRevision":null,"evidence":null,"automatedContract":false,"visualAcceptance":"not established by this audit","notes":"Version-specific Glaze evidence has not yet been established."}
   ]
 }

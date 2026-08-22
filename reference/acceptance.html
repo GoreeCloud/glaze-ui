@@ -20,6 +20,7 @@
       const height = Number(params.get('height') || 844);
       const theme = params.get('theme') || 'light';
       const expectedMode = params.get('mode') || 'normal';
+      const profile = params.get('profile') || 'reference';
       const frame = document.getElementById('target');
       const result = document.getElementById('result');
       frame.style.width = `${width}px`;
@@ -58,70 +59,155 @@
             errors.push(`horizontal overflow root=${root.scrollWidth}/${root.clientWidth} body=${body.scrollWidth}/${body.clientWidth}`);
           }
 
-          const controls = [...doc.querySelectorAll('.theme-group button,.glaze-button,.glaze-icon-button,.glaze-input,.glaze-choice,.glaze-switch,.glaze-segmented [role="tab"],.glaze-nav-item')];
-          for (const control of controls) {
-            const box = rect(control);
-            if (box.width > 0 && box.height > 0 && box.height < 43.5) errors.push(`undersized target ${control.tagName}.${control.className || ''}=${box.height.toFixed(1)}px`);
-          }
-          notes.push(`checked ${controls.length} interactive targets`);
+          const checkReference = () => {
+            const controls = [...doc.querySelectorAll('.theme-group button,.glaze-button,.glaze-icon-button,.glaze-input,.glaze-choice,.glaze-switch,.glaze-segmented [role="tab"],.glaze-nav-item')];
+            for (const control of controls) {
+              const box = rect(control);
+              if (box.width > 0 && box.height > 0 && box.height < 43.5) errors.push(`undersized target ${control.tagName}.${control.className || ''}=${box.height.toFixed(1)}px`);
+            }
+            notes.push(`checked ${controls.length} interactive targets`);
 
-          const labels = [...doc.querySelectorAll('.glaze-field-label')];
-          if (labels.length < 2 || labels.some((label) => rect(label).height <= 0)) errors.push('persistent field labels missing or hidden');
-          const invalid = doc.querySelector('#email[aria-invalid="true"]');
-          const describedBy = invalid?.getAttribute('aria-describedby');
-          if (!invalid || !describedBy || !doc.getElementById(describedBy)) errors.push('field error relationship missing');
+            const labels = [...doc.querySelectorAll('.glaze-field-label')];
+            if (labels.length < 2 || labels.some((label) => rect(label).height <= 0)) errors.push('persistent field labels missing or hidden');
+            const invalid = doc.querySelector('#email[aria-invalid="true"]');
+            const describedBy = invalid?.getAttribute('aria-describedby');
+            if (!invalid || !describedBy || !doc.getElementById(describedBy)) errors.push('field error relationship missing');
 
-          const choice = doc.querySelector('.glaze-choice input[type="checkbox"]');
-          const switchInput = doc.querySelector('.glaze-switch input[type="checkbox"]');
-          if (!choice?.checked) errors.push('native checkbox selected state missing');
-          if (!switchInput?.checked) errors.push('switch checked state missing');
+            const choice = doc.querySelector('.glaze-choice input[type="checkbox"]');
+            const switchInput = doc.querySelector('.glaze-switch input[type="checkbox"]');
+            if (!choice?.checked) errors.push('native checkbox selected state missing');
+            if (!switchInput?.checked) errors.push('switch checked state missing');
 
-          const selectedTabs = doc.querySelectorAll('.glaze-segmented [role="tab"][aria-selected="true"]');
-          if (selectedTabs.length !== 1) errors.push(`segmented selected state count=${selectedTabs.length}`);
-          const progress = doc.querySelector('.glaze-progress[role="progressbar"]');
-          const progressFill = progress?.querySelector('span');
-          if (!progress || progress.getAttribute('aria-valuenow') !== '68' || !progressFill || rect(progressFill).width <= 0) errors.push('determinate progress semantics/rendering missing');
-          const banner = doc.querySelector('.glaze-banner[data-state="info"]');
-          if (!banner || rect(banner).width <= 0 || rect(banner).height <= 0) errors.push('banner did not render');
+            const selectedTabs = doc.querySelectorAll('.glaze-segmented [role="tab"][aria-selected="true"]');
+            if (selectedTabs.length !== 1) errors.push(`segmented selected state count=${selectedTabs.length}`);
+            const progress = doc.querySelector('.glaze-progress[role="progressbar"]');
+            const progressFill = progress?.querySelector('span');
+            if (!progress || progress.getAttribute('aria-valuenow') !== '68' || !progressFill || rect(progressFill).width <= 0) errors.push('determinate progress semantics/rendering missing');
+            const banner = doc.querySelector('.glaze-banner[data-state="info"]');
+            if (!banner || rect(banner).width <= 0 || rect(banner).height <= 0) errors.push('banner did not render');
 
-          const surfaces = ['.glaze-canvas','.glaze-surface-solid','.glaze-surface-raised','.glaze-surface','.glaze-overlay'];
-          for (const selector of surfaces) if (!doc.querySelector(selector)) errors.push(`surface role missing ${selector}`);
+            const surfaces = ['.glaze-canvas','.glaze-surface-solid','.glaze-surface-raised','.glaze-surface','.glaze-overlay'];
+            for (const selector of surfaces) if (!doc.querySelector(selector)) errors.push(`surface role missing ${selector}`);
 
-          const functionalGlass = doc.querySelector('.glaze-glass-functional');
-          const clearGlass = doc.querySelector('.glaze-glass-clear');
-          const expressiveAction = doc.querySelector('.glaze-expressive-action');
-          const buttonGroup = doc.querySelector('.glaze-button-group');
-          const reachLayout = doc.querySelector('.glaze-reach-layout');
-          const hero = doc.querySelector('.glaze-hero-type');
-          if (!functionalGlass || rect(functionalGlass).width <= 0) errors.push('functional glass did not render');
-          if (!clearGlass || rect(clearGlass).width <= 0) errors.push('clear glass did not render');
-          if (!expressiveAction || rect(expressiveAction).height < 43.5) errors.push('expressive action missing or undersized');
-          if (!buttonGroup || buttonGroup.children.length < 2) errors.push('adaptive button group missing');
-          if (!reachLayout) errors.push('compact reachability layout missing');
-          if (!hero || rect(hero).height <= 0) errors.push('hero typography missing');
+            const functionalGlass = doc.querySelector('.glaze-glass-functional');
+            const clearGlass = doc.querySelector('.glaze-glass-clear');
+            const expressiveAction = doc.querySelector('.glaze-expressive-action');
+            const buttonGroup = doc.querySelector('.glaze-button-group');
+            const reachLayout = doc.querySelector('.glaze-reach-layout');
+            const hero = doc.querySelector('.glaze-hero-type');
+            if (!functionalGlass || rect(functionalGlass).width <= 0) errors.push('functional glass did not render');
+            if (!clearGlass || rect(clearGlass).width <= 0) errors.push('clear glass did not render');
+            if (!expressiveAction || rect(expressiveAction).height < 43.5) errors.push('expressive action missing or undersized');
+            if (!buttonGroup || buttonGroup.children.length < 2) errors.push('adaptive button group missing');
+            if (!reachLayout) errors.push('compact reachability layout missing');
+            if (!hero || rect(hero).height <= 0) errors.push('hero typography missing');
 
-          const shapeClasses = ['.glaze-shape-compact','.glaze-shape-standard','.glaze-shape-expressive','.glaze-shape-hero'];
-          for (const selector of shapeClasses) if (!doc.querySelector(selector)) errors.push(`expressive shape role missing ${selector}`);
+            const shapeClasses = ['.glaze-shape-compact','.glaze-shape-standard','.glaze-shape-expressive','.glaze-shape-hero'];
+            for (const selector of shapeClasses) if (!doc.querySelector(selector)) errors.push(`expressive shape role missing ${selector}`);
 
-          if (expectedMode === 'reduced-motion') {
-            if (!win.matchMedia('(prefers-reduced-motion: reduce)').matches) errors.push('reduced-motion media mode was not activated');
-            if (expressiveAction && style(expressiveAction).transform !== 'none') errors.push('expressive action transformation remains active under reduced motion');
-          }
-          if (expectedMode === 'forced-colors' && !win.matchMedia('(forced-colors: active)').matches) errors.push('forced-colors media mode was not activated');
+            if (expectedMode === 'reduced-motion') {
+              if (!win.matchMedia('(prefers-reduced-motion: reduce)').matches) errors.push('reduced-motion media mode was not activated');
+              if (expressiveAction && style(expressiveAction).transform !== 'none') errors.push('expressive action transformation remains active under reduced motion');
+            }
+            if (expectedMode === 'forced-colors' && !win.matchMedia('(forced-colors: active)').matches) errors.push('forced-colors media mode was not activated');
 
-          const themeButtons = [...doc.querySelectorAll('[data-theme-choice]')];
-          if (themeButtons.length !== 3) errors.push('appearance controls incomplete');
-          const themeButton = themeButtons.find((button) => button.dataset.themeChoice === theme);
-          if (themeButton) { themeButton.focus(); if (doc.activeElement !== themeButton) errors.push('appearance control cannot receive focus'); }
+            const themeButtons = [...doc.querySelectorAll('[data-theme-choice]')];
+            if (themeButtons.length !== 3) errors.push('appearance controls incomplete');
+            const themeButton = themeButtons.find((button) => button.dataset.themeChoice === theme);
+            if (themeButton) { themeButton.focus(); if (doc.activeElement !== themeButton) errors.push('appearance control cannot receive focus'); }
+            notes.push('1.4 candidate retains 1.3 expressive roles');
+          };
+
+          const checkFormFactor = () => {
+            if (body.dataset.glazeFormFactor !== profile) errors.push(`form-factor marker ${body.dataset.glazeFormFactor || 'missing'} != ${profile}`);
+            const active = doc.querySelector(`.profile[data-profile="${profile}"][data-active="true"]`);
+            if (!active || rect(active).width <= 0 || rect(active).height <= 0) errors.push(`${profile} profile did not render`);
+            const visibleProfiles = [...doc.querySelectorAll('.profile')].filter((node) => style(node).display !== 'none');
+            if (visibleProfiles.length !== 1) errors.push(`visible profile count=${visibleProfiles.length}`);
+
+            if (profile === 'mobile') {
+              const shell = doc.querySelector('[data-glaze-mobile="true"]');
+              const bottomNav = doc.querySelector('.glaze-mobile-bottom-nav');
+              if (!shell || !bottomNav || rect(bottomNav).height < 43.5) errors.push('mobile shell or bottom navigation missing');
+              if (style(bottomNav).position !== 'fixed') errors.push('mobile primary navigation is not fixed/reachable');
+              const actions = doc.querySelector('.glaze-mobile-actions');
+              if (!actions || actions.children.length < 2) errors.push('mobile reachable action group missing');
+              notes.push('mobile touch/reachability composition rendered');
+            }
+
+            if (profile === 'tablet') {
+              const shell = doc.querySelector('[data-glaze-tablet="true"]');
+              const rail = doc.querySelector('.glaze-tablet-rail');
+              const panes = doc.querySelector('.glaze-tablet-panes');
+              if (!shell || !rail || !panes) errors.push('tablet shell, rail, or panes missing');
+              if (panes && panes.children.length < 2) errors.push('tablet split-pane composition missing');
+              if (rail && rect(rail).width < 60) errors.push('tablet rail too narrow to be intentional');
+              notes.push('tablet rail/split-pane composition rendered');
+            }
+
+            if (profile === 'desktop') {
+              const shell = doc.querySelector('[data-glaze-desktop="true"]');
+              const sidebar = doc.querySelector('.glaze-desktop-sidebar');
+              const toolbar = doc.querySelector('.glaze-desktop-toolbar');
+              const workspace = doc.querySelector('.glaze-desktop-workspace');
+              if (!shell || !sidebar || !toolbar || !workspace) errors.push('desktop workspace primitives missing');
+              if (workspace && workspace.children.length < 3) errors.push('desktop multi-pane workspace missing');
+              notes.push('desktop sidebar/toolbar/multi-pane composition rendered');
+            }
+
+            if (profile === 'tv') {
+              const shell = doc.querySelector('[data-glaze-tv="true"]');
+              const nav = doc.querySelector('.glaze-tv-nav');
+              const focusables = [...doc.querySelectorAll('.glaze-tv-focusable')];
+              const first = focusables[0];
+              if (!shell || !nav) errors.push('TV shell or navigation missing');
+              if (focusables.length < 7) errors.push(`TV focusable count=${focusables.length}`);
+              for (const item of focusables) {
+                const box = rect(item);
+                if (box.height > 0 && box.height < 55.5) errors.push(`undersized TV focus target=${box.height.toFixed(1)}px`);
+              }
+              if (nav) {
+                const box = rect(nav);
+                if (box.left < 47 || box.top < 26) errors.push(`TV safe-region inset too small left=${box.left.toFixed(1)} top=${box.top.toFixed(1)}`);
+              }
+              if (!first || doc.activeElement !== first) errors.push('TV initial directional focus is not established');
+              if (first && expectedMode === 'normal' && style(first).transform === 'none') errors.push('TV focused state lacks bounded spatial focus treatment');
+
+              if (first) {
+                const before = doc.activeElement;
+                before.dispatchEvent(new win.KeyboardEvent('keydown', {key:'ArrowDown', bubbles:true, cancelable:true}));
+                const after = doc.activeElement;
+                if (after === before) errors.push('TV ArrowDown did not move focus');
+                if (!after?.classList.contains('glaze-tv-focusable')) errors.push('TV directional navigation left the focus group');
+                if (after && after.getAttribute('aria-current') === 'page') errors.push('TV focus movement unexpectedly changed selection/current state');
+                if (after) after.dispatchEvent(new win.KeyboardEvent('keydown', {key:'ArrowRight', bubbles:true, cancelable:true}));
+                if (!doc.activeElement?.classList.contains('glaze-tv-focusable')) errors.push('TV ArrowRight did not preserve directional focus');
+              }
+
+              if (expectedMode === 'reduced-motion') {
+                if (!win.matchMedia('(prefers-reduced-motion: reduce)').matches) errors.push('TV reduced-motion media mode was not activated');
+                const focused = doc.activeElement;
+                if (focused && style(focused).transform !== 'none') errors.push('TV focus scale/lift remains active under reduced motion');
+              }
+              if (expectedMode === 'forced-colors' && !win.matchMedia('(forced-colors: active)').matches) errors.push('TV forced-colors media mode was not activated');
+              notes.push('TV overscan-safe directional-focus composition rendered');
+            }
+          };
+
+          if (profile === 'reference') checkReference(); else checkFormFactor();
 
           notes.push(`viewport ${width}×${height}`);
           notes.push(`theme ${theme}`);
           notes.push(`mode ${expectedMode}`);
-          notes.push('1.3 expressive roles rendered');
+          notes.push(`profile ${profile}`);
           if (errors.length) settle(fail, [...notes, ...errors]); else settle(pass, notes);
         }));
       }, { once: true });
-      frame.src = './index.html';
+
+      const source = profile === 'reference'
+        ? './index.html'
+        : `./formfactors.html?${new URLSearchParams({profile, theme}).toString()}`;
+      frame.src = source;
     })();
   </script>
 </body>
