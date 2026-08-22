@@ -24,6 +24,20 @@ Glaze UI remains stabilization-first. `STABILITY.md` governs compatibility and p
 
 Speculative intelligence, agent, automation, ambient-computing, voice, and operating-experience concepts remain roadmap-only unless separately implemented, versioned, validated, and promoted.
 
+## Glaze Sans experimental typography track
+
+Glaze Sans is an **Experimental** first-party typography project. It is not part of the Glaze UI 1.4 Stable compatibility contract and must not be treated as the default font for current applications yet.
+
+The original 0.1 design direction is rejected. The active work now prioritizes immediately recognizable Latin text, subtle rounded character, strong UI readability, transparent provenance, local/self-hosted delivery, and explicit human visual approval before Candidate promotion.
+
+See:
+
+- `typography/glaze-sans/DESIGN.md` — design objective, rejected-alpha record, Direction 03 target, family plan, and promotion boundary.
+- `typography/glaze-sans/REVIEW.md` — mandatory visual, readability, confusing-glyph, weight, accessibility, and human approval gates.
+- `typography/glaze-sans/REFERENCES.md` — open-source font research and provenance boundary.
+
+Stable Glaze UI system-font typography remains authoritative until a future Glaze Sans candidate passes these gates.
+
 ## Repository layout
 
 - `VERSION` — current Stable semantic version.
@@ -42,6 +56,7 @@ Speculative intelligence, agent, automation, ambient-computing, voice, and opera
 - `ACCEPTANCE.md` — Stable acceptance protocol.
 - `acceptance/` — version-specific promotion evidence.
 - `reference/index.html` and `reference/formfactors.html` — dependency-free references.
+- `typography/glaze-sans/` — Experimental Glaze Sans design and review records.
 - `scripts/validate_glaze_ui.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, and `scripts/validate_rendered_reference.py` — fail-closed validation.
 
 ## Material hierarchy
