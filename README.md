@@ -24,11 +24,16 @@ Glaze UI remains stabilization-first. `STABILITY.md` governs compatibility and p
 
 Speculative intelligence, agent, automation, ambient-computing, voice, and operating-experience concepts remain roadmap-only unless separately implemented, versioned, validated, and promoted.
 
+## Future typography reference
+
+Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS.md` preserves the desired future design brief—beautiful, polished, subtly rounded, geometric-humanist, highly readable, accessible, local-first, and distinctly GoreeCloud—without making a custom font part of the current Stable contract. System/platform-native fonts remain the default today.
+
 ## Repository layout
 
 - `VERSION` — current Stable semantic version.
 - `tokens/glaze.tokens.json` — canonical semantic tokens.
 - `FORM_FACTORS.md` — Mobile, Tablet, Desktop, and TV contract.
+- `GLAZE_SANS.md` — future-only Glaze Sans visual and quality reference; not an active implementation requirement.
 - `css/glaze.css` — core web primitives.
 - `css/glaze.controls.css` — form/selection/feedback primitives.
 - `css/glaze.expressive.css` — 1.3 expressive layer retained by 1.4.
