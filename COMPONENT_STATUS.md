@@ -1,113 +1,46 @@
 # Glaze UI Component Lifecycle
 
-This record defines the lifecycle status of canonical Glaze UI foundations and components. The status is release-governance metadata, not a visual-quality score.
+This record defines lifecycle status for canonical Glaze UI capabilities.
 
 ## Lifecycle definitions
 
 ### Stable
-
-A Stable foundation or component has a documented semantic contract, representative canonical implementation or native mapping guidance, accessibility and resilience requirements, and validation coverage appropriate to its role. Stable items may be used by production GoreeCloud applications subject to application-specific acceptance.
+Documented, validated capabilities included in the compatibility promise.
 
 ### Candidate
-
-A Candidate item is implemented and under formal validation but is not yet part of the Stable compatibility promise. Candidate items must not be treated as required Stable consumer behavior unless the consuming application explicitly adopts the candidate and records that boundary.
+Implemented capabilities still under formal promotion review.
 
 ### Experimental
-
-An Experimental item is exploratory. Its API, semantics, appearance, or implementation may change substantially. Experimental items are not permitted as mandatory dependencies for Stable GoreeCloud application releases.
+Exploratory capabilities that may change substantially and cannot be mandatory Stable dependencies.
 
 ### Planned
-
-A Planned item is documented direction only. It is not an implemented Glaze UI capability and must not be represented as available.
+Roadmap direction only; not implemented shipping functionality.
 
 ## Glaze UI 1.3 Stable foundations
 
+The 1.3 semantic color, surface, typography, spacing, shape, effects/spatial motion, state-layer, focus/target, accessibility/resilience, safe-area, privacy, product-personality, core controls, Functional Glass, Clear Glass, adaptive action groups, reachability, and hero-typography contracts remain Stable and are retained by 1.4.
+
+## Glaze UI 1.4 Stable form-factor layer
+
 | Area | Status | Stable contract |
 | --- | --- | --- |
-| Semantic color system | Stable | Light/dark Canvas, surface, text, line, accent, status, focus, selection, scrim, and on-accent roles. |
-| Surface hierarchy | Stable | Canvas, Solid, Raised, Glaze/Functional Glass, Overlay, with Clear Glass restricted to rich-media control contexts. |
-| Typography hierarchy | Stable | Readable body/supporting roles plus bounded hero/display emphasis. |
-| Spacing and adaptive gutters | Stable | Semantic spacing and Compact/Medium/Expanded/Wide gutter behavior. |
-| Shape system | Stable | Compact, Standard, Expressive, Hero, and Pressed roles. |
-| Motion system | Stable | Effects/spatial motion separation with bounded expressive motion and reduced-motion removal. |
-| Interaction state layers | Stable | Hover, pressed, focus, and selected semantic feedback. |
-| Focus and target sizing | Stable | Visible semantic focus and 44px minimum actionable target where platform behavior permits. |
-| Accessibility/resilience layer | Stable | Reduced motion, reduced transparency where supported, increased contrast, forced colors, and no-backdrop-filter solid fallbacks. |
-| Safe-area semantics | Stable | Additive safe-area handling for web and platform-native equivalents. |
-| Privacy presentation boundary | Stable | No unnecessary remote presentation dependencies, analytics, or tracking. |
-| Product personality contract | Stable | Shared family resemblance without forcing identical product composition. |
-
-## Glaze UI 1.3 Stable components and patterns
-
-| Component or pattern | Status | Notes |
-| --- | --- | --- |
-| Primary/secondary/destructive buttons | Stable | Includes loading, focus, state-layer, and target-size requirements. |
-| Icon buttons | Stable | Accessible name required; compact geometry with practical target sizing. |
-| Text fields, search, textarea, select | Stable | Persistent labels and programmatic help/error relationships where supported. |
-| Checkbox and radio mapping | Stable | Native controls preferred when they satisfy the product need. |
-| Switch | Stable | Immediate binary settings only; checked state must be programmatic. |
-| Segmented controls and tabs | Stable | Selected state and appropriate keyboard semantics required. |
-| Progress | Stable | Determinate value semantics where applicable. |
-| Banners and in-context feedback | Stable | Textual meaning cannot rely on color alone. |
-| Toasts, badges, status indicators | Stable | Accessible announcements required when state changes warrant them. |
-| Cards and panels | Stable | Material role must be intentional; glass is not the default card style. |
-| Expressive tiles | Stable | Stronger geometry reserved for meaningful emphasis. |
-| Navigation and toolbars | Stable | Current location semantics, adaptive transformation, and target sizing required. |
-| Dialogs, menus, sheets, overlays, scrims | Stable | Programmatic name, focus lifecycle, viewport bounds, safe-area and solid-fallback requirements. |
-| Tables and dense-data adaptation | Stable | Scanability and accessible headers; Compact may transform to list/card presentation. |
-| Adaptive action groups | Stable | Visual emphasis may change allocation but not semantic or focus order. |
-| Compact reachability composition | Stable | Visual placement may improve one-handed access without document-order mutation. |
-| Hero typography | Stable | Must remain readable under reflow, scaling, and localization pressure. |
+| Mobile semantic composition | Stable | Touch/reachability-first shell, safe areas, mobile navigation, dense-data transformation. |
+| Tablet semantic composition | Stable | Pane/posture-aware layouts with touch primary and optional pointer/keyboard/stylus enhancement. |
+| Desktop semantic composition | Stable | Resizable workspace, pointer/keyboard behavior, persistent navigation/toolbars and multi-pane patterns where useful. |
+| TV semantic composition | Stable | Far-view, landscape-first, overscan-safe, directional-focus, remote/D-pad operation. |
+| TV focus primitives | Stable | Focus/selection distinction, predictable directional movement, bounded focus motion, reduced-motion/forced-colors fallback. |
+| Form-factor token roles | Stable | Viewing distance, input, navigation, density, composition, anti-pattern metadata. |
 
 ## Candidate form-factor layer
 
-The following belong to Glaze UI 1.4.0 Candidate and are not part of the 1.3 Stable compatibility promise:
-
-| Area | Status | Candidate scope |
-| --- | --- | --- |
-| Mobile semantic composition | Candidate | Touch/reachability-first shell and navigation rules. |
-| Tablet semantic composition | Candidate | Pane/posture-aware layouts and optional pointer/keyboard/stylus enhancement. |
-| Desktop semantic composition | Candidate | Workspace-first resizable layout and pointer/keyboard semantics. |
-| TV semantic composition | Candidate | Far-viewing, directional-focus, overscan-safe, remote/D-pad experience. |
-| TV focus primitives | Candidate | Focus/selection distinction, directional navigation, reduced-motion and forced-colors fallback. |
-| Form-factor token roles | Candidate | Viewing distance, input, navigation model, density, composition, and anti-pattern metadata. |
-
-Candidate source may be reviewed and tested without changing the Stable status of 1.3 consumers.
+Historical promotion boundary: these form-factor capabilities were the **Candidate form-factor layer** while Glaze UI 1.4 was under review. They are now Stable in 1.4.0. No active 1.4 form-factor capability remains Candidate after promotion.
 
 ## Experimental and roadmap boundary
 
-The following are not part of the current Stable or Candidate source contract unless separately implemented and versioned in the future:
-
-- Glaze Intelligence Layer;
-- Glaze Agents;
-- Glaze Memory;
-- Glaze Automation Engine;
-- ambient-computing/device-continuity concepts;
-- Glaze Voice;
-- Glaze operating-experience or app-store concepts;
-- other speculative 1.7, 1.8, or 2.0 roadmap ideas.
-
-These are **Planned/roadmap concepts**, not shipping components.
+Glaze Intelligence Layer, Glaze Agents, Glaze Memory, automation, ambient computing, voice, operating-experience, app-store, and other speculative 1.7/1.8/2.0 ideas remain **Planned/roadmap concepts** and are not shipping Stable behavior.
 
 ## Promotion requirements
 
-A Candidate component or foundation becomes Stable only when:
+Candidate capabilities become Stable only after documented semantics, implementation/native mapping guidance, accessibility/resilience behavior, fail-closed validation, rendered/native acceptance applicable to the design-system scope, compatibility/migration review, and the `STABILITY.md` promotion gate.
 
-1. its semantics are documented;
-2. its implementation or platform mapping is present;
-3. accessibility/resilience requirements are defined;
-4. source validation covers durable invariants;
-5. rendered/native acceptance covers the behavior required by its scope;
-6. compatibility and migration impact are recorded;
-7. the release containing it passes the Stable promotion gate in `STABILITY.md`.
-
-## Deprecation requirements
-
-A Stable component or semantic role may not disappear silently. Deprecation requires:
-
-- a documented reason;
-- a replacement or approved removal path;
-- affected consumer guidance;
-- a minimum compatibility period appropriate to the impact;
-- validator and documentation updates;
-- a major version when removal is breaking.
+Stable capabilities may not disappear silently; breaking removal requires migration guidance and an appropriate major version.

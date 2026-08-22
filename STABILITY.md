@@ -1,128 +1,44 @@
 # Glaze UI Stability Contract
 
-Glaze UI is a shared production dependency for GoreeCloud applications. Stability therefore means more than a passing build: the design system must provide a predictable semantic contract, repeatable validation, controlled change management, documented compatibility, and representative rendered evidence.
+Glaze UI is a shared production dependency. Stability means predictable semantics, repeatable exact-revision validation, controlled change management, documented compatibility, rendered evidence, and explicit rollback.
 
 ## Current release boundary
 
-- **Stable baseline:** Glaze UI 1.3.0 on `main`.
-- **Candidate line:** Glaze UI 1.4.0 remains isolated in its form-factor candidate branch and pull request until all required promotion evidence is complete.
-- Stable consumers are never migrated automatically when a newer candidate exists.
-- Experimental roadmap concepts do not alter the Stable contract unless they enter a separately versioned, reviewed, validated release line.
+- **Stable baseline:** Glaze UI **1.4.0** on `main` after promotion.
+- Glaze UI 1.3.0 is the immediately preceding Stable baseline and remains a valid older consumer target.
+- Stable consumers are never migrated automatically when a newer Stable release exists.
+- Experimental and Planned roadmap concepts do not alter the Stable contract.
 
 ## Stability principles
 
-1. **Stable means compatible.** Patch changes must not silently alter established semantic roles, required component behavior, token meaning, or supported interaction contracts.
-2. **Stable means fail closed.** Required files, semantic roles, accessibility fallbacks, acceptance rules, or release-boundary declarations may not disappear without validation failing.
-3. **Stable means evidence-bound.** Promotion decisions must identify the exact candidate SHA and the exact validation evidence used.
-4. **Stable means product-safe.** A design-system change does not imply downstream application readiness. Each consumer retains application-specific adoption and acceptance responsibility.
-5. **Stable means accessible under degradation.** Reduced motion, reduced transparency where supported, increased contrast, forced colors, missing backdrop filtering, and other documented resilience states remain usable.
-6. **Stable means local and privacy-conscious.** Canonical presentation must not acquire unnecessary remote fonts, icons, scripts, analytics, trackers, or runtime dependencies.
-7. **Stable means reversible.** Every promotion or material contract change must have an explicit Git rollback path and must not require unrelated infrastructure rollback.
-
-## Change classification
-
-### Patch release
-
-A patch release may include compatible corrections such as:
-
-- bug fixes;
-- accessibility or resilience fixes;
-- validation hardening;
-- documentation clarification;
-- compatible visual polish that does not redefine semantic meaning;
-- deterministic test-harness reliability corrections that do not weaken assertions.
-
-A patch release must not repurpose an existing token, remove a required semantic role, or require consumers to redesign previously conformant behavior.
-
-### Minor release
-
-A minor release may add compatible tokens, primitives, components, acceptance cases, or platform semantics. Existing Stable semantics must remain valid unless an explicit migration is documented and the change is judged non-breaking.
-
-New minor versions remain Candidate until the full promotion gate passes.
-
-### Major release
-
-A major release is required when the design system intentionally changes established semantic meaning, removes a supported contract, introduces incompatible component behavior, or requires consumers to perform a breaking migration.
+1. Stable means compatible.
+2. Stable means fail closed.
+3. Stable means evidence-bound to an exact candidate SHA.
+4. Stable means product-safe: design-system promotion never implies downstream application readiness.
+5. Stable means accessible under reduced motion/transparency, increased contrast, forced colors, and solid fallbacks.
+6. Stable means local and privacy-conscious.
+7. Stable means reversible.
 
 ## Stable promotion gate
 
-A candidate may be promoted to Stable only when all applicable conditions below are satisfied:
-
-1. Repository validation passes on the exact final candidate SHA.
-2. Rendered reference acceptance passes on the exact final candidate SHA.
-3. Required light/dark, accessibility, resilience, and supported form-factor cases pass.
-4. No required acceptance case is silently skipped; unsupported cases are explicitly recorded.
-5. Defects found during acceptance are corrected without weakening the affected gate.
-6. The final candidate has a documented compatibility and migration assessment.
-7. The component-status record is accurate for the candidate.
-8. Stable documentation, version metadata, changelog, and release status agree.
-9. Any platform-native or real-device evidence required by the candidate's scope is completed before promotion.
-10. The pull request is promoted from draft only after the complete exact-head gate is green.
-11. Merge uses expected-head protection so a changed candidate cannot be promoted using stale evidence.
-12. The resulting Stable commit and rollback point are recorded.
+A candidate may become Stable only when repository validation, rendered acceptance, required accessibility/resilience/form-factor cases, compatibility/migration assessment, lifecycle records, version/status documentation, and rollback are complete on the exact final candidate. Platform-native or real-device evidence is required when the **design-system candidate itself implements platform-native behavior that the canonical web/reference harness cannot prove**. Consumer-native implementations remain subject to their own application-specific adoption and release acceptance.
 
 If any applicable gate is incomplete, the release remains Candidate.
 
+## 1.4 promotion applicability
+
+Glaze UI 1.4 core contains platform-neutral tokens, CSS/reference implementations, semantic form-factor contracts, and browser-rendered acceptance. It does not ship an Android, iOS/iPadOS/tvOS, Linux-native, television-hardware, or other native client runtime. Therefore native-device execution is not an applicable design-system-core promotion gate for 1.4 itself. Native consumers must still prove their own platform mapping, focus engine, safe-area/overscan behavior, performance, input behavior, and product task flows before claiming application-level 1.4 acceptance.
+
 ## Stable maintenance rules
 
-While 1.3.x is the Stable line:
-
-- compatibility and correctness outrank feature expansion;
-- no speculative intelligence, ambient-computing, operating-experience, or other roadmap concept is added to the Stable contract merely because it has been discussed;
-- new candidate work must remain isolated from `main` until promotion;
-- consumer applications may continue targeting 1.3.0 while a newer candidate is evaluated;
-- documentation-only clarifications may merge when they preserve the existing Stable semantics and pass the normal exact-head gate.
+While 1.4.x is Stable, compatibility, accessibility, deterministic validation, accurate documentation, controlled adoption, and regression resistance outrank feature expansion. No speculative intelligence or roadmap concept enters Stable merely because it has been discussed.
 
 ## Regression blockers
 
-The following block Stable promotion or a Stable patch merge when applicable:
-
-- missing or renamed required semantic tokens without migration;
-- loss of keyboard focus visibility;
-- actionable targets below the documented minimum where the platform permits compliant sizing;
-- loss of persistent field labels or programmatic field feedback relationships;
-- reduced-motion behavior that retains nonessential spatial transformation;
-- unreadable glass surfaces when transparency or backdrop filtering is unavailable;
-- forced-colors loss of focus, selection, checked, progress, or destructive distinction;
-- new unapproved remote presentation dependencies;
-- generic scaled form-factor layouts where purpose-built composition is required;
-- version, token metadata, documentation, and release-status disagreement;
-- acceptance evidence that is not bound to the final candidate SHA.
+Stable changes are blocked by semantic-token drift without migration, loss of visible focus, undersized actionable targets where compliant sizing is possible, loss of field/selection semantics, nonessential motion under reduced-motion, unreadable transparency fallbacks, forced-colors state loss, unapproved remote presentation dependencies, generic scaled form-factor layouts, version/status disagreement, or stale/non-exact promotion evidence.
 
 ## Consumer compatibility
 
-A GoreeCloud application may remain on an older Stable Glaze UI release while a newer Stable release exists when migration would introduce unnecessary risk. Consumer upgrades should be controlled, version-specific, and validated against the application's actual surfaces rather than achieved by copying the reference stylesheet wholesale.
+Applications may remain on older Stable Glaze UI versions. `CONSUMERS.md` and `consumers/registry.json` distinguish current-Stable alignment, older-Stable alignment, Adoption Candidate work, and Unverified evidence. Adoption Candidate may target a supported Stable release older than the current baseline when final application-specific acceptance is still incomplete.
 
-Platform-native controls remain preferred where they provide stronger native accessibility or interaction behavior. Glaze conformance is semantic, not a requirement to reproduce web implementation details on every platform.
-
-### Consumer compatibility registry
-
-`CONSUMERS.md` and `consumers/registry.json` maintain the central evidence-backed consumer audit. The registry distinguishes:
-
-- `aligned-current-stable` consumers that explicitly target the current Stable semantic version;
-- `aligned-older-stable` consumers that intentionally remain on an earlier Stable release with version-specific evidence;
-- `unverified` consumers whose repository evidence has not yet established a version-specific Glaze contract.
-
-The registry is not a migration scheduler and must not convert an older Stable target into an automatic defect. A consumer's reviewed version/revision anchor remains valid until the application intentionally adopts another Glaze release or a material compatibility review requires renewed evidence. Documentation-only or governance-only commits on Glaze UI `main` do not by themselves force every aligned consumer to repin.
-
-Unverified means an evidence gap, not a non-conformance finding. A repository should gain a version-specific local contract before claiming Glaze conformance or production UI acceptance, but the central audit must not infer failure merely because that evidence has not yet been recorded.
-
-The registry must never classify Candidate or Experimental Glaze behavior as Stable consumer alignment. CI validates the registry vocabulary, Stable baseline, version relationships, evidence requirements, and human-readable consumer contract.
-
-## Stability review cadence
-
-Before a Stable release or material Stable contract change, review:
-
-- version and token metadata;
-- required files and validator coverage;
-- component lifecycle classifications;
-- conformance and acceptance contracts;
-- representative rendered evidence;
-- accessibility and resilience behavior;
-- privacy/runtime-dependency boundaries;
-- downstream migration impact;
-- the consumer compatibility registry and unresolved consumer evidence gaps;
-- rollback instructions;
-- unresolved defects or candidate-only assumptions.
-
-The goal is a design system that GoreeCloud applications can depend on without continuous visual churn or surprise semantic changes.
+Consumer migration is version-specific and intentional. The registry must not silently depend on Candidate or Experimental behavior when recording Stable alignment.

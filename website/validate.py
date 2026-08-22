@@ -1,89 +1,26 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import re
-import subprocess
-import sys
-
-ROOT = Path(__file__).resolve().parents[1]
-SITE = ROOT / "website"
-DIST = SITE / "dist"
-
-required_source = ["index.html", "404.html", "site.css", "site.js", "_headers", "build.py"]
-for name in required_source:
-    if not (SITE / name).is_file():
-        raise SystemExit(f"missing website source: {name}")
-
-subprocess.run([sys.executable, str(SITE / "build.py")], cwd=ROOT, check=True)
-
-required_dist = [
-    "index.html",
-    "404.html",
-    "_headers",
-    "assets/glaze.css",
-    "assets/glaze.controls.css",
-    "assets/glaze.expressive.css",
-    "assets/glaze.accessibility.css",
-    "assets/site.css",
-    "assets/site.js",
-]
-for name in required_dist:
-    if not (DIST / name).is_file():
-        raise SystemExit(f"missing build artifact: {name}")
-
-html = (DIST / "index.html").read_text(encoding="utf-8")
-headers = (DIST / "_headers").read_text(encoding="utf-8")
-js = (DIST / "assets/site.js").read_text(encoding="utf-8")
-expressive = (DIST / "assets/glaze.expressive.css").read_text(encoding="utf-8")
-
-for needle in [
-    "Glaze UI 1.3 Stable",
-    "1.4 Form-Factor Candidate",
-    "One design language. Four interaction environments.",
-    "Mobile",
-    "Tablet",
-    "Desktop",
-    "TV",
-    "Canvas",
-    "Solid",
-    "Raised",
-    "Glaze",
-    "Overlay",
-    "Shared semantics, flexible composition",
-    "Stable semantics protect beauty and usability",
-    "Skip to content",
-]:
-    if needle not in html:
-        raise SystemExit(f"required public-site content missing: {needle}")
-
-if "glaze-ui-mark.svg" in html:
-    raise SystemExit("rejected Glaze UI mark must not be published or referenced")
-
-for stylesheet in ("/assets/glaze.controls.css", "/assets/glaze.expressive.css", "/assets/glaze.accessibility.css"):
-    if stylesheet not in html:
-        raise SystemExit(f"Glaze UI required stylesheet is not loaded by the public site: {stylesheet}")
-
-for marker in (
-    ".glaze-glass-functional",
-    ".glaze-glass-clear",
-    ".glaze-expressive-action",
-    ".glaze-button-group",
-    ".glaze-reach-layout",
-    "prefers-reduced-motion",
-    "prefers-reduced-transparency",
-    "forced-colors",
-):
-    if marker not in expressive:
-        raise SystemExit(f"expressive layer contract missing: {marker}")
-
-for remote in re.findall(r'(?:src|href)=["\'](https?://[^"\']+)', html):
-    if "github.com/GoreeCloud/glaze-ui" not in remote:
-        raise SystemExit(f"unexpected remote browser resource/link: {remote}")
-
-for directive in ["Content-Security-Policy:", "frame-ancestors 'none'", "Permissions-Policy:", "X-Content-Type-Options: nosniff"]:
-    if directive not in headers:
-        raise SystemExit(f"required security header missing: {directive}")
-
-if "localStorage" not in js or "data-theme-choice" not in html:
-    raise SystemExit("local appearance preference contract missing")
-
-print("Glaze UI 1.3 Stable / 1.4 Form-Factor Candidate public design site validation passed")
+import re,subprocess,sys
+ROOT=Path(__file__).resolve().parents[1]; SITE=ROOT/'website'; DIST=SITE/'dist'
+for n in ('index.html','404.html','site.css','site.js','_headers','build.py'):
+    if not (SITE/n).is_file(): raise SystemExit(f'missing website source: {n}')
+subprocess.run([sys.executable,str(SITE/'build.py')],cwd=ROOT,check=True)
+required=('index.html','404.html','_headers','assets/glaze.css','assets/glaze.controls.css','assets/glaze.expressive.css','assets/glaze.formfactors.css','assets/glaze.accessibility.css','assets/site.css','assets/site.js')
+for n in required:
+    if not (DIST/n).is_file(): raise SystemExit(f'missing build artifact: {n}')
+html=(DIST/'index.html').read_text(); headers=(DIST/'_headers').read_text(); js=(DIST/'assets/site.js').read_text(); expressive=(DIST/'assets/glaze.expressive.css').read_text(); formfactors=(DIST/'assets/glaze.formfactors.css').read_text()
+for n in ('Glaze UI 1.4 Stable','One design language. Four interaction environments.','Mobile','Tablet','Desktop','TV','Canvas','Solid','Raised','Glaze','Overlay','Shared semantics, flexible composition','Stable semantics protect beauty and usability','Skip to content'):
+    if n not in html: raise SystemExit(f'required public-site content missing: {n}')
+if 'glaze-ui-mark.svg' in html: raise SystemExit('rejected Glaze UI mark must not be published')
+for s in ('/assets/glaze.controls.css','/assets/glaze.expressive.css','/assets/glaze.formfactors.css','/assets/glaze.accessibility.css'):
+    if s not in html: raise SystemExit(f'required stylesheet not loaded: {s}')
+for m in ('.glaze-glass-functional','.glaze-glass-clear','.glaze-expressive-action','.glaze-button-group','.glaze-reach-layout','prefers-reduced-motion','prefers-reduced-transparency','forced-colors'):
+    if m not in expressive: raise SystemExit(f'expressive contract missing: {m}')
+for m in ('.glaze-mobile-shell','.glaze-tablet-shell','.glaze-desktop-shell','.glaze-tv-shell','.glaze-tv-focusable'):
+    if m not in formfactors: raise SystemExit(f'form-factor contract missing: {m}')
+for remote in re.findall(r'(?:src|href)=["\'](https?://[^"\']+)',html):
+    if 'github.com/GoreeCloud/glaze-ui' not in remote: raise SystemExit(f'unexpected remote browser resource/link: {remote}')
+for d in ("Content-Security-Policy:","frame-ancestors 'none'","Permissions-Policy:","X-Content-Type-Options: nosniff"):
+    if d not in headers: raise SystemExit(f'required security header missing: {d}')
+if 'localStorage' not in js or 'data-theme-choice' not in html: raise SystemExit('local appearance preference contract missing')
+print('Glaze UI 1.4 Stable public design site validation passed')

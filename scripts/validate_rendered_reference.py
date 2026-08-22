@@ -14,8 +14,9 @@ import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RENDER_ATTEMPTS = 2
-RENDER_TIMEOUT_SECONDS = 40
+RENDER_ATTEMPTS = 5
+RENDER_TIMEOUT_SECONDS = 60
+VIRTUAL_TIME_BUDGET_MS = 12000
 
 
 def find_browser() -> str:
@@ -40,7 +41,6 @@ def serve_root():
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     old_cwd = Path.cwd()
     try:
-        # SimpleHTTPRequestHandler serves from the process working directory.
         import os
 
         os.chdir(ROOT)
@@ -68,6 +68,9 @@ def browser_command(
         "--disable-gpu",
         "--disable-dev-shm-usage",
         "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-renderer-backgrounding",
         "--disable-default-apps",
         "--disable-extensions",
         "--disable-sync",
@@ -75,7 +78,7 @@ def browser_command(
         "--mute-audio",
         "--no-first-run",
         "--run-all-compositor-stages-before-draw",
-        "--virtual-time-budget=3000",
+        f"--virtual-time-budget={VIRTUAL_TIME_BUDGET_MS}",
         f"--user-data-dir={profile_dir}",
         f"--window-size={width},{height}",
     ]
@@ -87,10 +90,21 @@ def browser_command(
     return command
 
 
-def run_case(browser: str, port: int, *, width: int, height: int, theme: str, mode: str = "normal") -> None:
-    query = urllib.parse.urlencode({"width": width, "height": height, "theme": theme, "mode": mode})
+def run_case(
+    browser: str,
+    port: int,
+    *,
+    width: int,
+    height: int,
+    theme: str,
+    mode: str = "normal",
+    profile: str = "reference",
+) -> None:
+    query = urllib.parse.urlencode(
+        {"width": width, "height": height, "theme": theme, "mode": mode, "profile": profile}
+    )
     url = f"http://127.0.0.1:{port}/reference/acceptance.html?{query}"
-    case_name = f"{width}x{height} {theme} {mode}"
+    case_name = f"{profile} {width}x{height} {theme} {mode}"
     last_failure = "browser did not produce a result"
 
     for attempt in range(1, RENDER_ATTEMPTS + 1):
@@ -146,11 +160,44 @@ def run_case(browser: str, port: int, *, width: int, height: int, theme: str, mo
 def main() -> None:
     browser = find_browser()
     with serve_root() as port:
+        # Retain the canonical application-interface / expressive reference gate.
         for width, height in ((390, 844), (1280, 900)):
             for theme in ("light", "dark"):
                 run_case(browser, port, width=width, height=height, theme=theme)
         run_case(browser, port, width=390, height=844, theme="light", mode="reduced-motion")
         run_case(browser, port, width=390, height=844, theme="light", mode="forced-colors")
+
+        # Glaze UI 1.4 purpose-built form-factor matrix.
+        form_factor_cases = (
+            ("mobile", 390, 844),
+            ("tablet", 820, 1180),
+            ("desktop", 1280, 900),
+            ("desktop", 1600, 1000),
+            ("tv", 1920, 1080),
+        )
+        for profile, width, height in form_factor_cases:
+            for theme in ("light", "dark"):
+                run_case(browser, port, profile=profile, width=width, height=height, theme=theme)
+
+        # TV needs its own remote-focus resilience evidence.
+        run_case(
+            browser,
+            port,
+            profile="tv",
+            width=1920,
+            height=1080,
+            theme="dark",
+            mode="reduced-motion",
+        )
+        run_case(
+            browser,
+            port,
+            profile="tv",
+            width=1920,
+            height=1080,
+            theme="dark",
+            mode="forced-colors",
+        )
     print("Glaze UI rendered reference acceptance passed")
 
 

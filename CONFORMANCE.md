@@ -1,51 +1,45 @@
-# Glaze UI 1.3 Conformance
+# Glaze UI 1.4 Conformance
 
-Glaze UI conformance protects both beauty and usability. An application is conformant when it uses the shared semantic contract without flattening its product personality.
+Glaze UI 1.4 conformance protects beauty, usability, stability, and purpose-built form-factor behavior while retaining the full 1.3 expressive foundation.
 
-## Seventeen required gates
+## Twenty-one required gates
 
-1. **Identity** — recognizably GoreeCloud; no accidental upstream/default-framework identity.
-2. **Tokens** — semantic colors, spacing, radii, expressive shapes, typography, icon sizing, density, material, motion, focus, state layers, target sizes, layout gutters, field composition, and safe-area behavior map to Glaze tokens or documented platform-native equivalents.
-3. **Surface hierarchy** — Canvas, Solid, Raised, Glaze, and Overlay roles are intentional; ordinary content defaults to Solid/Raised, Functional Glass is primarily functional chrome, Clear Glass is limited to controls over visually rich media, and modal backdrops use a semantic scrim.
-4. **States** — default, hover where applicable, pressed, focus, selected, disabled, loading, info, success, warning, error, and destructive behavior are defined when relevant. Interactive state feedback uses the shared state-layer contract or a documented native equivalent.
-5. **Forms and selection** — editable fields have persistent labels, help/error relationships are programmatic when supported, selection controls expose checked/selected state, switches represent true binary settings, and progress exposes value semantics when determinate.
-6. **Expressive hierarchy** — stronger shape, motion, typography, and adaptive emphasis are concentrated in important actions, selected containers, hero moments, or product identity. Repeated utility controls remain calm and predictable.
-7. **Motion separation** — effects motion and spatial motion use the appropriate semantic family. Expressive spatial motion is not used indiscriminately, physical stretch/shift/rebound/shape-morph feedback remains bounded and purposeful, and reduced-motion mode removes nonessential shape/scale/spring/spatial transformations.
-8. **Accessibility** — keyboard access where applicable, visible focus using the semantic focus role, semantic labels, target sizing, reduced motion, reduced transparency, increased contrast, forced colors, and solid glass fallback.
-9. **Adaptive layout and reachability** — Compact, Medium, Expanded, and Wide layouts transform navigation and information density rather than merely shrinking. Mobile clients account for safe areas, viewport-bounded overlays, and may use lower action zones without changing logical/keyboard order.
-10. **Form-factor fidelity** — supported phone, tablet, and desktop experiences are deliberately composed for their effective form factor and input model. Phone UI must not be a shrunken tablet or desktop layout; tablet UI must not be a stretched phone layout; desktop UI must not be an enlarged mobile shell. Representative acceptance verifies navigation, density, pane structure, interaction model, and primary workflows for each supported form factor.
-11. **Adaptive action grouping** — group emphasis may change visual allocation but not action order, semantic meaning, focus order, or access to sibling actions.
-12. **Privacy** — no tracking UI dependencies; remote fonts/scripts/icons are prohibited unless explicitly justified and documented; appearance preference remains local unless a product requirement needs synchronization.
-13. **Resilience** — core content and critical actions remain understandable when blur, animation, remote assets, or nonessential JavaScript features are unavailable.
-14. **Product personality and visual character** — applications may vary composition, accent emphasis, imagery, information architecture, visualization, and specialized components while retaining a recognizable Glaze family resemblance. Where appropriate to the product and platform, that resemblance includes layered depth, selective translucency and blur, restrained reflection/highlight cues, soft elevation, rounded/circular/pill geometry, coordinated adaptive tints and accents, deliberate whitespace and grouping, bold information hierarchy, and tactile but bounded motion. No single effect is mandatory everywhere, and beauty must not override readability, semantic contrast, accessibility, performance, or the application's Role and Purpose.
-15. **Cross-platform mapping** — web, Linux, Android, iOS, and other clients use the same semantic roles even when platform-native implementation primitives differ. Platform-native clients may diverge in navigation and composition when required to provide the correct phone, tablet, or desktop experience.
-16. **Visual acceptance** — light and dark modes are reviewed visually at representative phone/Compact, tablet/Medium, desktop/Expanded, and Wide layouts for every supported target before stable release; products with native clients also require representative real-client acceptance. Review must consider the complete visual character—material depth, coordinated color, geometry, spacing, hierarchy, grouping, and motion quality—rather than treating the presence of rounded cards or blur as sufficient Glaze UI evidence.
-17. **Stability and lifecycle** — Stable consumers target only Glaze UI capabilities classified Stable in `COMPONENT_STATUS.md` unless a documented application-specific exception explicitly adopts Candidate behavior. Stable releases follow `STABILITY.md`: exact-revision evidence, compatibility assessment, fail-closed validation, documented rollback, no silent Candidate/Experimental dependency, and no speculative roadmap concept represented as shipping functionality.
+1. **Identity** — recognizably GoreeCloud.
+2. **Tokens** — semantic colors, spacing, radii, typography, material, motion, targets, safe areas, and form-factor roles map to Glaze tokens or documented native equivalents.
+3. **Surface hierarchy** — Canvas, Solid, Raised, Functional Glass, Clear Glass, and Overlay follow their documented roles.
+4. **States** — default/hover/pressed/focus/selected/disabled/loading/status states are defined where relevant; focus and selection remain distinct where the platform separates them.
+5. **Forms and selection** — persistent labels, help/error relationships, checked/selected state, binary switch semantics, and determinate progress remain accessible.
+6. **Expressive hierarchy** — stronger geometry/motion/type is concentrated in important moments.
+7. **Motion separation** — effects and spatial motion use their semantic families; reduced motion removes nonessential transformations.
+8. **Accessibility** — keyboard/focus, semantic names, target sizing, contrast, reduced motion/transparency, forced colors, and solid fallbacks.
+9. **Adaptive window behavior** — Compact/Medium/Expanded/Wide are window signals, not device identities.
+10. **Form-factor fidelity** — supported phone, tablet, desktop, and TV experiences are purpose-built rather than scaled shells.
+11. **Mobile fidelity** — touch/reachability-first, safe-area-aware, task-focused; never a shrunken tablet or desktop shell.
+12. **Tablet fidelity** — pane/posture/window-aware and touch-primary; never a stretched phone layout.
+13. **Desktop fidelity** — pointer/keyboard-first, resizable, workspace-oriented; never an enlarged mobile shell.
+14. **TV fidelity** — far-view, landscape-first, overscan-safe, directional-focus, remote/D-pad operable, with clear focus/selection distinction; TV is not Wide Desktop.
+15. **Adaptive action grouping** — emphasis may change allocation but never semantic/focus order.
+16. **Privacy** — no unnecessary tracking or remote presentation dependencies.
+17. **Resilience** — critical content/actions survive missing blur, animation, hover, pointer, or nonessential JavaScript; TV retains static focus under reduced motion/forced colors.
+18. **Product personality and visual character** — recognizable Glaze family resemblance without cloned product composition.
+19. **Cross-platform mapping** — web, Linux, Android, iOS/iPadOS/tvOS, and other clients preserve semantic roles using appropriate native primitives.
+20. **Visual acceptance** — representative supported profiles and task flows are rendered/reviewed before Stable release.
+21. **Stability and lifecycle** — Stable consumers depend only on Stable capabilities unless an explicit application-specific exception says otherwise; `COMPONENT_STATUS.md` and `STABILITY.md` govern lifecycle and promotion.
 
 ## Form-factor acceptance expectations
 
-Phone acceptance should verify touch-first navigation, safe areas, reachable primary actions, readable single-column or intentionally stacked content, mobile-appropriate sheets/dialogs, and the absence of desktop/tablet composition merely reduced in scale.
+Phone/Mobile: verify touch navigation, safe areas, reachable actions, practical targets, mobile overlays, and no desktop dependency.
 
-Tablet acceptance should verify intentional use of the larger canvas through suitable rails, side panels, split views, master-detail relationships, previews, contextual panes, or other tablet-appropriate structures when they benefit the product. Simply increasing margins around a phone composition is not sufficient.
+Tablet: verify rails/panes/split views where useful, orientation/posture/window adaptation, touch ergonomics, and task-state preservation.
 
-Desktop acceptance should verify pointer and keyboard affordances, useful window resizing, desktop-appropriate information density, persistent navigation or toolbars when beneficial, keyboard shortcuts where applicable, hover/context behavior, multi-pane workflows where useful, and the absence of a phone-first shell enlarged to fill the window.
+Desktop: verify pointer/keyboard behavior, useful resizing, appropriate density, menus/shortcuts/context behavior, and multi-pane workflows where useful.
 
-Breakpoint values guide responsive implementation but do not replace form-factor judgment. Variable-window devices such as foldables, desktop-mode mobile environments, and resizable application windows may transition between form-factor compositions dynamically.
+TV: verify far-view legibility, overscan-safe essential content, larger controls/type, directional focus reachability, predictable movement, no dead-end traps, Select/Back-equivalent operation, clear focus versus selection, and static high-contrast focus under reduced motion/forced colors.
 
 ## Evidence
 
-Each stable GoreeCloud application should expose a small automated Glaze contract test and record any exception with the affected rule, reason, user impact, approved fallback, and review condition. Consumer records should identify the exact Glaze UI version and, when practical, the canonical source revision used for validation.
-
-Automated evidence should verify the durable semantics the product actually consumes. For web clients using the 1.3 expressive layer, this includes functional/clear glass usage boundaries, solid fallbacks, expressive shape semantics, reduced-motion behavior, reachability without document-order mutation, adaptive group semantics, persistent labels, focus visibility, error/help relationships, checked or selected state, target sizing, form-factor transitions, and the absence of unapproved remote presentation dependencies.
-
-For multi-form-factor products, evidence should include representative phone, tablet, and desktop checks that assert the intended navigation and layout mode is active. Passing overflow or screenshot-size checks alone does not establish form-factor conformance.
-
-Visual evidence should also demonstrate that the application feels compositionally connected rather than assembled from unrelated widgets. When the target supports the relevant effects, reviewers should check coordinated surface depth, background-aware color relationships, recognizable geometry, readable hierarchy, deliberate grouping, and responsive interaction feedback while confirming that accessibility and solid-surface fallbacks remain intact.
-
-Stability evidence should identify the lifecycle status of any Glaze capability the product consumes. A Stable product must not silently depend on a Candidate, Experimental, or merely Planned capability. When a Candidate is intentionally adopted for evaluation, that state must be explicit and must not be described as Stable conformance.
+Passing overflow checks alone is insufficient. Multi-form-factor products require representative task-flow evidence and application-specific rendered/native acceptance. A design-system Stable promotion does not automatically certify downstream consumers.
 
 ## Conformance statement
 
-A product may claim `Glaze UI 1.3 conformant` only when all applicable gates above are satisfied or every deviation is covered by an explicit, documented GoreeCloud exception. Conformance is version-specific and should be re-evaluated when a product changes its presentation architecture or adopts a new major or minor Glaze UI version that expands applicable semantics.
-
-A Stable claim additionally requires compliance with `STABILITY.md` and may use only the Stable lifecycle surface recorded in `COMPONENT_STATUS.md`, except where a separately documented exception explicitly states otherwise.
+A product may claim **`Glaze UI 1.4 conformant`** only when every applicable gate is satisfied or each deviation has a documented GoreeCloud exception. A Stable claim additionally requires compliance with `STABILITY.md` and the Stable lifecycle surface in `COMPONENT_STATUS.md`.

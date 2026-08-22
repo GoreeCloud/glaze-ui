@@ -11,16 +11,18 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - name: Check out exact source revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Compile validators
-        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_consumer_registry.py scripts/validate_rendered_reference.py website/build.py website/validate.py integrations/firefox/validate.py
+        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_rendered_reference.py website/build.py website/validate.py integrations/firefox/validate.py
       - name: Validate Glaze UI repository
         run: python3 scripts/validate_glaze_ui.py
+      - name: Validate Glaze UI 1.4 form-factor contract
+        run: python3 scripts/validate_form_factors.py
       - name: Validate consumer compatibility registry
         run: python3 scripts/validate_consumer_registry.py
       - name: Validate Firefox integration

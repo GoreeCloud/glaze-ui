@@ -1,9 +1,13 @@
 # Glaze UI Tokens
 
-`glaze.tokens.json` is the platform-neutral semantic token source for Glaze UI 1.0.
+`glaze.tokens.json` is the platform-neutral semantic token source for **Glaze UI 1.4.0 Stable**.
 
-Numeric spacing, radius, target, blur, focus, layout, and breakpoint values are expressed in CSS pixel-equivalent units for the web reference implementation. Native clients should map these values into the platform's normal density-aware units while preserving the semantic relationship and practical target size.
+Numeric spacing, radius, target, blur, focus, layout, and breakpoint values use CSS pixel-equivalent units in the web reference. Native clients map them to normal density-aware platform units while preserving semantic relationships, practical targets, safe areas, and accessibility.
 
-Motion duration values are milliseconds. Opacity values are unitless ratios. Color values are CSS-compatible strings because the web reference is the first canonical implementation; native mappings may translate them into platform-native color representations.
+## Glaze UI 1.4 form-factor semantics
 
-Applications should consume semantic roles rather than copying literal values. If a platform cannot reproduce a token exactly, preserve its purpose and document the mapping.
+`formFactor` defines Mobile, Tablet, Desktop, and TV as interaction environments rather than breakpoint aliases. Each role records viewing distance, primary input, navigation model, density, composition, and an anti-pattern. Compact/Medium/Expanded/Wide remain window-sizing signals.
+
+TV adds larger targets/icons/type, directional-focus scale/lift and timing, overscan-safe references, focus elevation, and sparse row spacing. TV is not selected from width alone.
+
+Applications consume semantic roles rather than literal values. Platform-native implementations may map the same semantics to native focus, density, safe-area, typography, and control systems.
