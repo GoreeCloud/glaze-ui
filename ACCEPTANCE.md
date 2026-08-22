@@ -10,7 +10,7 @@ Record exact candidate SHA, CI run, rendering environment, proposed status, comp
 
 | Profile | Required reference |
 | --- | --- |
-| Mobile | 390 × 844 |
+| Phone / Mobile | 390 × 844 |
 | Tablet | 820 × 1180 |
 | Desktop | 1280 × 900 |
 | Wide Desktop | 1600 × 1000 |
@@ -28,12 +28,12 @@ Appearance: Light/Dark where applicable. Input: touch/pointer/keyboard/direction
 - reduced-motion and transparency fallbacks;
 - forced-colors focus/selection/checked/progress/destructive distinction;
 - no unapproved remote presentation dependencies;
-- purpose-built Mobile/Tablet/Desktop/TV layouts rather than scaled shells;
+- purpose-built Phone/Mobile, Tablet, Desktop, and TV layouts rather than scaled shells;
 - adaptive transitions preserve task continuity, reading order, keyboard/focus order, and critical actions.
 
 ## Form-factor fidelity acceptance
 
-### Mobile
+### Phone / Mobile
 Touch/reachability-first; safe-area-aware; mobile navigation/overlays; dense content transforms appropriately; never a shrunken Tablet/Desktop interface.
 
 ### Tablet
