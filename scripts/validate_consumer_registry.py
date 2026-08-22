@@ -14,6 +14,7 @@ VERSION = ROOT / "VERSION"
 ALLOWED_STATUS = {
     "aligned-current-stable",
     "aligned-older-stable",
+    "adoption-candidate",
     "unverified",
 }
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
@@ -30,6 +31,13 @@ def version_tuple(value: str) -> tuple[int, int, int]:
     return tuple(int(part) for part in value.split("."))
 
 
+def require_versioned_evidence(name: str, target, revision, evidence, automated: bool) -> None:
+    require(isinstance(target, str) and SEMVER.fullmatch(target) is not None, f"versioned consumer {name} needs a semantic target version")
+    require(isinstance(revision, str) and SHA40.fullmatch(revision) is not None, f"versioned consumer {name} needs a 40-character reviewed revision")
+    require(isinstance(evidence, str) and evidence.strip(), f"versioned consumer {name} needs repository-local evidence")
+    require(automated, f"versioned consumer {name} must record an automated contract")
+
+
 def main() -> None:
     require(REGISTRY.is_file(), "missing consumers/registry.json")
     require(CONSUMERS_DOC.is_file(), "missing CONSUMERS.md")
@@ -42,6 +50,7 @@ def main() -> None:
     for marker in (
         "Aligned — current Stable",
         "Aligned — older Stable",
+        "Adoption Candidate",
         "Unverified",
         "consumers/registry.json",
         "must not silently depend on Candidate or Experimental",
@@ -83,16 +92,19 @@ def main() -> None:
         require(isinstance(notes, str) and notes.strip(), f"notes are missing for {name}")
 
         if status == "aligned-current-stable":
-            require(isinstance(target, str) and target == stable_version, f"current-Stable consumer {name} must target {stable_version}")
-            require(isinstance(revision, str) and SHA40.fullmatch(revision) is not None, f"current-Stable consumer {name} needs a 40-character reviewed revision")
-            require(isinstance(evidence, str) and evidence.strip(), f"current-Stable consumer {name} needs repository-local evidence")
-            require(automated, f"current-Stable consumer {name} must record an automated contract")
+            require_versioned_evidence(name, target, revision, evidence, automated)
+            require(target == stable_version, f"current-Stable consumer {name} must target {stable_version}")
         elif status == "aligned-older-stable":
-            require(isinstance(target, str), f"older-Stable consumer {name} must record a target version")
+            require_versioned_evidence(name, target, revision, evidence, automated)
             require(version_tuple(target) < version_tuple(stable_version), f"older-Stable consumer {name} must target a version older than {stable_version}")
-            require(isinstance(revision, str) and SHA40.fullmatch(revision) is not None, f"older-Stable consumer {name} needs a 40-character reviewed revision")
-            require(isinstance(evidence, str) and evidence.strip(), f"older-Stable consumer {name} needs repository-local evidence")
-            require(automated, f"older-Stable consumer {name} must record an automated contract")
+        elif status == "adoption-candidate":
+            require_versioned_evidence(name, target, revision, evidence, automated)
+            require(target == stable_version, f"Adoption Candidate {name} must target current Stable {stable_version}")
+            lowered_acceptance = acceptance.lower()
+            require(
+                any(marker in lowered_acceptance for marker in ("pending", "required", "not complete", "not established")),
+                f"Adoption Candidate {name} must retain an explicit incomplete final-acceptance boundary",
+            )
         else:
             require(target is None, f"unverified consumer {name} must not claim a target version")
             require(revision is None, f"unverified consumer {name} must not claim a reviewed revision")

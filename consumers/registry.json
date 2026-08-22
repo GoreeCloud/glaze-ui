@@ -5,6 +5,7 @@
   "statusVocabulary": [
     "aligned-current-stable",
     "aligned-older-stable",
+    "adoption-candidate",
     "unverified"
   ],
   "consumers": [
@@ -33,13 +34,13 @@
     {
       "name": "GoreeCloud Tasks",
       "repository": "GoreeCloud/goreecloud-tasks",
-      "status": "unverified",
-      "targetVersion": null,
-      "referenceRevision": null,
-      "evidence": null,
-      "automatedContract": false,
-      "visualAcceptance": "not established by this audit",
-      "notes": "The active repository was reviewed for a dedicated Glaze UI conformance record during this audit; no version-specific repository-local contract was established from the reviewed README/docs surface. This is an evidence gap, not a non-conformance finding."
+      "status": "adoption-candidate",
+      "targetVersion": "1.3.0",
+      "referenceRevision": "96cc27050c098a5f06f571923f0cb9be54989a92",
+      "evidence": "docs/glaze-ui.md",
+      "automatedContract": true,
+      "visualAcceptance": "representative automated Chromium acceptance passed for compact and desktop light/dark, reduced-motion, and forced-colors profiles; final native/manual production acceptance remains pending",
+      "notes": "Tasks PR #44 passed exact-head source, rendered, Django, cross-application, backup/recovery, security, and deployment-readiness gates at 2267ec109786bb08eb8f33475e31c269f365b603 and was squash-merged as 231de4fc7fb6d0c194716d0b06ecab1e46a28d9b. Adoption Candidate records real evidence without overstating final Stable-aligned production acceptance."
     },
     {
       "name": "GoreeCloud Notes",

@@ -18,6 +18,12 @@ A consumer is `aligned-older-stable` when it intentionally targets an earlier St
 
 This is supported behavior under `STABILITY.md`. Older Stable consumers are not automatically migration failures. They should move only when the migration has a product-specific reason, compatibility review, and acceptance evidence.
 
+### Adoption Candidate
+
+A consumer is `adoption-candidate` when it explicitly targets the current Stable Glaze UI release, records a reviewed canonical Glaze revision, has repository-local evidence and automated contract protection, and has completed meaningful implementation validation, but final product-specific acceptance is still incomplete.
+
+This state exists so the registry can distinguish real, tested adoption work from both `unverified` consumers and fully `aligned-current-stable` consumers. An Adoption Candidate must retain an explicit final-acceptance boundary and must not be promoted simply because source or browser CI is green.
+
 ### Unverified
 
 A consumer is `unverified` when the audit has not established a version-specific Glaze UI contract from the reviewed repository evidence.
@@ -50,9 +56,15 @@ The public website is deliberately version-pinned to 1.1.0. Its older Stable tar
 ### GoreeCloud Tasks
 
 - Repository: `GoreeCloud/goreecloud-tasks`
-- State: `unverified`
+- State: `adoption-candidate`
+- Target: Glaze UI 1.3.0 Stable
+- Reviewed canonical Glaze revision: `96cc27050c098a5f06f571923f0cb9be54989a92`
+- Evidence: `docs/glaze-ui.md`
+- Automated source-level contract: yes
+- Representative rendered acceptance: passed for compact and desktop light/dark, reduced-motion, and forced-colors profiles
+- Final native/manual production acceptance: pending
 
-The reviewed README and documentation surface did not establish a dedicated version-specific Glaze UI contract. This is an audit/evidence gap, not a finding that the interface is non-conformant.
+Tasks PR #44 validated exact head `2267ec109786bb08eb8f33475e31c269f365b603` across source-contract, rendered Chromium, Django, Manager cross-application/topology, Docker, backup/recovery, security, notification, and production-readiness gates. It was squash-merged as `231de4fc7fb6d0c194716d0b06ecab1e46a28d9b`. This is sufficient to move Tasks out of `unverified`, but not sufficient to claim final Stable-aligned production acceptance.
 
 ### GoreeCloud Notes
 
@@ -89,6 +101,7 @@ The central registry is intentionally conservative:
 - it does not infer conformance from visual resemblance;
 - it does not force older Stable consumers forward;
 - it does not treat an unverified consumer as failed;
+- it uses `adoption-candidate` when current-Stable adoption is evidence-backed but final product acceptance is incomplete;
 - it does not replace application-specific CI or visual acceptance;
 - it must not contain credentials, private runtime details, or unrelated infrastructure information.
 
