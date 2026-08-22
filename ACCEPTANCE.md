@@ -18,6 +18,8 @@ Record exact candidate SHA, CI run, rendering environment, proposed status, comp
 
 Appearance: Light/Dark where applicable. Input: touch/pointer/keyboard/directional focus as applicable. Motion: normal and reduced motion. Transparency: normal and reduced transparency where supported. Contrast: normal/increased. Forced colors: `forced-colors: active` or equivalent. Near-view profiles retain 200% browser zoom/reflow coverage.
 
+Each supported form factor requires at least one **representative task flow**, not merely a static viewport or screenshot check. Unsupported profiles must be recorded explicitly rather than silently treated as accepted.
+
 ## Core acceptance checks
 
 - no unintended horizontal overflow;
