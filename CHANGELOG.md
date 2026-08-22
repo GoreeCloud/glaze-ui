@@ -4,26 +4,46 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased
 
+No unreleased design-system changes are recorded after the Glaze UI 1.4.0 Stable promotion candidate.
+
+## 1.4.0 — 2026-08-21
+
+Stable form-factor evolution release preserving the complete Glaze UI 1.3 expressive foundation while making Mobile, Tablet, Desktop, and TV first-class semantic interaction environments.
+
 ### Added
 
-- Purpose-built phone, tablet, and desktop UI requirements as distinct form-factor experiences rather than scaled variants of one responsive shell.
-- Form-factor fidelity as a Stable conformance gate covering navigation, density, pane structure, interaction patterns, resizable windows, foldables, and desktop-mode mobile environments.
-- Representative Stable acceptance coverage for Phone/Compact 390 × 844, Tablet/Medium 820 × 1180, Desktop/Expanded 1280 × 900, and Wide 1600 × 1000 layouts.
-- Representative task-flow acceptance for each supported form factor, including explicit rejection of shrunken desktop/tablet phone UIs, stretched phone tablet UIs, and enlarged mobile desktop shells.
-- A canonical visual-character contract defining Glaze UI as a coordinated system of layered depth, selective blur and reflection cues, rounded/circular/pill geometry, background-aware color, bold information hierarchy, deliberate whitespace and grouping, and tactile bounded interaction motion.
+- `FORM_FACTORS.md` as the canonical form-factor contract based on app window, primary input, viewing distance, platform conventions, posture/resizability, and product task rather than width or device name alone.
+- Platform-neutral Mobile, Tablet, Desktop, and TV semantic token roles.
+- `css/glaze.formfactors.css` reusable composition primitives.
+- Dependency-free Mobile, Tablet, Desktop, and TV reference experiences.
+- TV far-view typography, 56px reference minimum targets, larger icon roles, directional-focus semantics, bounded focus scale/lift, overscan-safe references, and focus/selection distinction.
+- A dedicated fail-closed `scripts/validate_form_factors.py` Stable contract validator.
+- `acceptance/1.4.0.md` as the release acceptance record.
+- A consumer-registry migration model that moves current Stable baseline metadata to 1.4 without automatically migrating downstream applications.
 
 ### Improved
 
-- Acceptance now treats unsupported form factors as an explicit recorded state rather than allowing untested targets to be silently treated as passed.
-- Form-factor transitions must preserve task continuity, reading order, keyboard/focus order, and critical-action access.
-- The canonical repository validator now fails closed if phone/tablet/desktop guidance or the expanded acceptance matrix is removed.
-- Component and conformance guidance now distinguish recognizable Glaze visual character from superficial use of blur or rounded cards, while preserving selective-glass boundaries, readability, semantic contrast, accessibility, reduced-motion behavior, privacy, and product-specific purpose.
+- Purpose-built Phone/Mobile, Tablet, Desktop, Wide Desktop, and TV acceptance replaces generic scaled-shell assumptions.
+- Form-factor fidelity now covers navigation, density, pane structure, resizable windows, touch/reachability, pointer/keyboard behavior, viewing distance, and directional focus.
+- Form-factor transitions preserve task continuity, reading order, keyboard/focus order, and critical-action access.
+- TV is explicitly a far-viewing, directional-input environment and must never be treated as Wide Desktop.
+- The public design-site source and canonical reference now describe 1.4 as Stable while retaining the 1.3 material, expressive, accessibility, privacy, and resilience contracts.
+- Stability and component-lifecycle governance from later 1.3 hardening work were reconciled into the 1.4 promotion rather than overwritten by the older candidate branch.
 
-### Validation and integration
+### Validation and Stable promotion
 
-- Exact visual-character contract head `03d10b98df0805b618d6c6614e4b4d58460385ec` passed Glaze UI CI `#104`, run ID `32528873999`, including exact-source checkout, repository validation, Firefox integration validation, deterministic public design-site validation, and Chromium-rendered Glaze UI reference acceptance.
-- Pull request #26, `Clarify canonical Glaze UI visual character`, was promoted from draft only after the complete exact-head gate passed and was squash-merged with expected-head protection as canonical main commit `f3b7da7bb302116cf09d793236a6fc4264037fb9`.
-- This work clarified the existing Stable Glaze UI 1.3.0 visual contract without changing the version, accepted material hierarchy, accessibility/privacy boundaries, downstream consumer state, or production infrastructure.
+- Earlier candidate head `b076e10d71cb1576ab1904cce71392f4a4b636ca` passed Glaze UI CI #109 / run `32530794651`, including the full Candidate form-factor matrix.
+- The stale candidate branch was reconciled onto hardened Stable main `1120f576eeeb2f5725896f85847b5470907f91cf` before promotion.
+- Promotion gating caught and corrected missing historical Phone terminology, missing representative-task-flow wording, accidental removal of the retained 1.3 expressive rendered assertion, a validator wording mismatch for the stronger TV/Wide-Desktop rule, and lost live 1.3 reference examples/44px appearance targets. No gate was removed or weakened.
+- Exact reconciled content-bearing head `777844030f365c3ce45205633ef05135e4df5067` passed Glaze UI CI #125 / run `32541270573`: canonical repository validation, dedicated 1.4 form-factor validation, consumer-registry validation, Firefox integration, deterministic public design-site validation, and the complete Chromium-rendered reference/form-factor matrix.
+- The final documentation-bearing PR head is required to pass the entire exact-head gate again before PR #28 leaves draft status or merges.
+
+### Compatibility
+
+- Glaze UI 1.3.0 remains a supported older Stable consumer target.
+- Manager remains intentionally pinned to 1.3.0, the public website consumer remains pinned to 1.1.0, Tasks remains an Adoption Candidate against 1.3.0, and unverified consumers remain unverified until separately audited.
+- Native applications still require application-specific native/real-device acceptance; design-system-core Stable status does not certify downstream products.
+- Speculative intelligence, agents, automation, ambient computing, voice, and operating-experience concepts remain Planned/roadmap-only.
 
 ## 1.3.0 — 2026-08-20
 
@@ -60,7 +80,7 @@ Stable expressive-hierarchy release based on the documented Glaze UI lineage of 
 - The validate job passed exact-source checkout, validator compilation, canonical repository validation, deterministic public design-site build validation, and Chromium-rendered reference acceptance.
 - PR #6 was moved from draft to ready for review only after that exact-head evidence was available.
 - PR #6 was squash-merged with expected-head protection as Stable merge commit `2ac8d0cd444c8234e908e31b05b2cb4dc7d3e5a9` with release title `Glaze UI 1.3.0`.
-- Glaze UI 1.3.0 is now the Stable canonical baseline. Glaze UI 1.2.0 remains part of historical and compatibility records.
+- Glaze UI 1.3.0 became the Stable canonical baseline at that release point. Glaze UI 1.2.0 remains part of historical and compatibility records.
 
 ### Preserved
 
