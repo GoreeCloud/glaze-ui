@@ -14,9 +14,9 @@ import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RENDER_ATTEMPTS = 3
-RENDER_TIMEOUT_SECONDS = 50
-VIRTUAL_TIME_BUDGET_MS = 6000
+RENDER_ATTEMPTS = 5
+RENDER_TIMEOUT_SECONDS = 60
+VIRTUAL_TIME_BUDGET_MS = 12000
 
 
 def find_browser() -> str:
@@ -68,6 +68,9 @@ def browser_command(
         "--disable-gpu",
         "--disable-dev-shm-usage",
         "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-renderer-backgrounding",
         "--disable-default-apps",
         "--disable-extensions",
         "--disable-sync",
