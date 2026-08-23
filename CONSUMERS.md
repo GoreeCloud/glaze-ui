@@ -2,6 +2,12 @@
 
 Glaze UI consumer stability is version-specific and evidence-based. The machine-readable audit is `consumers/registry.json`.
 
+## Supported Stable consumer targets
+
+The current supported Stable consumer-target set is **1.0.0, 1.1.0, 1.2.0, 1.3.0, and 1.4.0**. The machine-readable `supportedStableVersions` list is authoritative for whether an existing or candidate consumer may claim a supported Glaze UI target.
+
+Compatibility support means a consumer may remain intentionally pinned to that exact Stable contract with version-specific evidence and application acceptance. It does **not** mean every historical line receives identical active maintenance; `SECURITY.md` governs maintenance and security-fix applicability. Removing a version from the supported-target set requires an explicit lifecycle decision and consumer-impact review rather than an incidental registry edit.
+
 ## Consumer states
 
 ### Aligned — current Stable
