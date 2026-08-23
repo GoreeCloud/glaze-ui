@@ -20,11 +20,26 @@ def text(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
+def human_list(values: list[str]) -> str:
+    if len(values) == 1:
+        return values[0]
+    if len(values) == 2:
+        return f"{values[0]} and {values[1]}"
+    return f"{', '.join(values[:-1])}, and {values[-1]}"
+
+
 def main() -> None:
     require(re.fullmatch(r"\d+\.\d+\.\d+", VERSION) is not None, "VERSION must use semantic versioning")
 
     tokens = json.loads(text("tokens/glaze.tokens.json"))
     require(tokens["meta"]["version"] == VERSION, "token metadata does not match VERSION")
+
+    registry = json.loads(text("consumers/registry.json"))
+    supported_versions = registry.get("supportedStableVersions")
+    require(isinstance(supported_versions, list) and supported_versions, "consumer registry supported Stable set is missing")
+    require(all(isinstance(version, str) and re.fullmatch(r"\d+\.\d+\.\d+", version) for version in supported_versions), "consumer registry supported Stable set contains an invalid version")
+    require(VERSION in supported_versions, "current Stable VERSION is absent from supported consumer targets")
+    supported_text = human_list(supported_versions)
 
     readme = text("README.md")
     stability = text("STABILITY.md")
@@ -67,6 +82,16 @@ def main() -> None:
     )
 
     require("current Stable canonical baseline" in readme, "README must use the canonical current-Stable wording")
+    require("## Supported Stable consumer targets" in readme, "README supported-consumer-target section is missing")
+    require(
+        f"supported Stable consumer-target set is **{supported_text}**" in readme,
+        "README supported consumer-target set differs from consumers/registry.json",
+    )
+    require("Compatibility support means a consumer may remain intentionally pinned" in readme, "README compatibility-support meaning is missing")
+    require("Existing consumers are never automatically upgraded" in readme, "README controlled consumer-migration boundary is missing")
+    require("`SECURITY.md` governs active security-fix and maintenance applicability" in readme, "README security-maintenance boundary is missing")
+    require("## Glaze UI 1.3 compatibility" not in readme, "README still uses the superseded single-version compatibility section")
+
     require("Stable consumers are never migrated automatically" in stability, "controlled consumer-migration boundary is missing")
     require("No active 1.4 form-factor capability remains Candidate" in component_status, "1.4 lifecycle reconciliation is incomplete")
 

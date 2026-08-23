@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import contextlib
 import http.server
+import os
 import shutil
+import signal
 import socket
 import subprocess
 import tempfile
@@ -41,8 +43,6 @@ def serve_root():
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     old_cwd = Path.cwd()
     try:
-        import os
-
         os.chdir(ROOT)
         thread.start()
         yield port
@@ -90,6 +90,40 @@ def browser_command(
     return command
 
 
+def stop_process_group(process: subprocess.Popen[str]) -> None:
+    """Ensure Chromium children from one rendered case cannot leak into the next."""
+    if os.name != "posix":
+        if process.poll() is None:
+            process.kill()
+        return
+    try:
+        os.killpg(process.pid, signal.SIGKILL)
+    except ProcessLookupError:
+        pass
+
+
+def run_browser(command: list[str]) -> subprocess.CompletedProcess[str]:
+    process = subprocess.Popen(
+        command,
+        cwd=ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        start_new_session=(os.name == "posix"),
+    )
+    try:
+        stdout, stderr = process.communicate(timeout=RENDER_TIMEOUT_SECONDS)
+        return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+    except subprocess.TimeoutExpired as exc:
+        stop_process_group(process)
+        stdout, stderr = process.communicate()
+        exc.stdout = stdout
+        exc.stderr = stderr
+        raise
+    finally:
+        stop_process_group(process)
+
+
 def run_case(
     browser: str,
     port: int,
@@ -118,14 +152,7 @@ def run_case(
                 mode=mode,
             )
             try:
-                completed = subprocess.run(
-                    command,
-                    cwd=ROOT,
-                    check=False,
-                    capture_output=True,
-                    text=True,
-                    timeout=RENDER_TIMEOUT_SECONDS,
-                )
+                completed = run_browser(command)
             except subprocess.TimeoutExpired as exc:
                 stdout = exc.stdout.decode(errors="replace") if isinstance(exc.stdout, bytes) else (exc.stdout or "")
                 stderr = exc.stderr.decode(errors="replace") if isinstance(exc.stderr, bytes) else (exc.stderr or "")
