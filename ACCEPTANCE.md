@@ -57,7 +57,7 @@ Functional Glass, Clear Glass boundaries, expressive shape hierarchy, effects/sp
 
 ## 1.4-specific form-factor acceptance
 
-`FORM_FACTORS.md`, form-factor tokens, `css/glaze.formfactors.css`, dependency-free Mobile/Tablet/Desktop/TV references, TV safe-region semantics, far-view type/targets, directional focus, focus/selection distinction, reduced-motion/forced-colors focus fallback, width-independent TV selection, and window/input-aware near-view selection are mandatory.
+`FORM_FACTORS.md`, form-factor tokens, `css/glaze.formfactors.css`, dependency-free Mobile/Tablet/Desktop/Wide Desktop/TV references, TV safe-region semantics, far-view type/targets, directional focus, focus/selection distinction, reduced-motion/forced-colors focus fallback, width-independent TV selection, and window/input-aware near-view selection are mandatory.
 
 ## Stability promotion acceptance
 
