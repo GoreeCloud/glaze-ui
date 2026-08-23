@@ -28,12 +28,20 @@ def main() -> None:
 
     readme = text("README.md")
     stability = text("STABILITY.md")
-    components = text("COMPONENT_STATUS.md")
+    component_status = text("COMPONENT_STATUS.md")
+    component_contract = text("COMPONENTS.md")
     changelog = text("CHANGELOG.md")
+
+    stable_family = VERSION.rsplit(".", 1)[0]
 
     require(f"Glaze UI {VERSION} is the current Stable canonical baseline" in readme, "README current-Stable declaration is missing or stale")
     require(f"**Stable baseline:** Glaze UI **{VERSION}**" in stability, "STABILITY.md Stable baseline is missing or stale")
-    require(f"Glaze UI {VERSION.rsplit('.', 1)[0]} Stable" in components, "COMPONENT_STATUS.md current Stable release family is missing")
+    require(f"Glaze UI {stable_family} Stable" in component_status, "COMPONENT_STATUS.md current Stable release family is missing")
+    require(component_contract.startswith(f"# Glaze UI {stable_family} Component Contract\n"), "COMPONENTS.md heading does not match the current Stable release family")
+    require(
+        f"Glaze UI {stable_family} retains the Stable component semantics established in Glaze UI 1.3" in component_contract,
+        "COMPONENTS.md does not preserve the 1.3-to-current component compatibility boundary",
+    )
     require(VERSION in changelog, "CHANGELOG.md does not mention the current VERSION")
 
     current_stable_pattern = re.compile(r"current Stable(?: canonical)? baseline[^\n]*?Glaze UI\s+(\d+\.\d+\.\d+)", re.IGNORECASE)
@@ -44,7 +52,7 @@ def main() -> None:
 
     require("current Stable canonical baseline" in readme, "README must use the canonical current-Stable wording")
     require("Stable consumers are never migrated automatically" in stability, "controlled consumer-migration boundary is missing")
-    require("No active 1.4 form-factor capability remains Candidate" in components, "1.4 lifecycle reconciliation is incomplete")
+    require("No active 1.4 form-factor capability remains Candidate" in component_status, "1.4 lifecycle reconciliation is incomplete")
 
     print(f"Glaze UI release-state validation passed for {VERSION}")
 
