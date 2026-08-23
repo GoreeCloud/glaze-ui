@@ -40,6 +40,12 @@ TV: verify far-view legibility, overscan-safe essential content, larger controls
 
 Passing overflow checks alone is insufficient. Multi-form-factor products require representative task-flow evidence and application-specific rendered/native acceptance. A design-system Stable promotion does not automatically certify downstream consumers.
 
-## Conformance statement
+## Version-specific conformance claims
 
-A product may claim **`Glaze UI 1.4 conformant`** only when every applicable gate is satisfied or each deviation has a documented GoreeCloud exception. A Stable claim additionally requires compliance with `STABILITY.md` and the Stable lifecycle surface in `COMPONENT_STATUS.md`.
+Glaze UI **1.4.0** is the current Stable baseline. The supported Stable conformance targets are **1.0.0, 1.1.0, 1.2.0, 1.3.0, and 1.4.0**, as governed by `consumers/registry.json` and `STABILITY.md`.
+
+A product may claim **`Glaze UI 1.4 conformant`** only when every applicable current 1.4 gate is satisfied or each deviation has a documented GoreeCloud exception. A Stable claim additionally requires compliance with `STABILITY.md` and the Stable lifecycle surface in `COMPONENT_STATUS.md`.
+
+A consumer intentionally pinned to a supported older Stable target may make an exact-version claim such as **`Glaze UI 1.1 conformant`** only when it satisfies that version's canonical contract, records exact-version and reviewed-revision evidence, and completes the product-specific acceptance required for its platform and Role and Purpose. Requirements introduced only by a later Stable release are not retroactively implied unless the consumer intentionally adopts that newer contract.
+
+An older-version conformance claim does not mean the consumer is aligned to the current Stable baseline, does not trigger automatic migration, and does not imply identical active maintenance or security-fix coverage across historical releases. `SECURITY.md` governs maintenance applicability, while `CONSUMERS.md` and `consumers/registry.json` govern recorded consumer alignment and supported-version status.
