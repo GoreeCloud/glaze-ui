@@ -29,6 +29,7 @@ def main() -> None:
     readme = text("README.md")
     stability = text("STABILITY.md")
     security = text("SECURITY.md")
+    identity = text("IDENTITY.md")
     component_status = text("COMPONENT_STATUS.md")
     component_contract = text("COMPONENTS.md")
     conformance = text("CONFORMANCE.md")
@@ -73,6 +74,20 @@ def main() -> None:
     require("explicitly supported consumer target" in security, "SECURITY.md must preserve version-specific older-Stable support")
     require("shared major-version number alone does not guarantee active maintenance" in security, "SECURITY.md must reject major-version-wide maintenance promises")
     require("current Glaze UI major version" not in security, "SECURITY.md still contains the superseded broad major-version support promise")
+
+    require(
+        f"Glaze UI {VERSION} is the current Stable GoreeCloud design-system baseline" in identity,
+        "IDENTITY.md current-Stable declaration is missing or stale",
+    )
+    require("Status: **Pending approved canonical artwork**" in identity, "IDENTITY.md must preserve the unresolved artwork status")
+    require(
+        "No icon, logo, favicon, or product mark is approved as canonical Glaze UI artwork at this time" in identity,
+        "IDENTITY.md must preserve the no-canonical-artwork boundary",
+    )
+    require(
+        "Glaze UI 1.3.0 is the stable GoreeCloud design system" not in identity,
+        "IDENTITY.md still advertises the superseded 1.3 Stable baseline",
+    )
 
     required_stable_commands = (
         "python3 scripts/validate_glaze_ui.py",
