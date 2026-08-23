@@ -64,13 +64,20 @@ Canvas → Solid → Raised → Functional Glass → Overlay. Clear Glass is spe
 
 ## Validation
 
+Run the complete Stable source and integration gate from the repository root:
+
 ```bash
 python3 scripts/validate_glaze_ui.py
 python3 scripts/validate_release_state.py
 python3 scripts/validate_form_factors.py
+python3 scripts/validate_typography_contract.py
 python3 scripts/validate_consumer_registry.py
+python3 integrations/firefox/validate.py
+python3 website/validate.py
 python3 scripts/validate_rendered_reference.py
 ```
+
+The pull-request workflow remains authoritative because it checks out and validates the exact candidate revision. Do not treat an earlier local run or a partial validation subset as equivalent to the final CI result.
 
 ## Versioning
 
