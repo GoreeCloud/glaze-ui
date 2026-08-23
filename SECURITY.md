@@ -4,7 +4,9 @@ Glaze UI is a design-system repository and should not contain production credent
 
 ## Supported versions
 
-Security and privacy fixes are applied to the current Glaze UI major version. Older versions may receive fixes when a GoreeCloud application still depends on them and a safe compatible patch is practical.
+Security and privacy fixes are applied to the current Stable Glaze UI baseline. Older Stable releases may receive a compatible fix when they remain an explicitly supported consumer target, an affected GoreeCloud application still depends on that release, and a safe maintenance patch is practical. A shared major-version number alone does not guarantee active maintenance for every historical minor release.
+
+Support remains evidence-driven and version-specific. `STABILITY.md`, `CONSUMERS.md`, and `consumers/registry.json` define the current Stable boundary, supported older consumer targets, and recorded adoption state; the existence of a historical release does not by itself create an indefinite security-maintenance commitment.
 
 ## Reporting
 

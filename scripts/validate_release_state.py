@@ -28,6 +28,7 @@ def main() -> None:
 
     readme = text("README.md")
     stability = text("STABILITY.md")
+    security = text("SECURITY.md")
     component_status = text("COMPONENT_STATUS.md")
     component_contract = text("COMPONENTS.md")
     conformance = text("CONFORMANCE.md")
@@ -67,6 +68,11 @@ def main() -> None:
     require("current Stable canonical baseline" in readme, "README must use the canonical current-Stable wording")
     require("Stable consumers are never migrated automatically" in stability, "controlled consumer-migration boundary is missing")
     require("No active 1.4 form-factor capability remains Candidate" in component_status, "1.4 lifecycle reconciliation is incomplete")
+
+    require("current Stable Glaze UI baseline" in security, "SECURITY.md must bind fixes to the current Stable baseline")
+    require("explicitly supported consumer target" in security, "SECURITY.md must preserve version-specific older-Stable support")
+    require("shared major-version number alone does not guarantee active maintenance" in security, "SECURITY.md must reject major-version-wide maintenance promises")
+    require("current Glaze UI major version" not in security, "SECURITY.md still contains the superseded broad major-version support promise")
 
     required_stable_commands = (
         "python3 scripts/validate_glaze_ui.py",
