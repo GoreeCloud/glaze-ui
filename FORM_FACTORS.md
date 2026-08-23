@@ -193,7 +193,7 @@ When a product can move between Mobile, Tablet, and Desktop compositions through
 
 ## Required acceptance matrix
 
-A Glaze UI 1.4 candidate must include representative acceptance for every supported profile. The canonical reference matrix includes:
+Glaze UI 1.4 Stable form-factor acceptance requires representative acceptance for every supported profile. The canonical reference matrix includes:
 
 | Profile | Reference size | Primary interaction |
 | --- | ---: | --- |

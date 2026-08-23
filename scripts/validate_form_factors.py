@@ -16,7 +16,9 @@ def main():
     css=text('css/glaze.formfactors.css')
     for m in ('.glaze-mobile-shell','.glaze-tablet-shell','.glaze-desktop-shell','.glaze-tv-shell','.glaze-tv-focusable','--glaze-tv-safe-inline','--glaze-tv-safe-block','prefers-reduced-motion','forced-colors'): req(m in css,f'form-factor CSS missing {m}')
     contract=text('FORM_FACTORS.md')
-    for m in ('Mobile UI','Tablet UI','Desktop UI','TV UI','TV is defined primarily by far viewing distance','TV must never be treated as Wide Desktop'): req(m in contract,f'FORM_FACTORS.md missing {m}')
+    for m in ('Mobile UI','Tablet UI','Desktop UI','TV UI','TV is defined primarily by far viewing distance','TV must never be treated as Wide Desktop','Glaze UI 1.4 Stable form-factor acceptance requires representative acceptance for every supported profile'):
+        req(m in contract,f'FORM_FACTORS.md missing {m}')
+    req('A Glaze UI 1.4 candidate must include representative acceptance' not in contract,'FORM_FACTORS.md contains stale 1.4 Candidate acceptance wording')
     ref=text('reference/formfactors.html')
     for m in ('data-profile="mobile"','data-profile="tablet"','data-profile="desktop"','data-profile="tv"','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'): req(m in ref,f'form-factor reference missing {m}')
     acceptance=text('ACCEPTANCE.md')
