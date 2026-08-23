@@ -23,7 +23,7 @@ Each supported form factor requires at least one **representative task flow**, n
 ## Core acceptance checks
 
 - no unintended horizontal overflow;
-- recognizable Canvas/Solid/Raised/Glaze/Overlay hierarchy;
+- recognizable Canvas/Solid/Raised/Functional Glass/Clear Glass/Overlay hierarchy with glass roles used only within their documented boundaries;
 - practical targets and visible focus;
 - persistent field labels and accessible help/error relationships;
 - checked/selected/progress/status meaning independent of color alone;
