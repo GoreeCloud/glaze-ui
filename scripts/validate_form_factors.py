@@ -21,6 +21,12 @@ def main():
     for m in ('data-profile="mobile"','data-profile="tablet"','data-profile="desktop"','data-profile="tv"','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'): req(m in ref,f'form-factor reference missing {m}')
     acceptance=text('ACCEPTANCE.md')
     for m in ('390 × 844','820 × 1180','1280 × 900','1600 × 1000','1920 × 1080','directional focus','overscan-safe'): req(m in acceptance,f'acceptance missing {m}')
-    req('Glaze UI 1.4.0 is the current Stable canonical baseline' in text('README.md'),'README Stable statement missing'); req('Glaze UI 1.4 Stable form-factor layer' in text('COMPONENT_STATUS.md'),'lifecycle promotion missing'); req('Stable baseline:** Glaze UI **1.4.0' in text('STABILITY.md'),'stability baseline missing'); req(json.loads(text('consumers/registry.json'))['stableBaseline']=='1.4.0','consumer baseline missing'); req('Glaze UI 1.4 Stable' in text('website/index.html'),'public site Stable marker missing')
+    readme=text('README.md')
+    req('Glaze UI 1.4.0 is the current Stable canonical baseline' in readme,'README Stable statement missing')
+    req('dependency-free five-profile reference' in readme,'README must describe the five-profile Stable form-factor reference')
+    req('dependency-free four-profile reference' not in readme,'README contains stale four-profile form-factor wording')
+    for m in ('Mobile 390×844','Tablet 820×1180','Desktop 1280×900','Wide Desktop 1600×1000','TV 1920×1080'):
+        req(m in readme,f'README Stable form-factor matrix missing {m}')
+    req('Glaze UI 1.4 Stable form-factor layer' in text('COMPONENT_STATUS.md'),'lifecycle promotion missing'); req('Stable baseline:** Glaze UI **1.4.0' in text('STABILITY.md'),'stability baseline missing'); req(json.loads(text('consumers/registry.json'))['stableBaseline']=='1.4.0','consumer baseline missing'); req('Glaze UI 1.4 Stable' in text('website/index.html'),'public site Stable marker missing')
     print('Glaze UI 1.4 Stable form-factor source validation passed')
 if __name__=='__main__': main()
