@@ -14,13 +14,38 @@ Glaze UI is the shared GoreeCloud design system. Changes should strengthen consi
 
 ## Before opening a pull request
 
-Run:
+Run the Stable source gate locally from the repository root:
 
 ```bash
+python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_rendered_reference.py website/build.py website/validate.py integrations/firefox/validate.py
 python3 scripts/validate_glaze_ui.py
+python3 scripts/validate_release_state.py
+python3 scripts/validate_form_factors.py
+python3 scripts/validate_typography_contract.py
+python3 scripts/validate_consumer_registry.py
+python3 integrations/firefox/validate.py
+python3 website/validate.py
 ```
 
-For visual changes, also review `reference/index.html` at Compact and Expanded widths in both light and dark appearances.
+The pull-request workflow is authoritative and checks out the exact PR head before running the permanent Glaze UI CI gate. Do not promote or merge a Stable-maintenance PR until that exact candidate passes the complete workflow.
+
+## Rendered and visual acceptance
+
+For changes that can affect presentation, interaction, accessibility, form-factor behavior, or reference output, also run:
+
+```bash
+python3 scripts/validate_rendered_reference.py
+```
+
+Review the canonical five-profile acceptance matrix rather than only generic breakpoints:
+
+- Mobile — 390 × 844
+- Tablet — 820 × 1180
+- Desktop — 1280 × 900
+- Wide Desktop — 1600 × 1000
+- TV — 1920 × 1080
+
+Review light/dark appearance where applicable, reduced-motion and forced-colors resilience, and the relevant input model. TV changes require directional-focus and far-viewing acceptance. A passing screenshot at one width is not sufficient evidence for a cross-form-factor change.
 
 ## Token changes
 
@@ -35,6 +60,10 @@ Document new shared component behavior in `COMPONENTS.md`. Do not add a componen
 ## Accessibility changes
 
 Accessibility fallbacks are part of Glaze UI's intended design quality, not optional alternate styling. Improvements should preserve a polished appearance while maintaining clear focus, readable contrast, semantic state, and predictable interaction.
+
+## Stable maintenance boundary
+
+Glaze UI 1.4.x maintenance prioritizes compatibility, deterministic validation, accurate documentation, controlled adoption, accessibility, privacy, and regression resistance over speculative feature expansion. Consumer applications are independently versioned and are never migrated merely because Glaze UI changes.
 
 ## Commit and review scope
 

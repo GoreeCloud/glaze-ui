@@ -32,6 +32,7 @@ def main() -> None:
     component_contract = text("COMPONENTS.md")
     conformance = text("CONFORMANCE.md")
     acceptance = text("ACCEPTANCE.md")
+    contributing = text("CONTRIBUTING.md")
     changelog = text("CHANGELOG.md")
 
     stable_family = VERSION.rsplit(".", 1)[0]
@@ -66,6 +67,22 @@ def main() -> None:
     require("current Stable canonical baseline" in readme, "README must use the canonical current-Stable wording")
     require("Stable consumers are never migrated automatically" in stability, "controlled consumer-migration boundary is missing")
     require("No active 1.4 form-factor capability remains Candidate" in component_status, "1.4 lifecycle reconciliation is incomplete")
+
+    required_contributor_commands = (
+        "python3 scripts/validate_glaze_ui.py",
+        "python3 scripts/validate_release_state.py",
+        "python3 scripts/validate_form_factors.py",
+        "python3 scripts/validate_typography_contract.py",
+        "python3 scripts/validate_consumer_registry.py",
+        "python3 integrations/firefox/validate.py",
+        "python3 website/validate.py",
+        "python3 scripts/validate_rendered_reference.py",
+    )
+    for command in required_contributor_commands:
+        require(command in contributing, f"CONTRIBUTING.md omits Stable validation command: {command}")
+    for profile in ("Mobile — 390 × 844", "Tablet — 820 × 1180", "Desktop — 1280 × 900", "Wide Desktop — 1600 × 1000", "TV — 1920 × 1080"):
+        require(profile in contributing, f"CONTRIBUTING.md omits Stable acceptance profile: {profile}")
+    require("exact PR head" in contributing, "CONTRIBUTING.md must preserve exact-head validation guidance")
 
     print(f"Glaze UI release-state validation passed for {VERSION}")
 
