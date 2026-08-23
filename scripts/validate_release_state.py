@@ -81,6 +81,21 @@ def main() -> None:
         "ACCEPTANCE.md still contains the superseded generic Glaze material hierarchy",
     )
 
+    require("## Version-specific conformance claims" in conformance, "CONFORMANCE.md version-specific conformance section is missing")
+    require(
+        f"supported Stable conformance targets are **{supported_text}**" in conformance,
+        "CONFORMANCE.md supported conformance target set differs from consumers/registry.json",
+    )
+    require(
+        f"Glaze UI **{VERSION}** is the current Stable baseline" in conformance,
+        "CONFORMANCE.md current Stable conformance baseline is missing or stale",
+    )
+    require("exact-version claim" in conformance, "CONFORMANCE.md older-Stable exact-version claim boundary is missing")
+    require("Requirements introduced only by a later Stable release are not retroactively implied" in conformance, "CONFORMANCE.md must reject retroactive newer-release requirements")
+    require("does not mean the consumer is aligned to the current Stable baseline" in conformance, "CONFORMANCE.md must distinguish older-version conformance from current-Stable alignment")
+    require("does not trigger automatic migration" in conformance, "CONFORMANCE.md controlled migration boundary is missing")
+    require("`SECURITY.md` governs maintenance applicability" in conformance, "CONFORMANCE.md maintenance boundary is missing")
+
     require("current Stable canonical baseline" in readme, "README must use the canonical current-Stable wording")
     require("## Supported Stable consumer targets" in readme, "README supported-consumer-target section is missing")
     require(
