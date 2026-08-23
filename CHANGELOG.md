@@ -4,7 +4,10 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased
 
-No unreleased design-system changes are recorded after the Glaze UI 1.4.0 Stable promotion.
+### Improved
+
+- `COMPONENTS.md` now identifies itself as the Glaze UI 1.4 component contract while explicitly preserving the Stable component semantics established in 1.3.
+- `scripts/validate_release_state.py` now fails closed when the canonical component-contract heading drifts from the current Stable release family or when the retained 1.3 compatibility boundary disappears.
 
 ## 1.4.0 — 2026-08-21
 
