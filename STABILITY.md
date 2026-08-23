@@ -6,8 +6,11 @@ Glaze UI is a shared production dependency. Stability means predictable semantic
 
 - **Stable baseline:** Glaze UI **1.4.0** on `main` after promotion.
 - Glaze UI 1.3.0 is the immediately preceding Stable baseline and remains a valid older consumer target.
+- The current supported Stable consumer-target set is 1.0.0, 1.1.0, 1.2.0, 1.3.0, and 1.4.0, as recorded by `consumers/registry.json`.
 - Stable consumers are never migrated automatically when a newer Stable release exists.
 - Experimental and Planned roadmap concepts do not alter the Stable contract.
+
+Compatibility support for an older Stable target means a consumer may remain pinned to that exact contract with version-specific evidence and product acceptance. It does not promise identical active maintenance across every historical Stable line; `SECURITY.md` governs active security-fix and maintenance applicability. Retiring a supported consumer target requires an explicit lifecycle decision and consumer-impact review.
 
 ## Stability principles
 
