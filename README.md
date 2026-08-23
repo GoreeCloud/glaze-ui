@@ -14,15 +14,17 @@ Glaze UI is informed by **Samsung One UI 8.5**, **Apple Liquid Glass**, and **Go
 
 TV is explicitly **not Wide Desktop**. Form-factor selection uses app window, primary input, viewing distance, platform conventions, posture/resizability, and product task rather than width or device name alone.
 
-## Glaze UI 1.3 compatibility
+## Supported Stable consumer targets
 
-Glaze UI 1.3.0 remains a supported older Stable release for consumers that have not intentionally migrated. 1.4 is a compatible minor evolution; existing consumers are not automatically upgraded.
+The current supported Stable consumer-target set is **1.0.0, 1.1.0, 1.2.0, 1.3.0, and 1.4.0**, as recorded by `consumers/registry.json`. Compatibility support means a consumer may remain intentionally pinned to one of these exact Stable contracts with version-specific evidence and application acceptance; it does not imply identical active maintenance for every historical release.
+
+Existing consumers are never automatically upgraded when a newer Stable release is available. Migration remains controlled and application-specific. `SECURITY.md` governs active security-fix and maintenance applicability, while `STABILITY.md` governs retirement of a supported consumer target and the required consumer-impact review.
 
 ## Stability priority
 
 Glaze UI remains stabilization-first. `STABILITY.md` governs compatibility and promotion; `COMPONENT_STATUS.md` governs Stable, Candidate, Experimental, and Planned lifecycle state; `CONSUMERS.md` and `consumers/registry.json` track evidence-backed consumer alignment. A Stable design-system release never substitutes for application-specific adoption, native mapping, or product acceptance.
 
-Release-state consistency is now a permanent CI contract. `scripts/validate_release_state.py` binds `VERSION`, token metadata, the README Stable declaration, stability/lifecycle records, and the changelog so a future release cannot silently leave contradictory current-version claims behind.
+Release-state consistency is now a permanent CI contract. `scripts/validate_release_state.py` binds `VERSION`, token metadata, the README Stable declaration, supported consumer-target set, stability/lifecycle records, and the changelog so a future release cannot silently leave contradictory current-version or compatibility claims behind.
 
 Speculative intelligence, agent, automation, ambient-computing, voice, and operating-experience concepts remain roadmap-only unless separately implemented, versioned, validated, and promoted.
 
