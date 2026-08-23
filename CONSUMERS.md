@@ -22,10 +22,16 @@ Version-specific evidence has not yet been established. Unverified is an evidenc
 - **GoreeCloud Website** — `aligned-older-stable`, target 1.1.0, evidence `docs/glaze-ui-conformance.md`.
 - **GoreeCloud Tasks** — `adoption-candidate`, target 1.3.0, evidence `docs/glaze-ui.md`; automated representative acceptance passed but final native/manual production acceptance remains pending.
 - **GoreeCloud Launcher** — `adoption-candidate`, target 1.4.0, evidence `docs/glaze-ui-adoption.md`; the mapped native token/evidence subset is enforced by launcher CI while phone/tablet visual/native and physical-device acceptance remain pending.
-- **GoreeCloud Notes** — `unverified`.
-- **GoreeCloud Monitor** — `unverified`.
+- **GoreeCloud Notes** — `adoption-candidate`, target 1.0.0, evidence `frontend/scripts/validate-glaze-foundation.mjs`; the active native-foundation draft line vendors and validates the canonical 1.0 web foundation, while real-device/network performance and accessibility acceptance remains pending.
+- **GoreeCloud Monitor** — `adoption-candidate`, target 1.0.0, evidence `static/monitoring/css/glaze.css`; the active stable-foundation draft line implements and validates a repository-local Glaze layer, while target-environment rendered/accessibility and production acceptance remain pending.
 
-No consumer is automatically migrated to 1.4.0 by the design-system promotion.
+No consumer is automatically migrated to 1.4.0 by the design-system promotion. An older supported target is not itself a defect; migration should be justified by product need and must retain product-specific acceptance.
+
+## Audit completeness
+
+The six named repositories above form the current central audit set. Removing one from the machine-readable registry requires an explicit audit-scope change rather than silently reducing coverage. The registry validator fails closed if the audited repository set changes unexpectedly.
+
+The central audit records evidence and acceptance state; it does not replace each consumer repository's own CI, native/runtime checks, visual review, production-readiness gates, or release decision.
 
 ## Rules for consumer claims
 
