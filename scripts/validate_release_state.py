@@ -30,6 +30,8 @@ def main() -> None:
     stability = text("STABILITY.md")
     component_status = text("COMPONENT_STATUS.md")
     component_contract = text("COMPONENTS.md")
+    conformance = text("CONFORMANCE.md")
+    acceptance = text("ACCEPTANCE.md")
     changelog = text("CHANGELOG.md")
 
     stable_family = VERSION.rsplit(".", 1)[0]
@@ -49,6 +51,17 @@ def main() -> None:
         body = text(path)
         for match in current_stable_pattern.finditer(body):
             require(match.group(1) == VERSION, f"{path} declares stale current Stable version {match.group(1)}")
+
+    stable_surface_hierarchy = "Canvas/Solid/Raised/Functional Glass/Clear Glass/Overlay hierarchy"
+    require(stable_surface_hierarchy in acceptance, "ACCEPTANCE.md does not use the current Stable material hierarchy")
+    require(
+        "Canvas, Solid, Raised, Functional Glass, Clear Glass, and Overlay" in conformance,
+        "CONFORMANCE.md does not use the current Stable material hierarchy",
+    )
+    require(
+        "Canvas/Solid/Raised/Glaze/Overlay hierarchy" not in acceptance,
+        "ACCEPTANCE.md still contains the superseded generic Glaze material hierarchy",
+    )
 
     require("current Stable canonical baseline" in readme, "README must use the canonical current-Stable wording")
     require("Stable consumers are never migrated automatically" in stability, "controlled consumer-migration boundary is missing")
