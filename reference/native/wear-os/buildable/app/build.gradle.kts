@@ -18,8 +18,6 @@ android {
     buildFeatures {
         compose = true
     }
-
-    sourceSets["main"].kotlin.srcDir("../..")
 }
 
 dependencies {
