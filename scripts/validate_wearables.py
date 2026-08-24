@@ -119,7 +119,6 @@ def main() -> None:
     require_markers(NATIVE_README, (
         'Development Candidate implementation evidence',
         'AGP 9.3.0',
-        'Compose BOM 2026.08.00',
         'Wear Compose Material 3 1.5.0',
         'watchOS reference remains source-only',
         'real-device validation',
@@ -146,9 +145,9 @@ def main() -> None:
     ), "Wear OS root build")
 
     require_markers(WEAR_OS_APP_BUILD, (
-        'compileSdk = 37',
+        'compileSdk = 36',
         'targetSdk = 36',
-        'androidx.compose:compose-bom:2026.08.00',
+        'androidx.activity:activity-compose:1.13.0',
         'androidx.wear.compose:compose-material3:1.5.0',
         'sourceSets["main"].kotlin.srcDir("../..")',
     ), "Wear OS app build")
@@ -170,7 +169,7 @@ def main() -> None:
     require_markers(CI_WORKFLOW, (
         'wear-os-build:',
         'persist-credentials: false',
-        'platforms;android-37',
+        'platforms/android-36',
         'gradle-9.5.0-bin.zip',
         '553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746',
         'gradle :app:assembleDebug --no-daemon --stacktrace',
@@ -191,7 +190,7 @@ def main() -> None:
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, mappings, browser/native references, build harness, CI build contract, and acceptance template validated.")
+    print("Glaze UI wearable Development Candidate contract, mappings, browser/native references, stable Android build harness, CI build contract, and acceptance template validated.")
 
 
 if __name__ == "__main__":
