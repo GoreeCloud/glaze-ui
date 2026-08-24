@@ -144,6 +144,7 @@ jobs:
             <key>CFBundleShortVersionString</key><string>0.0.0</string>
             <key>CFBundleVersion</key><string>1</string>
             <key>MinimumOSVersion</key><string>10.0</string>
+            <key>WKApplication</key><true/>
             <key>WKWatchKitApp</key><true/>
             <key>WKWatchOnly</key><true/>
           </dict>
