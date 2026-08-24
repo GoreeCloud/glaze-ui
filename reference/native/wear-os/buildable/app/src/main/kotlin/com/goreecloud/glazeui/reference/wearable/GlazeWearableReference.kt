@@ -3,10 +3,10 @@ package com.goreecloud.glazeui.reference.wearable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.TransformingLazyColumn
 import androidx.wear.compose.material3.minimumInteractiveComponentSize
 
 /**
