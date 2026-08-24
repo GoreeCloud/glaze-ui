@@ -13,6 +13,7 @@ WEAR_OS_SOURCE = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app"
 WEAR_OS_ACTIVITY = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "src" / "main" / "kotlin" / "com" / "goreecloud" / "glazeui" / "reference" / "wearable" / "MainActivity.kt"
 WEAR_OS_SETTINGS = ROOT / "reference" / "native" / "wear-os" / "buildable" / "settings.gradle.kts"
 WEAR_OS_ROOT_BUILD = ROOT / "reference" / "native" / "wear-os" / "buildable" / "build.gradle.kts"
+WEAR_OS_GRADLE_PROPERTIES = ROOT / "reference" / "native" / "wear-os" / "buildable" / "gradle.properties"
 WEAR_OS_APP_BUILD = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "build.gradle.kts"
 WEAR_OS_MANIFEST = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "src" / "main" / "AndroidManifest.xml"
 WATCH_OS = ROOT / "reference" / "native" / "watchos" / "GlazeWearableReference.swift"
@@ -68,8 +69,9 @@ def require_markers(path: Path, markers: tuple[str, ...], label: str) -> None:
 def main() -> None:
     required_paths = (
         DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS_SOURCE,
-        WEAR_OS_ACTIVITY, WEAR_OS_SETTINGS, WEAR_OS_ROOT_BUILD, WEAR_OS_APP_BUILD,
-        WEAR_OS_MANIFEST, WATCH_OS, WATCH_OS_APP, EVIDENCE_TEMPLATE, CI_WORKFLOW,
+        WEAR_OS_ACTIVITY, WEAR_OS_SETTINGS, WEAR_OS_ROOT_BUILD, WEAR_OS_GRADLE_PROPERTIES,
+        WEAR_OS_APP_BUILD, WEAR_OS_MANIFEST, WATCH_OS, WATCH_OS_APP, EVIDENCE_TEMPLATE,
+        CI_WORKFLOW,
     )
     for path in required_paths:
         if not path.is_file():
@@ -149,6 +151,12 @@ def main() -> None:
         '2.3.21',
     ), "Wear OS root build")
 
+    require_markers(WEAR_OS_GRADLE_PROPERTIES, (
+        'org.gradle.jvmargs=-Xmx4g',
+        'org.gradle.workers.max=2',
+        'kotlin.daemon.jvmargs=-Xmx2g',
+    ), "Wear OS CI memory envelope")
+
     require_markers(WEAR_OS_APP_BUILD, (
         'compileSdk = 36',
         'targetSdk = 36',
@@ -214,7 +222,7 @@ def main() -> None:
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build evidence gate, watchOS SDK typecheck gate, packaged watchOS Simulator build gate, Stable isolation, and acceptance template validated.")
+    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build evidence gate and CI memory envelope, watchOS SDK typecheck gate, packaged watchOS Simulator build gate, Stable isolation, and acceptance template validated.")
 
 
 if __name__ == "__main__":
