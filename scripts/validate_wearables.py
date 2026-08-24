@@ -20,6 +20,7 @@ WATCH_OS = ROOT / "reference" / "native" / "watchos" / "GlazeWearableReference.s
 WATCH_OS_APP = ROOT / "reference" / "native" / "watchos" / "GlazeWearableReferenceApp.swift"
 EVIDENCE_TEMPLATE = ROOT / "acceptance" / "wearable-native-evidence.template.json"
 CI_WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
+WEAR_OS_RUNTIME_WORKFLOW = ROOT / ".github" / "workflows" / "wear-os-emulator.yml"
 
 REQUIRED_DOC_PHRASES = [
     "Status: **Development Candidate**",
@@ -71,7 +72,7 @@ def main() -> None:
         DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS_SOURCE,
         WEAR_OS_ACTIVITY, WEAR_OS_SETTINGS, WEAR_OS_ROOT_BUILD, WEAR_OS_GRADLE_PROPERTIES,
         WEAR_OS_APP_BUILD, WEAR_OS_MANIFEST, WATCH_OS, WATCH_OS_APP, EVIDENCE_TEMPLATE,
-        CI_WORKFLOW,
+        CI_WORKFLOW, WEAR_OS_RUNTIME_WORKFLOW,
     )
     for path in required_paths:
         if not path.is_file():
@@ -123,6 +124,8 @@ def main() -> None:
         'Development Candidate implementation evidence',
         'AGP 9.3.0',
         'Wear Compose Material 3 1.5.0',
+        'Wear OS emulator runtime gate',
+        'basic install/launch runtime compatibility',
         'watchos-sdk-typecheck',
         'SDK-level Swift source compatibility only',
         'watchos-simulator-build',
@@ -212,6 +215,28 @@ def main() -> None:
         'xcrun simctl terminate',
     ), "wearable native CI evidence")
 
+    require_markers(WEAR_OS_RUNTIME_WORKFLOW, (
+        'wear-os-emulator-runtime:',
+        'persist-credentials: false',
+        "android-wear;x86_64",
+        '$SDKMANAGER --list --verbose',
+        'gradle :app:assembleDebug --no-daemon --stacktrace',
+        'Create deterministic Wear OS emulator',
+        'hw.device.name=wearos_small_round',
+        'hw.lcd.circular=true',
+        'tag.id=android-wear',
+        'image.sysdir.1=$IMAGE_RELATIVE',
+        '-no-window',
+        'adb wait-for-device',
+        'sys.boot_completed',
+        'adb install -r',
+        'adb shell am start -W',
+        'Status: ok',
+        'adb shell dumpsys activity activities',
+        'adb exec-out screencap -p',
+        'adb shell am force-stop',
+    ), "Wear OS emulator runtime CI evidence")
+
     evidence = json.loads(EVIDENCE_TEMPLATE.read_text(encoding="utf-8"))
     if evidence.get("status") != "template-only":
         fail("wearable evidence template must remain template-only")
@@ -227,7 +252,7 @@ def main() -> None:
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build evidence gate and CI memory envelope, watchOS SDK typecheck gate, watchOS Simulator package/runtime gate, Stable isolation, and acceptance template validated.")
+    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build and emulator runtime evidence gates, watchOS SDK typecheck gate, watchOS Simulator package/runtime gate, Stable isolation, and acceptance template validated.")
 
 
 if __name__ == "__main__":
