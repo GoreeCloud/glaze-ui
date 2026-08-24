@@ -77,7 +77,7 @@ jobs:
           # Validator contract: create avd --force --name glaze-wear-runtime
           DEVICE_LIST="$($AVDMANAGER list device)"
           echo "$DEVICE_LIST" | grep -F 'wearos_small_round'
-          WEAR_DEVICE_ID="$(printf '%s\n' "$DEVICE_LIST" | awk '/wearos_small_round/{gsub(/[^0-9]/,"",previous); print previous; exit} {previous=$0}')"
+          WEAR_DEVICE_ID="$(printf '%s\n' "$DEVICE_LIST" | awk '/wearos_small_round/{line=$0; sub(/^.*id:[[:space:]]*/,"",line); sub(/[[:space:]]+or.*$/,"",line); print line; exit}')"
           test -n "$WEAR_DEVICE_ID"
           echo "Using Wear OS hardware profile ID: $WEAR_DEVICE_ID"
           printf 'no\n' | "$AVDMANAGER" create avd \
