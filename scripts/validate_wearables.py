@@ -127,8 +127,8 @@ def main() -> None:
         'SDK-level Swift source compatibility only',
         'watchos-simulator-build',
         'packaged watchOS Simulator bundle',
-        'does not prove simulator launch',
-        'real-device validation',
+        'basic install/launch/terminate runtime compatibility',
+        'real-device acceptance',
     ), "native evidence boundary")
 
     require_markers(WEAR_OS_SOURCE, (
@@ -205,6 +205,11 @@ def main() -> None:
         '-target arm64-apple-watchos10.0-simulator',
         'GlazeWearableReference.app',
         'codesign --verify --strict',
+        'Launch Development Candidate on available watchOS Simulator',
+        'xcrun simctl bootstatus',
+        'xcrun simctl install',
+        'xcrun simctl launch',
+        'xcrun simctl terminate',
     ), "wearable native CI evidence")
 
     evidence = json.loads(EVIDENCE_TEMPLATE.read_text(encoding="utf-8"))
@@ -222,7 +227,7 @@ def main() -> None:
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build evidence gate and CI memory envelope, watchOS SDK typecheck gate, packaged watchOS Simulator build gate, Stable isolation, and acceptance template validated.")
+    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build evidence gate and CI memory envelope, watchOS SDK typecheck gate, watchOS Simulator package/runtime gate, Stable isolation, and acceptance template validated.")
 
 
 if __name__ == "__main__":
