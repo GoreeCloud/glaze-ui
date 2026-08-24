@@ -123,6 +123,9 @@ def main() -> None:
         'Wear Compose Material 3 1.5.0',
         'watchos-sdk-typecheck',
         'SDK-level Swift source compatibility only',
+        'watchos-simulator-build',
+        'packaged watchOS Simulator bundle',
+        'does not prove simulator launch',
         'real-device validation',
     ), "native evidence boundary")
 
@@ -189,6 +192,11 @@ def main() -> None:
         'xcrun --sdk watchos --show-sdk-version',
         '-target arm64-apple-watchos10.0',
         'GlazeWearableReferenceApp.swift',
+        'watchos-simulator-build:',
+        'xcrun --sdk watchsimulator --show-sdk-version',
+        '-target arm64-apple-watchos10.0-simulator',
+        'GlazeWearableReference.app',
+        'codesign --verify --strict',
     ), "wearable native CI evidence")
 
     evidence = json.loads(EVIDENCE_TEMPLATE.read_text(encoding="utf-8"))
@@ -206,7 +214,7 @@ def main() -> None:
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build evidence gate, watchOS SDK typecheck gate, Stable isolation, and acceptance template validated.")
+    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build evidence gate, watchOS SDK typecheck gate, packaged watchOS Simulator build gate, Stable isolation, and acceptance template validated.")
 
 
 if __name__ == "__main__":
