@@ -12,7 +12,7 @@ REQUIRED_DOC_PHRASES = [
     "not a shrunken phone UI",
     "48 dp Wear OS minimum actionable target baseline",
     "Rotary/crown input is a first-class enhancement",
-    "reduced-transparency/solid fallback",
+    "Reduced-transparency/solid fallback",
     "Real-device validation before application production approval",
     "Passing this validator proves repository consistency only",
 ]
