@@ -145,7 +145,6 @@ jobs:
             <key>CFBundleVersion</key><string>1</string>
             <key>LSMinimumSystemVersion</key><string>10.0</string>
             <key>WKApplication</key><true/>
-            <key>WKWatchOnly</key><true/>
           </dict>
           </plist>
           PLIST
