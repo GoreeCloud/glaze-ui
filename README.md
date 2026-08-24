@@ -1,6 +1,6 @@
 # Glaze UI
 
-Glaze UI is GoreeCloud's shared visual and interaction design system. **Beauty is a requirement, not a regression risk.** It standardizes reusable semantics, accessibility, resilience, and cross-platform behavior without flattening product personality.
+Glaze UI is GoreeCloud's shared visual and interaction design system. **Beauty is a requirement, not a regression risk.** It standardizes reusable semantics, accessibility, resilience, privacy, and cross-platform behavior without flattening product personality.
 
 ## Design lineage
 
@@ -14,17 +14,21 @@ Glaze UI is informed by **Samsung One UI 8.5**, **Apple Liquid Glass**, and **Go
 
 TV is explicitly **not Wide Desktop**. Form-factor selection uses app window, primary input, viewing distance, platform conventions, posture/resizability, and product task rather than width or device name alone.
 
-## Supported Stable consumer targets
+## Mandatory current-Stable consumer target
 
-The current supported Stable consumer-target set is **1.0.0, 1.1.0, 1.2.0, 1.3.0, and 1.4.0**, as recorded by `consumers/registry.json`. Compatibility support means a consumer may remain intentionally pinned to one of these exact Stable contracts with version-specific evidence and application acceptance; it does not imply identical active maintenance for every historical release.
+The current Stable consumer target is **1.4.0**, as recorded by `consumers/registry.json`. It is the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements.
 
-Existing consumers are never automatically upgraded when a newer Stable release is available. Migration remains controlled and application-specific. `SECURITY.md` governs active security-fix and maintenance applicability, while `STABILITY.md` governs retirement of a supported consumer target and the required consumer-impact review.
+Historical Stable releases 1.0.0 through 1.3.0 remain preserved for audit, migration, rollback, and release history. They are not supported active application targets and may not be used to satisfy current production acceptance. Existing consumers are never grandfathered onto superseded Glaze UI versions.
+
+When a newer Stable release is promoted, all GoreeCloud-controlled user-facing consumers become required to migrate to that current Stable release. Migration remains controlled and application-specific, but migration itself is mandatory. There are no application-level production exceptions.
+
+This requirement covers web, desktop, mobile, tablet, TV, smartwatch/wearable, progressive web, dashboard, administrative, maintained-fork, and other GoreeCloud-controlled user-facing interfaces. If a platform lacks an applicable current Stable Glaze UI contract, the application is production-blocked until Glaze UI is extended, validated, and promoted with that Stable contract.
 
 ## Stability priority
 
-Glaze UI remains stabilization-first. `STABILITY.md` governs compatibility and promotion; `COMPONENT_STATUS.md` governs Stable, Candidate, Experimental, and Planned lifecycle state; `CONSUMERS.md` and `consumers/registry.json` track evidence-backed consumer alignment. A Stable design-system release never substitutes for application-specific adoption, native mapping, or product acceptance.
+Glaze UI remains stabilization-first. `STABILITY.md` governs compatibility, promotion, and mandatory consumer migration; `COMPONENT_STATUS.md` governs Stable, Candidate, Experimental, and Planned lifecycle state; `CONSUMERS.md` and `consumers/registry.json` track evidence-backed consumer alignment and migration-required state. A Stable design-system release never substitutes for application-specific adoption, native mapping, or product acceptance.
 
-Release-state consistency is now a permanent CI contract. `scripts/validate_release_state.py` binds `VERSION`, token metadata, the README Stable declaration, supported consumer-target set, stability/lifecycle records, and the changelog so a future release cannot silently leave contradictory current-version or compatibility claims behind.
+Release-state consistency is a permanent CI contract. `scripts/validate_release_state.py` binds `VERSION`, token metadata, the README Stable declaration, current-Stable consumer requirement, stability/lifecycle records, and the changelog so a future release cannot silently leave contradictory current-version or consumer-target claims behind.
 
 Speculative intelligence, agent, automation, ambient-computing, voice, and operating-experience concepts remain roadmap-only unless separately implemented, versioned, validated, and promoted.
 
@@ -45,11 +49,11 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `css/glaze.accessibility.css` — resilience and accessibility fallbacks.
 - `COMPONENTS.md` — shared component semantics.
 - `COMPONENT_STATUS.md` — lifecycle registry.
-- `STABILITY.md` — compatibility and promotion contract.
-- `CONFORMANCE.md` — version-specific conformance gates.
+- `STABILITY.md` — compatibility, promotion, and current-Stable consumer contract.
+- `CONFORMANCE.md` — current-Stable conformance gates.
 - `ADOPTION.md` — consumer integration guidance.
 - `ACCEPTANCE.md` — Stable acceptance protocol.
-- `acceptance/` — version-specific promotion evidence.
+- `acceptance/` — version-specific design-system promotion evidence.
 - `reference/index.html` and `reference/formfactors.html` — dependency-free references.
 - `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, and `scripts/validate_rendered_reference.py` — fail-closed validation.
 
@@ -63,6 +67,7 @@ Canvas → Solid → Raised → Functional Glass → Overlay. Clear Glass is spe
 - **Tablet** — touch-capable, pane/posture-aware, optionally enhanced by pointer/keyboard/stylus.
 - **Desktop** — pointer/keyboard-first, resizable workspace, persistent tools and denser multi-pane patterns where useful.
 - **TV** — far-view, landscape-first, overscan-safe, remote/D-pad directional focus, large readable controls, shallow predictable focus groups.
+- **Smartwatch/Wearable** — mandatory current-Stable Glaze UI use; production requires an applicable Stable wearable contract and application-specific native/real-device acceptance.
 
 ## Validation
 
@@ -83,7 +88,7 @@ The pull-request workflow remains authoritative because it checks out and valida
 
 ## Versioning
 
-Glaze UI follows semantic versioning. Patch releases are compatible corrections; minor releases add compatible semantics; major releases may change established contracts. Consumer migration is always controlled and application-specific.
+Glaze UI follows semantic versioning. Patch releases are compatible corrections; minor releases add compatible semantics; major releases may change established contracts. Consumer migration is controlled and application-specific, and every new Stable baseline becomes mandatory for current GoreeCloud-controlled user-facing applications.
 
 ## License
 

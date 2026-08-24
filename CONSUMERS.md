@@ -1,46 +1,56 @@
-# Glaze UI Consumer Compatibility
+# Glaze UI Consumer Enforcement
 
-Glaze UI consumer stability is version-specific and evidence-based. The machine-readable audit is `consumers/registry.json`.
+Glaze UI consumer conformance is current-Stable, evidence-based, and mandatory. The machine-readable audit is `consumers/registry.json`.
 
-## Supported Stable consumer targets
+## Mandatory current Stable target
 
-The current supported Stable consumer-target set is **1.0.0, 1.1.0, 1.2.0, 1.3.0, and 1.4.0**. The machine-readable `supportedStableVersions` list is authoritative for whether an existing or candidate consumer may claim a supported Glaze UI target.
+Glaze UI **1.4.0** is the current Stable baseline and the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements. Earlier Stable releases remain historical release, migration, rollback, and audit records only. They are not valid long-term application targets and do not satisfy the current production gate.
 
-Compatibility support means a consumer may remain intentionally pinned to that exact Stable contract with version-specific evidence and application acceptance. It does **not** mean every historical line receives identical active maintenance; `SECURITY.md` governs maintenance and security-fix applicability. Removing a version from the supported-target set requires an explicit lifecycle decision and consumer-impact review rather than an incidental registry edit.
+When a newer Glaze UI release is promoted to Stable, every GoreeCloud-controlled user-facing application must migrate to that new current Stable release through controlled, evidence-backed adoption. Controlled migration governs how the upgrade is performed; it does not make migration optional.
+
+No production exception, grandfathering rule, compatibility pin, upstream styling allowance, schedule exemption, platform exemption, or convenience exemption permits a GoreeCloud application to remain on an older Glaze UI version.
+
+## Platform scope
+
+This rule applies to every GoreeCloud-controlled user-facing presentation layer, including web applications, progressive web applications, Linux and other desktop applications, mobile applications, tablet applications, TV applications, smartwatch and wearable applications, dashboards, administrative interfaces, family-facing interfaces, maintained forks, and other controlled user-facing software.
+
+A headless, protocol-only, infrastructure-only, or library component with no controlled user interface is outside visual Glaze UI scope; that is a scope classification, not an exception. If that component later gains a controlled user interface, the current-Stable requirement applies immediately.
+
+If the current Stable Glaze UI release does not yet provide an applicable Stable contract for a required user-facing platform or interaction environment, the application is production-blocked until the design system is extended, validated, and promoted with the required Stable contract. Missing platform support never creates an application exception.
 
 ## Consumer states
 
 ### Aligned — current Stable
-Targets the current Stable version with reviewed revision, repository-local evidence, automated contract where applicable, and completed product acceptance.
-
-### Aligned — older Stable
-Intentionally remains on an earlier Stable version with version-specific evidence. Older Stable is supported and is not automatic migration debt.
+Targets the current Stable version with reviewed revision evidence, repository-local mapping, applicable automated contract validation, and completed product acceptance. This is the only consumer state eligible to satisfy the Glaze UI production gate.
 
 ### Adoption Candidate
-Evidence-backed adoption of a supported Stable Glaze version where final application-specific acceptance remains incomplete. An Adoption Candidate may target the current or an older supported Stable release; the status describes the **consumer's** acceptance state, not the design-system lifecycle.
+Targets the current Stable version with evidence-backed adoption in progress, but final application-specific rendered, native, real-device, accessibility, or production acceptance remains incomplete. Adoption Candidate is not production-accepted Glaze UI conformance.
+
+### Migration Required
+Still targets a historical Glaze UI release. Historical evidence remains useful as migration input and audit history, but the consumer is nonconforming with the current-Stable requirement and is production-blocked on the Glaze UI gate until migration and acceptance are complete.
 
 ### Unverified
-Version-specific evidence has not yet been established. Unverified is an evidence gap, not an automatic non-conformance finding.
+Current-Stable version-specific evidence has not been established. Unverified is an evidence gap and cannot satisfy the production gate.
 
-## Audited consumers after Glaze UI 1.4 promotion
+## Current audited consumers
 
-- **GoreeCloud Manager** — `aligned-older-stable`, target 1.3.0, evidence `docs/glaze-ui.md`.
-- **GoreeCloud Website** — `aligned-older-stable`, target 1.1.0, evidence `docs/glaze-ui-conformance.md`.
-- **GoreeCloud Tasks** — `adoption-candidate`, target 1.3.0, evidence `docs/glaze-ui.md`; automated representative acceptance passed but final native/manual production acceptance remains pending.
-- **GoreeCloud Launcher** — `adoption-candidate`, target 1.4.0, evidence `docs/glaze-ui-adoption.md`; the mapped native token/evidence subset is enforced by launcher CI while phone/tablet visual/native and physical-device acceptance remain pending.
-- **GoreeCloud Notes** — `adoption-candidate`, target 1.0.0, evidence `frontend/scripts/validate-glaze-foundation.mjs`; the active native-foundation draft line vendors and validates the canonical 1.0 web foundation, while real-device/network performance and accessibility acceptance remains pending.
-- **GoreeCloud Monitor** — `adoption-candidate`, target 1.0.0, evidence `static/monitoring/css/glaze.css`; the active stable-foundation draft line implements and validates a repository-local Glaze layer, while target-environment rendered/accessibility and production acceptance remain pending.
-
-No consumer is automatically migrated to 1.4.0 by the design-system promotion. An older supported target is not itself a defect; migration should be justified by product need and must retain product-specific acceptance.
+- **GoreeCloud Manager** — `migration-required`, current recorded target 1.3.0; required target 1.4.0.
+- **GoreeCloud Website** — `migration-required`, current recorded target 1.1.0; required target 1.4.0.
+- **GoreeCloud Tasks** — `migration-required`, current recorded target 1.3.0; required target 1.4.0.
+- **GoreeCloud Launcher** — `adoption-candidate`, target 1.4.0; final application acceptance remains pending.
+- **GoreeCloud Notes** — `migration-required`, current recorded target 1.0.0; required target 1.4.0.
+- **GoreeCloud Monitor** — `migration-required`, current recorded target 1.0.0; required target 1.4.0.
 
 ## Audit completeness
 
-The six named repositories above form the current central audit set. Removing one from the machine-readable registry requires an explicit audit-scope change rather than silently reducing coverage. The registry validator fails closed if the audited repository set changes unexpectedly.
+The six named repositories above form the current central audit set. The central audit does not limit the policy scope: the mandatory current-Stable rule applies to every GoreeCloud-controlled user-facing application whether or not it is already represented in this central registry.
 
-The central audit records evidence and acceptance state; it does not replace each consumer repository's own CI, native/runtime checks, visual review, production-readiness gates, or release decision.
+Removing an audited repository from the machine-readable registry requires an explicit audit-scope change rather than silently reducing coverage. Every application repository remains responsible for its own current-Stable mapping, CI, rendered/native/real-device acceptance, and production-readiness evidence.
 
 ## Rules for consumer claims
 
-A repository claiming version-specific alignment identifies target version, reviewed canonical revision/release anchor, repository-local mapping, automated checks, rendered/native/real-device acceptance boundary, and explicit exceptions/unsupported contexts.
+A repository claiming current-Stable alignment must identify the current Glaze UI version, reviewed canonical revision or release anchor, repository-local mapping or conformance record, applicable automated checks, rendered/native/real-device acceptance boundary, and supported platform contexts.
 
 A Stable consumer **must not silently depend on Candidate or Experimental** behavior. Planned roadmap concepts are not shipping dependencies.
+
+An older-version exact claim may be preserved only as historical evidence, for example to describe what a previous release implemented. It must never be represented as current conformance, current-Stable alignment, or production UI acceptance.
