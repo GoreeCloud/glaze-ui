@@ -11,6 +11,7 @@ REFERENCE = ROOT / "reference" / "wearable-candidate.html"
 NATIVE_README = ROOT / "reference" / "native" / "README.md"
 WEAR_OS = ROOT / "reference" / "native" / "wear-os" / "GlazeWearableReference.kt"
 WATCH_OS = ROOT / "reference" / "native" / "watchos" / "GlazeWearableReference.swift"
+EVIDENCE_TEMPLATE = ROOT / "acceptance" / "wearable-native-evidence.template.json"
 
 REQUIRED_DOC_PHRASES = [
     "Status: **Development Candidate**",
@@ -58,7 +59,7 @@ def require_markers(path: Path, markers: tuple[str, ...], label: str) -> None:
 
 
 def main() -> None:
-    required_paths = (DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS, WATCH_OS)
+    required_paths = (DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS, WATCH_OS, EVIDENCE_TEMPLATE)
     for path in required_paths:
         if not path.is_file():
             fail(f"required candidate asset is missing: {path.relative_to(ROOT)}")
@@ -128,10 +129,22 @@ def main() -> None:
         'Digital Crown',
     ), "watchOS reference")
 
+    evidence = json.loads(EVIDENCE_TEMPLATE.read_text(encoding="utf-8"))
+    if evidence.get("status") != "template-only":
+        fail("wearable evidence template must remain template-only")
+    if evidence.get("glazeUiStableBaseline") != "1.4.0":
+        fail("wearable evidence template must identify 1.4.0 as the current Stable baseline")
+    if evidence.get("promotion", {}).get("stableEligible") is not False:
+        fail("wearable evidence template must fail closed with stableEligible=false")
+    for target in ("wearOs", "watchOs"):
+        record = evidence.get("targets", {}).get(target, {})
+        if record.get("buildResult") != "pending" or record.get("realDevice") != "pending":
+            fail(f"{target} template evidence must remain pending until actual acceptance is recorded")
+
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, mappings, browser reference, and native reference sources validated.")
+    print("Glaze UI wearable Development Candidate contract, mappings, browser reference, native reference sources, and acceptance template validated.")
 
 
 if __name__ == "__main__":
