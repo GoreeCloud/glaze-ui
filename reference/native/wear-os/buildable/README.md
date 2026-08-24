@@ -2,7 +2,7 @@
 
 Status: **Development Candidate build evidence only**
 
-This minimal Android application compiles the canonical `../GlazeWearableReference.kt` source and `../MainActivity.kt` entry point. It exists to produce exact-revision stable-SDK compilation evidence without turning the wearable candidate into a Stable Glaze UI contract.
+This minimal Android application compiles the canonical source in `app/src/main/kotlin/com/goreecloud/glazeui/reference/wearable/`. The reference composable and activity use the conventional Android app source tree so Kotlin inputs stay separate from Gradle build outputs. It exists to produce exact-revision stable-SDK compilation evidence without turning the wearable candidate into a Stable Glaze UI contract.
 
 Pinned build inputs:
 
