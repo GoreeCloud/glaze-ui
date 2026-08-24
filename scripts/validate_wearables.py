@@ -10,8 +10,14 @@ CSS = ROOT / "css" / "glaze.wearable.candidate.css"
 REFERENCE = ROOT / "reference" / "wearable-candidate.html"
 NATIVE_README = ROOT / "reference" / "native" / "README.md"
 WEAR_OS = ROOT / "reference" / "native" / "wear-os" / "GlazeWearableReference.kt"
+WEAR_OS_ACTIVITY = ROOT / "reference" / "native" / "wear-os" / "MainActivity.kt"
+WEAR_OS_SETTINGS = ROOT / "reference" / "native" / "wear-os" / "buildable" / "settings.gradle.kts"
+WEAR_OS_ROOT_BUILD = ROOT / "reference" / "native" / "wear-os" / "buildable" / "build.gradle.kts"
+WEAR_OS_APP_BUILD = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "build.gradle.kts"
+WEAR_OS_MANIFEST = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "src" / "main" / "AndroidManifest.xml"
 WATCH_OS = ROOT / "reference" / "native" / "watchos" / "GlazeWearableReference.swift"
 EVIDENCE_TEMPLATE = ROOT / "acceptance" / "wearable-native-evidence.template.json"
+CI_WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
 
 REQUIRED_DOC_PHRASES = [
     "Status: **Development Candidate**",
@@ -59,7 +65,11 @@ def require_markers(path: Path, markers: tuple[str, ...], label: str) -> None:
 
 
 def main() -> None:
-    required_paths = (DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS, WATCH_OS, EVIDENCE_TEMPLATE)
+    required_paths = (
+        DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS,
+        WEAR_OS_ACTIVITY, WEAR_OS_SETTINGS, WEAR_OS_ROOT_BUILD, WEAR_OS_APP_BUILD,
+        WEAR_OS_MANIFEST, WATCH_OS, EVIDENCE_TEMPLATE, CI_WORKFLOW,
+    )
     for path in required_paths:
         if not path.is_file():
             fail(f"required candidate asset is missing: {path.relative_to(ROOT)}")
@@ -108,9 +118,10 @@ def main() -> None:
 
     require_markers(NATIVE_README, (
         'Development Candidate implementation evidence',
-        'Wear OS',
-        'watchOS',
-        'do **not** prove',
+        'AGP 9.3.0',
+        'Compose BOM 2026.08.00',
+        'Wear Compose Material 3 1.5.0',
+        'watchOS reference remains source-only',
         'real-device validation',
     ), "native evidence boundary")
 
@@ -121,6 +132,33 @@ def main() -> None:
         'rotary behavior',
     ), "Wear OS reference")
 
+    require_markers(WEAR_OS_ACTIVITY, (
+        'class MainActivity : ComponentActivity()',
+        'GlazeWearableReference()',
+        'compilation proves current-SDK source compatibility only',
+    ), "Wear OS activity")
+
+    require_markers(WEAR_OS_ROOT_BUILD, (
+        'com.android.application',
+        '9.3.0',
+        'org.jetbrains.kotlin.plugin.compose',
+        '2.3.21',
+    ), "Wear OS root build")
+
+    require_markers(WEAR_OS_APP_BUILD, (
+        'compileSdk = 37',
+        'targetSdk = 36',
+        'androidx.compose:compose-bom:2026.08.00',
+        'androidx.wear.compose:compose-material3:1.5.0',
+        'sourceSets["main"].kotlin.srcDir("../..")',
+    ), "Wear OS app build")
+
+    require_markers(WEAR_OS_MANIFEST, (
+        'android.hardware.type.watch',
+        'android:allowBackup="false"',
+        'android:name=".MainActivity"',
+    ), "Wear OS manifest")
+
     require_markers(WATCH_OS, (
         'ScrollView',
         'accessibilityLabel',
@@ -128,6 +166,15 @@ def main() -> None:
         'implementation evidence only',
         'Digital Crown',
     ), "watchOS reference")
+
+    require_markers(CI_WORKFLOW, (
+        'wear-os-build:',
+        'persist-credentials: false',
+        'platforms;android-37',
+        'gradle-9.5.0-bin.zip',
+        '553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746',
+        'gradle :app:assembleDebug --no-daemon --stacktrace',
+    ), "Wear OS CI build")
 
     evidence = json.loads(EVIDENCE_TEMPLATE.read_text(encoding="utf-8"))
     if evidence.get("status") != "template-only":
@@ -144,7 +191,7 @@ def main() -> None:
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, mappings, browser reference, native reference sources, and acceptance template validated.")
+    print("Glaze UI wearable Development Candidate contract, mappings, browser/native references, build harness, CI build contract, and acceptance template validated.")
 
 
 if __name__ == "__main__":
