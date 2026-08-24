@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import contextlib
+import html
 import http.server
 import os
+import re
 import shutil
 import signal
 import socket
@@ -124,6 +126,20 @@ def run_browser(command: list[str]) -> subprocess.CompletedProcess[str]:
         stop_process_group(process)
 
 
+def acceptance_result(output: str) -> tuple[str | None, str | None]:
+    """Extract the harness status/text from Chromium's serialized DOM."""
+    match = re.search(
+        r'<pre\s+id="result"\s+data-status="([^"]+)"[^>]*>(.*?)</pre>',
+        output,
+        flags=re.DOTALL,
+    )
+    if not match:
+        return None, None
+    status = match.group(1)
+    text = re.sub(r"<[^>]+>", "", match.group(2))
+    return status, html.unescape(text).strip()
+
+
 def run_case(
     browser: str,
     port: int,
@@ -166,17 +182,23 @@ def run_case(
                 break
 
         output = completed.stdout
+        status, result_text = acceptance_result(output)
         if completed.returncode != 0:
             last_failure = (
                 f"attempt {attempt} browser exited {completed.returncode}\n"
                 f"{completed.stderr[-2000:]}"
             )
-        elif 'data-status="pass"' in output and "PASS" in output:
+        elif status == "pass" and result_text and result_text.startswith("PASS"):
             print(f"Rendered acceptance passed: {case_name}")
             return
+        elif status == "fail":
+            last_failure = f"attempt {attempt} harness reported FAIL\n{result_text or '(no result text)'}"
         else:
             marker = output[-4000:] if output else completed.stderr[-4000:]
-            last_failure = f"attempt {attempt} did not reach the PASS state\n{marker}"
+            last_failure = (
+                f"attempt {attempt} did not reach the PASS state"
+                f" (status={status or 'missing'})\n{result_text or marker}"
+            )
 
         if attempt < RENDER_ATTEMPTS:
             print(f"Rendered acceptance retrying after incomplete browser result: {case_name}")
