@@ -74,7 +74,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo no | "$AVDMANAGER" create avd --force --name glaze-wear-runtime --package "$WEAR_IMAGE"
+          "$AVDMANAGER" list device | grep -F 'wearos_small_round'
+          echo no | "$AVDMANAGER" create avd --force --name glaze-wear-runtime --package "$WEAR_IMAGE" --device wearos_small_round
           "$SDK_ROOT/emulator/emulator" -list-avds | grep -Fx 'glaze-wear-runtime'
           if test -e /dev/kvm; then
             sudo chmod 666 /dev/kvm
