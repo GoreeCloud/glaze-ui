@@ -9,8 +9,8 @@ TOKENS = ROOT / "tokens" / "wearable.candidate.tokens.json"
 CSS = ROOT / "css" / "glaze.wearable.candidate.css"
 REFERENCE = ROOT / "reference" / "wearable-candidate.html"
 NATIVE_README = ROOT / "reference" / "native" / "README.md"
-WEAR_OS = ROOT / "reference" / "native" / "wear-os" / "GlazeWearableReference.kt"
-WEAR_OS_ACTIVITY = ROOT / "reference" / "native" / "wear-os" / "MainActivity.kt"
+WEAR_OS_SOURCE = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "src" / "main" / "kotlin" / "com" / "goreecloud" / "glazeui" / "reference" / "wearable" / "GlazeWearableReference.kt"
+WEAR_OS_ACTIVITY = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "src" / "main" / "kotlin" / "com" / "goreecloud" / "glazeui" / "reference" / "wearable" / "MainActivity.kt"
 WEAR_OS_SETTINGS = ROOT / "reference" / "native" / "wear-os" / "buildable" / "settings.gradle.kts"
 WEAR_OS_ROOT_BUILD = ROOT / "reference" / "native" / "wear-os" / "buildable" / "build.gradle.kts"
 WEAR_OS_APP_BUILD = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "build.gradle.kts"
@@ -66,7 +66,7 @@ def require_markers(path: Path, markers: tuple[str, ...], label: str) -> None:
 
 def main() -> None:
     required_paths = (
-        DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS,
+        DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS_SOURCE,
         WEAR_OS_ACTIVITY, WEAR_OS_SETTINGS, WEAR_OS_ROOT_BUILD, WEAR_OS_APP_BUILD,
         WEAR_OS_MANIFEST, WATCH_OS, EVIDENCE_TEMPLATE, CI_WORKFLOW,
     )
@@ -124,7 +124,7 @@ def main() -> None:
         'real-device validation',
     ), "native evidence boundary")
 
-    require_markers(WEAR_OS, (
+    require_markers(WEAR_OS_SOURCE, (
         'TransformingLazyColumn',
         'minimumInteractiveComponentSize',
         'implementation evidence only',
@@ -134,7 +134,7 @@ def main() -> None:
     require_markers(WEAR_OS_ACTIVITY, (
         'class MainActivity : ComponentActivity()',
         'GlazeWearableReference()',
-        'compilation proves current-SDK source compatibility only',
+        'compilation proves stable-SDK source compatibility only',
     ), "Wear OS activity")
 
     require_markers(WEAR_OS_ROOT_BUILD, (
@@ -149,8 +149,10 @@ def main() -> None:
         'targetSdk = 36',
         'androidx.activity:activity-compose:1.13.0',
         'androidx.wear.compose:compose-material3:1.5.0',
-        'sourceSets["main"].kotlin.srcDir("../..")',
     ), "Wear OS app build")
+
+    if 'sourceSets["main"].kotlin.srcDir' in WEAR_OS_APP_BUILD.read_text(encoding='utf-8'):
+        fail("Wear OS build harness must use the conventional app source tree to avoid source/output overlap")
 
     require_markers(WEAR_OS_MANIFEST, (
         'android.hardware.type.watch',
