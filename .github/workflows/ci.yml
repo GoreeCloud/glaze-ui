@@ -51,15 +51,13 @@ jobs:
       - name: Verify exact source revision
         shell: bash
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
-      - name: Install Android API 37 build requirements
+      - name: Verify stable Android 16 SDK
         shell: bash
         run: |
           SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
           test -n "$SDK_ROOT"
-          SDKMANAGER="$(find "$SDK_ROOT" -type f -name sdkmanager -print -quit)"
-          test -x "$SDKMANAGER"
-          yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" "platforms;android-37" "build-tools;36.0.0"
+          test -d "$SDK_ROOT/platforms/android-36"
+          test -d "$SDK_ROOT/build-tools/36.0.0"
       - name: Install verified Gradle 9.5.0
         shell: bash
         run: |
