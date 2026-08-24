@@ -16,6 +16,7 @@ WEAR_OS_ROOT_BUILD = ROOT / "reference" / "native" / "wear-os" / "buildable" / "
 WEAR_OS_APP_BUILD = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "build.gradle.kts"
 WEAR_OS_MANIFEST = ROOT / "reference" / "native" / "wear-os" / "buildable" / "app" / "src" / "main" / "AndroidManifest.xml"
 WATCH_OS = ROOT / "reference" / "native" / "watchos" / "GlazeWearableReference.swift"
+WATCH_OS_APP = ROOT / "reference" / "native" / "watchos" / "GlazeWearableReferenceApp.swift"
 EVIDENCE_TEMPLATE = ROOT / "acceptance" / "wearable-native-evidence.template.json"
 CI_WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
 
@@ -68,7 +69,7 @@ def main() -> None:
     required_paths = (
         DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS_SOURCE,
         WEAR_OS_ACTIVITY, WEAR_OS_SETTINGS, WEAR_OS_ROOT_BUILD, WEAR_OS_APP_BUILD,
-        WEAR_OS_MANIFEST, WATCH_OS, EVIDENCE_TEMPLATE, CI_WORKFLOW,
+        WEAR_OS_MANIFEST, WATCH_OS, WATCH_OS_APP, EVIDENCE_TEMPLATE, CI_WORKFLOW,
     )
     for path in required_paths:
         if not path.is_file():
@@ -120,7 +121,8 @@ def main() -> None:
         'Development Candidate implementation evidence',
         'AGP 9.3.0',
         'Wear Compose Material 3 1.5.0',
-        'watchOS reference remains source-only',
+        'watchos-sdk-typecheck',
+        'SDK-level Swift source compatibility only',
         'real-device validation',
     ), "native evidence boundary")
 
@@ -168,6 +170,13 @@ def main() -> None:
         'Digital Crown',
     ), "watchOS reference")
 
+    require_markers(WATCH_OS_APP, (
+        '@main',
+        'struct GlazeWearableReferenceApp: App',
+        'GlazeWearableReference()',
+        'SDK-compatibility evidence',
+    ), "watchOS app entry point")
+
     require_markers(CI_WORKFLOW, (
         'wear-os-build:',
         'persist-credentials: false',
@@ -175,7 +184,12 @@ def main() -> None:
         'gradle-9.5.0-bin.zip',
         '553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746',
         'gradle :app:assembleDebug --no-daemon --stacktrace',
-    ), "Wear OS CI build")
+        'watchos-sdk-typecheck:',
+        'runs-on: macos-15',
+        'xcrun --sdk watchos --show-sdk-version',
+        '-target arm64-apple-watchos10.0',
+        'GlazeWearableReferenceApp.swift',
+    ), "wearable native CI evidence")
 
     evidence = json.loads(EVIDENCE_TEMPLATE.read_text(encoding="utf-8"))
     if evidence.get("status") != "template-only":
@@ -192,7 +206,7 @@ def main() -> None:
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, mappings, browser/native references, stable Android build harness, CI build contract, and acceptance template validated.")
+    print("Glaze UI wearable Development Candidate contract, browser/native references, Wear OS build evidence gate, watchOS SDK typecheck gate, Stable isolation, and acceptance template validated.")
 
 
 if __name__ == "__main__":
