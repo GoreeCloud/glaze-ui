@@ -73,3 +73,34 @@ jobs:
         env:
           JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
         run: gradle :app:assembleDebug --no-daemon --stacktrace
+
+  watchos-sdk-typecheck:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify exact source revision
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
+      - name: Record Xcode and watchOS SDK
+        shell: bash
+        run: |
+          xcodebuild -version
+          xcrun --sdk watchos --show-sdk-version
+          xcrun --sdk watchos --show-sdk-path
+      - name: Typecheck watchOS Development Candidate reference
+        working-directory: reference/native/watchos
+        shell: bash
+        run: |
+          SDK_PATH="$(xcrun --sdk watchos --show-sdk-path)"
+          xcrun swiftc \
+            -typecheck \
+            -parse-as-library \
+            -sdk "$SDK_PATH" \
+            -target arm64-apple-watchos10.0 \
+            GlazeWearableReference.swift \
+            GlazeWearableReferenceApp.swift
