@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.goreecloud.glazeui.reference.wearable"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.goreecloud.glazeui.reference.wearable"
@@ -23,10 +23,7 @@ android {
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2026.08.00"))
     implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.wear.compose:compose-foundation:1.5.0")
     implementation("androidx.wear.compose:compose-material3:1.5.0")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
 }
