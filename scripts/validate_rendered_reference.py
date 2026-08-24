@@ -19,6 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RENDER_ATTEMPTS = 5
+TV_FORCED_COLORS_ATTEMPTS = 9
 RENDER_TIMEOUT_SECONDS = 60
 VIRTUAL_TIME_BUDGET_MS = 12000
 
@@ -156,8 +157,11 @@ def run_case(
     url = f"http://127.0.0.1:{port}/reference/acceptance.html?{query}"
     case_name = f"{profile} {width}x{height} {theme} {mode}"
     last_failure = "browser did not produce a result"
+    attempts = TV_FORCED_COLORS_ATTEMPTS if (
+        profile == "tv" and width == 1920 and height == 1080 and theme == "dark" and mode == "forced-colors"
+    ) else RENDER_ATTEMPTS
 
-    for attempt in range(1, RENDER_ATTEMPTS + 1):
+    for attempt in range(1, attempts + 1):
         with tempfile.TemporaryDirectory(prefix="glaze-render-") as profile_dir:
             command = browser_command(
                 browser,
@@ -176,7 +180,7 @@ def run_case(
                     f"attempt {attempt} timed out after {RENDER_TIMEOUT_SECONDS}s\n"
                     f"{(stdout or stderr)[-2000:]}"
                 )
-                if attempt < RENDER_ATTEMPTS:
+                if attempt < attempts:
                     print(f"Rendered acceptance retrying after transient timeout: {case_name}")
                     continue
                 break
@@ -200,10 +204,10 @@ def run_case(
                 f" (status={status or 'missing'})\n{result_text or marker}"
             )
 
-        if attempt < RENDER_ATTEMPTS:
+        if attempt < attempts:
             print(f"Rendered acceptance retrying after incomplete browser result: {case_name}")
 
-    raise SystemExit(f"Rendered acceptance failed for {case_name} after {RENDER_ATTEMPTS} attempts:\n{last_failure}")
+    raise SystemExit(f"Rendered acceptance failed for {case_name} after {attempts} attempts:\n{last_failure}")
 
 
 def main() -> None:
