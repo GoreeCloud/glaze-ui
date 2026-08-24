@@ -1,0 +1,144 @@
+name: Glaze UI Wear OS Emulator Runtime
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  wear-os-emulator-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Verify exact source revision
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
+
+      - name: Resolve Android SDK and stable Wear OS image
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          test -n "$SDK_ROOT"
+          SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          AVDMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/avdmanager"
+          test -x "$SDKMANAGER"
+          test -x "$AVDMANAGER"
+          WEAR_IMAGE="$($SDKMANAGER --list --verbose | grep -E '^system-images;android-[0-9]+(-ext[0-9]+)?;android-wear;x86_64$' | sort -V | tail -n 1)"
+          test -n "$WEAR_IMAGE"
+          echo "Using Wear OS system image: $WEAR_IMAGE"
+          echo "SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
+          echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
+          echo "AVDMANAGER=$AVDMANAGER" >> "$GITHUB_ENV"
+          echo "WEAR_IMAGE=$WEAR_IMAGE" >> "$GITHUB_ENV"
+
+      - name: Install Wear OS emulator dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platform-tools" "emulator" "$WEAR_IMAGE"
+          test -x "$SDK_ROOT/platform-tools/adb"
+          test -x "$SDK_ROOT/emulator/emulator"
+          echo "$SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
+          echo "$SDK_ROOT/emulator" >> "$GITHUB_PATH"
+
+      - name: Install verified Gradle 9.5.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error \
+            https://services.gradle.org/distributions/gradle-9.5.0-bin.zip \
+            --output /tmp/gradle-9.5.0-bin.zip
+          echo "553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746  /tmp/gradle-9.5.0-bin.zip" | sha256sum --check --strict
+          unzip -q /tmp/gradle-9.5.0-bin.zip -d /tmp
+          echo "/tmp/gradle-9.5.0/bin" >> "$GITHUB_PATH"
+
+      - name: Build Wear OS Development Candidate APK
+        working-directory: reference/native/wear-os/buildable
+        shell: bash
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Create Wear OS emulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo no | "$AVDMANAGER" create avd --force --name glaze-wear-runtime --package "$WEAR_IMAGE"
+          "$SDK_ROOT/emulator/emulator" -list-avds | grep -Fx 'glaze-wear-runtime'
+          if test -e /dev/kvm; then
+            sudo chmod 666 /dev/kvm
+          fi
+
+      - name: Boot, install, launch, and verify Wear OS Development Candidate
+        shell: bash
+        env:
+          APK_PATH: reference/native/wear-os/buildable/app/build/outputs/apk/debug/app-debug.apk
+          PACKAGE_NAME: com.goreecloud.glazeui.reference.wearable
+          ACTIVITY_NAME: com.goreecloud.glazeui.reference.wearable.MainActivity
+        run: |
+          set -euo pipefail
+          test -f "$APK_PATH"
+          EMULATOR_LOG="$RUNNER_TEMP/wear-os-emulator.log"
+          SCREENSHOT="$RUNNER_TEMP/wear-os-runtime.png"
+          nohup "$SDK_ROOT/emulator/emulator" \
+            -avd glaze-wear-runtime \
+            -no-window \
+            -gpu swiftshader_indirect \
+            -noaudio \
+            -no-boot-anim \
+            -no-snapshot \
+            -no-metrics \
+            >"$EMULATOR_LOG" 2>&1 &
+          EMULATOR_PID=$!
+          cleanup() {
+            adb emu kill >/dev/null 2>&1 || true
+            kill "$EMULATOR_PID" >/dev/null 2>&1 || true
+            wait "$EMULATOR_PID" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          adb wait-for-device
+          BOOTED=0
+          for _ in $(seq 1 150); do
+            if test "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1"; then
+              BOOTED=1
+              break
+            fi
+            sleep 2
+          done
+          if test "$BOOTED" != "1"; then
+            cat "$EMULATOR_LOG"
+            exit 1
+          fi
+
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+          adb install -r "$APK_PATH"
+          adb shell pm path "$PACKAGE_NAME" | grep -F 'package:'
+          adb shell am start -W -n "$PACKAGE_NAME/$ACTIVITY_NAME" | tee "$RUNNER_TEMP/wear-os-launch.txt"
+          grep -F 'Status: ok' "$RUNNER_TEMP/wear-os-launch.txt"
+          adb shell dumpsys activity activities | grep -F "$PACKAGE_NAME/$ACTIVITY_NAME"
+          sleep 3
+          adb exec-out screencap -p > "$SCREENSHOT"
+          test -s "$SCREENSHOT"
+          file "$SCREENSHOT" | grep -F 'PNG image data'
+          adb shell am force-stop "$PACKAGE_NAME"
+
+      - name: Preserve emulator diagnostics on failure
+        if: failure()
+        shell: bash
+        run: |
+          test ! -f "$RUNNER_TEMP/wear-os-emulator.log" || tail -n 300 "$RUNNER_TEMP/wear-os-emulator.log"
+          adb devices -l || true
