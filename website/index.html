@@ -1,9 +1,153 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"><meta name="description" content="Glaze UI is GoreeCloud's shared visual and interaction design system for mobile, tablet, desktop, TV, and web experiences."><title>Glaze UI — GoreeCloud Design System</title><link rel="stylesheet" href="/assets/glaze.css"><link rel="stylesheet" href="/assets/glaze.controls.css"><link rel="stylesheet" href="/assets/glaze.expressive.css"><link rel="stylesheet" href="/assets/glaze.formfactors.css"><link rel="stylesheet" href="/assets/glaze.accessibility.css"><link rel="stylesheet" href="/assets/site.css"></head>
-<body class="glaze-canvas"><a class="skip-link" href="#main">Skip to content</a><header class="site-header glaze-glass-functional"><div class="shell nav-wrap"><a class="brand glaze-focusable" href="#top" aria-label="Glaze UI home"><span>GoreeCloud · Glaze UI</span></a><nav aria-label="Primary"><a href="#foundations">Foundations</a><a href="#form-factors">Form factors</a><a href="#components">Components</a><a href="#conformance">Conformance</a><a href="#adoption">Adoption</a></nav><div class="theme-group" role="group" aria-label="Appearance"><button type="button" data-theme-choice="system" aria-pressed="true">System</button><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div></div></header>
-<main id="main" class="shell" tabindex="-1"><section id="top" class="hero glaze-surface-raised glaze-shape-hero glaze-reach-layout"><div><span class="eyebrow">Glaze UI 1.4 Stable</span><h1 class="glaze-hero-type">One design language. Four interaction environments.</h1><p class="glaze-supporting-type">Layered surfaces, expressive geometry, accessible motion, clear hierarchy, and GoreeCloud identity now include Stable Mobile, Tablet, Desktop, and TV form-factor semantics.</p></div><div></div><div class="actions glaze-reach-actions glaze-button-group"><a class="glaze-button glaze-expressive-action" data-emphasis="high" data-variant="primary" href="#form-factors">Explore form factors</a><a class="glaze-button glaze-expressive-action" href="https://github.com/GoreeCloud/glaze-ui">View source</a></div><p class="formula">Shared semantics stay stable. Layout, density, reachability, navigation, and focus behavior adapt to context.</p></section>
-<section id="foundations" class="section-block"><div class="section-heading"><span class="eyebrow">Foundations</span><h2>Polished depth with practical restraint</h2><p>Canvas, Solid, Raised, Glaze, and Overlay form the material hierarchy. Functional Glass is selective; readability remains primary.</p><p>Glaze UI is an integral GoreeCloud platform system, not a cosmetic theme or decorative brand. Its name represents implemented design tokens, components, accessibility requirements, interaction semantics, form-factor behavior, adoption rules, and conformance evidence.</p></div><div class="surface-grid"><article class="surface-card canvas"><strong>Canvas</strong></article><article class="surface-card solid"><strong>Solid</strong></article><article class="surface-card raised"><strong>Raised</strong></article><article class="surface-card glaze"><strong>Glaze</strong></article><article class="surface-card overlay"><strong>Overlay</strong></article></div></section>
-<section id="form-factors" class="section-block"><div class="section-heading"><span class="eyebrow">1.4 Stable</span><h2>Adapt the experience, not the identity.</h2><p>Form factor uses window, input, viewing distance, platform behavior, posture, and task—not width alone.</p></div><div class="demo-grid"><article class="glaze-surface-solid glaze-card demo"><h3>Mobile</h3><p>Reachable actions, touch-safe targets, safe areas, mobile navigation.</p></article><article class="glaze-surface-raised glaze-card demo"><h3>Tablet</h3><p>Rails, panes, posture/window adaptation, touch-first ergonomics.</p></article><article class="glaze-glass-functional glaze-shape-expressive demo"><h3>Desktop</h3><p>Resizable workspaces, pointer/keyboard precision, toolbars and multi-pane workflows.</p></article><article class="glaze-surface-solid glaze-card demo"><h3>TV</h3><p>Far-view readability, overscan-safe content, directional focus, remote-first operation.</p></article></div></section>
-<section id="components" class="section-block"><div class="section-heading"><span class="eyebrow">Components</span><h2>Shared semantics, flexible composition</h2></div><div class="demo-grid"><article class="glaze-surface glaze-card demo"><h3>Actions</h3><button class="glaze-button" data-variant="primary">Primary</button></article><article class="glaze-surface-raised glaze-card demo"><h3>Fields</h3><div class="glaze-field"><label class="glaze-field-label" for="demo-search">Search</label><input class="glaze-input" id="demo-search" type="search" placeholder="Search Glaze UI"></div></article><article class="glaze-surface-solid glaze-card demo"><h3>Selection</h3><label class="glaze-choice"><input type="checkbox" checked><span>Enable private sync</span></label></article><article class="glaze-surface-solid glaze-card demo"><h3>Motion</h3><p>Effects and spatial motion remain distinct and reduced-motion safe.</p></article></div></section>
-<section id="conformance" class="section-block"><div class="section-heading"><span class="eyebrow">Conformance</span><h2>Stable semantics protect beauty and usability</h2></div><p>Identity, tokens, surfaces, states, accessibility, privacy, resilience, product personality, and purpose-built Mobile/Tablet/Desktop/TV fidelity remain mandatory.</p><p>A Glaze UI label never substitutes for conformance. Products must implement the applicable current Stable contracts and preserve their own product purpose, accessibility, security, privacy, and resilience requirements. Production conformance must be supported by current implementation and validation evidence.</p></section>
-<section id="adoption" class="section-block glaze-surface glaze-card adoption"><span class="eyebrow">Adoption</span><h2>1.4 is Stable and is the production target.</h2><p>Every GoreeCloud-controlled user-facing application is required to target the current Stable Glaze UI contract. Older Stable consumer pins are migration-required rather than grandfathered production exceptions, and a future Stable promotion requires a controlled consumer migration with applicable source, rendered, native, and real-device evidence.</p><div class="actions"><a class="glaze-button" data-variant="primary" href="https://github.com/GoreeCloud/glaze-ui/blob/main/ADOPTION.md">Adoption guide</a><a class="glaze-button" href="https://github.com/GoreeCloud/glaze-ui/blob/main/CONFORMANCE.md">Conformance contract</a></div></section></main><footer><div class="shell"><strong>Glaze UI 1.4 Stable</strong><p>GoreeCloud's shared visual and interaction design language.</p></div></footer><script src="/assets/site.js" defer></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Glaze UI is GoreeCloud's shared visual and interaction design system for mobile, tablet, desktop, TV, and web experiences.">
+  <title>Glaze UI — GoreeCloud Design System</title>
+  <link rel="icon" href="/assets/glaze-ui-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/glaze.css">
+  <link rel="stylesheet" href="/assets/glaze.controls.css">
+  <link rel="stylesheet" href="/assets/glaze.expressive.css">
+  <link rel="stylesheet" href="/assets/glaze.formfactors.css">
+  <link rel="stylesheet" href="/assets/glaze.accessibility.css">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/identity.css">
+</head>
+<body class="glaze-canvas">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header glaze-glass-functional">
+    <div class="shell nav-wrap">
+      <a class="brand glaze-focusable" href="#top" aria-label="Glaze UI home">
+        <img class="brand-mark" src="/assets/glaze-ui-mark.svg" alt="" width="34" height="34">
+        <span>GoreeCloud · Glaze UI</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#foundations">Foundations</a>
+        <a href="#identity">Identity</a>
+        <a href="#form-factors">Form factors</a>
+        <a href="#components">Components</a>
+        <a href="#conformance">Conformance</a>
+        <a href="#adoption">Adoption</a>
+      </nav>
+      <div class="theme-group" role="group" aria-label="Appearance">
+        <button type="button" data-theme-choice="system" aria-pressed="true">System</button>
+        <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="shell" tabindex="-1">
+    <section id="top" class="hero glaze-surface-raised glaze-shape-hero glaze-reach-layout">
+      <div class="hero-copy-block">
+        <span class="eyebrow">Glaze UI 1.4 Stable</span>
+        <h1 class="glaze-hero-type">One design language. Four interaction environments.</h1>
+        <p class="glaze-supporting-type">Layered surfaces, expressive geometry, accessible motion, clear hierarchy, and GoreeCloud identity now include Stable Mobile, Tablet, Desktop, and TV form-factor semantics.</p>
+      </div>
+      <div class="hero-identity" aria-label="Official Glaze UI Fold identity">
+        <img src="/assets/glaze-ui-mark.svg" alt="Official Glaze UI Fold mark" width="184" height="184">
+        <div>
+          <strong>Fold</strong>
+          <span>Official Glaze UI identity</span>
+        </div>
+      </div>
+      <div class="actions glaze-reach-actions glaze-button-group">
+        <a class="glaze-button glaze-expressive-action" data-emphasis="high" data-variant="primary" href="#form-factors">Explore form factors</a>
+        <a class="glaze-button glaze-expressive-action" href="https://github.com/GoreeCloud/glaze-ui">View source</a>
+      </div>
+      <p class="formula">Shared semantics stay stable. Layout, density, reachability, navigation, and focus behavior adapt to context.</p>
+    </section>
+
+    <section id="foundations" class="section-block">
+      <div class="section-heading">
+        <span class="eyebrow">Foundations</span>
+        <h2>Polished depth with practical restraint</h2>
+        <p>Canvas, Solid, Raised, Glaze, and Overlay form the material hierarchy. Functional Glass is selective; readability remains primary.</p>
+        <p>Glaze UI is an integral GoreeCloud platform system, not a cosmetic theme or decorative brand. Its name represents implemented design tokens, components, accessibility requirements, interaction semantics, form-factor behavior, adoption rules, and conformance evidence.</p>
+      </div>
+      <div class="surface-grid">
+        <article class="surface-card canvas"><strong>Canvas</strong></article>
+        <article class="surface-card solid"><strong>Solid</strong></article>
+        <article class="surface-card raised"><strong>Raised</strong></article>
+        <article class="surface-card glaze"><strong>Glaze</strong></article>
+        <article class="surface-card overlay"><strong>Overlay</strong></article>
+      </div>
+    </section>
+
+    <section id="identity" class="section-block identity-section">
+      <div class="section-heading">
+        <span class="eyebrow">Official identity</span>
+        <h2>Fold is the official Glaze UI mark.</h2>
+        <p>The Fold identity is the canonical visual signature for Glaze UI. The authoritative SVG source lives with Glaze UI and all public derivatives must trace back to that source.</p>
+      </div>
+      <div class="identity-grid">
+        <article class="glaze-surface-raised glaze-card identity-card identity-mark-card">
+          <img src="/assets/glaze-ui-mark.svg" alt="Official Glaze UI Fold standalone mark" width="220" height="220">
+          <div>
+            <h3>Standalone mark</h3>
+            <p>Use for profile and avatar surfaces, favicons, compact application identity, badges, and constrained layouts.</p>
+          </div>
+        </article>
+        <article class="glaze-surface-solid glaze-card identity-card identity-lockup-card">
+          <img src="/assets/glaze-ui-lockup.svg" alt="Official Glaze UI Fold horizontal lockup" width="600" height="180">
+          <div>
+            <h3>Horizontal lockup</h3>
+            <p>Use for website headers, document title areas, public identity treatments, and layouts where the Glaze UI name should be explicit.</p>
+          </div>
+        </article>
+      </div>
+      <p class="identity-note">Do not redraw, rotate, stretch, recolor ad hoc, remove the internal fold detail, or substitute unrelated Glaze UI artwork.</p>
+    </section>
+
+    <section id="form-factors" class="section-block">
+      <div class="section-heading">
+        <span class="eyebrow">1.4 Stable</span>
+        <h2>Adapt the experience, not the identity.</h2>
+        <p>Form factor uses window, input, viewing distance, platform behavior, posture, and task—not width alone.</p>
+      </div>
+      <div class="demo-grid">
+        <article class="glaze-surface-solid glaze-card demo"><h3>Mobile</h3><p>Reachable actions, touch-safe targets, safe areas, mobile navigation.</p></article>
+        <article class="glaze-surface-raised glaze-card demo"><h3>Tablet</h3><p>Rails, panes, posture/window adaptation, touch-first ergonomics.</p></article>
+        <article class="glaze-glass-functional glaze-shape-expressive demo"><h3>Desktop</h3><p>Resizable workspaces, pointer/keyboard precision, toolbars and multi-pane workflows.</p></article>
+        <article class="glaze-surface-solid glaze-card demo"><h3>TV</h3><p>Far-view readability, overscan-safe content, directional focus, remote-first operation.</p></article>
+      </div>
+    </section>
+
+    <section id="components" class="section-block">
+      <div class="section-heading"><span class="eyebrow">Components</span><h2>Shared semantics, flexible composition</h2></div>
+      <div class="demo-grid">
+        <article class="glaze-surface glaze-card demo"><h3>Actions</h3><button class="glaze-button" data-variant="primary">Primary</button></article>
+        <article class="glaze-surface-raised glaze-card demo"><h3>Fields</h3><div class="glaze-field"><label class="glaze-field-label" for="demo-search">Search</label><input class="glaze-input" id="demo-search" type="search" placeholder="Search Glaze UI"></div></article>
+        <article class="glaze-surface-solid glaze-card demo"><h3>Selection</h3><label class="glaze-choice"><input type="checkbox" checked><span>Enable private sync</span></label></article>
+        <article class="glaze-surface-solid glaze-card demo"><h3>Motion</h3><p>Effects and spatial motion remain distinct and reduced-motion safe.</p></article>
+      </div>
+    </section>
+
+    <section id="conformance" class="section-block">
+      <div class="section-heading"><span class="eyebrow">Conformance</span><h2>Stable semantics protect beauty and usability</h2></div>
+      <p>Identity, tokens, surfaces, states, accessibility, privacy, resilience, product personality, and purpose-built Mobile/Tablet/Desktop/TV fidelity remain mandatory.</p>
+      <p>A Glaze UI label never substitutes for conformance. Products must implement the applicable current Stable contracts and preserve their own product purpose, accessibility, security, privacy, and resilience requirements. Production conformance must be supported by current implementation and validation evidence.</p>
+    </section>
+
+    <section id="adoption" class="section-block glaze-surface glaze-card adoption">
+      <span class="eyebrow">Adoption</span>
+      <h2>1.4 is Stable and is the production target.</h2>
+      <p>Every GoreeCloud-controlled user-facing application is required to target the current Stable Glaze UI contract. Older Stable consumer pins are migration-required rather than grandfathered production exceptions, and a future Stable promotion requires a controlled consumer migration with applicable source, rendered, native, and real-device evidence.</p>
+      <div class="actions">
+        <a class="glaze-button" data-variant="primary" href="https://github.com/GoreeCloud/glaze-ui/blob/main/ADOPTION.md">Adoption guide</a>
+        <a class="glaze-button" href="https://github.com/GoreeCloud/glaze-ui/blob/main/CONFORMANCE.md">Conformance contract</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-identity">
+      <img src="/assets/glaze-ui-mark.svg" alt="" width="34" height="34">
+      <div><strong>Glaze UI 1.4 Stable</strong><p>GoreeCloud's shared visual and interaction design language.</p></div>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>
