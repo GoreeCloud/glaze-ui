@@ -8,6 +8,9 @@ COMPONENTS = ROOT / "WEARABLE_COMPONENTS.md"
 TOKENS = ROOT / "tokens" / "wearable.candidate.tokens.json"
 CSS = ROOT / "css" / "glaze.wearable.candidate.css"
 REFERENCE = ROOT / "reference" / "wearable-candidate.html"
+NATIVE_README = ROOT / "reference" / "native" / "README.md"
+WEAR_OS = ROOT / "reference" / "native" / "wear-os" / "GlazeWearableReference.kt"
+WATCH_OS = ROOT / "reference" / "native" / "watchos" / "GlazeWearableReference.swift"
 
 REQUIRED_DOC_PHRASES = [
     "Status: **Development Candidate**",
@@ -47,8 +50,16 @@ def fail(message: str) -> None:
     raise SystemExit(f"wearable candidate validation failed: {message}")
 
 
+def require_markers(path: Path, markers: tuple[str, ...], label: str) -> None:
+    text = path.read_text(encoding="utf-8")
+    for marker in markers:
+        if marker not in text:
+            fail(f"required {label} marker missing from {path.relative_to(ROOT)}: {marker}")
+
+
 def main() -> None:
-    for path in (DOC, COMPONENTS, TOKENS, CSS, REFERENCE):
+    required_paths = (DOC, COMPONENTS, TOKENS, CSS, REFERENCE, NATIVE_README, WEAR_OS, WATCH_OS)
+    for path in required_paths:
         if not path.is_file():
             fail(f"required candidate asset is missing: {path.relative_to(ROOT)}")
 
@@ -80,20 +91,47 @@ def main() -> None:
     if "wearableCandidate" in stable_tokens.get("glaze", {}):
         fail("candidate wearable tokens must not be injected into Stable glaze.tokens.json")
 
-    css = CSS.read_text(encoding="utf-8")
-    for marker in ('data-glaze-wearable-candidate', 'prefers-reduced-motion', 'forced-colors', '--glaze-wearable-target: 48px'):
-        if marker not in css:
-            fail(f"required candidate CSS behavior missing: {marker}")
+    require_markers(CSS, (
+        'data-glaze-wearable-candidate',
+        'prefers-reduced-motion',
+        'forced-colors',
+        '--glaze-wearable-target: 48px',
+    ), "candidate CSS")
 
-    reference = REFERENCE.read_text(encoding="utf-8")
-    for marker in ('data-glaze-watch-shape="round"', 'data-glaze-watch-shape="rectangular"', 'Development Candidate only', 'does not constitute native-platform or real-device acceptance'):
-        if marker not in reference:
-            fail(f"required reference evidence marker missing: {marker}")
+    require_markers(REFERENCE, (
+        'data-glaze-watch-shape="round"',
+        'data-glaze-watch-shape="rectangular"',
+        'Development Candidate only',
+        'does not constitute native-platform or real-device acceptance',
+    ), "browser reference evidence")
+
+    require_markers(NATIVE_README, (
+        'Development Candidate implementation evidence',
+        'Wear OS',
+        'watchOS',
+        'do **not** prove',
+        'real-device validation',
+    ), "native evidence boundary")
+
+    require_markers(WEAR_OS, (
+        'TransformingLazyColumn',
+        'minimumInteractiveComponentSize',
+        'implementation evidence only',
+        'rotary behavior',
+    ), "Wear OS reference")
+
+    require_markers(WATCH_OS, (
+        'ScrollView',
+        'accessibilityLabel',
+        'accessibilityValue',
+        'implementation evidence only',
+        'Digital Crown',
+    ), "watchOS reference")
 
     if 'glaze.wearable.candidate.css' in (ROOT / 'css' / 'glaze.css').read_text(encoding='utf-8'):
         fail("candidate wearable CSS must not be imported by Stable glaze.css")
 
-    print("Glaze UI wearable Development Candidate contract, mappings, and reference validated.")
+    print("Glaze UI wearable Development Candidate contract, mappings, browser reference, and native reference sources validated.")
 
 
 if __name__ == "__main__":
