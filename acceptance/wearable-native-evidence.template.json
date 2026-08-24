@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "status": "template-only",
+  "glazeUiStableBaseline": "1.4.0",
+  "candidate": "wearable-development-candidate",
+  "evidenceBoundary": "This template does not constitute acceptance until populated with current, reproducible platform evidence and reviewed under the Glaze UI promotion process.",
+  "targets": {
+    "wearOs": {
+      "platform": "Wear OS",
+      "sdk": null,
+      "deviceOrEmulator": null,
+      "buildCommit": null,
+      "buildResult": "pending",
+      "roundDisplay": "pending",
+      "rectangularDisplayIfSupported": "not-applicable-or-pending",
+      "touchOnlyTaskCompletion": "pending",
+      "rotaryTaskCompletion": "pending",
+      "largeText": "pending",
+      "screenReader": "pending",
+      "reducedMotion": "pending",
+      "reducedTransparencyOrSolidFallback": "pending",
+      "interruptionAndStateRestoration": "pending",
+      "nativeBackOrDismiss": "pending",
+      "realDevice": "pending",
+      "notes": []
+    },
+    "watchOs": {
+      "platform": "watchOS",
+      "sdk": null,
+      "deviceOrSimulator": null,
+      "buildCommit": null,
+      "buildResult": "pending",
+      "roundDisplay": "not-applicable",
+      "rectangularDisplay": "pending",
+      "touchOnlyTaskCompletion": "pending",
+      "digitalCrownTaskCompletion": "pending",
+      "largeText": "pending",
+      "voiceOver": "pending",
+      "reducedMotion": "pending",
+      "reducedTransparencyOrSolidFallback": "pending",
+      "interruptionAndStateRestoration": "pending",
+      "nativeBackOrDismiss": "pending",
+      "realDevice": "pending",
+      "notes": []
+    }
+  },
+  "promotion": {
+    "stableEligible": false,
+    "reviewedBy": null,
+    "reviewDate": null,
+    "releaseCandidateCommit": null
+  }
+}
