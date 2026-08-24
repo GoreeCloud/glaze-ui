@@ -74,14 +74,18 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          "$AVDMANAGER" list device | grep -F 'wearos_small_round'
+          DEVICE_LIST="$($AVDMANAGER list device)"
+          echo "$DEVICE_LIST" | grep -F 'wearos_small_round'
+          WEAR_DEVICE_ID="$(printf '%s\n' "$DEVICE_LIST" | awk '/wearos_small_round/{gsub(/[^0-9]/,"",previous); print previous; exit} {previous=$0}')"
+          test -n "$WEAR_DEVICE_ID"
+          echo "Using Wear OS hardware profile ID: $WEAR_DEVICE_ID"
           printf 'no\n' | "$AVDMANAGER" create avd \
             --force \
             --name glaze-wear-runtime \
             --package "$WEAR_IMAGE" \
             --tag android-wear \
             --abi x86_64 \
-            --device wearos_small_round
+            --device "$WEAR_DEVICE_ID"
           "$SDK_ROOT/emulator/emulator" -list-avds | grep -Fx 'glaze-wear-runtime'
           if test -e /dev/kvm; then
             sudo chmod 666 /dev/kvm
