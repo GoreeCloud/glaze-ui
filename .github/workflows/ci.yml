@@ -145,6 +145,7 @@ jobs:
             <key>CFBundleVersion</key><string>1</string>
             <key>MinimumOSVersion</key><string>10.0</string>
             <key>WKWatchKitApp</key><true/>
+            <key>WKWatchOnly</key><true/>
           </dict>
           </plist>
           PLIST
