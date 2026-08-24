@@ -68,7 +68,7 @@ def main() -> None:
 
     require('## Mandatory current Stable target' in consumers,'CONSUMERS.md mandatory current Stable section is missing')
     require('Migration Required' in consumers,'CONSUMERS.md migration-required state is missing')
-    require('Smartwatch and wearable applications' in consumers,'CONSUMERS.md smartwatch scope is missing')
+    require('smartwatch and wearable applications' in consumers.lower(),'CONSUMERS.md smartwatch scope is missing')
     require('Existing consumers on older releases are migration-required' in adoption,'ADOPTION.md mandatory migration rule is missing')
     require('### Smartwatch and wearables' in adoption,'ADOPTION.md smartwatch/wearable adoption rule is missing')
 
