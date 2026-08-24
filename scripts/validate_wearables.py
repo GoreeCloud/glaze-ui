@@ -219,7 +219,7 @@ def main() -> None:
         'wear-os-emulator-runtime:',
         'persist-credentials: false',
         "android-wear;x86_64",
-        'sdkmanager --list --verbose',
+        '$SDKMANAGER --list --verbose',
         'gradle :app:assembleDebug --no-daemon --stacktrace',
         'create avd --force --name glaze-wear-runtime',
         '-no-window',
