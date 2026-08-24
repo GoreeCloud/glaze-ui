@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
       - name: Compile validators
         run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_wearables.py scripts/validate_rendered_reference.py website/build.py website/validate.py integrations/firefox/validate.py
       - name: Validate Glaze UI repository
@@ -37,3 +38,36 @@ jobs:
         run: python3 website/validate.py
       - name: Validate rendered Glaze UI reference
         run: python3 scripts/validate_rendered_reference.py
+
+  wear-os-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify exact source revision
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
+      - name: Install Android API 37 build requirements
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-37" "build-tools;36.0.0"
+      - name: Install verified Gradle 9.5.0
+        shell: bash
+        run: |
+          curl --fail --location --silent --show-error \
+            https://services.gradle.org/distributions/gradle-9.5.0-bin.zip \
+            --output /tmp/gradle-9.5.0-bin.zip
+          echo "553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746  /tmp/gradle-9.5.0-bin.zip" | sha256sum --check --strict
+          unzip -q /tmp/gradle-9.5.0-bin.zip -d /tmp
+          echo "/tmp/gradle-9.5.0/bin" >> "$GITHUB_PATH"
+      - name: Compile Wear OS Development Candidate reference
+        working-directory: reference/native/wear-os/buildable
+        shell: bash
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
