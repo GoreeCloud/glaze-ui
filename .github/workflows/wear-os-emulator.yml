@@ -74,6 +74,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Validator contract: create avd --force --name glaze-wear-runtime
           DEVICE_LIST="$($AVDMANAGER list device)"
           echo "$DEVICE_LIST" | grep -F 'wearos_small_round'
           WEAR_DEVICE_ID="$(printf '%s\n' "$DEVICE_LIST" | awk '/wearos_small_round/{gsub(/[^0-9]/,"",previous); print previous; exit} {previous=$0}')"
