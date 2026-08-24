@@ -4,11 +4,11 @@ Status: **Development Candidate implementation evidence**
 
 These native reference files map the Glaze UI wearable candidate contract onto representative platform-native UI frameworks:
 
-- `wear-os/GlazeWearableReference.kt` — Compose for Wear OS reference using a vertical `TransformingLazyColumn`, native Material 3 semantics, current minimum interactive sizing, and platform rotary behavior.
-- `wear-os/MainActivity.kt` plus `wear-os/buildable/` — minimal reproducible Android application harness for compiling the same reference composable against a pinned stable-platform toolchain: AGP 9.3.0, Kotlin Compose plugin 2.3.21, compileSdk/targetSdk 36 for stable Android 16, Wear Compose Material 3 1.5.0, and verified Gradle 9.5.0.
+- `wear-os/buildable/app/src/main/kotlin/com/goreecloud/glazeui/reference/wearable/GlazeWearableReference.kt` — canonical Compose for Wear OS reference using a vertical `TransformingLazyColumn`, native Material 3 semantics, current minimum interactive sizing, and platform rotary behavior.
+- `wear-os/buildable/app/src/main/kotlin/com/goreecloud/glazeui/reference/wearable/MainActivity.kt` plus the surrounding `wear-os/buildable/` project — minimal reproducible Android application harness against a pinned stable-platform toolchain: AGP 9.3.0, Kotlin Compose plugin 2.3.21, compileSdk/targetSdk 36 for stable Android 16, Wear Compose Material 3 1.5.0, and verified Gradle 9.5.0.
 - `watchos/GlazeWearableReference.swift` — SwiftUI watchOS reference using a vertical `ScrollView`, native Button semantics, Dynamic Type-compatible text, accessibility labels/values, and system Digital Crown scrolling behavior.
 
-These files intentionally prefer native controls and navigation behavior where the operating system provides stronger accessibility, focus, ergonomics, battery, or input behavior. They are semantic mappings, not pixel-identical cross-platform implementations.
+The Wear OS reference uses the conventional Android app source tree so source inputs cannot overlap Gradle build outputs. These files intentionally prefer native controls and navigation behavior where the operating system provides stronger accessibility, focus, ergonomics, battery, or input behavior. They are semantic mappings, not pixel-identical cross-platform implementations.
 
 ## Build evidence boundary
 
