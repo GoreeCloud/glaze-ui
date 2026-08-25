@@ -74,6 +74,12 @@ def main() -> None:
     if data.get("ecosystemWall", {}).get("status") != "planned":
         fail("Ecosystem Wall must remain Planned until implemented")
 
+    authoring = data.get("authoring", {})
+    if authoring.get("dedicatedIconStudioPlanned") is not False:
+        fail("dedicated Icon Studio must remain retired unless a new explicit project decision is made")
+    if not authoring.get("reviewArtifactMethods"):
+        fail("tool-agnostic identity review methods must remain documented")
+
     new_product = data.get("newProduct", {})
     for key in ["meaningBeforeAesthetics", "defineFamilyBeforeRendering", "defineDifferentiationBeforeRendering", "proposeIdentityLockBeforeRendering"]:
         if new_product.get(key) is not True:
