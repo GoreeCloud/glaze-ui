@@ -110,6 +110,8 @@ python3 scripts/validate_adaptive_colors.py
 python3 scripts/validate_iconography.py
 ```
 
+Iconography source validation currently proves contract/schema consistency. Stable promotion also requires representative rendered artwork and optical-size acceptance; the validator does not substitute for that visual evidence.
+
 The pull-request workflow remains authoritative because it checks out and validates the exact candidate revision. Do not treat an earlier local run or a partial validation subset as equivalent to the final CI result.
 
 ## Versioning
