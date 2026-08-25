@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "platform": "glaze-ui",
   "producer_repository": "GoreeCloud/glaze-ui",
   "consumer_repository": "GoreeCloud/goreecloud-mesh",
@@ -9,5 +9,10 @@
   "runtime_acceptance_implied": false,
   "stable_acceptance_implied": false,
   "sensitive_information_allowed": false,
-  "purpose": "Allows GoreeCloud Mesh to discover the authoritative Glaze UI conformance boundary and report evidence state without becoming a design authority or manufacturing application conformance evidence."
+  "evidence_validity": {
+    "authority": "producer-or-applicable-policy",
+    "valid_until_required_for_validated": true,
+    "consumer_override_allowed": false
+  },
+  "purpose": "Allows GoreeCloud Mesh to discover the authoritative Glaze UI conformance boundary and report evidence state without becoming a design authority, manufacturing application conformance evidence, or extending producer-declared evidence validity."
 }
