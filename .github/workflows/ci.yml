@@ -19,9 +19,11 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - name: Compile validators
-        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_wearables.py scripts/validate_rendered_reference.py website/build.py website/validate.py integrations/firefox/validate.py
+        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_wearables.py scripts/validate_rendered_reference.py scripts/validate_evidence_validity.py website/build.py website/validate.py integrations/firefox/validate.py
       - name: Validate Glaze UI repository
         run: python3 scripts/validate_glaze_ui.py
+      - name: Validate conformance evidence validity
+        run: python3 scripts/validate_evidence_validity.py
       - name: Validate canonical release state
         run: python3 scripts/validate_release_state.py
       - name: Validate Glaze UI 1.4 form-factor contract
@@ -133,7 +135,7 @@ jobs:
           mkdir -p "$APP_DIR"
           cat > "$APP_DIR/Info.plist" <<'PLIST'
           <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0.dtd">
           <plist version="1.0">
           <dict>
             <key>CFBundleDisplayName</key><string>Glaze Wearable Reference</string>
