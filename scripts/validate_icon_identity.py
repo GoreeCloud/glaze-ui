@@ -97,6 +97,7 @@ def main() -> None:
         "Service derivation",
         "Collision detection",
         "Ecosystem Wall",
+        "does not require or plan a dedicated Icon Studio application",
         "Candidate promotion boundary",
     ]:
         if phrase not in doc:
