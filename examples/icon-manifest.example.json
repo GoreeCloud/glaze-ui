@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0-candidate",
+  "identity": {
+    "id": "example.application",
+    "name": "Example Application",
+    "category": "application"
+  },
+  "source": {
+    "masterCanvas": [1024, 1024],
+    "authoritativeAsset": "assets/identity/example-master.svg"
+  },
+  "opticalVariants": {
+    "display": "assets/identity/example-display.svg",
+    "standard": "assets/identity/example-standard.svg",
+    "compact": "assets/identity/example-compact.svg",
+    "micro": "assets/identity/example-micro.svg"
+  },
+  "identityLock": {
+    "silhouette": "Distinct outer silhouette",
+    "geometry": "Primary geometric relationship",
+    "orientation": "Upright",
+    "negativeSpace": "Central negative-space feature",
+    "proportions": "Stable primary-to-secondary proportion",
+    "essentialColorRelationships": ["identity.primary", "identity.secondary"]
+  },
+  "identityColors": ["identity.primary", "identity.secondary"],
+  "materials": ["soft-glaze", "solid-material"],
+  "semanticRestrictions": ["do-not-redefine-warning", "do-not-redefine-danger", "do-not-redefine-privacy", "do-not-redefine-security"],
+  "badgeClearance": {
+    "upperTrailing": true,
+    "lowerTrailing": true
+  },
+  "adaptiveAppearance": {
+    "light": true,
+    "dark": true,
+    "reducedTransparency": true,
+    "highContrast": true
+  },
+  "accessibility": {
+    "monochrome": "assets/identity/example-monochrome.svg",
+    "grayscaleRecognizable": true,
+    "colorIndependentRecognition": true
+  },
+  "motion": ["state-transition", "confirmation"]
+}
