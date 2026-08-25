@@ -178,11 +178,13 @@ Each package should include a machine-readable manifest conforming to `schemas/i
 
 `examples/icon-manifest.example.json` is a non-canonical schema example only. It does not certify or approve any current GoreeCloud artwork.
 
-## Planned authoring and linting tooling
+## Authoring, preview, export, and linting
 
-**Glaze UI Icon Studio**, live environment preview, automatic production export, icon linting, and the searchable **System Icon Registry** remain **Planned** capabilities. Their intended contract is documented, but no current Stable tooling or certification claim exists merely because machine-readable construction data and schemas are present.
+Glaze UI does **not** plan a dedicated Icon Studio application. Icon construction may use ordinary professional design tools together with repository-controlled source assets and reproducible validation or generation scripts.
 
-A future linter is expected to detect missing optical variants, invalid dimensions, unsupported color profiles, contrast problems, badge collisions, excessive detail, missing monochrome identity, protected semantic-color misuse, and similar violations. Technical errors and subjective design recommendations should remain distinguishable.
+Live environment preview, automatic production export, icon linting, and the searchable **System Icon Registry** may remain separate Planned capabilities where they provide clear value. Their existence must not be treated as a prerequisite for authoring compliant icons, and no current Stable tooling or certification claim exists merely because machine-readable construction data and schemas are present.
+
+A future linter may detect missing optical variants, invalid dimensions, unsupported color profiles, contrast problems, badge collisions, excessive detail, missing monochrome identity, protected semantic-color misuse, and similar violations. Technical errors and subjective design recommendations should remain distinguishable.
 
 ## Future-proof rendering
 
@@ -192,4 +194,4 @@ The Glaze UI icon is therefore treated as a **responsive visual identity asset**
 
 ## Candidate boundary
 
-This contract strengthens the isolated Glaze UI 1.5 Candidate. It does not certify existing artwork, approve new canonical identities, make Icon Studio or the registry Stable, migrate downstream applications, or change Glaze UI 1.4.0 Stable production requirements.
+This contract strengthens the isolated Glaze UI 1.5 Candidate. It does not certify existing artwork, approve new canonical identities, create a dedicated Icon Studio roadmap item, make the registry Stable, migrate downstream applications, or change Glaze UI 1.4.0 Stable production requirements.
