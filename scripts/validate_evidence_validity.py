@@ -48,7 +48,7 @@ def main() -> None:
     for phrase in ("validity", "producer", "fail", "mesh", "extend"):
         if phrase not in documentation:
             fail(f"docs/evidence-validity.md is missing required concept: {phrase}")
-    for phrase in ("current stable", "validity boundary", "missing or expired"):
+    for phrase in ("current stable", "validity deadline", "missing when required", "has expired"):
         if phrase not in conformance:
             fail(f"CONFORMANCE.md is missing current evidence rule: {phrase}")
 
