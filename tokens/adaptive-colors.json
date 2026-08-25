@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "designSystem": "Glaze UI",
+  "candidateRelease": "1.5.0",
+  "stableBaseline": "1.4.0",
+  "status": "candidate",
+  "hardCodedConsumerColorsAllowed": false,
+  "colorOnlyCommunicationAllowed": false,
+  "identityMayOverrideSemantics": false,
+  "prominenceLevels": ["subtle", "standard", "prominent", "critical"],
+  "families": {
+    "accent": {"authority": "glaze-ui", "category": "interaction"},
+    "success": {"authority": "producer", "category": "status"},
+    "information": {"authority": "producer", "category": "status"},
+    "warning": {"authority": "producer", "category": "status"},
+    "danger": {"authority": "producer", "category": "status"},
+    "privacy": {"authority": "privacy-shield", "category": "privacy"},
+    "security": {"authority": "wardveil-security", "category": "security"},
+    "online": {"authority": "producer", "category": "connectivity"},
+    "offline": {"authority": "producer", "category": "connectivity"},
+    "syncing": {"authority": "producer", "category": "activity"},
+    "protected": {"authority": "producer", "category": "protection", "evidenceRequired": true},
+    "restricted": {"authority": "producer", "category": "access"},
+    "unavailable": {"authority": "producer", "category": "availability"}
+  },
+  "selection": {
+    "glazeToken": "selection.glaze",
+    "mustPreserveContrast": true,
+    "mayCoordinateNearbyControls": true
+  },
+  "adaptiveAccent": {
+    "inputs": ["user-accent", "wallpaper", "application-identity", "content-context", "interface-context"],
+    "decorativeOnly": true,
+    "protectedFamilies": ["success", "warning", "danger", "privacy", "security", "protected", "restricted", "online", "offline", "syncing", "unavailable"]
+  },
+  "materials": {
+    "roles": ["canvas", "solid", "raised", "functional-glass", "clear-glass", "overlay"],
+    "backgroundSamplingAllowed": true,
+    "samplingMustPreserveContrast": true,
+    "solidFallbackRequired": true,
+    "maxInfluenceToken": "material.sample.maxInfluence"
+  },
+  "motion": {
+    "purposeRequired": true,
+    "reducedMotionAlternativeRequired": true,
+    "flashingRequired": false
+  },
+  "accessibilityModes": ["light", "dark", "high-contrast", "forced-colors", "grayscale", "color-vision-deficiency", "reduced-transparency"],
+  "requiredInvariants": [
+    "semantic-meaning-survives-pigment-change",
+    "material-state-has-non-color-companion",
+    "identity-does-not-redefine-system-semantics",
+    "personalization-does-not-redefine-system-semantics",
+    "critical-prominence-does-not-require-flashing",
+    "background-sampling-preserves-readability",
+    "reduced-transparency-has-solid-fallback",
+    "privacy-and-security-truth-remain-producer-authoritative",
+    "unknown-or-stale-evidence-is-not-upgraded-to-positive-state"
+  ]
+}
