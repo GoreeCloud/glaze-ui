@@ -71,9 +71,17 @@ def main() -> None:
     if manifest.get("schema") != "schemas/icon-manifest.schema.json" or manifest.get("example") != "examples/icon-manifest.example.json" or manifest.get("requiredForProductionPackage") is not True:
         fail("manifest binding changed")
 
-    for name, status in data.get("plannedCapabilities", {}).items():
+    planned = data.get("plannedCapabilities", {})
+    if "iconStudio" in planned:
+        fail("Icon Studio must not remain in the construction roadmap")
+    for name, status in planned.items():
         if status != "planned":
             fail(f"planned capability {name} must remain Planned")
+    authoring = data.get("authoring", {})
+    if authoring.get("dedicatedIconStudioPlanned") is not False:
+        fail("dedicated Icon Studio must remain retired unless a new explicit project decision is made")
+    if authoring.get("reviewAndExportRemainToolAgnostic") is not True:
+        fail("icon review and export must remain tool-agnostic")
 
     schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
     if schema.get("title") != "Glaze UI Icon Manifest":
@@ -110,6 +118,7 @@ def main() -> None:
         "Material richness → structural clarity → silhouette → identity",
         "responsive visual identity asset",
         "schemas/icon-manifest.schema.json",
+        "does **not** plan a dedicated Icon Studio application",
         "Planned",
     ]:
         if phrase not in doc:
