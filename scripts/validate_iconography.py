@@ -31,7 +31,7 @@ def main() -> None:
     if data["classes"]["application"].get("layers") != ["foundation", "identity", "detail"]:
         fail("application three-layer composition is required")
     if data["classes"]["service"].get("launchable") is not False:
-        fail("service icons must remain non-launchable in the visual contract")
+        fail("service visual category must remain non-launchable")
 
     optical = data.get("opticalSizes", {})
     if list(optical) != ["presentation", "standard", "compact", "micro"]:
@@ -54,8 +54,10 @@ def main() -> None:
             fail(f"accessibility invariant {key} must be true")
 
     badges = data.get("badges", {})
-    if badges.get("maxVisible") != 1:
-        fail("badge stacking must remain bounded to one visible priority badge")
+    if badges.get("maxVisibleCompact") != 1:
+        fail("compact badge stacking must remain bounded to one visible priority badge")
+    if badges.get("overflowTreatment") != "expanded-labeled-status":
+        fail("badge overflow must use an expanded labeled status treatment")
     if data.get("motion", {}).get("continuousDecorativeAnimation") is not False:
         fail("continuous decorative animation must remain prohibited")
     if data.get("thirdParty", {}).get("mustNotFalselyRebrand") is not True:
