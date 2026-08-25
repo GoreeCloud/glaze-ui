@@ -22,6 +22,8 @@ Glaze materials may use bounded translucency, diffusion, luminosity, tonal gradi
 
 Service icons are intentionally distinct from launchable application icons. Services use simpler geometry, reduced depth, fewer decorative layers, and more symbolic construction. Infrastructure, synchronization, networking, storage, protection, account/provider, and background-process classes may use recurring structural patterns, but no service class may be distinguishable by color alone.
 
+The `launchable: false` service token describes this visual category rather than imposing runtime architecture. A capability that becomes a normal user-launchable destination must use an application or other appropriate launchable identity instead of visually masquerading as a background service.
+
 ## Core system components
 
 Foundational operating-system components use enduring silhouettes, restrained materials, neutral foundations, and controlled accent use. Their identity must survive future rendering and material evolutions without dependence on temporary visual trends.
@@ -40,7 +42,7 @@ Privacy Shield is authoritative for privacy truth and Wardveil Security is autho
 
 ## Badges and overlays
 
-Synchronization, notifications, warnings, errors, offline state, sharing, protection, restrictions, management, updates, and unavailable resources use predefined badge forms and anchors. Badge placement must be deterministic. Excessive stacking is prohibited; when multiple conditions compete, the highest-priority current state wins according to the semantic prominence contract.
+Synchronization, notifications, warnings, errors, offline state, sharing, protection, restrictions, management, updates, and unavailable resources use predefined badge forms and anchors. Badge placement must be deterministic. Excessive stacking is prohibited; the default compact icon presentation exposes one highest-priority badge. If multiple simultaneous conditions must be communicated, the interface must expose additional state through labels, details, or another expanded status treatment rather than stacking unreadable overlays.
 
 ## Grid and optical correction
 
