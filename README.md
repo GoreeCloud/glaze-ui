@@ -6,6 +6,12 @@ Glaze UI is GoreeCloud's shared visual and interaction design system. **Beauty i
 
 Glaze UI is informed by **Samsung One UI 8.5**, **Apple Liquid Glass**, and **Google Material 3 Expressive**, reinterpreted through GoreeCloud privacy, identity, accessibility, resilience, and self-hosted requirements. These are references, not templates.
 
+## Full-spectrum enforcement
+
+Glaze UI is mandatory identity architecture, not a theme or finishing layer. If GoreeCloud controls a user-visible or interaction-facing decision, the current Stable Glaze UI contract governs it unless Glaze UI explicitly delegates implementation while preserving the same semantics, accessibility, identity, and integration requirements. The enforcement scope is deliberately non-exhaustive: an unnamed component, technology, form factor, state, or future interaction is not exempt.
+
+`ENFORCEMENT.md` and `tokens/enforcement.json` define this fail-closed governance contract. Consumers may not establish competing local design systems, arbitrary semantic vocabularies, private icon conventions, incompatible component languages, or ad hoc token systems that fragment GoreeCloud family identity. New presentation capabilities that exceed current Stable semantics must extend and promote Glaze UI before becoming production dependencies.
+
 ## Glaze UI 1.4 Stable — Form-Factor Evolution
 
 **Glaze UI 1.4.0 is the current Stable canonical baseline.** It preserves the complete 1.3 expressive foundation and promotes Mobile, Tablet, Desktop, and TV to first-class semantic interaction environments.
@@ -40,6 +46,8 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 
 - `VERSION` — current Stable semantic version.
 - `tokens/glaze.tokens.json` — canonical semantic tokens.
+- `ENFORCEMENT.md` — full-spectrum, non-exhaustive, fail-closed Glaze UI governance.
+- `tokens/enforcement.json` — machine-readable enforcement domains, authorities, and blocking gates.
 - `FORM_FACTORS.md` — Mobile, Tablet, Desktop, and TV contract.
 - `GLAZE_SANS.md` — future-only Glaze Sans visual and quality reference; not an active implementation requirement.
 - `css/glaze.css` — core web primitives.
@@ -55,7 +63,7 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `ACCEPTANCE.md` — Stable acceptance protocol.
 - `acceptance/` — version-specific design-system promotion evidence.
 - `reference/index.html` and `reference/formfactors.html` — dependency-free references.
-- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, and `scripts/validate_rendered_reference.py` — fail-closed validation.
+- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_enforcement.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, and `scripts/validate_rendered_reference.py` — fail-closed validation.
 
 ## Material hierarchy
 
@@ -76,6 +84,7 @@ Run the complete Stable source and integration gate from the repository root:
 ```bash
 python3 scripts/validate_glaze_ui.py
 python3 scripts/validate_release_state.py
+python3 scripts/validate_enforcement.py
 python3 scripts/validate_form_factors.py
 python3 scripts/validate_typography_contract.py
 python3 scripts/validate_consumer_registry.py
