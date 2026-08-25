@@ -157,9 +157,21 @@ def main() -> None:
     certification = data.get("certification", {})
     if certification.get("status") != "planned":
         fail("Native Icon certification must remain Planned until implemented")
+
+    authoring = data.get("authoring", {})
+    if authoring.get("dedicatedIconStudioPlanned") is not False:
+        fail("dedicated Icon Studio must remain retired unless a new explicit project decision is made")
+    required_authoring_outcomes = {
+        "master-grid-review", "keyline-review", "safe-area-review", "optical-boundary-review",
+        "badge-collision-review", "appearance-preview", "accessibility-preview", "contrast-review",
+        "fine-geometry-review", "launcher-grid-review", "optical-size-validation", "reproducible-export"
+    }
+    if set(authoring.get("requiredOutcomes", [])) != required_authoring_outcomes:
+        fail("authoring and review outcomes are incomplete")
+
     tooling = data.get("tooling", {})
-    if tooling.get("iconStudio", {}).get("status") != "planned":
-        fail("Icon Studio must remain Planned until implemented")
+    if "iconStudio" in tooling:
+        fail("Icon Studio must not remain in the tooling roadmap")
     if tooling.get("systemIconRegistry", {}).get("status") != "planned":
         fail("System Icon Registry must remain Planned until implemented")
 
@@ -184,7 +196,7 @@ def main() -> None:
         "Wardveil Security is authoritative for security truth",
         "Responsive iconography is not simple asset scaling",
         "Glaze UI Native Icon",
-        "Icon Studio",
+        "does **not** plan a dedicated Icon Studio application",
         "System Icon Registry",
         "Candidate promotion boundary",
     ]:
