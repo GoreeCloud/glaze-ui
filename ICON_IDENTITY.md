@@ -70,9 +70,9 @@ Identity collision detection is a review aid, not an autonomous rejection author
 
 ## Ecosystem Wall and family preview
 
-A future Icon Studio should support family previews and an Ecosystem Wall containing major application and service identities at multiple optical sizes. These views are intended to expose repetitive geometry, color clustering, visual-weight imbalance, weak identities, and accidental hierarchy.
+Family previews and an Ecosystem Wall may be produced as review artifacts using ordinary design tools, generated contact sheets, repository previews, or other suitable methods. They should contain major application and service identities at multiple optical sizes and expose repetitive geometry, color clustering, visual-weight imbalance, weak identities, and accidental hierarchy.
 
-Icon Studio, automated collision analysis, and the Ecosystem Wall remain **Planned** until implemented and validated.
+Glaze UI does not require or plan a dedicated Icon Studio application for this review. Automated collision analysis and Ecosystem Wall generation remain **Planned** only where their separate implementation would materially improve review quality; human review remains authoritative.
 
 ## New product creation and redesign
 
@@ -99,4 +99,4 @@ The system succeeds when those answers emerge from layered identity rather than 
 
 ## Candidate promotion boundary
 
-This identity system is Candidate work. Source validation proves contract consistency, not rendered identity quality. Stable promotion requires representative ecosystem review, family review, monochrome and optical-size validation, accessibility review, state-overlay review, collision assessment, continuity assessment for redesigned identities, and confirmation that Planned tooling is not represented as implemented.
+This identity system is Candidate work. Source validation proves contract consistency, not rendered identity quality. Stable promotion requires representative ecosystem review, family review, monochrome and optical-size validation, accessibility review, state-overlay review, collision assessment, continuity assessment for redesigned identities, and confirmation that Planned review automation is not represented as implemented.
