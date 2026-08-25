@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "contracts" / "glaze.conformance-evidence.schema.json"
-DOC = ROOT / "EVIDENCE-VALIDITY.md"
+DOC = ROOT / "docs" / "evidence-validity.md"
 CONFORMANCE = ROOT / "CONFORMANCE.md"
 
 
@@ -47,7 +47,7 @@ def main() -> None:
     conformance = CONFORMANCE.read_text(encoding="utf-8").lower()
     for phrase in ("validity", "producer", "fail", "mesh", "extend"):
         if phrase not in documentation:
-            fail(f"EVIDENCE-VALIDITY.md is missing required concept: {phrase}")
+            fail(f"docs/evidence-validity.md is missing required concept: {phrase}")
     for phrase in ("current stable", "validity boundary", "missing or expired"):
         if phrase not in conformance:
             fail(f"CONFORMANCE.md is missing current evidence rule: {phrase}")
