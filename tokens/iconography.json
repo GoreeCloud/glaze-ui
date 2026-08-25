@@ -177,11 +177,12 @@
     "icon.badge.semantic",
     "icon.motion.transition"
   ],
+  "authoring": {
+    "dedicatedIconStudioPlanned": false,
+    "allowedApproaches": ["professional-design-tools", "repository-controlled-source-assets", "deterministic-generation-scripts", "validators", "rendered-previews", "documented-human-review"],
+    "requiredOutcomes": ["master-grid-review", "keyline-review", "safe-area-review", "optical-boundary-review", "badge-collision-review", "appearance-preview", "accessibility-preview", "contrast-review", "fine-geometry-review", "launcher-grid-review", "optical-size-validation", "reproducible-export"]
+  },
   "tooling": {
-    "iconStudio": {
-      "status": "planned",
-      "features": ["master-grid", "keylines", "safe-areas", "optical-boundaries", "badge-exclusion-zones", "material-previews", "optical-size-generation", "appearance-preview", "accessibility-simulation", "contrast-inspection", "fine-geometry-detection", "launcher-grid-preview", "badge-preview", "production-export"]
-    },
     "systemIconRegistry": {
       "status": "planned",
       "searchBy": ["concept", "action", "object", "semantic-role"],
