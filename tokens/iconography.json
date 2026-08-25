@@ -37,7 +37,8 @@
   },
   "badges": {
     "roles": ["syncing", "notification", "warning", "error", "offline", "shared", "protected", "restricted", "managed", "update", "unavailable"],
-    "maxVisible": 1,
+    "maxVisibleCompact": 1,
+    "overflowTreatment": "expanded-labeled-status",
     "priorityRule": "highest-semantic-prominence"
   },
   "adaptiveColor": {
