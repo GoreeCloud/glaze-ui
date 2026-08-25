@@ -42,6 +42,8 @@ Smartwatch/Wearable: the current Stable shared Glaze semantics remain mandatory.
 
 Passing overflow checks alone is insufficient. Multi-form-factor products require representative task-flow evidence and application-specific rendered/native acceptance. A design-system Stable promotion does not automatically certify downstream consumers, but once promoted it becomes the mandatory consumer target for all GoreeCloud-controlled user-facing applications.
 
+Evidence used to support a current Glaze UI conformance or production UI acceptance claim must identify when it was observed and the producer- or applicable-policy-defined time through which that evidence remains valid. Evidence whose validity deadline is missing when required, has expired, or is no longer supported by the authoritative producer cannot support a current passing claim. GoreeCloud Mesh and other consumers may evaluate the producer-declared deadline but may not extend, replace, or override it.
+
 ## Current-Stable conformance claims
 
 Glaze UI **1.4.0** is the current Stable baseline and the only active version eligible for a current GoreeCloud application conformance or production UI acceptance claim.
