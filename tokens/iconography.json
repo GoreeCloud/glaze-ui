@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "name": "Glaze UI Iconography",
+    "version": "1.5-candidate",
+    "stableBaseline": "1.4.0",
+    "status": "candidate"
+  },
+  "principle": "recognizable identity within a shared visual language",
+  "classes": {
+    "application": {"layers": ["foundation", "identity", "detail"], "launchable": true, "depth": "full"},
+    "service": {"layers": ["foundation", "identity"], "launchable": false, "depth": "reduced"},
+    "system": {"layers": ["foundation", "identity"], "launchable": null, "depth": "restrained"},
+    "functional": {"systemGlyph": true},
+    "semantic": {"systemGlyph": true, "colorAlone": false}
+  },
+  "grid": {
+    "canvas": 1024,
+    "safeArea": {"inset": 128},
+    "primaryRegion": {"inset": 176},
+    "badgeAnchors": ["top-right", "bottom-right"],
+    "opticalCorrection": true
+  },
+  "opticalSizes": {
+    "presentation": {"minPx": 96, "detail": "rich"},
+    "standard": {"minPx": 48, "detail": "restrained"},
+    "compact": {"minPx": 24, "detail": "simplified"},
+    "micro": {"minPx": 12, "detail": "essential"}
+  },
+  "interaction": {
+    "outlined": ["available", "inactive", "unselected"],
+    "filledOrGlazed": ["selected", "active", "emphasized", "persistent"]
+  },
+  "semanticRoles": ["success", "information", "warning", "danger", "privacy", "security", "protected", "restricted", "online", "offline", "syncing", "paused", "unavailable"],
+  "authority": {
+    "privacy": "Privacy Shield",
+    "security": "Wardveil Security"
+  },
+  "badges": {
+    "roles": ["syncing", "notification", "warning", "error", "offline", "shared", "protected", "restricted", "managed", "update", "unavailable"],
+    "maxVisible": 1,
+    "priorityRule": "highest-semantic-prominence"
+  },
+  "adaptiveColor": {
+    "identityMayInfluence": ["foundation", "material", "gradient", "highlight", "primary-symbol"],
+    "protectedSemantics": true,
+    "decorativeContextOnly": ["wallpaper", "user-accent", "application-identity", "content-context"]
+  },
+  "accessibility": {
+    "nonColorMeaningRequired": true,
+    "accessibleNamesForInteractiveIcons": true,
+    "grayscale": true,
+    "highContrast": true,
+    "reducedTransparency": true,
+    "forcedColors": true,
+    "reducedMotion": true
+  },
+  "motion": {
+    "purposeOnly": true,
+    "continuousDecorativeAnimation": false,
+    "interruptible": true,
+    "staticReducedMotionAlternative": true
+  },
+  "thirdParty": {
+    "preserveOriginalIdentity": true,
+    "mayApplyStandardFraming": true,
+    "mayApplyMasking": true,
+    "mayApplyAdaptiveBackground": true,
+    "mustNotFalselyRebrand": true
+  },
+  "prohibited": [
+    "miniature-interface",
+    "tiny-lettering",
+    "photographic-background",
+    "uncontrolled-gradient",
+    "excessive-gloss",
+    "meaningless-shadow",
+    "extreme-perspective",
+    "inconsistent-stroke-weight",
+    "misleading-semantic-color",
+    "duplicated-system-glyph",
+    "excessive-badges",
+    "color-only-recognition"
+  ]
+}
