@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design.goreecloud.com/schemas/icon-manifest.schema.json",
+  "title": "Glaze UI Icon Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "identity", "source", "opticalVariants", "identityLock", "accessibility", "badgeClearance", "adaptiveAppearance"],
+  "properties": {
+    "schemaVersion": {"const": "1.0-candidate"},
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "category"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "category": {"enum": ["application", "service", "system-component", "functional-glyph", "semantic-glyph", "file", "folder", "device"]}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["masterCanvas", "authoritativeAsset"],
+      "properties": {
+        "masterCanvas": {"const": [1024, 1024]},
+        "authoritativeAsset": {"type": "string", "minLength": 1}
+      }
+    },
+    "opticalVariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display", "standard", "compact", "micro"],
+      "properties": {
+        "display": {"type": "string", "minLength": 1},
+        "standard": {"type": "string", "minLength": 1},
+        "compact": {"type": "string", "minLength": 1},
+        "micro": {"type": "string", "minLength": 1}
+      }
+    },
+    "identityLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["silhouette", "geometry", "negativeSpace", "proportions"],
+      "properties": {
+        "silhouette": {"type": "string", "minLength": 1},
+        "geometry": {"type": "string", "minLength": 1},
+        "orientation": {"type": "string"},
+        "negativeSpace": {"type": "string", "minLength": 1},
+        "proportions": {"type": "string", "minLength": 1},
+        "essentialColorRelationships": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "identityColors": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "materials": {
+      "type": "array",
+      "items": {"enum": ["clear-glaze", "soft-glaze", "dense-glaze", "tinted-glaze", "luminous-glaze", "solid-material"]},
+      "uniqueItems": true
+    },
+    "semanticRestrictions": {
+      "type": "array",
+      "items": {"enum": ["do-not-redefine-success", "do-not-redefine-information", "do-not-redefine-warning", "do-not-redefine-danger", "do-not-redefine-privacy", "do-not-redefine-security"]},
+      "uniqueItems": true
+    },
+    "badgeClearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upperTrailing", "lowerTrailing"],
+      "properties": {
+        "upperTrailing": {"type": "boolean"},
+        "lowerTrailing": {"type": "boolean"}
+      }
+    },
+    "adaptiveAppearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["light", "dark", "reducedTransparency", "highContrast"],
+      "properties": {
+        "light": {"type": "boolean"},
+        "dark": {"type": "boolean"},
+        "reducedTransparency": {"type": "boolean"},
+        "highContrast": {"type": "boolean"}
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["monochrome", "grayscaleRecognizable", "colorIndependentRecognition"],
+      "properties": {
+        "monochrome": {"type": "string", "minLength": 1},
+        "grayscaleRecognizable": {"const": true},
+        "colorIndependentRecognition": {"const": true}
+      }
+    },
+    "motion": {
+      "type": "array",
+      "items": {"enum": ["state-transition", "progress", "activity", "attention", "confirmation"]},
+      "uniqueItems": true
+    }
+  }
+}
