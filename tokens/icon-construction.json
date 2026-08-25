@@ -73,11 +73,14 @@
     "requiredForProductionPackage": true
   },
   "plannedCapabilities": {
-    "iconStudio": "planned",
     "liveEnvironmentPreview": "planned",
     "automaticAssetGeneration": "planned",
     "iconLinting": "planned",
     "systemIconRegistry": "planned"
+  },
+  "authoring": {
+    "dedicatedIconStudioPlanned": false,
+    "reviewAndExportRemainToolAgnostic": true
   },
   "principle": "responsive visual identity asset"
 }
