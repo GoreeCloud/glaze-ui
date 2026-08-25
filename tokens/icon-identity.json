@@ -109,6 +109,10 @@
     "multiScale": true,
     "reviewSignals": ["color-clustering", "repetitive-symbols", "material-inconsistency", "visual-weight-imbalance", "weak-identity", "accidental-hierarchy"]
   },
+  "authoring": {
+    "dedicatedIconStudioPlanned": false,
+    "reviewArtifactMethods": ["ordinary-design-tools", "generated-contact-sheets", "repository-previews", "other-suitable-methods"]
+  },
   "newProduct": {
     "meaningBeforeAesthetics": true,
     "defineFamilyBeforeRendering": true,
