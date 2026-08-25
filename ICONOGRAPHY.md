@@ -162,11 +162,11 @@ The Candidate exposes semantic concepts such as `icon.size.micro`, `icon.size.co
 
 Applications consume semantic contracts rather than reproducing system rules manually.
 
-## Icon Studio
+## Authoring and review workflow
 
-A future Icon Studio or equivalent developer tool is Planned. Its intended responsibilities include master-grid and keyline display, safe-area and optical-boundary overlays, badge exclusion zones, material previews, optical-size generation, light/dark previews, accessibility simulation, contrast inspection, fine-geometry detection, Launcher-grid previews, badge testing, and production export.
+Glaze UI does **not** plan a dedicated Icon Studio application. Icon creation and review may use ordinary professional design tools, repository-controlled source assets, deterministic generation scripts, validators, rendered previews, and documented human review processes.
 
-Icon Studio is not currently a Stable capability and its Planned status must not be represented as implemented tooling.
+The production contract still requires master-grid and keyline review, safe-area and optical-boundary checks, badge exclusion and collision review, light/dark and accessibility previews, contrast inspection, fine-geometry review, Launcher-grid comparison, optical-size validation, and reproducible export where applicable. These requirements describe outcomes and evidence, not a requirement to build a dedicated authoring application.
 
 ## System Icon Registry
 
@@ -184,6 +184,6 @@ Icon identity is separated from rendering so future Glaze UI releases can improv
 
 ## Candidate promotion boundary
 
-This contract is Candidate work. Stable promotion requires exact-final-revision source validation, representative rendered review across all required optical sizes and appearance modes, accessibility and color-vision checks, platform export verification, compatibility assessment, rollback evidence, and confirmation that Planned certification/tooling/registry capabilities are not falsely represented as Stable implementation.
+This contract is Candidate work. Stable promotion requires exact-final-revision source validation, representative rendered review across all required optical sizes and appearance modes, accessibility and color-vision checks, platform export verification, compatibility assessment, rollback evidence, and confirmation that Planned certification and registry capabilities are not falsely represented as Stable implementation.
 
 No downstream application may claim current production conformance against this Candidate until Glaze UI 1.5 is explicitly promoted.
