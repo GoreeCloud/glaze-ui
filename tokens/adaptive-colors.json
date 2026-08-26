@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "designSystem": "Glaze UI",
-  "candidateRelease": "1.5.0",
+  "stableRelease": "1.5.0",
   "stableBaseline": "1.5.0",
   "status": "stable",
   "hardCodedConsumerColorsAllowed": false,
@@ -14,59 +14,19 @@
     "critical"
   ],
   "families": {
-    "accent": {
-      "authority": "glaze-ui",
-      "category": "interaction"
-    },
-    "success": {
-      "authority": "producer",
-      "category": "status"
-    },
-    "information": {
-      "authority": "producer",
-      "category": "status"
-    },
-    "warning": {
-      "authority": "producer",
-      "category": "status"
-    },
-    "danger": {
-      "authority": "producer",
-      "category": "status"
-    },
-    "privacy": {
-      "authority": "privacy-shield",
-      "category": "privacy"
-    },
-    "security": {
-      "authority": "wardveil-security",
-      "category": "security"
-    },
-    "online": {
-      "authority": "producer",
-      "category": "connectivity"
-    },
-    "offline": {
-      "authority": "producer",
-      "category": "connectivity"
-    },
-    "syncing": {
-      "authority": "producer",
-      "category": "activity"
-    },
-    "protected": {
-      "authority": "producer",
-      "category": "protection",
-      "evidenceRequired": true
-    },
-    "restricted": {
-      "authority": "producer",
-      "category": "access"
-    },
-    "unavailable": {
-      "authority": "producer",
-      "category": "availability"
-    }
+    "accent": {"authority": "glaze-ui", "category": "interaction"},
+    "success": {"authority": "producer", "category": "status"},
+    "information": {"authority": "producer", "category": "status"},
+    "warning": {"authority": "producer", "category": "status"},
+    "danger": {"authority": "producer", "category": "status"},
+    "privacy": {"authority": "privacy-shield", "category": "privacy"},
+    "security": {"authority": "wardveil-security", "category": "security"},
+    "online": {"authority": "producer", "category": "connectivity"},
+    "offline": {"authority": "producer", "category": "connectivity"},
+    "syncing": {"authority": "producer", "category": "activity"},
+    "protected": {"authority": "producer", "category": "protection", "evidenceRequired": true},
+    "restricted": {"authority": "producer", "category": "access"},
+    "unavailable": {"authority": "producer", "category": "availability"}
   },
   "selection": {
     "glazeToken": "selection.glaze",
@@ -74,37 +34,12 @@
     "mayCoordinateNearbyControls": true
   },
   "adaptiveAccent": {
-    "inputs": [
-      "user-accent",
-      "wallpaper",
-      "application-identity",
-      "content-context",
-      "interface-context"
-    ],
+    "inputs": ["user-accent", "wallpaper", "application-identity", "content-context", "interface-context"],
     "decorativeOnly": true,
-    "protectedFamilies": [
-      "success",
-      "warning",
-      "danger",
-      "privacy",
-      "security",
-      "protected",
-      "restricted",
-      "online",
-      "offline",
-      "syncing",
-      "unavailable"
-    ]
+    "protectedFamilies": ["success", "warning", "danger", "privacy", "security", "protected", "restricted", "online", "offline", "syncing", "unavailable"]
   },
   "materials": {
-    "roles": [
-      "canvas",
-      "solid",
-      "raised",
-      "functional-glass",
-      "clear-glass",
-      "overlay"
-    ],
+    "roles": ["canvas", "solid", "raised", "functional-glass", "clear-glass", "overlay"],
     "backgroundSamplingAllowed": true,
     "samplingMustPreserveContrast": true,
     "solidFallbackRequired": true,
@@ -115,15 +50,7 @@
     "reducedMotionAlternativeRequired": true,
     "flashingRequired": false
   },
-  "accessibilityModes": [
-    "light",
-    "dark",
-    "high-contrast",
-    "forced-colors",
-    "grayscale",
-    "color-vision-deficiency",
-    "reduced-transparency"
-  ],
+  "accessibilityModes": ["light", "dark", "high-contrast", "forced-colors", "grayscale", "color-vision-deficiency", "reduced-transparency"],
   "requiredInvariants": [
     "semantic-meaning-survives-pigment-change",
     "material-state-has-non-color-companion",
