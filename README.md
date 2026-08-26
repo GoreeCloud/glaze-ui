@@ -24,15 +24,17 @@ The iconography layer formalizes **recognizable identity within a shared visual 
 
 Application identity, wallpaper, user accent, and content context may influence decorative color while success, warning, danger, privacy, security, protection, restriction, connectivity, synchronization, and availability semantics remain protected. Privacy Shield and Wardveil Security remain authoritative for privacy/security truth; Glaze UI presents supplied state and never invents or upgrades evidence.
 
+Wear OS is explicitly **outside the Glaze UI 1.5 scope**. Existing Wear OS reference code and manual emulator validation are preserved for future work, but wearable support is not a 1.5 merge gate, Candidate-promotion gate, Stable-promotion gate, or current production-conformance requirement. A later Glaze UI upgrade will define, validate, and promote the wearable contract separately.
+
 ## Mandatory current-Stable consumer target
 
 The current Stable consumer target is **1.4.0**, as recorded by `consumers/registry.json`. It is the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements.
 
 Historical Stable releases 1.0.0 through 1.3.0 remain preserved for audit, migration, rollback, and release history. They are not supported active application targets and may not be used to satisfy current production acceptance. Existing consumers are never grandfathered onto superseded Glaze UI versions.
 
-When a newer Stable release is promoted, all GoreeCloud-controlled user-facing consumers become required to migrate to that current Stable release. Migration remains controlled and application-specific, but migration itself is mandatory. There are no application-level production exceptions.
+When a newer Stable release is promoted, all GoreeCloud-controlled user-facing consumers covered by that Stable contract become required to migrate to that current Stable release. Migration remains controlled and application-specific, but migration itself is mandatory. There are no application-level production exceptions within the supported Stable scope.
 
-This requirement covers web, desktop, mobile, tablet, TV, smartwatch/wearable, progressive web, dashboard, administrative, maintained-fork, and other GoreeCloud-controlled user-facing interfaces. If a platform lacks an applicable current Stable Glaze UI contract, the application is production-blocked until Glaze UI is extended, validated, and promoted with that Stable contract.
+The current Stable scope covers web, desktop, mobile, tablet, TV, progressive web, dashboard, administrative, maintained-fork, and other GoreeCloud-controlled user-facing interfaces for which an applicable Stable Glaze UI contract exists. Smartwatch/Wearable support is deferred to a later Glaze UI upgrade and is not part of the current Stable or 1.5 Candidate acceptance scope.
 
 ## Stability priority
 
@@ -40,7 +42,11 @@ Glaze UI remains stabilization-first. `STABILITY.md` governs compatibility, prom
 
 Release-state consistency is a permanent CI contract. `scripts/validate_release_state.py` binds `VERSION`, token metadata, the README Stable declaration, current-Stable consumer requirement, stability/lifecycle records, and the changelog so a future release cannot silently leave contradictory current-version or consumer-target claims behind.
 
-Speculative intelligence, agent, automation, ambient-computing, voice, and operating-experience concepts remain roadmap-only unless separately implemented, versioned, validated, and promoted.
+Speculative intelligence, agent, automation, ambient-computing, voice, operating-experience, and wearable-expansion concepts remain roadmap-only unless separately implemented, versioned, validated, and promoted.
+
+## Future Wear OS upgrade
+
+Wear OS is a deferred Glaze UI expansion target. The existing `reference/native/wear-os/` implementation and `.github/workflows/wear-os-emulator.yml` are preserved as development/reference material, but the emulator workflow is manual-only and non-gating. A future Glaze UI release must define the wearable interaction model, form-factor semantics, accessibility behavior, native mapping, rendered acceptance, emulator/real-device evidence, compatibility, and promotion rules before Wear OS becomes a supported production-conformance target.
 
 ## Future typography reference
 
@@ -58,6 +64,8 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `ICONOGRAPHY.md` — 1.5 Candidate application, service, system, functional, semantic, badge, optical-size, motion, and accessibility icon contract.
 - `tokens/iconography.json` — machine-readable 1.5 Candidate iconography contract.
 - `FORM_FACTORS.md` — Mobile, Tablet, Desktop, and TV contract.
+- `reference/native/wear-os/` — deferred wearable reference implementation; not part of current Stable or 1.5 acceptance.
+- `.github/workflows/wear-os-emulator.yml` — manual-only deferred Wear OS development validation.
 - `GLAZE_SANS.md` — future-only Glaze Sans visual and quality reference; not an active implementation requirement.
 - `css/glaze.css` — core web primitives.
 - `css/glaze.controls.css` — form/selection/feedback primitives.
@@ -86,7 +94,7 @@ The 1.5 Candidate additionally coordinates material luminosity, tonal separation
 - **Tablet** — touch-capable, pane/posture-aware, optionally enhanced by pointer/keyboard/stylus.
 - **Desktop** — pointer/keyboard-first, resizable workspace, persistent tools and denser multi-pane patterns where useful.
 - **TV** — far-view, landscape-first, overscan-safe, remote/D-pad directional focus, large readable controls, shallow predictable focus groups.
-- **Smartwatch/Wearable** — mandatory current-Stable Glaze UI use; production requires an applicable Stable wearable contract and application-specific native/real-device acceptance.
+- **Smartwatch/Wearable** — deferred to a later Glaze UI upgrade; not a current Stable or 1.5 Candidate production-conformance target.
 
 ## Validation
 
@@ -112,11 +120,13 @@ python3 scripts/validate_iconography.py
 
 Iconography source validation currently proves contract/schema consistency. Stable promotion also requires representative rendered artwork and optical-size acceptance; the validator does not substitute for that visual evidence.
 
-The pull-request workflow remains authoritative because it checks out and validates the exact candidate revision. Do not treat an earlier local run or a partial validation subset as equivalent to the final CI result.
+Wear OS emulator validation is manual development/reference validation only and is intentionally excluded from current Stable and 1.5 promotion gates.
+
+The pull-request workflow remains authoritative for the active Stable and Candidate checks because it validates the exact candidate revision. Do not treat an earlier local run or a partial validation subset as equivalent to the final CI result.
 
 ## Versioning
 
-Glaze UI follows semantic versioning. Patch releases are compatible corrections; minor releases add compatible semantics; major releases may change established contracts. Consumer migration is controlled and application-specific, and every new Stable baseline becomes mandatory for current GoreeCloud-controlled user-facing applications.
+Glaze UI follows semantic versioning. Patch releases are compatible corrections; minor releases add compatible semantics; major releases may change established contracts. Consumer migration is controlled and application-specific, and every new Stable baseline becomes mandatory for current GoreeCloud-controlled user-facing applications within that release's supported scope.
 
 ## License
 
