@@ -1,6 +1,6 @@
 # Glaze UI Layout, Spacing, and Density
 
-Status: Glaze UI 1.5 Stable. Glaze UI 1.4.0 remains Stable.
+Status: Glaze UI 1.5 Stable. Glaze UI 1.5.0 remains Stable as the current production target; Glaze UI 1.4.0 is the immediately preceding historical Stable baseline.
 
 ## Purpose
 
@@ -22,90 +22,69 @@ The canonical primitive scale is `2, 4, 8, 12, 16, 24, 32, 48, 64, 96` CSS pixel
 - `hairline`: 2 — optical separation and micro alignment only.
 - `control-gap`: 8 — tightly related controls or icon/text pairs.
 - `cluster-gap`: 12 — compact related groups.
-- `content-gap`: 16 — default sibling content spacing.
-- `section-gap`: 32 — major section separation.
-- `region-gap`: 48 — independent page regions.
-- `page-gap`: 64 — large structural separation.
+- `component-gap`: 16 — default separation between sibling components.
+- `section-gap`: 24 — separation between related subsections.
+- `region-gap`: 32 — separation between major regions.
+- `page-gap`: 48 — large page-level separation.
+- `hero-gap`: 64 — deliberate editorial or hero separation.
+- `display-gap`: 96 — large-screen/display composition only.
 
-Do not use `hairline` as a touch target or text clearance substitute.
+Spacing may interpolate responsively only when the semantic relationship remains unchanged and the result remains inside the adjacent primitive bounds.
 
-## Page gutters
+## Responsive page gutters
 
-Minimum page gutters are semantic and responsive:
+Page gutters are minimum safe content insets, not targets for filling space:
 
-- compact: 16px
-- medium: 24px
-- expanded: 32px
-- large-screen/TV: 48px
+- compact (<600px): 16px;
+- medium (600–1023px): 24px;
+- expanded (1024–1599px): 32px;
+- large display (≥1600px): 48px.
 
-Applications may grow gutters when composition benefits, but must not shrink below the active semantic minimum except for edge-to-edge media or platform-native immersive surfaces.
+Safe-area insets are additive. A display cutout, system bar, rounded viewport, or TV overscan margin may increase the effective gutter but never reduce the semantic minimum.
 
-## Content measure
+## Content measures
 
-- prose: maximum 72ch
-- forms and settings: maximum 720px
-- standard application content: maximum 1200px
-- wide data or media workspace: maximum 1600px where the task genuinely benefits
+Content should stop growing when additional width harms comprehension or control locality:
 
-A component should choose the narrowest measure appropriate to its task. Maximum measure is not a required width.
+- `prose`: max 72ch;
+- `form`: max 720px;
+- `standard`: max 1200px;
+- `wide`: max 1600px.
 
-## Containers and grids
+Wide data, timelines, media strips, or intrinsically horizontal controls may use a bounded internal scrolling region. The page root must not become the horizontal scrolling surface for ordinary content.
 
-Use fluid containers with semantic maximum measures. Grid columns are content-driven; Glaze UI does not require a fixed 12-column implementation. Responsive composition must prefer reflow, wrapping, stacking, and progressive disclosure over shrinking interactive content below accessible limits.
+## Density
 
-## Density modes
+Glaze UI defines three explicit density modes:
 
-Glaze UI defines three presentation densities:
+- `comfortable` — default general-purpose density;
+- `compact` — information-dense pointer/keyboard workflows;
+- `spacious` — touch-first, accessibility-forward, or far-view layouts.
 
-- `comfortable` — default for general-purpose surfaces.
-- `compact` — information-dense desktop/tablet workflows.
-- `spacious` — TV, touch-at-distance, presentation, and low-clutter contexts.
+Density modifies inter-element spacing and padding only. It must not reduce semantic target minimums, text legibility, focus affordances, or required separation between destructive and safe actions.
 
-Density modifies inter-element spacing and padding only. It must not reduce minimum pointer/touch targets, text legibility, focus indication, or semantic separation required for comprehension.
+Compact density must not be selected solely because a viewport is wide or narrow. Input modality, task, platform conventions, user preference, and content structure matter. Mixed-input products must preserve safe coarse-pointer targets even when compact pointer presentation is available.
 
-Compact density must never be automatically inferred solely from viewport width. The application or platform adapter selects density according to input modality and task.
+## Safe areas
 
-## Minimum interactive geometry
+Page primitives consume `env(safe-area-inset-*)` where available and accept product/platform adapters for environments where web safe-area variables are unavailable. TV products additionally apply the Stable overscan-safe contract.
 
-- coarse/touch target: at least 44×44 CSS px
-- pointer-focused compact target: at least 32×32 CSS px when an equivalent accessible activation area is preserved
-- adjacent destructive and primary actions require enough separation to avoid accidental activation
-
-Platform-native guidance may require larger targets and takes precedence where stricter.
-
-## Safe areas and transient UI
-
-Root page containers must support `env(safe-area-inset-*)` where available. Bottom actions, sheets, media controls, and navigation must remain reachable above transient system UI and virtual keyboards. Fixed positioning must not assume all viewport pixels are usable.
-
-## Responsive behavior
-
-Glaze UI uses four representative presentation classes aligned with the Stable form-factor contract:
-
-- compact/mobile
-- medium/tablet
-- expanded/desktop
-- large-screen/TV
-
-These are behavioral classes, not hardware identities. Foldables, resizable windows, desktop web views, and embedded surfaces may cross classes dynamically.
-
-Layouts must remain valid during resizing and orientation changes without requiring a full application restart.
+Safe-area padding must not be baked into individual components. It belongs to page, shell, overlay, or platform boundary primitives so nested components do not double-apply it.
 
 ## Overflow
 
-Ordinary page shells must not create horizontal viewport overflow. Long text must wrap or truncate according to component semantics. Code, tables, timelines, media strips, and other intrinsically wide content may use bounded internal scrolling without forcing the root viewport to scroll horizontally.
+Root horizontal overflow is nonconforming for ordinary application pages. Components with intrinsic horizontal semantics must contain their own scroll behavior, provide keyboard access when interactive, preserve visible focus, and avoid obscuring required content.
 
-## Accessibility and localization
+Horizontal scrolling is reserved for intrinsically horizontal semantics such as tables, timelines, code, media strips, and comparable bounded regions. It is not a substitute for responsive layout.
 
-Layout must tolerate text enlargement, longer translations, bidirectional text, and user font substitutions. Fixed heights around text are discouraged unless the component contract explicitly guarantees clipping-safe content. Spatial ordering must not contradict semantic or focus order.
+## Localization and order
 
-## Performance
-
-Layout primitives must prefer normal flow, grid, flexbox, container queries, and bounded sticky/fixed regions. Avoid JavaScript measurement loops for behavior expressible in CSS. Performance degradation must not collapse content hierarchy or accessibility geometry.
+Layouts must tolerate longer translated strings, bidirectional text, increased text size, and platform text scaling without reordering meaning or focus. Visual order must remain compatible with semantic and focus order.
 
 ## Authority boundaries
 
-Glaze UI governs visual spacing, layout, density, and responsive presentation. Privacy Shield, Wardveil Security, Everkeep, and GoreeCloud Mesh remain authoritative for their underlying privacy, security, resilience, and coordination state. Layout must never imply capabilities those systems have not established.
+Glaze UI governs spatial presentation and interaction geometry. It does not manufacture system truth. Privacy Shield remains authoritative for privacy state, Wardveil Security for security/protection state, Everkeep for resilience/preservation state, and GoreeCloud Mesh for coordination/governance state. Layout prominence cannot invent or upgrade any of those claims.
 
-## Stable boundary
+## Stable promotion boundary
 
-This contract is isolated to Glaze UI 1.5 Stable. It does not alter the 1.4.0 Stable contract, migrate consumers, or authorize production conformance until explicit promotion.
+This Stable contract is enforced by source validation and representative rendered acceptance. Consumer-specific native mapping, physical safe-area/overscan testing, localization review with production strings, accessibility review, and downstream migration evidence remain product-specific responsibilities.
