@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "name": "Glaze UI material and depth contract",
+    "version": "1.5.0-candidate",
+    "status": "Candidate",
+    "stableBaseline": "1.4.0",
+    "contract": "MATERIALS.md"
+  },
+  "roles": {
+    "canvas": {
+      "depth": "base",
+      "translucency": "none",
+      "backdropSampling": false,
+      "usage": ["application background", "page background"]
+    },
+    "solid": {
+      "depth": "base",
+      "translucency": "none",
+      "backdropSampling": false,
+      "preferredFor": ["reading", "forms", "dense data", "code", "legal text", "security and privacy explanations", "recovery information"]
+    },
+    "raised": {
+      "depth": "raised",
+      "translucency": "optional-low",
+      "backdropSampling": false,
+      "shadow": "raised",
+      "usage": ["cards", "inspectors", "floating panels", "menus"]
+    },
+    "functionalGlass": {
+      "depth": "navigation",
+      "translucency": "bounded",
+      "backdropSampling": true,
+      "blurPx": 24,
+      "saturationPercent": 145,
+      "opacity": 0.78,
+      "usage": ["navigation", "toolbars", "compact controls", "transient chrome"]
+    },
+    "clearGlass": {
+      "depth": "navigation",
+      "translucency": "specialized",
+      "backdropSampling": true,
+      "blurPx": 12,
+      "saturationPercent": 118,
+      "opacity": 0.34,
+      "usage": ["controls over visually rich media"],
+      "defaultContentMaterial": false
+    },
+    "overlay": {
+      "depth": "overlay",
+      "translucency": "optional",
+      "backdropSampling": false,
+      "shadow": "overlay",
+      "scrimRequiredWhenModal": true,
+      "usage": ["dialog", "sheet", "popover", "command surface", "transient high-authority surface"]
+    }
+  },
+  "depth": {
+    "base": 0,
+    "raised": 10,
+    "navigation": 100,
+    "scrim": 900,
+    "overlay": 1000,
+    "toast": 1100
+  },
+  "shadow": {
+    "soft": "0 8px 30px rgba(37,55,82,0.05)",
+    "raised": "0 18px 48px rgba(37,55,82,0.09)",
+    "darkRaised": "0 18px 54px rgba(0,0,0,0.24)",
+    "overlay": "0 28px 80px rgba(0,0,0,0.22)",
+    "tvFocused": "0 20px 60px rgba(0,0,0,0.34)"
+  },
+  "fallbacks": {
+    "unsupportedBackdrop": "solid-or-raised",
+    "reducedTransparency": {
+      "functionalGlassOpacity": 0.96,
+      "clearGlassOpacity": 0.92,
+      "blurPx": 0,
+      "saturationPercent": 100,
+      "preserveHierarchy": true,
+      "preserveInformation": true
+    },
+    "performanceConstrained": "reduce-backdrop-before-hierarchy"
+  },
+  "accessibility": {
+    "blurAloneMayProvideContrast": false,
+    "criticalContentPrefersStableSurface": true,
+    "worstPermittedBackdropMustRemainLegible": true,
+    "reducedTransparencyIndependentOfReducedMotion": true
+  },
+  "performance": {
+    "allowNestedBackdropStacks": false,
+    "preferBoundedBackdropRegions": true,
+    "preferSingleGlassRegion": true,
+    "continuousDecorativeRefractionAllowed": false
+  },
+  "authority": {
+    "privacy": "Privacy Shield",
+    "security": "Wardveil Security",
+    "resilience": "Everkeep",
+    "coordination": "GoreeCloud Mesh",
+    "presentation": "Glaze UI"
+  }
+}
