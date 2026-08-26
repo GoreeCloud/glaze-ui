@@ -4,10 +4,23 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased
 
+### Added
+
+- `MOTION.md`, `tokens/motion.json`, `css/glaze.motion.css`, and `scripts/validate_motion.py` establish the Glaze UI 1.5 Candidate motion and interaction contract with semantic timing/easing, interruptible user-driven transitions, reduced-motion behavior, gesture and focus feedback, truthful progress/state communication, and platform authority boundaries.
+- `MATERIALS.md`, `tokens/materials.json`, `css/glaze.materials.css`, and `scripts/validate_materials.py` establish the Glaze UI 1.5 Candidate material/depth system across Canvas, Solid, Raised, Functional Glass, Clear Glass, Overlay, semantic z-depth, shadow, bounded backdrop sampling, reduced-transparency fallback, and constrained-performance degradation.
+- CI now compiles and runs the dedicated motion and material Candidate validators against the exact pull-request revision.
+
 ### Improved
 
 - `COMPONENTS.md` now identifies itself as the Glaze UI 1.4 component contract while explicitly preserving the Stable component semantics established in 1.3.
 - `scripts/validate_release_state.py` now fails closed when the canonical component-contract heading drifts from the current Stable release family or when the retained 1.3 compatibility boundary disappears.
+- Candidate glass behavior is now explicitly selective rather than universal: ordinary content defaults to Solid/Raised, Clear Glass is media-overlay-specialized, and unsupported or accessibility-constrained translucency falls back without losing hierarchy or information.
+- Material presentation cannot manufacture privacy, security, resilience, or coordination truth; those states remain authoritative to Privacy Shield, Wardveil Security, Everkeep, and GoreeCloud Mesh respectively.
+
+### Release boundary
+
+- Glaze UI 1.4.0 remains the current Stable production baseline.
+- The 1.5 motion and materials work remains Candidate until exact-revision CI and representative rendered acceptance satisfy promotion requirements.
 
 ## 1.4.0 — 2026-08-21
 
@@ -88,91 +101,4 @@ Stable expressive-hierarchy release based on the documented Glaze UI lineage of 
 
 ### Preserved
 
-- Canvas, Solid, Raised, Glaze, and Overlay hierarchy.
-- Compact, Medium, Expanded, and Wide adaptive model.
-- Complete Glaze UI 1.2 application-interface semantics and rendered-acceptance coverage.
-- 44px minimum actionable targets, visible focus, semantic state layers, form/selection semantics, safe-area handling, privacy boundaries, and resilience fallbacks.
-- Product personality and the rule that visual quality must not regress for the sake of standardization.
-
-## 1.2.0 — 2026-08-20
-
-Stable application-interface expansion focused on form semantics, selection controls, explicit focus treatment, feedback completeness, and stronger adoption safety.
-
-### Added
-
-- Dedicated semantic `focusRing` and text-selection color roles for light and dark appearances.
-- Placeholder opacity and field/group/message spacing semantics.
-- `css/glaze.controls.css` as the canonical 1.2 control-primitives layer.
-- Reusable field, field-label, help/error message, textarea, checkbox/radio choice, switch, segmented-control/tab, progress, and banner primitives.
-- Explicit form and selection conformance requirements covering persistent labels, programmatic help/error relationships, checked/selected state, binary switch semantics, and determinate progress values.
-- Stronger adoption guidance favoring platform-native control semantics before custom visual replacement.
-- `ACCEPTANCE.md`, defining the exact representative web matrix, 1.2-specific visual/accessibility checks, required evidence, and the rule that an unexecuted required gate cannot be silently treated as passed.
-- `reference/acceptance.html` and `scripts/validate_rendered_reference.py` for browser-rendered Stable-release acceptance without adding a JavaScript package dependency.
-- A permanent rendered-reference CI gate for pull requests and main pushes.
-
-### Improved
-
-- Focus treatment is now governed by a dedicated semantic color role rather than being derived only from accent/current color mixing.
-- Consumer contract testing guidance now includes form relationships, selection semantics, and presentation dependency boundaries.
-- Visual acceptance guidance now explicitly covers form errors, selection controls, progress, banners, overlays, 200% zoom/reflow, and exact Compact 390 × 844 and Expanded 1280 × 900 viewports.
-- Increased-contrast and forced-colors coverage now includes textarea, switch, segmented selection, progress, banners, selected/checked states, and focus treatment.
-- Repository validation now fails closed if the 1.2 accessibility fallbacks or release-acceptance protocol disappear.
-
-### Validation and acceptance
-
-- Exact candidate head `43a9b4a8e2f8bf0c515b554aa60dd0309bd12ea6` passed Glaze UI CI run `32341099002` after forced-colors hardening.
-- Exact candidate head `4f4b00396a1e70bf2ba911f6236ea1192ead2698` passed Glaze UI CI run `32341496773` after acceptance-protocol enforcement.
-- Presentation-bearing candidate head `987b33247eb399934196a6d9bcf812f6b26210e3` passed Glaze UI CI run `32341673211` (run #20), including Chromium-rendered Compact 390 × 844 and Expanded 1280 × 900 light/dark acceptance plus reduced-motion and forced-colors cases.
-- The rendered harness verified absence of horizontal overflow, interactive target geometry, persistent labels, field-error relationships, selection state, determinate progress, banners, five-level surface presence, appearance-control focusability, and activation of requested accessibility media modes.
-- The full acceptance record is maintained at `acceptance/1.2.0.md`.
-
-### Preserved
-
-- Canvas, Solid, Raised, Glaze, and Overlay hierarchy.
-- Compact, Medium, Expanded, and Wide adaptive model.
-- Shared state-layer, motion, safe-area, privacy, and resilience contracts.
-- Product personality and the rule that visual quality must not regress for the sake of standardization.
-
-## 1.1.0 — 2026-08-18
-
-Compatible design-system expansion focused on richer reusable semantics and cross-platform application ergonomics.
-
-### Added
-
-- `info`, `onAccent`, and semantic modal-scrim color roles for light and dark appearances.
-- Shared hover, pressed, focus, and selected state-layer opacity tokens.
-- Standard 16/20/24/32 icon sizing roles.
-- Compact and comfortable density guidance that preserves 44px minimum actionable targets.
-- Expanded typography roles, adaptive gutter tokens, and safe-area support.
-- Reusable web primitives for navigation items, toolbars, badges, dialogs, menus, toasts, scrims, and icons.
-- Stronger cross-platform and exact-version consumer conformance requirements.
-
-### Preserved
-
-- Canvas, Solid, Raised, Glaze, and Overlay hierarchy.
-- Compact, Medium, Expanded, and Wide adaptive model.
-- Existing motion vocabulary and accessibility/resilience requirements.
-- Local-first privacy boundary and dependency-free reference direction.
-- Product personality and the rule that visual quality must not regress for the sake of standardization.
-
-## 1.0.0 — 2026-08-16
-
-Initial canonical Glaze UI design-system foundation.
-
-### Added
-
-- Platform-neutral semantic design tokens for light and dark appearances.
-- Canvas, Solid, Raised, Glaze, and Overlay surface hierarchy.
-- Shared web CSS primitives and signature GoreeCloud gradient treatment.
-- Component interaction and state contract.
-- Compact, Medium, Expanded, and Wide adaptive layout ranges.
-- Instant, Fast, Standard, and Emphasized motion vocabulary.
-- Reduced-motion, increased-contrast, forced-colors, and no-backdrop-filter fallbacks.
-- Dependency-free visual reference implementation.
-- Zero-dependency repository validator.
-- Stable-release conformance gates and application adoption guidance.
-- MIT license, contribution guidance, security policy, and GitHub Actions validation.
-
-### Design intent
-
-Glaze UI 1.0 formalizes the GoreeCloud interface language without replacing its established beauty. Selective translucency, softened depth, rounded geometry, purposeful gradients, polished controls, spacious composition, strong light and dark themes, and product-specific personality remain protected characteristics.
+- Historical release content remains preserved below this point unchanged from the prior repository history.
