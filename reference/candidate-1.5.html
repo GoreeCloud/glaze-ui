@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glaze UI 1.5 Candidate rendered reference</title>
+  <link rel="stylesheet" href="../css/glaze.motion.css">
+  <link rel="stylesheet" href="../css/glaze.materials.css">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --glaze-canvas: #eef3f9;
+      --glaze-surface: rgba(255,255,255,.76);
+      --glaze-surface-strong: rgba(255,255,255,.96);
+      --glaze-text: #172033;
+      --glaze-line: rgba(95,116,146,.22);
+      --glaze-scrim: rgba(8,18,34,.42);
+      color-scheme: light;
+    }
+    :root[data-theme="dark"] {
+      --glaze-canvas: #101722;
+      --glaze-surface: rgba(30,42,58,.78);
+      --glaze-surface-strong: rgba(28,39,54,.96);
+      --glaze-text: #f5f8fc;
+      --glaze-line: rgba(203,218,239,.20);
+      --glaze-scrim: rgba(0,0,0,.56);
+      color-scheme: dark;
+    }
+    html,body { margin:0; min-height:100%; background:var(--glaze-canvas); color:var(--glaze-text); font-family:system-ui,sans-serif; }
+    body { padding:24px; overflow-x:hidden; }
+    main { max-width:1120px; margin:0 auto; display:grid; gap:20px; }
+    header { display:grid; gap:6px; }
+    h1,h2,p { margin:0; }
+    h1 { font-size:clamp(28px,5vw,52px); letter-spacing:-.035em; }
+    h2 { font-size:18px; }
+    .muted { opacity:.72; }
+    .material-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    .sample { min-height:150px; border-radius:24px; padding:20px; display:grid; align-content:space-between; gap:12px; }
+    .media-field { position:relative; min-height:220px; overflow:hidden; border-radius:30px; background:linear-gradient(135deg,#5979ff,#8b5cf6 48%,#ff8a65); }
+    .media-field::after { content:""; position:absolute; width:220px; height:220px; border-radius:50%; right:-50px; top:-70px; background:rgba(255,255,255,.30); }
+    .media-control { position:absolute; left:18px; right:18px; bottom:18px; padding:16px 18px; border-radius:22px; }
+    .motion-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    .motion-card { min-height:112px; border-radius:22px; padding:18px; display:grid; gap:10px; }
+    button { min-height:48px; border:1px solid var(--glaze-line); border-radius:16px; padding:0 18px; background:var(--glaze-surface-strong); color:var(--glaze-text); font:inherit; font-weight:650; }
+    .progress { height:10px; border-radius:999px; overflow:hidden; background:color-mix(in srgb,var(--glaze-text) 12%,transparent); }
+    .progress > span { display:block; inline-size:68%; block-size:100%; background:currentColor; border-radius:inherit; }
+    .overlay-demo { position:relative; min-height:200px; border-radius:30px; overflow:hidden; }
+    .overlay-demo .glaze-material-scrim { position:absolute; }
+    .dialog { position:absolute; z-index:var(--glaze-depth-overlay); width:min(380px,calc(100% - 32px)); left:50%; top:50%; transform:translate(-50%,-50%); border-radius:24px; padding:20px; display:grid; gap:10px; }
+    .depth-marker { font:600 12px/1.2 ui-monospace,monospace; opacity:.72; }
+    @media (max-width:760px) { body{padding:16px}.material-grid,.motion-row{grid-template-columns:1fr}.sample{min-height:126px} }
+  </style>
+</head>
+<body data-glaze-candidate="1.5">
+  <main>
+    <header>
+      <span class="depth-marker">GLAZE UI 1.5 CANDIDATE</span>
+      <h1>Material, depth, and motion</h1>
+      <p class="muted">Representative Candidate evidence. Stable 1.4 remains unchanged.</p>
+    </header>
+
+    <section class="material-grid" aria-label="Semantic material roles">
+      <article class="sample glaze-material-solid" data-material-role="solid"><h2>Solid</h2><p>Stable reading and critical-content surface.</p></article>
+      <article class="sample glaze-material-raised" data-material-role="raised"><h2>Raised</h2><p>Elevated content with bounded separation.</p></article>
+      <article class="sample glaze-material-functional-glass" data-material-role="functionalGlass"><h2>Functional Glass</h2><p>Selective navigation and utility chrome.</p></article>
+    </section>
+
+    <section class="media-field" aria-label="Clear Glass over rich media">
+      <div class="media-control glaze-material-clear-glass" data-material-role="clearGlass"><strong>Clear Glass</strong><div>Media controls remain legible over variable content.</div></div>
+    </section>
+
+    <section class="overlay-demo glaze-material-raised" aria-label="Overlay hierarchy">
+      <div class="glaze-material-scrim" data-material-role="scrim"></div>
+      <article class="dialog glaze-material-overlay" data-material-role="overlay"><span class="depth-marker">OVERLAY</span><h2>Confirm action</h2><p>Modal hierarchy remains explicit and separated.</p></article>
+    </section>
+
+    <section class="motion-row" aria-label="Motion semantics">
+      <article class="motion-card glaze-material-raised glaze-motion-enter" data-motion-role="enter"><h2>Enter</h2><p>Purpose-driven spatial continuity.</p></article>
+      <article class="motion-card glaze-material-raised glaze-motion-state" data-motion-role="state"><h2>State</h2><button class="glaze-press-feedback glaze-focus-motion" type="button">Interactive feedback</button></article>
+      <article class="motion-card glaze-material-raised" data-motion-role="progress"><h2>Progress</h2><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68"><span class="glaze-progress-linear"></span></div></article>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const theme = params.get('theme') || 'light';
+      const mode = params.get('mode') || 'normal';
+      document.documentElement.dataset.theme = theme;
+      if (mode === 'reduced-transparency') document.body.dataset.glazeReducedTransparency = 'true';
+      if (mode === 'performance-constrained') document.body.dataset.glazePerformance = 'constrained';
+    })();
+  </script>
+</body>
+</html>
