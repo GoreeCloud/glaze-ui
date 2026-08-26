@@ -19,9 +19,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RENDER_ATTEMPTS = 5
-TV_FORCED_COLORS_ATTEMPTS = 9
+TV_FORCED_COLORS_ATTEMPTS = 15
 RENDER_TIMEOUT_SECONDS = 60
 VIRTUAL_TIME_BUDGET_MS = 12000
+FORCED_COLORS_VIRTUAL_TIME_BUDGET_MS = 30000
 
 
 def find_browser() -> str:
@@ -64,6 +65,9 @@ def browser_command(
     height: int,
     mode: str,
 ) -> list[str]:
+    virtual_time_budget = (
+        FORCED_COLORS_VIRTUAL_TIME_BUDGET_MS if mode == "forced-colors" else VIRTUAL_TIME_BUDGET_MS
+    )
     command = [
         browser,
         "--headless=new",
@@ -81,7 +85,7 @@ def browser_command(
         "--mute-audio",
         "--no-first-run",
         "--run-all-compositor-stages-before-draw",
-        f"--virtual-time-budget={VIRTUAL_TIME_BUDGET_MS}",
+        f"--virtual-time-budget={virtual_time_budget}",
         f"--user-data-dir={profile_dir}",
         f"--window-size={width},{height}",
     ]
@@ -151,17 +155,20 @@ def run_case(
     mode: str = "normal",
     profile: str = "reference",
 ) -> None:
-    query = urllib.parse.urlencode(
-        {"width": width, "height": height, "theme": theme, "mode": mode, "profile": profile}
-    )
-    url = f"http://127.0.0.1:{port}/reference/acceptance.html?{query}"
+    base_params = {"width": width, "height": height, "theme": theme, "mode": mode, "profile": profile}
     case_name = f"{profile} {width}x{height} {theme} {mode}"
     last_failure = "browser did not produce a result"
-    attempts = TV_FORCED_COLORS_ATTEMPTS if (
+    is_tv_forced_colors = (
         profile == "tv" and width == 1920 and height == 1080 and theme == "dark" and mode == "forced-colors"
-    ) else RENDER_ATTEMPTS
+    )
+    attempts = TV_FORCED_COLORS_ATTEMPTS if is_tv_forced_colors else RENDER_ATTEMPTS
 
     for attempt in range(1, attempts + 1):
+        # A per-attempt query nonce prevents a headless browser process from reusing
+        # an incomplete navigation result. It does not change the rendered target
+        # or any acceptance assertion.
+        query = urllib.parse.urlencode({**base_params, "attempt": attempt})
+        url = f"http://127.0.0.1:{port}/reference/acceptance.html?{query}"
         with tempfile.TemporaryDirectory(prefix="glaze-render-") as profile_dir:
             command = browser_command(
                 browser,
@@ -196,7 +203,12 @@ def run_case(
             print(f"Rendered acceptance passed: {case_name}")
             return
         elif status == "fail":
-            last_failure = f"attempt {attempt} harness reported FAIL\n{result_text or '(no result text)'}"
+            # A real harness FAIL is deterministic evidence and must not be hidden
+            # behind retries intended only for incomplete Chromium results.
+            raise SystemExit(
+                f"Rendered acceptance failed for {case_name}:\n"
+                f"attempt {attempt} harness reported FAIL\n{result_text or '(no result text)'}"
+            )
         else:
             marker = output[-4000:] if output else completed.stderr[-4000:]
             last_failure = (
