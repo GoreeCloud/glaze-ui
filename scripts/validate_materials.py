@@ -45,6 +45,8 @@ def main() -> None:
     require(reduced.get("blurPx") == 0, "reduced transparency must remove blur")
     require(reduced.get("preserveHierarchy") is True, "reduced transparency must preserve hierarchy")
     require(reduced.get("preserveInformation") is True, "reduced transparency must preserve information")
+    require(reduced.get("webAdapter") == "data-glaze-reduced-transparency=true", "portable web reduced-transparency adapter metadata missing")
+    require(reduced.get("mediaQuery") == "progressive-enhancement-only", "reduced-transparency media query must remain progressive enhancement")
 
     accessibility = data.get("accessibility", {})
     require(accessibility.get("blurAloneMayProvideContrast") is False, "blur may not be the only contrast mechanism")
