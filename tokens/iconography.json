@@ -1,0 +1,213 @@
+{
+  "meta": {
+    "name": "Glaze UI Iconography",
+    "version": "1.5-candidate",
+    "stableBaseline": "1.4.0",
+    "status": "candidate"
+  },
+  "principle": "identity remains stable while presentation adapts",
+  "visualGrammar": "recognizable identity within a shared visual language",
+  "grid": {
+    "canvas": 1024,
+    "presentationBoundary": {"inset": 64},
+    "safeArea": {"inset": 128},
+    "primaryRegion": {"inset": 176},
+    "coreIdentityZone": {"inset": 224},
+    "opticalCenter": [512, 512],
+    "controlledOvershoot": true,
+    "keylines": ["circle", "square", "rounded-rectangle", "vertical", "horizontal", "freeform"],
+    "badgeAnchors": {
+      "notification": "upper-trailing",
+      "status": "lower-trailing",
+      "security": "system-defined",
+      "management": "system-defined"
+    },
+    "opticalCorrection": true
+  },
+  "classes": {
+    "application": {
+      "layerSequence": ["foundation", "material", "identity", "detail", "light"],
+      "requiredLayers": ["foundation", "identity"],
+      "optionalLayers": ["material", "detail", "light"],
+      "identityDominant": true,
+      "launchable": true,
+      "depth": "full-restrained"
+    },
+    "service": {
+      "layerSequence": ["foundation", "capability-symbol", "state"],
+      "requiredLayers": ["foundation", "capability-symbol"],
+      "optionalLayers": ["state"],
+      "launchable": false,
+      "depth": "reduced"
+    },
+    "system": {
+      "requiredTraits": ["enduring-silhouette", "restrained-material", "durable-geometry"],
+      "launchable": null,
+      "depth": "restrained"
+    },
+    "functional": {"systemGlyph": true, "separateGrid": true},
+    "semantic": {"systemGlyph": true, "colorAlone": false},
+    "file": {"systemFoundation": true, "contentIndicator": true},
+    "folder": {"systemContainerFamily": true},
+    "device": {"simplifiedSilhouette": true, "photorealistic": false}
+  },
+  "materials": {
+    "clearGlaze": {"role": "controlled-translucency"},
+    "softGlaze": {"role": "diffused-frosted"},
+    "denseGlaze": {"role": "opaque-luminous"},
+    "tintedGlaze": {"role": "identity-color-material"},
+    "luminousGlaze": {"role": "restrained-internal-illumination"},
+    "solid": {"role": "maximum-clarity"}
+  },
+  "lighting": {
+    "environment": "soft-broad-material-aware",
+    "harshSpotlight": false,
+    "heavyDropShadow": false,
+    "excessiveBloom": false,
+    "plasticGloss": false
+  },
+  "colorRoles": [
+    "identity.primary",
+    "identity.secondary",
+    "identity.surface",
+    "identity.highlight",
+    "identity.glaze",
+    "identity.foreground",
+    "semantic.success",
+    "semantic.information",
+    "semantic.warning",
+    "semantic.danger",
+    "semantic.privacy",
+    "semantic.security",
+    "state.selected",
+    "state.disabled",
+    "state.unavailable"
+  ],
+  "identityLock": {
+    "required": true,
+    "mayInclude": ["primary-silhouette", "central-symbol", "characteristic-geometry", "dominant-color-relationship", "unique-recognition-property"],
+    "mustSurviveAdaptivePresentation": true
+  },
+  "opticalSizes": {
+    "display": {"minPx": 96, "detail": "rich", "independentVariant": true},
+    "standard": {"minPx": 48, "detail": "restrained", "independentVariant": true},
+    "compact": {"minPx": 24, "detail": "simplified", "independentVariant": true},
+    "micro": {"minPx": 12, "detail": "essential", "independentVariant": true}
+  },
+  "glyphs": {
+    "opticalSizes": ["compact", "standard", "large", "display"],
+    "sharedTraits": ["baseline", "visual-center", "stroke-family", "terminal-style", "corner-character", "negative-space"],
+    "strokeFamilyLimited": true,
+    "filledStatePreservesPerceivedWeight": true
+  },
+  "interaction": {
+    "outlined": ["available", "inactive", "unselected"],
+    "filledOrGlazed": ["selected", "active", "emphasized", "persistent"],
+    "filledDoesNotMeanImportance": true
+  },
+  "semanticRoles": ["success", "information", "warning", "danger", "privacy", "security", "protected", "restricted", "online", "offline", "syncing", "paused", "unavailable"],
+  "authority": {
+    "privacy": "Privacy Shield",
+    "security": "Wardveil Security"
+  },
+  "badges": {
+    "roles": ["syncing", "notification", "warning", "error", "offline", "shared", "protected", "restricted", "managed", "update", "unavailable"],
+    "maxVisibleCompact": 1,
+    "overflowTreatment": "compound-or-expanded-labeled-status",
+    "priorityRule": "semantic-severity-then-contextual-importance",
+    "criticalSecurityOutranksSync": true,
+    "ordinaryNotificationMustNotObscureError": true
+  },
+  "adaptiveColor": {
+    "identityMayInfluence": ["foundation", "material", "gradient", "highlight", "primary-symbol"],
+    "protectedSemantics": true,
+    "decorativeContextOnly": ["wallpaper", "user-accent", "application-identity", "content-context"],
+    "darkModeSimpleInvert": false,
+    "stableRecognitionGeometry": true
+  },
+  "representations": {
+    "monochrome": {"requiredForImportantApplicationAndService": true, "grayscaleConversionOnly": false},
+    "highContrast": {"purposeBuilt": true, "mayRemoveDecorativeDetail": true, "mayStrengthenBorders": true},
+    "reducedTransparency": {"replaceGlazeWithOpaqueEquivalent": true, "preserveLayerRelationships": true}
+  },
+  "accessibility": {
+    "nonColorMeaningRequired": true,
+    "accessibleNamesForInteractiveIcons": true,
+    "grayscale": true,
+    "highContrast": true,
+    "reducedTransparency": true,
+    "forcedColors": true,
+    "reducedMotion": true,
+    "silhouetteRecognition": true
+  },
+  "motion": {
+    "purposeOnly": true,
+    "states": ["idle", "active", "progressing", "completing", "warning", "error"],
+    "objectContinuityPreferred": true,
+    "continuousDecorativeAnimation": false,
+    "continuousOnlyWhenActivityMeaningful": true,
+    "interruptible": true,
+    "staticReducedMotionAlternative": true,
+    "returnsToStableStateNormally": true
+  },
+  "validation": {
+    "contexts": ["light", "dark", "neutral-background", "complex-background", "grayscale", "high-contrast", "reduced-transparency", "neighbor-grid", "system-badges"],
+    "qualityAxes": ["recognition", "consistency", "adaptability", "craftsmanship"],
+    "checks": ["safe-area", "contrast", "optical-size-support", "badge-clearance", "monochrome-compatibility", "accessibility-behavior", "semantic-color-usage", "required-resolutions", "technical-asset-integrity"]
+  },
+  "certification": {
+    "name": "Glaze UI Native Icon",
+    "status": "planned",
+    "automatedAndVisualChecksRequired": true,
+    "doesNotRequireIdenticalAppearance": true
+  },
+  "designTokens": [
+    "icon.size.micro",
+    "icon.size.compact",
+    "icon.size.standard",
+    "icon.size.display",
+    "icon.stroke.standard",
+    "icon.corner.continuous",
+    "icon.material.softGlaze",
+    "icon.material.denseGlaze",
+    "icon.identity.primary",
+    "icon.state.selected",
+    "icon.state.disabled",
+    "icon.badge.notification",
+    "icon.badge.semantic",
+    "icon.motion.transition"
+  ],
+  "authoring": {
+    "dedicatedIconStudioPlanned": false,
+    "allowedApproaches": ["professional-design-tools", "repository-controlled-source-assets", "deterministic-generation-scripts", "validators", "rendered-previews", "documented-human-review"],
+    "requiredOutcomes": ["master-grid-review", "keyline-review", "safe-area-review", "optical-boundary-review", "badge-collision-review", "appearance-preview", "accessibility-preview", "contrast-review", "fine-geometry-review", "launcher-grid-review", "optical-size-validation", "reproducible-export"]
+  },
+  "tooling": {
+    "systemIconRegistry": {
+      "status": "planned",
+      "searchBy": ["concept", "action", "object", "semantic-role"],
+      "canonicalConcepts": ["share", "search", "delete", "security", "privacy", "sync", "warning", "cloud", "device", "folder", "account", "network", "settings"]
+    }
+  },
+  "thirdParty": {
+    "preserveOriginalIdentity": true,
+    "mayApplyStandardFraming": true,
+    "mayApplyMasking": true,
+    "mayApplyAdaptiveBackground": true,
+    "mustNotFalselyRebrand": true
+  },
+  "prohibited": [
+    "miniature-interface",
+    "tiny-lettering",
+    "photographic-background",
+    "uncontrolled-gradient",
+    "excessive-gloss",
+    "meaningless-shadow",
+    "extreme-perspective",
+    "inconsistent-stroke-weight",
+    "misleading-semantic-color",
+    "duplicated-system-glyph",
+    "excessive-badges",
+    "color-only-recognition"
+  ]
+}

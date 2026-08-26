@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "name": "Glaze UI Icon Construction",
+    "version": "1.5-candidate",
+    "stableBaseline": "1.4.0",
+    "status": "candidate"
+  },
+  "canvas": {
+    "width": 1024,
+    "height": 1024,
+    "origin": [512, 512],
+    "zones": {
+      "canvasBoundaryPercent": 100,
+      "presentationPercent": 90,
+      "opticalSafePercent": 76,
+      "coreIdentityPercent": 60
+    },
+    "opticalCorrection": true,
+    "controlledOvershoot": true
+  },
+  "keylines": ["circular", "continuous-square", "vertical", "horizontal", "compact-object", "freeform"],
+  "curvatureLevels": ["subtle", "standard", "expressive", "full"],
+  "materials": ["clear-glaze", "soft-glaze", "dense-glaze", "tinted-glaze", "luminous-glaze", "solid-material"],
+  "materialHierarchy": ["background", "structural", "identity", "highlight"],
+  "applicationLayers": ["foundation", "material", "identity", "detail", "light"],
+  "identityLock": {
+    "required": true,
+    "fields": ["primary-geometry", "silhouette", "orientation", "negative-space", "proportions", "essential-color-relationships"]
+  },
+  "opticalRepresentations": ["display", "standard", "compact", "micro"],
+  "detailReductionSequence": ["material-richness", "structural-clarity", "silhouette", "identity"],
+  "motionGrammar": ["state-transition", "progress", "activity", "attention", "confirmation"],
+  "badgeTerritories": ["upper-trailing", "lower-trailing"],
+  "states": {
+    "selectionPrefersSurroundingSurfaceTreatment": true,
+    "disabledDistinctFromUnavailable": true,
+    "progressSeparateFromIdentity": true,
+    "notificationDistinctFromSemanticBadge": true
+  },
+  "validation": [
+    "launcher-grid",
+    "squint-blur",
+    "grayscale",
+    "micro",
+    "badge-collision",
+    "background-stress",
+    "light-dark",
+    "high-contrast",
+    "reduced-transparency",
+    "reduced-motion",
+    "color-vision",
+    "monochrome"
+  ],
+  "assetPackage": [
+    "authoritative-source",
+    "display",
+    "standard",
+    "compact",
+    "micro",
+    "monochrome",
+    "high-contrast-behavior",
+    "reduced-transparency-behavior",
+    "identity-colors",
+    "material-metadata",
+    "identity-lock",
+    "badge-clearance",
+    "adaptive-appearance",
+    "optional-motion"
+  ],
+  "manifest": {
+    "schema": "schemas/icon-manifest.schema.json",
+    "example": "examples/icon-manifest.example.json",
+    "requiredForProductionPackage": true
+  },
+  "plannedCapabilities": {
+    "liveEnvironmentPreview": "planned",
+    "automaticAssetGeneration": "planned",
+    "iconLinting": "planned",
+    "systemIconRegistry": "planned"
+  },
+  "authoring": {
+    "dedicatedIconStudioPlanned": false,
+    "reviewAndExportRemainToolAgnostic": true
+  },
+  "principle": "responsive visual identity asset"
+}

@@ -14,6 +14,16 @@ Glaze UI is informed by **Samsung One UI 8.5**, **Apple Liquid Glass**, and **Go
 
 TV is explicitly **not Wide Desktop**. Form-factor selection uses app window, primary input, viewing distance, platform conventions, posture/resizability, and product task rather than width or device name alone.
 
+## Glaze UI 1.5 Candidate — Adaptive Color and Iconography
+
+Glaze UI 1.5 is an isolated **Candidate** evolution. It does not replace the Stable 1.4 application target until the complete promotion gate is satisfied.
+
+The adaptive-color layer turns the existing semantic color contract into a layered architecture with contextual color propagation, four prominence levels (`subtle`, `standard`, `prominent`, `critical`), protected semantic tonal families, adaptive accent derivation, contextual selection glazing, material/background sampling boundaries, color-motion behavior, and purpose-built accessibility modes. Canonical candidate artifacts are `COLOR_ARCHITECTURE.md`, `tokens/adaptive-colors.json`, `css/glaze.color.css`, and `scripts/validate_adaptive_colors.py`.
+
+The iconography layer formalizes **recognizable identity within a shared visual language** across application, service, system, functional, and semantic icons. It defines application foundation/identity/detail composition, simpler service treatment, standardized functional and semantic glyph behavior, deterministic badge anchors and compact priority, presentation/standard/compact/micro optical sizes, adaptive-color boundaries, reduced-motion behavior, accessibility invariants, and third-party identity preservation. Canonical candidate artifacts are `ICONOGRAPHY.md`, `tokens/iconography.json`, and `scripts/validate_iconography.py`.
+
+Application identity, wallpaper, user accent, and content context may influence decorative color while success, warning, danger, privacy, security, protection, restriction, connectivity, synchronization, and availability semantics remain protected. Privacy Shield and Wardveil Security remain authoritative for privacy/security truth; Glaze UI presents supplied state and never invents or upgrades evidence.
+
 ## Mandatory current-Stable consumer target
 
 The current Stable consumer target is **1.4.0**, as recorded by `consumers/registry.json`. It is the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements.
@@ -39,7 +49,14 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 ## Repository layout
 
 - `VERSION` — current Stable semantic version.
-- `tokens/glaze.tokens.json` — canonical semantic tokens.
+- `tokens/glaze.tokens.json` — canonical Stable semantic tokens.
+- `tokens/semantic-colors.json` — Stable semantic color meaning contract.
+- `COLOR.md` — Stable semantic color contract documentation.
+- `COLOR_ARCHITECTURE.md` — 1.5 Candidate adaptive color architecture.
+- `tokens/adaptive-colors.json` — 1.5 Candidate color families, prominence, materials, authority, and accessibility contract.
+- `css/glaze.color.css` — 1.5 Candidate adaptive color web primitives.
+- `ICONOGRAPHY.md` — 1.5 Candidate application, service, system, functional, semantic, badge, optical-size, motion, and accessibility icon contract.
+- `tokens/iconography.json` — machine-readable 1.5 Candidate iconography contract.
 - `FORM_FACTORS.md` — Mobile, Tablet, Desktop, and TV contract.
 - `GLAZE_SANS.md` — future-only Glaze Sans visual and quality reference; not an active implementation requirement.
 - `css/glaze.css` — core web primitives.
@@ -55,11 +72,13 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `ACCEPTANCE.md` — Stable acceptance protocol.
 - `acceptance/` — version-specific design-system promotion evidence.
 - `reference/index.html` and `reference/formfactors.html` — dependency-free references.
-- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, and `scripts/validate_rendered_reference.py` — fail-closed validation.
+- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, `scripts/validate_rendered_reference.py`, `scripts/validate_adaptive_colors.py`, and `scripts/validate_iconography.py` — fail-closed validation.
 
 ## Material hierarchy
 
 Canvas → Solid → Raised → Functional Glass → Overlay. Clear Glass is specialized for controls over visually rich media. Ordinary content defaults to Solid/Raised; glass is selective, not universal.
+
+The 1.5 Candidate additionally coordinates material luminosity, tonal separation, bounded background sampling, selection glazing, icon material depth, and semantic foreground protection without turning glass into a universal content treatment.
 
 ## Form-factor model
 
@@ -83,6 +102,15 @@ python3 integrations/firefox/validate.py
 python3 website/validate.py
 python3 scripts/validate_rendered_reference.py
 ```
+
+For the isolated 1.5 Candidate, additionally run:
+
+```bash
+python3 scripts/validate_adaptive_colors.py
+python3 scripts/validate_iconography.py
+```
+
+Iconography source validation currently proves contract/schema consistency. Stable promotion also requires representative rendered artwork and optical-size acceptance; the validator does not substitute for that visual evidence.
 
 The pull-request workflow remains authoritative because it checks out and validates the exact candidate revision. Do not treat an earlier local run or a partial validation subset as equivalent to the final CI result.
 
