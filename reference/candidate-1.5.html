@@ -6,6 +6,7 @@
   <title>Glaze UI 1.5 Candidate rendered reference</title>
   <link rel="stylesheet" href="../css/glaze.motion.css">
   <link rel="stylesheet" href="../css/glaze.materials.css">
+  <link rel="stylesheet" href="../css/glaze.layout.css">
   <style>
     * { box-sizing: border-box; }
     :root {
@@ -27,8 +28,8 @@
       color-scheme: dark;
     }
     html,body { margin:0; min-height:100%; background:var(--glaze-canvas); color:var(--glaze-text); font-family:system-ui,sans-serif; }
-    body { padding:24px; overflow-x:hidden; }
-    main { max-width:1120px; margin:0 auto; display:grid; gap:20px; }
+    body { overflow-x:hidden; }
+    main { display:grid; gap:20px; }
     header { display:grid; gap:6px; }
     h1,h2,p { margin:0; }
     h1 { font-size:clamp(28px,5vw,52px); letter-spacing:-.035em; }
@@ -48,44 +49,64 @@
     .overlay-demo .glaze-material-scrim { position:absolute; }
     .dialog { position:absolute; z-index:var(--glaze-depth-overlay); width:min(380px,calc(100% - 32px)); left:50%; top:50%; transform:translate(-50%,-50%); border-radius:24px; padding:20px; display:grid; gap:10px; }
     .depth-marker { font:600 12px/1.2 ui-monospace,monospace; opacity:.72; }
-    @media (max-width:760px) { body{padding:16px}.material-grid,.motion-row{grid-template-columns:1fr}.sample{min-height:126px} }
+    .layout-evidence { border-radius:24px; padding:16px; }
+    .measure-marker { width:100%; min-height:52px; border:1px dashed var(--glaze-line); border-radius:14px; padding:10px; }
+    .wide-fixture { width:960px; display:flex; gap:8px; padding:8px; }
+    .wide-fixture > span { min-width:180px; padding:12px; border:1px solid var(--glaze-line); border-radius:12px; }
+    @media (max-width:760px) { .material-grid,.motion-row{grid-template-columns:1fr}.sample{min-height:126px} }
   </style>
 </head>
-<body data-glaze-candidate="1.5">
-  <main>
-    <header>
-      <span class="depth-marker">GLAZE UI 1.5 CANDIDATE</span>
-      <h1>Material, depth, and motion</h1>
-      <p class="muted">Representative Candidate evidence. Stable 1.4 remains unchanged.</p>
-    </header>
+<body data-glaze-candidate="1.5" data-glaze-density="comfortable">
+  <div class="glaze-page" data-layout-role="page">
+    <main class="glaze-container glaze-stack--section" data-layout-role="standard-container">
+      <header>
+        <span class="depth-marker">GLAZE UI 1.5 CANDIDATE</span>
+        <h1>Material, motion, and spatial architecture</h1>
+        <p class="muted">Representative Candidate evidence. Stable 1.4 remains unchanged.</p>
+      </header>
 
-    <section class="material-grid" aria-label="Semantic material roles">
-      <article class="sample glaze-material-solid" data-material-role="solid"><h2>Solid</h2><p>Stable reading and critical-content surface.</p></article>
-      <article class="sample glaze-material-raised" data-material-role="raised"><h2>Raised</h2><p>Elevated content with bounded separation.</p></article>
-      <article class="sample glaze-material-functional-glass" data-material-role="functionalGlass"><h2>Functional Glass</h2><p>Selective navigation and utility chrome.</p></article>
-    </section>
+      <section class="layout-evidence glaze-material-raised glaze-stack" data-layout-role="density-stack" aria-label="Layout and density semantics">
+        <div class="glaze-container--prose measure-marker" data-layout-role="prose-measure">Prose measure remains bounded for readable line length.</div>
+        <div class="glaze-container--form measure-marker" data-layout-role="form-measure">Form measure remains bounded independently of viewport width.</div>
+        <div class="glaze-cluster" data-layout-role="target-cluster">
+          <button class="glaze-touch-target" data-layout-role="coarse-target" type="button">44px target floor</button>
+          <button class="glaze-pointer-compact" data-layout-role="pointer-target" type="button">Pointer compact</button>
+        </div>
+        <div class="glaze-scroll-x" data-layout-role="bounded-scroll" tabindex="0" aria-label="Bounded intrinsically wide content">
+          <div class="wide-fixture"><span>Wide content A</span><span>Wide content B</span><span>Wide content C</span><span>Wide content D</span><span>Wide content E</span></div>
+        </div>
+      </section>
 
-    <section class="media-field" aria-label="Clear Glass over rich media">
-      <div class="media-control glaze-material-clear-glass" data-material-role="clearGlass"><strong>Clear Glass</strong><div>Media controls remain legible over variable content.</div></div>
-    </section>
+      <section class="material-grid" aria-label="Semantic material roles">
+        <article class="sample glaze-material-solid" data-material-role="solid"><h2>Solid</h2><p>Stable reading and critical-content surface.</p></article>
+        <article class="sample glaze-material-raised" data-material-role="raised"><h2>Raised</h2><p>Elevated content with bounded separation.</p></article>
+        <article class="sample glaze-material-functional-glass" data-material-role="functionalGlass"><h2>Functional Glass</h2><p>Selective navigation and utility chrome.</p></article>
+      </section>
 
-    <section class="overlay-demo glaze-material-raised" aria-label="Overlay hierarchy">
-      <div class="glaze-material-scrim" data-material-role="scrim"></div>
-      <article class="dialog glaze-material-overlay" data-material-role="overlay"><span class="depth-marker">OVERLAY</span><h2>Confirm action</h2><p>Modal hierarchy remains explicit and separated.</p></article>
-    </section>
+      <section class="media-field" aria-label="Clear Glass over rich media">
+        <div class="media-control glaze-material-clear-glass" data-material-role="clearGlass"><strong>Clear Glass</strong><div>Media controls remain legible over variable content.</div></div>
+      </section>
 
-    <section class="motion-row" aria-label="Motion semantics">
-      <article class="motion-card glaze-material-raised glaze-motion-enter" data-motion-role="enter"><h2>Enter</h2><p>Purpose-driven spatial continuity.</p></article>
-      <article class="motion-card glaze-material-raised glaze-motion-state" data-motion-role="state"><h2>State</h2><button class="glaze-press-feedback glaze-focus-motion" type="button">Interactive feedback</button></article>
-      <article class="motion-card glaze-material-raised" data-motion-role="progress"><h2>Progress</h2><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68"><span class="glaze-progress-linear"></span></div></article>
-    </section>
-  </main>
+      <section class="overlay-demo glaze-material-raised" aria-label="Overlay hierarchy">
+        <div class="glaze-material-scrim" data-material-role="scrim"></div>
+        <article class="dialog glaze-material-overlay" data-material-role="overlay"><span class="depth-marker">OVERLAY</span><h2>Confirm action</h2><p>Modal hierarchy remains explicit and separated.</p></article>
+      </section>
+
+      <section class="motion-row" aria-label="Motion semantics">
+        <article class="motion-card glaze-material-raised glaze-motion-enter" data-motion-role="enter"><h2>Enter</h2><p>Purpose-driven spatial continuity.</p></article>
+        <article class="motion-card glaze-material-raised glaze-motion-state" data-motion-role="state"><h2>State</h2><button class="glaze-press-feedback glaze-focus-motion" type="button">Interactive feedback</button></article>
+        <article class="motion-card glaze-material-raised" data-motion-role="progress"><h2>Progress</h2><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68"><span class="glaze-progress-linear"></span></div></article>
+      </section>
+    </main>
+  </div>
   <script>
     (() => {
       const params = new URLSearchParams(location.search);
       const theme = params.get('theme') || 'light';
       const mode = params.get('mode') || 'normal';
+      const density = params.get('density') || 'comfortable';
       document.documentElement.dataset.theme = theme;
+      document.body.dataset.glazeDensity = density;
       if (mode === 'reduced-transparency') document.body.dataset.glazeReducedTransparency = 'true';
       if (mode === 'performance-constrained') document.body.dataset.glazePerformance = 'constrained';
     })();
