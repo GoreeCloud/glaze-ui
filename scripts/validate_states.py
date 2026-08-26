@@ -21,10 +21,10 @@ try:
 except Exception as exc:
     fail(f"invalid JSON: {exc}")
 
-if data.get("status") != "1.5-candidate":
-    fail("token status must remain 1.5-candidate")
-if data.get("stableBaseline") != "1.4.0":
-    fail("stable baseline must remain 1.4.0")
+if data.get("status") != "1.5-stable":
+    fail("token status must remain 1.5-stable")
+if data.get("stableBaseline") != "1.5.0":
+    fail("stable baseline must remain 1.5.0")
 
 expected_states = {
     "default", "hover", "focus-visible", "pressed", "selected", "expanded",
@@ -77,7 +77,7 @@ for forbidden in ("*:focus { outline: none", "*:focus-visible { outline: none", 
 
 doc = DOC.read_text()
 for marker in (
-    "Glaze UI 1.5 Candidate", "Glaze UI 1.4.0 remains Stable",
+    "Glaze UI 1.5 Stable", "Glaze UI 1.5.0 remains Stable",
     "hover may supplement but never replace", "TV remote/gamepad",
     "Disabled controls must expose native `disabled` or `aria-disabled=\"true\"`",
     "Read-only content must remain legible", "truthful busy semantics",
@@ -86,4 +86,4 @@ for marker in (
     if marker not in doc:
         fail(f"documentation invariant missing: {marker}")
 
-print("Glaze UI 1.5 interaction state/input modality Candidate contract: OK")
+print("Glaze UI 1.5 interaction state/input modality Stable contract: OK")

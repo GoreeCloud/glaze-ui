@@ -21,10 +21,10 @@ try:
 except Exception as exc:
     fail(f"invalid JSON: {exc}")
 
-if data.get("status") != "1.5-candidate":
-    fail("token status must remain 1.5-candidate")
-if data.get("stableBaseline") != "1.4.0":
-    fail("stable baseline must remain 1.4.0")
+if data.get("status") != "1.5-stable":
+    fail("token status must remain 1.5-stable")
+if data.get("stableBaseline") != "1.5.0":
+    fail("stable baseline must remain 1.5.0")
 
 expected_space = ["2", "4", "8", "12", "16", "24", "32", "48", "64", "96"]
 if list(data.get("space", {}).keys()) != expected_space:
@@ -84,8 +84,8 @@ for marker in (
 
 doc = DOC.read_text()
 for marker in (
-    "Glaze UI 1.5 Candidate",
-    "Glaze UI 1.4.0 remains Stable",
+    "Glaze UI 1.5 Stable",
+    "Glaze UI 1.5.0 remains Stable",
     "Density modifies inter-element spacing and padding only",
     "Horizontal scrolling is reserved",
     "Privacy Shield",
@@ -96,4 +96,4 @@ for marker in (
     if marker not in doc:
         fail(f"documentation invariant missing: {marker}")
 
-print("Glaze UI 1.5 layout/spacing/density Candidate contract: OK")
+print("Glaze UI 1.5 layout/spacing/density Stable contract: OK")

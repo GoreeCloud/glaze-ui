@@ -24,8 +24,8 @@ def main() -> None:
     css = CSS.read_text(encoding="utf-8")
 
     meta = data.get("meta", {})
-    require(meta.get("status") == "Candidate", "material token status must remain Candidate")
-    require(meta.get("stableBaseline") == "1.4.0", "material Candidate must preserve the 1.4.0 Stable baseline")
+    require(meta.get("status") == "Stable", "material token status must remain Stable")
+    require(meta.get("stableBaseline") == "1.5.0", "material Stable must preserve the 1.5.0 Stable baseline")
     require(meta.get("contract") == "MATERIALS.md", "material token contract must bind to MATERIALS.md")
 
     required_roles = {"canvas", "solid", "raised", "functionalGlass", "clearGlass", "overlay"}
@@ -90,7 +90,7 @@ def main() -> None:
     ):
         require(selector in css, f"material CSS missing required primitive/fallback: {selector}")
 
-    print("Glaze UI 1.5 material and depth Candidate validation passed.")
+    print("Glaze UI 1.5 material and depth Stable validation passed.")
 
 
 if __name__ == "__main__":

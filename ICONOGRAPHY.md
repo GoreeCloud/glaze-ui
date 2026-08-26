@@ -1,6 +1,6 @@
 # Glaze UI Iconography Contract
 
-Status: **Glaze UI 1.5 Candidate**. Glaze UI 1.4.0 remains the mandatory Stable production target until 1.5 is promoted.
+Status: **Glaze UI 1.5 Stable**. Glaze UI 1.4.0 remains the mandatory Stable production target until 1.5 is promoted.
 
 ## Governing rule
 

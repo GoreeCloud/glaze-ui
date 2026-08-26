@@ -1,14 +1,17 @@
 {
   "meta": {
     "name": "Glaze UI Icon Construction",
-    "version": "1.5-candidate",
-    "stableBaseline": "1.4.0",
-    "status": "candidate"
+    "version": "1.5.0",
+    "stableBaseline": "1.5.0",
+    "status": "stable"
   },
   "canvas": {
     "width": 1024,
     "height": 1024,
-    "origin": [512, 512],
+    "origin": [
+      512,
+      512
+    ],
     "zones": {
       "canvasBoundaryPercent": 100,
       "presentationPercent": 90,
@@ -18,19 +21,75 @@
     "opticalCorrection": true,
     "controlledOvershoot": true
   },
-  "keylines": ["circular", "continuous-square", "vertical", "horizontal", "compact-object", "freeform"],
-  "curvatureLevels": ["subtle", "standard", "expressive", "full"],
-  "materials": ["clear-glaze", "soft-glaze", "dense-glaze", "tinted-glaze", "luminous-glaze", "solid-material"],
-  "materialHierarchy": ["background", "structural", "identity", "highlight"],
-  "applicationLayers": ["foundation", "material", "identity", "detail", "light"],
+  "keylines": [
+    "circular",
+    "continuous-square",
+    "vertical",
+    "horizontal",
+    "compact-object",
+    "freeform"
+  ],
+  "curvatureLevels": [
+    "subtle",
+    "standard",
+    "expressive",
+    "full"
+  ],
+  "materials": [
+    "clear-glaze",
+    "soft-glaze",
+    "dense-glaze",
+    "tinted-glaze",
+    "luminous-glaze",
+    "solid-material"
+  ],
+  "materialHierarchy": [
+    "background",
+    "structural",
+    "identity",
+    "highlight"
+  ],
+  "applicationLayers": [
+    "foundation",
+    "material",
+    "identity",
+    "detail",
+    "light"
+  ],
   "identityLock": {
     "required": true,
-    "fields": ["primary-geometry", "silhouette", "orientation", "negative-space", "proportions", "essential-color-relationships"]
+    "fields": [
+      "primary-geometry",
+      "silhouette",
+      "orientation",
+      "negative-space",
+      "proportions",
+      "essential-color-relationships"
+    ]
   },
-  "opticalRepresentations": ["display", "standard", "compact", "micro"],
-  "detailReductionSequence": ["material-richness", "structural-clarity", "silhouette", "identity"],
-  "motionGrammar": ["state-transition", "progress", "activity", "attention", "confirmation"],
-  "badgeTerritories": ["upper-trailing", "lower-trailing"],
+  "opticalRepresentations": [
+    "display",
+    "standard",
+    "compact",
+    "micro"
+  ],
+  "detailReductionSequence": [
+    "material-richness",
+    "structural-clarity",
+    "silhouette",
+    "identity"
+  ],
+  "motionGrammar": [
+    "state-transition",
+    "progress",
+    "activity",
+    "attention",
+    "confirmation"
+  ],
+  "badgeTerritories": [
+    "upper-trailing",
+    "lower-trailing"
+  ],
   "states": {
     "selectionPrefersSurroundingSurfaceTreatment": true,
     "disabledDistinctFromUnavailable": true,

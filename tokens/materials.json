@@ -1,9 +1,9 @@
 {
   "meta": {
     "name": "Glaze UI material and depth contract",
-    "version": "1.5.0-candidate",
-    "status": "Candidate",
-    "stableBaseline": "1.4.0",
+    "version": "1.5.0",
+    "status": "Stable",
+    "stableBaseline": "1.5.0",
     "contract": "MATERIALS.md"
   },
   "roles": {
@@ -11,20 +11,36 @@
       "depth": "base",
       "translucency": "none",
       "backdropSampling": false,
-      "usage": ["application background", "page background"]
+      "usage": [
+        "application background",
+        "page background"
+      ]
     },
     "solid": {
       "depth": "base",
       "translucency": "none",
       "backdropSampling": false,
-      "preferredFor": ["reading", "forms", "dense data", "code", "legal text", "security and privacy explanations", "recovery information"]
+      "preferredFor": [
+        "reading",
+        "forms",
+        "dense data",
+        "code",
+        "legal text",
+        "security and privacy explanations",
+        "recovery information"
+      ]
     },
     "raised": {
       "depth": "raised",
       "translucency": "optional-low",
       "backdropSampling": false,
       "shadow": "raised",
-      "usage": ["cards", "inspectors", "floating panels", "menus"]
+      "usage": [
+        "cards",
+        "inspectors",
+        "floating panels",
+        "menus"
+      ]
     },
     "functionalGlass": {
       "depth": "navigation",
@@ -33,7 +49,12 @@
       "blurPx": 24,
       "saturationPercent": 145,
       "opacity": 0.78,
-      "usage": ["navigation", "toolbars", "compact controls", "transient chrome"]
+      "usage": [
+        "navigation",
+        "toolbars",
+        "compact controls",
+        "transient chrome"
+      ]
     },
     "clearGlass": {
       "depth": "navigation",
@@ -42,7 +63,9 @@
       "blurPx": 12,
       "saturationPercent": 118,
       "opacity": 0.34,
-      "usage": ["controls over visually rich media"],
+      "usage": [
+        "controls over visually rich media"
+      ],
       "defaultContentMaterial": false
     },
     "overlay": {
@@ -51,7 +74,13 @@
       "backdropSampling": false,
       "shadow": "overlay",
       "scrimRequiredWhenModal": true,
-      "usage": ["dialog", "sheet", "popover", "command surface", "transient high-authority surface"]
+      "usage": [
+        "dialog",
+        "sheet",
+        "popover",
+        "command surface",
+        "transient high-authority surface"
+      ]
     }
   },
   "depth": {

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "status": "1.5-candidate",
-  "stableBaseline": "1.4.0",
+  "status": "1.5-stable",
+  "stableBaseline": "1.5.0",
   "space": {
     "2": "2px",
     "4": "4px",
@@ -36,15 +36,29 @@
     "wide": "1600px"
   },
   "density": {
-    "comfortable": {"multiplier": 1.0, "default": true},
-    "compact": {"multiplier": 0.75, "minimumInteractiveTargetPreserved": true},
-    "spacious": {"multiplier": 1.25, "minimumInteractiveTargetPreserved": true}
+    "comfortable": {
+      "multiplier": 1.0,
+      "default": true
+    },
+    "compact": {
+      "multiplier": 0.75,
+      "minimumInteractiveTargetPreserved": true
+    },
+    "spacious": {
+      "multiplier": 1.25,
+      "minimumInteractiveTargetPreserved": true
+    }
   },
   "interactiveGeometry": {
     "coarseMinimum": "44px",
     "pointerCompactMinimum": "32px"
   },
-  "responsiveClasses": ["compact", "medium", "expanded", "large-screen"],
+  "responsiveClasses": [
+    "compact",
+    "medium",
+    "expanded",
+    "large-screen"
+  ],
   "requirements": {
     "safeAreaAware": true,
     "rootHorizontalOverflowForbidden": true,
@@ -54,7 +68,17 @@
     "viewportWidthAloneMustNotSelectCompactDensity": true
   },
   "authority": {
-    "glazeUI": ["layout", "spacing", "density", "responsive-presentation"],
-    "notGlazeUI": ["privacy-truth", "security-truth", "resilience-truth", "coordination-truth"]
+    "glazeUI": [
+      "layout",
+      "spacing",
+      "density",
+      "responsive-presentation"
+    ],
+    "notGlazeUI": [
+      "privacy-truth",
+      "security-truth",
+      "resilience-truth",
+      "coordination-truth"
+    ]
   }
 }

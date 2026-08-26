@@ -31,6 +31,17 @@ The 1.3 semantic color, surface, typography, spacing, shape, effects/spatial mot
 | TV focus primitives | Stable | Focus/selection distinction, predictable directional movement, bounded focus motion, reduced-motion/forced-colors fallback. |
 | Form-factor token roles | Stable | Viewing distance, input, navigation, density, composition, anti-pattern metadata. |
 
+## Glaze UI 1.5 Stable systems
+
+| Area | Status | Stable contract |
+| --- | --- | --- |
+| Adaptive semantic color | Stable | Contextual semantic color, protected truth families, prominence, accessibility and reduced-transparency behavior. |
+| Iconography, construction, and identity grammar | Stable | Shared visual language with stable recognition, optical sizing, protected semantics, deterministic construction and badge rules. |
+| Motion and interaction | Stable | Purpose-driven interruptible motion, reduced-motion substitution, truthful state transitions and input-aware feedback. |
+| Material and depth | Stable | Canvas/Solid/Raised/Functional Glass/Clear Glass/Overlay hierarchy with bounded translucency and fallbacks. |
+| Layout, spacing, and density | Stable | Semantic spacing, gutters, bounded measures, density modes, safe-area behavior, target floors and overflow containment. |
+| Interaction states and input modality | Stable | Focus-visible, hover, pressed, selected, expanded, disabled, read-only, loading, invalid, success and mixed-input semantics. |
+
 ## Candidate form-factor layer
 
 Historical promotion boundary: these form-factor capabilities were the **Candidate form-factor layer** while Glaze UI 1.4 was under review. They are now Stable in 1.4.0. No active 1.4 form-factor capability remains Candidate after promotion.

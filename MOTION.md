@@ -1,6 +1,6 @@
 # Glaze UI Motion and Interaction Contract
 
-Status: **Glaze UI 1.5 Candidate**
+Status: **Glaze UI 1.5 Stable**
 
 Glaze UI motion exists to explain change, preserve spatial context, confirm interaction, and communicate system state. Motion is never required to understand content, never overrides user accessibility preferences, and never fabricates product, privacy, security, synchronization, or availability truth.
 
@@ -105,7 +105,7 @@ Motion may represent these states only after the authoritative system has suppli
 
 ## Conformance
 
-A Glaze UI 1.5 Candidate consumer satisfies this contract only when it:
+A Glaze UI 1.5 Stable consumer satisfies this contract only when it:
 
 - uses semantic duration/easing roles or documented native equivalents;
 - honors platform reduced-motion settings;

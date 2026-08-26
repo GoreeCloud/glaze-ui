@@ -1,6 +1,6 @@
 # Adopting Glaze UI
 
-Glaze UI 1.4.0 is the current Stable baseline and is mandatory for every GoreeCloud-controlled user-facing application. Existing consumers on older releases are migration-required; controlled migration is mandatory, and superseded Glaze UI versions cannot satisfy production readiness.
+Glaze UI 1.5.0 is the current Stable baseline and is mandatory for every GoreeCloud-controlled user-facing application. Existing consumers on older releases are migration-required; controlled migration is mandatory, and superseded Glaze UI versions cannot satisfy production readiness.
 
 ## 1. Record the target version
 Record the **current Stable** semantic version, reviewed canonical source revision, repository-local evidence, automated contract, and product-specific acceptance boundary. A superseded version may be recorded only as historical or migration evidence.
@@ -42,7 +42,7 @@ Glaze UI does not require analytics, trackers, remote fonts/icons, or third-part
 Validate the subset actually consumed: current-Stable version/revision, semantic tokens, states, material boundaries, accessibility fallbacks, form-factor activation, and directional focus where applicable. Fail closed on a superseded version or missing required Stable platform contract.
 
 ## 12. Perform visual acceptance
-Representative current 1.4 profiles: Mobile 390×844; Tablet 820×1180; Desktop 1280×900; Wide Desktop 1600×1000; TV 1920×1080. Review task flows, not screenshots alone. Add native/real-device evidence for every other supported user-facing platform, including smartwatch/wearable targets once an applicable Stable Glaze UI contract exists.
+Representative current 1.5 profiles: Mobile 390×844; Tablet 820×1180; Desktop 1280×900; Wide Desktop 1600×1000; TV 1920×1080. Review task flows, not screenshots alone. Add native/real-device evidence for every other supported user-facing platform, including smartwatch/wearable targets once an applicable Stable Glaze UI contract exists.
 
 ## Platform-native clients
 Native Android, iOS/iPadOS/tvOS, Linux, desktop, smartwatch/wearable, or other implementations map Glaze semantics into platform-native controls, focus/input systems, density units, safe areas, windowing, and accessibility. Current-Stable design-system status never waives application-specific native or real-device acceptance.

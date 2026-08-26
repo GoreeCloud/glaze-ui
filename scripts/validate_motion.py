@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Glaze UI 1.5 Candidate motion and interaction contract."""
+"""Validate the Glaze UI 1.5 Stable motion and interaction contract."""
 
 from __future__ import annotations
 
@@ -27,8 +27,8 @@ def main() -> None:
 
     data = json.loads(TOKENS.read_text(encoding="utf-8"))
     meta = data.get("glazeUi", {})
-    require(meta.get("version") == "1.5.0-candidate", "unexpected candidate version")
-    require(meta.get("status") == "candidate", "motion contract must remain Candidate")
+    require(meta.get("version") == "1.5.0", "unexpected stable version")
+    require(meta.get("status") == "stable", "motion contract must remain Stable")
     require(meta.get("domain") == "motion-and-interaction", "unexpected motion domain")
 
     durations = data.get("durationsMs", {})
@@ -81,7 +81,7 @@ def main() -> None:
 
     doc = DOC.read_text(encoding="utf-8")
     for phrase in (
-        "Glaze UI 1.5 Candidate",
+        "Glaze UI 1.5 Stable",
         "Reduced-motion contract",
         "Privacy Shield",
         "Wardveil Security",
@@ -104,7 +104,7 @@ def main() -> None:
     ):
         require(token in css, f"CSS missing required motion primitive: {token}")
 
-    print("Glaze UI motion Candidate validation passed")
+    print("Glaze UI motion Stable validation passed")
 
 
 if __name__ == "__main__":

@@ -25,10 +25,10 @@ def main() -> None:
 
     data = json.loads(TOKENS.read_text(encoding="utf-8"))
     meta = data.get("meta", {})
-    if meta.get("status") != "candidate":
-        fail("iconography contract must remain Candidate until promotion")
-    if meta.get("stableBaseline") != "1.4.0":
-        fail("Stable baseline must remain 1.4.0")
+    if meta.get("status") != "stable":
+        fail("iconography contract must remain Stable until promotion")
+    if meta.get("stableBaseline") != "1.5.0":
+        fail("Stable baseline must remain 1.5.0")
     if data.get("principle") != "identity remains stable while presentation adapts":
         fail("canonical final iconography rule changed unexpectedly")
     if data.get("visualGrammar") != "recognizable identity within a shared visual language":
@@ -198,12 +198,12 @@ def main() -> None:
         "Glaze UI Native Icon",
         "does **not** plan a dedicated Icon Studio application",
         "System Icon Registry",
-        "Candidate promotion boundary",
+        "Stable promotion boundary",
     ]:
         if phrase not in doc:
             fail(f"documentation invariant missing: {phrase}")
 
-    print("Glaze UI iconography Candidate production-contract validation passed")
+    print("Glaze UI iconography Stable production-contract validation passed")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
-# Glaze UI 1.4 Conformance
+# Glaze UI 1.5 Conformance
 
-Glaze UI 1.4 conformance protects beauty, usability, stability, accessibility, privacy, resilience, and purpose-built form-factor behavior while retaining the full 1.3 expressive foundation.
+Glaze UI 1.5 conformance protects beauty, usability, stability, accessibility, privacy, resilience, and purpose-built form-factor behavior while retaining the full 1.3 expressive foundation.
 
 ## Twenty-one required gates
 
@@ -46,11 +46,11 @@ Evidence used to support a current Glaze UI conformance or production UI accepta
 
 ## Current-Stable conformance claims
 
-Glaze UI **1.4.0** is the current Stable baseline and the only active version eligible for a current GoreeCloud application conformance or production UI acceptance claim.
+Glaze UI **1.5.0** is the current Stable baseline and the only active version eligible for a current GoreeCloud application conformance or production UI acceptance claim.
 
-A product may claim **`Glaze UI 1.4 conformant`** only when every applicable current 1.4 gate is satisfied, the product targets the exact current Stable release, and product-specific acceptance is complete. A Stable claim additionally requires compliance with `STABILITY.md` and the Stable lifecycle surface in `COMPONENT_STATUS.md`.
+A product may claim **`Glaze UI 1.5 conformant`** only when every applicable current 1.5 gate is satisfied, the product targets the exact current Stable release, and product-specific acceptance is complete. A Stable claim additionally requires compliance with `STABILITY.md` and the Stable lifecycle surface in `COMPONENT_STATUS.md`.
 
-Historical Glaze UI releases 1.0.0 through 1.3.0 remain preserved for release history, migration analysis, rollback, and audit evidence. A historical exact-version statement may describe a previous implementation, but it does not mean the consumer is aligned to the current Stable baseline, cannot satisfy current production readiness, and must not be used as a current conformance claim.
+Historical Glaze UI releases 1.0.0 through 1.4.0 remain preserved for release history, migration analysis, rollback, and audit evidence. A historical exact-version statement may describe a previous implementation, but it does not mean the consumer is aligned to the current Stable baseline, cannot satisfy current production readiness, and must not be used as a current conformance claim.
 
 When a newer Glaze UI release becomes Stable, requirements introduced by that Stable release become mandatory for GoreeCloud-controlled user-facing applications. Migration must be controlled and validated, but the existence of an older successful conformance record does not permit the application to remain on the superseded release.
 

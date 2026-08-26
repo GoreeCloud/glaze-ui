@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Glaze UI 1.5 adaptive color candidate contract."""
+"""Validate the Glaze UI 1.5 adaptive color stable contract."""
 from __future__ import annotations
 import json
 from pathlib import Path
@@ -32,9 +32,9 @@ def main() -> None:
     data = json.loads(TOKENS.read_text(encoding="utf-8"))
     require(data.get("schemaVersion") == 1, "schemaVersion must be 1")
     require(data.get("designSystem") == "Glaze UI", "design system mismatch")
-    require(data.get("candidateRelease") == "1.5.0", "candidate release must be 1.5.0")
-    require(data.get("stableBaseline") == "1.4.0", "Stable baseline must remain 1.4.0")
-    require(data.get("status") == "candidate", "adaptive colors must remain Candidate")
+    require(data.get("stableRelease") == "1.5.0", "stable release must be 1.5.0")
+    require(data.get("stableBaseline") == "1.5.0", "Stable baseline must remain 1.5.0")
+    require(data.get("status") == "stable", "adaptive colors must remain Stable")
     require(data.get("colorOnlyCommunicationAllowed") is False, "color-only communication must remain forbidden")
     require(data.get("identityMayOverrideSemantics") is False, "identity may not override semantics")
     require(data.get("prominenceLevels") == PROMINENCE, "prominence level order mismatch")
@@ -62,7 +62,7 @@ def main() -> None:
     for phrase in ("prefers-reduced-motion", "prefers-contrast", "forced-colors", "color-mix"):
         require(phrase in css, f"CSS missing {phrase}")
 
-    print("Glaze UI 1.5 adaptive color candidate validation passed; Stable remains 1.4.0")
+    print("Glaze UI 1.5 adaptive color stable validation passed; Stable remains 1.5.0")
 
 
 if __name__ == "__main__":

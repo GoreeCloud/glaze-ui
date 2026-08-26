@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "glazeUi": {
-    "version": "1.5.0-candidate",
-    "status": "candidate",
+    "version": "1.5.0",
+    "status": "stable",
     "domain": "motion-and-interaction"
   },
   "durationsMs": {
@@ -37,7 +37,10 @@
     "decorativeInfiniteLoopsForCoreUi": false,
     "falseDeterminateProgress": false,
     "prematureAuthoritativeStateAnimation": false,
-    "preferCompositorProperties": ["opacity", "transform"],
+    "preferCompositorProperties": [
+      "opacity",
+      "transform"
+    ],
     "gestureTransitionsProgressLinked": true
   },
   "reducedMotion": {

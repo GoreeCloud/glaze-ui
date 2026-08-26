@@ -1,6 +1,6 @@
-# Glaze UI 1.4 Component Contract
+# Glaze UI 1.5 Component Contract
 
-Glaze UI 1.4 retains the Stable component semantics established in Glaze UI 1.3 and extends the design system with the 1.4 form-factor layer. This contract standardizes component semantics and interaction quality without forcing every GoreeCloud application into the same composition.
+Glaze UI 1.5 retains the Stable component semantics established in Glaze UI 1.3, preserves the 1.4 form-factor layer, and adds the promoted 1.5 color, iconography, motion, material, layout, density, state, and mixed-input contracts. This contract standardizes component semantics and interaction quality without forcing every GoreeCloud application into the same composition.
 
 ## Universal component rules
 

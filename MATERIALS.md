@@ -1,8 +1,8 @@
 # Glaze UI Material and Depth Contract
 
-Status: **Glaze UI 1.5 Candidate**
+Status: **Glaze UI 1.5 Stable**
 
-This document defines the semantic material, depth, translucency, elevation, backdrop, and overlay behavior used by GoreeCloud interfaces. It extends the Stable 1.4 visual foundation without changing the current Stable production target.
+This document defines the semantic material, depth, translucency, elevation, backdrop, and overlay behavior used by GoreeCloud interfaces. It extends the Stable 1.4 visual foundation as part of the promoted 1.5 Stable production target.
 
 ## Purpose
 

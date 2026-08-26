@@ -1,6 +1,6 @@
 # Glaze UI Layout, Spacing, and Density
 
-Status: Glaze UI 1.5 Candidate. Glaze UI 1.4.0 remains Stable.
+Status: Glaze UI 1.5 Stable. Glaze UI 1.4.0 remains Stable.
 
 ## Purpose
 
@@ -108,4 +108,4 @@ Glaze UI governs visual spacing, layout, density, and responsive presentation. P
 
 ## Candidate boundary
 
-This contract is isolated to Glaze UI 1.5 Candidate. It does not alter the 1.4.0 Stable contract, migrate consumers, or authorize production conformance until explicit promotion.
+This contract is isolated to Glaze UI 1.5 Stable. It does not alter the 1.4.0 Stable contract, migrate consumers, or authorize production conformance until explicit promotion.
