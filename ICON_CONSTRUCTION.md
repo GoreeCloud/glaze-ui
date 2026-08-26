@@ -1,6 +1,6 @@
 # Glaze UI Icon Grid, Geometry, Materials, and Construction Contract
 
-Status: **Glaze UI 1.5 Candidate**. Glaze UI 1.4.0 remains the mandatory Stable production-conformance baseline until 1.5 is explicitly promoted.
+Status: **Glaze UI 1.5 Stable**. Glaze UI 1.4.0 remains the mandatory Stable production-conformance baseline until 1.5 is explicitly promoted.
 
 ## Purpose
 
@@ -192,6 +192,6 @@ Source identity is separated from final rendering. Future material systems, HDR,
 
 The Glaze UI icon is therefore treated as a **responsive visual identity asset** rather than a static bitmap.
 
-## Candidate boundary
+## Stable boundary
 
-This contract strengthens the isolated Glaze UI 1.5 Candidate. It does not certify existing artwork, approve new canonical identities, create a dedicated Icon Studio roadmap item, make the registry Stable, migrate downstream applications, or change Glaze UI 1.4.0 Stable production requirements.
+This contract strengthens the isolated Glaze UI 1.5 Stable. It does not certify existing artwork, approve new canonical identities, create a dedicated Icon Studio roadmap item, make the registry Stable, migrate downstream applications, or change Glaze UI 1.4.0 Stable production requirements.

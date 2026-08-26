@@ -4,10 +4,34 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased
 
-### Improved
+No unreleased changes.
 
-- `COMPONENTS.md` now identifies itself as the Glaze UI 1.4 component contract while explicitly preserving the Stable component semantics established in 1.3.
-- `scripts/validate_release_state.py` now fails closed when the canonical component-contract heading drifts from the current Stable release family or when the retained 1.3 compatibility boundary disappears.
+## 1.5.0 — 2026-08-25
+
+Stable adaptive-expression and interaction-architecture release. Promotes the validated 1.5 adaptive color, iconography/construction/identity, motion/interaction, material/depth, layout/spacing/density, and semantic state/input-modality systems while retaining the complete 1.4 form-factor layer.
+
+### Added
+
+- Layered adaptive semantic color with protected truth families and accessibility modes.
+- Governed iconography, icon construction, optical sizing, identity-lock, semantic badge, and adaptive-presentation contracts.
+- Purpose-driven interruptible motion with reduced-motion substitutions and truthful progress/state rules.
+- Canvas/Solid/Raised/Functional Glass/Clear Glass/Overlay material and depth architecture with reduced-transparency and constrained-performance fallbacks.
+- Semantic spacing, responsive gutters, bounded measures, density modes, safe-area behavior, target floors, localization/order rules, and bounded intrinsic overflow.
+- Focus-visible, hover, pressed, selected, expanded, disabled, read-only, loading, invalid, success, and mixed keyboard/pointer/touch/remote/assistive-input semantics.
+- `acceptance/1.5.0.md` as the Stable release acceptance record.
+
+### Validation and promotion
+
+- Exact pre-promotion Candidate head `3613fe3b47827e29b23b2606db68f2ec6e7a9434` passed Glaze UI CI #375 / run `32925596296`, Icon Construction #60, Icon Identity #52, and Semantic Color #95.
+- Stable release conversion preserves all subsystem/source/rendered gates; the exact final promotion head must pass the full stack before merge.
+- Earlier forced-colors TV `PENDING` browser-harness attempts were treated as incomplete, not as passes; no assertion or acceptance threshold was weakened.
+
+### Compatibility and consumer boundary
+
+- Glaze UI 1.4.0 becomes the immediately preceding historical Stable baseline.
+- All GoreeCloud-controlled user-facing consumers must migrate to 1.5.0 through evidence-backed application-specific adoption.
+- Wearable applications remain production-blocked until an applicable Stable wearable contract exists.
+- Privacy Shield, Wardveil Security, Everkeep, GoreeCloud Mesh, and application logic retain authority for underlying truth; Glaze UI remains presentation authority.
 
 ## 1.4.0 — 2026-08-21
 

@@ -20,8 +20,8 @@ def main() -> None:
 
     data = json.loads(TOKENS.read_text(encoding="utf-8"))
     meta = data.get("meta", {})
-    if meta.get("status") != "candidate" or meta.get("stableBaseline") != "1.4.0":
-        fail("construction contract must remain isolated 1.5 Candidate over Stable 1.4.0")
+    if meta.get("status") != "stable" or meta.get("stableBaseline") != "1.5.0":
+        fail("construction contract must remain isolated 1.5 Stable over Stable 1.5.0")
 
     canvas = data.get("canvas", {})
     if (canvas.get("width"), canvas.get("height"), canvas.get("origin")) != (1024, 1024, [512, 512]):
@@ -95,7 +95,7 @@ def main() -> None:
         fail("manifest schema must require all four optical variants")
 
     example = json.loads(EXAMPLE.read_text(encoding="utf-8"))
-    if example.get("schemaVersion") != "1.0-candidate":
+    if example.get("schemaVersion") != "1.0-stable":
         fail("example manifest schema version changed")
     if example.get("source", {}).get("masterCanvas") != [1024, 1024]:
         fail("example manifest must use 1024 × 1024 source canvas")
@@ -124,7 +124,7 @@ def main() -> None:
         if phrase not in doc:
             fail(f"documentation invariant missing: {phrase}")
 
-    print("Glaze UI icon construction Candidate validation passed")
+    print("Glaze UI icon construction Stable validation passed")
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 
 Status: **Pending approved canonical artwork**
 
-Glaze UI 1.4.0 is the current Stable GoreeCloud design-system baseline. Its public design site currently uses a text-first identity. No icon, logo, favicon, or product mark is approved as canonical Glaze UI artwork at this time.
+Glaze UI 1.5.0 is the current Stable GoreeCloud design-system baseline. Its public design site currently uses a text-first identity. No icon, logo, favicon, or product mark is approved as canonical Glaze UI artwork at this time.
 
 ## Purpose
 

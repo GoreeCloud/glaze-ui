@@ -12,35 +12,33 @@ Glaze UI is mandatory identity architecture, not a theme or finishing layer. If 
 
 `ENFORCEMENT.md` and `tokens/enforcement.json` define this fail-closed governance contract. Consumers may not establish competing local design systems, arbitrary semantic vocabularies, private icon conventions, incompatible component languages, or ad hoc token systems that fragment GoreeCloud family identity. New presentation capabilities that exceed current Stable semantics must extend and promote Glaze UI before becoming production dependencies.
 
-## Glaze UI 1.4 Stable — Form-Factor Evolution
+## Glaze UI 1.4 Historical Stable — Form-Factor Evolution
 
-**Glaze UI 1.4.0 is the current Stable canonical baseline.** It preserves the complete 1.3 expressive foundation and promotes Mobile, Tablet, Desktop, and TV to first-class semantic interaction environments.
+**Glaze UI 1.4.0 is the immediately preceding historical Stable baseline.** It preserves the complete 1.3 expressive foundation and promotes Mobile, Tablet, Desktop, and TV to first-class semantic interaction environments.
 
 1.4 adds `FORM_FACTORS.md`, form-factor tokens, `css/glaze.formfactors.css`, a dependency-free five-profile reference, TV far-view/overscan/directional-focus semantics, and expanded rendered acceptance at Mobile 390×844, Tablet 820×1180, Desktop 1280×900, Wide Desktop 1600×1000, and TV 1920×1080.
 
 TV is explicitly **not Wide Desktop**. Form-factor selection uses app window, primary input, viewing distance, platform conventions, posture/resizability, and product task rather than width or device name alone.
 
-## Glaze UI 1.5 Candidate — Adaptive Color and Iconography
+## Glaze UI 1.5 Stable — Adaptive Color, Iconography, Motion, Materials, Layout, and State
 
-Glaze UI 1.5 is an isolated **Candidate** evolution. It does not replace the Stable 1.4 application target until the complete promotion gate is satisfied.
+**Glaze UI 1.5.0 is the current Stable canonical baseline.** It retains the complete 1.4 Mobile, Tablet, Desktop, Wide Desktop, and TV form-factor contract and promotes the validated 1.5 adaptive-color, iconography/construction/identity, motion/interaction, material/depth, layout/spacing/density, and semantic state/input-modality systems.
 
-The adaptive-color layer turns the existing semantic color contract into a layered architecture with contextual color propagation, four prominence levels (`subtle`, `standard`, `prominent`, `critical`), protected semantic tonal families, adaptive accent derivation, contextual selection glazing, material/background sampling boundaries, color-motion behavior, and purpose-built accessibility modes. Canonical candidate artifacts are `COLOR_ARCHITECTURE.md`, `tokens/adaptive-colors.json`, `css/glaze.color.css`, and `scripts/validate_adaptive_colors.py`.
+Canonical 1.5 Stable artifacts include `COLOR_ARCHITECTURE.md`, `ICONOGRAPHY.md`, `ICON_CONSTRUCTION.md`, `MOTION.md`, `MATERIALS.md`, `LAYOUT.md`, `STATES.md`, their machine-readable token files, reusable CSS layers, fail-closed validators, and the rendered 1.5 reference/acceptance harness. The exact Candidate evidence remains preserved under `acceptance/1.5-candidate.md`; Stable promotion evidence is recorded under `acceptance/1.5.0.md`.
 
-The iconography layer formalizes **recognizable identity within a shared visual language** across application, service, system, functional, and semantic icons. It defines application foundation/identity/detail composition, simpler service treatment, standardized functional and semantic glyph behavior, deterministic badge anchors and compact priority, presentation/standard/compact/micro optical sizes, adaptive-color boundaries, reduced-motion behavior, accessibility invariants, and third-party identity preservation. Canonical candidate artifacts are `ICONOGRAPHY.md`, `tokens/iconography.json`, and `scripts/validate_iconography.py`.
+Application identity, wallpaper, user accent, and content context may influence decorative presentation, but semantic truth remains producer-authoritative. Privacy Shield is authoritative for privacy-control state; Wardveil Security for security/protection state; Everkeep for resilience, backup, recovery, preservation, portability, succession, and digital legacy; GoreeCloud Mesh for coordination/governance; and application logic for availability, selection, busy, validation, and workflow truth. Glaze UI presents supplied state and never invents evidence.
 
-Application identity, wallpaper, user accent, and content context may influence decorative color while success, warning, danger, privacy, security, protection, restriction, connectivity, synchronization, and availability semantics remain protected. Privacy Shield and Wardveil Security remain authoritative for privacy/security truth; Glaze UI presents supplied state and never invents or upgrades evidence.
-
-Wear OS is explicitly **outside the Glaze UI 1.5 scope**. Existing Wear OS reference code and manual emulator validation are preserved for future work, but wearable support is not a 1.5 merge gate, Candidate-promotion gate, Stable-promotion gate, or current production-conformance requirement. A later Glaze UI upgrade will define, validate, and promote the wearable contract separately.
+Wear OS remains outside the implemented 1.5 interaction contract. This is **not an exception**: a GoreeCloud smartwatch or wearable application remains production-blocked until an applicable Stable wearable Glaze UI contract is implemented, validated, and promoted.
 
 ## Mandatory current-Stable consumer target
 
-The current Stable consumer target is **1.4.0**, as recorded by `consumers/registry.json`. It is the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements.
+The current Stable consumer target is **1.5.0**, as recorded by `consumers/registry.json`. It is the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements.
 
-Historical Stable releases 1.0.0 through 1.3.0 remain preserved for audit, migration, rollback, and release history. They are not supported active application targets and may not be used to satisfy current production acceptance. Existing consumers are never grandfathered onto superseded Glaze UI versions.
+Historical Stable releases 1.0.0 through 1.4.0 remain preserved for audit, migration, rollback, and release history. They are not supported active application targets and may not be used to satisfy current production acceptance. Existing consumers are never grandfathered onto superseded Glaze UI versions.
 
 When a newer Stable release is promoted, all GoreeCloud-controlled user-facing consumers covered by that Stable contract become required to migrate to that current Stable release. Migration remains controlled and application-specific, but migration itself is mandatory. There are no application-level production exceptions within the supported Stable scope.
 
-The current Stable scope covers web, desktop, mobile, tablet, TV, progressive web, dashboard, administrative, maintained-fork, and other GoreeCloud-controlled user-facing interfaces for which an applicable Stable Glaze UI contract exists. Smartwatch/Wearable support is deferred to a later Glaze UI upgrade and is not part of the current Stable or 1.5 Candidate acceptance scope.
+The current Stable scope covers web, desktop, mobile, tablet, TV, progressive web, dashboard, administrative, maintained-fork, and other GoreeCloud-controlled user-facing interfaces for which an applicable Stable Glaze UI contract exists. Smartwatch/Wearable remains outside the implemented 1.5 Stable interaction scope and is therefore production-blocked until a later Stable wearable contract is promoted.
 
 ## Stability priority
 
@@ -64,11 +62,17 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `tokens/glaze.tokens.json` — canonical Stable semantic tokens.
 - `tokens/semantic-colors.json` — Stable semantic color meaning contract.
 - `COLOR.md` — Stable semantic color contract documentation.
-- `COLOR_ARCHITECTURE.md` — 1.5 Candidate adaptive color architecture.
-- `tokens/adaptive-colors.json` — 1.5 Candidate color families, prominence, materials, authority, and accessibility contract.
-- `css/glaze.color.css` — 1.5 Candidate adaptive color web primitives.
-- `ICONOGRAPHY.md` — 1.5 Candidate application, service, system, functional, semantic, badge, optical-size, motion, and accessibility icon contract.
-- `tokens/iconography.json` — machine-readable 1.5 Candidate iconography contract.
+- `COLOR_ARCHITECTURE.md` — 1.5 Stable adaptive color architecture.
+- `tokens/adaptive-colors.json` — 1.5 Stable color families, prominence, materials, authority, and accessibility contract.
+- `css/glaze.color.css` — 1.5 Stable adaptive color web primitives.
+- `ICONOGRAPHY.md` — 1.5 Stable application, service, system, functional, semantic, badge, optical-size, motion, and accessibility icon contract.
+- `tokens/iconography.json` — machine-readable 1.5 Stable iconography contract.
+- `MOTION.md` — 1.5 Stable motion and interaction contract.
+- `tokens/motion.json` — semantic motion durations, easing, distance, scale, accessibility, and authority roles.
+- `css/glaze.motion.css` — reusable 1.5 Stable web motion primitives.
+- `MATERIALS.md` — 1.5 Stable material, depth, translucency, backdrop, elevation, and accessibility contract.
+- `tokens/materials.json` — machine-readable 1.5 Stable material and depth roles.
+- `css/glaze.materials.css` — reusable 1.5 Stable material primitives and fallbacks.
 - `ENFORCEMENT.md` — full-spectrum, non-exhaustive, fail-closed Glaze UI governance.
 - `tokens/enforcement.json` — machine-readable enforcement domains, authorities, and blocking gates.
 - `FORM_FACTORS.md` — Mobile, Tablet, Desktop, and TV contract.
@@ -88,13 +92,13 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `ACCEPTANCE.md` — Stable acceptance protocol.
 - `acceptance/` — version-specific design-system promotion evidence.
 - `reference/index.html` and `reference/formfactors.html` — dependency-free references.
-- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_enforcement.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, `scripts/validate_rendered_reference.py`, `scripts/validate_adaptive_colors.py`, and `scripts/validate_iconography.py` — fail-closed validation.
+- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_enforcement.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, `scripts/validate_rendered_reference.py`, `scripts/validate_adaptive_colors.py`, `scripts/validate_iconography.py`, `scripts/validate_motion.py`, and `scripts/validate_materials.py` — fail-closed validation.
 
 ## Material hierarchy
 
 Canvas → Solid → Raised → Functional Glass → Overlay. Clear Glass is specialized for controls over visually rich media. Ordinary content defaults to Solid/Raised; glass is selective, not universal.
 
-The 1.5 Candidate additionally coordinates material luminosity, tonal separation, bounded background sampling, selection glazing, icon material depth, and semantic foreground protection without turning glass into a universal content treatment.
+The 1.5 Stable coordinates material luminosity, tonal separation, bounded background sampling, selection glazing, icon material depth, semantic foreground protection, reduced-transparency behavior, unsupported-backdrop fallback, and performance-aware degradation without turning glass into a universal content treatment.
 
 ## Form-factor model
 
@@ -102,7 +106,7 @@ The 1.5 Candidate additionally coordinates material luminosity, tonal separation
 - **Tablet** — touch-capable, pane/posture-aware, optionally enhanced by pointer/keyboard/stylus.
 - **Desktop** — pointer/keyboard-first, resizable workspace, persistent tools and denser multi-pane patterns where useful.
 - **TV** — far-view, landscape-first, overscan-safe, remote/D-pad directional focus, large readable controls, shallow predictable focus groups.
-- **Smartwatch/Wearable** — deferred to a later Glaze UI upgrade; not a current Stable or 1.5 Candidate production-conformance target.
+- **Smartwatch/Wearable** — deferred to a later Glaze UI upgrade; not a current Stable or 1.5 Stable production-conformance target.
 
 ## Validation
 
@@ -120,14 +124,18 @@ python3 website/validate.py
 python3 scripts/validate_rendered_reference.py
 ```
 
-For the isolated 1.5 Candidate, additionally run:
+For the Glaze UI 1.5 Stable subsystem contracts, additionally run:
 
 ```bash
 python3 scripts/validate_adaptive_colors.py
 python3 scripts/validate_iconography.py
+python3 scripts/validate_motion.py
+python3 scripts/validate_materials.py
+python3 scripts/validate_layout.py
+python3 scripts/validate_states.py
 ```
 
-Iconography source validation currently proves contract/schema consistency. Stable promotion also requires representative rendered artwork and optical-size acceptance; the validator does not substitute for that visual evidence.
+The promoted 1.5 subsystem validators remain permanent Stable regression gates. Motion and material promotion also require representative rendered evidence across supported form factors, light/dark appearances, reduced-motion/reduced-transparency behavior, and relevant performance/contrast boundaries. Iconography additionally requires representative rendered artwork and optical-size acceptance.
 
 Wear OS emulator validation is manual development/reference validation only and is intentionally excluded from current Stable and 1.5 promotion gates.
 

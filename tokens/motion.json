@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "glazeUi": {
+    "version": "1.5.0",
+    "status": "stable",
+    "domain": "motion-and-interaction"
+  },
+  "durationsMs": {
+    "instant": 0,
+    "micro": 90,
+    "short": 160,
+    "medium": 240,
+    "long": 360,
+    "ambient": 700
+  },
+  "easing": {
+    "standard": "cubic-bezier(0.2, 0, 0, 1)",
+    "enter": "cubic-bezier(0, 0, 0, 1)",
+    "exit": "cubic-bezier(0.3, 0, 1, 1)",
+    "emphasized": "cubic-bezier(0.2, 0, 0, 1)",
+    "linear": "linear"
+  },
+  "distancePx": {
+    "micro": 2,
+    "short": 8,
+    "medium": 16,
+    "long": 32
+  },
+  "scale": {
+    "press": 0.98,
+    "focusTv": 1.04,
+    "enterSubtle": 0.985
+  },
+  "rules": {
+    "interruptibleUserTransitions": true,
+    "hoverRequiredForCriticalInformation": false,
+    "decorativeInfiniteLoopsForCoreUi": false,
+    "falseDeterminateProgress": false,
+    "prematureAuthoritativeStateAnimation": false,
+    "preferCompositorProperties": [
+      "opacity",
+      "transform"
+    ],
+    "gestureTransitionsProgressLinked": true
+  },
+  "reducedMotion": {
+    "required": true,
+    "durationMs": 0,
+    "removeDecorativeTranslation": true,
+    "removeDecorativeScale": true,
+    "disableParallax": true,
+    "disableDecorativeLoops": true,
+    "replaceBlurTravel": "immediate-or-opacity",
+    "preserveStaticStateCues": true,
+    "mustNotDelayTaskCompletion": true
+  },
+  "authority": {
+    "presentation": "Glaze UI",
+    "privacyTruth": "Privacy Shield",
+    "securityTruth": "Wardveil Security",
+    "resilienceTruth": "Everkeep",
+    "coordinationTruth": "GoreeCloud Mesh"
+  }
+}

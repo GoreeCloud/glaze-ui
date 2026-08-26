@@ -47,22 +47,26 @@ Pointer/keyboard workflows, resizable windows, appropriate density, menus/toolba
 ### TV
 Far-view legibility; landscape-first; overscan-safe essential content; larger type/targets/spacing; directional focus plus Select/Back-equivalent task flow; no pointer/swipe dependency; focus remains obvious and distinct from selection; no unreachable controls or focus traps; bounded focus scale/lift; reduced-motion/forced-colors preserve a strong static focus indicator; TV never resembles Wide Desktop with a remote added afterward.
 
-## 1.2 application-interface acceptance retained by 1.4
+## 1.2 application-interface acceptance retained by 1.5
 
 Persistent field labels, textarea behavior, checkbox and radio choices, switches, segmented controls/tabs, progress indicators, banners, focus-ring, and selection semantics remain required.
 
-## 1.3 expressive acceptance retained by 1.4
+## 1.3 expressive acceptance retained by 1.5
 
 Functional Glass, Clear Glass boundaries, expressive shape hierarchy, effects/spatial motion separation, adaptive button-group emphasis, compact reachability, hero typography, solid fallbacks, and reduced-motion behavior remain required.
 
-## 1.4-specific form-factor acceptance
+## 1.4 form-factor acceptance retained by 1.5
 
 `FORM_FACTORS.md`, form-factor tokens, `css/glaze.formfactors.css`, dependency-free Mobile/Tablet/Desktop/Wide Desktop/TV references, TV safe-region semantics, far-view type/targets, directional focus, focus/selection distinction, reduced-motion/forced-colors focus fallback, width-independent TV selection, and window/input-aware near-view selection are mandatory.
+
+## 1.5-specific Stable acceptance
+
+Adaptive color, iconography/construction/identity, motion/interaction, material/depth, layout/spacing/density, and semantic interaction-state/input-modality contracts must pass their fail-closed source validators. The rendered 1.5 harness must prove representative light/dark Mobile 390×844, Tablet 820×1180, Desktop 1280×900, and TV 1920×1080 behavior plus reduced motion, reduced transparency, constrained-performance fallbacks, focus/state semantics, bounded measures, density independence, target floors, and absence of root horizontal overflow.
 
 ## Stability promotion acceptance
 
 Before Candidate becomes Stable: lifecycle classification is accurate; Experimental/Planned capability is not required; promoted capability has semantics/accessibility/validation/migration guidance; exact final candidate passes source and rendered/native acceptance applicable to its scope; failed cases are fixed without weakening gates; Stable docs/status/version agree; rollback is identified.
 
-For 1.4 design-system core, native/real-device execution is not applicable because this repository ships no native runtime. Native consumers still require product-specific native/real-device acceptance.
+For 1.5 design-system core, native/real-device execution is not applicable because this repository ships no native runtime. Native consumers still require product-specific native/real-device acceptance.
 
 If any required check cannot be executed, the release remains a candidate. Unsupported must be explicit; untested is not accepted.

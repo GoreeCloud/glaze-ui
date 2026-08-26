@@ -1,6 +1,6 @@
 # Glaze UI Application and Service Icon Identity System
 
-Status: **Glaze UI 1.5 Candidate**. Glaze UI 1.4.0 remains the mandatory Stable production target until 1.5 is promoted.
+Status: **Glaze UI 1.5 Stable**. Glaze UI 1.5.0 is the current Stable production target.
 
 ## Governing principle
 
@@ -24,7 +24,7 @@ Identity DNA complements the existing Identity Lock. DNA describes the broader p
 
 The complete GoreeCloud ecosystem is one visual family, but product families may establish restrained secondary relationships. Family resemblance may come from material behavior, compositional rhythm, secondary geometry, lighting, depth, or motion personality. Family membership must never be implemented as the same symbol with different colors.
 
-The Candidate defines these first-party families as governed categories: communication, productivity, media, cloud-and-data, network, security, system-utility, AI-and-intelligence, browser-and-discovery, and persistence-and-resilience.
+The Stable defines these first-party families as governed categories: communication, productivity, media, cloud-and-data, network, security, system-utility, AI-and-intelligence, browser-and-discovery, and persistence-and-resilience.
 
 Family assignments are review metadata rather than permission to flatten cross-family products into one visual stereotype. Products that participate in more than one conceptual domain still require one primary identity with any secondary relationship documented explicitly.
 
@@ -97,6 +97,6 @@ A successful Glaze UI identity system should allow an icon to answer four questi
 
 The system succeeds when those answers emerge from layered identity rather than repeated corporate logos or color-only differentiation.
 
-## Candidate promotion boundary
+## Stable promotion boundary
 
-This identity system is Candidate work. Source validation proves contract consistency, not rendered identity quality. Stable promotion requires representative ecosystem review, family review, monochrome and optical-size validation, accessibility review, state-overlay review, collision assessment, continuity assessment for redesigned identities, and confirmation that Planned review automation is not represented as implemented.
+This identity system is Stable work. Source validation proves contract consistency, not rendered identity quality. Stable promotion requires representative ecosystem review, family review, monochrome and optical-size validation, accessibility review, state-overlay review, collision assessment, continuity assessment for redesigned identities, and confirmation that Planned review automation is not represented as implemented.

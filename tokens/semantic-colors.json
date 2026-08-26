@@ -5,20 +5,63 @@
   "color_only_communication_allowed": false,
   "branding_may_override_semantics": false,
   "roles": {
-    "accent": {"category": "interaction", "meaning": "primary interactive emphasis that is not itself a status"},
-    "surface": {"category": "structure", "meaning": "base application or system surface"},
-    "selected": {"category": "interaction", "meaning": "currently selected item, destination, or control state"},
-    "focus": {"category": "interaction", "meaning": "keyboard, accessibility, or explicit input focus"},
-    "success": {"category": "status", "meaning": "successful completion or healthy positive outcome"},
-    "information": {"category": "status", "meaning": "neutral informational state requiring awareness but not warning"},
-    "warning": {"category": "status", "meaning": "caution, elevated attention, or possible intervention"},
-    "danger": {"category": "status", "meaning": "error, destructive action, critical failure, or high-severity condition"},
-    "protected": {"category": "security", "meaning": "current positively evidenced protection state", "authoritative_evidence_required": true},
-    "restricted": {"category": "security", "meaning": "access constrained, denied, policy-limited, or intentionally unavailable to the current actor"},
-    "online": {"category": "connectivity", "meaning": "reachable, connected, or currently available"},
-    "offline": {"category": "connectivity", "meaning": "disconnected or intentionally offline"},
-    "syncing": {"category": "activity", "meaning": "active synchronization or reconciliation in progress"},
-    "unavailable": {"category": "status", "meaning": "capability or state cannot currently be provided, verified, or reached"}
+    "accent": {
+      "category": "interaction",
+      "meaning": "primary interactive emphasis that is not itself a status"
+    },
+    "surface": {
+      "category": "structure",
+      "meaning": "base application or system surface"
+    },
+    "selected": {
+      "category": "interaction",
+      "meaning": "currently selected item, destination, or control state"
+    },
+    "focus": {
+      "category": "interaction",
+      "meaning": "keyboard, accessibility, or explicit input focus"
+    },
+    "success": {
+      "category": "status",
+      "meaning": "successful completion or healthy positive outcome"
+    },
+    "information": {
+      "category": "status",
+      "meaning": "neutral informational state requiring awareness but not warning"
+    },
+    "warning": {
+      "category": "status",
+      "meaning": "caution, elevated attention, or possible intervention"
+    },
+    "danger": {
+      "category": "status",
+      "meaning": "error, destructive action, critical failure, or high-severity condition"
+    },
+    "protected": {
+      "category": "security",
+      "meaning": "current positively evidenced protection state",
+      "authoritative_evidence_required": true
+    },
+    "restricted": {
+      "category": "security",
+      "meaning": "access constrained, denied, policy-limited, or intentionally unavailable to the current actor"
+    },
+    "online": {
+      "category": "connectivity",
+      "meaning": "reachable, connected, or currently available"
+    },
+    "offline": {
+      "category": "connectivity",
+      "meaning": "disconnected or intentionally offline"
+    },
+    "syncing": {
+      "category": "activity",
+      "meaning": "active synchronization or reconciliation in progress"
+    },
+    "unavailable": {
+      "category": "status",
+      "meaning": "capability or state cannot currently be provided, verified, or reached"
+    }
   },
   "required_accessibility_modes": [
     "light",

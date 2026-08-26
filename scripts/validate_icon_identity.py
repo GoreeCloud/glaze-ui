@@ -17,8 +17,8 @@ def main() -> None:
 
     data = json.loads(TOKENS.read_text(encoding="utf-8"))
     meta = data.get("meta", {})
-    if meta.get("status") != "candidate" or meta.get("stableBaseline") != "1.4.0":
-        fail("identity system must remain a 1.5 Candidate over Stable 1.4.0")
+    if meta.get("status") != "stable" or meta.get("stableBaseline") != "1.5.0":
+        fail("identity system must remain a 1.5 Stable over Stable 1.5.0")
     if data.get("principle") != "shared DNA without shared identity":
         fail("canonical identity principle changed unexpectedly")
     if data.get("hierarchy") != ["ecosystem", "family", "product", "state"]:
@@ -104,12 +104,12 @@ def main() -> None:
         "Collision detection",
         "Ecosystem Wall",
         "does not require or plan a dedicated Icon Studio application",
-        "Candidate promotion boundary",
+        "Stable promotion boundary",
     ]:
         if phrase not in doc:
             fail(f"documentation invariant missing: {phrase}")
 
-    print("Glaze UI icon identity Candidate validation passed")
+    print("Glaze UI icon identity Stable validation passed")
 
 
 if __name__ == "__main__":

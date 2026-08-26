@@ -1,13 +1,18 @@
 {
   "schemaVersion": 1,
   "designSystem": "Glaze UI",
-  "candidateRelease": "1.5.0",
-  "stableBaseline": "1.4.0",
-  "status": "candidate",
+  "stableRelease": "1.5.0",
+  "stableBaseline": "1.5.0",
+  "status": "stable",
   "hardCodedConsumerColorsAllowed": false,
   "colorOnlyCommunicationAllowed": false,
   "identityMayOverrideSemantics": false,
-  "prominenceLevels": ["subtle", "standard", "prominent", "critical"],
+  "prominenceLevels": [
+    "subtle",
+    "standard",
+    "prominent",
+    "critical"
+  ],
   "families": {
     "accent": {"authority": "glaze-ui", "category": "interaction"},
     "success": {"authority": "producer", "category": "status"},

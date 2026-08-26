@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["schemaVersion", "identity", "source", "opticalVariants", "identityLock", "accessibility", "badgeClearance", "adaptiveAppearance"],
   "properties": {
-    "schemaVersion": {"const": "1.0-candidate"},
+    "schemaVersion": {"const": "1.0-stable"},
     "identity": {
       "type": "object",
       "additionalProperties": false,
@@ -87,8 +87,8 @@
       "required": ["monochrome", "grayscaleRecognizable", "colorIndependentRecognition"],
       "properties": {
         "monochrome": {"type": "string", "minLength": 1},
-        "grayscaleRecognizable": {"const": true},
-        "colorIndependentRecognition": {"const": true}
+        "grayscaleRecognizable": {"type": "boolean"},
+        "colorIndependentRecognition": {"type": "boolean"}
       }
     },
     "motion": {

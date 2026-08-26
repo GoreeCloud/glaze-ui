@@ -1,12 +1,17 @@
 {
   "meta": {
     "name": "Glaze UI Application and Service Icon Identity System",
-    "version": "1.5-candidate",
-    "stableBaseline": "1.4.0",
-    "status": "candidate"
+    "version": "1.5.0",
+    "stableBaseline": "1.5.0",
+    "status": "stable"
   },
   "principle": "shared DNA without shared identity",
-  "hierarchy": ["ecosystem", "family", "product", "state"],
+  "hierarchy": [
+    "ecosystem",
+    "family",
+    "product",
+    "state"
+  ],
   "ecosystem": {
     "sharedGrammar": [
       "continuous-geometry",
@@ -38,22 +43,78 @@
     "complementsIdentityLock": true
   },
   "families": {
-    "communication": ["mail", "messenger", "contacts", "notify"],
-    "productivity": ["documents", "notes", "memos", "tasks", "calendar", "quill"],
-    "media": ["photos", "gallery", "music", "video"],
-    "cloud-and-data": ["drive", "backup", "sync", "vault"],
-    "network": ["gateway", "dns", "network", "mesh", "location", "monitor"],
-    "security": ["wardveil-security", "privacy-shield", "vault", "identity"],
-    "system-utility": ["terminal", "manager", "changelogs", "launcher", "keyboard"],
-    "ai-and-intelligence": ["ai", "search"],
-    "browser-and-discovery": ["browser", "search", "bookmarks"],
-    "persistence-and-resilience": ["everkeep"]
+    "communication": [
+      "mail",
+      "messenger",
+      "contacts",
+      "notify"
+    ],
+    "productivity": [
+      "documents",
+      "notes",
+      "memos",
+      "tasks",
+      "calendar",
+      "quill"
+    ],
+    "media": [
+      "photos",
+      "gallery",
+      "music",
+      "video"
+    ],
+    "cloud-and-data": [
+      "drive",
+      "backup",
+      "sync",
+      "vault"
+    ],
+    "network": [
+      "gateway",
+      "dns",
+      "network",
+      "mesh",
+      "location",
+      "monitor"
+    ],
+    "security": [
+      "wardveil-security",
+      "privacy-shield",
+      "vault",
+      "identity"
+    ],
+    "system-utility": [
+      "terminal",
+      "manager",
+      "changelogs",
+      "launcher",
+      "keyboard"
+    ],
+    "ai-and-intelligence": [
+      "ai",
+      "search"
+    ],
+    "browser-and-discovery": [
+      "browser",
+      "search",
+      "bookmarks"
+    ],
+    "persistence-and-resilience": [
+      "everkeep"
+    ]
   },
   "familyRules": {
     "sameSymbolDifferentColorOnly": false,
     "primarySilhouetteMustRemainDistinct": true,
     "sharedDNALimit": "restrained",
-    "relationshipMethods": ["material", "rhythm", "secondary-geometry", "lighting", "depth", "motion"]
+    "relationshipMethods": [
+      "material",
+      "rhythm",
+      "secondary-geometry",
+      "lighting",
+      "depth",
+      "motion"
+    ]
   },
   "colorOwnership": {
     "identityColorFamilyPerMajorProduct": true,
@@ -78,7 +139,11 @@
   },
   "serviceDerivation": {
     "copyApplicationIconDirectly": false,
-    "mayInherit": ["geometric-motif", "identity-color-relationship", "symbolic-fragment"],
+    "mayInherit": [
+      "geometric-motif",
+      "identity-color-relationship",
+      "symbolic-fragment"
+    ],
     "mustUseServiceConstruction": true,
     "temporaryStateSeparateFromIdentity": true,
     "backgroundServicesPrioritizeCapabilityRecognition": true,
@@ -87,7 +152,16 @@
   "thirdParty": {
     "preserveIdentity": true,
     "forceGoreeCloudFamilyMotifs": false,
-    "allowedNormalization": ["framing", "padding", "masking", "environmental-response", "badges", "selection", "contrast", "accessibility"],
+    "allowedNormalization": [
+      "framing",
+      "padding",
+      "masking",
+      "environmental-response",
+      "badges",
+      "selection",
+      "contrast",
+      "accessibility"
+    ],
     "falseRebranding": false
   },
   "legacy": {
@@ -95,23 +169,57 @@
     "preserveRecognitionPreferred": true
   },
   "review": {
-    "dimensions": ["recognition", "distinctiveness", "family-relationship", "glaze-coherence", "scalability", "accessibility", "longevity"],
+    "dimensions": [
+      "recognition",
+      "distinctiveness",
+      "family-relationship",
+      "glaze-coherence",
+      "scalability",
+      "accessibility",
+      "longevity"
+    ],
     "singleAutomatedScoreAuthoritative": false,
-    "contexts": ["ecosystem", "family", "neighboring-products", "associated-services", "monochrome", "optical-sizes", "state-overlays"]
+    "contexts": [
+      "ecosystem",
+      "family",
+      "neighboring-products",
+      "associated-services",
+      "monochrome",
+      "optical-sizes",
+      "state-overlays"
+    ]
   },
   "collisionDetection": {
     "status": "planned",
-    "signals": ["silhouette", "dominant-geometry", "negative-space", "color-distribution", "composition"],
+    "signals": [
+      "silhouette",
+      "dominant-geometry",
+      "negative-space",
+      "color-distribution",
+      "composition"
+    ],
     "humanReviewFinalAuthority": true
   },
   "ecosystemWall": {
     "status": "planned",
     "multiScale": true,
-    "reviewSignals": ["color-clustering", "repetitive-symbols", "material-inconsistency", "visual-weight-imbalance", "weak-identity", "accidental-hierarchy"]
+    "reviewSignals": [
+      "color-clustering",
+      "repetitive-symbols",
+      "material-inconsistency",
+      "visual-weight-imbalance",
+      "weak-identity",
+      "accidental-hierarchy"
+    ]
   },
   "authoring": {
     "dedicatedIconStudioPlanned": false,
-    "reviewArtifactMethods": ["ordinary-design-tools", "generated-contact-sheets", "repository-previews", "other-suitable-methods"]
+    "reviewArtifactMethods": [
+      "ordinary-design-tools",
+      "generated-contact-sheets",
+      "repository-previews",
+      "other-suitable-methods"
+    ]
   },
   "newProduct": {
     "meaningBeforeAesthetics": true,
@@ -123,7 +231,13 @@
   "redesign": {
     "trendChangeAloneInsufficient": true,
     "preferPresentationEvolutionBeforeIdentityReplacement": true,
-    "replacementReasons": ["confusing", "inaccessible", "excessively-generic", "technically-limiting", "no-longer-representative"],
+    "replacementReasons": [
+      "confusing",
+      "inaccessible",
+      "excessively-generic",
+      "technically-limiting",
+      "no-longer-representative"
+    ],
     "generationalContinuityPreferred": true
   },
   "applicationServiceRelationship": {

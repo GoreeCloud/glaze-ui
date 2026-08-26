@@ -4,9 +4,9 @@ Glaze UI is a shared production dependency. Stability means predictable semantic
 
 ## Current release boundary
 
-- **Stable baseline:** Glaze UI **1.4.0** on `main` after promotion.
-- Glaze UI 1.3.0 is the immediately preceding historical Stable baseline. It remains preserved for migration, rollback, and audit evidence but is not a valid current application target.
-- Glaze UI 1.0.0 through 1.3.0 are historical Stable releases, not supported active consumer targets.
+- **Stable baseline:** Glaze UI **1.5.0** on `main` after promotion.
+- Glaze UI 1.4.0 is the immediately preceding historical Stable baseline. It remains preserved for migration, rollback, and audit evidence but is not a valid current application target.
+- Glaze UI 1.0.0 through 1.4.0 are historical Stable releases, not supported active consumer targets.
 - Every GoreeCloud-controlled user-facing consumer must target the current Stable baseline.
 - When a newer Stable release exists, controlled migration is mandatory rather than optional.
 - Experimental and Planned roadmap concepts do not alter the Stable contract.
@@ -32,15 +32,15 @@ If any applicable gate is incomplete, the release remains Candidate.
 
 Promotion of a new Stable release creates a mandatory migration requirement for GoreeCloud-controlled user-facing consumers. Applications may remain temporarily on the previous release only while actively migrating in a nonconforming or migration-required state; that temporary state cannot satisfy the Glaze UI production-readiness gate.
 
-## 1.4 promotion applicability
+## 1.5 promotion applicability
 
-Glaze UI 1.4 core contains platform-neutral tokens, CSS/reference implementations, semantic form-factor contracts, and browser-rendered acceptance. It does not ship an Android, iOS/iPadOS/tvOS, Linux-native, television-hardware, smartwatch/wearable, or other native client runtime. Native consumers must prove their own platform mapping, focus/input engine, safe-area/overscan behavior, performance, accessibility, and product task flows before claiming application-level 1.4 acceptance.
+Glaze UI 1.5 core contains platform-neutral tokens, CSS/reference implementations, semantic form-factor contracts, and browser-rendered acceptance. It does not ship an Android, iOS/iPadOS/tvOS, Linux-native, television-hardware, smartwatch/wearable, or other native client runtime. Native consumers must prove their own platform mapping, focus/input engine, safe-area/overscan behavior, performance, accessibility, and product task flows before claiming application-level 1.4 acceptance.
 
-Mobile, Tablet, Desktop, and TV have first-class Stable 1.4 form-factor contracts. A smartwatch/wearable or other user-facing target without an applicable Stable Glaze UI interaction contract is production-blocked until the design system implements, validates, and promotes that contract. Missing Stable platform coverage is not an exception.
+Mobile, Tablet, Desktop, and TV have first-class Stable 1.5 form-factor contracts. A smartwatch/wearable or other user-facing target without an applicable Stable Glaze UI interaction contract is production-blocked until the design system implements, validates, and promotes that contract. Missing Stable platform coverage is not an exception.
 
 ## Stable maintenance rules
 
-While 1.4.x is Stable, compatibility, accessibility, deterministic validation, accurate documentation, controlled adoption, mandatory consumer migration, and regression resistance outrank feature expansion. No speculative intelligence or roadmap concept enters Stable merely because it has been discussed.
+While 1.5.x is Stable, compatibility, accessibility, deterministic validation, accurate documentation, controlled adoption, mandatory consumer migration, and regression resistance outrank feature expansion. No speculative intelligence or roadmap concept enters Stable merely because it has been discussed.
 
 Security, privacy, accessibility, and defect fixes are maintained on the current Stable release. Historical releases may be used temporarily for rollback or migration diagnosis, but such use does not restore current conformance or production eligibility.
 
@@ -55,3 +55,5 @@ Stable changes are blocked by semantic-token drift without migration, loss of vi
 Applications may not remain on older Stable Glaze UI versions as a conforming production state. A consumer that still targets an older release is `migration-required` and remains blocked on the Glaze UI production gate until it targets the current Stable baseline and completes application-specific acceptance.
 
 An Adoption Candidate must target the current Stable release. Consumer migration is version-specific, intentional in execution, mandatory in outcome, and must not silently depend on Candidate or Experimental Glaze UI behavior.
+
+Historical note: Glaze UI 1.3.0 remains preserved in release history and migration evidence.
