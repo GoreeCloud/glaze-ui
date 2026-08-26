@@ -1,0 +1,141 @@
+{
+  "meta": {
+    "name": "Glaze UI Application and Service Icon Identity System",
+    "version": "1.5-candidate",
+    "stableBaseline": "1.4.0",
+    "status": "candidate"
+  },
+  "principle": "shared DNA without shared identity",
+  "hierarchy": ["ecosystem", "family", "product", "state"],
+  "ecosystem": {
+    "sharedGrammar": [
+      "continuous-geometry",
+      "controlled-dimensionality",
+      "adaptive-tonal-color",
+      "balanced-negative-space",
+      "glaze-materials",
+      "restrained-luminosity",
+      "soft-environmental-lighting",
+      "responsive-optical-detail",
+      "standardized-interaction-behavior"
+    ],
+    "corporateMarkRequiredInProductIcons": false
+  },
+  "identityDNA": {
+    "requiredForMajorFirstPartyProducts": true,
+    "fields": [
+      "primary-symbol",
+      "silhouette",
+      "geometric-motif",
+      "directional-structure",
+      "negative-space",
+      "material-personality",
+      "identity-color-family",
+      "secondary-accent",
+      "depth-personality",
+      "motion-personality"
+    ],
+    "complementsIdentityLock": true
+  },
+  "families": {
+    "communication": ["mail", "messenger", "contacts", "notify"],
+    "productivity": ["documents", "notes", "memos", "tasks", "calendar", "quill"],
+    "media": ["photos", "gallery", "music", "video"],
+    "cloud-and-data": ["drive", "backup", "sync", "vault"],
+    "network": ["gateway", "dns", "network", "mesh", "location", "monitor"],
+    "security": ["wardveil-security", "privacy-shield", "vault", "identity"],
+    "system-utility": ["terminal", "manager", "changelogs", "launcher", "keyboard"],
+    "ai-and-intelligence": ["ai", "search"],
+    "browser-and-discovery": ["browser", "search", "bookmarks"],
+    "persistence-and-resilience": ["everkeep"]
+  },
+  "familyRules": {
+    "sameSymbolDifferentColorOnly": false,
+    "primarySilhouetteMustRemainDistinct": true,
+    "sharedDNALimit": "restrained",
+    "relationshipMethods": ["material", "rhythm", "secondary-geometry", "lighting", "depth", "motion"]
+  },
+  "colorOwnership": {
+    "identityColorFamilyPerMajorProduct": true,
+    "colorSecondaryToShape": true,
+    "monochromeDifferentiationRequired": true,
+    "protectedSemanticColorsOutsideProductOwnership": true
+  },
+  "shapeOwnership": {
+    "distinctiveArrangementMayBeRegistered": true,
+    "commonPrimitivesRemainReusable": true,
+    "collisionReviewRequired": true
+  },
+  "negativeSpaceOwnership": {
+    "distinctiveNegativeSpaceMayEnterIdentityLock": true,
+    "mustSurviveOpticalVariantsWhenMaterial": true
+  },
+  "personality": {
+    "materialWithinGlazeGrammarOnly": true,
+    "depthWithinGlazeGrammarOnly": true,
+    "motionOnlyWhenContextuallyMeaningful": true,
+    "reducedMotionRequired": true
+  },
+  "serviceDerivation": {
+    "copyApplicationIconDirectly": false,
+    "mayInherit": ["geometric-motif", "identity-color-relationship", "symbolic-fragment"],
+    "mustUseServiceConstruction": true,
+    "temporaryStateSeparateFromIdentity": true,
+    "backgroundServicesPrioritizeCapabilityRecognition": true,
+    "lowLevelInfrastructureUsesReducedSymbolicRepresentation": true
+  },
+  "thirdParty": {
+    "preserveIdentity": true,
+    "forceGoreeCloudFamilyMotifs": false,
+    "allowedNormalization": ["framing", "padding", "masking", "environmental-response", "badges", "selection", "contrast", "accessibility"],
+    "falseRebranding": false
+  },
+  "legacy": {
+    "adaptiveNormalizationSurfaceAllowed": true,
+    "preserveRecognitionPreferred": true
+  },
+  "review": {
+    "dimensions": ["recognition", "distinctiveness", "family-relationship", "glaze-coherence", "scalability", "accessibility", "longevity"],
+    "singleAutomatedScoreAuthoritative": false,
+    "contexts": ["ecosystem", "family", "neighboring-products", "associated-services", "monochrome", "optical-sizes", "state-overlays"]
+  },
+  "collisionDetection": {
+    "status": "planned",
+    "signals": ["silhouette", "dominant-geometry", "negative-space", "color-distribution", "composition"],
+    "humanReviewFinalAuthority": true
+  },
+  "ecosystemWall": {
+    "status": "planned",
+    "multiScale": true,
+    "reviewSignals": ["color-clustering", "repetitive-symbols", "material-inconsistency", "visual-weight-imbalance", "weak-identity", "accidental-hierarchy"]
+  },
+  "authoring": {
+    "dedicatedIconStudioPlanned": false,
+    "reviewArtifactMethods": ["ordinary-design-tools", "generated-contact-sheets", "repository-previews", "other-suitable-methods"]
+  },
+  "newProduct": {
+    "meaningBeforeAesthetics": true,
+    "defineFamilyBeforeRendering": true,
+    "defineDifferentiationBeforeRendering": true,
+    "proposeIdentityLockBeforeRendering": true,
+    "oneDominantVisualIdeaPreferred": true
+  },
+  "redesign": {
+    "trendChangeAloneInsufficient": true,
+    "preferPresentationEvolutionBeforeIdentityReplacement": true,
+    "replacementReasons": ["confusing", "inaccessible", "excessively-generic", "technically-limiting", "no-longer-representative"],
+    "generationalContinuityPreferred": true
+  },
+  "applicationServiceRelationship": {
+    "applicationCommunicatesDestination": true,
+    "serviceCommunicatesCapability": true,
+    "sharedDNACommunicatesOwnership": true,
+    "differentConstructionCommunicatesRole": true
+  },
+  "finalQuestions": [
+    "what-is-this",
+    "what-family-does-it-belong-to",
+    "what-state-is-it-in",
+    "does-it-belong-to-glaze-ui"
+  ]
+}
