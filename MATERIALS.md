@@ -76,6 +76,8 @@ When reduced transparency is active:
 
 Reduced transparency is independent from reduced motion. Consumers must support both simultaneously.
 
+On platforms that expose a native reduced-transparency preference, consumers must honor it directly. On web platforms where a standardized reduced-transparency media query is unavailable or unsupported, consumers must expose the equivalent application/platform preference through `data-glaze-reduced-transparency="true"` or an equivalent framework adapter. The CSS media query is progressive enhancement; the explicit semantic preference path is the portable contract.
+
 ## Performance budget
 
 Backdrop effects can be expensive. Consumers must prefer stable interaction performance over visual effects.
