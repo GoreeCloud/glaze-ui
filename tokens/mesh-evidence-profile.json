@@ -6,8 +6,17 @@
   "mesh_envelope": {
     "version": "goreecloud.evidence-envelope.v1",
     "repository": "GoreeCloud/goreecloud-mesh",
-    "revision": "5ed62b849ef4e70c1da95bfe912892f46d3f1dd8",
+    "revision": "d7809ccee889cb4166925a0747459f34290a5144",
     "path": "contracts/mesh.evidence-envelope.schema.json"
+  },
+  "runtime_consumer": {
+    "read_scope": "mesh.evidence.read",
+    "consumer_client": "reference/mesh-evidence-consumer.mjs",
+    "https_required_except_loopback": true,
+    "credential_issuer": "GoreeCloud Identity",
+    "transport_states_are_not_domain_truth": true,
+    "combined_domain_verdict": "prohibited",
+    "production_acceptance": false
   },
   "producer_contracts": [
     "ENFORCEMENT.md",
