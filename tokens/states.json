@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "status": "1.5-candidate",
+  "stableBaseline": "1.4.0",
+  "states": [
+    "default",
+    "hover",
+    "focus-visible",
+    "pressed",
+    "selected",
+    "expanded",
+    "disabled",
+    "read-only",
+    "loading",
+    "invalid",
+    "success"
+  ],
+  "modalities": ["keyboard", "pointer", "touch", "remote-gamepad", "assistive-technology", "mixed-input"],
+  "focus": {
+    "minimumRingWidth": "2px",
+    "minimumRingOffset": "2px",
+    "mustRemainVisibleOnAllMaterials": true,
+    "mustSurviveReducedMotion": true,
+    "mustSurviveReducedTransparency": true,
+    "mustSurviveConstrainedPerformance": true,
+    "globalOutlineSuppressionForbidden": true
+  },
+  "semantics": {
+    "hoverCannotBeSolePath": true,
+    "touchCannotRequireHover": true,
+    "tvRemoteUsesFocusNotHover": true,
+    "modalityCannotBeInferredSolelyFromViewport": true,
+    "pressedDistinctFromSelected": true,
+    "selectedDistinctFromExpanded": true,
+    "disabledDistinctFromReadonly": true,
+    "disabledRequiresSemanticState": true,
+    "readonlyRequiresSemanticState": true,
+    "loadingRequiresTruthfulBusyState": true,
+    "determinateProgressMustBeTruthful": true,
+    "invalidRequiresSemanticStateAndExplanation": true,
+    "statusCannotRelyOnColorAlone": true
+  },
+  "authority": {
+    "glazeUI": ["state-presentation", "interaction-feedback", "focus-presentation", "modality-adaptation"],
+    "application": ["availability-truth", "selection-truth", "busy-truth", "validation-truth", "workflow-truth"],
+    "notGlazeUI": ["privacy-truth", "security-truth", "resilience-truth", "coordination-truth"]
+  }
+}
