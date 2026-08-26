@@ -42,6 +42,14 @@ The 1.3 semantic color, surface, typography, spacing, shape, effects/spatial mot
 | Layout, spacing, and density | Stable | Semantic spacing, gutters, bounded measures, density modes, safe-area behavior, target floors and overflow containment. |
 | Interaction states and input modality | Stable | Focus-visible, hover, pressed, selected, expanded, disabled, read-only, loading, invalid, success and mixed-input semantics. |
 
+## Glaze UI 1.6 Candidate systems
+
+| Area | Status | Candidate contract |
+| --- | --- | --- |
+| Evidence presentation and authority surfaces | Candidate | Producer-authoritative state presentation, explicit authority identity, evidence freshness, Mesh transport state, provenance detail, accessibility, and fail-closed unavailable/invalid handling without inventing security, privacy, recovery, or coordination truth. |
+
+The 1.6 evidence-presentation candidate is defined by `EVIDENCE_PRESENTATION.md`, `tokens/evidence-presentation.json`, and `tokens/mesh-evidence-profile.json`. It is implemented source material under formal promotion review and is **not** part of the 1.5.0 Stable compatibility promise or current Stable consumer target.
+
 ## Candidate form-factor layer
 
 Historical promotion boundary: these form-factor capabilities were the **Candidate form-factor layer** while Glaze UI 1.4 was under review. They are now Stable in 1.4.0. No active 1.4 form-factor capability remains Candidate after promotion.
