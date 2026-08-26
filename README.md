@@ -139,7 +139,7 @@ python3 scripts/validate_motion.py
 python3 scripts/validate_materials.py
 ```
 
-Iconography source validation currently proves contract/schema consistency. Stable promotion also requires representative rendered artwork and optical-size acceptance; the validator does not substitute for that visual evidence.
+Candidate source validation is necessary but not sufficient for Stable promotion. Motion and material promotion also require representative rendered evidence across supported form factors, light/dark appearances, reduced-motion/reduced-transparency behavior, and relevant performance/contrast boundaries. Iconography additionally requires representative rendered artwork and optical-size acceptance.
 
 Wear OS emulator validation is manual development/reference validation only and is intentionally excluded from current Stable and 1.5 promotion gates.
 
