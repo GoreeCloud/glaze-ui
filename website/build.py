@@ -17,7 +17,11 @@ for name in ('index.html', '404.html', '_headers'):
 for name in ('site.css', 'identity.css', 'site.js'):
     shutil.copy2(SOURCE / name, DIST / 'assets' / name)
 
-for name in ('glaze.css', 'glaze.controls.css', 'glaze.expressive.css', 'glaze.formfactors.css', 'glaze.accessibility.css'):
+for name in (
+    'glaze.css', 'glaze.controls.css', 'glaze.expressive.css', 'glaze.formfactors.css',
+    'glaze.accessibility.css', 'glaze.color.css', 'glaze.motion.css', 'glaze.materials.css',
+    'glaze.layout.css', 'glaze.states.css',
+):
     shutil.copy2(ROOT / 'css' / name, DIST / 'assets' / name)
 
 for name in ('glaze-ui-mark.svg', 'glaze-ui-lockup.svg'):
