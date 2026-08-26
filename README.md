@@ -20,13 +20,17 @@ Glaze UI is mandatory identity architecture, not a theme or finishing layer. If 
 
 TV is explicitly **not Wide Desktop**. Form-factor selection uses app window, primary input, viewing distance, platform conventions, posture/resizability, and product task rather than width or device name alone.
 
-## Glaze UI 1.5 Candidate — Adaptive Color and Iconography
+## Glaze UI 1.5 Candidate — Adaptive Color, Iconography, Motion, and Materials
 
 Glaze UI 1.5 is an isolated **Candidate** evolution. It does not replace the Stable 1.4 application target until the complete promotion gate is satisfied.
 
 The adaptive-color layer turns the existing semantic color contract into a layered architecture with contextual color propagation, four prominence levels (`subtle`, `standard`, `prominent`, `critical`), protected semantic tonal families, adaptive accent derivation, contextual selection glazing, material/background sampling boundaries, color-motion behavior, and purpose-built accessibility modes. Canonical candidate artifacts are `COLOR_ARCHITECTURE.md`, `tokens/adaptive-colors.json`, `css/glaze.color.css`, and `scripts/validate_adaptive_colors.py`.
 
 The iconography layer formalizes **recognizable identity within a shared visual language** across application, service, system, functional, and semantic icons. It defines application foundation/identity/detail composition, simpler service treatment, standardized functional and semantic glyph behavior, deterministic badge anchors and compact priority, presentation/standard/compact/micro optical sizes, adaptive-color boundaries, reduced-motion behavior, accessibility invariants, and third-party identity preservation. Canonical candidate artifacts are `ICONOGRAPHY.md`, `tokens/iconography.json`, and `scripts/validate_iconography.py`.
+
+The motion and interaction layer defines purpose-driven, interruptible animation; semantic duration/easing roles; gesture continuity; focus, press, hover, navigation, progress, and state-transition behavior; reduced-motion substitutions; and truth-preserving authority boundaries. Canonical candidate artifacts are `MOTION.md`, `tokens/motion.json`, `css/glaze.motion.css`, and `scripts/validate_motion.py`.
+
+The material and depth layer turns Canvas, Solid, Raised, Functional Glass, Clear Glass, Overlay, semantic depth, shadow, translucency, and backdrop behavior into a single governed contract. It requires bounded glass, stable Solid/Raised fallbacks, reduced-transparency support, performance-aware degradation, legibility over variable backdrops, and explicit privacy/security/resilience/coordination authority boundaries. Canonical candidate artifacts are `MATERIALS.md`, `tokens/materials.json`, `css/glaze.materials.css`, and `scripts/validate_materials.py`.
 
 Application identity, wallpaper, user accent, and content context may influence decorative color while success, warning, danger, privacy, security, protection, restriction, connectivity, synchronization, and availability semantics remain protected. Privacy Shield and Wardveil Security remain authoritative for privacy/security truth; Glaze UI presents supplied state and never invents or upgrades evidence.
 
@@ -69,6 +73,12 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `css/glaze.color.css` — 1.5 Candidate adaptive color web primitives.
 - `ICONOGRAPHY.md` — 1.5 Candidate application, service, system, functional, semantic, badge, optical-size, motion, and accessibility icon contract.
 - `tokens/iconography.json` — machine-readable 1.5 Candidate iconography contract.
+- `MOTION.md` — 1.5 Candidate motion and interaction contract.
+- `tokens/motion.json` — semantic motion durations, easing, distance, scale, accessibility, and authority roles.
+- `css/glaze.motion.css` — reusable 1.5 Candidate web motion primitives.
+- `MATERIALS.md` — 1.5 Candidate material, depth, translucency, backdrop, elevation, and accessibility contract.
+- `tokens/materials.json` — machine-readable 1.5 Candidate material and depth roles.
+- `css/glaze.materials.css` — reusable 1.5 Candidate material primitives and fallbacks.
 - `ENFORCEMENT.md` — full-spectrum, non-exhaustive, fail-closed Glaze UI governance.
 - `tokens/enforcement.json` — machine-readable enforcement domains, authorities, and blocking gates.
 - `FORM_FACTORS.md` — Mobile, Tablet, Desktop, and TV contract.
@@ -88,13 +98,13 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `ACCEPTANCE.md` — Stable acceptance protocol.
 - `acceptance/` — version-specific design-system promotion evidence.
 - `reference/index.html` and `reference/formfactors.html` — dependency-free references.
-- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_enforcement.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, `scripts/validate_rendered_reference.py`, `scripts/validate_adaptive_colors.py`, and `scripts/validate_iconography.py` — fail-closed validation.
+- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_enforcement.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, `scripts/validate_rendered_reference.py`, `scripts/validate_adaptive_colors.py`, `scripts/validate_iconography.py`, `scripts/validate_motion.py`, and `scripts/validate_materials.py` — fail-closed validation.
 
 ## Material hierarchy
 
 Canvas → Solid → Raised → Functional Glass → Overlay. Clear Glass is specialized for controls over visually rich media. Ordinary content defaults to Solid/Raised; glass is selective, not universal.
 
-The 1.5 Candidate additionally coordinates material luminosity, tonal separation, bounded background sampling, selection glazing, icon material depth, and semantic foreground protection without turning glass into a universal content treatment.
+The 1.5 Candidate coordinates material luminosity, tonal separation, bounded background sampling, selection glazing, icon material depth, semantic foreground protection, reduced-transparency behavior, unsupported-backdrop fallback, and performance-aware degradation without turning glass into a universal content treatment.
 
 ## Form-factor model
 
@@ -125,6 +135,8 @@ For the isolated 1.5 Candidate, additionally run:
 ```bash
 python3 scripts/validate_adaptive_colors.py
 python3 scripts/validate_iconography.py
+python3 scripts/validate_motion.py
+python3 scripts/validate_materials.py
 ```
 
 Iconography source validation currently proves contract/schema consistency. Stable promotion also requires representative rendered artwork and optical-size acceptance; the validator does not substitute for that visual evidence.
