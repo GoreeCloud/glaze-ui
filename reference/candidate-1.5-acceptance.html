@@ -93,6 +93,45 @@
             notes.push(`density ${density} multiplier ${actualDensity}`);
           }
 
+          const stateRoles = {};
+          for (const name of ['focus','pressed','selected','expanded','disabled','loading','readonly','invalid','success']) {
+            const node = doc.querySelector(`[data-state-role="${name}"]`);
+            stateRoles[name] = node;
+            if (!node || rect(node).width <= 0 || rect(node).height <= 0) errors.push(`interaction state did not render: ${name}`);
+          }
+          const focus = stateRoles.focus;
+          const pressed = stateRoles.pressed;
+          const selected = stateRoles.selected;
+          const expanded = stateRoles.expanded;
+          const disabled = stateRoles.disabled;
+          const loading = stateRoles.loading;
+          const readonly = stateRoles.readonly;
+          const invalid = stateRoles.invalid;
+          const success = stateRoles.success;
+          if (focus) {
+            if (parseFloat(style(focus).outlineWidth) < 2) errors.push(`focus ring below 2px: ${style(focus).outlineWidth}`);
+            if (style(focus).outlineStyle === 'none') errors.push('focus-visible outline missing');
+          }
+          if (selected && style(selected).boxShadow === 'none') errors.push('selected state lacks persistent visual distinction');
+          if (expanded && win.getComputedStyle(expanded, '::after').content === 'none') errors.push('expanded disclosure indicator missing');
+          if (disabled) {
+            if (disabled.getAttribute('aria-disabled') !== 'true') errors.push('disabled state lacks aria-disabled truth');
+            if (parseFloat(style(disabled).opacity) >= .8) errors.push('disabled state is not visually distinct');
+          }
+          if (readonly) {
+            if (!readonly.readOnly) errors.push('read-only state lacks native readonly semantics');
+            if (disabled && parseFloat(style(readonly).opacity) <= parseFloat(style(disabled).opacity)) errors.push('read-only state visually collapses into disabled state');
+          }
+          if (!loading || loading.getAttribute('aria-busy') !== 'true') errors.push('loading state lacks truthful aria-busy semantics');
+          if (invalid) {
+            if (invalid.getAttribute('aria-invalid') !== 'true') errors.push('invalid state lacks aria-invalid semantics');
+            const description = invalid.getAttribute('aria-describedby');
+            if (!description || !doc.getElementById(description)) errors.push('invalid state lacks accessible explanation reference');
+          }
+          if (!success || success.getAttribute('role') !== 'status' || !success.textContent.trim()) errors.push('success state lacks explicit semantic confirmation');
+          if (pressed && mode === 'reduced-motion' && style(pressed).transform !== 'none') errors.push(`pressed transform remains under reduced motion: ${style(pressed).transform}`);
+          notes.push('semantic interaction states rendered');
+
           const roleNames = ['solid','raised','functionalGlass','clearGlass','scrim','overlay'];
           const roles = {};
           for (const name of roleNames) {
