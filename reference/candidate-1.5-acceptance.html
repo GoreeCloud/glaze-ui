@@ -71,7 +71,11 @@
             if (paddingLeft < expectedGutter - .5 || paddingRight < expectedGutter - .5) errors.push(`page gutter below ${expectedGutter}px: ${paddingLeft}/${paddingRight}`);
           }
           if (standard && rect(standard).width > Math.min(1200, width) + 1) errors.push(`standard measure exceeded: ${rect(standard).width}px`);
-          if (prose && rect(prose).width > 700) errors.push(`prose measure unexpectedly wide: ${rect(prose).width}px`);
+          if (prose) {
+            const proseMax = parseFloat(style(prose).maxWidth);
+            if (!Number.isFinite(proseMax) || proseMax <= 0) errors.push(`prose 72ch maximum did not resolve: ${style(prose).maxWidth}`);
+            else if (rect(prose).width > proseMax + 1) errors.push(`prose measure exceeded computed 72ch maximum: ${rect(prose).width}px > ${proseMax}px`);
+          }
           if (form && rect(form).width > 721) errors.push(`form measure exceeded 720px: ${rect(form).width}px`);
           if (coarseTarget && (rect(coarseTarget).width < 44 || rect(coarseTarget).height < 44)) errors.push(`coarse target below 44px floor: ${rect(coarseTarget).width}×${rect(coarseTarget).height}`);
           if (boundedScroll) {
