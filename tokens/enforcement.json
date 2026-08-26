@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "name": "Glaze UI Full-Spectrum Enforcement",
+    "currentStable": "1.4.0",
+    "status": "stable-governance"
+  },
+  "principle": "GoreeCloud-controlled user-visible and interaction-facing decisions are governed by current Stable Glaze UI",
+  "scope": {
+    "nonExhaustive": true,
+    "failClosed": true,
+    "productionExceptions": false
+  },
+  "domains": [
+    "visualIdentity",
+    "applicationIdentity",
+    "serviceIdentity",
+    "typography",
+    "iconography",
+    "color",
+    "semanticColor",
+    "materials",
+    "surfaceHierarchy",
+    "spacing",
+    "geometry",
+    "elevationDepth",
+    "motion",
+    "components",
+    "interactionStates",
+    "navigation",
+    "forms",
+    "feedback",
+    "responsiveAdaptiveLayout",
+    "formFactors",
+    "inputMethods",
+    "focus",
+    "accessibility",
+    "loadingEmptyErrorOfflineDegraded",
+    "privacyPresentation",
+    "securityProtectionPresentation",
+    "resilienceRecoveryPresentation",
+    "thirdPartyPresentation"
+  ],
+  "integralAuthority": {
+    "privacy": "Privacy Shield",
+    "securityProtection": "Wardveil Security",
+    "resiliencePreservationRecoveryPortabilitySuccessionLegacy": "Everkeep"
+  },
+  "prohibitedParallelSystems": true,
+  "newCapabilityRule": "extend-validate-version-promote-before-production",
+  "lifecycleGates": [
+    "architecture",
+    "design",
+    "implementation",
+    "review",
+    "validation",
+    "release",
+    "deployment",
+    "maintenance"
+  ],
+  "blockingOutcomes": [
+    "architecture-approval",
+    "pull-request-approval",
+    "merge",
+    "release-candidate-promotion",
+    "stable-release",
+    "production-deployment",
+    "production-acceptance",
+    "visual-acceptance",
+    "conformance-claim"
+  ]
+}
