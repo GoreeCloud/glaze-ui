@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glaze UI 1.5 Candidate acceptance</title>
+  <style>
+    html,body{margin:0;background:#111;color:#fff;font-family:ui-monospace,monospace}
+    iframe{display:block;border:0;background:#fff}
+    #result{white-space:pre-wrap;margin:0;padding:12px}
+  </style>
+</head>
+<body>
+  <iframe id="target" title="Glaze UI 1.5 Candidate target"></iframe>
+  <pre id="result" data-status="pending">PENDING</pre>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const width = Number(params.get('width') || 390);
+      const height = Number(params.get('height') || 844);
+      const theme = params.get('theme') || 'light';
+      const mode = params.get('mode') || 'normal';
+      const frame = document.getElementById('target');
+      const result = document.getElementById('result');
+      frame.style.width = `${width}px`;
+      frame.style.height = `${height}px`;
+
+      const settle = (status, messages) => {
+        if (result.dataset.status !== 'pending') return;
+        result.dataset.status = status;
+        result.textContent = `${status.toUpperCase()}\n${messages.join('\n')}`;
+        document.title = `${status.toUpperCase()} — Glaze UI 1.5 Candidate acceptance`;
+      };
+      const timer = setTimeout(() => settle('fail', ['candidate frame did not finish loading']), 8000);
+
+      frame.addEventListener('load', () => {
+        clearTimeout(timer);
+        const win = frame.contentWindow;
+        const doc = frame.contentDocument;
+        if (!win || !doc) return settle('fail', ['candidate frame unavailable']);
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          const errors = [];
+          const notes = [];
+          const style = node => win.getComputedStyle(node);
+          const rect = node => node.getBoundingClientRect();
+          const body = doc.body;
+          const root = doc.documentElement;
+
+          if (body.dataset.glazeCandidate !== '1.5') errors.push('Candidate identity marker missing');
+          if (root.dataset.theme !== theme) errors.push(`theme marker ${root.dataset.theme || 'missing'} != ${theme}`);
+          if (win.innerWidth !== width) errors.push(`viewport width ${win.innerWidth} != ${width}`);
+          if (root.scrollWidth > root.clientWidth + 1 || body.scrollWidth > body.clientWidth + 1) errors.push('horizontal overflow detected');
+
+          const roleNames = ['solid','raised','functionalGlass','clearGlass','scrim','overlay'];
+          const roles = {};
+          for (const name of roleNames) {
+            const node = doc.querySelector(`[data-material-role="${name}"]`);
+            roles[name] = node;
+            if (!node || rect(node).width <= 0 || rect(node).height <= 0) errors.push(`material role did not render: ${name}`);
+          }
+
+          const z = name => Number(style(roles[name]).zIndex || 0);
+          if (roles.raised && roles.functionalGlass && z('raised') >= z('functionalGlass')) errors.push('Raised depth must remain below Functional Glass/navigation depth');
+          if (roles.scrim && roles.overlay && z('scrim') >= z('overlay')) errors.push('Scrim depth must remain below Overlay depth');
+
+          const functional = roles.functionalGlass;
+          const clear = roles.clearGlass;
+          const functionalBackdrop = functional ? (style(functional).backdropFilter || style(functional).webkitBackdropFilter) : '';
+          const clearBackdrop = clear ? (style(clear).backdropFilter || style(clear).webkitBackdropFilter) : '';
+
+          if (mode === 'reduced-transparency') {
+            if (body.dataset.glazeReducedTransparency !== 'true') errors.push('portable reduced-transparency adapter not activated');
+            if (functionalBackdrop && functionalBackdrop !== 'none') errors.push(`Functional Glass backdrop remains active: ${functionalBackdrop}`);
+            if (clearBackdrop && clearBackdrop !== 'none') errors.push(`Clear Glass backdrop remains active: ${clearBackdrop}`);
+            notes.push('portable reduced-transparency fallback rendered');
+          } else if (mode === 'performance-constrained') {
+            if (body.dataset.glazePerformance !== 'constrained') errors.push('performance-constrained adapter not activated');
+            if (functionalBackdrop && functionalBackdrop !== 'none') errors.push(`Functional Glass backdrop remains active under constrained performance: ${functionalBackdrop}`);
+            if (clearBackdrop && clearBackdrop !== 'none') errors.push(`Clear Glass backdrop remains active under constrained performance: ${clearBackdrop}`);
+            notes.push('performance-constrained material fallback rendered');
+          } else if (mode === 'normal') {
+            if (functionalBackdrop === 'none') errors.push('Functional Glass has no backdrop effect in normal mode');
+            notes.push('bounded glass material rendered');
+          }
+
+          const enter = doc.querySelector('[data-motion-role="enter"]');
+          const state = doc.querySelector('[data-motion-role="state"]');
+          const progress = doc.querySelector('.glaze-progress-linear');
+          if (!enter || !state || !progress) errors.push('motion reference roles missing');
+
+          if (mode === 'reduced-motion') {
+            if (!win.matchMedia('(prefers-reduced-motion: reduce)').matches) errors.push('reduced-motion media mode not activated');
+            if (enter && style(enter).animationName !== 'none') errors.push(`enter animation remains active: ${style(enter).animationName}`);
+            if (state && parseFloat(style(state).transitionDuration) !== 0) errors.push(`state transition remains active: ${style(state).transitionDuration}`);
+            if (progress && parseFloat(style(progress).transitionDuration) !== 0) errors.push(`progress transition remains active: ${style(progress).transitionDuration}`);
+            notes.push('reduced-motion substitution rendered');
+          } else if (mode === 'normal') {
+            if (enter && style(enter).animationName !== 'glaze-enter') errors.push(`expected glaze-enter animation, got ${style(enter).animationName}`);
+            if (state && parseFloat(style(state).transitionDuration) <= 0) errors.push('state transition duration is not active');
+            notes.push('semantic motion roles rendered');
+          }
+
+          const progressbar = doc.querySelector('[role="progressbar"][aria-valuenow="68"]');
+          if (!progressbar || rect(progressbar).width <= 0) errors.push('truthful determinate progress reference missing');
+
+          notes.push(`viewport ${width}×${height}`);
+          notes.push(`theme ${theme}`);
+          notes.push(`mode ${mode}`);
+          settle(errors.length ? 'fail' : 'pass', [...notes, ...errors]);
+        }));
+      }, {once:true});
+
+      frame.src = `./candidate-1.5.html?${new URLSearchParams({theme,mode}).toString()}`;
+    })();
+  </script>
+</body>
+</html>
