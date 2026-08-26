@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "status": "1.5-candidate",
+  "stableBaseline": "1.4.0",
+  "space": {
+    "2": "2px",
+    "4": "4px",
+    "8": "8px",
+    "12": "12px",
+    "16": "16px",
+    "24": "24px",
+    "32": "32px",
+    "48": "48px",
+    "64": "64px",
+    "96": "96px"
+  },
+  "semanticSpacing": {
+    "hairline": "2px",
+    "controlGap": "8px",
+    "clusterGap": "12px",
+    "contentGap": "16px",
+    "sectionGap": "32px",
+    "regionGap": "48px",
+    "pageGap": "64px"
+  },
+  "gutters": {
+    "compact": "16px",
+    "medium": "24px",
+    "expanded": "32px",
+    "largeScreen": "48px"
+  },
+  "measure": {
+    "prose": "72ch",
+    "form": "720px",
+    "standard": "1200px",
+    "wide": "1600px"
+  },
+  "density": {
+    "comfortable": {"multiplier": 1.0, "default": true},
+    "compact": {"multiplier": 0.75, "minimumInteractiveTargetPreserved": true},
+    "spacious": {"multiplier": 1.25, "minimumInteractiveTargetPreserved": true}
+  },
+  "interactiveGeometry": {
+    "coarseMinimum": "44px",
+    "pointerCompactMinimum": "32px"
+  },
+  "responsiveClasses": ["compact", "medium", "expanded", "large-screen"],
+  "requirements": {
+    "safeAreaAware": true,
+    "rootHorizontalOverflowForbidden": true,
+    "densityMustNotReduceAccessibilityTargets": true,
+    "layoutMustSupportLocalizationExpansion": true,
+    "semanticOrderMustMatchFocusOrder": true,
+    "viewportWidthAloneMustNotSelectCompactDensity": true
+  },
+  "authority": {
+    "glazeUI": ["layout", "spacing", "density", "responsive-presentation"],
+    "notGlazeUI": ["privacy-truth", "security-truth", "resilience-truth", "coordination-truth"]
+  }
+}
