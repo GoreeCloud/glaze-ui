@@ -95,7 +95,7 @@
 }
 
 /* Freshness and transport chips are deliberately presentation-neutral.
- * Current/available must never inherit success/protected styling by default.
+ * current/available must never inherit success/protected styling by default.
  */
 .glaze-evidence-chip[data-freshness],
 .glaze-evidence-chip[data-transport] {
