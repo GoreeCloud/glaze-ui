@@ -50,6 +50,7 @@ def main() -> None:
     require(accessibility.get("blurAloneMayProvideContrast") is False, "blur may not be the only contrast mechanism")
     require(accessibility.get("criticalContentPrefersStableSurface") is True, "critical content must prefer stable surfaces")
     require(accessibility.get("worstPermittedBackdropMustRemainLegible") is True, "worst permitted backdrop legibility must be required")
+    require(accessibility.get("reducedTransparencyIndependentOfReducedMotion") is True, "reduced transparency must remain independent of reduced motion")
 
     performance = data.get("performance", {})
     require(performance.get("allowNestedBackdropStacks") is False, "nested backdrop stacks must remain disallowed")
@@ -65,6 +66,7 @@ def main() -> None:
     for phrase in (
         "Ordinary content defaults to **Solid** or **Raised**",
         "Reduced transparency is independent from reduced motion",
+        "explicit semantic preference path is the portable contract",
         "Performance degradation must fall back toward Solid/Raised semantics",
         "Privacy Shield",
         "Wardveil Security",
