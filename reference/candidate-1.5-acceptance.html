@@ -20,6 +20,7 @@
       const height = Number(params.get('height') || 844);
       const theme = params.get('theme') || 'light';
       const mode = params.get('mode') || 'normal';
+      const density = params.get('density') || 'comfortable';
       const frame = document.getElementById('target');
       const result = document.getElementById('result');
       frame.style.width = `${width}px`;
@@ -48,8 +49,45 @@
 
           if (body.dataset.glazeCandidate !== '1.5') errors.push('Candidate identity marker missing');
           if (root.dataset.theme !== theme) errors.push(`theme marker ${root.dataset.theme || 'missing'} != ${theme}`);
+          if (body.dataset.glazeDensity !== density) errors.push(`density marker ${body.dataset.glazeDensity || 'missing'} != ${density}`);
           if (win.innerWidth !== width) errors.push(`viewport width ${win.innerWidth} != ${width}`);
           if (root.scrollWidth > root.clientWidth + 1 || body.scrollWidth > body.clientWidth + 1) errors.push('horizontal overflow detected');
+
+          const page = doc.querySelector('[data-layout-role="page"]');
+          const standard = doc.querySelector('[data-layout-role="standard-container"]');
+          const stack = doc.querySelector('[data-layout-role="density-stack"]');
+          const prose = doc.querySelector('[data-layout-role="prose-measure"]');
+          const form = doc.querySelector('[data-layout-role="form-measure"]');
+          const coarseTarget = doc.querySelector('[data-layout-role="coarse-target"]');
+          const boundedScroll = doc.querySelector('[data-layout-role="bounded-scroll"]');
+          for (const [name,node] of Object.entries({page,standard,stack,prose,form,coarseTarget,boundedScroll})) {
+            if (!node || rect(node).width <= 0 || rect(node).height <= 0) errors.push(`layout role did not render: ${name}`);
+          }
+
+          const expectedGutter = width >= 1600 ? 48 : width >= 1024 ? 32 : width >= 600 ? 24 : 16;
+          if (page) {
+            const paddingLeft = parseFloat(style(page).paddingLeft);
+            const paddingRight = parseFloat(style(page).paddingRight);
+            if (paddingLeft < expectedGutter - .5 || paddingRight < expectedGutter - .5) errors.push(`page gutter below ${expectedGutter}px: ${paddingLeft}/${paddingRight}`);
+          }
+          if (standard && rect(standard).width > Math.min(1200, width) + 1) errors.push(`standard measure exceeded: ${rect(standard).width}px`);
+          if (prose && rect(prose).width > 700) errors.push(`prose measure unexpectedly wide: ${rect(prose).width}px`);
+          if (form && rect(form).width > 721) errors.push(`form measure exceeded 720px: ${rect(form).width}px`);
+          if (coarseTarget && (rect(coarseTarget).width < 44 || rect(coarseTarget).height < 44)) errors.push(`coarse target below 44px floor: ${rect(coarseTarget).width}×${rect(coarseTarget).height}`);
+          if (boundedScroll) {
+            if (boundedScroll.scrollWidth <= boundedScroll.clientWidth && width < 960) errors.push('bounded-scroll fixture did not create internal overflow on compact viewport');
+            if (boundedScroll.scrollWidth > boundedScroll.clientWidth && !['auto','scroll'].includes(style(boundedScroll).overflowX)) errors.push(`bounded internal overflow unavailable: ${style(boundedScroll).overflowX}`);
+          }
+
+          if (stack) {
+            const expectedDensity = density === 'compact' ? .75 : density === 'spacious' ? 1.25 : 1;
+            const actualDensity = Number(style(body).getPropertyValue('--glaze-density').trim());
+            if (Math.abs(actualDensity - expectedDensity) > .001) errors.push(`density multiplier ${actualDensity} != ${expectedDensity}`);
+            const expectedGap = 16 * expectedDensity;
+            const actualGap = parseFloat(style(stack).rowGap);
+            if (Math.abs(actualGap - expectedGap) > .6) errors.push(`density gap ${actualGap}px != ${expectedGap}px`);
+            notes.push(`density ${density} multiplier ${actualDensity}`);
+          }
 
           const roleNames = ['solid','raised','functionalGlass','clearGlass','scrim','overlay'];
           const roles = {};
@@ -103,6 +141,7 @@
           const progressbar = doc.querySelector('[role="progressbar"][aria-valuenow="68"]');
           if (!progressbar || rect(progressbar).width <= 0) errors.push('truthful determinate progress reference missing');
 
+          notes.push(`layout gutter >= ${expectedGutter}px`);
           notes.push(`viewport ${width}×${height}`);
           notes.push(`theme ${theme}`);
           notes.push(`mode ${mode}`);
@@ -110,7 +149,7 @@
         }));
       }, {once:true});
 
-      frame.src = `./candidate-1.5.html?${new URLSearchParams({theme,mode}).toString()}`;
+      frame.src = `./candidate-1.5.html?${new URLSearchParams({theme,mode,density}).toString()}`;
     })();
   </script>
 </body>
