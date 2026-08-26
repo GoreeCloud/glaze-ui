@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run rendered acceptance for Glaze UI 1.5 Candidate motion and materials."""
+"""Run rendered acceptance for Glaze UI 1.5 Candidate motion, materials, and layout."""
 
 from __future__ import annotations
 
@@ -24,12 +24,19 @@ def run_candidate_case(
     height: int,
     theme: str,
     mode: str = "normal",
+    density: str = "comfortable",
 ) -> None:
     query = urllib.parse.urlencode(
-        {"width": width, "height": height, "theme": theme, "mode": mode}
+        {
+            "width": width,
+            "height": height,
+            "theme": theme,
+            "mode": mode,
+            "density": density,
+        }
     )
     url = f"http://127.0.0.1:{port}/reference/candidate-1.5-acceptance.html?{query}"
-    case_name = f"candidate15 {width}x{height} {theme} {mode}"
+    case_name = f"candidate15 {width}x{height} {theme} {mode} {density}"
     last_failure = "browser did not produce a result"
 
     for attempt in range(1, RENDER_ATTEMPTS + 1):
@@ -97,6 +104,24 @@ def main() -> None:
                     theme=theme,
                 )
 
+        # Density is explicitly selected and must not be inferred from viewport width.
+        run_candidate_case(
+            browser,
+            port,
+            width=1280,
+            height=900,
+            theme="light",
+            density="compact",
+        )
+        run_candidate_case(
+            browser,
+            port,
+            width=390,
+            height=844,
+            theme="dark",
+            density="spacious",
+        )
+
         # Accessibility and performance degradation are independent gates.
         run_candidate_case(
             browser,
@@ -131,7 +156,7 @@ def main() -> None:
             mode="performance-constrained",
         )
 
-    print("Glaze UI 1.5 Candidate rendered motion/material acceptance passed")
+    print("Glaze UI 1.5 Candidate rendered motion/material/layout acceptance passed")
 
 
 if __name__ == "__main__":
