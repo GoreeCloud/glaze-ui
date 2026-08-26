@@ -23,5 +23,5 @@ jobs:
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - name: Compile icon construction validator
         run: python3 -m py_compile scripts/validate_icon_construction.py
-      - name: Validate Glaze UI 1.5 icon construction Candidate
+      - name: Validate Glaze UI 1.5 icon construction Stable
         run: python3 scripts/validate_icon_construction.py

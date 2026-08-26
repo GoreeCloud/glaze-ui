@@ -23,5 +23,5 @@ jobs:
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - name: Compile icon identity validator
         run: python3 -m py_compile scripts/validate_icon_identity.py
-      - name: Validate Glaze UI icon identity Candidate
+      - name: Validate Glaze UI icon identity Stable
         run: python3 scripts/validate_icon_identity.py
