@@ -1,6 +1,6 @@
 # Glaze UI Interaction States and Input Modality
 
-Status: Glaze UI 1.5 Stable. Glaze UI 1.4.0 remains Stable.
+Status: Glaze UI 1.5 Stable. Glaze UI 1.5.0 remains Stable as the current production target; Glaze UI 1.4.0 is the immediately preceding historical Stable baseline.
 
 ## Purpose
 
@@ -88,4 +88,4 @@ Glaze UI governs presentation and interaction feedback for semantic state. Appli
 
 ## Stable boundary
 
-This contract is isolated to Glaze UI 1.5 Stable. It does not alter 1.4.0 Stable semantics, migrate consumers, or authorize production conformance until explicit promotion.
+This contract is part of Glaze UI 1.5.0 Stable. Consumer applications must migrate to the current Stable target through their own evidence-backed adoption and conformance process; promotion of Glaze UI does not automatically certify downstream applications.
