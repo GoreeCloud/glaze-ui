@@ -7,6 +7,8 @@ DOC = ROOT / "EVIDENCE_PRESENTATION.md"
 TOKENS = ROOT / "tokens" / "evidence-presentation.json"
 CSS = ROOT / "css" / "glaze.evidence.css"
 REFERENCE = ROOT / "reference" / "candidate-1.6-evidence.html"
+CONSUMER = ROOT / "reference" / "mesh-evidence-consumer.mjs"
+CONSUMER_TEST = ROOT / "tests" / "mesh-evidence-consumer.test.mjs"
 STATUS = ROOT / "COMPONENT_STATUS.md"
 
 
@@ -14,7 +16,7 @@ def fail(message: str) -> None:
     raise SystemExit(f"evidence presentation validation failed: {message}")
 
 
-for path in (DOC, TOKENS, CSS, REFERENCE, STATUS):
+for path in (DOC, TOKENS, CSS, REFERENCE, CONSUMER, CONSUMER_TEST, STATUS):
     if not path.is_file():
         fail(f"missing {path.relative_to(ROOT)}")
 
@@ -81,6 +83,29 @@ for marker in (
 
 if "current/available must never inherit success/protected styling" not in css:
     fail("candidate CSS must document neutral current/available transport semantics")
+
+consumer = CONSUMER.read_text()
+for marker in (
+    "mesh.evidence.read",
+    "Authorization",
+    "wardveil-security",
+    "privacy-shield",
+    "everkeep",
+    "Transport state is not domain truth.",
+    "no overall domain verdict is created",
+    "Mesh evidence transport is unavailable",
+):
+    if marker not in consumer:
+        fail(f"Mesh consumer invariant missing: {marker}")
+for prohibited in (
+    "overall_safety",
+    "overallSafety",
+    "protection_score",
+    "privacy_score",
+    "recovery_score",
+):
+    if prohibited in consumer:
+        fail(f"Mesh consumer must not create combined domain truth: {prohibited}")
 
 status = STATUS.read_text()
 if "Evidence presentation and authority surfaces | Candidate" not in status:
