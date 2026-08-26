@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="../css/glaze.motion.css">
   <link rel="stylesheet" href="../css/glaze.materials.css">
   <link rel="stylesheet" href="../css/glaze.layout.css">
+  <link rel="stylesheet" href="../css/glaze.states.css">
   <style>
     * { box-sizing: border-box; }
     :root {
@@ -42,17 +43,20 @@
     .media-control { position:absolute; left:18px; right:18px; bottom:18px; padding:16px 18px; border-radius:22px; }
     .motion-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
     .motion-card { min-height:112px; border-radius:22px; padding:18px; display:grid; gap:10px; }
-    button { min-height:48px; border:1px solid var(--glaze-line); border-radius:16px; padding:0 18px; background:var(--glaze-surface-strong); color:var(--glaze-text); font:inherit; font-weight:650; }
+    button,input { min-height:48px; border:1px solid var(--glaze-line); border-radius:16px; padding:0 18px; background:var(--glaze-surface-strong); color:var(--glaze-text); font:inherit; font-weight:650; }
     .progress { height:10px; border-radius:999px; overflow:hidden; background:color-mix(in srgb,var(--glaze-text) 12%,transparent); }
     .progress > span { display:block; inline-size:68%; block-size:100%; background:currentColor; border-radius:inherit; }
     .overlay-demo { position:relative; min-height:200px; border-radius:30px; overflow:hidden; }
     .overlay-demo .glaze-material-scrim { position:absolute; }
     .dialog { position:absolute; z-index:var(--glaze-depth-overlay); width:min(380px,calc(100% - 32px)); left:50%; top:50%; transform:translate(-50%,-50%); border-radius:24px; padding:20px; display:grid; gap:10px; }
     .depth-marker { font:600 12px/1.2 ui-monospace,monospace; opacity:.72; }
-    .layout-evidence { border-radius:24px; padding:16px; }
+    .layout-evidence,.state-evidence { border-radius:24px; padding:16px; }
     .measure-marker { width:100%; min-height:52px; border:1px dashed var(--glaze-line); border-radius:14px; padding:10px; }
     .wide-fixture { width:960px; display:flex; gap:8px; padding:8px; }
     .wide-fixture > span { min-width:180px; padding:12px; border:1px solid var(--glaze-line); border-radius:12px; }
+    .state-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+    .state-field { display:grid; gap:6px; }
+    .state-error { font-size:13px; font-weight:650; }
     @media (max-width:760px) { .material-grid,.motion-row{grid-template-columns:1fr}.sample{min-height:126px} }
   </style>
 </head>
@@ -61,7 +65,7 @@
     <main class="glaze-container glaze-stack--section" data-layout-role="standard-container">
       <header>
         <span class="depth-marker">GLAZE UI 1.5 CANDIDATE</span>
-        <h1>Material, motion, and spatial architecture</h1>
+        <h1>Material, motion, spatial, and state architecture</h1>
         <p class="muted">Representative Candidate evidence. Stable 1.4 remains unchanged.</p>
       </header>
 
@@ -75,6 +79,26 @@
         <div class="glaze-scroll-x" data-layout-role="bounded-scroll" tabindex="0" aria-label="Bounded intrinsically wide content">
           <div class="wide-fixture"><span>Wide content A</span><span>Wide content B</span><span>Wide content C</span><span>Wide content D</span><span>Wide content E</span></div>
         </div>
+      </section>
+
+      <section class="state-evidence glaze-material-raised glaze-stack" data-state-role="group" aria-label="Interaction state semantics">
+        <h2>Interaction state and modality</h2>
+        <div class="state-grid">
+          <button class="glaze-interactive" data-glaze-focus-visible="true" data-state-role="focus" type="button">Focus visible</button>
+          <button class="glaze-interactive" aria-pressed="true" data-state-role="pressed" type="button">Pressed</button>
+          <button class="glaze-interactive" aria-selected="true" data-state-role="selected" type="button">Selected</button>
+          <button class="glaze-interactive" aria-expanded="true" data-state-role="expanded" type="button">Expanded</button>
+          <button class="glaze-interactive" aria-disabled="true" data-state-role="disabled" type="button">Disabled</button>
+          <button class="glaze-interactive glaze-busy" aria-busy="true" data-state-role="loading" type="button">Loading</button>
+        </div>
+        <label class="state-field">Read-only
+          <input class="glaze-interactive glaze-readonly" data-state-role="readonly" readonly value="Readable, not editable">
+        </label>
+        <label class="state-field">Validation
+          <input class="glaze-interactive glaze-invalid" data-state-role="invalid" aria-invalid="true" aria-describedby="candidate-error" value="Needs correction">
+          <span id="candidate-error" class="state-error">Provide a valid value.</span>
+        </label>
+        <div class="glaze-success" data-glaze-status="success" data-state-role="success" role="status">Saved successfully</div>
       </section>
 
       <section class="material-grid" aria-label="Semantic material roles">
