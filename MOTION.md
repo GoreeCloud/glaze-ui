@@ -115,4 +115,4 @@ A Glaze UI 1.5 Stable consumer satisfies this contract only when it:
 - avoids false progress or premature success/security/privacy implications;
 - validates web implementations against `tokens/motion.json` and `css/glaze.motion.css` where applicable.
 
-This Candidate contract does not change the current Stable target of 1.4.0 until Glaze UI 1.5 is promoted through the existing release process.
+This Stable contract does not change the current Stable target of 1.4.0 until Glaze UI 1.5 is promoted through the existing release process.

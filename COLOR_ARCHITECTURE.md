@@ -1,6 +1,6 @@
-# Glaze UI 1.5 Adaptive Color Architecture Candidate
+# Glaze UI 1.5 Adaptive Color Architecture Stable
 
-> Status: Candidate design-system extension. Glaze UI 1.4.0 remains the current Stable baseline until the complete 1.5 promotion gate passes.
+> Status: Stable design-system extension. Glaze UI 1.4.0 remains the current Stable baseline until the complete 1.5 promotion gate passes.
 
 Glaze UI 1.5 evolves the existing semantic color contract into a complete adaptive color architecture. Color is treated as an intelligent visual-language layer spanning semantic meaning, hierarchy, materials, interaction, application identity, personalization, accessibility, and motion.
 
@@ -28,7 +28,7 @@ Each semantic family provides four presentation tones:
 - `prominent` — elevated attention across container, border, icon, and typography;
 - `critical` — strongest appropriate multi-channel treatment for urgent states.
 
-The candidate families are `accent`, `success`, `information`, `warning`, `danger`, `privacy`, `security`, `online`, `offline`, `syncing`, `protected`, `restricted`, and `unavailable`.
+The stable families are `accent`, `success`, `information`, `warning`, `danger`, `privacy`, `security`, `online`, `offline`, `syncing`, `protected`, `restricted`, and `unavailable`.
 
 `critical` is a prominence level, not permission to flash, pulse continuously, or overwhelm the interface. Critical presentation remains subject to reduced-motion, contrast, readability, and distraction limits.
 
@@ -66,7 +66,7 @@ Accessibility is a token-generation and component-contract requirement, not a po
 
 ## Token consumption
 
-Applications request semantic tokens rather than hard-coded colors. Candidate examples include:
+Applications request semantic tokens rather than hard-coded colors. Stable examples include:
 
 - `accent.surface.subtle`
 - `accent.foreground.standard`

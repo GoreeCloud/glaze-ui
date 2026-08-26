@@ -1,6 +1,6 @@
 # Glaze UI Iconography Contract
 
-Status: **Glaze UI 1.5 Stable**. Glaze UI 1.4.0 remains the mandatory Stable production target until 1.5 is promoted.
+Status: **Glaze UI 1.5 Stable**. Glaze UI 1.5.0 is the current Stable production target.
 
 ## Governing rule
 
@@ -8,7 +8,7 @@ Glaze UI iconography follows one final rule: **identity remains stable while pre
 
 ## Master icon grid
 
-Application and service source artwork uses a normalized 1024 × 1024 master coordinate system. The machine-readable Candidate defines an outer canvas, presentation boundary, optical safe area, primary region, core identity zone, optical center, keylines, and system badge anchors.
+Application and service source artwork uses a normalized 1024 × 1024 master coordinate system. The machine-readable Stable defines an outer canvas, presentation boundary, optical safe area, primary region, core identity zone, optical center, keylines, and system badge anchors.
 
 The grid is an optical construction system rather than a rigid cage. Circles, diagonals, narrow symbols, and unusual silhouettes may use controlled overshoot when needed to achieve equivalent perceived weight. Visual mass is evaluated in context instead of assuming equal mathematical dimensions produce equal prominence.
 
@@ -42,7 +42,7 @@ Icons are evaluated together in Launcher grids, search results, task switching, 
 
 Depth explains structure. Raised foreground symbols, recessed objects, and overlapping translucent materials may establish physical or optical relationships, but arbitrary extrusion and decorative three-dimensional effects are nonconforming.
 
-Lighting follows a soft, broad, material-aware environment. Highlights reveal curvature, translucency, layering, or surface structure. Shadows establish separation only where needed. Harsh spotlights, heavy drop shadows, excessive bloom, and artificial plastic gloss are prohibited by the Candidate contract.
+Lighting follows a soft, broad, material-aware environment. Highlights reveal curvature, translucency, layering, or surface structure. Shadows establish separation only where needed. Harsh spotlights, heavy drop shadows, excessive bloom, and artificial plastic gloss are prohibited by the Stable contract.
 
 ## Glaze material families
 
@@ -59,7 +59,7 @@ These are semantic material roles rather than immutable texture files.
 
 ## Color roles and adaptive color
 
-Icons consume semantic roles rather than arbitrary literal pigments. The Candidate defines identity roles for primary, secondary, surface, highlight, glaze, and foreground treatment together with protected semantic and state roles.
+Icons consume semantic roles rather than arbitrary literal pigments. The Stable defines identity roles for primary, secondary, surface, highlight, glaze, and foreground treatment together with protected semantic and state roles.
 
 Light mode, dark mode, high contrast, wallpaper context, accent preferences, accessibility configuration, and display behavior may influence bounded portions of presentation. Dark mode is never implemented as simple inversion. Materials, highlights, shadows, surface luminosity, and selected tones may adapt independently while identity geometry and recognizable color relationships remain stable.
 
@@ -154,11 +154,11 @@ Quality is evaluated across four required axes: **recognition, consistency, adap
 
 A future **Glaze UI Native Icon** certification process is Planned. Certification is intended to combine automated and visual checks for safe-area compliance, contrast, optical-size support, badge clearance, monochrome compatibility, accessibility behavior, semantic-color usage, required resolutions, and technical asset integrity.
 
-Certification does not mean all icons look alike. It means certified icons respect the same visual and behavioral architecture. No current icon is certified merely because this Candidate contract exists.
+Certification does not mean all icons look alike. It means certified icons respect the same visual and behavioral architecture. No current icon is certified merely because this Stable contract exists.
 
 ## Design tokens
 
-The Candidate exposes semantic concepts such as `icon.size.micro`, `icon.size.compact`, `icon.size.standard`, `icon.size.display`, `icon.stroke.standard`, `icon.corner.continuous`, `icon.material.softGlaze`, `icon.material.denseGlaze`, `icon.identity.primary`, `icon.state.selected`, `icon.state.disabled`, `icon.badge.notification`, `icon.badge.semantic`, and `icon.motion.transition`.
+The Stable exposes semantic concepts such as `icon.size.micro`, `icon.size.compact`, `icon.size.standard`, `icon.size.display`, `icon.stroke.standard`, `icon.corner.continuous`, `icon.material.softGlaze`, `icon.material.denseGlaze`, `icon.identity.primary`, `icon.state.selected`, `icon.state.disabled`, `icon.badge.notification`, `icon.badge.semantic`, and `icon.motion.transition`.
 
 Applications consume semantic contracts rather than reproducing system rules manually.
 
@@ -182,8 +182,8 @@ Third-party developers receive the same grid, keyline, semantic-token, material,
 
 Icon identity is separated from rendering so future Glaze UI releases can improve materials, lighting, adaptive color, depth, motion, and environmental interaction without forcing unnecessary identity redesign. Geometry that makes an application recognizable should remain comparatively stable while presentation quality evolves around it.
 
-## Candidate promotion boundary
+## Stable promotion boundary
 
-This contract is Candidate work. Stable promotion requires exact-final-revision source validation, representative rendered review across all required optical sizes and appearance modes, accessibility and color-vision checks, platform export verification, compatibility assessment, rollback evidence, and confirmation that Planned certification and registry capabilities are not falsely represented as Stable implementation.
+This contract is Stable work. Stable promotion requires exact-final-revision source validation, representative rendered review across all required optical sizes and appearance modes, accessibility and color-vision checks, platform export verification, compatibility assessment, rollback evidence, and confirmation that Planned certification and registry capabilities are not falsely represented as Stable implementation.
 
-No downstream application may claim current production conformance against this Candidate until Glaze UI 1.5 is explicitly promoted.
+No downstream application may claim current production conformance against this Stable until Glaze UI 1.5 is explicitly promoted.

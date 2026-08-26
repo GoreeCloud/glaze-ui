@@ -106,6 +106,6 @@ Layout primitives must prefer normal flow, grid, flexbox, container queries, and
 
 Glaze UI governs visual spacing, layout, density, and responsive presentation. Privacy Shield, Wardveil Security, Everkeep, and GoreeCloud Mesh remain authoritative for their underlying privacy, security, resilience, and coordination state. Layout must never imply capabilities those systems have not established.
 
-## Candidate boundary
+## Stable boundary
 
 This contract is isolated to Glaze UI 1.5 Stable. It does not alter the 1.4.0 Stable contract, migrate consumers, or authorize production conformance until explicit promotion.

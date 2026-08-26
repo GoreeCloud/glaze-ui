@@ -142,7 +142,7 @@ Glaze UI controls presentation only.
 
 A glass, glow, depth, color, or overlay treatment must never manufacture or upgrade those states.
 
-## Candidate acceptance
+## Stable acceptance
 
 Promotion requires all of the following:
 
@@ -154,4 +154,4 @@ Promotion requires all of the following:
 - documented contrast and performance review for glass-heavy representative surfaces;
 - no regression to current Stable consumer behavior until 1.5 is formally promoted.
 
-Until those gates are satisfied, this contract remains Candidate and Glaze UI 1.4.0 remains the current Stable production baseline.
+Until those gates are satisfied, this contract remains Stable and Glaze UI 1.4.0 remains the current Stable production baseline.

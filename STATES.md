@@ -86,6 +86,6 @@ Reduced motion removes nonessential state travel while preserving state distinct
 
 Glaze UI governs presentation and interaction feedback for semantic state. Application logic determines whether an action is actually available, selected, busy, invalid, successful, or expanded. Privacy Shield, Wardveil Security, Everkeep, and GoreeCloud Mesh remain authoritative for their underlying privacy, security, resilience, and coordination state; Glaze UI must not visually invent those states.
 
-## Candidate boundary
+## Stable boundary
 
 This contract is isolated to Glaze UI 1.5 Stable. It does not alter 1.4.0 Stable semantics, migrate consumers, or authorize production conformance until explicit promotion.
