@@ -83,4 +83,4 @@ Existing 0.4 runtime tests and the six-case Mobile/Desktop/TV normal/reduced-mot
 
 Motion Core remains **Experimental** and outside the Glaze UI 1.5.0 Stable compatibility promise. Motion Studio and Motion Spatial remain Planned.
 
-Before any Candidate proposal, Glaze Motion still requires additional representative consumer acceptance, applicable native and real-device evidence, accessibility and performance acceptance, compatibility/migration review, dependency/security/licensing review, and normal Glaze UI promotion governance. One merged test-only first-party evaluation is meaningful evidence but is not sufficient for Candidate promotion.
+Before any Candidate proposal, Glaze Motion still requires additional representative consumer acceptance, applicable native and real-device evidence, accessibility and performance acceptance, compatibility/migration review, dependency/security/licensing review, and normal Glaze UI promotion governance. One merged test-only first-party evaluation is meaningful evidence but remains insufficient for Candidate promotion.
