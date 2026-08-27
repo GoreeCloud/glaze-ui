@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "system": "glaze-ui",
+  "producer_repository": "GoreeCloud/glaze-ui",
+  "authority_domains": ["presentation", "design-conformance"],
+  "mesh_envelope": {
+    "version": "goreecloud.evidence-envelope.v1",
+    "repository": "GoreeCloud/goreecloud-mesh",
+    "path": "contracts/mesh.evidence-envelope.schema.json"
+  },
+  "platform_evidence_plane": {
+    "repository": "GoreeCloud/goreecloud-mesh",
+    "path": "contracts/mesh.platform-evidence-plane.v1.json"
+  },
+  "producer_contracts": [
+    "CONFORMANCE.md",
+    "EVIDENCE_PRESENTATION.md",
+    "contracts/glaze.evidence-presentation.schema.json"
+  ],
+  "permitted_assertion_families": [
+    "design-conformance",
+    "evidence-presentation-conformance",
+    "accessibility-presentation-conformance",
+    "form-factor-presentation-conformance"
+  ],
+  "minimization": {
+    "allowed_data_classes": ["public", "operational", "derived"],
+    "raw_user_content": "prohibited",
+    "credentials_keys_tokens": "prohibited",
+    "producer_private_payloads": "prohibited",
+    "preferred_content": "presentation state, conformance state, authority identity, freshness classification, bounded reason codes, and opaque evidence references"
+  },
+  "authority_rules": [
+    "Glaze UI is authoritative only for presentation and design-conformance assertions.",
+    "Glaze UI may display Wardveil, Privacy Shield, Everkeep, and Mesh evidence but cannot create or strengthen their domain truth.",
+    "Transport freshness and presentation polish must never be rendered as proof of positive producer-domain state.",
+    "Cross-domain surfaces must retain producer authority identity and must not collapse independent states into a generic safe or protected verdict."
+  ],
+  "status": "candidate-profile",
+  "production_acceptance": false
+}
