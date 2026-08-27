@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rendered acceptance for the Glaze Motion 0.2 Experimental Motion Core layer."""
+"""Rendered acceptance for the Glaze Motion 0.4 Experimental Motion Core layer."""
 from __future__ import annotations
 import contextlib,html,http.server,os,re,shutil,signal,socket,subprocess,tempfile,threading
 from pathlib import Path
@@ -56,6 +56,9 @@ def run_case(browser,port,width,height,reduced):
     fail(f"{case} after {RENDER_ATTEMPTS} attempts:\n{last_failure}")
 def main():
     browser=find_browser()
-    with serve_root() as port: run_case(browser,port,390,844,False); run_case(browser,port,390,844,True); run_case(browser,port,1280,900,False)
-    print("Glaze Motion 0.2 Experimental rendered acceptance passed")
+    with serve_root() as port:
+        run_case(browser,port,390,844,False); run_case(browser,port,390,844,True)
+        run_case(browser,port,1280,900,False); run_case(browser,port,1280,900,True)
+        run_case(browser,port,1920,1080,False); run_case(browser,port,1920,1080,True)
+    print("Glaze Motion 0.4 Experimental rendered acceptance passed")
 if __name__=="__main__": main()

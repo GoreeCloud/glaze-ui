@@ -34,11 +34,11 @@ jobs:
         run: python3 scripts/validate_iconography.py
       - name: Validate Glaze UI 1.5 motion and interaction Stable
         run: python3 scripts/validate_motion.py
-      - name: Validate Glaze Motion 0.3 Experimental source
+      - name: Validate Glaze Motion 0.4 Experimental source
         run: python3 scripts/validate_glaze_motion.py
-      - name: Test Glaze Motion 0.3 runtime interaction and reference consumer
-        run: node --test tests/glaze-motion-runtime.test.mjs tests/glaze-motion-interaction.test.mjs tests/glaze-motion-consumer.test.mjs
-      - name: Validate rendered Glaze Motion 0.3 Experimental
+      - name: Test Glaze Motion 0.4 runtime interaction accessibility and reference consumer
+        run: node --test tests/glaze-motion-runtime.test.mjs tests/glaze-motion-interaction.test.mjs tests/glaze-motion-accessibility.test.mjs tests/glaze-motion-consumer.test.mjs
+      - name: Validate rendered Glaze Motion 0.4 Experimental
         run: python3 scripts/validate_glaze_motion_rendered.py
       - name: Validate Glaze UI 1.5 material and depth Stable
         run: python3 scripts/validate_materials.py
