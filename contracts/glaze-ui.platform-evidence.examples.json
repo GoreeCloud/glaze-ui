@@ -1,7 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "contract": "contracts/glaze-ui.evidence-presentation.schema.json",
-  "identity_contract": "GoreeCloud/goreecloud-mesh:contracts/mesh.identity-verification.json",
+  "contract": "contracts/glaze.evidence-presentation.schema.json",
   "examples": [
     {
       "name": "current-negative-security-outcome",
@@ -11,6 +10,7 @@
         "primary_state": "blocked",
         "freshness": "current",
         "transport": "available",
+        "identity_provenance": "verified",
         "scope": "service:goreecloud-drive/runtime",
         "reason": "Security policy denied the operation."
       },
@@ -28,6 +28,7 @@
         "primary_state": "pass",
         "freshness": "expired",
         "transport": "available",
+        "identity_provenance": "verified",
         "scope": "service:goreecloud-drive/runtime",
         "reason": "The last restore verification is outside its validity window."
       },
@@ -41,9 +42,9 @@
       "name": "mixed-authority-subject",
       "input": {
         "authorities": [
-          {"authority": "wardveil-security", "authority_domain": "security", "primary_state": "protected"},
-          {"authority": "privacy-shield", "authority_domain": "privacy", "primary_state": "attention"},
-          {"authority": "everkeep", "authority_domain": "continuity", "primary_state": "ready"}
+          {"authority": "wardveil-security", "authority_domain": "security", "primary_state": "protected", "identity_provenance": "verified"},
+          {"authority": "privacy-shield", "authority_domain": "privacy", "primary_state": "attention", "identity_provenance": "verified"},
+          {"authority": "everkeep", "authority_domain": "continuity", "primary_state": "ready", "identity_provenance": "verified"}
         ],
         "freshness": "current",
         "transport": "available"
@@ -54,20 +55,21 @@
       ]
     },
     {
-      "name": "untrusted-identity-provenance",
+      "name": "rejected-producer-identity-provenance",
       "input": {
         "authority": "wardveil-security",
         "authority_domain": "security",
-        "claimed_primary_state": "protected",
-        "identity_issuer": "example-identity",
+        "primary_state": "protected",
+        "freshness": "current",
         "transport": "invalid",
+        "identity_provenance": "rejected",
         "scope": "service:goreecloud-drive/runtime",
-        "reason": "Evidence provenance was rejected because the identity issuer is not GoreeCloud Identity."
+        "reason": "Producer identity provenance was rejected by GoreeCloud Mesh."
       },
       "required_behavior": [
-        "present transport/provenance as invalid",
-        "do not present the claimed protected state as accepted security truth",
-        "identify provenance failure without exposing credentials or token material"
+        "present provenance rejection as the controlling transport state",
+        "do not present protected as accepted current security truth",
+        "retain the rejected claim only as bounded diagnostic detail when authorized"
       ]
     }
   ],
