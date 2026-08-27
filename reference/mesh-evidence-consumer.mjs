@@ -36,7 +36,7 @@ function transportOnly(state, reason = "") {
       reason,
     },
     authorities: [],
-    invariant: "Transport and evidence lifecycle state are not domain truth.",
+    invariant: "Transport state is not domain truth. Evidence lifecycle state is also not domain truth.",
   };
 }
 
