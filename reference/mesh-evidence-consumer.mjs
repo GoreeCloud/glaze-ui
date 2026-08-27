@@ -6,6 +6,12 @@ const AUTHORITY_SYSTEMS = new Set([
   "glaze-ui",
 ]);
 const MESH_LIFECYCLE_STATES = new Set(["current", "stale-only", "empty"]);
+const PRODUCER_AUTHORITY_DOMAINS = new Map([
+  ["wardveil-security", new Set(["security"])],
+  ["privacy-shield", new Set(["privacy"])],
+  ["everkeep", new Set(["resilience", "recovery", "preservation", "continuity"])],
+  ["glaze-ui", new Set(["presentation", "design-conformance"])],
+]);
 
 function endpoint(meshBaseUrl, kind, id, scope = "") {
   const raw = String(meshBaseUrl ?? "").trim().replace(/\/+$/, "");
@@ -144,6 +150,66 @@ export function normalizeMeshEvidenceSubjectView(view) {
     transport: lifecycle,
     authorities,
     invariant: "Producer state, authority identity, evidence lifecycle, freshness, and transport remain separate; stale history is never promoted to current domain truth and no overall domain verdict is created.",
+  };
+}
+
+/**
+ * Build a Glaze Candidate action descriptor for requesting refreshed producer
+ * evidence through Mesh. This descriptor is presentation intent only: Glaze
+ * does not mint the canonical Mesh refresh contract, contact the producer,
+ * authorize execution, or claim that evidence has been refreshed.
+ */
+export function buildMeshEvidenceRefreshAction(model, {
+  producer,
+  authorityDomain,
+  assertion,
+  requestedAt = new Date(),
+} = {}) {
+  if (!model || typeof model !== "object" || !model.transport?.refresh_required) {
+    throw new Error("evidence refresh action requires a refresh-required Mesh model");
+  }
+  if (!model.subject?.kind || !model.subject?.id) throw new Error("evidence refresh action requires a Mesh subject");
+  if (!new Set(["stale-only", "empty"]).has(model.transport.state)) {
+    throw new Error("producer refresh action is only available for stale-only or empty evidence lifecycle");
+  }
+
+  const targetProducer = String(producer ?? "").trim();
+  const targetDomain = String(authorityDomain ?? "").trim();
+  const targetAssertion = String(assertion ?? "").trim();
+  if (!PRODUCER_AUTHORITY_DOMAINS.get(targetProducer)?.has(targetDomain) || !targetAssertion) {
+    throw new Error("refresh target must name a known producer authority and assertion");
+  }
+
+  let latestObservedAt = null;
+  if (model.transport.state === "stale-only") {
+    const authority = model.authorities.find((item) => item.producer === targetProducer && item.authority_domain === targetDomain);
+    const evidence = authority?.assertions?.find((item) => item.assertion === targetAssertion);
+    if (!evidence || evidence.freshness !== "stale" || !evidence.observed_at) {
+      throw new Error("stale refresh action must bind the selected historical producer assertion");
+    }
+    latestObservedAt = evidence.observed_at;
+  }
+
+  const timestamp = requestedAt instanceof Date ? requestedAt : new Date(requestedAt);
+  if (Number.isNaN(timestamp.getTime())) throw new Error("requestedAt must be a valid timestamp");
+  return {
+    candidate: "1.6",
+    action: "request-evidence-refresh",
+    coordinator: "goreecloud-mesh",
+    target: {
+      producer: targetProducer,
+      authority_domain: targetDomain,
+      subject: structuredClone(model.subject),
+      assertion: targetAssertion,
+    },
+    reason: model.transport.state === "stale-only" ? "stale" : "empty",
+    requested_at: timestamp.toISOString(),
+    latest_observed_at: latestObservedAt,
+    requires_mesh_coordination: true,
+    producer_authority_preserved: true,
+    execution_authorized: false,
+    refresh_completed: false,
+    invariant: "This Glaze action descriptor requests coordination only; it is not producer evidence, execution authority, or proof that refresh occurred.",
   };
 }
 
