@@ -5,7 +5,7 @@ import shutil
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'website'
 DIST = SOURCE / 'dist'
-IDENTITY = ROOT / 'assets' / 'identity' / 'official' / 'fold'
+IDENTITY = ROOT / 'assets' / 'identity' / 'official' / 'facet'
 
 if DIST.exists():
     shutil.rmtree(DIST)
@@ -24,7 +24,6 @@ for name in (
 ):
     shutil.copy2(ROOT / 'css' / name, DIST / 'assets' / name)
 
-for name in ('glaze-ui-mark.svg', 'glaze-ui-lockup.svg'):
-    shutil.copy2(IDENTITY / name, DIST / 'assets' / name)
+shutil.copy2(IDENTITY / 'glaze-ui-mark.svg', DIST / 'assets' / 'glaze-ui-mark.svg')
 
-print(f'Built {DIST.relative_to(ROOT)} from canonical Glaze UI source')
+print(f'Built {DIST.relative_to(ROOT)} from canonical Glaze UI Facet source')

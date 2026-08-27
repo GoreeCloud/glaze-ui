@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import hashlib
 import re
 import subprocess
 import sys
@@ -7,11 +8,25 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'website'
 DIST = SITE / 'dist'
-IDENTITY = ROOT / 'assets' / 'identity' / 'official' / 'fold'
+IDENTITY = ROOT / 'assets' / 'identity' / 'official' / 'facet'
+CANONICAL_SHA256 = '3c9566bf21c5bed4121547c3d5c79c34e4f3e60105179b7f2342c4b60ae91a61'
 
 for n in ('index.html', '404.html', 'site.css', 'identity.css', 'site.js', '_headers', 'build.py'):
     if not (SITE / n).is_file():
         raise SystemExit(f'missing website source: {n}')
+
+for forbidden in (
+    ROOT / 'assets' / 'identity' / 'candidates' / 'round-4',
+    ROOT / 'assets' / 'identity' / 'official' / 'fold',
+):
+    if forbidden.exists():
+        raise SystemExit(f'non-canonical identity path must not exist: {forbidden.relative_to(ROOT)}')
+
+mark = IDENTITY / 'glaze-ui-mark.svg'
+if not mark.is_file():
+    raise SystemExit('missing canonical Glaze UI Facet source')
+if hashlib.sha256(mark.read_bytes()).hexdigest() != CANONICAL_SHA256:
+    raise SystemExit('canonical Glaze UI Facet source does not match the approved SHA-256')
 
 subprocess.run([sys.executable, str(SITE / 'build.py')], cwd=ROOT, check=True)
 
@@ -22,15 +37,14 @@ required = (
     'assets/glaze.color.css', 'assets/glaze.motion.css', 'assets/glaze.materials.css',
     'assets/glaze.layout.css', 'assets/glaze.states.css',
     'assets/site.css', 'assets/identity.css', 'assets/site.js',
-    'assets/glaze-ui-mark.svg', 'assets/glaze-ui-lockup.svg',
+    'assets/glaze-ui-mark.svg',
 )
 for n in required:
     if not (DIST / n).is_file():
         raise SystemExit(f'missing build artifact: {n}')
 
-for name in ('glaze-ui-mark.svg', 'glaze-ui-lockup.svg'):
-    if (DIST / 'assets' / name).read_bytes() != (IDENTITY / name).read_bytes():
-        raise SystemExit(f'public identity asset drifted from canonical Fold source: {name}')
+if (DIST / 'assets' / 'glaze-ui-mark.svg').read_bytes() != mark.read_bytes():
+    raise SystemExit('public identity asset drifted from canonical Facet source')
 
 html = (DIST / 'index.html').read_text()
 headers = (DIST / '_headers').read_text()
@@ -45,10 +59,9 @@ states = (DIST / 'assets' / 'glaze.states.css').read_text()
 for n in (
     'Glaze UI 1.5 Stable',
     'One design language. Four interaction environments.',
-    'Fold is the official Glaze UI mark.',
-    'Official Glaze UI Fold mark',
-    'Standalone mark',
-    'Horizontal lockup',
+    'Facet is the official Glaze UI mark.',
+    'Official Glaze UI Facet mark',
+    'Official Glaze UI Facet standalone mark',
     'Mobile', 'Tablet', 'Desktop', 'TV',
     'Canvas', 'Solid', 'Raised', 'Functional Glass', 'Overlay',
     'Shared semantics, flexible composition',
@@ -60,7 +73,11 @@ for n in (
     if n not in html:
         raise SystemExit(f'required public-site content missing: {n}')
 
-for asset in ('/assets/glaze-ui-mark.svg', '/assets/glaze-ui-lockup.svg', '/assets/identity.css'):
+for forbidden_text in ('Fold is the official Glaze UI mark.', 'Official Glaze UI Fold', 'glaze-ui-lockup.svg'):
+    if forbidden_text in html:
+        raise SystemExit(f'legacy identity content must not be published: {forbidden_text}')
+
+for asset in ('/assets/glaze-ui-mark.svg', '/assets/identity.css'):
     if asset not in html:
         raise SystemExit(f'required official identity asset not published: {asset}')
 
@@ -99,4 +116,4 @@ for d in ('Content-Security-Policy:', "frame-ancestors 'none'", 'Permissions-Pol
 if 'localStorage' not in js or 'data-theme-choice' not in html:
     raise SystemExit('local appearance preference contract missing')
 
-print('Glaze UI 1.5 Stable public design site validation passed')
+print('Glaze UI 1.5 Stable public design site validation passed with canonical Facet identity')
