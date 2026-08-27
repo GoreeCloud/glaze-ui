@@ -5,6 +5,7 @@ const AUTHORITY_SYSTEMS = new Set([
   "goreecloud-mesh",
   "glaze-ui",
 ]);
+const MESH_LIFECYCLE_STATES = new Set(["current", "stale-only", "empty"]);
 
 function endpoint(meshBaseUrl, kind, id, scope = "") {
   const raw = String(meshBaseUrl ?? "").trim().replace(/\/+$/, "");
@@ -27,9 +28,45 @@ function transportOnly(state, reason = "") {
     candidate: "1.6",
     stable_consumer_target: "1.5.0",
     subject: null,
-    transport: { state, current_count: 0, stale_count: 0, reason },
+    transport: {
+      state,
+      current_count: 0,
+      stale_count: 0,
+      refresh_required: true,
+      reason,
+    },
     authorities: [],
-    invariant: "Transport state is not domain truth.",
+    invariant: "Transport state is not domain truth. Evidence lifecycle state is also not domain truth.",
+  };
+}
+
+function count(value) {
+  return Number.isInteger(value) && value >= 0 ? value : null;
+}
+
+function meshLifecycle(transport) {
+  if (!transport || typeof transport !== "object") return null;
+  const currentCount = count(transport.current_count);
+  const staleCount = count(transport.stale_count);
+  if (currentCount === null || staleCount === null) return null;
+
+  let state = transport.state;
+  if (state === "available") {
+    state = currentCount > 0 ? "current" : staleCount > 0 ? "stale-only" : "empty";
+  }
+  if (!MESH_LIFECYCLE_STATES.has(state)) return null;
+  if (state === "current" && currentCount === 0) return null;
+  if (state === "stale-only" && (currentCount !== 0 || staleCount === 0)) return null;
+  if (state === "empty" && (currentCount !== 0 || staleCount !== 0)) return null;
+
+  const expectedRefresh = state !== "current";
+  if ("refresh_required" in transport && transport.refresh_required !== expectedRefresh) return null;
+  return {
+    state,
+    current_count: currentCount,
+    stale_count: staleCount,
+    refresh_required: expectedRefresh,
+    reason: "",
   };
 }
 
@@ -48,8 +85,12 @@ function freshness(envelope) {
  */
 export function normalizeMeshEvidenceSubjectView(view) {
   if (!view || typeof view !== "object") return transportOnly("invalid", "Mesh subject view is missing");
-  if (view?.transport?.state !== "available" || !Array.isArray(view.authorities)) {
+  const lifecycle = meshLifecycle(view.transport);
+  if (!lifecycle || !Array.isArray(view.authorities)) {
     return transportOnly("invalid", "Mesh subject view failed structural validation");
+  }
+  if (lifecycle.state === "empty" && view.authorities.length !== 0) {
+    return transportOnly("invalid", "Empty Mesh evidence lifecycle contained authority records");
   }
 
   const authorities = [];
@@ -65,11 +106,16 @@ export function normalizeMeshEvidenceSubjectView(view) {
         throw new Error("Mesh assertion entry is invalid");
       }
       const latestCurrent = item.latest_current && typeof item.latest_current === "object" ? item.latest_current : null;
+      if (lifecycle.state !== "current" && latestCurrent) {
+        throw new Error("Non-current Mesh lifecycle cannot contain current evidence");
+      }
       return {
         assertion: item.assertion,
         outcome: item.latest.outcome,
         summary: item.latest.summary ?? "",
         freshness: freshness(item.latest),
+        usable_as_current: latestCurrent !== null && freshness(latestCurrent) === "current",
+        current_outcome: latestCurrent?.outcome ?? null,
         latest_current: latestCurrent ? {
           outcome: latestCurrent.outcome,
           summary: latestCurrent.summary ?? "",
@@ -95,14 +141,9 @@ export function normalizeMeshEvidenceSubjectView(view) {
     candidate: "1.6",
     stable_consumer_target: "1.5.0",
     subject: view.subject ?? null,
-    transport: {
-      state: "available",
-      current_count: Number.isInteger(view.transport.current_count) ? view.transport.current_count : 0,
-      stale_count: Number.isInteger(view.transport.stale_count) ? view.transport.stale_count : 0,
-      reason: "",
-    },
+    transport: lifecycle,
     authorities,
-    invariant: "Producer state, authority identity, freshness, and transport remain separate; no overall domain verdict is created.",
+    invariant: "Producer state, authority identity, evidence lifecycle, freshness, and transport remain separate; stale history is never promoted to current domain truth and no overall domain verdict is created.",
   };
 }
 

@@ -7,7 +7,7 @@ import {
 
 const subjectView = {
   subject: { kind: "service", id: "goreecloud-drive", scope: "runtime" },
-  transport: { state: "available", current_count: 2, stale_count: 1 },
+  transport: { state: "current", current_count: 2, stale_count: 1, refresh_required: false },
   authorities: [
     {
       producer: "wardveil-security",
@@ -70,15 +70,76 @@ const subjectView = {
 
 test("preserves independent producer authority without an overall verdict", () => {
   const model = normalizeMeshEvidenceSubjectView(subjectView);
-  assert.equal(model.transport.state, "available");
+  assert.equal(model.transport.state, "current");
+  assert.equal(model.transport.refresh_required, false);
   assert.equal(model.authorities.length, 2);
   assert.equal(model.authorities[0].producer, "wardveil-security");
   assert.equal(model.authorities[0].assertions[0].outcome, "attention");
+  assert.equal(model.authorities[0].assertions[0].current_outcome, "attention");
+  assert.equal(model.authorities[0].assertions[0].usable_as_current, true);
   assert.equal(model.authorities[1].producer, "everkeep");
   assert.equal(model.authorities[1].assertions[0].outcome, "pass");
   assert.equal("verdict" in model, false);
   assert.equal("safe" in model, false);
   assert.equal("score" in model, false);
+});
+
+test("accepts legacy available lifecycle while Mesh rolls forward", () => {
+  const legacy = structuredClone(subjectView);
+  legacy.transport = { state: "available", current_count: 2, stale_count: 1 };
+  const model = normalizeMeshEvidenceSubjectView(legacy);
+  assert.equal(model.transport.state, "current");
+  assert.equal(model.transport.refresh_required, false);
+});
+
+test("stale-only evidence remains history and requires refresh", () => {
+  const stale = {
+    subject: { kind: "service", id: "goreecloud-drive", scope: "runtime" },
+    transport: { state: "stale-only", current_count: 0, stale_count: 1, refresh_required: true },
+    authorities: [{
+      producer: "wardveil-security",
+      authority_domain: "security",
+      assertions: [{
+        assertion: "security-status",
+        latest: {
+          outcome: "protected",
+          summary: "Historical status only.",
+          fresh: false,
+          observed_at: "2026-08-26T20:00:00Z",
+          valid_until: "2026-08-26T21:00:00Z",
+          source: "wardveil://records/stale",
+        },
+        history_count: 1,
+      }],
+    }],
+  };
+  const model = normalizeMeshEvidenceSubjectView(stale);
+  assert.equal(model.transport.state, "stale-only");
+  assert.equal(model.transport.refresh_required, true);
+  assert.equal(model.authorities[0].assertions[0].outcome, "protected");
+  assert.equal(model.authorities[0].assertions[0].freshness, "stale");
+  assert.equal(model.authorities[0].assertions[0].usable_as_current, false);
+  assert.equal(model.authorities[0].assertions[0].current_outcome, null);
+  assert.equal(model.authorities[0].assertions[0].latest_current, null);
+});
+
+test("empty lifecycle contains no producer claims and requires refresh", () => {
+  const model = normalizeMeshEvidenceSubjectView({
+    subject: { kind: "service", id: "goreecloud-drive", scope: "runtime" },
+    transport: { state: "empty", current_count: 0, stale_count: 0, refresh_required: true },
+    authorities: [],
+  });
+  assert.equal(model.transport.state, "empty");
+  assert.equal(model.transport.refresh_required, true);
+  assert.deepEqual(model.authorities, []);
+});
+
+test("rejects inconsistent lifecycle projections", () => {
+  const inconsistent = structuredClone(subjectView);
+  inconsistent.transport = { state: "stale-only", current_count: 1, stale_count: 1, refresh_required: true };
+  const model = normalizeMeshEvidenceSubjectView(inconsistent);
+  assert.equal(model.transport.state, "invalid");
+  assert.deepEqual(model.authorities, []);
 });
 
 test("uses Identity read credential only as bearer authorization", async () => {
@@ -109,6 +170,7 @@ test("network failure becomes transport unavailable without domain claims", asyn
     fetchImpl: async () => { throw new Error("offline"); },
   });
   assert.equal(model.transport.state, "unavailable");
+  assert.equal(model.transport.refresh_required, true);
   assert.deepEqual(model.authorities, []);
 });
 
@@ -123,7 +185,7 @@ test("rejected or malformed Mesh response becomes transport invalid", async () =
   assert.equal(rejected.transport.state, "invalid");
   assert.deepEqual(rejected.authorities, []);
 
-  const malformed = normalizeMeshEvidenceSubjectView({ transport: { state: "available" }, authorities: [{ producer: "unknown" }] });
+  const malformed = normalizeMeshEvidenceSubjectView({ transport: { state: "current", current_count: 1, stale_count: 0 }, authorities: [{ producer: "unknown" }] });
   assert.equal(malformed.transport.state, "invalid");
   assert.deepEqual(malformed.authorities, []);
 });
