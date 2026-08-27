@@ -1,6 +1,6 @@
 # Glaze Motion Native Mapping Guidance
 
-Status: **Experimental — Motion Core 0.3.0**  
+Status: **Experimental — Motion Core 0.4.0**  
 Extends: **Glaze UI 1.5.0 Stable**
 
 This document defines semantic mapping requirements for native Glaze Motion adapters. It does not make any downstream application conformant by itself and does not promote Glaze Motion beyond Experimental.
@@ -15,6 +15,7 @@ Native adapters preserve Glaze Motion intent rather than reproducing web impleme
 - Use View Transitions only as progressive enhancement; unsupported and reduced-motion paths must apply state immediately.
 - Direct manipulation tracks pointer/touch input without waiting for animation.
 - Keyboard and assistive alternatives produce the same semantic reorder/navigation result.
+- Accessible reorder adapters consume semantic position metadata and localize user-facing announcements in the consumer; Glaze Motion does not hard-code English announcement copy.
 
 ## Mobile and tablet native
 
@@ -22,6 +23,7 @@ Native adapters preserve Glaze Motion intent rather than reproducing web impleme
 - Map semantic duration and spring roles to platform-native animation primitives without exceeding Glaze Motion overshoot or settling intent.
 - Honor the operating system's reduced-motion or equivalent accessibility preference.
 - Reorder, swipe, pan, and zoom actions that affect task state require non-gesture alternatives when the action would otherwise be inaccessible.
+- Directional and edge reorder commands map to native accessibility or keyboard actions where supported, while preserving semantic position metadata for localized feedback.
 - Cancellation must leave application state valid and must not depend on a completion callback from an animation.
 
 ## Desktop native
@@ -37,10 +39,11 @@ Native adapters preserve Glaze Motion intent rather than reproducing web impleme
 - Focus movement must stay bounded, readable at far-view distance, and semantically distinct from selection/activation.
 - Reorder or navigation models map directional commands to the same semantic result as pointer/touch manipulation where both exist.
 - Reduced motion replaces spatial travel with stable focus/state cues while preserving immediate response to remote input.
+- Web/reference TV viewport acceptance is not native TV, hardware-remote, or real-device certification.
 
 ## Performance evidence
 
-Native adapters must collect performance evidence locally during validation. Glaze Motion 0.3 provides a local-only frame-budget probe for reference and test harnesses; it does not upload analytics or become a telemetry subsystem. Candidate promotion requires representative platform evidence for frame pacing, input latency, long-task/main-thread pressure where applicable, and settling workloads.
+Native adapters must collect performance evidence locally during validation. Glaze Motion 0.4 retains the local-only frame-budget probe and adds a local settling-animation budget that can reject nonessential settling under reduced motion or saturation without blocking semantic state updates. Neither mechanism uploads analytics or becomes a telemetry subsystem. Candidate promotion requires representative platform evidence for frame pacing, input latency, long-task/main-thread pressure where applicable, and settling workloads.
 
 ## Authority boundary
 

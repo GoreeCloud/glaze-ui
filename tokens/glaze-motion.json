@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "glazeMotion": { "version": "0.3.0", "status": "experimental", "extendsGlazeUi": "1.5.0", "domain": "motion-animation-spatial-graphics" },
+  "glazeMotion": { "version": "0.4.0", "status": "experimental", "extendsGlazeUi": "1.5.0", "domain": "motion-animation-spatial-graphics" },
   "tiers": {
     "core": { "status": "experimental", "defaultForApplications": true, "requiresAdvancedGraphicsRuntime": false },
     "studio": { "status": "planned", "defaultForApplications": false, "requiresAdvancedGraphicsRuntime": false },
@@ -31,6 +31,10 @@
   "accessibleInteraction": {
     "reorderRequiresStableKeys": true,
     "directionalMoveOrientations": ["vertical", "horizontal"],
+    "reorderCommands": ["directional", "home", "end"],
+    "reorderResultMetadata": ["moved", "itemKey", "fromIndex", "toIndex", "position", "total", "items"],
+    "hardCodedAnnouncementCopyProhibited": true,
+    "localizationOwnedByConsumer": true,
     "swipeResultVocabulary": ["none", "start", "end"],
     "panZoomRequiresNonGestureAlternativeWhenTaskCritical": true,
     "cancellationMustPreserveValidState": true
@@ -44,12 +48,44 @@
     "reorder": { "durationRole": "short", "easingRole": "standard", "springPreset": "standard" },
     "shared": { "durationRole": "medium", "easingRole": "emphasized", "springPreset": "standard" }
   },
-  "runtime": { "interruptibleByDefault": true, "stateIndependentOfAnimationCompletion": true, "preferCompositorProperties": ["opacity", "transform"], "allowAutonomousCoreUiLoops": false, "centralizeMotionPreferences": true, "viewTransitionFallbackMustStillApplyState": true, "gestureStateMustNotDependOnAnimation": true, "performanceProbeLocalOnly": true },
+  "runtime": {
+    "entrypoint": "js/glaze.motion.core.js",
+    "compatibilityBase": "js/glaze.motion.js",
+    "interruptibleByDefault": true,
+    "stateIndependentOfAnimationCompletion": true,
+    "preferCompositorProperties": ["opacity", "transform"],
+    "allowAutonomousCoreUiLoops": false,
+    "centralizeMotionPreferences": true,
+    "viewTransitionFallbackMustStillApplyState": true,
+    "gestureStateMustNotDependOnAnimation": true,
+    "performanceProbeLocalOnly": true
+  },
   "reducedMotion": { "required": true, "durationMs": 0, "removeDecorativeTranslation": true, "removeDecorativeScale": true, "disableParallax": true, "disableDecorativeLoops": true, "replaceLargeCameraMotion": "static-or-opacity", "preserveStaticStateCues": true, "mustNotDelayTaskCompletion": true, "preserveDirectManipulationTracking": true, "removePostGestureInertia": true },
-  "performance": { "targetFps": 60, "frameBudgetMs": 16.67, "maxLongTaskMs": 50, "maxConcurrentSettlingAnimations": 12, "suspendOffscreenWork": true, "avoidIdleRenderLoops": true, "lazyLoadAdvancedAssets": true, "persistentWillChangeForCoreUi": false, "instrumentation": { "localOnly": true, "networkReporting": false, "recordsFrameIntervals": true, "recordsLongTasks": true } },
+  "performance": {
+    "targetFps": 60,
+    "frameBudgetMs": 16.67,
+    "maxLongTaskMs": 50,
+    "maxConcurrentSettlingAnimations": 12,
+    "suspendOffscreenWork": true,
+    "avoidIdleRenderLoops": true,
+    "lazyLoadAdvancedAssets": true,
+    "persistentWillChangeForCoreUi": false,
+    "instrumentation": { "localOnly": true, "networkReporting": false, "recordsFrameIntervals": true, "recordsLongTasks": true },
+    "settlingBudget": { "localOnly": true, "rejectUnderReducedMotion": true, "rejectWhenExhausted": true, "stateUpdatesMustContinue": true }
+  },
   "nativeMappings": { "requiredForCandidatePromotion": true, "semanticParityRequired": true, "platforms": ["web", "mobile-native", "desktop-native", "tablet-native", "tv-native"], "document": "NATIVE_MOTION_MAPPINGS.md" },
-  "consumerEvidence": { "referenceHarness": "reference/glaze-motion-consumer.mjs", "productionConsumerCertification": false, "downstreamExperimentalAdoptionBlockedUntilStableBaselineConformance": true },
-  "renderedAcceptance": { "requiredBeforeCandidatePromotion": true, "profiles": ["mobile", "desktop"], "modes": ["normal", "reduced-motion"], "assertDirectManipulationInReducedMotion": true, "assertAdapterDurationsCollapse": true },
+  "consumerEvidence": { "referenceHarness": "reference/glaze-motion-consumer.mjs", "renderedReference": "reference/glaze-motion.html", "productionConsumerCertification": false, "downstreamExperimentalAdoptionBlockedUntilStableBaselineConformance": true },
+  "renderedAcceptance": {
+    "requiredBeforeCandidatePromotion": true,
+    "profiles": ["mobile", "desktop", "tv"],
+    "modes": ["normal", "reduced-motion"],
+    "assertDirectManipulationInReducedMotion": true,
+    "assertAdapterDurationsCollapse": true,
+    "assertAccessibleReorderMetadata": true,
+    "assertSettlingBudget": true,
+    "assertLocalPerformanceProbe": true,
+    "nativeDeviceCertification": false
+  },
   "fallbacks": { "viewTransitions": ["state-update-without-transition"], "webgpu": ["webgl2", "canvas-svg-css", "static-accessible"], "webgl2": ["canvas-svg-css", "static-accessible"], "rive": ["svg-css", "static-accessible"] },
   "authority": { "presentation": "Glaze UI / Glaze Motion", "privacyTruth": "Privacy Shield", "securityTruth": "Wardveil Security", "resilienceTruth": "Everkeep", "coordinationTruth": "GoreeCloud Mesh" }
 }

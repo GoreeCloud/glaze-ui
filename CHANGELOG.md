@@ -4,7 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased
 
-No unreleased changes.
+### Glaze Motion — Experimental
+
+- Motion Core 0.3 was merged as `f1f42eab087b9b49623b8db63d8ecbe399fccdf6`, adding semantic reorder/swipe/pan/zoom state, directional keyboard/remote parity, local-only frame-budget instrumentation, native mapping guidance, and reference-consumer evidence while remaining outside the Glaze UI 1.5 Stable compatibility promise.
+- Motion Core 0.4 adds a compatibility-preserving aggregate runtime entry point, localization-neutral accessible reorder commands and position metadata, and a bounded local settling-animation budget that can refuse optional settling under reduced motion or saturation without blocking semantic state updates.
+- Rendered Glaze Motion acceptance is expanded to Mobile, Desktop, and TV web/reference profiles in both normal and reduced-motion modes; this is development evidence and not native or real-device certification.
+- Earlier 0.1/0.2 experimental foundation work remains superseded lineage rather than Stable product capability. Motion Studio and Motion Spatial remain Planned.
 
 ## 1.5.0 — 2026-08-25
 
