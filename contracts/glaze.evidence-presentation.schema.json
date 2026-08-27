@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.org/contracts/glaze.evidence-presentation.schema.json",
+  "title": "Glaze UI Evidence Presentation Contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "surface",
+    "authority",
+    "domain_state",
+    "freshness",
+    "transport",
+    "scope",
+    "accessible_label"
+  ],
+  "properties": {
+    "version": {"const": "glaze.evidence-presentation.v1"},
+    "surface": {
+      "enum": ["compact", "detailed", "administrative", "alert", "recovery"]
+    },
+    "authority": {
+      "enum": ["wardveil-security", "privacy-shield", "everkeep", "goreecloud-mesh", "glaze-ui"]
+    },
+    "domain_state": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Producer-supplied or producer-contract-derived state. Glaze UI must not upgrade or reinterpret this value."
+    },
+    "freshness": {
+      "enum": ["current", "stale", "expired", "unknown"]
+    },
+    "transport": {
+      "enum": ["available", "unavailable", "invalid", "unknown"]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {"type": "string", "minLength": 1},
+        "id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "maxLength": 160}
+      }
+    },
+    "reason_code": {"type": "string", "maxLength": 128},
+    "summary": {"type": "string", "maxLength": 512},
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "label"],
+      "properties": {
+        "kind": {"enum": ["review", "refresh", "remediate", "recover", "privacy-control", "details"]},
+        "label": {"type": "string", "minLength": 1, "maxLength": 80},
+        "producer_authorized": {"const": true}
+      }
+    },
+    "source_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract": {"type": "string"},
+        "revision": {"type": "string"},
+        "observed_at": {"type": "string", "format": "date-time"},
+        "valid_until": {"type": "string", "format": "date-time"},
+        "evidence_reference": {"type": "string"}
+      }
+    },
+    "accessible_label": {"type": "string", "minLength": 1, "maxLength": 240},
+    "color_is_sole_state_carrier": {"const": false},
+    "motion_implies_verification": {"const": false},
+    "contains_raw_user_content": {"const": false},
+    "contains_secret_material": {"const": false}
+  }
+}
