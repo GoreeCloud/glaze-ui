@@ -19,7 +19,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - name: Compile validators
-        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_enforcement.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_adaptive_colors.py scripts/validate_iconography.py scripts/validate_motion.py scripts/validate_materials.py scripts/validate_layout.py scripts/validate_states.py scripts/validate_evidence_presentation.py scripts/validate_rendered_reference.py scripts/validate_candidate_1_5_rendered.py website/build.py website/validate.py integrations/firefox/validate.py
+        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_enforcement.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_adaptive_colors.py scripts/validate_iconography.py scripts/validate_motion.py scripts/validate_glaze_motion.py scripts/validate_materials.py scripts/validate_layout.py scripts/validate_states.py scripts/validate_evidence_presentation.py scripts/validate_rendered_reference.py scripts/validate_candidate_1_5_rendered.py website/build.py website/validate.py integrations/firefox/validate.py
       - name: Validate Glaze UI repository
         run: python3 scripts/validate_glaze_ui.py
       - name: Validate canonical release state
@@ -34,6 +34,10 @@ jobs:
         run: python3 scripts/validate_iconography.py
       - name: Validate Glaze UI 1.5 motion and interaction Stable
         run: python3 scripts/validate_motion.py
+      - name: Validate Glaze Motion 0.1 Experimental foundation
+        run: python3 scripts/validate_glaze_motion.py
+      - name: Test Glaze Motion runtime
+        run: node --test tests/glaze-motion-runtime.test.mjs
       - name: Validate Glaze UI 1.5 material and depth Stable
         run: python3 scripts/validate_materials.py
       - name: Validate Glaze UI 1.5 layout spacing and density Stable
