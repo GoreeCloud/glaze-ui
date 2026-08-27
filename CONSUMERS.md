@@ -38,14 +38,15 @@ Current-Stable version-specific evidence has not been established. Unverified is
 - **GoreeCloud Website** — `migration-required`, current recorded target 1.1.0; required target 1.5.0.
 - **GoreeCloud Tasks** — `migration-required`, current recorded target 1.3.0; required target 1.5.0.
 - **GoreeCloud Launcher** — `adoption-candidate`, target 1.5.0; required target 1.5.0; native/rendered/accessibility/reduced-motion/physical-device acceptance remains pending and production eligibility remains false.
+- **GoreeCloud Keyboard** — `adoption-candidate`, target 1.5.0; required target 1.5.0; phone/tablet native and rendered Glaze UI, TalkBack/switch-access, representative physical-device, and production acceptance remain pending and production eligibility remains false.
 - **GoreeCloud Notes** — `migration-required`, current recorded target 1.0.0; required target 1.5.0.
 - **GoreeCloud Monitor** — `migration-required`, current recorded target 1.0.0; required target 1.5.0.
 
-Launcher also contains a test-only Glaze Motion 0.4 Experimental evaluation against its real workspace ordering domain. That evidence strengthens Glaze Motion development governance but does not make Experimental Motion a production dependency and does not satisfy Launcher's incomplete Glaze UI product-acceptance gates.
+Launcher contains a test-only Glaze Motion 0.4 Experimental evaluation against its real workspace ordering domain. Keyboard contains a test-only Glaze Motion 0.5 Experimental evaluation against its real native `KeyboardView` key-release and suggestion-selection paths, including an Android 15 emulator reduced-motion check. These evaluations strengthen Glaze Motion development governance but do not make Experimental Motion a production dependency and do not satisfy either application's incomplete Glaze UI product-acceptance gates.
 
 ## Audit completeness
 
-The six named repositories above form the current central audit set. The central audit does not limit the policy scope: the mandatory current-Stable rule applies to every GoreeCloud-controlled user-facing application whether or not it is already represented in this central registry.
+The seven named repositories above form the current central audit set. The central audit does not limit the policy scope: the mandatory current-Stable rule applies to every GoreeCloud-controlled user-facing application whether or not it is already represented in this central registry.
 
 Removing an audited repository from the machine-readable registry requires an explicit audit-scope change rather than silently reducing coverage. Every application repository remains responsible for its own current-Stable mapping, CI, rendered/native/real-device acceptance, and production-readiness evidence.
 
