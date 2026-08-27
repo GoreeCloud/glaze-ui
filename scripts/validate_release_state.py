@@ -62,8 +62,13 @@ def main() -> None:
     require('never makes a historical release a supported production target' in security,'SECURITY.md historical maintenance boundary is missing')
 
     require(f'Glaze UI {VERSION} is the current Stable GoreeCloud design-system baseline' in identity,'IDENTITY.md current-Stable declaration is missing or stale')
-    require('Status: **Pending approved canonical artwork**' in identity,'IDENTITY.md must preserve the unresolved artwork status')
-    require('No icon, logo, favicon, or product mark is approved as canonical Glaze UI artwork at this time' in identity,'IDENTITY.md must preserve the no-canonical-artwork boundary')
+    require('Status: **Approved canonical artwork**' in identity,'IDENTITY.md must record approved canonical artwork')
+    require('Canonical identity: **Facet**' in identity,'IDENTITY.md must identify Facet as canonical')
+    require('Facet is the sole approved Glaze UI logo, icon, and visual identity artwork.' in identity,'IDENTITY.md must preserve the sole-Facet boundary')
+    require('assets/identity/official/facet/glaze-ui-mark.svg' in identity,'IDENTITY.md must bind the canonical Facet source path')
+    require('3c9566bf21c5bed4121547c3d5c79c34e4f3e60105179b7f2342c4b60ae91a61' in identity,'IDENTITY.md must bind the approved Facet SHA-256')
+    require('Pending approved canonical artwork' not in identity,'IDENTITY.md still advertises unresolved artwork status')
+    require('No icon, logo, favicon, or product mark is approved as canonical Glaze UI artwork at this time' not in identity,'IDENTITY.md still advertises no-canonical-artwork state')
     require('Glaze UI 1.3.0 is the stable GoreeCloud design system' not in identity,'IDENTITY.md still advertises the superseded 1.3 Stable baseline')
 
     require('## Mandatory current Stable target' in consumers,'CONSUMERS.md mandatory current Stable section is missing')
