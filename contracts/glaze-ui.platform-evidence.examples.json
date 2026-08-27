@@ -1,6 +1,7 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "contract": "contracts/glaze-ui.evidence-presentation.schema.json",
+  "identity_contract": "GoreeCloud/goreecloud-mesh:contracts/mesh.identity-verification.json",
   "examples": [
     {
       "name": "current-negative-security-outcome",
@@ -50,6 +51,23 @@
       "required_behavior": [
         "show each authority separately",
         "do not manufacture a combined safe, protected, healthy, or ready verdict"
+      ]
+    },
+    {
+      "name": "untrusted-identity-provenance",
+      "input": {
+        "authority": "wardveil-security",
+        "authority_domain": "security",
+        "claimed_primary_state": "protected",
+        "identity_issuer": "example-identity",
+        "transport": "invalid",
+        "scope": "service:goreecloud-drive/runtime",
+        "reason": "Evidence provenance was rejected because the identity issuer is not GoreeCloud Identity."
+      },
+      "required_behavior": [
+        "present transport/provenance as invalid",
+        "do not present the claimed protected state as accepted security truth",
+        "identify provenance failure without exposing credentials or token material"
       ]
     }
   ],
