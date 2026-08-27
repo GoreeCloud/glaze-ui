@@ -1,4 +1,4 @@
-/* Glaze Motion 0.2 Experimental — Motion Core web primitives */
+/* Glaze Motion 0.3 Experimental — Motion Core web primitives */
 :root {
   --glaze-motion-core-instant: 0ms; --glaze-motion-core-micro: 90ms; --glaze-motion-core-short: 160ms; --glaze-motion-core-medium: 240ms; --glaze-motion-core-long: 360ms; --glaze-motion-core-ambient: 700ms;
   --glaze-motion-core-ease-standard: cubic-bezier(0.2, 0, 0, 1); --glaze-motion-core-ease-enter: cubic-bezier(0, 0, 0, 1); --glaze-motion-core-ease-exit: cubic-bezier(0.3, 0, 1, 1); --glaze-motion-core-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
