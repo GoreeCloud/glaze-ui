@@ -57,9 +57,9 @@ The Android evaluation is deliberately **test-only**. It maps semantic reorder c
 
 Keyboard PR #4 was validated at exact head `80de7bd2dcff6d07b06b19f8250e37d20155d7ff`, passed Android CI #15, and merged as `c9c0500263b40640339cf7a46f1a029d9a2ac240`.
 
-The Android 15 / API 35 x86_64 emulator evaluation is also **test-only**. It maps 0.5 timing, press-scale, optional-settling, and reduced-motion semantics onto the real native `KeyboardView` interaction surface. It verifies that key press-down does not commit semantic input, key release commits the real key exactly once, suggestion selection uses actual hit-testing, Android's animator duration scale is disabled, and optional settling collapses under the mapped reduced-motion state.
+The Android 15 / API 35 x86_64 emulator evaluation is also **test-only**. It maps 0.5 timing, press-scale, optional-settling, and reduced-motion semantics onto the real native `KeyboardView` interaction surface. It verifies that key press-down does not commit semantic input, key release commits the real key exactly once, suggestion selection uses actual hit-testing, Android's `Settings.Global.ANIMATOR_DURATION_SCALE` is disabled, and optional settling collapses under the mapped reduced-motion state.
 
-The first Keyboard emulator run exposed a brittle `ValueAnimator.areAnimatorsEnabled()` assumption. The test was corrected to read the authoritative Android global animator-duration setting without removing the emulator gate or weakening the semantic assertions.
+The first Keyboard emulator run exposed a brittle `ValueAnimator.areAnimatorsEnabled()` assumption. The test was corrected to read the authoritative Android `Settings.Global.ANIMATOR_DURATION_SCALE` value without removing the emulator gate or weakening the semantic assertions.
 
 Both repositories target Glaze UI 1.5.0 as Adoption Candidates and remain production-ineligible while final native/rendered/accessibility/physical-device acceptance is incomplete. These evaluations are useful semantic-parity evidence but are **not** native Glaze Motion certification, physical-device acceptance, or production activation.
 
