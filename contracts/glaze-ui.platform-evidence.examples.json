@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "contract": "contracts/glaze-ui.evidence-presentation.schema.json",
+  "examples": [
+    {
+      "name": "current-negative-security-outcome",
+      "input": {
+        "authority": "wardveil-security",
+        "authority_domain": "security",
+        "primary_state": "blocked",
+        "freshness": "current",
+        "transport": "available",
+        "scope": "service:goreecloud-drive/runtime",
+        "reason": "Security policy denied the operation."
+      },
+      "required_behavior": [
+        "present blocked as the primary security truth",
+        "present current only as evidence freshness",
+        "do not style current freshness as success"
+      ]
+    },
+    {
+      "name": "expired-positive-recovery-outcome",
+      "input": {
+        "authority": "everkeep",
+        "authority_domain": "recovery",
+        "primary_state": "pass",
+        "freshness": "expired",
+        "transport": "available",
+        "scope": "service:goreecloud-drive/runtime",
+        "reason": "The last restore verification is outside its validity window."
+      },
+      "required_behavior": [
+        "retain historical pass as auditable detail",
+        "present expired as non-current evidence",
+        "do not present recovery as currently verified"
+      ]
+    },
+    {
+      "name": "mixed-authority-subject",
+      "input": {
+        "authorities": [
+          {"authority": "wardveil-security", "authority_domain": "security", "primary_state": "protected"},
+          {"authority": "privacy-shield", "authority_domain": "privacy", "primary_state": "attention"},
+          {"authority": "everkeep", "authority_domain": "continuity", "primary_state": "ready"}
+        ],
+        "freshness": "current",
+        "transport": "available"
+      },
+      "required_behavior": [
+        "show each authority separately",
+        "do not manufacture a combined safe, protected, healthy, or ready verdict"
+      ]
+    }
+  ],
+  "production_acceptance": false
+}
