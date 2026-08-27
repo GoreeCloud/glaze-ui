@@ -11,6 +11,7 @@
     "domain_state",
     "freshness",
     "transport",
+    "identity_provenance",
     "scope",
     "accessible_label"
   ],
@@ -32,6 +33,10 @@
     },
     "transport": {
       "enum": ["available", "unavailable", "invalid", "unknown"]
+    },
+    "identity_provenance": {
+      "enum": ["verified", "rejected", "unavailable", "unknown"],
+      "description": "Whether producer identity provenance was accepted by the consuming trust boundary. Rejected or unavailable provenance must never be rendered as accepted domain truth."
     },
     "scope": {
       "type": "object",
