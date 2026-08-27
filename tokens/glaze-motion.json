@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "glazeMotion": { "version": "0.5.0", "status": "experimental", "extendsGlazeUi": "1.5.0", "domain": "motion-animation-spatial-graphics", "runtimeCompatibilityBaseline": "0.4.0" },
+  "glazeMotion": { "version": "0.6.0", "status": "experimental", "extendsGlazeUi": "1.5.0", "domain": "motion-animation-spatial-graphics", "runtimeCompatibilityBaseline": "0.4.0" },
   "tiers": {
     "core": { "status": "experimental", "defaultForApplications": true, "requiresAdvancedGraphicsRuntime": false },
     "studio": { "status": "planned", "defaultForApplications": false, "requiresAdvancedGraphicsRuntime": false },
@@ -81,21 +81,40 @@
     "productionConsumerCertification": false,
     "downstreamExperimentalAdoptionBlockedUntilStableBaselineConformance": true,
     "downstreamProductionAdoptionBlockedUntilConsumerAcceptance": true,
-    "firstPartyEvaluation": {
-      "consumer": "GoreeCloud Launcher",
-      "repository": "GoreeCloud/goreecloud-launcher",
-      "consumerState": "adoption-candidate",
-      "targetGlazeUi": "1.5.0",
-      "evaluatedMotionVersion": "0.4.0",
-      "pullRequest": 22,
-      "validatedHead": "3095b9320b660f5e166465990d5d2bee061d7422",
-      "mergeRevision": "23a389b3b24db726ceab5e328f9f8157fa7655ae",
-      "ciRun": 67,
-      "evaluationMode": "native-android-test-only",
-      "productionDependency": false,
-      "nativeDeviceCertification": false,
-      "candidatePromotionSufficient": false
-    }
+    "firstPartyEvaluations": [
+      {
+        "consumer": "GoreeCloud Launcher",
+        "repository": "GoreeCloud/goreecloud-launcher",
+        "consumerState": "adoption-candidate",
+        "targetGlazeUi": "1.5.0",
+        "evaluatedMotionVersion": "0.4.0",
+        "pullRequest": 22,
+        "validatedHead": "3095b9320b660f5e166465990d5d2bee061d7422",
+        "mergeRevision": "23a389b3b24db726ceab5e328f9f8157fa7655ae",
+        "ciRun": 67,
+        "evaluationMode": "native-android-test-only",
+        "productionDependency": false,
+        "nativeDeviceCertification": false,
+        "candidatePromotionSufficient": false
+      },
+      {
+        "consumer": "GoreeCloud Keyboard",
+        "repository": "GoreeCloud/goreecloud-keyboard",
+        "consumerState": "adoption-candidate",
+        "targetGlazeUi": "1.5.0",
+        "evaluatedMotionVersion": "0.5.0",
+        "pullRequest": 4,
+        "validatedHead": "80de7bd2dcff6d07b06b19f8250e37d20155d7ff",
+        "mergeRevision": "c9c0500263b40640339cf7a46f1a029d9a2ac240",
+        "ciRun": 15,
+        "evaluationMode": "native-android-test-only",
+        "runtimeProfile": "android-15-api-35-x86_64",
+        "reducedMotionSettingValidated": true,
+        "productionDependency": false,
+        "nativeDeviceCertification": false,
+        "candidatePromotionSufficient": false
+      }
+    ]
   },
   "renderedAcceptance": {
     "requiredBeforeCandidatePromotion": true,

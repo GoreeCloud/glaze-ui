@@ -1,6 +1,6 @@
 # Glaze Motion
 
-Status: **Experimental foundation (0.5.0)**  
+Status: **Experimental foundation (0.6.0)**  
 Extends: **Glaze UI 1.5.0 Stable**  
 Runtime implementation baseline: **Motion Core 0.4.0**
 
@@ -16,9 +16,9 @@ Motion must communicate hierarchy, causality, state, continuity, spatial relatio
 
 ## Motion Core — Experimental
 
-0.5 retains the 0.4 semantic timing, bounded springs, direct-manipulation sessions, velocity-projected snapping, semantic swipe and pan/zoom state, shared-element/View Transition fallback, component adapters, localization-neutral accessible reorder semantics, local-only frame instrumentation, bounded settling budget, native mapping guidance, reduced-motion behavior, capability fallbacks, and six-case rendered web/reference matrix.
+0.6 retains the 0.4 semantic timing, bounded springs, direct-manipulation sessions, velocity-projected snapping, semantic swipe and pan/zoom state, shared-element/View Transition fallback, component adapters, localization-neutral accessible reorder semantics, local-only frame instrumentation, bounded settling budget, native mapping guidance, reduced-motion behavior, capability fallbacks, and six-case rendered web/reference matrix.
 
-**0.5 is an evidence/governance iteration.** It adds the first merged first-party downstream evaluation and reconciles the current-Stable consumer registry. It does not add a new Motion runtime primitive. `js/glaze.motion.core.js` remains the 0.4 runtime implementation baseline.
+**0.6 is an evidence/governance iteration.** It expands merged first-party downstream evidence from one to two native Android consumers and reconciles the current-Stable consumer registry. It does not add a new Motion runtime primitive. `js/glaze.motion.core.js` remains the 0.4 runtime implementation baseline.
 
 Motion Core remains interruptible by default. Application state must never depend on an animation finishing or on a settling-animation budget ticket being accepted.
 
@@ -54,20 +54,30 @@ The TV rendered profile remains web/reference evidence only. It is not native TV
 
 ## First-party downstream evidence
 
-Glaze Motion 0.5 adds a merged first-party downstream evaluation from **GoreeCloud Launcher**.
+Glaze Motion 0.6 retains the merged **GoreeCloud Launcher** evaluation and adds a second merged native evaluation from **GoreeCloud Keyboard**.
+
+### GoreeCloud Launcher
 
 Launcher PR **#22**, exact validated head `3095b9320b660f5e166465990d5d2bee061d7422`, was squash-merged as `23a389b3b24db726ceab5e328f9f8157fa7655ae` after Android CI #67 passed repository guards, Glaze UI 1.5 adoption validation, the Glaze Motion evaluation quarantine guard, lint, unit tests, debug assembly, Room checks, and the Android 16 emulator runtime suite.
 
-The evaluation maps Motion Core 0.4 reorder and settling semantics onto Launcher's real workspace ordering domain while remaining entirely under `app/src/test`. A fail-closed repository guard rejects the `GlazeMotionExperimental` marker if it escapes into production Kotlin sources.
+The evaluation maps Motion Core 0.4 reorder and settling semantics onto Launcher's real workspace ordering domain while remaining entirely under test source. A fail-closed repository guard rejects the `GlazeMotionExperimental` marker if it escapes into production Kotlin sources.
 
-Launcher now targets Glaze UI 1.5.0 as an **Adoption Candidate** and remains `productionEligible: false`. Native/rendered/accessibility/reduced-motion/physical-device acceptance is incomplete. Therefore:
+### GoreeCloud Keyboard
 
-- the evaluation is valid first-party development evidence;
-- Experimental Glaze Motion is **not** a Launcher production dependency;
-- Launcher is **not** `aligned-current-stable`;
-- the evidence is insufficient for Motion Core Candidate promotion by itself.
+Keyboard PR **#4**, exact validated head `80de7bd2dcff6d07b06b19f8250e37d20155d7ff`, was squash-merged as `c9c0500263b40640339cf7a46f1a029d9a2ac240` after Android CI #15 passed its Glaze UI / Glaze Motion quarantine guard, unit tests, debug assembly, and a dedicated Android 15 / API 35 x86_64 emulator job.
 
-The full evidence record is `acceptance/glaze-motion-0.5-experimental.md`.
+The evaluation maps Glaze Motion 0.5 timing, press-state, optional-settling, and reduced-motion semantics onto Keyboard's real first-party `KeyboardView`. The accepted instrumentation verifies actual key-release commit behavior and suggestion hit-testing while Android's animator duration scale is disabled. Experimental mapping remains under Android test source and repository-local governance rather than production Keyboard code.
+
+The first Keyboard emulator run in Android CI #13 exposed a brittle test assumption: `ValueAnimator.areAnimatorsEnabled()` did not reliably represent the runner's already-applied global animation setting inside the instrumentation process. The gate was retained and corrected to read `Settings.Global.ANIMATOR_DURATION_SCALE` directly; the semantic and reduced-motion assertions were not weakened.
+
+Launcher and Keyboard both target Glaze UI 1.5.0 as **Adoption Candidates** and remain `productionEligible: false`. Their final native/rendered/accessibility/physical-device acceptance is incomplete. Therefore:
+
+- both evaluations are valid first-party development evidence;
+- Experimental Glaze Motion is **not** a production dependency of either consumer;
+- neither consumer is `aligned-current-stable`;
+- two test-only native Android evaluations are still insufficient for Motion Core Candidate promotion.
+
+The full evidence record is `acceptance/glaze-motion-0.6-experimental.md`.
 
 ## Reference consumer evidence
 
@@ -77,7 +87,7 @@ These design-system references remain required regression evidence. They do not 
 
 ## Motion Studio — Planned
 
-Motion Studio remains the planned richer storytelling tier for product websites, onboarding, interactive diagrams, Rive/SVG/Canvas animation, bounded particles/parallax, dimensional cards, cinematic transitions, interactive heroes, and advanced reveal choreography. It is not implemented by 0.5.0.
+Motion Studio remains the planned richer storytelling tier for product websites, onboarding, interactive diagrams, Rive/SVG/Canvas animation, bounded particles/parallax, dimensional cards, cinematic transitions, interactive heroes, and advanced reveal choreography. It is not implemented by 0.6.0.
 
 ## Motion Spatial — Planned
 
@@ -85,13 +95,13 @@ Motion Spatial remains the planned advanced tier for Three.js, WebGL2, WebGPU, i
 
 ## Motion tokens
 
-`tokens/glaze-motion.json` is the machine-readable Experimental 0.5 contract. It preserves the 0.4 runtime semantics and adds an explicit runtime compatibility baseline plus governed first-party downstream evidence. The token contract records the Launcher evaluation as test-only, non-production, non-native-certified, and insufficient by itself for Candidate promotion.
+`tokens/glaze-motion.json` is the machine-readable Experimental 0.6 contract. It preserves the 0.4 runtime semantics and records first-party downstream evidence as an array so evidence can expand without duplicating a singular consumer contract. Both Launcher and Keyboard evaluations are test-only, non-production, non-native-certified, and individually insufficient for Candidate promotion.
 
 ## Runtime API
 
 `js/glaze.motion.js` remains the 0.3 compatibility primitive module. `js/glaze.motion.accessibility.js` remains the 0.4 accessibility and settling-budget extension. `js/glaze.motion.core.js` remains the 0.4 aggregate Motion Core entry point and re-exports both modules without breaking existing 0.3 imports.
 
-No new runtime API is introduced by 0.5.
+No new runtime API is introduced by 0.6.
 
 ## Accessibility and reduced motion
 
@@ -99,9 +109,11 @@ Reduced motion removes decorative translation/scaling, parallax, loops, camera-l
 
 Accessible reorder results are semantic and localizable. The design-system runtime does not dictate user-facing English announcement copy. Focus, reading order, localization, assistive feedback, and application truth remain consumer responsibilities and must be validated in real consumer adoption.
 
+Keyboard's Android 15 emulator evidence verifies one concrete platform-disabled-animation interaction path, but it does not substitute for TalkBack, switch-access, broader assistive-technology, or representative physical-device acceptance.
+
 ## Rendered acceptance
 
-0.5 retains the 0.4 six-case deterministic web/reference matrix: Mobile normal, Mobile reduced motion, Desktop normal, Desktop reduced motion, TV normal, and TV reduced motion. The harness asserts duration collapse, direct-manipulation retention, drag/snap/swipe behavior, accessible reorder metadata, pan/zoom bounds, settling-budget behavior, local-only performance evidence, and shared-transition fallback.
+0.6 retains the 0.4 six-case deterministic web/reference matrix: Mobile normal, Mobile reduced motion, Desktop normal, Desktop reduced motion, TV normal, and TV reduced motion. The harness asserts duration collapse, direct-manipulation retention, drag/snap/swipe behavior, accessible reorder metadata, pan/zoom bounds, settling-budget behavior, local-only performance evidence, and shared-transition fallback.
 
 This matrix remains design-system regression evidence. It does not replace downstream application rendered tests or native/real-device acceptance.
 
@@ -109,7 +121,7 @@ This matrix remains design-system regression evidence. It does not replace downs
 
 Motion Core targets 60 fps with a nominal 16.67 ms frame budget and 50 ms long-task boundary. It prefers transform/opacity, avoids persistent `will-change` and autonomous loops, bounds concurrent settling work to the governed limit, and preserves essential content/actions when animation support fails. Performance probes and settling budgets are local-only and never introduce telemetry.
 
-The Launcher 0.5 evidence does not claim representative-device Motion performance acceptance; that remains a promotion gap.
+Launcher and Keyboard evidence does not claim representative-device Motion performance, power, thermal, input-latency, or frame-pacing acceptance; those remain promotion gaps.
 
 ## Privacy, security, and authority
 
@@ -117,6 +129,6 @@ Glaze Motion is presentation infrastructure. Privacy Shield supplies privacy tru
 
 ## Validation and promotion
 
-Glaze Motion 0.5.0 remains **Experimental** and outside Glaze UI 1.5.0 Stable. Source validation, runtime/interaction/accessibility/reference-consumer tests, native mapping documentation, local performance instrumentation, rendered acceptance, and one merged first-party test-only downstream evaluation provide stronger development evidence than 0.4, but they do not establish Candidate or Stable readiness.
+Glaze Motion 0.6.0 remains **Experimental** and outside Glaze UI 1.5.0 Stable. Source validation, runtime/interaction/accessibility/reference-consumer tests, native mapping documentation, local performance instrumentation, rendered acceptance, and two merged first-party test-only native Android evaluations provide stronger development evidence than 0.5, but they do not establish Candidate or Stable readiness.
 
-Candidate or Stable promotion still requires additional conformant representative downstream consumer acceptance, applicable native/real-device evidence, accessibility and performance acceptance, compatibility/migration review, dependency/security/licensing review, and normal Glaze UI promotion governance.
+Candidate or Stable promotion still requires additional representative consumer and physical-device evidence, applicable assistive-technology and performance acceptance, compatibility/migration review, dependency/security/licensing review, and normal Glaze UI promotion governance.
