@@ -25,6 +25,6 @@ def main():
     doc=DOC.read_text(); [require(phrase in doc,f"GLAZE_MOTION.md missing: {phrase}") for phrase in ("Experimental foundation (0.2.0)","Direct manipulation","Shared-element transitions","Component adapters","Motion Studio — Planned","Motion Spatial — Planned")]
     css=CSS.read_text(); [require(phrase in css,f"CSS missing: {phrase}") for phrase in ("Glaze Motion 0.2 Experimental",".glaze-motion-core-drag-target","data-glaze-dragging=\"true\"","data-glaze-motion-role=\"dialog\"","Direct manipulation remains direct","@media (prefers-reduced-motion: reduce)")]; require("will-change:" not in css,"persistent will-change prohibited")
     source=RUNTIME.read_text(); [require(phrase in source,f"runtime missing: {phrase}") for phrase in ('GLAZE_MOTION_VERSION = "0.2.0"',"createDragSession","resolveSnapPoint","createMotionAdapter","createSharedElementName","startSharedTransition","applyDragPosition","viewTransitions")]
-    rendered=RENDERED.read_text(); require("--force-prefers-reduced-motion" in rendered,"rendered reduced-motion case missing"); require("390, 844" in rendered and "1280, 900" in rendered,"rendered mobile/desktop cases missing")
+    rendered=RENDERED.read_text(); require("--force-prefers-reduced-motion" in rendered,"rendered reduced-motion case missing"); require(("390, 844" in rendered or "390,844" in rendered) and ("1280, 900" in rendered or "1280,900" in rendered),"rendered mobile/desktop cases missing")
     print("Glaze Motion 0.2 Experimental source validation passed")
 if __name__=="__main__": main()
