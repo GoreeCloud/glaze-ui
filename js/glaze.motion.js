@@ -1,10 +1,9 @@
 /**
- * Glaze Motion 0.2 Experimental runtime primitives.
- *
+ * Glaze Motion 0.3 Experimental runtime primitives.
  * Dependency-free Motion Core only. Motion Studio and Motion Spatial remain planned.
  */
 
-export const GLAZE_MOTION_VERSION = "0.2.0";
+export const GLAZE_MOTION_VERSION = "0.3.0";
 export const GLAZE_MOTION_STATUS = "experimental";
 
 export const durations = Object.freeze({ instant: 0, micro: 90, short: 160, medium: 240, long: 360, ambient: 700 });
@@ -15,7 +14,7 @@ export const springs = Object.freeze({
   expressive: Object.freeze({ mass: 1, stiffness: 360, damping: 24, initialVelocity: 0, settleMs: 460, maxOvershoot: 0.08 }),
   spatial: Object.freeze({ mass: 1, stiffness: 300, damping: 28, initialVelocity: 0, settleMs: 520, maxOvershoot: 0.06 }),
 });
-export const gestureDefaults = Object.freeze({ slopPx: 4, velocityWindowMs: 120, flingVelocityPxPerMs: 0.55, snapProjectionMs: 120 });
+export const gestureDefaults = Object.freeze({ slopPx: 4, velocityWindowMs: 120, flingVelocityPxPerMs: 0.55, snapProjectionMs: 120, swipeThresholdRatio: 0.33 });
 export const adapterDefaults = Object.freeze({
   button: Object.freeze({ durationRole: "micro", easingRole: "standard", springPreset: "restrained" }),
   disclosure: Object.freeze({ durationRole: "short", easingRole: "standard", springPreset: "restrained" }),
@@ -27,6 +26,7 @@ export const adapterDefaults = Object.freeze({
 
 function clamp(value, minimum, maximum) { return Math.min(maximum, Math.max(minimum, value)); }
 function finiteNumber(value, name) { if (!Number.isFinite(value)) throw new TypeError(`${name} must be a finite number`); return value; }
+function integerIndex(value, name) { if (!Number.isInteger(value)) throw new TypeError(`${name} must be an integer`); return value; }
 function resolveReducedMotion(explicit, matchMediaFn) {
   if (typeof explicit === "boolean") return explicit;
   const matcher = matchMediaFn ?? globalThis.matchMedia;
@@ -116,6 +116,97 @@ export function resolveSnapPoint(position, snapPoints, options = {}) {
   if (velocityThreshold < 0 || projectionMs < 0) throw new RangeError("snap thresholds cannot be negative");
   const projected = Math.abs(velocity) >= velocityThreshold ? position + velocity * projectionMs : position;
   return points.reduce((best, point) => Math.abs(point - projected) < Math.abs(best - projected) ? point : best, points[0]);
+}
+
+export function resolveSwipeAction(distancePx, extentPx, options = {}) {
+  finiteNumber(distancePx, "distancePx"); finiteNumber(extentPx, "extentPx");
+  if (extentPx <= 0) throw new RangeError("extentPx must be positive");
+  const velocity = finiteNumber(options.velocity ?? 0, "velocity");
+  const thresholdRatio = finiteNumber(options.thresholdRatio ?? gestureDefaults.swipeThresholdRatio, "thresholdRatio");
+  const velocityThreshold = finiteNumber(options.velocityThreshold ?? gestureDefaults.flingVelocityPxPerMs, "velocityThreshold");
+  if (thresholdRatio <= 0 || thresholdRatio > 1 || velocityThreshold < 0) throw new RangeError("invalid swipe thresholds");
+  const crossesDistance = Math.abs(distancePx) >= extentPx * thresholdRatio;
+  const crossesVelocity = Math.abs(velocity) >= velocityThreshold;
+  if (!crossesDistance && !crossesVelocity) return "none";
+  const direction = Math.abs(velocity) >= velocityThreshold ? velocity : distancePx;
+  return direction < 0 ? "start" : "end";
+}
+
+export function resolveDirectionalMove(key, options = {}) {
+  const orientation = options.orientation ?? "vertical";
+  if (!["vertical", "horizontal"].includes(orientation)) throw new RangeError("orientation must be 'vertical' or 'horizontal'");
+  if (orientation === "vertical") {
+    if (key === "ArrowUp") return -1;
+    if (key === "ArrowDown") return 1;
+  } else {
+    if (key === "ArrowLeft") return -1;
+    if (key === "ArrowRight") return 1;
+  }
+  return 0;
+}
+
+export function createReorderModel(items, options = {}) {
+  if (!Array.isArray(items)) throw new TypeError("items must be an array");
+  const keyOf = typeof options.getKey === "function" ? options.getKey : (item) => item?.id ?? item;
+  let current = [...items];
+  function assertUnique(list) {
+    const keys = list.map(keyOf); if (keys.some((key) => key === undefined || key === null)) throw new TypeError("reorder items require stable keys");
+    if (new Set(keys).size !== keys.length) throw new TypeError("reorder item keys must be unique");
+  }
+  assertUnique(current);
+  function snapshot() { return Object.freeze([...current]); }
+  function move(fromIndex, toIndex) {
+    integerIndex(fromIndex, "fromIndex"); integerIndex(toIndex, "toIndex");
+    if (fromIndex < 0 || fromIndex >= current.length || toIndex < 0 || toIndex >= current.length) throw new RangeError("reorder indexes out of range");
+    if (fromIndex === toIndex) return snapshot();
+    const next = [...current]; const [item] = next.splice(fromIndex, 1); next.splice(toIndex, 0, item); current = next; return snapshot();
+  }
+  function moveBy(index, delta) {
+    integerIndex(index, "index"); integerIndex(delta, "delta");
+    if (index < 0 || index >= current.length) throw new RangeError("reorder index out of range");
+    return move(index, clamp(index + delta, 0, current.length - 1));
+  }
+  function moveByKey(itemKey, key, mappingOptions = {}) {
+    const index = current.findIndex((item) => Object.is(keyOf(item), itemKey));
+    if (index < 0) throw new RangeError("unknown reorder item key");
+    const delta = resolveDirectionalMove(key, mappingOptions);
+    return delta === 0 ? snapshot() : moveBy(index, delta);
+  }
+  return Object.freeze({ snapshot, move, moveBy, moveByKey });
+}
+
+export function createPanZoomState(options = {}) {
+  const minScale = finiteNumber(options.minScale ?? 1, "minScale"), maxScale = finiteNumber(options.maxScale ?? 4, "maxScale");
+  if (minScale <= 0 || maxScale < minScale) throw new RangeError("invalid pan/zoom scale bounds");
+  const initial = Object.freeze({ x: finiteNumber(options.x ?? 0, "x"), y: finiteNumber(options.y ?? 0, "y"), scale: clamp(finiteNumber(options.scale ?? 1, "scale"), minScale, maxScale) });
+  let state = initial;
+  function snapshot() { return Object.freeze({ ...state }); }
+  function panBy(deltaX, deltaY) { state = { ...state, x: state.x + finiteNumber(deltaX, "deltaX"), y: state.y + finiteNumber(deltaY, "deltaY") }; return snapshot(); }
+  function zoomTo(nextScale, zoomOptions = {}) {
+    const targetScale = clamp(finiteNumber(nextScale, "scale"), minScale, maxScale);
+    const anchorX = finiteNumber(zoomOptions.anchorX ?? 0, "anchorX"), anchorY = finiteNumber(zoomOptions.anchorY ?? 0, "anchorY");
+    const ratio = targetScale / state.scale;
+    state = { x: anchorX - (anchorX - state.x) * ratio, y: anchorY - (anchorY - state.y) * ratio, scale: targetScale };
+    return snapshot();
+  }
+  function reset() { state = initial; return snapshot(); }
+  return Object.freeze({ snapshot, panBy, zoomTo, reset });
+}
+
+export function createFrameBudgetProbe(options = {}) {
+  const targetFps = finiteNumber(options.targetFps ?? 60, "targetFps"), maxLongTaskMs = finiteNumber(options.maxLongTaskMs ?? 50, "maxLongTaskMs");
+  if (targetFps <= 0 || maxLongTaskMs <= 0) throw new RangeError("performance budgets must be positive");
+  const frameBudgetMs = 1000 / targetFps;
+  let previousFrame = null, frameCount = 0, overBudgetFrames = 0, worstFrameMs = 0, longTaskCount = 0, worstLongTaskMs = 0;
+  function recordFrame(timestamp) {
+    const value = finiteNumber(timestamp, "timestamp");
+    if (previousFrame !== null && value < previousFrame) throw new RangeError("frame timestamps must be monotonic");
+    if (previousFrame !== null) { const delta = value - previousFrame; frameCount += 1; worstFrameMs = Math.max(worstFrameMs, delta); if (delta > frameBudgetMs) overBudgetFrames += 1; }
+    previousFrame = value; return snapshot();
+  }
+  function recordLongTask(durationMs) { const duration = finiteNumber(durationMs, "durationMs"); if (duration < 0) throw new RangeError("long-task duration cannot be negative"); if (duration >= maxLongTaskMs) { longTaskCount += 1; worstLongTaskMs = Math.max(worstLongTaskMs, duration); } return snapshot(); }
+  function snapshot() { return Object.freeze({ targetFps, frameBudgetMs, maxLongTaskMs, frameCount, overBudgetFrames, overBudgetRatio: frameCount ? overBudgetFrames / frameCount : 0, worstFrameMs, longTaskCount, worstLongTaskMs }); }
+  return Object.freeze({ recordFrame, recordLongTask, snapshot });
 }
 
 export function createMotionAdapter(role, options = {}) {
