@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for Glaze Motion 0.4 Experimental Motion Core."""
+"""Fail-closed validation for Glaze Motion 0.5 Experimental Motion Core."""
 from __future__ import annotations
 import json
 from pathlib import Path
@@ -19,8 +19,12 @@ CONSUMER = ROOT / "reference" / "glaze-motion-consumer.mjs"
 CONSUMER_TEST = ROOT / "tests" / "glaze-motion-consumer.test.mjs"
 RENDERED = ROOT / "scripts" / "validate_glaze_motion_rendered.py"
 REFERENCE = ROOT / "reference" / "glaze-motion.html"
-ACCEPTANCE = ROOT / "acceptance" / "glaze-motion-0.4-experimental.md"
+ACCEPTANCE = ROOT / "acceptance" / "glaze-motion-0.5-experimental.md"
 REGISTRY = ROOT / "consumers" / "registry.json"
+
+LAUNCHER_REPO = "GoreeCloud/goreecloud-launcher"
+LAUNCHER_HEAD = "3095b9320b660f5e166465990d5d2bee061d7422"
+LAUNCHER_MERGE = "23a389b3b24db726ceab5e328f9f8157fa7655ae"
 
 
 def fail(message: str) -> None:
@@ -39,9 +43,10 @@ def main() -> None:
 
     data = json.loads(TOKENS.read_text(encoding="utf-8"))
     meta = data.get("glazeMotion", {})
-    require(meta.get("version") == "0.4.0", "unexpected Glaze Motion version")
+    require(meta.get("version") == "0.5.0", "unexpected Glaze Motion version")
     require(meta.get("status") == "experimental", "Glaze Motion must remain Experimental")
     require(meta.get("extendsGlazeUi") == "1.5.0", "Glaze Motion must extend current Glaze UI Stable")
+    require(meta.get("runtimeCompatibilityBaseline") == "0.4.0", "0.5 must retain the 0.4 runtime compatibility baseline")
 
     tiers = data.get("tiers", {})
     require(tiers.get("core", {}).get("status") == "experimental", "Motion Core must remain Experimental")
@@ -72,8 +77,9 @@ def main() -> None:
     require(accessible.get("cancellationMustPreserveValidState") is True, "cancellation state invariant missing")
 
     runtime = data.get("runtime", {})
-    require(runtime.get("entrypoint") == "js/glaze.motion.core.js", "0.4 aggregate runtime entry point changed")
+    require(runtime.get("entrypoint") == "js/glaze.motion.core.js", "aggregate runtime entry point changed")
     require(runtime.get("compatibilityBase") == "js/glaze.motion.js", "compatibility runtime base changed")
+    require(runtime.get("implementationVersion") == "0.4.0", "0.5 must not imply an unimplemented runtime API")
     require(runtime.get("stateIndependentOfAnimationCompletion") is True, "state must remain independent of animation completion")
 
     performance = data.get("performance", {})
@@ -98,6 +104,21 @@ def main() -> None:
     require(consumer.get("renderedReference") == "reference/glaze-motion.html", "rendered reference changed")
     require(consumer.get("productionConsumerCertification") is False, "reference harness cannot certify production consumers")
     require(consumer.get("downstreamExperimentalAdoptionBlockedUntilStableBaselineConformance") is True, "downstream Stable-baseline gate missing")
+    require(consumer.get("downstreamProductionAdoptionBlockedUntilConsumerAcceptance") is True, "downstream production-acceptance gate missing")
+    first_party = consumer.get("firstPartyEvaluation", {})
+    require(first_party.get("consumer") == "GoreeCloud Launcher", "first-party consumer changed")
+    require(first_party.get("repository") == LAUNCHER_REPO, "first-party consumer repository changed")
+    require(first_party.get("consumerState") == "adoption-candidate", "Launcher evidence must remain Adoption Candidate")
+    require(first_party.get("targetGlazeUi") == "1.5.0", "Launcher must target current Stable")
+    require(first_party.get("evaluatedMotionVersion") == "0.4.0", "Launcher evaluation version changed")
+    require(first_party.get("pullRequest") == 22, "Launcher evidence PR changed")
+    require(first_party.get("validatedHead") == LAUNCHER_HEAD, "Launcher exact validated head changed")
+    require(first_party.get("mergeRevision") == LAUNCHER_MERGE, "Launcher merge evidence changed")
+    require(first_party.get("ciRun") == 67, "Launcher CI evidence changed")
+    require(first_party.get("evaluationMode") == "native-android-test-only", "Launcher evaluation must remain test-only")
+    require(first_party.get("productionDependency") is False, "Experimental Motion cannot become a Launcher production dependency through evidence metadata")
+    require(first_party.get("nativeDeviceCertification") is False, "Launcher evaluation cannot claim native-device certification")
+    require(first_party.get("candidatePromotionSufficient") is False, "single downstream evaluation cannot satisfy Candidate promotion")
 
     rendered_contract = data.get("renderedAcceptance", {})
     require(rendered_contract.get("profiles") == ["mobile", "desktop", "tv"], "rendered profile matrix changed")
@@ -115,17 +136,35 @@ def main() -> None:
 
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     require(registry.get("stableBaseline") == "1.5.0", "consumer Stable baseline changed unexpectedly")
+    launcher = next((entry for entry in registry.get("consumers", []) if entry.get("repository") == LAUNCHER_REPO), None)
+    require(launcher is not None, "Launcher missing from central consumer registry")
+    require(launcher.get("status") == "adoption-candidate", "Launcher must be Adoption Candidate after merged 1.5 evidence")
+    require(launcher.get("targetVersion") == "1.5.0", "Launcher registry target must be current Stable")
+    require(launcher.get("referenceRevision") == LAUNCHER_MERGE, "Launcher registry must point to merged downstream evidence")
+    require(launcher.get("evidence") == "docs/glaze-ui-adoption.md", "Launcher Glaze UI evidence path changed")
+    require(launcher.get("automatedContract") is True, "Launcher automated Glaze UI contract missing")
+    require(launcher.get("productionEligible") is False, "Launcher must remain production-ineligible until final acceptance")
+    require("pending" in launcher.get("visualAcceptance", "").lower(), "Launcher incomplete acceptance boundary missing")
     for entry in registry.get("consumers", []):
         if entry.get("status") == "migration-required":
             require(entry.get("productionEligible") is False, f"migration-required consumer marked production-eligible: {entry.get('name')}")
 
     doc = DOC.read_text(encoding="utf-8")
-    for phrase in ("Experimental foundation (0.4.0)", "accessible gestures", "settling budget", "Native mappings", "Reference consumer evidence", "Rendered acceptance", "Motion Studio — Planned", "Motion Spatial — Planned"):
+    for phrase in ("Experimental foundation (0.5.0)", "Runtime implementation baseline", "Direct manipulation and accessible gestures", "settling budget", "Native mappings", "First-party downstream evidence", "Rendered acceptance", "Motion Studio — Planned", "Motion Spatial — Planned"):
         require(phrase in doc, f"GLAZE_MOTION.md missing: {phrase}")
+    require(LAUNCHER_HEAD in doc and LAUNCHER_MERGE in doc, "Glaze Motion documentation missing exact Launcher evidence")
+    require("not** a Launcher production dependency" in doc or "not** a Launcher production dependency" in doc.replace("is ", ""), "Launcher production-dependency boundary missing")
 
     native_doc = NATIVE.read_text(encoding="utf-8")
-    for phrase in ("Mobile and tablet native", "Desktop native", "TV native", "Performance evidence", "Authority boundary"):
+    for phrase in ("Mobile and tablet native", "Desktop native", "TV native", "First-party native evaluation evidence", "Performance evidence", "Authority boundary"):
         require(phrase in native_doc, f"native mapping guidance missing: {phrase}")
+    require(LAUNCHER_MERGE in native_doc, "native mapping guidance missing Launcher evidence revision")
+
+    acceptance = ACCEPTANCE.read_text(encoding="utf-8")
+    for phrase in ("Experimental evidence/governance iteration", "First-party downstream evidence", "What 0.5 does not prove", "Runtime compatibility boundary", "Promotion boundary"):
+        require(phrase in acceptance, f"0.5 acceptance record missing: {phrase}")
+    require(LAUNCHER_HEAD in acceptance and LAUNCHER_MERGE in acceptance and "Android CI: **#67**" in acceptance, "0.5 acceptance record missing exact downstream evidence")
+    require("insufficient for Candidate promotion" in acceptance, "0.5 acceptance must retain Candidate insufficiency boundary")
 
     css = CSS.read_text(encoding="utf-8")
     require("Glaze Motion 0.3 Experimental" in css, "retained 0.3 CSS compatibility marker missing")
@@ -143,7 +182,7 @@ def main() -> None:
 
     core_source = CORE_ENTRY.read_text(encoding="utf-8")
     for phrase in ('export * from "./glaze.motion.js"', 'export * from "./glaze.motion.accessibility.js"', 'GLAZE_MOTION_CORE_VERSION = "0.4.0"'):
-        require(phrase in core_source, f"aggregate runtime missing: {phrase}")
+        require(phrase in core_source, f"0.4 aggregate runtime compatibility missing: {phrase}")
 
     consumer_source = CONSUMER.read_text(encoding="utf-8")
     require("not production certification" in consumer_source.lower(), "reference consumer certification boundary missing")
@@ -151,10 +190,10 @@ def main() -> None:
 
     reference_source = REFERENCE.read_text(encoding="utf-8")
     for phrase in ("Glaze Motion 0.4 Experimental Acceptance", "createAccessibleReorderController", "createSettlingBudget", "createFrameBudgetProbe"):
-        require(phrase in reference_source, f"rendered reference missing: {phrase}")
+        require(phrase in reference_source, f"retained rendered reference missing: {phrase}")
 
     rendered = RENDERED.read_text(encoding="utf-8")
-    require("Glaze Motion 0.4 Experimental" in rendered, "rendered validator version marker missing")
+    require("Glaze Motion 0.4 Experimental" in rendered, "retained rendered validator version marker missing")
     require("--force-prefers-reduced-motion" in rendered, "rendered reduced-motion case missing")
     for viewport in ((390, 844), (1280, 900), (1920, 1080)):
         compact = f"{viewport[0]},{viewport[1]}"
@@ -164,7 +203,7 @@ def main() -> None:
     require("run_case(browser,port,1280,900,True)" in compact_rendered, "desktop reduced-motion rendered case missing")
     require("run_case(browser,port,1920,1080,True)" in compact_rendered, "TV reduced-motion rendered case missing")
 
-    print("Glaze Motion 0.4 Experimental source validation passed")
+    print("Glaze Motion 0.5 Experimental source and downstream-evidence validation passed")
 
 
 if __name__ == "__main__":
