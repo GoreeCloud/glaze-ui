@@ -11,6 +11,7 @@ EXPECTED_REPOS={
     'GoreeCloud/goreecloud-website',
     'GoreeCloud/goreecloud-tasks',
     'GoreeCloud/goreecloud-launcher',
+    'GoreeCloud/goreecloud-keyboard',
     'GoreeCloud/goreecloud-notes',
     'GoreeCloud/goreecloud-monitor',
 }
