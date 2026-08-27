@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "contract": "contracts/glaze.evidence-presentation.schema.json",
   "examples": [
     {
@@ -62,6 +62,7 @@
         "primary_state": "protected",
         "freshness": "current",
         "transport": "invalid",
+        "transport_detail": {"reason": "identity-provenance-rejected"},
         "identity_provenance": "rejected",
         "scope": "service:goreecloud-drive/runtime",
         "reason": "Producer identity provenance was rejected by GoreeCloud Mesh."
@@ -70,6 +71,25 @@
         "present provenance rejection as the controlling transport state",
         "do not present protected as accepted current security truth",
         "retain the rejected claim only as bounded diagnostic detail when authorized"
+      ]
+    },
+    {
+      "name": "redirect-refused-before-evidence-acceptance",
+      "input": {
+        "authority": "goreecloud-mesh",
+        "authority_domain": "coordination",
+        "primary_state": "delivery-not-accepted",
+        "freshness": "unknown",
+        "transport": "invalid",
+        "transport_detail": {"reason": "redirect-refused", "diagnostic": "Producer refused a redirect while carrying a GoreeCloud Identity service proof."},
+        "identity_provenance": "unknown",
+        "scope": "service:wardveil-security/evidence-delivery",
+        "reason": "No producer-domain evidence was accepted through the redirected destination."
+      },
+      "required_behavior": [
+        "present the condition as a delivery transport failure",
+        "do not infer a Wardveil security state, Privacy Shield privacy state, or Everkeep recovery state from the failed delivery",
+        "do not expose service identity proof material or redirect destination credentials in UI diagnostics"
       ]
     }
   ],
