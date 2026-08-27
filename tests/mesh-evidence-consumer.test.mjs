@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  buildMeshEvidenceRefreshAction,
   fetchMeshEvidenceSubject,
   normalizeMeshEvidenceSubjectView,
 } from "../reference/mesh-evidence-consumer.mjs";
@@ -92,8 +93,8 @@ test("accepts legacy available lifecycle while Mesh rolls forward", () => {
   assert.equal(model.transport.refresh_required, false);
 });
 
-test("stale-only evidence remains history and requires refresh", () => {
-  const stale = {
+function staleSubjectModel() {
+  return normalizeMeshEvidenceSubjectView({
     subject: { kind: "service", id: "goreecloud-drive", scope: "runtime" },
     transport: { state: "stale-only", current_count: 0, stale_count: 1, refresh_required: true },
     authorities: [{
@@ -112,8 +113,11 @@ test("stale-only evidence remains history and requires refresh", () => {
         history_count: 1,
       }],
     }],
-  };
-  const model = normalizeMeshEvidenceSubjectView(stale);
+  });
+}
+
+test("stale-only evidence remains history and requires refresh", () => {
+  const model = staleSubjectModel();
   assert.equal(model.transport.state, "stale-only");
   assert.equal(model.transport.refresh_required, true);
   assert.equal(model.authorities[0].assertions[0].outcome, "protected");
@@ -132,6 +136,67 @@ test("empty lifecycle contains no producer claims and requires refresh", () => {
   assert.equal(model.transport.state, "empty");
   assert.equal(model.transport.refresh_required, true);
   assert.deepEqual(model.authorities, []);
+});
+
+test("builds a stale refresh action without minting producer truth or execution authority", () => {
+  const action = buildMeshEvidenceRefreshAction(staleSubjectModel(), {
+    producer: "wardveil-security",
+    authorityDomain: "security",
+    assertion: "security-status",
+    requestedAt: "2026-08-27T18:55:00Z",
+  });
+  assert.equal(action.action, "request-evidence-refresh");
+  assert.equal(action.coordinator, "goreecloud-mesh");
+  assert.equal(action.reason, "stale");
+  assert.equal(action.latest_observed_at, "2026-08-26T20:00:00Z");
+  assert.equal(action.target.producer, "wardveil-security");
+  assert.equal(action.target.authority_domain, "security");
+  assert.equal(action.requires_mesh_coordination, true);
+  assert.equal(action.producer_authority_preserved, true);
+  assert.equal(action.execution_authorized, false);
+  assert.equal(action.refresh_completed, false);
+  assert.equal("outcome" in action, false);
+  assert.equal("verdict" in action, false);
+});
+
+test("builds empty refresh action only for an explicit known producer authority", () => {
+  const empty = normalizeMeshEvidenceSubjectView({
+    subject: { kind: "service", id: "goreecloud-drive", scope: "runtime" },
+    transport: { state: "empty", current_count: 0, stale_count: 0, refresh_required: true },
+    authorities: [],
+  });
+  const action = buildMeshEvidenceRefreshAction(empty, {
+    producer: "privacy-shield",
+    authorityDomain: "privacy",
+    assertion: "privacy-status",
+    requestedAt: "2026-08-27T18:55:00Z",
+  });
+  assert.equal(action.reason, "empty");
+  assert.equal(action.latest_observed_at, null);
+  assert.equal(action.target.producer, "privacy-shield");
+  assert.equal(action.execution_authorized, false);
+  assert.throws(() => buildMeshEvidenceRefreshAction(empty, {
+    producer: "privacy-shield",
+    authorityDomain: "security",
+    assertion: "privacy-status",
+  }));
+});
+
+test("does not offer producer refresh from current or transport-failure models", () => {
+  assert.throws(() => buildMeshEvidenceRefreshAction(normalizeMeshEvidenceSubjectView(subjectView), {
+    producer: "wardveil-security",
+    authorityDomain: "security",
+    assertion: "security-status",
+  }));
+  assert.throws(() => buildMeshEvidenceRefreshAction({
+    subject: { kind: "service", id: "goreecloud-drive", scope: "runtime" },
+    transport: { state: "unavailable", refresh_required: true },
+    authorities: [],
+  }, {
+    producer: "wardveil-security",
+    authorityDomain: "security",
+    assertion: "security-status",
+  }));
 });
 
 test("rejects inconsistent lifecycle projections", () => {
