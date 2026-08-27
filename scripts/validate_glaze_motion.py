@@ -1,134 +1,30 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the Glaze Motion Experimental foundation."""
-
+"""Fail-closed validation for the Glaze Motion 0.2 Experimental Motion Core layer."""
 from __future__ import annotations
-
 import json
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-TOKENS = ROOT / "tokens" / "glaze-motion.json"
-DOC = ROOT / "GLAZE_MOTION.md"
-CSS = ROOT / "css" / "glaze.motion.core.css"
-RUNTIME = ROOT / "js" / "glaze.motion.js"
-TEST = ROOT / "tests" / "glaze-motion-runtime.test.mjs"
-
-
-def fail(message: str) -> None:
-    raise SystemExit(f"Glaze Motion validation failed: {message}")
-
-
-def require(condition: bool, message: str) -> None:
-    if not condition:
-        fail(message)
-
-
-def main() -> None:
-    for path in (TOKENS, DOC, CSS, RUNTIME, TEST):
-        require(path.is_file(), f"missing required artifact: {path.relative_to(ROOT)}")
-
-    data = json.loads(TOKENS.read_text(encoding="utf-8"))
-    meta = data.get("glazeMotion", {})
-    require(meta.get("version") == "0.1.0", "unexpected Glaze Motion foundation version")
-    require(meta.get("status") == "experimental", "foundation must remain Experimental")
-    require(meta.get("extendsGlazeUi") == "1.5.0", "foundation must extend current Glaze UI Stable")
-    require(meta.get("domain") == "motion-animation-spatial-graphics", "unexpected Glaze Motion domain")
-
-    tiers = data.get("tiers", {})
-    require(tiers.get("core", {}).get("status") == "experimental", "Motion Core must be Experimental")
-    require(tiers.get("core", {}).get("defaultForApplications") is True, "Motion Core must be the default application tier")
-    require(tiers.get("studio", {}).get("status") == "planned", "Motion Studio must remain Planned")
-    require(tiers.get("spatial", {}).get("status") == "planned", "Motion Spatial must remain Planned")
-    require(tiers.get("spatial", {}).get("requiresAdvancedGraphicsRuntime") is True, "Motion Spatial must declare its advanced graphics boundary")
-
-    durations = data.get("durationsMs", {})
-    expected_durations = {
-        "instant": 0,
-        "micro": 90,
-        "short": 160,
-        "medium": 240,
-        "long": 360,
-        "ambient": 700,
-    }
-    require(durations == expected_durations, "Motion Core duration roles must inherit the Stable timing vocabulary")
-
-    springs = data.get("springs", {})
-    require(set(springs) == {"restrained", "standard", "expressive", "spatial"}, "spring preset set changed")
-    for name, spring in springs.items():
-        require(spring.get("mass", 0) > 0, f"{name} spring mass must be positive")
-        require(spring.get("stiffness", 0) > 0, f"{name} spring stiffness must be positive")
-        require(spring.get("damping", 0) > 0, f"{name} spring damping must be positive")
-        require(0 <= spring.get("maxOvershoot", 1) <= 0.1, f"{name} spring overshoot must stay bounded")
-
-    reduced = data.get("reducedMotion", {})
-    require(reduced.get("required") is True, "reduced motion must be mandatory")
-    require(reduced.get("durationMs") == 0, "reduced-motion durations must collapse to zero")
-    for key in (
-        "removeDecorativeTranslation",
-        "removeDecorativeScale",
-        "disableParallax",
-        "disableDecorativeLoops",
-        "preserveStaticStateCues",
-        "mustNotDelayTaskCompletion",
-    ):
-        require(reduced.get(key) is True, f"missing reduced-motion invariant: {key}")
-
-    runtime = data.get("runtime", {})
-    require(runtime.get("interruptibleByDefault") is True, "Motion Core must be interruptible by default")
-    require(runtime.get("stateIndependentOfAnimationCompletion") is True, "state must not depend on animation completion")
-    require(runtime.get("allowAutonomousCoreUiLoops") is False, "autonomous Core UI loops must remain prohibited")
-    require(set(runtime.get("preferCompositorProperties", [])) == {"opacity", "transform"}, "unexpected compositor preference")
-
-    fallbacks = data.get("fallbacks", {})
-    require(fallbacks.get("webgpu") == ["webgl2", "canvas-svg-css", "static-accessible"], "WebGPU fallback ladder changed")
-    require(fallbacks.get("webgl2") == ["canvas-svg-css", "static-accessible"], "WebGL2 fallback ladder changed")
-
-    authority = data.get("authority", {})
-    expected_authority = {
-        "presentation": "Glaze UI / Glaze Motion",
-        "privacyTruth": "Privacy Shield",
-        "securityTruth": "Wardveil Security",
-        "resilienceTruth": "Everkeep",
-        "coordinationTruth": "GoreeCloud Mesh",
-    }
-    require(authority == expected_authority, "platform authority mapping changed")
-
-    doc = DOC.read_text(encoding="utf-8")
-    for phrase in (
-        "Motion Core",
-        "Motion Studio",
-        "Motion Spatial",
-        "Experimental",
-        "prefers-reduced-motion",
-        "WebGPU -> WebGL2 -> Canvas/SVG/CSS -> static accessible representation",
-    ):
-        require(phrase in doc, f"GLAZE_MOTION.md missing required contract text: {phrase}")
-
-    css = CSS.read_text(encoding="utf-8")
-    for phrase in (
-        "Glaze Motion 0.1 Experimental",
-        "--glaze-motion-core-medium: 240ms",
-        ".glaze-motion-core-enter",
-        ".glaze-motion-core-shared",
-        "@media (prefers-reduced-motion: reduce)",
-        "animation: none !important",
-    ):
-        require(phrase in css, f"Motion Core CSS missing required primitive: {phrase}")
-
-    runtime_source = RUNTIME.read_text(encoding="utf-8")
-    for phrase in (
-        'GLAZE_MOTION_VERSION = "0.1.0"',
-        "prefersReducedMotion",
-        "resolveDuration",
-        "createSpringKeyframes",
-        "animate",
-        "detectCapabilities",
-        "selectSpatialBackend",
-    ):
-        require(phrase in runtime_source, f"runtime missing required primitive: {phrase}")
-
-    print("Glaze Motion 0.1 Experimental foundation validation passed")
-
-
-if __name__ == "__main__":
-    main()
+ROOT=Path(__file__).resolve().parents[1]
+TOKENS=ROOT/"tokens"/"glaze-motion.json"; DOC=ROOT/"GLAZE_MOTION.md"; CSS=ROOT/"css"/"glaze.motion.core.css"; RUNTIME=ROOT/"js"/"glaze.motion.js"; RUNTIME_TEST=ROOT/"tests"/"glaze-motion-runtime.test.mjs"; INTERACTION_TEST=ROOT/"tests"/"glaze-motion-interaction.test.mjs"; RENDERED=ROOT/"scripts"/"validate_glaze_motion_rendered.py"; REFERENCE=ROOT/"reference"/"glaze-motion.html"; ACCEPTANCE=ROOT/"acceptance"/"glaze-motion-0.2-experimental.md"
+def fail(message): raise SystemExit(f"Glaze Motion validation failed: {message}")
+def require(condition,message):
+    if not condition: fail(message)
+def main():
+    for path in (TOKENS,DOC,CSS,RUNTIME,RUNTIME_TEST,INTERACTION_TEST,RENDERED,REFERENCE,ACCEPTANCE): require(path.is_file(),f"missing required artifact: {path.relative_to(ROOT)}")
+    data=json.loads(TOKENS.read_text()); meta=data.get("glazeMotion",{}); require(meta.get("version")=="0.2.0","unexpected Glaze Motion version"); require(meta.get("status")=="experimental","Glaze Motion must remain Experimental"); require(meta.get("extendsGlazeUi")=="1.5.0","Glaze Motion must extend current Glaze UI Stable")
+    tiers=data.get("tiers",{}); require(tiers.get("core",{}).get("status")=="experimental","Motion Core must remain Experimental"); require(tiers.get("studio",{}).get("status")=="planned","Motion Studio must remain Planned"); require(tiers.get("spatial",{}).get("status")=="planned","Motion Spatial must remain Planned")
+    require(data.get("durationsMs")=={"instant":0,"micro":90,"short":160,"medium":240,"long":360,"ambient":700},"duration roles changed")
+    for name,spring in data.get("springs",{}).items(): require(spring.get("mass",0)>0 and spring.get("stiffness",0)>0 and spring.get("damping",0)>0,f"{name} spring physics invalid"); require(0<=spring.get("maxOvershoot",1)<=0.1,f"{name} overshoot unbounded")
+    gestures=data.get("gestures",{}); require(gestures.get("slopPx")==4,"gesture slop changed"); require(gestures.get("velocityWindowMs")==120,"velocity window changed"); require(gestures.get("directManipulationSurvivesReducedMotion") is True,"direct manipulation must survive reduced motion"); require(gestures.get("settlingMotionCollapsesUnderReducedMotion") is True,"settling must collapse under reduced motion"); require(gestures.get("axisLockOptions")==["both","x","y"],"axis lock contract changed")
+    shared=data.get("sharedElements",{}); require(shared.get("stableKeysRequired") is True,"shared elements require stable keys"); require(shared.get("maxKeyLength")==64,"shared key bound changed"); require(shared.get("reducedMotionFallback")=="state-update-without-transition","shared fallback changed")
+    adapters=data.get("componentAdapters",{}); require(set(adapters)=={"button","disclosure","dialog","navigation","reorder","shared"},"adapter roles changed")
+    reduced=data.get("reducedMotion",{}); [require(reduced.get(key) is True,f"missing reduced-motion invariant: {key}") for key in ("required","removeDecorativeTranslation","removeDecorativeScale","disableParallax","disableDecorativeLoops","preserveStaticStateCues","mustNotDelayTaskCompletion","preserveDirectManipulationTracking","removePostGestureInertia")]; require(reduced.get("durationMs")==0,"reduced durations must collapse")
+    performance=data.get("performance",{}); require(performance.get("targetFps")==60,"fps target changed"); require(performance.get("frameBudgetMs",99)<=16.7,"frame budget weakened"); require(performance.get("maxLongTaskMs")<=50,"long-task budget weakened"); require(performance.get("persistentWillChangeForCoreUi") is False,"persistent will-change prohibited")
+    runtime=data.get("runtime",{}); require(runtime.get("interruptibleByDefault") is True,"interruptibility required"); require(runtime.get("stateIndependentOfAnimationCompletion") is True,"state cannot depend on animation"); require(runtime.get("viewTransitionFallbackMustStillApplyState") is True,"view-transition fallback must apply state"); require(runtime.get("gestureStateMustNotDependOnAnimation") is True,"gesture state cannot depend on animation"); require(set(runtime.get("preferCompositorProperties",[]))=={"opacity","transform"},"compositor contract changed")
+    require(data.get("fallbacks",{}).get("viewTransitions")==["state-update-without-transition"],"view transition fallback changed")
+    require(data.get("authority",{})=={"presentation":"Glaze UI / Glaze Motion","privacyTruth":"Privacy Shield","securityTruth":"Wardveil Security","resilienceTruth":"Everkeep","coordinationTruth":"GoreeCloud Mesh"},"authority mapping changed")
+    doc=DOC.read_text(); [require(phrase in doc,f"GLAZE_MOTION.md missing: {phrase}") for phrase in ("Experimental foundation (0.2.0)","Direct manipulation","Shared-element transitions","Component adapters","Motion Studio — Planned","Motion Spatial — Planned")]
+    css=CSS.read_text(); [require(phrase in css,f"CSS missing: {phrase}") for phrase in ("Glaze Motion 0.2 Experimental",".glaze-motion-core-drag-target","data-glaze-dragging=\"true\"","data-glaze-motion-role=\"dialog\"","Direct manipulation remains direct","@media (prefers-reduced-motion: reduce)")]; require("will-change:" not in css,"persistent will-change prohibited")
+    source=RUNTIME.read_text(); [require(phrase in source,f"runtime missing: {phrase}") for phrase in ('GLAZE_MOTION_VERSION = "0.2.0"',"createDragSession","resolveSnapPoint","createMotionAdapter","createSharedElementName","startSharedTransition","applyDragPosition","viewTransitions")]
+    rendered=RENDERED.read_text(); require("--force-prefers-reduced-motion" in rendered,"rendered reduced-motion case missing"); require("390, 844" in rendered and "1280, 900" in rendered,"rendered mobile/desktop cases missing")
+    print("Glaze Motion 0.2 Experimental source validation passed")
+if __name__=="__main__": main()

@@ -1,196 +1,53 @@
 # Glaze Motion
 
-Status: **Experimental foundation (0.1.0)**  
+Status: **Experimental foundation (0.2.0)**  
 Extends: **Glaze UI 1.5.0 Stable**
 
 Glaze Motion is GoreeCloud's formal motion, animation, transition, spatial-interaction, and interactive-graphics extension of Glaze UI. It does not replace the existing Glaze UI 1.5 Stable motion contract in `MOTION.md`; it builds a richer, separately governed capability layer on top of that Stable baseline.
 
-The architectural relationship is:
-
 `Glaze UI -> Glaze Motion -> Motion Core / Motion Studio / Motion Spatial`
 
-Only **Motion Core** has source implementation in 0.1.0. Motion Studio and Motion Spatial remain Planned and cannot be represented as implemented or Stable capabilities.
+Only **Motion Core** has source implementation in 0.2.0. Motion Studio and Motion Spatial remain Planned and cannot be represented as implemented, Stable, or mandatory production dependencies.
 
 ## Design rule
-
 Motion must communicate hierarchy, causality, state, continuity, spatial relationship, focus, progress, or identity. It must not exist merely because an interface can be animated.
 
-Application interfaces remain restrained and task-oriented. Product websites may be more expressive. Expensive 3D, simulation, shader, or real-time rendering is reserved for experiences where it adds meaningful value.
-
 ## Motion Core — Experimental
+0.2.0 retains the 0.1 semantic durations, easing, bounded springs, entrance/exit primitives, reduced-motion behavior, capability detection, and rendering fallbacks, and adds direct-manipulation gesture sessions, deterministic velocity-projected snapping, CSS drag hooks, shared-element/View Transition fallback, semantic component adapters, runtime-bounded spring output, dedicated interaction tests, and dependency-free rendered acceptance.
 
-Motion Core is the dependency-free baseline for ordinary GoreeCloud application and website interfaces.
+Motion Core remains interruptible by default. Application state must never depend on an animation finishing.
 
-0.1.0 introduces:
+## Direct manipulation
+Direct manipulation is input tracking, not decorative animation. Reduced-motion mode must not make drag, resize, pan, reorder, or similar controls detach from active input. Tracking remains immediate; nonessential post-gesture inertia, spring travel, and settling collapse under reduced motion.
 
-- semantic duration and easing roles inherited from the Glaze UI 1.5 Stable motion vocabulary;
-- reusable restrained, standard, expressive, and spatial spring presets;
-- CSS primitives for entrance, exit, state transition, press, lift, progress, and shared-element continuity hooks;
-- a dependency-free JavaScript runtime for reduced-motion detection, duration resolution, Web Animations delegation, deterministic spring keyframe generation, capability detection, and spatial-backend fallback selection;
-- centralized reduced-motion behavior through `prefers-reduced-motion` and injectable runtime preference resolution;
-- a fail-closed validator and Node test suite.
+The runtime provides `createDragSession()`, `resolveSnapPoint()`, and `applyDragPosition()` while application logic remains authoritative for ordering, commands, permissions, and domain state.
 
-Motion Core must remain interruptible by default. Application state must never depend on an animation finishing. The final semantic state must be valid even when animation is disabled, cancelled, unsupported, or interrupted.
+## Shared-element transitions
+Shared-element transitions preserve identity and spatial continuity. 0.2 provides `createSharedElementName()`, `setSharedElementName()`, and `startSharedTransition()`. Stable shared keys are required. When View Transitions are unsupported or reduced motion is active, the state update still executes immediately.
+
+## Component adapters
+Component adapters translate common GoreeCloud roles into semantic motion without creating a component framework. Initial roles are button, disclosure, dialog, navigation, reorder, and shared. `createMotionAdapter()` resolves semantic duration/easing/spring values and collapses timing under reduced motion; CSS hooks use `data-glaze-motion-role`.
 
 ## Motion Studio — Planned
-
-Motion Studio is the intended richer storytelling tier for GoreeCloud product websites, launch pages, onboarding, interactive diagrams, and expressive brand experiences.
-
-Planned capabilities include:
-
-- scroll-driven choreography;
-- animated illustrations;
-- Rive or equivalent locally controlled vector animation;
-- SVG and Canvas animation;
-- particle systems;
-- bounded parallax and layered depth;
-- dimensional responsive cards;
-- cinematic page transitions;
-- interactive hero sections;
-- advanced entrance, reveal, and continuity choreography.
-
-Motion Studio is not implemented by 0.1.0 and is not part of any Stable compatibility promise.
+Motion Studio remains the planned richer storytelling tier for product websites, onboarding, interactive diagrams, Rive/SVG/Canvas animation, bounded particles/parallax, dimensional cards, cinematic transitions, interactive heroes, and advanced reveal choreography. It is not implemented by 0.2.0.
 
 ## Motion Spatial — Planned
-
-Motion Spatial is the intended highest-complexity tier for flagship experiences, specialized visualization, simulation, and deliberately immersive interfaces.
-
-Planned capabilities include:
-
-- Three.js experiences;
-- WebGL2 rendering;
-- WebGPU rendering;
-- interactive 3D environments;
-- advanced data and mesh visualization;
-- interactive product demonstrations;
-- real-time graphics and visual effects;
-- spatial and simulation-based interfaces.
-
-Motion Spatial must use progressive enhancement. The intended fallback direction is:
-
-`WebGPU -> WebGL2 -> Canvas/SVG/CSS -> static accessible representation`
-
-A lower rendering tier may reduce visual richness, but it must preserve the task, message, critical content, semantic state, and essential relationships.
+Motion Spatial remains the planned advanced tier for Three.js, WebGL2, WebGPU, interactive 3D, data/mesh visualization, product demonstrations, real-time graphics, and simulation. Progressive fallback remains `WebGPU -> WebGL2 -> Canvas/SVG/CSS -> static accessible representation`.
 
 ## Motion tokens
+`tokens/glaze-motion.json` is the machine-readable Experimental 0.2 contract covering durations/easing, bounded springs, gestures, shared elements, component adapters, reduced motion, performance, rendered acceptance, fallbacks, and truth-authority mapping.
 
-`tokens/glaze-motion.json` is the machine-readable Experimental contract for Glaze Motion 0.1.0.
-
-The initial token groups cover:
-
-- duration roles;
-- easing roles;
-- spring physics presets;
-- movement distances;
-- scale feedback;
-- runtime invariants;
-- reduced-motion behavior;
-- performance expectations;
-- advanced-rendering fallback order;
-- platform truth-authority mapping.
-
-Consumers must use semantic intent rather than inventing arbitrary timing and spring values per component.
-
-## Spring system
-
-The initial spring vocabulary is intentionally bounded:
-
-- `restrained` — compact feedback and calm utility interactions;
-- `standard` — ordinary direct manipulation and component transitions;
-- `expressive` — higher-value moments where additional physical character improves continuity;
-- `spatial` — larger spatial relationships where movement communicates position or depth.
-
-Spring character must never be the sole carrier of success, warning, danger, privacy, security, protection, or recovery meaning. Those truths remain producer-authoritative and must remain perceivable without motion.
-
-## Runtime primitives
-
-`js/glaze.motion.js` provides the initial dependency-free Motion Core runtime.
-
-The 0.1.0 API includes:
-
-- `prefersReducedMotion()`;
-- `resolveDuration()`;
-- `createSpringKeyframes()`;
-- `animate()`;
-- `detectCapabilities()`;
-- `selectSpatialBackend()`.
-
-The runtime is deliberately small. It does not create a component framework, global animation scheduler, analytics surface, remote dependency, or hidden state system.
-
-## CSS primitives
-
-`css/glaze.motion.core.css` provides reusable web primitives for:
-
-- standard state transitions;
-- entrance and exit motion;
-- press feedback;
-- bounded hover/focus lift;
-- shared-element/View Transition naming hooks;
-- determinate progress interpolation;
-- reduced-motion collapse.
-
-The CSS layer prefers transform and opacity for movement and avoids making animation a prerequisite for layout or semantics.
+## Runtime API
+`js/glaze.motion.js` includes `prefersReducedMotion()`, `resolveDuration()`, `createSpringKeyframes()`, `animate()`, `createDragSession()`, `resolveSnapPoint()`, `createMotionAdapter()`, `createSharedElementName()`, `setSharedElementName()`, `startSharedTransition()`, `applyDragPosition()`, `detectCapabilities()`, and `selectSpatialBackend()`.
 
 ## Accessibility and reduced motion
-
-Accessibility is part of the architecture, not optional polish.
-
-When `prefers-reduced-motion: reduce` or an equivalent runtime preference is active:
-
-- nonessential translation is removed;
-- decorative scaling is removed;
-- parallax and large camera-like movement are disabled;
-- decorative loops are disabled;
-- Motion Core duration roles collapse to zero;
-- entrance and exit animation collapse to static final state;
-- focus, selection, progress, loading, success, warning, error, privacy, security, and other semantic states remain perceivable without movement;
-- removing motion must never delay task completion.
-
-Native adapters must honor equivalent platform accessibility settings.
+Reduced motion removes decorative translation/scaling, parallax, loops, camera-like travel, and post-gesture settling; durations collapse to zero; direct manipulation still tracks input; semantic state remains perceivable; task completion must not be delayed.
 
 ## Performance and resilience
-
-The lightest technique that communicates the intended relationship should be preferred.
-
-Motion Core targets smooth interaction on representative supported devices and establishes these initial rules:
-
-- prefer compositor-friendly transform and opacity work where appropriate;
-- avoid unnecessary layout and paint churn;
-- avoid autonomous render loops for ordinary application UI;
-- suspend or reduce off-screen work where the platform permits it;
-- lazy-load future advanced graphics assets;
-- preserve essential content and actions if animation JavaScript or an advanced graphics subsystem fails.
-
-Motion Studio and Motion Spatial will require explicit performance budgets and representative device acceptance before promotion.
+Motion Core targets 60 fps with a nominal 16.67 ms frame budget and 50 ms long-task boundary. It prefers transform/opacity, avoids persistent `will-change` and autonomous loops, bounds concurrent settling work, and preserves essential content/actions when animation support fails.
 
 ## Privacy, security, and authority
+Glaze Motion is presentation infrastructure. Privacy Shield supplies privacy truth; Wardveil Security supplies security/protection truth; Everkeep supplies resilience/backup/recovery/preservation truth; GoreeCloud Mesh supplies coordination/governance truth; product logic supplies workflow/ordering/progress truth. Motion must never invent or prematurely animate those states.
 
-Glaze Motion is presentation infrastructure. It does not become authoritative for underlying platform truth.
-
-- Privacy Shield supplies privacy-control truth.
-- Wardveil Security supplies security and protection truth.
-- Everkeep supplies resilience, preservation, backup, recovery, portability, succession, and digital-legacy truth.
-- GoreeCloud Mesh supplies coordination and governance truth when implemented and evidenced.
-- Product/application logic supplies domain-specific workflow, progress, availability, and validation truth.
-
-Motion may present those states only after the authoritative producer supplies them. It must never animate success, protection, synchronization, recovery, or completion prematurely.
-
-Glaze Motion must not introduce analytics, tracking, advertising technology, third-party runtime font/icon delivery, or unnecessary remote animation dependencies.
-
-## Lifecycle and promotion
-
-Glaze Motion 0.1.0 is **Experimental**. It is intentionally outside the Glaze UI 1.5.0 Stable compatibility promise and must not become a mandatory production dependency.
-
-Promotion requires, as applicable:
-
-- documented semantic contracts;
-- stable token/API design;
-- accessibility and reduced-motion acceptance;
-- resilience and fallback validation;
-- representative rendered acceptance;
-- performance evidence;
-- compatibility and migration review;
-- dependency/security/licensing review for future Studio/Spatial libraries;
-- explicit lifecycle promotion under normal Glaze UI governance.
-
-Development must proceed from Motion Core outward. Motion Studio should be implemented only after the Core contract is useful and stable enough to support it. Motion Spatial should be introduced selectively and must never become a universal rendering requirement for GoreeCloud applications.
+## Validation and promotion
+Glaze Motion 0.2.0 remains **Experimental** and outside Glaze UI 1.5.0 Stable. Source validation, 14 runtime/interaction tests, and a dedicated rendered harness provide development evidence only. Candidate or Stable promotion still requires representative consumer, accessibility, performance, compatibility/migration, dependency/security/licensing, and normal Glaze UI promotion evidence.
