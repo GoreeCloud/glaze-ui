@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "contract": "contracts/glaze.evidence-presentation.schema.json",
   "examples": [
     {
@@ -90,6 +90,26 @@
         "present the condition as a delivery transport failure",
         "do not infer a Wardveil security state, Privacy Shield privacy state, or Everkeep recovery state from the failed delivery",
         "do not expose service identity proof material or redirect destination credentials in UI diagnostics"
+      ]
+    },
+    {
+      "name": "identity-issuer-implemented-but-jwks-unavailable",
+      "input": {
+        "authority": "goreecloud-mesh",
+        "authority_domain": "coordination",
+        "primary_state": "identity-verification-unavailable",
+        "freshness": "unknown",
+        "transport": "unavailable",
+        "transport_detail": {"reason": "identity-jwks-unavailable", "diagnostic": "GoreeCloud Identity issuer code exists, but a deployed JWKS verification endpoint is unavailable."},
+        "identity_provenance": "unavailable",
+        "scope": "service:privacy-shield/evidence-delivery",
+        "reason": "The producer claim cannot be accepted as verified provenance until GoreeCloud Mesh can resolve the Identity signing key."
+      },
+      "required_behavior": [
+        "present Identity provenance as unavailable rather than verified",
+        "do not treat issuer implementation status as runtime identity verification",
+        "do not present producer-domain evidence as accepted current truth",
+        "offer bounded operator diagnostics without exposing JWTs, keys, tokens, or private signing material"
       ]
     }
   ],
