@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "glazeMotion": { "version": "0.4.0", "status": "experimental", "extendsGlazeUi": "1.5.0", "domain": "motion-animation-spatial-graphics" },
+  "glazeMotion": { "version": "0.5.0", "status": "experimental", "extendsGlazeUi": "1.5.0", "domain": "motion-animation-spatial-graphics", "runtimeCompatibilityBaseline": "0.4.0" },
   "tiers": {
     "core": { "status": "experimental", "defaultForApplications": true, "requiresAdvancedGraphicsRuntime": false },
     "studio": { "status": "planned", "defaultForApplications": false, "requiresAdvancedGraphicsRuntime": false },
@@ -51,6 +51,7 @@
   "runtime": {
     "entrypoint": "js/glaze.motion.core.js",
     "compatibilityBase": "js/glaze.motion.js",
+    "implementationVersion": "0.4.0",
     "interruptibleByDefault": true,
     "stateIndependentOfAnimationCompletion": true,
     "preferCompositorProperties": ["opacity", "transform"],
@@ -74,7 +75,28 @@
     "settlingBudget": { "localOnly": true, "rejectUnderReducedMotion": true, "rejectWhenExhausted": true, "stateUpdatesMustContinue": true }
   },
   "nativeMappings": { "requiredForCandidatePromotion": true, "semanticParityRequired": true, "platforms": ["web", "mobile-native", "desktop-native", "tablet-native", "tv-native"], "document": "NATIVE_MOTION_MAPPINGS.md" },
-  "consumerEvidence": { "referenceHarness": "reference/glaze-motion-consumer.mjs", "renderedReference": "reference/glaze-motion.html", "productionConsumerCertification": false, "downstreamExperimentalAdoptionBlockedUntilStableBaselineConformance": true },
+  "consumerEvidence": {
+    "referenceHarness": "reference/glaze-motion-consumer.mjs",
+    "renderedReference": "reference/glaze-motion.html",
+    "productionConsumerCertification": false,
+    "downstreamExperimentalAdoptionBlockedUntilStableBaselineConformance": true,
+    "downstreamProductionAdoptionBlockedUntilConsumerAcceptance": true,
+    "firstPartyEvaluation": {
+      "consumer": "GoreeCloud Launcher",
+      "repository": "GoreeCloud/goreecloud-launcher",
+      "consumerState": "adoption-candidate",
+      "targetGlazeUi": "1.5.0",
+      "evaluatedMotionVersion": "0.4.0",
+      "pullRequest": 22,
+      "validatedHead": "3095b9320b660f5e166465990d5d2bee061d7422",
+      "mergeRevision": "23a389b3b24db726ceab5e328f9f8157fa7655ae",
+      "ciRun": 67,
+      "evaluationMode": "native-android-test-only",
+      "productionDependency": false,
+      "nativeDeviceCertification": false,
+      "candidatePromotionSufficient": false
+    }
+  },
   "renderedAcceptance": {
     "requiredBeforeCandidatePromotion": true,
     "profiles": ["mobile", "desktop", "tv"],
