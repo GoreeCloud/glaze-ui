@@ -37,9 +37,11 @@ Current-Stable version-specific evidence has not been established. Unverified is
 - **GoreeCloud Manager** — `migration-required`, current recorded target 1.3.0; required target 1.5.0.
 - **GoreeCloud Website** — `migration-required`, current recorded target 1.1.0; required target 1.5.0.
 - **GoreeCloud Tasks** — `migration-required`, current recorded target 1.3.0; required target 1.5.0.
-- **GoreeCloud Launcher** — `adoption-candidate`, target 1.4.0; required target 1.5.0; migration is now required before final application acceptance.
+- **GoreeCloud Launcher** — `adoption-candidate`, target 1.5.0; required target 1.5.0; native/rendered/accessibility/reduced-motion/physical-device acceptance remains pending and production eligibility remains false.
 - **GoreeCloud Notes** — `migration-required`, current recorded target 1.0.0; required target 1.5.0.
 - **GoreeCloud Monitor** — `migration-required`, current recorded target 1.0.0; required target 1.5.0.
+
+Launcher also contains a test-only Glaze Motion 0.4 Experimental evaluation against its real workspace ordering domain. That evidence strengthens Glaze Motion development governance but does not make Experimental Motion a production dependency and does not satisfy Launcher's incomplete Glaze UI product-acceptance gates.
 
 ## Audit completeness
 

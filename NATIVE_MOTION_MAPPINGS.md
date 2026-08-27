@@ -1,7 +1,8 @@
 # Glaze Motion Native Mapping Guidance
 
-Status: **Experimental — Motion Core 0.4.0**  
-Extends: **Glaze UI 1.5.0 Stable**
+Status: **Experimental — Motion Core 0.5.0**  
+Extends: **Glaze UI 1.5.0 Stable**  
+Runtime implementation baseline: **0.4.0**
 
 This document defines semantic mapping requirements for native Glaze Motion adapters. It does not make any downstream application conformant by itself and does not promote Glaze Motion beyond Experimental.
 
@@ -41,9 +42,21 @@ Native adapters preserve Glaze Motion intent rather than reproducing web impleme
 - Reduced motion replaces spatial travel with stable focus/state cues while preserving immediate response to remote input.
 - Web/reference TV viewport acceptance is not native TV, hardware-remote, or real-device certification.
 
+## First-party native evaluation evidence
+
+Glaze Motion 0.5 records the first merged native-platform consumer evaluation in **GoreeCloud Launcher** at merge revision `23a389b3b24db726ceab5e328f9f8157fa7655ae`.
+
+That Android evaluation is deliberately **test-only**. It maps semantic reorder commands and optional-settling decisions onto Launcher's real workspace ordering domain, verifies stable-key failure behavior and localization-neutral position metadata, and is guarded against entering `app/src/main` production sources.
+
+The Launcher repository targets Glaze UI 1.5.0 as an Adoption Candidate and remains production-ineligible while native/rendered/accessibility/reduced-motion/physical-device acceptance is incomplete. Therefore this evaluation is useful semantic-parity evidence but is **not** native Glaze Motion certification, real-device acceptance, or production activation.
+
+A native adapter intended for production must go beyond this test-only evidence and integrate the applicable operating-system motion accessibility preference, localized assistive feedback, rendered behavior, representative-device performance, and application-specific acceptance.
+
 ## Performance evidence
 
-Native adapters must collect performance evidence locally during validation. Glaze Motion 0.4 retains the local-only frame-budget probe and adds a local settling-animation budget that can reject nonessential settling under reduced motion or saturation without blocking semantic state updates. Neither mechanism uploads analytics or becomes a telemetry subsystem. Candidate promotion requires representative platform evidence for frame pacing, input latency, long-task/main-thread pressure where applicable, and settling workloads.
+Native adapters must collect performance evidence locally during validation. Glaze Motion retains the local-only frame-budget probe and local settling-animation budget that can reject nonessential settling under reduced motion or saturation without blocking semantic state updates. Neither mechanism uploads analytics or becomes a telemetry subsystem.
+
+The Launcher 0.5 evidence does not yet provide Motion-specific representative-device frame pacing, input latency, power, or settling-workload acceptance. Candidate promotion still requires representative platform evidence for frame pacing, input latency, long-task/main-thread pressure where applicable, and settling workloads.
 
 ## Authority boundary
 

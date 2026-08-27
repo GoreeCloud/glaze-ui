@@ -9,6 +9,9 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 - Motion Core 0.3 was merged as `f1f42eab087b9b49623b8db63d8ecbe399fccdf6`, adding semantic reorder/swipe/pan/zoom state, directional keyboard/remote parity, local-only frame-budget instrumentation, native mapping guidance, and reference-consumer evidence while remaining outside the Glaze UI 1.5 Stable compatibility promise.
 - Motion Core 0.4 adds a compatibility-preserving aggregate runtime entry point, localization-neutral accessible reorder commands and position metadata, and a bounded local settling-animation budget that can refuse optional settling under reduced motion or saturation without blocking semantic state updates.
 - Rendered Glaze Motion acceptance is expanded to Mobile, Desktop, and TV web/reference profiles in both normal and reduced-motion modes; this is development evidence and not native or real-device certification.
+- Motion Core 0.5 records the first merged first-party downstream evaluation from GoreeCloud Launcher PR #22 (`23a389b3b24db726ceab5e328f9f8157fa7655ae`) after Android CI #67 passed the repository, build, unit, Room, and Android 16 emulator gates. The evaluation remains test-only and does not activate Experimental Motion in production.
+- The central consumer registry now records Launcher as a Glaze UI 1.5.0 `adoption-candidate` with `productionEligible: false`; native/rendered/accessibility/reduced-motion/physical-device acceptance remains pending.
+- Motion Core 0.5 is an evidence/governance iteration with the 0.4.0 runtime implementation retained as its compatibility baseline; no new runtime primitive is claimed.
 - Earlier 0.1/0.2 experimental foundation work remains superseded lineage rather than Stable product capability. Motion Studio and Motion Spatial remain Planned.
 
 ## 1.5.0 — 2026-08-25
