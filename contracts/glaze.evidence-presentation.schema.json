@@ -17,22 +17,34 @@
   ],
   "properties": {
     "version": {"const": "glaze.evidence-presentation.v1"},
-    "surface": {
-      "enum": ["compact", "detailed", "administrative", "alert", "recovery"]
-    },
-    "authority": {
-      "enum": ["wardveil-security", "privacy-shield", "everkeep", "goreecloud-mesh", "glaze-ui"]
-    },
+    "surface": {"enum": ["compact", "detailed", "administrative", "alert", "recovery"]},
+    "authority": {"enum": ["wardveil-security", "privacy-shield", "everkeep", "goreecloud-mesh", "glaze-ui"]},
     "domain_state": {
       "type": "string",
       "minLength": 1,
       "description": "Producer-supplied or producer-contract-derived state. Glaze UI must not upgrade or reinterpret this value."
     },
-    "freshness": {
-      "enum": ["current", "stale", "expired", "unknown"]
-    },
-    "transport": {
-      "enum": ["available", "unavailable", "invalid", "unknown"]
+    "freshness": {"enum": ["current", "stale", "expired", "unknown"]},
+    "transport": {"enum": ["available", "unavailable", "invalid", "unknown"]},
+    "transport_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason"],
+      "properties": {
+        "reason": {
+          "enum": [
+            "accepted",
+            "unreachable",
+            "redirect-refused",
+            "destination-policy-rejected",
+            "identity-provenance-rejected",
+            "receipt-binding-failed",
+            "invalid-response",
+            "unknown"
+          ]
+        },
+        "diagnostic": {"type": "string", "maxLength": 240}
+      }
     },
     "identity_provenance": {
       "enum": ["verified", "rejected", "unavailable", "unknown"],
