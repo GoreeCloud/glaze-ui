@@ -1,125 +1,35 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "glazeMotion": {
-    "version": "0.1.0",
-    "status": "experimental",
-    "extendsGlazeUi": "1.5.0",
-    "domain": "motion-animation-spatial-graphics"
-  },
+  "glazeMotion": { "version": "0.2.0", "status": "experimental", "extendsGlazeUi": "1.5.0", "domain": "motion-animation-spatial-graphics" },
   "tiers": {
-    "core": {
-      "status": "experimental",
-      "defaultForApplications": true,
-      "requiresAdvancedGraphicsRuntime": false
-    },
-    "studio": {
-      "status": "planned",
-      "defaultForApplications": false,
-      "requiresAdvancedGraphicsRuntime": false
-    },
-    "spatial": {
-      "status": "planned",
-      "defaultForApplications": false,
-      "requiresAdvancedGraphicsRuntime": true
-    }
+    "core": { "status": "experimental", "defaultForApplications": true, "requiresAdvancedGraphicsRuntime": false },
+    "studio": { "status": "planned", "defaultForApplications": false, "requiresAdvancedGraphicsRuntime": false },
+    "spatial": { "status": "planned", "defaultForApplications": false, "requiresAdvancedGraphicsRuntime": true }
   },
-  "durationsMs": {
-    "instant": 0,
-    "micro": 90,
-    "short": 160,
-    "medium": 240,
-    "long": 360,
-    "ambient": 700
-  },
-  "easing": {
-    "standard": "cubic-bezier(0.2, 0, 0, 1)",
-    "enter": "cubic-bezier(0, 0, 0, 1)",
-    "exit": "cubic-bezier(0.3, 0, 1, 1)",
-    "emphasized": "cubic-bezier(0.2, 0, 0, 1)",
-    "linear": "linear"
-  },
+  "durationsMs": { "instant": 0, "micro": 90, "short": 160, "medium": 240, "long": 360, "ambient": 700 },
+  "easing": { "standard": "cubic-bezier(0.2, 0, 0, 1)", "enter": "cubic-bezier(0, 0, 0, 1)", "exit": "cubic-bezier(0.3, 0, 1, 1)", "emphasized": "cubic-bezier(0.2, 0, 0, 1)", "linear": "linear" },
   "springs": {
-    "restrained": {
-      "mass": 1,
-      "stiffness": 520,
-      "damping": 44,
-      "initialVelocity": 0,
-      "settleMs": 260,
-      "maxOvershoot": 0.015
-    },
-    "standard": {
-      "mass": 1,
-      "stiffness": 420,
-      "damping": 32,
-      "initialVelocity": 0,
-      "settleMs": 340,
-      "maxOvershoot": 0.04
-    },
-    "expressive": {
-      "mass": 1,
-      "stiffness": 360,
-      "damping": 24,
-      "initialVelocity": 0,
-      "settleMs": 460,
-      "maxOvershoot": 0.08
-    },
-    "spatial": {
-      "mass": 1,
-      "stiffness": 300,
-      "damping": 28,
-      "initialVelocity": 0,
-      "settleMs": 520,
-      "maxOvershoot": 0.06
-    }
+    "restrained": { "mass": 1, "stiffness": 520, "damping": 44, "initialVelocity": 0, "settleMs": 260, "maxOvershoot": 0.015 },
+    "standard": { "mass": 1, "stiffness": 420, "damping": 32, "initialVelocity": 0, "settleMs": 340, "maxOvershoot": 0.04 },
+    "expressive": { "mass": 1, "stiffness": 360, "damping": 24, "initialVelocity": 0, "settleMs": 460, "maxOvershoot": 0.08 },
+    "spatial": { "mass": 1, "stiffness": 300, "damping": 28, "initialVelocity": 0, "settleMs": 520, "maxOvershoot": 0.06 }
   },
-  "distancePx": {
-    "micro": 2,
-    "short": 8,
-    "medium": 16,
-    "long": 32,
-    "spatial": 48
+  "distancePx": { "micro": 2, "short": 8, "medium": 16, "long": 32, "spatial": 48 },
+  "scale": { "press": 0.98, "lift": 1.015, "focusTv": 1.04, "enterSubtle": 0.985 },
+  "gestures": { "slopPx": 4, "velocityWindowMs": 120, "flingVelocityPxPerMs": 0.55, "snapProjectionMs": 120, "directManipulationSurvivesReducedMotion": true, "settlingMotionCollapsesUnderReducedMotion": true, "axisLockOptions": ["both", "x", "y"] },
+  "sharedElements": { "viewTransitionsPreferredWhenAvailable": true, "stableKeysRequired": true, "maxKeyLength": 64, "reducedMotionFallback": "state-update-without-transition", "unsupportedFallback": "state-update-without-transition" },
+  "componentAdapters": {
+    "button": { "durationRole": "micro", "easingRole": "standard", "springPreset": "restrained" },
+    "disclosure": { "durationRole": "short", "easingRole": "standard", "springPreset": "restrained" },
+    "dialog": { "durationRole": "medium", "easingRole": "enter", "springPreset": "standard" },
+    "navigation": { "durationRole": "medium", "easingRole": "emphasized", "springPreset": "standard" },
+    "reorder": { "durationRole": "short", "easingRole": "standard", "springPreset": "standard" },
+    "shared": { "durationRole": "medium", "easingRole": "emphasized", "springPreset": "standard" }
   },
-  "scale": {
-    "press": 0.98,
-    "lift": 1.015,
-    "focusTv": 1.04,
-    "enterSubtle": 0.985
-  },
-  "runtime": {
-    "interruptibleByDefault": true,
-    "stateIndependentOfAnimationCompletion": true,
-    "preferCompositorProperties": ["opacity", "transform"],
-    "allowAutonomousCoreUiLoops": false,
-    "centralizeMotionPreferences": true
-  },
-  "reducedMotion": {
-    "required": true,
-    "durationMs": 0,
-    "removeDecorativeTranslation": true,
-    "removeDecorativeScale": true,
-    "disableParallax": true,
-    "disableDecorativeLoops": true,
-    "replaceLargeCameraMotion": "static-or-opacity",
-    "preserveStaticStateCues": true,
-    "mustNotDelayTaskCompletion": true
-  },
-  "performance": {
-    "targetFps": 60,
-    "maxLongTaskMs": 50,
-    "suspendOffscreenWork": true,
-    "avoidIdleRenderLoops": true,
-    "lazyLoadAdvancedAssets": true
-  },
-  "fallbacks": {
-    "webgpu": ["webgl2", "canvas-svg-css", "static-accessible"],
-    "webgl2": ["canvas-svg-css", "static-accessible"],
-    "rive": ["svg-css", "static-accessible"]
-  },
-  "authority": {
-    "presentation": "Glaze UI / Glaze Motion",
-    "privacyTruth": "Privacy Shield",
-    "securityTruth": "Wardveil Security",
-    "resilienceTruth": "Everkeep",
-    "coordinationTruth": "GoreeCloud Mesh"
-  }
+  "runtime": { "interruptibleByDefault": true, "stateIndependentOfAnimationCompletion": true, "preferCompositorProperties": ["opacity", "transform"], "allowAutonomousCoreUiLoops": false, "centralizeMotionPreferences": true, "viewTransitionFallbackMustStillApplyState": true, "gestureStateMustNotDependOnAnimation": true },
+  "reducedMotion": { "required": true, "durationMs": 0, "removeDecorativeTranslation": true, "removeDecorativeScale": true, "disableParallax": true, "disableDecorativeLoops": true, "replaceLargeCameraMotion": "static-or-opacity", "preserveStaticStateCues": true, "mustNotDelayTaskCompletion": true, "preserveDirectManipulationTracking": true, "removePostGestureInertia": true },
+  "performance": { "targetFps": 60, "frameBudgetMs": 16.67, "maxLongTaskMs": 50, "maxConcurrentSettlingAnimations": 12, "suspendOffscreenWork": true, "avoidIdleRenderLoops": true, "lazyLoadAdvancedAssets": true, "persistentWillChangeForCoreUi": false },
+  "renderedAcceptance": { "requiredBeforeCandidatePromotion": true, "profiles": ["mobile", "desktop"], "modes": ["normal", "reduced-motion"], "assertDirectManipulationInReducedMotion": true, "assertAdapterDurationsCollapse": true },
+  "fallbacks": { "viewTransitions": ["state-update-without-transition"], "webgpu": ["webgl2", "canvas-svg-css", "static-accessible"], "webgl2": ["canvas-svg-css", "static-accessible"], "rive": ["svg-css", "static-accessible"] },
+  "authority": { "presentation": "Glaze UI / Glaze Motion", "privacyTruth": "Privacy Shield", "securityTruth": "Wardveil Security", "resilienceTruth": "Everkeep", "coordinationTruth": "GoreeCloud Mesh" }
 }
