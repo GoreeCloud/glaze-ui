@@ -89,7 +89,7 @@ for source, markers in (
             raise SystemExit(f'promoted 1.5 public contract missing: {marker}')
 
 for remote in re.findall(r'(?:src|href)=["\'](https?://[^"\']+)', html):
-    if 'github.com/GoreeCloud/glaze-ui' not in remote:
+    if 'github.com/GoreeCloud/goreecloud-glaze-ui' not in remote:
         raise SystemExit(f'unexpected remote browser resource/link: {remote}')
 
 for d in ('Content-Security-Policy:', "frame-ancestors 'none'", 'Permissions-Policy:', 'X-Content-Type-Options: nosniff'):
