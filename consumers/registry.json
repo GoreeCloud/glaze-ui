@@ -84,6 +84,19 @@
       "notes": "Launcher has merged current-Stable 1.5 Adoption Candidate evidence. Its Glaze Motion 0.4 evaluation is test-only and does not activate Experimental Motion in production."
     },
     {
+      "name": "GoreeCloud Keyboard",
+      "repository": "GoreeCloud/goreecloud-keyboard",
+      "status": "adoption-candidate",
+      "targetVersion": "1.5.0",
+      "requiredTargetVersion": "1.5.0",
+      "referenceRevision": "c9c0500263b40640339cf7a46f1a029d9a2ac240",
+      "evidence": "docs/glaze-ui-adoption.md",
+      "automatedContract": true,
+      "productionEligible": false,
+      "visualAcceptance": "Phone/tablet native and rendered Glaze UI, TalkBack/switch-access, representative physical-device, and production acceptance remain pending.",
+      "notes": "Keyboard has merged current-Stable 1.5 Adoption Candidate evidence. Its Glaze Motion 0.5 Android emulator evaluation is test-only and does not activate Experimental Motion in production."
+    },
+    {
       "name": "GoreeCloud Notes",
       "repository": "GoreeCloud/goreecloud-notes",
       "status": "migration-required",
