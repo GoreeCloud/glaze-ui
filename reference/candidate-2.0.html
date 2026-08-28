@@ -151,19 +151,26 @@
     @media (max-width: 1023px) {
       .reference-shell { padding: var(--glaze-space-md); gap: var(--glaze-space-md); }
       .reference-header { align-items: flex-start; }
-      .reference-toolbar { display: none; }
+      .reference-toolbar > .glaze-button:not(#create-source) { display: none; }
       .reference-main { grid-template-columns: minmax(0, 1fr); }
       .inspector { position: static; }
       .content-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .reference-footer { min-height: 96px; }
     }
     @media (max-width: 599px) {
-      .reference-shell { padding: 16px 16px 104px; }
+      .reference-shell { padding: 16px 16px 152px; }
       .reference-main { display: block; }
       .content-stack { gap: 16px; }
       .content-grid { grid-template-columns: minmax(0, 1fr); }
       .hero, .content-card, .live-demo { border-radius: var(--glaze-shape-medium); }
       .inspector { display: none; }
+      .reference-toolbar {
+        position: fixed;
+        z-index: 26;
+        inset-inline-end: 16px;
+        inset-block-end: max(84px, calc(env(safe-area-inset-bottom) + 84px));
+      }
+      .creation-palette { inset-block-start: auto; inset-block-end: calc(100% + var(--glaze-space-sm)); }
       .reference-footer {
         position: fixed;
         inset-inline: 0;
@@ -275,18 +282,17 @@
     if (mode === 'reduced-transparency') document.documentElement.dataset.glazeClarity = 'solid';
     GlazeUI2.setNavigationScrollState(nav, 'forward');
 
-    try {
-      await GlazeUI2.connectedTransform({
-        source,
-        target,
-        name: 'create-palette',
-        mutate() { source.setAttribute('aria-expanded', 'true'); },
-      });
+    GlazeUI2.connectedTransform({
+      source,
+      target,
+      name: 'create-palette',
+      mutate() { source.setAttribute('aria-expanded', 'true'); },
+    }).then(() => {
       document.body.dataset.runtimeAccepted = 'true';
-    } catch (error) {
+    }).catch((error) => {
       document.body.dataset.runtimeAccepted = 'false';
       document.body.dataset.runtimeError = error instanceof Error ? error.message : String(error);
-    }
+    });
   </script>
 </body>
 </html>
