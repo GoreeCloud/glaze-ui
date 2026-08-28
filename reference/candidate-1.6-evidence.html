@@ -20,7 +20,7 @@
     *{box-sizing:border-box}html,body{margin:0;min-height:100%}.shell{width:min(1180px,100%);margin:auto;padding:32px var(--glaze-gutter) 72px}.hero{padding:clamp(28px,6vw,60px);margin-bottom:20px}.theme-group{display:flex;gap:8px;flex-wrap:wrap}.theme-group button{min-height:var(--glaze-target-min);border:0;border-radius:999px;padding:0 12px;background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}.theme-group button[aria-pressed="true"]{background:var(--glaze-surface-strong);box-shadow:var(--glaze-shadow-soft)}.section-title{margin:34px 0 14px}.candidate-note{margin-top:18px}
   </style>
 </head>
-<body class="glaze-canvas">
+<body class="glaze-canvas" data-glaze-candidate="1.6-evidence">
   <main class="shell">
     <header class="glaze-glass-functional glaze-shape-expressive" style="padding:10px 14px;margin-bottom:18px">
       <strong>GoreeCloud · Glaze UI 1.6 Candidate</strong>
@@ -36,7 +36,7 @@
 
     <h2 class="section-title">Current evidence can still report a negative outcome</h2>
     <section class="glaze-evidence-grid" aria-label="Current evidence examples">
-      <article class="glaze-evidence-card glaze-surface-solid glaze-card" aria-label="Wardveil Security evidence">
+      <article class="glaze-evidence-card glaze-surface-solid glaze-card" aria-label="Wardveil Security evidence" data-authority-domain="security">
         <div class="glaze-evidence-heading"><div><span class="glaze-evidence-kicker">Wardveil Security</span><h3 class="glaze-evidence-state">Protected</h3></div><span class="glaze-evidence-authority">Security authority</span></div>
         <p class="glaze-evidence-summary">The represented service supplied a current Wardveil security status for this scope.</p>
         <div class="glaze-evidence-chip-row"><span class="glaze-evidence-chip" data-freshness="current">Freshness: Current</span><span class="glaze-evidence-chip" data-transport="available">Mesh transport: Available</span></div>
@@ -44,7 +44,7 @@
         <details class="glaze-evidence-details"><summary>Evidence details</summary><div class="glaze-evidence-source"><span>Authority: Wardveil Security</span><span>Transport: GoreeCloud Mesh</span><span>Contract: contracts/wardveil.status.schema.json</span></div></details>
       </article>
 
-      <article class="glaze-evidence-card glaze-surface-solid glaze-card" aria-label="Privacy Shield denied evidence">
+      <article class="glaze-evidence-card glaze-surface-solid glaze-card" aria-label="Privacy Shield denied evidence" data-authority-domain="privacy">
         <div class="glaze-evidence-heading"><div><span class="glaze-evidence-kicker">Privacy Shield</span><h3 class="glaze-evidence-state">Data use denied</h3></div><span class="glaze-evidence-authority">Privacy authority</span></div>
         <p class="glaze-evidence-summary">The privacy decision is current, but the current decision is a denial. Freshness is not success.</p>
         <div class="glaze-evidence-chip-row"><span class="glaze-evidence-chip" data-freshness="current">Freshness: Current</span><span class="glaze-evidence-chip" data-transport="available">Mesh transport: Available</span></div>
@@ -52,7 +52,7 @@
         <details class="glaze-evidence-details"><summary>Evidence details</summary><div class="glaze-evidence-source"><span>Authority: Privacy Shield</span><span>Reason: destination_not_authorized</span><span>No prompt or retrieved content transported</span></div></details>
       </article>
 
-      <article class="glaze-evidence-card glaze-surface-solid glaze-card" aria-label="Everkeep failed restore verification evidence">
+      <article class="glaze-evidence-card glaze-surface-solid glaze-card" aria-label="Everkeep failed restore verification evidence" data-authority-domain="continuity">
         <div class="glaze-evidence-heading"><div><span class="glaze-evidence-kicker">Everkeep</span><h3 class="glaze-evidence-state">Restore verification failed</h3></div><span class="glaze-evidence-authority">Recovery authority</span></div>
         <p class="glaze-evidence-summary">The evidence is current and transport is available, while Everkeep reports that recovery verification did not pass.</p>
         <div class="glaze-evidence-chip-row"><span class="glaze-evidence-chip" data-freshness="current">Freshness: Current</span><span class="glaze-evidence-chip" data-transport="available">Mesh transport: Available</span></div>
@@ -60,7 +60,7 @@
         <details class="glaze-evidence-details"><summary>Evidence details</summary><div class="glaze-evidence-source"><span>Authority: Everkeep</span><span>Recovery-ready: No</span><span>Transport availability does not change the recovery verdict</span></div></details>
       </article>
 
-      <article class="glaze-evidence-card glaze-surface-solid glaze-card" aria-label="GoreeCloud Mesh governance evidence">
+      <article class="glaze-evidence-card glaze-surface-solid glaze-card" aria-label="GoreeCloud Mesh governance evidence" data-authority-domain="coordination">
         <div class="glaze-evidence-heading"><div><span class="glaze-evidence-kicker">GoreeCloud Mesh</span><h3 class="glaze-evidence-state">Envelope accepted</h3></div><span class="glaze-evidence-authority">Coordination authority</span></div>
         <p class="glaze-evidence-summary">Mesh can validate provenance, authority boundaries, freshness metadata, and transport structure without becoming the producer of the domain verdict.</p>
         <div class="glaze-evidence-chip-row"><span class="glaze-evidence-chip" data-freshness="current">Envelope freshness: Current</span><span class="glaze-evidence-chip" data-transport="available">Transport: Available</span></div>
@@ -94,7 +94,23 @@
     </section>
   </main>
   <script>
-    (()=>{const root=document.documentElement,buttons=[...document.querySelectorAll('[data-theme-choice]')];buttons.forEach(b=>b.addEventListener('click',()=>{const c=b.dataset.themeChoice;if(c==='system')root.removeAttribute('data-theme');else root.dataset.theme=c;buttons.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));}));})();
+    (()=>{
+      const params=new URLSearchParams(location.search),root=document.documentElement,body=document.body,buttons=[...document.querySelectorAll('[data-theme-choice]')];
+      const initialTheme=params.get('theme');
+      const mode=params.get('mode');
+      const textScale=Number(params.get('textScale')||1);
+      if(initialTheme==='light'||initialTheme==='dark')root.dataset.theme=initialTheme;
+      if(mode==='reduced-transparency')body.dataset.glazeReducedTransparency='true';
+      if(Number.isFinite(textScale)&&textScale>1)root.style.fontSize=`${textScale*100}%`;
+      buttons.forEach(b=>{
+        const choice=b.dataset.themeChoice;
+        b.setAttribute('aria-pressed',String((initialTheme&&choice===initialTheme)||(!initialTheme&&choice==='system')));
+        b.addEventListener('click',()=>{
+          const c=b.dataset.themeChoice;if(c==='system')root.removeAttribute('data-theme');else root.dataset.theme=c;
+          buttons.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+        });
+      });
+    })();
   </script>
 </body>
 </html>
