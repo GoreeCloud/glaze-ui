@@ -11,6 +11,9 @@ TOKENS = ROOT / "tokens" / "workspace-navigation.candidate.json"
 CSS = ROOT / "css" / "glaze.workspace.candidate.css"
 DOC = ROOT / "WORKSPACE_NAVIGATION.md"
 REFERENCE = ROOT / "reference" / "candidate-1.6-workspace.html"
+ACCEPTANCE = ROOT / "reference" / "candidate-1.6-workspace-acceptance.html"
+RENDERED_VALIDATOR = ROOT / "scripts" / "validate_candidate_1_6_rendered.py"
+ACCEPTANCE_RECORD = ROOT / "acceptance" / "1.6-candidate.md"
 
 
 def fail(message: str) -> None:
@@ -24,7 +27,7 @@ def require_text(text: str, markers: tuple[str, ...], source: str) -> None:
 
 
 def main() -> None:
-    for path in (TOKENS, CSS, DOC, REFERENCE):
+    for path in (TOKENS, CSS, DOC, REFERENCE, ACCEPTANCE, RENDERED_VALIDATOR, ACCEPTANCE_RECORD):
         if not path.is_file():
             fail(f"missing required file {path.relative_to(ROOT)}")
 
@@ -112,6 +115,9 @@ def main() -> None:
             ".glaze-workspace-inspector-candidate",
             "@media (pointer: fine)",
             "@media (pointer: coarse)",
+            'data-form-factor="tv"',
+            'data-reduced-transparency="true"',
+            'data-performance="constrained"',
             "@media (prefers-reduced-motion: reduce)",
             "@media (prefers-reduced-transparency: reduce)",
             "@media (forced-colors: active)",
@@ -139,6 +145,7 @@ def main() -> None:
         reference,
         (
             "Glaze UI 1.6 Candidate",
+            "data-glaze-candidate=\"1.6\"",
             "glaze.workspace.candidate.css",
             "glaze-workspace-candidate",
             "class=\"glaze-workspace-nav-candidate\"",
@@ -146,8 +153,54 @@ def main() -> None:
             "class=\"glaze-workspace-content-candidate\"",
             "class=\"glaze-workspace-inspector-candidate\"",
             "aria-current=\"page\"",
+            "formFactor",
+            "reduced-transparency",
+            "performance-constrained",
         ),
         "workspace reference",
+    )
+
+    acceptance = ACCEPTANCE.read_text(encoding="utf-8")
+    require_text(
+        acceptance,
+        (
+            "Glaze UI 1.6 Candidate workspace acceptance",
+            "Mobile overlay navigation and inspector sheet rendered",
+            "Tablet adaptive navigation and contextual inspector rendered",
+            "Desktop persistent navigation and inspector rendered",
+            "Wide Desktop expanded workspace rendered",
+            "TV far-view workspace rendered independently of Wide Desktop",
+            "reduced-transparency opaque fallback rendered",
+            "forced-colors selection treatment rendered",
+        ),
+        "workspace rendered acceptance harness",
+    )
+
+    rendered_validator = RENDERED_VALIDATOR.read_text(encoding="utf-8")
+    for marker in (
+        '(390, 844, "mobile")',
+        '(820, 1180, "tablet")',
+        '(1280, 900, "desktop")',
+        '(1600, 1000, "wide-desktop")',
+        '(1920, 1080, "tv")',
+        'mode="reduced-motion"',
+        'mode="reduced-transparency"',
+        'mode="performance-constrained"',
+        'mode="forced-colors"',
+    ):
+        if marker not in rendered_validator:
+            fail(f"rendered validator missing required case: {marker}")
+
+    acceptance_record = ACCEPTANCE_RECORD.read_text(encoding="utf-8")
+    require_text(
+        acceptance_record,
+        (
+            "Candidate version: `1.6.0-candidate`",
+            "Stable baseline preserved: `1.5.0`",
+            "The release remains **Candidate**",
+            "Adaptive Workspace rendered matrix does not substitute",
+        ),
+        "1.6 Candidate acceptance record",
     )
 
     print("Glaze UI 1.6 Candidate adaptive workspace/navigation contract validated")
