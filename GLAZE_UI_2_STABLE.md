@@ -30,6 +30,10 @@ Glaze UI 1.x Canvas/Solid/Raised/Functional Glass/Clear Glass/Overlay names rema
 
 Stable design-system coverage does not certify a downstream product. Every GoreeCloud-controlled user-facing consumer must migrate to 2.0 and complete its own applicable source, rendered, native, accessibility, performance, physical-device, security, privacy, resilience, and product acceptance before claiming production readiness.
 
+### Wearable rotational navigation
+
+Wearable rotational navigation is a Stable platform-neutral Glaze UI 2.0 semantic: compact wearable flows use rotational navigation as an input-enhancing pattern while preserving visible focus/selection, a 48px effective target floor, and an equivalent task path through touch or another native input where the target platform permits it. This design-system semantic does not certify crown hardware, Wear OS, watchOS, interruption behavior, system-hosted surfaces, native accessibility APIs, or physical-device performance.
+
 The platform-neutral wearable/spatial references establish Glaze UI semantics and fallback behavior. They do **not** certify Wear OS, watchOS, XR hardware, crown input, device safe areas, host-managed complications/tiles, battery policy, system accessibility APIs, or physical-device performance. Native or hardware consumers must provide application-specific native or real-device acceptance.
 
 No downstream application is promoted by declaration. Existing 1.x records become migration evidence when 2.0 is Stable.
