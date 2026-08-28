@@ -32,7 +32,7 @@
     @media (max-width: 699px) { body { padding: 0; } .demo-frame { height: 100vh; border: 0; } }
   </style>
 </head>
-<body class="glaze-canvas">
+<body class="glaze-canvas" data-glaze-candidate="1.6">
   <main class="glaze-workspace-candidate demo-frame" data-density="comfortable" data-workspace="wide" data-nav-overlay="open" data-inspector-sheet="open" aria-label="Glaze UI 1.6 Candidate adaptive workspace reference">
     <header class="glaze-workspace-title-candidate">
       <div class="title-copy">
@@ -93,5 +93,20 @@
       <span>Presentation authority only</span>
     </footer>
   </main>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const theme = params.get('theme');
+      const density = params.get('density');
+      const mode = params.get('mode');
+      const formFactor = params.get('formFactor');
+      const workspace = document.querySelector('.glaze-workspace-candidate');
+      if (theme) document.documentElement.dataset.theme = theme;
+      if (density) workspace.dataset.density = density;
+      if (formFactor) workspace.dataset.formFactor = formFactor;
+      if (mode === 'reduced-transparency') workspace.dataset.reducedTransparency = 'true';
+      if (mode === 'performance-constrained') workspace.dataset.performance = 'constrained';
+    })();
+  </script>
 </body>
 </html>
