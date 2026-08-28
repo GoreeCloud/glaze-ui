@@ -1,5 +1,5 @@
 /* Glaze UI 2.0 Candidate interaction runtime.
- * No analytics, telemetry, networking, storage, or remote dependencies.
+ * No telemetry, networking, storage, or remote dependencies.
  */
 
 const ROOT = document.documentElement;
