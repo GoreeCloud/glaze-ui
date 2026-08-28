@@ -29,6 +29,8 @@ def write(path: str, value: str) -> None:
 def replace(path: str, old: str, new: str, *, required: bool = True) -> None:
     body = read(path)
     if old not in body:
+        if new in body:
+            return
         if required:
             raise SystemExit(f"promotion replacement missing in {path}: {old!r}")
         return
@@ -142,13 +144,13 @@ replace("README.md", "current Stable and 1.5 promotion gates", "current Stable a
 
 # Stability governance: preserve the policy, move the active baseline.
 replace("STABILITY.md", "**Stable baseline:** Glaze UI **1.5.0**", "**Stable baseline:** Glaze UI **1.6.0**")
-replace("STABILITY.md", "Glaze UI 1.4.0 remains the immediately preceding historical Stable baseline.",
+replace("STABILITY.md", "Glaze UI 1.4.0 is the immediately preceding historical Stable baseline.",
         "Glaze UI 1.5.0 remains the immediately preceding historical Stable baseline.")
 replace("STABILITY.md", "The 1.5 Stable baseline promotes adaptive color, iconography/construction/identity, motion/interaction, material/depth, layout/spacing/density, and semantic interaction-state/input-modality contracts on top of retained 1.4 form-factor semantics.",
-        "The 1.6 Stable baseline retains the complete 1.5 adaptive-color, iconography, motion, material, layout, state, and form-factor foundation and promotes evidence presentation/authority surfaces plus Adaptive Workspace/Navigation.")
-replace("STABILITY.md", "While 1.5.x remains Stable", "While 1.6.x remains Stable")
+        "The 1.6 Stable baseline retains the complete 1.5 adaptive-color, iconography, motion, material, layout, state, and form-factor foundation and promotes evidence presentation/authority surfaces plus Adaptive Workspace/Navigation.", required=False)
+replace("STABILITY.md", "While 1.5.x is Stable", "While 1.6.x remains Stable")
 replace("STABILITY.md", "Glaze UI 1.0.0 through 1.4.0 are historical Stable releases", "Glaze UI 1.0.0 through 1.5.0 are historical Stable releases")
-replace("STABILITY.md", "the current Stable 1.5.0 release", "the current Stable 1.6.0 release")
+replace("STABILITY.md", "the current Stable 1.5.0 release", "the current Stable 1.6.0 release", required=False)
 replace("STABILITY.md", "application-level 1.4 acceptance", "application-level 1.6 acceptance")
 
 # Conformance and acceptance protocols.
@@ -175,13 +177,13 @@ write("ACCEPTANCE.md", acceptance)
 # Component contract/status.
 replace("COMPONENTS.md", "# Glaze UI 1.5 Component Contract", "# Glaze UI 1.6 Component Contract")
 replace("COMPONENTS.md", "Glaze UI 1.5 retains the Stable component semantics established in Glaze UI 1.3", "Glaze UI 1.6 retains the Stable component semantics established in Glaze UI 1.3")
-replace("COMPONENT_STATUS.md", "# Glaze UI Component Lifecycle Registry", "# Glaze UI Component Lifecycle Registry")
+replace("COMPONENT_STATUS.md", "# Glaze UI Component Lifecycle Registry", "# Glaze UI Component Lifecycle Registry", required=False)
 replace("COMPONENT_STATUS.md", "## Glaze UI 1.6 Candidate systems", "## Glaze UI 1.6 Stable systems")
 replace("COMPONENT_STATUS.md", "| Evidence presentation and authority surfaces | Candidate |", "| Evidence presentation and authority surfaces | Stable |")
 replace("COMPONENT_STATUS.md", "| Adaptive workspace and navigation | Candidate |", "| Adaptive workspace and navigation | Stable |")
-replace("COMPONENT_STATUS.md", "No Glaze UI 1.6 Candidate capability changes the current 1.5.0 Stable consumer target until separately promoted.",
+replace("COMPONENT_STATUS.md", "The 1.6 evidence-presentation Candidate is defined by `EVIDENCE_PRESENTATION.md`, `tokens/evidence-presentation.json`, and `tokens/mesh-evidence-profile.json`. The 1.6 Adaptive Workspace Candidate is defined by `WORKSPACE_NAVIGATION.md`, `tokens/workspace-navigation.candidate.json`, `css/glaze.workspace.candidate.css`, `reference/candidate-1.6-workspace.html`, and `scripts/validate_workspace_navigation.py`. Both are implemented source material under formal promotion review and are **not** part of the 1.5.0 Stable compatibility promise or current Stable consumer target.",
         "Glaze UI 1.6.0 is the current Stable consumer target. The promoted evidence-presentation and Adaptive Workspace capabilities are now Stable; Glaze Motion and wearable expansion retain their separate non-Stable lifecycle states.")
-replace("COMPONENT_STATUS.md", "Glaze Motion is not part of the Glaze UI 1.5.0 Stable compatibility promise", "Glaze Motion is not part of the Glaze UI 1.6.0 Stable compatibility promise")
+replace("COMPONENT_STATUS.md", "Motion Core 0.2 is implemented development source but is **not** part of Glaze UI 1.5.0 Stable", "Glaze Motion is not part of the Glaze UI 1.6.0 Stable compatibility promise")
 
 # Promoted subsystem docs/tokens remain in their audited historical filenames.
 replace("EVIDENCE_PRESENTATION.md", "# Glaze UI 1.6 Candidate — Evidence Presentation and Authority Surfaces", "# Glaze UI 1.6 Stable — Evidence Presentation and Authority Surfaces")

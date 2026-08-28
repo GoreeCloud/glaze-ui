@@ -1,6 +1,6 @@
-# Glaze UI 1.6 Candidate — Evidence Presentation and Authority Surfaces
+# Glaze UI 1.6 Stable — Evidence Presentation and Authority Surfaces
 
-**Lifecycle:** Candidate. This contract is not part of the current Glaze UI 1.5.0 Stable baseline and must not be used to satisfy current Stable conformance until separately validated and promoted.
+**Lifecycle:** Stable in Glaze UI 1.6.0. This contract is part of the current Stable compatibility and conformance baseline.
 
 Glaze UI 1.6 Candidate introduces a shared presentation contract for evidence-backed platform state from Wardveil Security, Privacy Shield, Everkeep, and GoreeCloud Mesh.
 
@@ -117,7 +117,7 @@ The shared evidence anatomy maps into the platform centers without transferring 
 
 Application-specific surfaces may consume the same presentation grammar when they preserve the same producer identity, authority boundary, freshness semantics, minimization rules, and fail-closed behavior.
 
-## Candidate rendered acceptance
+## Stable rendered acceptance
 
 `reference/candidate-1.6-evidence-acceptance.html` and `scripts/validate_candidate_1_6_evidence_rendered.py` provide a fail-closed browser-rendered Candidate matrix.
 
@@ -127,7 +127,7 @@ Rendered acceptance verifies that security, privacy, continuity, and coordinatio
 
 This matrix proves the platform-neutral reference contract only. It does not certify downstream native applications, producer contracts, or real-device integration.
 
-## Candidate acceptance requirements
+## Stable regression requirements
 
 Promotion requires:
 
@@ -140,4 +140,4 @@ Promotion requires:
 7. validation that Glaze UI does not create security, privacy, recovery, continuity, or coordination claims; and
 8. exact-head CI plus lifecycle, compatibility, migration, and rollback review under `STABILITY.md`.
 
-Until those gates pass and the release is explicitly promoted, this remains Candidate and the current Stable consumer target stays Glaze UI 1.5.0.
+These gates passed during the 1.6 Candidate promotion cycle and remain permanent Stable regression requirements. Glaze UI 1.6.0 is the current Stable consumer target.

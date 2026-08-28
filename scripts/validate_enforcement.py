@@ -18,8 +18,9 @@ def main() -> None:
             fail(f"missing {path.relative_to(ROOT)}")
 
     data = json.loads(TOKENS.read_text(encoding="utf-8"))
-    if data.get("meta", {}).get("currentStable") != "1.4.0":
-        fail("current Stable baseline must remain 1.4.0")
+    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    if data.get("meta", {}).get("currentStable") != version:
+        fail("enforcement current Stable baseline must match VERSION")
     scope = data.get("scope", {})
     if scope.get("nonExhaustive") is not True:
         fail("enforcement scope must remain non-exhaustive")

@@ -4,7 +4,7 @@ Glaze UI consumer conformance is current-Stable, evidence-based, and mandatory. 
 
 ## Mandatory current Stable target
 
-Glaze UI **1.5.0** is the current Stable baseline and the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements. Earlier Stable releases remain historical release, migration, rollback, and audit records only. They are not valid long-term application targets and do not satisfy the current production gate.
+Glaze UI **1.6.0** is the current Stable baseline and the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements. Earlier Stable releases remain historical release, migration, rollback, and audit records only. They are not valid long-term application targets and do not satisfy the current production gate.
 
 When a newer Glaze UI release is promoted to Stable, every GoreeCloud-controlled user-facing application must migrate to that new current Stable release through controlled, evidence-backed adoption. Controlled migration governs how the upgrade is performed; it does not make migration optional.
 
@@ -34,13 +34,13 @@ Current-Stable version-specific evidence has not been established. Unverified is
 
 ## Current audited consumers
 
-- **GoreeCloud Manager** — `migration-required`, current recorded target 1.3.0; required target 1.5.0.
-- **GoreeCloud Website** — `migration-required`, current recorded target 1.1.0; required target 1.5.0.
-- **GoreeCloud Tasks** — `migration-required`, current recorded target 1.3.0; required target 1.5.0.
-- **GoreeCloud Launcher** — `adoption-candidate`, target 1.5.0; required target 1.5.0; native/rendered/accessibility/reduced-motion/physical-device acceptance remains pending and production eligibility remains false.
-- **GoreeCloud Keyboard** — `adoption-candidate`, target 1.5.0; required target 1.5.0; phone/tablet native and rendered Glaze UI, TalkBack/switch-access, representative physical-device, and production acceptance remain pending and production eligibility remains false.
-- **GoreeCloud Notes** — `migration-required`, current recorded target 1.0.0; required target 1.5.0.
-- **GoreeCloud Monitor** — `migration-required`, current recorded target 1.0.0; required target 1.5.0.
+- **GoreeCloud Manager** — `migration-required`, current recorded target 1.3.0; required target 1.6.0.
+- **GoreeCloud Website** — `migration-required`, current recorded target 1.1.0; required target 1.6.0.
+- **GoreeCloud Tasks** — `migration-required`, current recorded target 1.3.0; required target 1.6.0.
+- **GoreeCloud Launcher** — `adoption-candidate`, target 1.6.0; required target 1.6.0; native/rendered/accessibility/reduced-motion/physical-device acceptance remains pending and production eligibility remains false.
+- **GoreeCloud Keyboard** — `adoption-candidate`, target 1.6.0; required target 1.6.0; phone/tablet native and rendered Glaze UI, TalkBack/switch-access, representative physical-device, and production acceptance remain pending and production eligibility remains false.
+- **GoreeCloud Notes** — `migration-required`, current recorded target 1.0.0; required target 1.6.0.
+- **GoreeCloud Monitor** — `migration-required`, current recorded target 1.0.0; required target 1.6.0.
 
 Launcher contains a test-only Glaze Motion 0.4 Experimental evaluation against its real workspace ordering domain. Keyboard contains a test-only Glaze Motion 0.5 Experimental evaluation against its real native `KeyboardView` key-release and suggestion-selection paths, including an Android 15 emulator reduced-motion check. These evaluations strengthen Glaze Motion development governance but do not make Experimental Motion a production dependency and do not satisfy either application's incomplete Glaze UI product-acceptance gates.
 

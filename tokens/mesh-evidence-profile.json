@@ -2,7 +2,10 @@
   "schema_version": "1.0.0",
   "system": "glaze-ui",
   "producer_repository": "GoreeCloud/glaze-ui",
-  "authority_domains": ["presentation", "design-conformance"],
+  "authority_domains": [
+    "presentation",
+    "design-conformance"
+  ],
   "mesh_envelope": {
     "version": "goreecloud.evidence-envelope.v1",
     "repository": "GoreeCloud/goreecloud-mesh",
@@ -43,8 +46,8 @@
     "Glaze UI may publish presentation and design-conformance evidence only.",
     "Glaze UI consumes Wardveil, Privacy Shield, Everkeep, and Mesh truth but does not author their domain state.",
     "A valid Mesh envelope or system icon never independently proves protection, privacy compliance, recoverability, or platform acceptance.",
-    "The evidence-presentation contract remains Candidate until separately promoted."
+    "The Glaze UI 1.6 evidence-presentation contract is Stable; producer authority remains external to Glaze UI."
   ],
-  "status": "candidate-source-profile",
+  "status": "stable-source-profile",
   "production_acceptance": false
 }

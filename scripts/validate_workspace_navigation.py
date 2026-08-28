@@ -13,7 +13,7 @@ DOC = ROOT / "WORKSPACE_NAVIGATION.md"
 REFERENCE = ROOT / "reference" / "candidate-1.6-workspace.html"
 ACCEPTANCE = ROOT / "reference" / "candidate-1.6-workspace-acceptance.html"
 RENDERED_VALIDATOR = ROOT / "scripts" / "validate_candidate_1_6_rendered.py"
-ACCEPTANCE_RECORD = ROOT / "acceptance" / "1.6-candidate.md"
+ACCEPTANCE_RECORD = ROOT / "acceptance" / "1.6.0.md"
 
 
 def fail(message: str) -> None:
@@ -39,10 +39,10 @@ def main() -> None:
     meta = data.get("meta", {})
     if meta.get("candidateVersion") != "1.6.0":
         fail("candidateVersion must remain 1.6.0 until explicit promotion/version change")
-    if meta.get("status") != "Candidate":
-        fail("workspace layer must remain Candidate before promotion")
-    if meta.get("stableBaseline") != "1.5.0":
-        fail("workspace Candidate must retain 1.5.0 Stable baseline")
+    if meta.get("status") != "Stable":
+        fail("workspace layer must be Stable after 1.6.0 promotion")
+    if meta.get("stableBaseline") != "1.6.0":
+        fail("workspace Stable baseline must be 1.6.0")
 
     expected_regions = {"window", "title", "navigation", "toolbar", "content", "inspector", "status", "overlay"}
     if set(data.get("regions", {})) != expected_regions:
@@ -129,8 +129,8 @@ def main() -> None:
     require_text(
         doc,
         (
-            "Status: **Candidate**",
-            "Glaze UI 1.5.0 remains the current Stable production target",
+            "Status: **Stable in Glaze UI 1.6.0**",
+            "current Stable compatibility and production-conformance baseline",
             "## Navigation transformation",
             "## Input-aware targets",
             "## Accessibility and resilience",
@@ -195,9 +195,9 @@ def main() -> None:
     require_text(
         acceptance_record,
         (
-            "Candidate version: `1.6.0-candidate`",
-            "Stable baseline preserved: `1.5.0`",
-            "The release remains **Candidate**",
+            "Stable version: `1.6.0`",
+            "Previous Stable baseline: `1.5.0`",
+            "mandatory current Stable target",
             "Adaptive Workspace rendered matrix does not substitute",
         ),
         "1.6 Candidate acceptance record",

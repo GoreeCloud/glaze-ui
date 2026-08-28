@@ -1,6 +1,6 @@
-# Glaze UI 1.6 Candidate — Adaptive Workspace and Navigation
+# Glaze UI 1.6 Stable — Adaptive Workspace and Navigation
 
-Status: **Candidate**. Glaze UI 1.5.0 remains the current Stable production target. This contract is implemented for review but is not part of the Stable compatibility promise until promoted through `STABILITY.md`.
+Status: **Stable in Glaze UI 1.6.0**. This contract is part of the current Stable compatibility and production-conformance baseline.
 
 ## Purpose
 
@@ -120,7 +120,7 @@ Workspace surfaces may present privacy, security, resilience, synchronization, i
 
 ## Candidate implementation
 
-The Candidate implementation consists of:
+The Stable implementation consists of:
 
 - `tokens/workspace-navigation.candidate.json` — machine-readable semantic contract;
 - `css/glaze.workspace.candidate.css` — reusable workspace primitives with Desktop/Tablet/Mobile/Wide Desktop/TV composition, density, input-aware targets, and accessibility/performance fallbacks;
@@ -131,18 +131,18 @@ The Candidate implementation consists of:
 - `acceptance/1.6-candidate.md` — Candidate lifecycle, scope, evidence, compatibility, and rollback record; and
 - CI coverage in `.github/workflows/ci.yml`.
 
-## Rendered acceptance matrix
+## Stable rendered acceptance matrix
 
-The Candidate workspace is evaluated in light and dark appearances at Mobile `390×844`, Tablet `820×1180`, Desktop `1280×900`, Wide Desktop `1600×1000`, and TV `1920×1080`.
+The Stable workspace is evaluated in light and dark appearances at Mobile `390×844`, Tablet `820×1180`, Desktop `1280×900`, Wide Desktop `1600×1000`, and TV `1920×1080`.
 
 Additional cases cover compact Desktop, spacious Mobile, reduced motion, reduced transparency, constrained-performance material fallbacks, and TV forced colors. The matrix must fail closed on root overflow, missing workspace regions, lost current-destination semantics, undersized targets, incorrect form-factor transformations, TV falling through to Wide Desktop, or missing resilience behavior.
 
-This rendered matrix proves the platform-neutral reference contract only. Platform-native consumers still require their own native/real-device and application-specific acceptance.
+This rendered matrix remains the platform-neutral Stable regression contract only. Platform-native consumers still require their own native/real-device and application-specific acceptance.
 
-## Promotion boundary
+## Stable release boundary
 
 Stable promotion requires exact-head CI, rendered acceptance across representative Mobile, Tablet, Desktop, Wide Desktop, and TV contexts, accessibility/resilience review, mixed-input validation, compatibility review, documentation synchronization, and explicit promotion under `STABILITY.md`.
 
 The separate Glaze UI 1.6 Evidence Presentation Candidate must also satisfy its own applicable promotion requirements. Passing the Adaptive Workspace matrix alone does not authorize Stable 1.6 promotion.
 
-Until the complete 1.6 promotion gate is satisfied, downstream applications may evaluate this layer only as Candidate behavior and must not claim Stable 1.6 conformance.
+Glaze UI 1.6.0 promotion completed the design-system gate. Downstream applications must still complete controlled 1.6 adoption and application-specific rendered/native/real-device acceptance before claiming current Stable conformance.

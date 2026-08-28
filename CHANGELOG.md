@@ -2,6 +2,16 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
+## 1.6.0 — Stable — 2026-08-28
+
+- Promoted Evidence Presentation and Authority Surfaces to Stable with producer-authority separation across Wardveil Security, Privacy Shield, Everkeep, GoreeCloud Mesh, and Glaze UI presentation authority.
+- Promoted Adaptive Workspace and Navigation to Stable across Mobile, Tablet, Desktop, Wide Desktop, and distinct far-view TV composition.
+- Retained fail-closed rendered matrices for light/dark, reduced motion, reduced transparency, forced colors, constrained-performance fallbacks, density, target floors, and 200% text reflow.
+- Fixed the Candidate 200% Mobile evidence reflow defect before promotion; the acceptance gate was not weakened.
+- Candidate promotion evidence head `9a632e8df5ddd3a66c19ef2bb90efb7e65678048` passed Glaze UI CI #460, Icon Construction #145, Icon Identity #137, and Semantic Color #180 before merge as `cc50ad8debce49b254da424399768741b0a5a96e`.
+- Glaze Motion remains Experimental and wearable production support remains deferred/production-blocked.
+- `1.6.0` becomes the mandatory current Stable consumer target; existing 1.5 and older application evidence becomes migration input only until each consumer completes 1.6 adoption and application-specific acceptance.
+
 ## Unreleased
 
 ### Glaze UI 1.6 — Adaptive Workspace Candidate

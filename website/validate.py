@@ -58,7 +58,7 @@ states = (DIST / 'assets' / 'glaze.states.css').read_text()
 workspace = (DIST / 'assets' / 'glaze.workspace.candidate.css').read_text()
 
 for n in (
-    'Glaze UI 1.5 Stable',
+    'Glaze UI 1.6 Stable',
     'One design language. Four interaction environments.',
     'Facet is the official Glaze UI mark.',
     'Official Glaze UI Facet mark',
@@ -66,12 +66,12 @@ for n in (
     'GoreeCloud/goreecloud-branding-assets',
     'Mobile', 'Tablet', 'Desktop', 'TV',
     'Canvas', 'Solid', 'Raised', 'Functional Glass', 'Overlay',
-    'Glaze UI 1.6 Candidate',
+    'Glaze UI 1.6 Stable',
     'Adaptive workspace turns shell behavior into a shared contract.',
-    'Candidate · production baseline remains 1.5.0',
+    'Stable · current production baseline 1.6.0',
     'Shared semantics, flexible composition',
     'Stable semantics protect beauty and usability',
-    '1.5 is Stable and is the production target.',
+    '1.6 is Stable and is the production target.',
     'Smartwatch and wearable applications remain production-blocked',
     'Skip to content',
 ):
@@ -123,4 +123,4 @@ for d in ('Content-Security-Policy:', "frame-ancestors 'none'", 'Permissions-Pol
 if 'localStorage' not in js or 'data-theme-choice' not in html:
     raise SystemExit('local appearance preference contract missing')
 
-print('Glaze UI Design Center validation passed: 1.5 Stable with bounded 1.6 Candidate preview and synchronized Facet identity')
+print('Glaze UI Design Center validation passed: 1.6 Stable with evidence/workspace contracts and synchronized Facet identity')

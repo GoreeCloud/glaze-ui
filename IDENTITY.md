@@ -4,7 +4,7 @@ Status: **Approved canonical artwork**
 
 Canonical identity: **Facet**
 
-Glaze UI 1.5.0 is the current Stable GoreeCloud design-system baseline. Facet is the sole approved Glaze UI logo, icon, and visual identity artwork.
+Glaze UI 1.6.0 is the current Stable GoreeCloud design-system baseline. Facet is the sole approved Glaze UI logo, icon, and visual identity artwork.
 
 ## Branding authority
 
