@@ -1,0 +1,206 @@
+/* Glaze UI 2.0 Candidate wearable and spatial primitives.
+ * Candidate only: representative design-system implementation, not native-device certification.
+ */
+
+:root {
+  --glaze-wearable-safe-inset: 24px;
+  --glaze-wearable-target: 48px;
+  --glaze-spatial-depth-step: 36px;
+  --glaze-spatial-perspective: 1200px;
+}
+
+.glaze-wearable-frame {
+  box-sizing: border-box;
+  inline-size: min(100%, 360px);
+  block-size: min(100vh, 360px);
+  aspect-ratio: 1;
+  margin: auto;
+  padding: var(--glaze-wearable-safe-inset);
+  overflow: hidden;
+  border-radius: 50%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--glaze-space-sm);
+  background: var(--glaze-canvas);
+  color: var(--glaze-text-primary);
+  border: 1px solid var(--glaze-border);
+  isolation: isolate;
+}
+
+.glaze-wearable-heading {
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.glaze-wearable-rotary-nav {
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  display: grid;
+  gap: var(--glaze-space-xs);
+  padding-block: calc((100% - var(--glaze-wearable-target)) / 2);
+}
+
+.glaze-wearable-rotary-nav::-webkit-scrollbar { display: none; }
+
+.glaze-wearable-rotary-nav [data-glaze-rotary-item] {
+  box-sizing: border-box;
+  min-block-size: var(--glaze-wearable-target);
+  min-inline-size: var(--glaze-wearable-target);
+  inline-size: 100%;
+  border: 1px solid transparent;
+  border-radius: var(--glaze-shape-control);
+  padding-inline: var(--glaze-space-md);
+  background: var(--glaze-surface);
+  color: var(--glaze-text-primary);
+  font: inherit;
+  font-weight: 600;
+  scroll-snap-align: center;
+  cursor: pointer;
+  transition:
+    transform calc(var(--glaze-motion-fast) * var(--glaze-motion-scale)) var(--glaze-spring),
+    background-color calc(var(--glaze-motion-fast) * var(--glaze-motion-scale)) ease-out,
+    border-color calc(var(--glaze-motion-fast) * var(--glaze-motion-scale)) ease-out;
+}
+
+.glaze-wearable-rotary-nav [data-glaze-rotary-item][aria-current="true"] {
+  background: var(--glaze-accent-container);
+  border-color: color-mix(in srgb, var(--glaze-accent) 54%, var(--glaze-border));
+  transform: scale(1.04);
+}
+
+.glaze-wearable-rotary-nav [data-glaze-rotary-item]:focus-visible,
+.glaze-spatial-stage :is(button, a, [tabindex]):focus-visible {
+  outline: 3px solid var(--glaze-accent);
+  outline-offset: 2px;
+}
+
+.glaze-wearable-rotary-indicator {
+  justify-self: center;
+  min-block-size: 24px;
+  padding-inline: var(--glaze-space-sm);
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--glaze-shape-control);
+  color: var(--glaze-text-secondary);
+  font-size: 12px;
+}
+
+.glaze-spatial-stage {
+  position: relative;
+  box-sizing: border-box;
+  min-block-size: min(640px, calc(100vh - 48px));
+  overflow: clip;
+  border-radius: var(--glaze-shape-hero);
+  background: var(--glaze-canvas);
+  color: var(--glaze-text-primary);
+  border: 1px solid var(--glaze-border);
+  perspective: var(--glaze-spatial-perspective);
+  transform-style: preserve-3d;
+  isolation: isolate;
+}
+
+.glaze-spatial-anchor {
+  position: absolute;
+  inset-inline-start: var(--glaze-spatial-x, 50%);
+  inset-block-start: var(--glaze-spatial-y, 50%);
+  transform:
+    translate(-50%, -50%)
+    translateZ(calc(var(--glaze-spatial-depth, 0) * var(--glaze-spatial-depth-step)));
+  transform-style: preserve-3d;
+  transition: transform calc(var(--glaze-motion-standard) * var(--glaze-motion-scale)) var(--glaze-spring);
+}
+
+.glaze-spatial-control-surface,
+.glaze-spatial-environmental-panel,
+.glaze-spatial-control-volume {
+  box-sizing: border-box;
+  min-inline-size: 220px;
+  max-inline-size: min(320px, 32vw);
+  padding: var(--glaze-space-md);
+  display: grid;
+  gap: var(--glaze-space-sm);
+  border-radius: var(--glaze-shape-card);
+}
+
+.glaze-spatial-control-surface :is(button, a, [tabindex]),
+.glaze-spatial-environmental-panel :is(button, a, [tabindex]),
+.glaze-spatial-control-volume :is(button, a, [tabindex]) {
+  box-sizing: border-box;
+  min-block-size: var(--glaze-touch-min);
+  min-inline-size: var(--glaze-touch-min);
+}
+
+.glaze-spatial-anchor[data-spatial-depth="-1"] { --glaze-spatial-depth: -1; }
+.glaze-spatial-anchor[data-spatial-depth="0"] { --glaze-spatial-depth: 0; }
+.glaze-spatial-anchor[data-spatial-depth="1"] { --glaze-spatial-depth: 1; }
+.glaze-spatial-anchor[data-spatial-depth="2"] { --glaze-spatial-depth: 2; }
+
+[data-glaze-spatial-flat="true"] .glaze-spatial-stage {
+  perspective: none;
+  transform-style: flat;
+}
+
+[data-glaze-spatial-flat="true"] .glaze-spatial-anchor {
+  transform: translate(-50%, -50%);
+  transform-style: flat;
+}
+
+@media (max-width: 719px) {
+  .glaze-spatial-stage {
+    min-block-size: auto;
+    display: grid;
+    gap: var(--glaze-space-md);
+    padding: var(--glaze-space-md);
+    perspective: none;
+    transform-style: flat;
+    overflow: visible;
+  }
+
+  .glaze-spatial-anchor {
+    position: static;
+    transform: none;
+  }
+
+  .glaze-spatial-control-surface,
+  .glaze-spatial-environmental-panel,
+  .glaze-spatial-control-volume {
+    max-inline-size: none;
+    inline-size: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glaze-wearable-rotary-nav [data-glaze-rotary-item],
+  .glaze-spatial-anchor {
+    transition: none;
+  }
+
+  .glaze-wearable-rotary-nav [data-glaze-rotary-item][aria-current="true"] {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .glaze-wearable-frame,
+  .glaze-spatial-stage,
+  .glaze-wearable-rotary-nav [data-glaze-rotary-item][aria-current="true"] {
+    border-width: 2px;
+  }
+}
+
+@media (forced-colors: active) {
+  .glaze-wearable-rotary-nav [data-glaze-rotary-item][aria-current="true"],
+  .glaze-spatial-stage :is(button, a, [tabindex]):focus-visible {
+    outline: 3px solid Highlight;
+  }
+}
+
+@supports not (transform-style: preserve-3d) {
+  .glaze-spatial-stage { perspective: none; }
+  .glaze-spatial-anchor { transform: translate(-50%, -50%); }
+}
