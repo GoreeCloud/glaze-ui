@@ -1,113 +1,48 @@
-# Glaze UI Wearable Form-Factor Candidate Contract
+# Glaze UI Wearable Contract Record
 
-Status: **Development Candidate**  
-Tracking issue: #58  
-Current Stable remains: **Glaze UI 1.4.0**
+## Current authority
 
-This contract develops first-class smartwatch and wearable support without changing the current Stable Glaze UI release. It cannot satisfy a production conformance claim until a later release explicitly promotes a wearable contract to Stable and each consuming application completes native and real-device acceptance.
+- Current enforced active-development design contract: **Glaze UI 2.0.0 Candidate** in `GLAZE_UI_2.md`.
+- Last validated Stable implementation baseline: **Glaze UI 1.6.0**.
+- Current 2.0 wearable implementation evidence: `css/glaze-2.emerging.candidate.css`, `js/glaze-2.emerging.candidate.js`, `reference/candidate-2.0-emerging.html`, and `scripts/validate_candidate_2_emerging.py`.
+- Native-device certification: **not established by the 2.0 browser reference**.
 
-## Role
+Glaze UI 2.0 defines wearable navigation as **compact rotational navigation**. Wearable UI remains glance-first, near-view, short-session, interruption-tolerant, and platform-adaptive; it is not a shrunken phone UI.
 
-Wearable UI is glance-first, near-view, short-session, touch-capable, interruption-tolerant, and platform-native. It is not a shrunken phone UI.
+## Current 2.0 design-system boundary
 
-## Composition
+The 2.0 Candidate reference establishes a compact circular composition, 48px effective target floor, one selected/roving-focus navigation target, wheel and directional-key parity, and reduced-motion behavior. The implementation is platform-neutral design-system evidence. It does not claim that a Wear OS crown, watchOS Digital Crown, native screen reader, system-hosted complication/tile, device safe area, battery policy, or interruption lifecycle has been accepted on hardware.
 
-- Present one dominant status, task, or action at a time.
-- Keep hierarchy shallow and labels concise.
-- Prefer vertically ordered flows and progressive disclosure.
-- Avoid dense dashboards, multi-pane layouts, desktop tables, persistent sidebars, and phone navigation shells.
-- Preserve safe regions around round edges, curved corners, bezels, system indicators, and platform-reserved areas.
-- Support round and rectangular displays where the target platform exposes both.
-- Keep critical controls reachable without precision pointing.
+Consumer-native implementations must still prove the platform behaviors they actually ship, including native input mapping, touch-only task completion where applicable, safe-area/edge behavior, large text, spoken semantics, reduced motion/transparency, interruption/restoration, performance, host-managed surfaces, and real-device acceptance before product production approval.
 
-## Candidate semantic tokens
+## Historical 1.x precursor evidence
 
-Wearable-specific candidate tokens live in `tokens/wearable.candidate.tokens.json`. They are additive candidate semantics and do not modify Stable `tokens/glaze.tokens.json`.
+The repository also retains an earlier **1.x Wearable Development Candidate** as historical design and implementation evidence. Its token/CSS/reference/native artifacts include:
 
-The candidate defines:
+- `tokens/wearable.candidate.tokens.json`;
+- `css/glaze.wearable.candidate.css`;
+- `reference/wearable-candidate.html`;
+- `reference/native/wear-os/`;
+- `reference/native/watchos/`;
+- `acceptance/wearable-native-evidence.template.json`;
+- `.github/workflows/wear-os-emulator.yml`.
 
-- a 48 dp Wear OS minimum actionable target baseline;
-- compact content-edge and control-gap spacing;
-- short-session motion limits;
-- safe-edge inset roles for constrained displays;
-- glance, task, complication/tile/widget, and ambient surface roles;
-- rotary/crown focus and selection semantics;
-- reduced-motion and reduced-transparency requirements.
+Those artifacts were developed against earlier Glaze UI semantics and are preserved for audit, migration research, and future native mapping work. They **must not be reinterpreted as Glaze UI 2.0 native acceptance** and do not change the current Stable baseline. The manual Wear OS emulator workflow remains a development/reference check unless a future 2.0 native acceptance record explicitly binds a tested revision and promotes that evidence.
 
-Native platform requirements override candidate numeric values when the platform requires a larger or otherwise safer value.
+## Durable wearable rules carried into 2.0
 
-## Navigation and input
+The following non-version-specific constraints remain valid because they are consistent with the enforced 2.0 contract:
 
-- Vertical scrolling is the default information-flow model.
-- Navigation depth must remain low for routine tasks.
-- Use platform-native back, dismiss, edge-swipe, crown, bezel, or system navigation behavior where applicable.
-- Preserve task state across interruption, dismissal, screen sleep, and foreground/background transitions when supported.
-- Rotary/crown input is a first-class enhancement, not a mandatory dependency.
-- Essential tasks must remain available through touch or another native equivalent unless the operating system itself defines a rotary-only interaction.
-
-## Glanceable surfaces
-
-Complications, tiles, widgets, live activities, always-on surfaces, and similar system-hosted surfaces are constrained presentation surfaces, not miniature copies of the application.
-
-They must:
-
-- show only the most important current value, state, progress, or action;
-- follow host refresh, privacy, battery, and interaction limits;
-- avoid overstating freshness;
-- deep-link into a focused task when the platform permits it;
-- avoid exposing sensitive content when lock/privacy context does not support it.
-
-## Accessibility and resilience
-
-Candidate acceptance must cover, where applicable:
-
-- larger text without clipping or overlap;
-- screen-reader/spoken semantics;
-- sufficient target size and spacing;
-- visible non-touch focus/selection;
-- increased/high contrast equivalents;
-- reduced motion;
-- reduced transparency and solid-surface fallback;
-- round and rectangular display stress cases;
-- equivalent task completion without optional rotary input.
-
-## Motion and materials
-
-Wearable motion must be brief, purposeful, and subordinate to task completion. System transitions are preferred over decorative choreography. Functional Glass may be used only when it improves hierarchy and retains legibility; Solid or Raised fallback remains mandatory. Ambient/always-on presentation must reduce nonessential motion, luminance demand, and decoration.
-
-## Privacy, Wardveil Security, Privacy Shield, and Everkeep
-
-Wearables are often visible in shared physical environments. Glaze UI presentation must not expose sensitive state unnecessarily and must never strengthen security, privacy, backup, recovery, or resilience claims beyond evidence available from the underlying platform capability.
-
-## Prohibited wearable patterns
-
-- Scaling a Mobile composition down to watch dimensions.
-- Tiny adjacent controls.
-- Essential hover, pointer, or drag-only interaction.
-- Phone drawer/hamburger navigation copied onto a watch.
-- Edge-to-edge critical controls that ignore round displays.
-- Decorative motion that delays task completion.
-- Long text-entry workflows where a platform-native or companion-device alternative is appropriate.
-- Assuming every wearable has a crown or rotary input.
-- Treating complications, widgets, tiles, or ambient surfaces as unrestricted canvases.
-
-## Candidate acceptance matrix
-
-A future Stable wearable contract must record representative acceptance for:
-
-1. Compact round display.
-2. Compact rectangular display where supported.
-3. Touch-only task completion.
-4. Rotary/crown-enhanced navigation where supported.
-5. Large-text accessibility.
-6. Reduced-motion behavior.
-7. Reduced-transparency/solid fallback.
-8. Glanceable system-hosted surfaces where exposed.
-9. Interruption and task-state restoration.
-10. Platform-native back/dismiss behavior.
-11. Native platform rendering.
-12. Real-device validation before application production approval.
+- preserve safe regions around round edges, curved corners, bezels, and system-reserved areas;
+- keep hierarchy shallow and prioritize one dominant status, task, or action;
+- prefer vertically ordered flows and progressive disclosure over dense dashboards or miniature desktop/mobile layouts;
+- keep essential tasks available without requiring optional rotary input unless the operating system itself defines otherwise;
+- keep selected/focused state visible for non-touch input;
+- use native progress, selection, back/dismiss, and host-surface semantics when a consumer platform provides them;
+- do not expose sensitive state merely because a wearable is glanceable;
+- do not let decorative motion, translucency, or advanced rendering become necessary for task completion;
+- never strengthen Wardveil Security, Privacy Shield, Everkeep, or GoreeCloud Mesh claims beyond underlying evidence.
 
 ## Validation boundary
 
-`scripts/validate_wearables.py` validates the candidate source contract, token file, lifecycle boundary, and required acceptance language. Passing this validator proves repository consistency only. It is not native acceptance, real-device acceptance, Stable promotion, or production approval.
+`scripts/validate_wearables.py` now validates this lifecycle separation and the binding between the enforced 2.0 wearable semantics and the current Candidate implementation. `scripts/validate_candidate_2_emerging.py` supplies rendered 2.0 wearable/spatial acceptance. Neither validator certifies a physical wearable device or downstream application.
