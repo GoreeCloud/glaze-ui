@@ -20,10 +20,10 @@ for name in ('site.css', 'identity.css', 'site.js'):
 for name in (
     'glaze.css', 'glaze.controls.css', 'glaze.expressive.css', 'glaze.formfactors.css',
     'glaze.accessibility.css', 'glaze.color.css', 'glaze.motion.css', 'glaze.materials.css',
-    'glaze.layout.css', 'glaze.states.css',
+    'glaze.layout.css', 'glaze.states.css', 'glaze.workspace.candidate.css',
 ):
     shutil.copy2(ROOT / 'css' / name, DIST / 'assets' / name)
 
 shutil.copy2(IDENTITY / 'glaze-ui-mark.svg', DIST / 'assets' / 'glaze-ui-mark.svg')
 
-print(f'Built {DIST.relative_to(ROOT)} from canonical Glaze UI Facet source')
+print(f'Built {DIST.relative_to(ROOT)} from synchronized Glaze UI Facet source')
