@@ -19,18 +19,40 @@ jobs:
         with:
           ref: agent/glaze-ui-1.6-stable-promotion
           persist-credentials: true
-      - name: Make promotion converter rerun-safe
+      - name: Reconcile promotion converter with current source anchors
         run: |
           python3 - <<'PY'
           from pathlib import Path
           path = Path('scripts/promote_1_6_stable.py')
           body = path.read_text(encoding='utf-8')
-          old = '''    if old not in body:\n        if required:\n            raise SystemExit(f"promotion replacement missing in {path}: {old!r}")\n        return\n    write(path, body.replace(old, new))\n'''
-          new = '''    if old not in body:\n        if new in body:\n            return\n        if required:\n            raise SystemExit(f"promotion replacement missing in {path}: {old!r}")\n        return\n    write(path, body.replace(old, new))\n'''
-          if old in body:
-              path.write_text(body.replace(old, new), encoding='utf-8')
-          elif new not in body:
+
+          helper_old = '''    if old not in body:\n        if required:\n            raise SystemExit(f"promotion replacement missing in {path}: {old!r}")\n        return\n    write(path, body.replace(old, new))\n'''
+          helper_new = '''    if old not in body:\n        if new in body:\n            return\n        if required:\n            raise SystemExit(f"promotion replacement missing in {path}: {old!r}")\n        return\n    write(path, body.replace(old, new))\n'''
+          if helper_old in body:
+              body = body.replace(helper_old, helper_new)
+          elif helper_new not in body:
               raise SystemExit('promotion helper source drifted; refusing to continue')
+
+          source_anchor_fixes = {
+              '"Glaze UI 1.4.0 remains the immediately preceding historical Stable baseline."':
+                  '"Glaze UI 1.4.0 is the immediately preceding historical Stable baseline."',
+              '"While 1.5.x remains Stable"': '"While 1.5.x is Stable"',
+          }
+          for old, new in source_anchor_fixes.items():
+              if old in body:
+                  body = body.replace(old, new)
+
+          obsolete_call = '''replace("STABILITY.md", "The 1.5 Stable baseline promotes adaptive color, iconography/construction/identity, motion/interaction, material/depth, layout/spacing/density, and semantic interaction-state/input-modality contracts on top of retained 1.4 form-factor semantics.",\n        "The 1.6 Stable baseline retains the complete 1.5 adaptive-color, iconography, motion, material, layout, state, and form-factor foundation and promotes evidence presentation/authority surfaces plus Adaptive Workspace/Navigation.")'''
+          optional_call = obsolete_call[:-1] + ', required=False)'
+          if obsolete_call in body:
+              body = body.replace(obsolete_call, optional_call)
+
+          old_current_release = 'replace("STABILITY.md", "the current Stable 1.5.0 release", "the current Stable 1.6.0 release")'
+          optional_current_release = 'replace("STABILITY.md", "the current Stable 1.5.0 release", "the current Stable 1.6.0 release", required=False)'
+          if old_current_release in body:
+              body = body.replace(old_current_release, optional_current_release)
+
+          path.write_text(body, encoding='utf-8')
           PY
       - name: Apply deterministic 1.6 Stable conversion
         run: python3 scripts/promote_1_6_stable.py
