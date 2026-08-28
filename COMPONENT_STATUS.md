@@ -43,8 +43,9 @@ The 1.3 semantic color, surface, typography, spacing, shape, effects/spatial mot
 | Area | Status | Candidate contract |
 | --- | --- | --- |
 | Evidence presentation and authority surfaces | Candidate | Producer-authoritative state presentation, explicit authority identity, evidence freshness, Mesh transport state, provenance detail, accessibility, and fail-closed unavailable/invalid handling without inventing security, privacy, recovery, or coordination truth. |
+| Adaptive workspace and navigation | Candidate | Semantic window/workspace regions, sidebar/toolbar/inspector behavior, form-factor transformation, input-aware target floors, density modes, accessibility/resilience, and producer-authority boundaries. |
 
-The 1.6 evidence-presentation candidate is defined by `EVIDENCE_PRESENTATION.md`, `tokens/evidence-presentation.json`, and `tokens/mesh-evidence-profile.json`. It is implemented source material under formal promotion review and is **not** part of the 1.5.0 Stable compatibility promise or current Stable consumer target.
+The 1.6 evidence-presentation Candidate is defined by `EVIDENCE_PRESENTATION.md`, `tokens/evidence-presentation.json`, and `tokens/mesh-evidence-profile.json`. The 1.6 Adaptive Workspace Candidate is defined by `WORKSPACE_NAVIGATION.md`, `tokens/workspace-navigation.candidate.json`, `css/glaze.workspace.candidate.css`, `reference/candidate-1.6-workspace.html`, and `scripts/validate_workspace_navigation.py`. Both are implemented source material under formal promotion review and are **not** part of the 1.5.0 Stable compatibility promise or current Stable consumer target.
 
 ## Glaze Motion Experimental extension
 Glaze Motion extends the Stable Glaze UI motion baseline without changing the current Stable compatibility target.
