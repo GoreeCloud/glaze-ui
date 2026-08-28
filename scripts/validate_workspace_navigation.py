@@ -140,7 +140,7 @@ def main() -> None:
         (
             "Glaze UI 1.6 Candidate",
             "glaze.workspace.candidate.css",
-            "class=\"glaze-workspace-candidate\"",
+            "glaze-workspace-candidate",
             "class=\"glaze-workspace-nav-candidate\"",
             "class=\"glaze-workspace-toolbar-candidate\"",
             "class=\"glaze-workspace-content-candidate\"",
