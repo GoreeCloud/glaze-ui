@@ -77,12 +77,12 @@
       "status": "adoption-candidate",
       "targetVersion": "1.6.0",
       "requiredTargetVersion": "1.6.0",
-      "referenceRevision": "9dcd39dad0ade79fb01dfb1b6b39f6bf2c167471",
+      "referenceRevision": "ea8b9a1e8f044d2489e5f26efda1a07c28cc4160",
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
       "visualAcceptance": "Current-Stable 1.6 application-specific rendered/native/accessibility/reduced-motion/physical-device acceptance remains pending and is required before production approval.",
-      "notes": "Glaze UI 1.6.0 Adoption Candidate evidence is merged on Launcher main and now records the canonical 1.6 Stable promotion revision; the retained native mapping and automated contract do not establish final product acceptance."
+      "notes": "The central referenceRevision preserves Launcher consumer adoption-merge evidence. The repository-local adoption document separately records the reviewed canonical 1.6 design-system revision; neither establishes final product acceptance."
     },
     {
       "name": "GoreeCloud Keyboard",
@@ -90,12 +90,12 @@
       "status": "adoption-candidate",
       "targetVersion": "1.6.0",
       "requiredTargetVersion": "1.6.0",
-      "referenceRevision": "9dcd39dad0ade79fb01dfb1b6b39f6bf2c167471",
+      "referenceRevision": "3c82fff63d328bcc5f375b1b5a9bf9b692cd8c73",
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
       "visualAcceptance": "Current-Stable 1.6 phone/tablet native and rendered Glaze UI, applicable Adaptive Workspace, TalkBack/switch-access, representative physical-device, and production acceptance remain pending.",
-      "notes": "Glaze UI 1.6.0 Adoption Candidate evidence is merged on Keyboard main and now records the canonical 1.6 Stable promotion revision; Experimental Glaze Motion remains test-only and is not a production dependency."
+      "notes": "The central referenceRevision preserves Keyboard consumer adoption-merge evidence. The repository-local adoption document separately records the reviewed canonical 1.6 design-system revision; Experimental Glaze Motion remains test-only and is not a production dependency."
     },
     {
       "name": "GoreeCloud Notes",
