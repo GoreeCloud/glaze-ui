@@ -9,7 +9,7 @@ CSS = ROOT / "css" / "glaze.evidence.css"
 REFERENCE = ROOT / "reference" / "candidate-1.6-evidence.html"
 ACCEPTANCE = ROOT / "reference" / "candidate-1.6-evidence-acceptance.html"
 RENDERED_VALIDATOR = ROOT / "scripts" / "validate_candidate_1_6_evidence_rendered.py"
-ACCEPTANCE_RECORD = ROOT / "acceptance" / "1.6-candidate.md"
+ACCEPTANCE_RECORD = ROOT / "acceptance" / "1.6.0.md"
 CONSUMER = ROOT / "reference" / "mesh-evidence-consumer.mjs"
 CONSUMER_TEST = ROOT / "tests" / "mesh-evidence-consumer.test.mjs"
 STATUS = ROOT / "COMPONENT_STATUS.md"
@@ -41,10 +41,10 @@ except Exception as exc:
 
 if data.get("glaze_ui", {}).get("candidate") != "1.6":
     fail("candidate must remain 1.6")
-if data.get("glaze_ui", {}).get("lifecycle") != "candidate":
-    fail("evidence presentation must remain Candidate until promotion")
-if data.get("glaze_ui", {}).get("stable_consumer_target") != "1.5.0":
-    fail("current Stable consumer target must remain 1.5.0")
+if data.get("glaze_ui", {}).get("lifecycle") != "stable":
+    fail("evidence presentation must be Stable after 1.6.0 promotion")
+if data.get("glaze_ui", {}).get("stable_consumer_target") != "1.6.0":
+    fail("evidence presentation Stable consumer target must be 1.6.0")
 
 for family in ("freshness_states", "transport_states"):
     values = data.get(family, {})
@@ -159,8 +159,8 @@ for prohibited in (
         fail(f"Mesh consumer must not create combined domain truth: {prohibited}")
 
 status = STATUS.read_text()
-if "Evidence presentation and authority surfaces | Candidate" not in status:
-    fail("component lifecycle registry must keep evidence presentation Candidate")
+if "Evidence presentation and authority surfaces | Stable" not in status:
+    fail("component lifecycle registry must mark evidence presentation Stable")
 
 doc = DOC.read_text()
 for marker in (
@@ -179,9 +179,9 @@ for marker in (
 
 acceptance_record = ACCEPTANCE_RECORD.read_text()
 for marker in (
-    "Candidate version: `1.6.0-candidate`",
-    "Stable baseline preserved: `1.5.0`",
-    "The release remains **Candidate**",
+    "Stable version: `1.6.0`",
+    "Previous Stable baseline: `1.5.0`",
+    "Stable version: `1.6.0`",
 ):
     if marker not in acceptance_record:
         fail(f"1.6 acceptance record missing lifecycle invariant: {marker}")

@@ -46,9 +46,9 @@ jobs:
         run: python3 scripts/validate_layout.py
       - name: Validate Glaze UI 1.5 interaction states and input modality Stable
         run: python3 scripts/validate_states.py
-      - name: Validate Glaze UI 1.6 evidence presentation Candidate
+      - name: Validate Glaze UI 1.6 evidence presentation Stable
         run: python3 scripts/validate_evidence_presentation.py
-      - name: Validate Glaze UI 1.6 adaptive workspace Candidate
+      - name: Validate Glaze UI 1.6 adaptive workspace Stable
         run: python3 scripts/validate_workspace_navigation.py
       - name: Test Glaze UI 1.6 Mesh evidence consumer and refresh response presentation
         run: node --test tests/mesh-evidence-consumer.test.mjs tests/mesh-evidence-refresh-response.test.mjs
@@ -64,7 +64,7 @@ jobs:
         run: python3 scripts/validate_rendered_reference.py
       - name: Validate rendered Glaze UI 1.5 Stable
         run: python3 scripts/validate_candidate_1_5_rendered.py
-      - name: Validate rendered Glaze UI 1.6 Candidate adaptive workspace
+      - name: Validate rendered Glaze UI 1.6 Stable adaptive workspace
         run: python3 scripts/validate_candidate_1_6_rendered.py
-      - name: Validate rendered Glaze UI 1.6 Candidate evidence presentation
+      - name: Validate rendered Glaze UI 1.6 Stable evidence presentation
         run: python3 scripts/validate_candidate_1_6_evidence_rendered.py

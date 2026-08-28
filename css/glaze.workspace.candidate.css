@@ -1,5 +1,5 @@
-/* Glaze UI 1.6 Candidate — Adaptive Workspace and Navigation
-   Stable baseline remains Glaze UI 1.5.0. Do not treat these primitives as Stable. */
+/* Glaze UI 1.6.0 Stable — Adaptive Workspace and Navigation.
+   Historical Candidate filename/selectors are retained for compatibility and release-evidence continuity. */
 
 :root {
   --glaze-workspace-sidebar-compact: 72px;

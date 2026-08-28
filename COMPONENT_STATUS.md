@@ -39,13 +39,13 @@ The 1.3 semantic color, surface, typography, spacing, shape, effects/spatial mot
 | Layout, spacing, and density | Stable | Semantic spacing, gutters, bounded measures, density modes, safe-area behavior, target floors and overflow containment. |
 | Interaction states and input modality | Stable | Focus-visible, hover, pressed, selected, expanded, disabled, read-only, loading, invalid, success and mixed-input semantics. |
 
-## Glaze UI 1.6 Candidate systems
+## Glaze UI 1.6 Stable systems
 | Area | Status | Candidate contract |
 | --- | --- | --- |
-| Evidence presentation and authority surfaces | Candidate | Producer-authoritative state presentation, explicit authority identity, evidence freshness, Mesh transport state, provenance detail, accessibility, and fail-closed unavailable/invalid handling without inventing security, privacy, recovery, or coordination truth. |
-| Adaptive workspace and navigation | Candidate | Semantic window/workspace regions, sidebar/toolbar/inspector behavior, form-factor transformation, input-aware target floors, density modes, accessibility/resilience, and producer-authority boundaries. |
+| Evidence presentation and authority surfaces | Stable | Producer-authoritative state presentation, explicit authority identity, evidence freshness, Mesh transport state, provenance detail, accessibility, and fail-closed unavailable/invalid handling without inventing security, privacy, recovery, or coordination truth. |
+| Adaptive workspace and navigation | Stable | Semantic window/workspace regions, sidebar/toolbar/inspector behavior, form-factor transformation, input-aware target floors, density modes, accessibility/resilience, and producer-authority boundaries. |
 
-The 1.6 evidence-presentation Candidate is defined by `EVIDENCE_PRESENTATION.md`, `tokens/evidence-presentation.json`, and `tokens/mesh-evidence-profile.json`. The 1.6 Adaptive Workspace Candidate is defined by `WORKSPACE_NAVIGATION.md`, `tokens/workspace-navigation.candidate.json`, `css/glaze.workspace.candidate.css`, `reference/candidate-1.6-workspace.html`, and `scripts/validate_workspace_navigation.py`. Both are implemented source material under formal promotion review and are **not** part of the 1.5.0 Stable compatibility promise or current Stable consumer target.
+Glaze UI 1.6.0 is the current Stable consumer target. The promoted evidence-presentation and Adaptive Workspace capabilities are now Stable; Glaze Motion and wearable expansion retain their separate non-Stable lifecycle states.
 
 ## Glaze Motion Experimental extension
 Glaze Motion extends the Stable Glaze UI motion baseline without changing the current Stable compatibility target.
@@ -56,7 +56,7 @@ Glaze Motion extends the Stable Glaze UI motion baseline without changing the cu
 | Motion Studio | Planned | Rich product-site storytelling, scroll choreography, Rive/SVG/Canvas animation, bounded particles/parallax, cinematic transitions, and interactive hero experiences. |
 | Motion Spatial | Planned | Three.js/WebGL2/WebGPU, interactive 3D, real-time visualization, mesh/simulation, and advanced product demonstrations with progressive fallback. |
 
-Motion Core 0.2 is implemented development source but is **not** part of Glaze UI 1.5.0 Stable, is not a mandatory consumer dependency, and must not be represented as production-conformant until normal Candidate/Stable promotion requirements are satisfied.
+Glaze Motion is not part of the Glaze UI 1.6.0 Stable compatibility promise, is not a mandatory consumer dependency, and must not be represented as production-conformant until normal Candidate/Stable promotion requirements are satisfied.
 
 ## Candidate form-factor layer
 Historical promotion boundary: these form-factor capabilities were the **Candidate form-factor layer** while Glaze UI 1.4 was under review. They are now Stable in 1.4.0. No active 1.4 form-factor capability remains Candidate after promotion.

@@ -2,19 +2,44 @@
   "meta": {
     "name": "Glaze UI Adaptive Workspace and Navigation",
     "candidateVersion": "1.6.0",
-    "status": "Candidate",
-    "stableBaseline": "1.5.0",
-    "principle": "Content remains primary while window chrome, navigation, tools, and inspectors adapt to form factor, input, density, and accessibility without changing semantic order or producer-authoritative state."
+    "status": "Stable",
+    "stableBaseline": "1.6.0",
+    "principle": "Content remains primary while window chrome, navigation, tools, and inspectors adapt to form factor, input, density, and accessibility without changing semantic order or producer-authoritative state.",
+    "releaseVersion": "1.6.0"
   },
   "regions": {
-    "window": {"role": "application workspace boundary", "layer": "base"},
-    "title": {"role": "title, document identity, drag area, platform window affordances", "layer": "navigation"},
-    "navigation": {"role": "primary destinations", "layer": "navigation"},
-    "toolbar": {"role": "frequent and contextual actions", "layer": "navigation"},
-    "content": {"role": "primary task and information", "layer": "content"},
-    "inspector": {"role": "contextual properties and secondary tools", "layer": "raised"},
-    "status": {"role": "persistent subordinate system or workflow status", "layer": "raised"},
-    "overlay": {"role": "menus, popovers, dialogs, sheets, temporary controls", "layer": "overlay"}
+    "window": {
+      "role": "application workspace boundary",
+      "layer": "base"
+    },
+    "title": {
+      "role": "title, document identity, drag area, platform window affordances",
+      "layer": "navigation"
+    },
+    "navigation": {
+      "role": "primary destinations",
+      "layer": "navigation"
+    },
+    "toolbar": {
+      "role": "frequent and contextual actions",
+      "layer": "navigation"
+    },
+    "content": {
+      "role": "primary task and information",
+      "layer": "content"
+    },
+    "inspector": {
+      "role": "contextual properties and secondary tools",
+      "layer": "raised"
+    },
+    "status": {
+      "role": "persistent subordinate system or workflow status",
+      "layer": "raised"
+    },
+    "overlay": {
+      "role": "menus, popovers, dialogs, sheets, temporary controls",
+      "layer": "overlay"
+    }
   },
   "sizing": {
     "sidebar": {
@@ -48,9 +73,21 @@
     "rule": "Compact visual padding may not shrink the interactive hit region below the applicable input floor."
   },
   "density": {
-    "comfortable": {"gap": 12, "regionGap": 20, "controlPaddingInline": 16},
-    "compact": {"gap": 8, "regionGap": 16, "controlPaddingInline": 12},
-    "spacious": {"gap": 16, "regionGap": 28, "controlPaddingInline": 20}
+    "comfortable": {
+      "gap": 12,
+      "regionGap": 20,
+      "controlPaddingInline": 16
+    },
+    "compact": {
+      "gap": 8,
+      "regionGap": 16,
+      "controlPaddingInline": 12
+    },
+    "spacious": {
+      "gap": 16,
+      "regionGap": 28,
+      "controlPaddingInline": 20
+    }
   },
   "geometry": {
     "windowRadius": 24,
@@ -86,8 +123,14 @@
     }
   },
   "materials": {
-    "contentDefault": ["Solid", "Raised"],
-    "chromePreferred": ["Functional Glass", "Solid"],
+    "contentDefault": [
+      "Solid",
+      "Raised"
+    ],
+    "chromePreferred": [
+      "Functional Glass",
+      "Solid"
+    ],
     "overlay": "Overlay",
     "reducedTransparencyFallback": "Solid",
     "rule": "Functional Glass supports navigation and controls; primary reading surfaces remain stable and readable."

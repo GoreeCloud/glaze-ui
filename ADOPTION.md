@@ -1,6 +1,6 @@
 # Adopting Glaze UI
 
-Glaze UI 1.5.0 is the current Stable baseline and is mandatory for every GoreeCloud-controlled user-facing application. Existing consumers on older releases are migration-required; controlled migration is mandatory, and superseded Glaze UI versions cannot satisfy production readiness.
+Glaze UI 1.6.0 is the current Stable baseline and is mandatory for every GoreeCloud-controlled user-facing application. Existing consumers on older releases are migration-required; controlled migration is mandatory, and superseded Glaze UI versions cannot satisfy production readiness.
 
 ## 1. Record the target version
 Record the **current Stable** semantic version, reviewed canonical source revision, repository-local evidence, automated contract, and product-specific acceptance boundary. A superseded version may be recorded only as historical or migration evidence.

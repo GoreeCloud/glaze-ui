@@ -1,29 +1,45 @@
 {
   "glaze_ui": {
     "candidate": "1.6",
-    "lifecycle": "candidate",
-    "stable_consumer_target": "1.5.0"
+    "lifecycle": "stable",
+    "stable_consumer_target": "1.6.0",
+    "release": "1.6.0"
   },
   "contract": "evidence-presentation",
   "authority_systems": {
     "wardveil-security": {
-      "domains": ["security"],
+      "domains": [
+        "security"
+      ],
       "presentation_role": "security-authority"
     },
     "privacy-shield": {
-      "domains": ["privacy"],
+      "domains": [
+        "privacy"
+      ],
       "presentation_role": "privacy-authority"
     },
     "everkeep": {
-      "domains": ["resilience", "recovery", "preservation", "continuity"],
+      "domains": [
+        "resilience",
+        "recovery",
+        "preservation",
+        "continuity"
+      ],
       "presentation_role": "resilience-authority"
     },
     "goreecloud-mesh": {
-      "domains": ["coordination", "governance"],
+      "domains": [
+        "coordination",
+        "governance"
+      ],
       "presentation_role": "coordination-authority"
     },
     "glaze-ui": {
-      "domains": ["presentation", "design-conformance"],
+      "domains": [
+        "presentation",
+        "design-conformance"
+      ],
       "presentation_role": "presentation-authority"
     }
   },
@@ -61,26 +77,51 @@
   },
   "surface_roles": {
     "evidence-summary": {
-      "required_semantics": ["producer-state", "scope"],
-      "recommended_semantics": ["authority", "freshness", "reason"]
+      "required_semantics": [
+        "producer-state",
+        "scope"
+      ],
+      "recommended_semantics": [
+        "authority",
+        "freshness",
+        "reason"
+      ]
     },
     "evidence-detail": {
-      "required_semantics": ["producer-state", "scope", "authority", "freshness", "source-detail"]
+      "required_semantics": [
+        "producer-state",
+        "scope",
+        "authority",
+        "freshness",
+        "source-detail"
+      ]
     },
     "evidence-authority": {
-      "required_semantics": ["authority"]
+      "required_semantics": [
+        "authority"
+      ]
     },
     "evidence-freshness": {
-      "required_semantics": ["freshness"],
+      "required_semantics": [
+        "freshness"
+      ],
       "must_not_imply_success": true
     },
     "evidence-action": {
-      "required_semantics": ["producer-authorized-action"]
+      "required_semantics": [
+        "producer-authorized-action"
+      ]
     }
   },
   "material_guidance": {
-    "ordinary": ["solid", "raised"],
-    "contextual": ["functional-glass", "overlay"],
+    "ordinary": [
+      "solid",
+      "raised"
+    ],
+    "contextual": [
+      "functional-glass",
+      "overlay"
+    ],
     "critical_dense_text_clear_glass": "prohibited"
   },
   "accessibility": {
