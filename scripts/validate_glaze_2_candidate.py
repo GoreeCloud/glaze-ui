@@ -149,7 +149,6 @@ def main() -> None:
         "document.cookie",
         "caches.open",
         "analytics",
-        "telemetry",
         "sentry",
         "amplitude",
         "mixpanel",
