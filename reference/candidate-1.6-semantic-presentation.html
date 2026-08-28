@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" data-glaze-accessibility="enhanced-focus large-targets">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>Glaze UI 1.6 Candidate — Semantic Presentation</title>
+  <link rel="stylesheet" href="../css/glaze.css">
+  <link rel="stylesheet" href="../css/glaze.accessibility.css">
+  <link rel="stylesheet" href="../css/glaze.semantic-presentation.candidate.css">
+  <style>
+    body { margin: 0; padding: 24px; min-height: 100vh; box-sizing: border-box; }
+    main { max-width: 980px; margin-inline: auto; display: grid; gap: 24px; }
+    header { display: grid; gap: 8px; }
+    h1, p { margin: 0; }
+    .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; }
+    .note { padding: 16px; border: 1px solid var(--glaze-line); border-radius: 16px; background: var(--glaze-surface-strong); }
+  </style>
+</head>
+<body class="glaze-canvas">
+  <main>
+    <header>
+      <span>Glaze UI 1.6 Candidate</span>
+      <h1>Semantic Presentation</h1>
+      <p>Symbols, semantic color, and accessibility must preserve the same meaning when hue, motion, translucency, or detail changes.</p>
+    </header>
+
+    <section aria-labelledby="states-heading">
+      <h2 id="states-heading">Semantic state examples</h2>
+      <div class="status-grid">
+        <div class="glaze-semantic-status-candidate" data-state="information"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">i</span><span class="glaze-semantic-status-label-candidate">Information</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="success"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">✓</span><span class="glaze-semantic-status-label-candidate">Success</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="warning"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">!</span><span class="glaze-semantic-status-label-candidate">Warning</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="danger"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">×</span><span class="glaze-semantic-status-label-candidate">Danger</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="privacy"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">P</span><span class="glaze-semantic-status-label-candidate">Privacy state</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="security"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">S</span><span class="glaze-semantic-status-label-candidate">Security state</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="protected"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">✓</span><span class="glaze-semantic-status-label-candidate">Protected</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="restricted"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">!</span><span class="glaze-semantic-status-label-candidate">Restricted</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="online"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">●</span><span class="glaze-semantic-status-label-candidate">Online</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="offline"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">○</span><span class="glaze-semantic-status-label-candidate">Offline</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="syncing"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">↻</span><span class="glaze-semantic-status-label-candidate">Syncing</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="paused"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">Ⅱ</span><span class="glaze-semantic-status-label-candidate">Paused</span></div>
+        <div class="glaze-semantic-status-candidate" data-state="unavailable"><span class="glaze-semantic-symbol-candidate" aria-hidden="true">×</span><span class="glaze-semantic-status-label-candidate">Unavailable</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="focus-heading">
+      <h2 id="focus-heading">Accessibility profiles</h2>
+      <div class="controls">
+        <button type="button" class="glaze-button">Focusable action</button>
+        <button type="button" class="glaze-button" data-variant="primary">Primary action</button>
+        <input class="glaze-input" aria-label="Reference field" value="Enhanced focus and large targets">
+      </div>
+      <p class="note">Set <code>data-glaze-accessibility</code> on an application root to combine explicit profiles such as <code>enhanced-focus</code>, <code>large-targets</code>, <code>high-contrast</code>, <code>reduced-transparency</code>, <code>reduced-motion</code>, and <code>monochrome</code>. Platform accessibility preferences remain authoritative and may not be weakened.</p>
+    </section>
+
+    <section class="note">
+      <strong>Authority boundary:</strong> these surfaces present supplied state only. Privacy Shield, Wardveil Security, Everkeep, GoreeCloud Mesh, and application logic remain authoritative for the truth being presented.
+    </section>
+  </main>
+</body>
+</html>
