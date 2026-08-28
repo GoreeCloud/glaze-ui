@@ -1,9 +1,9 @@
 {
   "meta": {
     "name": "Glaze UI",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "status": "Stable",
-    "stableBaseline": "1.5.0",
+    "stableBaseline": "1.6.0",
     "format": "GoreeCloud semantic token map v1",
     "principle": "Preserve visual delight while standardizing semantics, accessibility, behavior, and cross-product consistency.",
     "lineage": "One UI 8.5 ergonomics + Liquid Glass hierarchy and fluid material + Material 3 Expressive shape, motion, and adaptive expression + GoreeCloud privacy, identity, accessibility, and simplicity."
