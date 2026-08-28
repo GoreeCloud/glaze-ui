@@ -24,7 +24,6 @@ def run_resilience_case(
     width: int,
     height: int,
     appearance: str,
-    force_prefers_contrast: bool = False,
 ) -> None:
     base_params = {
         "case": test_case,
@@ -47,11 +46,6 @@ def run_resilience_case(
                 height=height,
                 mode="normal",
             )
-            if force_prefers_contrast:
-                # Chromium ignores unknown command-line switches. The rendered
-                # harness therefore also requires matchMedia() and computed-style
-                # evidence so this cannot create a false acceptance claim.
-                command.insert(-2, "--force-prefers-contrast=more")
             try:
                 completed = run_browser(command)
             except Exception as exc:
@@ -110,17 +104,8 @@ def main() -> None:
             height=834,
             appearance="dark",
         )
-        run_resilience_case(
-            browser,
-            port,
-            test_case="contrast",
-            width=1280,
-            height=900,
-            appearance="light",
-            force_prefers_contrast=True,
-        )
 
-    print("Glaze UI 2.0 Candidate resilience acceptance passed")
+    print("Glaze UI 2.0 Candidate fallback and foldable resilience acceptance passed")
 
 
 if __name__ == "__main__":

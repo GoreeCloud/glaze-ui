@@ -30,6 +30,8 @@ jobs:
         run: python3 scripts/validate_glaze_2_candidate.py
       - name: Validate Glaze UI 2.0 Candidate runtime syntax
         run: node --check js/glaze-2.candidate.js
+      - name: Validate Glaze UI 2.0 prefers-contrast harness syntax
+        run: node --check scripts/validate_candidate_2_contrast.mjs
       - name: Validate Glaze UI 1.5 form-factor contract
         run: python3 scripts/validate_form_factors.py
       - name: Validate Glaze UI 1.5 adaptive color Stable
@@ -74,5 +76,7 @@ jobs:
         run: python3 scripts/validate_candidate_1_6_evidence_rendered.py
       - name: Validate rendered Glaze UI 2.0 Candidate contract
         run: python3 scripts/validate_candidate_2_rendered.py
-      - name: Validate Glaze UI 2.0 Candidate resilience
+      - name: Validate Glaze UI 2.0 Candidate fallback and foldable resilience
         run: python3 scripts/validate_candidate_2_resilience.py
+      - name: Validate rendered Glaze UI 2.0 increased contrast
+        run: node scripts/validate_candidate_2_contrast.mjs
