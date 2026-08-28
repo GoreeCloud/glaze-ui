@@ -4,6 +4,16 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased
 
+### Glaze UI 1.6 — Adaptive Workspace Candidate
+
+- Added `WORKSPACE_NAVIGATION.md` as the Candidate contract for semantic window/workspace regions, title areas, navigation, toolbars, primary content, inspectors, status regions, overlays, density, input-aware targets, responsive transformation, accessibility/resilience, and platform-authority boundaries.
+- Added `tokens/workspace-navigation.candidate.json` so the workspace anatomy, dimensions, target floors, geometry, navigation transformations, adaptation invariants, accessibility requirements, and authority bindings are machine-readable.
+- Added `css/glaze.workspace.candidate.css` with reusable Desktop/Tablet/Mobile workspace composition, sidebar and inspector transformation, pointer/touch target adaptation, reduced-motion, reduced-transparency, no-backdrop-filter, and forced-colors behavior.
+- Added `reference/candidate-1.6-workspace.html` as a dependency-free evaluation surface and `scripts/validate_workspace_navigation.py` as a fail-closed Candidate validator.
+- Wired the Candidate validator into the exact-head Glaze UI CI workflow and surfaced a bounded workspace preview in the Design Center without changing the Stable production target.
+- Corrected Design Center Facet authority wording: the authoritative identity source is `GoreeCloud/goreecloud-branding-assets` at `systems/glaze-ui/glaze-ui-mark.svg`; this repository publishes a synchronized byte-equivalent consumer copy.
+- Glaze UI 1.5.0 remains the current Stable baseline. The Adaptive Workspace layer does not trigger consumer migration or permit Stable 1.6 conformance claims until the normal promotion gate is completed.
+
 ### Glaze Motion — Experimental
 
 - Motion Core 0.3 was merged as `f1f42eab087b9b49623b8db63d8ecbe399fccdf6`, adding semantic reorder/swipe/pan/zoom state, directional keyboard/remote parity, local-only frame-budget instrumentation, native mapping guidance, and reference-consumer evidence while remaining outside the Glaze UI 1.5 Stable compatibility promise.
