@@ -99,11 +99,33 @@ Evidence surfaces must:
 - never rely on color, translucency, motion, or icon shape alone;
 - preserve readable contrast under light/dark appearances and reduced transparency;
 - provide keyboard, pointer, touch, TV directional-focus, and other current Stable input behavior appropriate to the form factor;
+- preserve reflow and critical information at 200% text scaling; and
 - avoid forcing raw opaque identifiers into the primary reading order when a human-readable explanation exists.
 
 ## Privacy and minimization
 
 Presentation must not request raw private content merely to display evidence status. Mesh envelopes and producer summaries should remain minimized. Sensitive detail must stay behind explicit authorized disclosure paths governed by the producer and Privacy Shield where applicable.
+
+## Consumer mapping examples
+
+The shared evidence anatomy maps into the platform centers without transferring authority to Glaze UI:
+
+- **Security Center** presents Wardveil Security producer state, evidence freshness, scope, and remediation paths while Wardveil remains the security/protection authority.
+- **Privacy Center** presents Privacy Shield decisions, permissions, data-use status, minimization context, and authorized controls while Privacy Shield remains the privacy/data-use authority.
+- **Continuity Center** presents Everkeep backup, preservation, recovery, restore-verification, and continuity evidence while Everkeep remains the resilience/recovery/preservation authority.
+- **Mesh Center** presents GoreeCloud Mesh coordination, provenance, transport, freshness, and governance metadata while Mesh remains coordination/governance authority and does not replace the domain producer's verdict.
+
+Application-specific surfaces may consume the same presentation grammar when they preserve the same producer identity, authority boundary, freshness semantics, minimization rules, and fail-closed behavior.
+
+## Candidate rendered acceptance
+
+`reference/candidate-1.6-evidence-acceptance.html` and `scripts/validate_candidate_1_6_evidence_rendered.py` provide a fail-closed browser-rendered Candidate matrix.
+
+The matrix covers light and dark Mobile `390×844`, Tablet `820×1180`, Desktop `1280×900`, Wide Desktop `1600×1000`, and TV `1920×1080`, plus reduced motion, reduced transparency, TV forced colors, and Mobile 200% text scaling/reflow.
+
+Rendered acceptance verifies that security, privacy, continuity, and coordination authorities remain distinct; current freshness/available transport stay presentation-neutral; current negative producer outcomes remain negative; expired/unknown/unavailable state remains visibly distinct; aggregate safety verdicts are absent; compact and wide layouts reflow without root horizontal overflow; interactive evidence disclosure follows near-view and TV target floors; and accessibility modes remain operable.
+
+This matrix proves the platform-neutral reference contract only. It does not certify downstream native applications, producer contracts, or real-device integration.
 
 ## Candidate acceptance requirements
 
@@ -112,9 +134,10 @@ Promotion requires:
 1. machine-readable evidence-presentation tokens;
 2. reference implementations for compact status, detailed status, stale/expired, unavailable, and conflicting-domain examples;
 3. rendered acceptance across Mobile, Tablet, Desktop, Wide Desktop, and TV;
-4. light/dark, reduced-motion, reduced-transparency, forced-colors, and zoom/text-scaling validation;
-5. consumer mapping examples for Wardveil Security Center, Privacy Shield settings/status, Everkeep Recovery Center, and Mesh Console;
+4. light/dark, reduced-motion, reduced-transparency, forced-colors, and 200% text-scaling/reflow validation;
+5. consumer mapping examples for Security Center, Privacy Center, Continuity Center, and Mesh Center;
 6. validation that transport freshness cannot be mistaken for positive domain truth;
-7. validation that Glaze UI does not create security, privacy, or recovery claims.
+7. validation that Glaze UI does not create security, privacy, recovery, continuity, or coordination claims; and
+8. exact-head CI plus lifecycle, compatibility, migration, and rollback review under `STABILITY.md`.
 
-Until those gates pass, this remains Candidate and the current Stable consumer target stays Glaze UI 1.5.0.
+Until those gates pass and the release is explicitly promoted, this remains Candidate and the current Stable consumer target stays Glaze UI 1.5.0.

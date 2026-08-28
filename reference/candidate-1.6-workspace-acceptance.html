@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glaze UI 1.6 Candidate workspace acceptance</title>
+  <style>
+    html,body{margin:0;background:#111;color:#fff;font-family:ui-monospace,monospace}
+    iframe{display:block;border:0;background:#fff}
+    #result{white-space:pre-wrap;margin:0;padding:12px}
+  </style>
+</head>
+<body>
+  <iframe id="target" title="Glaze UI 1.6 Candidate workspace target"></iframe>
+  <pre id="result" data-status="pending">PENDING</pre>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const width = Number(params.get('width') || 390);
+      const height = Number(params.get('height') || 844);
+      const theme = params.get('theme') || 'light';
+      const mode = params.get('mode') || 'normal';
+      const density = params.get('density') || 'comfortable';
+      const formFactor = params.get('formFactor') || 'mobile';
+      const frame = document.getElementById('target');
+      const result = document.getElementById('result');
+      frame.style.width = `${width}px`;
+      frame.style.height = `${height}px`;
+
+      const settle = (status, messages) => {
+        if (result.dataset.status !== 'pending') return;
+        result.dataset.status = status;
+        result.textContent = `${status.toUpperCase()}\n${messages.join('\n')}`;
+        document.title = `${status.toUpperCase()} — Glaze UI 1.6 Candidate workspace acceptance`;
+      };
+      const timer = setTimeout(() => settle('fail', ['workspace frame did not finish loading']), 10000);
+
+      frame.addEventListener('load', () => {
+        clearTimeout(timer);
+        const win = frame.contentWindow;
+        const doc = frame.contentDocument;
+        if (!win || !doc) return settle('fail', ['workspace frame unavailable']);
+        win.requestAnimationFrame(() => win.requestAnimationFrame(() => {
+          const errors = [];
+          const notes = [];
+          const style = node => win.getComputedStyle(node);
+          const rect = node => node.getBoundingClientRect();
+          const root = doc.documentElement;
+          const body = doc.body;
+          const workspace = doc.querySelector('.glaze-workspace-candidate');
+          const title = doc.querySelector('.glaze-workspace-title-candidate');
+          const nav = doc.querySelector('.glaze-workspace-nav-candidate');
+          const toolbar = doc.querySelector('.glaze-workspace-toolbar-candidate');
+          const content = doc.querySelector('.glaze-workspace-content-candidate');
+          const inspector = doc.querySelector('.glaze-workspace-inspector-candidate');
+          const status = doc.querySelector('.glaze-workspace-status-candidate');
+          const selected = doc.querySelector('.glaze-workspace-nav-item-candidate[aria-current="page"]');
+          const control = doc.querySelector('.glaze-workspace-control-candidate');
+
+          if (body.dataset.glazeCandidate !== '1.6') errors.push('Candidate identity marker missing');
+          if (root.dataset.theme !== theme) errors.push(`theme marker ${root.dataset.theme || 'missing'} != ${theme}`);
+          if (!workspace) errors.push('workspace root missing');
+          if (workspace && workspace.dataset.density !== density) errors.push(`density marker ${workspace.dataset.density || 'missing'} != ${density}`);
+          if (workspace && workspace.dataset.formFactor !== formFactor) errors.push(`form-factor marker ${workspace.dataset.formFactor || 'missing'} != ${formFactor}`);
+          if (win.innerWidth !== width) errors.push(`viewport width ${win.innerWidth} != ${width}`);
+          if (root.scrollWidth > root.clientWidth + 1 || body.scrollWidth > body.clientWidth + 1) errors.push('root horizontal overflow detected');
+
+          for (const [name,node] of Object.entries({workspace,title,nav,toolbar,content,inspector,status,selected,control})) {
+            if (!node || rect(node).width <= 0 || rect(node).height <= 0) errors.push(`workspace region did not render: ${name}`);
+          }
+
+          if (selected && selected.getAttribute('aria-current') !== 'page') errors.push('current navigation destination lost semantic selection');
+          if (content && style(content).overflowY !== 'auto') errors.push(`content region is not independently scrollable: ${style(content).overflowY}`);
+
+          const targetFloor = formFactor === 'tv' ? 56 : density === 'compact' ? 40 : 44;
+          for (const [name,node] of Object.entries({selected,control})) {
+            if (node && (rect(node).height < targetFloor - .5 || rect(node).width < targetFloor - .5)) {
+              errors.push(`${name} target below ${targetFloor}px floor: ${rect(node).width}×${rect(node).height}`);
+            }
+          }
+
+          if (formFactor === 'mobile') {
+            if (workspace && parseFloat(style(workspace).borderTopLeftRadius) !== 0) errors.push('Mobile workspace must remove desktop outer radius');
+            if (nav && style(nav).position !== 'fixed') errors.push(`Mobile navigation must be overlay/fixed, got ${style(nav).position}`);
+            if (inspector && style(inspector).position !== 'fixed') errors.push(`Mobile inspector must be sheet/fixed, got ${style(inspector).position}`);
+            notes.push('Mobile overlay navigation and inspector sheet rendered');
+          } else if (formFactor === 'tablet') {
+            if (nav && style(nav).position !== 'fixed') errors.push(`Tablet navigation must be adaptive overlay/fixed, got ${style(nav).position}`);
+            if (inspector && style(inspector).position === 'fixed') errors.push('Tablet inspector incorrectly collapsed to Mobile sheet');
+            notes.push('Tablet adaptive navigation and contextual inspector rendered');
+          } else if (formFactor === 'desktop') {
+            if (nav && style(nav).position === 'fixed') errors.push('Desktop navigation incorrectly rendered as overlay');
+            if (inspector && style(inspector).position === 'fixed') errors.push('Desktop inspector incorrectly rendered as sheet');
+            notes.push('Desktop persistent navigation and inspector rendered');
+          } else if (formFactor === 'wide-desktop') {
+            if (nav && rect(nav).width < 290) errors.push(`Wide Desktop navigation below wide contract: ${rect(nav).width}px`);
+            if (inspector && rect(inspector).width < 360) errors.push(`Wide Desktop inspector below wide contract: ${rect(inspector).width}px`);
+            notes.push('Wide Desktop expanded workspace rendered');
+          } else if (formFactor === 'tv') {
+            if (nav && style(nav).position === 'fixed') errors.push('TV navigation must not inherit compact overlay behavior');
+            if (inspector && style(inspector).position === 'fixed') errors.push('TV inspector must not inherit Mobile sheet behavior');
+            if (title && rect(title).height < 64) errors.push(`TV title region below 64px: ${rect(title).height}px`);
+            if (toolbar && rect(toolbar).height < 72) errors.push(`TV toolbar below 72px: ${rect(toolbar).height}px`);
+            if (selected && rect(selected).height < 56) errors.push(`TV navigation target below 56px: ${rect(selected).height}px`);
+            notes.push('TV far-view workspace rendered independently of Wide Desktop');
+          }
+
+          const navBackdrop = nav ? (style(nav).backdropFilter || style(nav).webkitBackdropFilter) : '';
+          const toolbarBackdrop = toolbar ? (style(toolbar).backdropFilter || style(toolbar).webkitBackdropFilter) : '';
+          if (mode === 'reduced-transparency') {
+            if (!workspace || workspace.dataset.reducedTransparency !== 'true') errors.push('portable reduced-transparency adapter not activated');
+            if (navBackdrop && navBackdrop !== 'none') errors.push(`navigation backdrop remains active: ${navBackdrop}`);
+            if (toolbarBackdrop && toolbarBackdrop !== 'none') errors.push(`toolbar backdrop remains active: ${toolbarBackdrop}`);
+            notes.push('reduced-transparency opaque fallback rendered');
+          } else if (mode === 'performance-constrained') {
+            if (!workspace || workspace.dataset.performance !== 'constrained') errors.push('performance-constrained adapter not activated');
+            if (navBackdrop && navBackdrop !== 'none') errors.push(`navigation backdrop remains active under constrained performance: ${navBackdrop}`);
+            if (toolbarBackdrop && toolbarBackdrop !== 'none') errors.push(`toolbar backdrop remains active under constrained performance: ${toolbarBackdrop}`);
+            notes.push('performance-constrained opaque fallback rendered');
+          }
+
+          if (mode === 'reduced-motion') {
+            if (!win.matchMedia('(prefers-reduced-motion: reduce)').matches) errors.push('reduced-motion media mode not activated');
+            notes.push('reduced-motion preference recognized');
+          }
+
+          if (mode === 'forced-colors') {
+            if (!win.matchMedia('(forced-colors: active)').matches) errors.push('forced-colors media mode not activated');
+            if (selected && parseFloat(style(selected).outlineWidth) < 2) errors.push(`forced-colors selected outline below 2px: ${style(selected).outlineWidth}`);
+            notes.push('forced-colors selection treatment rendered');
+          }
+
+          if (workspace) {
+            const gap = style(workspace).getPropertyValue('--glaze-workspace-gap').trim();
+            const expected = density === 'compact' ? '8px' : density === 'spacious' || formFactor === 'tv' ? '16px' : '12px';
+            if (gap !== expected) errors.push(`workspace gap ${gap || 'missing'} != ${expected}`);
+            notes.push(`density ${density} gap ${gap}`);
+          }
+
+          notes.push(`viewport ${width}×${height}`);
+          notes.push(`theme ${theme}`);
+          notes.push(`mode ${mode}`);
+          notes.push(`form factor ${formFactor}`);
+          settle(errors.length ? 'fail' : 'pass', [...notes, ...errors]);
+        }));
+      }, {once:true});
+
+      frame.src = `./candidate-1.6-workspace.html?${new URLSearchParams({theme,mode,density,formFactor}).toString()}`;
+    })();
+  </script>
+</body>
+</html>

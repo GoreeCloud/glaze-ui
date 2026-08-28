@@ -255,6 +255,54 @@
   }
 }
 
+/* TV is a distinct far-viewing/directional-focus workspace, never Wide Desktop. */
+.glaze-workspace-candidate[data-form-factor="tv"] {
+  --glaze-workspace-gap: 16px;
+  --glaze-workspace-region-gap: 28px;
+  --glaze-workspace-title: 64px;
+  --glaze-workspace-toolbar: 72px;
+  grid-template:
+    "title title title" auto
+    "nav toolbar inspector" auto
+    "nav content inspector" minmax(0, 1fr)
+    "nav status inspector" auto /
+    320px minmax(0, 1fr) 360px;
+}
+
+.glaze-workspace-candidate[data-form-factor="tv"] .glaze-workspace-control-candidate,
+.glaze-workspace-candidate[data-form-factor="tv"] .glaze-workspace-nav-item-candidate {
+  min-height: var(--glaze-workspace-target-tv);
+  min-width: var(--glaze-workspace-target-tv);
+}
+
+.glaze-workspace-candidate[data-form-factor="tv"] .glaze-workspace-nav-item-candidate {
+  padding: 12px 16px;
+  font-size: 18px;
+}
+
+.glaze-workspace-candidate[data-form-factor="tv"] .glaze-workspace-content-candidate {
+  padding: 32px;
+}
+
+.glaze-workspace-candidate[data-form-factor="tv"] .glaze-workspace-nav-item-candidate:focus-visible,
+.glaze-workspace-candidate[data-form-factor="tv"] .glaze-workspace-control-candidate:focus-visible {
+  outline-width: max(3px, var(--glaze-focus-width));
+  outline-offset: 4px;
+}
+
+/* Portable fallbacks allow products and rendered acceptance to request the same
+   resilience behavior when the host cannot expose the corresponding media query. */
+.glaze-workspace-candidate[data-reduced-transparency="true"] .glaze-workspace-nav-candidate,
+.glaze-workspace-candidate[data-reduced-transparency="true"] .glaze-workspace-toolbar-candidate,
+.glaze-workspace-candidate[data-reduced-transparency="true"] .glaze-workspace-title-candidate,
+.glaze-workspace-candidate[data-performance="constrained"] .glaze-workspace-nav-candidate,
+.glaze-workspace-candidate[data-performance="constrained"] .glaze-workspace-toolbar-candidate,
+.glaze-workspace-candidate[data-performance="constrained"] .glaze-workspace-title-candidate {
+  background: var(--glaze-surface-strong);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glaze-workspace-candidate *,
   .glaze-workspace-candidate *::before,

@@ -47,7 +47,7 @@ Glaze UI does not force one navigation pattern across all device classes. The sa
 - **Desktop:** persistent sidebar or rail, toolbar, contextual menus, and optional inspector.
 - **Tablet:** adaptive sidebar/rail, split view, collapsible inspector, and touch-first toolbar behavior.
 - **Mobile:** single-task navigation, top or bottom navigation, sheets, progressive disclosure, and compact action surfaces.
-- **TV:** directional-focus navigation, shallow predictable groups, far-view labels, and no pointer/swipe dependency for primary tasks.
+- **TV:** a distinct far-view workspace with persistent directional-focus navigation, larger targets and chrome, shallow predictable groups, far-view labels, and no pointer/swipe dependency for primary tasks. TV must not inherit the Wide Desktop workspace merely because its viewport is large.
 
 A persistent sidebar may become an overlay drawer, an inspector may become a sheet, and low-priority toolbar actions may move into overflow. These are semantic transformations, not arbitrary rearrangements.
 
@@ -107,10 +107,12 @@ The workspace layer requires:
 - accessible names for icon-only and collapsed controls;
 - reduced-motion-safe layout transitions;
 - reduced-transparency and no-backdrop-filter fallbacks;
+- performance-constrained opaque material fallbacks where dynamic backdrop effects are unsuitable;
 - forced-colors compatibility;
 - keyboard access for Desktop and web navigation, toolbar, menu, dialog, and inspector controls;
 - no hover-only primary interaction on touch-capable layouts;
-- state communication that does not depend exclusively on color or motion.
+- state communication that does not depend exclusively on color or motion; and
+- a static, high-contrast directional-focus treatment for TV when motion or rich materials are unavailable.
 
 ## State and authority boundaries
 
@@ -121,11 +123,26 @@ Workspace surfaces may present privacy, security, resilience, synchronization, i
 The Candidate implementation consists of:
 
 - `tokens/workspace-navigation.candidate.json` — machine-readable semantic contract;
-- `css/glaze.workspace.candidate.css` — reusable web shell primitives;
-- `reference/candidate-1.6-workspace.html` — dependency-free reference composition;
-- `scripts/validate_workspace_navigation.py` — fail-closed source validation;
+- `css/glaze.workspace.candidate.css` — reusable workspace primitives with Desktop/Tablet/Mobile/Wide Desktop/TV composition, density, input-aware targets, and accessibility/performance fallbacks;
+- `reference/candidate-1.6-workspace.html` — dependency-free configurable reference composition;
+- `reference/candidate-1.6-workspace-acceptance.html` — fail-closed browser-rendered acceptance harness;
+- `scripts/validate_workspace_navigation.py` — fail-closed source and promotion-evidence validation;
+- `scripts/validate_candidate_1_6_rendered.py` — rendered Mobile/Tablet/Desktop/Wide Desktop/TV, density, and accessibility/resilience matrix;
+- `acceptance/1.6-candidate.md` — Candidate lifecycle, scope, evidence, compatibility, and rollback record; and
 - CI coverage in `.github/workflows/ci.yml`.
+
+## Rendered acceptance matrix
+
+The Candidate workspace is evaluated in light and dark appearances at Mobile `390×844`, Tablet `820×1180`, Desktop `1280×900`, Wide Desktop `1600×1000`, and TV `1920×1080`.
+
+Additional cases cover compact Desktop, spacious Mobile, reduced motion, reduced transparency, constrained-performance material fallbacks, and TV forced colors. The matrix must fail closed on root overflow, missing workspace regions, lost current-destination semantics, undersized targets, incorrect form-factor transformations, TV falling through to Wide Desktop, or missing resilience behavior.
+
+This rendered matrix proves the platform-neutral reference contract only. Platform-native consumers still require their own native/real-device and application-specific acceptance.
 
 ## Promotion boundary
 
-Stable promotion requires exact-head CI, rendered acceptance across representative Mobile, Tablet, Desktop, Wide Desktop, and TV contexts where applicable, accessibility/resilience review, mixed-input validation, compatibility review, documentation synchronization, and explicit promotion under `STABILITY.md`. Until then, downstream applications may evaluate this layer only as Candidate behavior and must not claim Stable 1.6 conformance.
+Stable promotion requires exact-head CI, rendered acceptance across representative Mobile, Tablet, Desktop, Wide Desktop, and TV contexts, accessibility/resilience review, mixed-input validation, compatibility review, documentation synchronization, and explicit promotion under `STABILITY.md`.
+
+The separate Glaze UI 1.6 Evidence Presentation Candidate must also satisfy its own applicable promotion requirements. Passing the Adaptive Workspace matrix alone does not authorize Stable 1.6 promotion.
+
+Until the complete 1.6 promotion gate is satisfied, downstream applications may evaluate this layer only as Candidate behavior and must not claim Stable 1.6 conformance.
