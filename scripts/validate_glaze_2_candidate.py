@@ -11,6 +11,8 @@ CONTRACT = ROOT / "GLAZE_UI_2.md"
 TOKENS = ROOT / "tokens" / "glaze-2.candidate.json"
 CSS = ROOT / "css" / "glaze-2.candidate.css"
 JS = ROOT / "js" / "glaze-2.candidate.js"
+REFERENCE = ROOT / "reference" / "candidate-2.0.html"
+RENDER_HARNESS = ROOT / "reference" / "candidate-2.0-acceptance.html"
 
 
 def require(condition: bool, message: str) -> None:
@@ -19,13 +21,15 @@ def require(condition: bool, message: str) -> None:
 
 
 def main() -> None:
-    for path in (CONTRACT, TOKENS, CSS, JS):
+    for path in (CONTRACT, TOKENS, CSS, JS, REFERENCE, RENDER_HARNESS):
         require(path.is_file(), f"missing required Candidate artifact: {path.relative_to(ROOT)}")
 
     contract = CONTRACT.read_text(encoding="utf-8")
     data = json.loads(TOKENS.read_text(encoding="utf-8"))
     css = CSS.read_text(encoding="utf-8")
     js = JS.read_text(encoding="utf-8")
+    reference = REFERENCE.read_text(encoding="utf-8")
+    render_harness = RENDER_HARNESS.read_text(encoding="utf-8")
 
     meta = data["meta"]
     require(meta["name"] == "Glaze UI", "wrong token identity")
@@ -132,10 +136,58 @@ def main() -> None:
         require(marker in js, f"Candidate runtime missing: {marker}")
 
     lowered_js = js.lower()
-    for forbidden in ("fetch(", "xmlhttprequest", "websocket", "localstorage", "sessionstorage", "navigator.sendbeacon", "analytics"):
-        require(forbidden not in lowered_js, f"Candidate runtime contains forbidden remote/telemetry/storage marker: {forbidden}")
+    for forbidden in (
+        "fetch(",
+        "xmlhttprequest",
+        "websocket",
+        "eventsource",
+        "webtransport",
+        "navigator.sendbeacon",
+        "localstorage",
+        "sessionstorage",
+        "indexeddb",
+        "document.cookie",
+        "caches.open",
+        "analytics",
+        "telemetry",
+        "sentry",
+        "amplitude",
+        "mixpanel",
+        "segment.com",
+        "eval(",
+        "new function(",
+        ".innerhtml",
+        "document.write(",
+    ):
+        require(forbidden not in lowered_js, f"Candidate runtime contains forbidden network/storage/telemetry/unsafe-code marker: {forbidden}")
 
-    print("Glaze UI 2.0 Candidate contract validation passed")
+    # Candidate presentation and acceptance artifacts must remain self-contained.
+    # Relative same-repository CSS/JS imports are allowed; remote/CDN dependencies are not.
+    for label, source in (
+        ("Candidate CSS", css),
+        ("Candidate runtime", js),
+        ("Candidate rendered reference", reference),
+        ("Candidate rendered harness", render_harness),
+    ):
+        lowered = source.lower()
+        for forbidden in (
+            "http://",
+            "https://",
+            "@import ",
+            "@import\t",
+            "url(//",
+            "src=\"//",
+            "src='//",
+            "href=\"//",
+            "href='//",
+        ):
+            require(forbidden not in lowered, f"{label} contains forbidden remote dependency marker: {forbidden}")
+
+    # The reference may import only the Candidate's same-repository implementation files.
+    require('href="../css/glaze-2.candidate.css"' in reference, "rendered reference must use local Candidate CSS")
+    require("from '../js/glaze-2.candidate.js'" in reference, "rendered reference must use local Candidate runtime")
+
+    print("Glaze UI 2.0 Candidate contract validation passed; dependency/privacy/security boundary intact")
 
 
 if __name__ == "__main__":
