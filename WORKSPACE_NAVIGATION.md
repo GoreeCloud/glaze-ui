@@ -23,26 +23,19 @@ The content region remains visually primary. Chrome supports content rather than
 
 ## Layer model
 
-The workspace shell uses the existing Glaze material hierarchy instead of inventing a parallel surface system:
+Workspace regions map to existing Glaze UI material roles rather than inventing a second material system:
 
-1. Canvas / content foundation
-2. Solid or Raised content regions
-3. Functional Glass navigation and toolbar chrome when appropriate
-4. Overlay surfaces for transient interaction
+- content defaults to **Solid** or **Raised**;
+- persistent navigation and tool chrome may use **Functional Glass** when contrast, performance, and platform capability permit;
+- overlays use the established **Overlay** hierarchy;
+- Clear Glass remains specialized for controls over visually rich media and is not a default workspace panel material;
+- reduced-transparency, unsupported-backdrop, and performance-constrained contexts fall back to opaque Stable surfaces.
 
-Primary reading surfaces should normally remain Solid or Raised. Functional Glass is appropriate for navigation and interactive chrome when contrast and performance permit it. Reduced-transparency and unsupported-backdrop environments must fall back to stable opaque presentation.
-
-## Desktop window behavior
-
-Desktop implementations should preserve the platform's native window-management affordances. Glaze UI may style application-owned regions but must not obscure or break platform-provided moving, resizing, snapping, minimizing, maximizing, restoring, closing, focus indication, or keyboard window-management behavior.
-
-Application-owned title regions must preserve a clear drag area where the platform supports client-side decoration. Interactive controls inside a drag region must remain individually actionable and excluded from dragging.
-
-Secondary windows are appropriate for documents, inspectors, previews, tools, and focused workflows. Blocking modal dialogs are reserved for actions that genuinely require immediate completion or confirmation.
+Material treatment never upgrades producer-authoritative status or evidence.
 
 ## Navigation transformation
 
-Glaze UI does not force one navigation pattern across all device classes. The same destination model may transform while preserving task continuity and semantic order:
+Glaze UI does not force one navigation pattern across all device classes. The same semantic destinations transform according to form factor, input, available space, viewing distance, and platform convention:
 
 - **Desktop:** persistent sidebar or rail, toolbar, contextual menus, and optional inspector.
 - **Tablet:** adaptive sidebar/rail, split view, collapsible inspector, and touch-first toolbar behavior.
@@ -51,59 +44,52 @@ Glaze UI does not force one navigation pattern across all device classes. The sa
 
 A persistent sidebar may become an overlay drawer, an inspector may become a sheet, and low-priority toolbar actions may move into overflow. These are semantic transformations, not arbitrary rearrangements.
 
-## Sidebar contract
+## Responsive workspace behavior
 
-Sidebars may contain sections, expandable groups, destinations, badges, favorites, pinned items, drag-and-drop organization, and contextual commands when the product requires them.
+Window width is a layout signal, not a device identity. Form-factor selection also considers primary input, viewing distance, posture, platform convention, resizability, and product task.
 
-Sidebar selection must be visually distinct from keyboard focus. Collapsing a sidebar must preserve the user's current destination and must not remove access to required actions. Icon-only collapsed navigation requires accessible names and recognizable symbols.
+Near-view layouts may use Compact, Medium, Expanded, or Wide window behavior while retaining their selected Mobile, Tablet, or Desktop interaction environment. TV remains a separately selected far-view interaction environment.
 
-## Toolbar contract
+The workspace must preserve:
 
-Toolbars contain frequent actions, not every command. Related controls should be clustered, lower-priority actions should move into overflow before becoming cramped, and destructive actions must remain visually and spatially differentiated from safe actions.
-
-Toolbar adaptation must preserve action semantics, accessible names, keyboard order, and state. Moving an action into overflow must not silently change its enabled, selected, destructive, or loading state.
-
-## Inspector contract
-
-Inspectors present contextual detail and secondary controls without displacing the primary task. They may be persistent on Desktop, collapsible on Tablet, and transformed into sheets or panels on Mobile.
-
-Closing or collapsing an inspector must not destroy unsaved user state unless the application explicitly requires that behavior and communicates it.
+- semantic reading order;
+- keyboard/focus order;
+- current destination;
+- action state;
+- selection state;
+- producer-authoritative system state; and
+- meaningful task continuity through layout transformation.
 
 ## Input-aware targets
 
-Glaze UI keeps accessibility target floors while allowing pointer-dense presentation:
+Glaze UI workspace controls use interaction floors appropriate to the active input environment:
 
-- coarse-pointer / touch reference target: **48px minimum**;
-- mixed-input default: **44px minimum**, expanding to the coarse-pointer floor when touch is available or active;
-- precision-pointer compact presentation may visually compress padding but must preserve a **40px minimum hit region** and a visible focus target;
-- TV reference target: **56px minimum**.
+- precision pointer: **40 px** minimum when compact density is intentionally selected;
+- mixed input: **44 px** minimum;
+- coarse pointer/touch: **48 px** minimum;
+- TV directional focus: **56 px** minimum.
 
-Products may exceed these values. Compact density must never make destructive actions difficult to distinguish or activate safely.
+Visual density may tighten spacing without shrinking the interactive hit region below the applicable floor. Hover is enhancement only and may not be required for primary task completion on touch-capable layouts.
 
-## Density modes
+## Density
 
-The workspace layer recognizes three explicit modes:
+Workspace density is semantic rather than a global scale transform:
 
-- `comfortable` — default general-purpose composition;
-- `compact` — pointer/keyboard productivity and high-information workflows;
-- `spacious` — touch-forward, accessibility-forward, presentation, or far-view contexts.
+- **comfortable** — default balanced spacing;
+- **compact** — denser information and tool presentation where pointer/keyboard use and task complexity justify it;
+- **spacious** — increased separation for touch, focus, presentation, or low-density contexts.
 
-Density changes spacing, padding, and information presentation. It does not reduce text legibility, focus visibility, semantic hierarchy, or required touch/far-view targets.
+Density may alter gaps and padding but must not reduce accessibility, change information meaning, or hide required state.
 
-## Concentric geometry
+## Geometry
 
-Nested workspace surfaces use coordinated geometry. Outer shells and large cards use the broader radius family; nested panels, fields, buttons, menus, and selection surfaces use proportionally smaller radii. Geometry should look related without forcing every component into the same radius.
-
-## Scroll and sticky chrome
-
-Navigation or toolbar chrome may remain sticky or visually float above content when this improves continuity. Sticky regions must not cover focused controls, fragment anchors, validation messages, or required content. Content may extend beneath appropriate translucent chrome only when contrast and focus remain understandable.
+Window, region, panel, and control geometry follows the Glaze UI nested-radius principle. Child surfaces normally use proportionally smaller radii than their parent workspace region. Expressive geometry remains concentrated in high-value moments rather than applied uniformly.
 
 ## Accessibility and resilience
 
 The workspace layer requires:
 
-- logical reading and focus order independent of visual rearrangement;
-- visible `:focus-visible` treatment;
+- visible focus;
 - accessible names for icon-only and collapsed controls;
 - reduced-motion-safe layout transitions;
 - reduced-transparency and no-backdrop-filter fallbacks;
@@ -118,17 +104,18 @@ The workspace layer requires:
 
 Workspace surfaces may present privacy, security, resilience, synchronization, identity, local/cloud, loading, warning, and error state, but they do not manufacture that truth. Producer-authoritative state remains governed by the applicable GoreeCloud platform system or application logic.
 
-## Candidate implementation
+## Stable implementation
 
 The Stable implementation consists of:
 
-- `tokens/workspace-navigation.candidate.json` — machine-readable semantic contract;
-- `css/glaze.workspace.candidate.css` — reusable workspace primitives with Desktop/Tablet/Mobile/Wide Desktop/TV composition, density, input-aware targets, and accessibility/performance fallbacks;
-- `reference/candidate-1.6-workspace.html` — dependency-free configurable reference composition;
-- `reference/candidate-1.6-workspace-acceptance.html` — fail-closed browser-rendered acceptance harness;
-- `scripts/validate_workspace_navigation.py` — fail-closed source and promotion-evidence validation;
-- `scripts/validate_candidate_1_6_rendered.py` — rendered Mobile/Tablet/Desktop/Wide Desktop/TV, density, and accessibility/resilience matrix;
-- `acceptance/1.6-candidate.md` — Candidate lifecycle, scope, evidence, compatibility, and rollback record; and
+- `tokens/workspace-navigation.candidate.json` — machine-readable semantic contract retained at its historical Candidate-era path for compatibility and audit continuity;
+- `css/glaze.workspace.candidate.css` — reusable workspace primitives with Desktop/Tablet/Mobile/Wide Desktop/TV composition, density, input-aware targets, and accessibility/performance fallbacks, retained at its historical path;
+- `reference/candidate-1.6-workspace.html` — dependency-free reference composition retained as promotion evidence;
+- `reference/candidate-1.6-workspace-acceptance.html` — fail-closed browser-rendered acceptance harness retained as a Stable regression gate;
+- `scripts/validate_workspace_navigation.py` — fail-closed Stable source and lifecycle validation;
+- `scripts/validate_candidate_1_6_rendered.py` — historical Candidate-named rendered matrix retained as a Stable regression gate;
+- `acceptance/1.6-candidate.md` — preserved Candidate lifecycle, scope, evidence, compatibility, and rollback record;
+- `acceptance/1.6.0.md` — canonical Stable promotion record; and
 - CI coverage in `.github/workflows/ci.yml`.
 
 ## Stable rendered acceptance matrix
@@ -141,8 +128,8 @@ This rendered matrix remains the platform-neutral Stable regression contract onl
 
 ## Stable release boundary
 
-Stable promotion requires exact-head CI, rendered acceptance across representative Mobile, Tablet, Desktop, Wide Desktop, and TV contexts, accessibility/resilience review, mixed-input validation, compatibility review, documentation synchronization, and explicit promotion under `STABILITY.md`.
+Glaze UI 1.6.0 promotion required exact-head CI, rendered acceptance across representative Mobile, Tablet, Desktop, Wide Desktop, and TV contexts, accessibility/resilience review, mixed-input validation, compatibility review, documentation synchronization, and explicit promotion under `STABILITY.md`.
 
-The separate Glaze UI 1.6 Evidence Presentation Candidate must also satisfy its own applicable promotion requirements. Passing the Adaptive Workspace matrix alone does not authorize Stable 1.6 promotion.
+The Glaze UI 1.6 Evidence Presentation and Authority Surfaces contract is also Stable. During promotion, passing the Adaptive Workspace matrix alone did not authorize Stable 1.6 promotion; both 1.6 systems and the retained Stable regression stack were required to pass.
 
-Glaze UI 1.6.0 promotion completed the design-system gate. Downstream applications must still complete controlled 1.6 adoption and application-specific rendered/native/real-device acceptance before claiming current Stable conformance.
+Glaze UI 1.6.0 promotion completes the design-system gate only after the exact final release head is merged to `main`. Downstream applications must still complete controlled 1.6 adoption and application-specific rendered/native/real-device acceptance before claiming current Stable conformance.
