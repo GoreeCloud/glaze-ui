@@ -37,8 +37,8 @@ Current-Stable version-specific evidence has not been established. Unverified is
 - **GoreeCloud Manager** — `migration-required`, current recorded target 1.3.0; required target 1.6.0.
 - **GoreeCloud Website** — `migration-required`, current recorded target 1.5.0; required target 1.6.0. The repository-local conformance record now supersedes the older 1.1 central snapshot, but 1.5 remains historical rather than current-Stable.
 - **GoreeCloud Tasks** — `migration-required`, current recorded target 1.3.0; required target 1.6.0.
-- **GoreeCloud Launcher** — `adoption-candidate`, target 1.6.0; required target 1.6.0; native/rendered/accessibility/reduced-motion/physical-device acceptance remains pending and production eligibility remains false. Its local record now points to the canonical 1.6 Stable promotion revision.
-- **GoreeCloud Keyboard** — `adoption-candidate`, target 1.6.0; required target 1.6.0; phone/tablet native and rendered Glaze UI, TalkBack/switch-access, representative physical-device, and production acceptance remain pending and production eligibility remains false. Its local record now points to the canonical 1.6 Stable promotion revision.
+- **GoreeCloud Launcher** — `adoption-candidate`, target 1.6.0; required target 1.6.0; native/rendered/accessibility/reduced-motion/physical-device acceptance remains pending and production eligibility remains false. The central registry preserves its consumer adoption-merge anchor; its local record separately identifies the reviewed canonical 1.6 design-system revision.
+- **GoreeCloud Keyboard** — `adoption-candidate`, target 1.6.0; required target 1.6.0; phone/tablet native and rendered Glaze UI, TalkBack/switch-access, representative physical-device, and production acceptance remain pending and production eligibility remains false. The central registry preserves its consumer adoption-merge anchor; its local record separately identifies the reviewed canonical 1.6 design-system revision.
 - **GoreeCloud Notes** — `unverified`; the previously registered versioned evidence path is absent on current main. The repository's platform-conformance policy remains governance evidence, not proof of a specific Glaze implementation version.
 - **GoreeCloud Monitor** — `migration-required`, current recorded target 1.0.0; required target 1.6.0.
 
@@ -50,7 +50,7 @@ The seven named repositories above form the current central audit set. The centr
 
 Removing an audited repository from the machine-readable registry requires an explicit audit-scope change rather than silently reducing coverage. Every application repository remains responsible for its own current-Stable mapping, CI, rendered/native/real-device acceptance, and production-readiness evidence.
 
-The August 28, 2026 reconciliation corrected stale central metadata without upgrading consumers by declaration: Website is recorded at its evidenced 1.5 historical contract, Launcher and Keyboard use their current 1.6 reviewed promotion revision, and Notes is fail-closed to Unverified because its former evidence path is no longer present.
+The August 28, 2026 reconciliation corrected stale central metadata without upgrading consumers by declaration: Website is recorded at its evidenced 1.5 historical contract, Launcher and Keyboard retain their governed consumer adoption-merge anchors while their local records identify the canonical 1.6 design revision, and Notes is fail-closed to Unverified because its former evidence path is no longer present.
 
 ## Rules for consumer claims
 
