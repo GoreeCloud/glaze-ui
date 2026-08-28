@@ -6,6 +6,8 @@
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: clamp(14px, 2vw, 22px);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .glaze-evidence-card {
@@ -13,6 +15,7 @@
   display: grid;
   gap: 16px;
   min-width: 0;
+  max-width: 100%;
   padding: clamp(18px, 2.4vw, 26px);
 }
 
@@ -22,13 +25,18 @@
 
 .glaze-evidence-heading {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+  min-width: 0;
+  max-width: 100%;
 }
 
-.glaze-evidence-heading > div {
+.glaze-evidence-heading > div,
+.glaze-evidence-authority {
   min-width: 0;
+  max-width: 100%;
 }
 
 .glaze-evidence-kicker,
@@ -50,11 +58,17 @@
   max-width: 72ch;
 }
 
+.glaze-evidence-card :is(h2, h3, p, strong, span, dt, dd, summary),
+.glaze-evidence-callout {
+  overflow-wrap: anywhere;
+}
+
 .glaze-evidence-meta {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin: 0;
+  min-width: 0;
 }
 
 .glaze-evidence-meta > div {
@@ -80,11 +94,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .glaze-evidence-chip {
   display: inline-flex;
   align-items: center;
+  min-width: 0;
+  max-width: 100%;
   min-height: 34px;
   padding: 6px 10px;
   border: 1px solid var(--glaze-line);
@@ -92,6 +110,7 @@
   background: var(--glaze-surface-muted);
   font-size: 0.82rem;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 /* Freshness and transport chips are deliberately presentation-neutral.
@@ -113,6 +132,7 @@
 .glaze-evidence-details {
   border-top: 1px solid var(--glaze-line);
   padding-top: 12px;
+  min-width: 0;
 }
 
 .glaze-evidence-details summary {
@@ -120,6 +140,7 @@
   display: flex;
   align-items: center;
   width: fit-content;
+  max-width: 100%;
   font-weight: 700;
   cursor: pointer;
 }
@@ -127,6 +148,8 @@
 .glaze-evidence-source {
   display: grid;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
   margin-top: 10px;
   padding: 12px;
   border-radius: var(--glaze-radius-card, 16px);
@@ -138,9 +161,12 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .glaze-evidence-conflict > section {
+  min-width: 0;
   padding: 16px;
   border: 1px solid var(--glaze-line);
   border-radius: var(--glaze-radius-card, 16px);
@@ -148,6 +174,8 @@
 }
 
 .glaze-evidence-callout {
+  min-width: 0;
+  max-width: 100%;
   padding: 14px 16px;
   border: 1px solid var(--glaze-line);
   border-radius: var(--glaze-radius-card, 16px);
