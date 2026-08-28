@@ -1,0 +1,249 @@
+/* Glaze UI 1.6 Candidate — Semantic Presentation
+   Coordinates semantic symbols, color, and accessibility. Stable baseline remains 1.5.0. */
+
+:root {
+  --glaze-semantic-focus-enhanced-width: 4px;
+  --glaze-semantic-focus-enhanced-offset: 3px;
+  --glaze-semantic-large-target: 52px;
+  --glaze-semantic-status-radius: 14px;
+  --glaze-semantic-status-gap: 10px;
+  --glaze-semantic-status-padding-block: 10px;
+  --glaze-semantic-status-padding-inline: 12px;
+}
+
+.glaze-semantic-status-candidate {
+  --glaze-semantic-status-color: var(--glaze-info);
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--glaze-semantic-status-gap);
+  padding: var(--glaze-semantic-status-padding-block) var(--glaze-semantic-status-padding-inline);
+  border: 1px solid color-mix(in srgb, var(--glaze-semantic-status-color) 38%, var(--glaze-line));
+  border-radius: var(--glaze-semantic-status-radius);
+  color: var(--glaze-text);
+  background: color-mix(in srgb, var(--glaze-semantic-status-color) 9%, var(--glaze-surface-strong));
+  transition:
+    background-color var(--glaze-motion-fast) var(--glaze-ease-standard),
+    border-color var(--glaze-motion-fast) var(--glaze-ease-standard);
+}
+
+.glaze-semantic-symbol-candidate {
+  width: 1.35em;
+  height: 1.35em;
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  color: var(--glaze-semantic-status-color);
+  font-size: .9em;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.glaze-semantic-status-label-candidate {
+  min-width: 0;
+  font-weight: 600;
+}
+
+.glaze-semantic-status-candidate[data-state="information"] {
+  --glaze-semantic-status-color: var(--glaze-info);
+}
+
+.glaze-semantic-status-candidate[data-state="success"] {
+  --glaze-semantic-status-color: var(--glaze-success);
+}
+
+.glaze-semantic-status-candidate[data-state="warning"] {
+  --glaze-semantic-status-color: var(--glaze-warning);
+  border-style: dashed;
+}
+
+.glaze-semantic-status-candidate[data-state="danger"] {
+  --glaze-semantic-status-color: var(--glaze-danger);
+  border-style: double;
+  border-width: 3px;
+}
+
+.glaze-semantic-status-candidate[data-state="privacy"] {
+  --glaze-semantic-status-color: var(--glaze-semantic-privacy, var(--glaze-accent));
+}
+
+.glaze-semantic-status-candidate[data-state="security"] {
+  --glaze-semantic-status-color: var(--glaze-semantic-security, var(--glaze-accent-2));
+}
+
+.glaze-semantic-status-candidate[data-state="protected"] {
+  --glaze-semantic-status-color: var(--glaze-semantic-protected, var(--glaze-success));
+}
+
+.glaze-semantic-status-candidate[data-state="restricted"] {
+  --glaze-semantic-status-color: var(--glaze-semantic-restricted, var(--glaze-warning));
+  border-style: dashed;
+}
+
+.glaze-semantic-status-candidate[data-state="online"] {
+  --glaze-semantic-status-color: var(--glaze-semantic-online, var(--glaze-success));
+}
+
+.glaze-semantic-status-candidate[data-state="offline"] {
+  --glaze-semantic-status-color: var(--glaze-semantic-offline, var(--glaze-muted));
+}
+
+.glaze-semantic-status-candidate[data-state="syncing"] {
+  --glaze-semantic-status-color: var(--glaze-semantic-syncing, var(--glaze-info));
+}
+
+.glaze-semantic-status-candidate[data-state="paused"] {
+  --glaze-semantic-status-color: var(--glaze-info);
+}
+
+.glaze-semantic-status-candidate[data-state="unavailable"] {
+  --glaze-semantic-status-color: var(--glaze-semantic-unavailable, var(--glaze-muted));
+  border-style: dotted;
+  border-width: 2px;
+}
+
+[data-glaze-accessibility~="enhanced-focus"] :is(
+  button,
+  a[href],
+  input,
+  select,
+  textarea,
+  [tabindex]:not([tabindex="-1"]),
+  .glaze-focusable
+):focus-visible {
+  outline: var(--glaze-semantic-focus-enhanced-width) solid var(--glaze-focus-ring, var(--glaze-accent));
+  outline-offset: var(--glaze-semantic-focus-enhanced-offset);
+}
+
+[data-glaze-accessibility~="large-targets"] :is(
+  .glaze-button,
+  .glaze-icon-button,
+  .glaze-input,
+  .glaze-select,
+  .glaze-textarea,
+  .glaze-nav-item,
+  .glaze-workspace-control-candidate,
+  .glaze-workspace-nav-item-candidate
+) {
+  min-height: var(--glaze-semantic-large-target);
+  min-width: var(--glaze-semantic-large-target);
+}
+
+[data-glaze-accessibility~="high-contrast"] {
+  --glaze-line: color-mix(in srgb, currentColor 48%, transparent);
+  --glaze-surface: var(--glaze-surface-strong);
+}
+
+[data-glaze-accessibility~="high-contrast"] .glaze-semantic-status-candidate {
+  border-width: 2px;
+  background: var(--glaze-surface-strong);
+}
+
+[data-glaze-accessibility~="high-contrast"] .glaze-semantic-status-candidate[data-state="danger"] {
+  border-width: 4px;
+}
+
+[data-glaze-accessibility~="reduced-transparency"] :is(
+  .glaze-surface,
+  .glaze-overlay,
+  .glaze-glass-functional,
+  .glaze-glass-clear,
+  .glaze-workspace-title-candidate,
+  .glaze-workspace-nav-candidate,
+  .glaze-workspace-toolbar-candidate
+) {
+  background: var(--glaze-surface-strong);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+[data-glaze-accessibility~="reduced-motion"] *,
+[data-glaze-accessibility~="reduced-motion"] *::before,
+[data-glaze-accessibility~="reduced-motion"] *::after {
+  scroll-behavior: auto !important;
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important;
+}
+
+[data-glaze-accessibility~="reduced-motion"] :is(
+  .glaze-button,
+  .glaze-icon-button,
+  .glaze-workspace-control-candidate
+):active:not(:disabled) {
+  transform: none;
+}
+
+[data-glaze-accessibility~="monochrome"] .glaze-semantic-status-candidate {
+  --glaze-semantic-status-color: currentColor;
+  background: var(--glaze-surface-strong);
+  color: var(--glaze-text);
+}
+
+[data-glaze-accessibility~="monochrome"] .glaze-semantic-status-candidate[data-state="warning"],
+[data-glaze-accessibility~="monochrome"] .glaze-semantic-status-candidate[data-state="restricted"] {
+  border-style: dashed;
+}
+
+[data-glaze-accessibility~="monochrome"] .glaze-semantic-status-candidate[data-state="danger"] {
+  border-style: double;
+}
+
+[data-glaze-accessibility~="monochrome"] .glaze-semantic-status-candidate[data-state="unavailable"] {
+  border-style: dotted;
+}
+
+@media (prefers-contrast: more) {
+  .glaze-semantic-status-candidate {
+    border-width: 2px;
+    background: var(--glaze-surface-strong);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glaze-semantic-status-candidate {
+    background: var(--glaze-surface-strong);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glaze-semantic-status-candidate {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .glaze-semantic-status-candidate {
+    --glaze-semantic-status-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+    forced-color-adjust: auto;
+  }
+
+  .glaze-semantic-status-candidate[data-state="warning"],
+  .glaze-semantic-status-candidate[data-state="restricted"] {
+    border-style: dashed;
+  }
+
+  .glaze-semantic-status-candidate[data-state="danger"] {
+    border-style: double;
+  }
+
+  .glaze-semantic-status-candidate[data-state="unavailable"] {
+    border-style: dotted;
+  }
+
+  .glaze-semantic-symbol-candidate {
+    color: CanvasText;
+  }
+}
+
+@supports not (background: color-mix(in srgb, red 10%, white)) {
+  .glaze-semantic-status-candidate {
+    background: var(--glaze-surface-strong);
+    border-color: currentColor;
+  }
+}
