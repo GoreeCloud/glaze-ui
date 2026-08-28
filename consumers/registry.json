@@ -81,7 +81,7 @@
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
+      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance remain pending and are required before production approval.",
       "notes": "Existing 1.5.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
     },
     {
@@ -94,7 +94,7 @@
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
+      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance remain pending and are required before production approval.",
       "notes": "Existing 1.5.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
     },
     {
