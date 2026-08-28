@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>Glaze UI 2.0 Candidate — Resilience Reference</title>
+  <link rel="stylesheet" href="../css/glaze-2.candidate.css">
+  <link rel="stylesheet" href="../css/glaze-2.foldable.candidate.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    :root { --glaze-contrast-probe: 0; }
+    body {
+      min-height: 100vh;
+      padding: 24px;
+      background: var(--glaze-canvas);
+      color: var(--glaze-text-primary);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    h1, h2, p { margin-block-start: 0; }
+    .case { display: none; }
+    .case[data-active="true"] { display: block; }
+    .fallback-stage { display: grid; gap: 16px; max-width: 720px; }
+    .fallback-target { padding: 24px; }
+    .fallback-target[hidden] { display: none; }
+    .foldable-stage { width: min(100%, 1066px); margin-inline: auto; min-height: 720px; }
+    .foldable-pane { padding: 32px; }
+    .foldable-pane h2 { font-size: 32px; }
+    .foldable-pane p { max-width: 48ch; color: var(--glaze-text-secondary); line-height: 1.55; }
+    .foldable-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .contrast-stage { display: grid; gap: 16px; max-width: 760px; }
+    #contrast-probe {
+      padding: 24px;
+      border: 1px solid var(--glaze-border);
+      border-radius: var(--glaze-shape-card);
+      outline: 0 solid transparent;
+      outline-offset: 0;
+    }
+    @media (prefers-contrast: more) {
+      :root { --glaze-contrast-probe: 1; }
+      #contrast-probe {
+        border-width: 3px;
+        outline: 3px solid currentColor;
+        outline-offset: 4px;
+      }
+    }
+    @media (max-width: 719px) {
+      body { padding: 16px; }
+    }
+  </style>
+</head>
+<body class="glaze-canvas" data-glaze-candidate="2.0" data-runtime-accepted="pending" data-case="pending">
+  <section id="fallback-case" class="case fallback-stage" data-case="fallback">
+    <h1>Connected Transformation fallback</h1>
+    <button id="fallback-source" class="glaze-button glaze-connected" data-variant="emphasis" type="button" aria-expanded="false">Open actions</button>
+    <div id="fallback-target" class="fallback-target glaze-material-deep glaze-connected" hidden>
+      <h2>Actions</h2>
+      <p>The semantic state must complete even when View Transitions are unavailable.</p>
+      <button class="glaze-button" data-variant="soft" type="button">Continue</button>
+    </div>
+  </section>
+
+  <section id="foldable-case" class="case" data-case="foldable">
+    <h1>Hinge-aware foldable reference</h1>
+    <main id="foldable-layout" class="foldable-stage glaze-foldable-layout" data-hinge-aware="true" data-posture="book">
+      <article id="foldable-primary" class="foldable-pane glaze-foldable-pane glaze-surface-raised" data-pane="primary">
+        <h2>Primary workspace</h2>
+        <p>Content remains solid and complete on the primary pane. The hinge is treated as unavailable physical space rather than an area content can cross.</p>
+        <div class="foldable-actions">
+          <button class="glaze-button" data-variant="emphasis" type="button">Create</button>
+          <button class="glaze-button" data-variant="soft" type="button">Filter</button>
+        </div>
+      </article>
+      <div id="foldable-hinge" class="glaze-foldable-hinge" aria-hidden="true"></div>
+      <aside id="foldable-secondary" class="foldable-pane glaze-foldable-pane glaze-material-soft" data-pane="secondary">
+        <h2>Supporting pane</h2>
+        <p>Secondary controls remain independently readable and do not overlap or disappear beneath the hinge exclusion region.</p>
+      </aside>
+    </main>
+  </section>
+
+  <section id="contrast-case" class="case contrast-stage" data-case="contrast">
+    <h1>Increased contrast reference</h1>
+    <div id="contrast-material" class="glaze-material" data-glaze-interactive>
+      <button class="glaze-button" data-variant="soft" type="button">Interactive Glaze</button>
+    </div>
+    <div id="contrast-probe">
+      <h2>Explicit boundary</h2>
+      <p>When the browser exposes <code>prefers-contrast: more</code>, the reference strengthens visible boundaries without relying on color alone.</p>
+    </div>
+  </section>
+
+  <script type="module">
+    import { GlazeUI2 } from '../js/glaze-2.candidate.js';
+
+    const params = new URLSearchParams(location.search);
+    const testCase = params.get('case') || 'fallback';
+    const appearance = params.get('appearance') || 'light';
+    const body = document.body;
+    const active = document.querySelector(`.case[data-case="${testCase}"]`);
+
+    GlazeUI2.setAppearance(appearance);
+    GlazeUI2.setClarity('balanced');
+    GlazeUI2.setExpression('balanced');
+    body.dataset.case = testCase;
+    if (active) active.dataset.active = 'true';
+
+    const accept = () => { body.dataset.runtimeAccepted = 'true'; };
+    const reject = (error) => {
+      body.dataset.runtimeAccepted = 'false';
+      body.dataset.runtimeError = error instanceof Error ? error.message : String(error);
+    };
+
+    if (!active) {
+      reject(new Error(`Unknown resilience case: ${testCase}`));
+    } else if (testCase === 'fallback') {
+      const source = document.getElementById('fallback-source');
+      const target = document.getElementById('fallback-target');
+      try {
+        Object.defineProperty(document, 'startViewTransition', {
+          configurable: true,
+          value: undefined,
+        });
+        body.dataset.viewTransitionAvailable = String(typeof document.startViewTransition === 'function');
+        GlazeUI2.connectedTransform({
+          source,
+          target,
+          name: 'fallback-proof',
+          mutate() { source.setAttribute('aria-expanded', 'true'); },
+        }).then(accept).catch(reject);
+      } catch (error) {
+        reject(error);
+      }
+    } else if (testCase === 'foldable') {
+      body.dataset.foldablePosture = document.getElementById('foldable-layout').dataset.posture;
+      accept();
+    } else if (testCase === 'contrast') {
+      body.dataset.prefersContrastMore = String(matchMedia('(prefers-contrast: more)').matches);
+      accept();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glaze UI 2.0 Candidate resilience acceptance</title>
+  <style>
+    html,body{margin:0;background:#111;color:#fff;font-family:ui-monospace,monospace}
+    iframe{display:block;border:0;background:#fff}
+    #result{white-space:pre-wrap;margin:0;padding:12px}
+  </style>
+</head>
+<body>
+  <iframe id="target" title="Glaze UI 2.0 Candidate resilience target"></iframe>
+  <pre id="result" data-status="pending">PENDING</pre>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const testCase = params.get('case') || 'fallback';
+      const width = Number(params.get('width') || 1280);
+      const height = Number(params.get('height') || 900);
+      const appearance = params.get('appearance') || 'light';
+      const frame = document.getElementById('target');
+      const result = document.getElementById('result');
+      frame.style.width = `${width}px`;
+      frame.style.height = `${height}px`;
+
+      const settle = (status, messages) => {
+        if (result.dataset.status !== 'pending') return;
+        result.dataset.status = status;
+        result.textContent = `${status.toUpperCase()}\n${messages.join('\n')}`;
+        document.title = `${status.toUpperCase()} — Glaze UI 2.0 Candidate resilience acceptance`;
+      };
+
+      const timer = setTimeout(() => settle('fail', ['resilience frame did not complete']), 14000);
+
+      frame.addEventListener('load', () => {
+        const win = frame.contentWindow;
+        const doc = frame.contentDocument;
+        if (!win || !doc) {
+          clearTimeout(timer);
+          return settle('fail', ['resilience frame unavailable']);
+        }
+
+        let observer;
+        const inspect = () => {
+          const runtimeState = doc.body?.dataset.runtimeAccepted;
+          if (!runtimeState || runtimeState === 'pending') return;
+          observer?.disconnect();
+          clearTimeout(timer);
+
+          const errors = [];
+          const notes = [];
+          const rect = node => node.getBoundingClientRect();
+          const style = node => win.getComputedStyle(node);
+          const root = doc.documentElement;
+          const body = doc.body;
+
+          if (body.dataset.glazeCandidate !== '2.0') errors.push('Candidate identity missing');
+          if (runtimeState !== 'true') errors.push(`runtime acceptance ${runtimeState}: ${body.dataset.runtimeError || 'unknown error'}`);
+          if (body.dataset.case !== testCase) errors.push(`case marker ${body.dataset.case || 'missing'} != ${testCase}`);
+          if (root.dataset.glazeAppearance !== appearance) errors.push(`appearance marker ${root.dataset.glazeAppearance || 'missing'} != ${appearance}`);
+          if (win.innerWidth !== width) errors.push(`viewport width ${win.innerWidth} != ${width}`);
+          if (root.scrollWidth > root.clientWidth + 1 || body.scrollWidth > body.clientWidth + 1) errors.push('horizontal overflow detected');
+
+          if (testCase === 'fallback') {
+            const source = doc.getElementById('fallback-source');
+            const target = doc.getElementById('fallback-target');
+            if (body.dataset.viewTransitionAvailable !== 'false') errors.push(`View Transition API was not disabled: ${body.dataset.viewTransitionAvailable || 'missing'}`);
+            if (source?.getAttribute('aria-expanded') !== 'true') errors.push('fallback mutation did not preserve expanded source state');
+            if (!target || target.hidden || rect(target).width <= 0 || rect(target).height <= 0) errors.push('fallback target did not render');
+            if (source && style(source).viewTransitionName !== 'none') errors.push(`source retained View Transition name: ${style(source).viewTransitionName}`);
+            if (target && style(target).viewTransitionName !== 'none') errors.push(`target retained View Transition name: ${style(target).viewTransitionName}`);
+            notes.push('Connected Transformation state-preserving fallback rendered without View Transitions');
+          } else if (testCase === 'foldable') {
+            const layout = doc.getElementById('foldable-layout');
+            const primary = doc.getElementById('foldable-primary');
+            const hinge = doc.getElementById('foldable-hinge');
+            const secondary = doc.getElementById('foldable-secondary');
+            if (!layout || layout.dataset.hingeAware !== 'true') errors.push('foldable layout is not marked hinge-aware');
+            if (body.dataset.foldablePosture !== 'book' || layout?.dataset.posture !== 'book') errors.push('representative foldable book posture missing');
+            if (!primary || !hinge || !secondary) errors.push('foldable primary/hinge/secondary regions missing');
+            if (hinge && rect(hinge).width < 20) errors.push(`hinge exclusion region too narrow: ${rect(hinge).width}`);
+            if (primary && hinge && rect(primary).right > rect(hinge).left + .5) errors.push('primary pane overlaps hinge exclusion region');
+            if (secondary && hinge && rect(secondary).left < rect(hinge).right - .5) errors.push('secondary pane overlaps hinge exclusion region');
+            if (primary && rect(primary).width < 280) errors.push(`primary pane below representative minimum: ${rect(primary).width}`);
+            if (secondary && rect(secondary).width < 280) errors.push(`secondary pane below representative minimum: ${rect(secondary).width}`);
+            notes.push('representative hinge-aware foldable book posture rendered without hinge overlap');
+          } else if (testCase === 'contrast') {
+            const material = doc.getElementById('contrast-material');
+            const probe = doc.getElementById('contrast-probe');
+            const mediaMatch = win.matchMedia('(prefers-contrast: more)').matches;
+            const probeValue = style(root).getPropertyValue('--glaze-contrast-probe').trim();
+            if (!mediaMatch) errors.push('browser did not expose prefers-contrast: more');
+            if (body.dataset.prefersContrastMore !== 'true') errors.push(`reference contrast marker ${body.dataset.prefersContrastMore || 'missing'} != true`);
+            if (probeValue !== '1') errors.push(`prefers-contrast media rule did not apply: probe=${probeValue || 'missing'}`);
+            if (!probe || parseFloat(style(probe).borderTopWidth) < 3) errors.push(`increased-contrast boundary did not strengthen: ${probe ? style(probe).borderTopWidth : 'missing'}`);
+            if (!probe || parseFloat(style(probe).outlineWidth) < 3) errors.push(`increased-contrast outline did not render: ${probe ? style(probe).outlineWidth : 'missing'}`);
+            if (!material || rect(material).width <= 0 || rect(material).height <= 0) errors.push('interactive Glaze contrast surface did not render');
+            notes.push('prefers-contrast: more media behavior rendered with stronger non-color-only boundaries');
+          } else {
+            errors.push(`unknown resilience case ${testCase}`);
+          }
+
+          notes.push(`viewport ${width}×${height}`);
+          notes.push(`appearance ${appearance}`);
+          notes.push(`case ${testCase}`);
+          settle(errors.length ? 'fail' : 'pass', [...notes, ...errors]);
+        };
+
+        observer = new MutationObserver(inspect);
+        if (doc.body) observer.observe(doc.body, {attributes:true, attributeFilter:['data-runtime-accepted','data-runtime-error']});
+        inspect();
+      }, {once:true});
+
+      frame.src = `./candidate-2.0-resilience.html?${new URLSearchParams({case:testCase,appearance}).toString()}`;
+    })();
+  </script>
+</body>
+</html>
