@@ -154,6 +154,15 @@
   background: var(--glaze-surface-muted);
 }
 
+/* Portable fallback for hosts and rendered acceptance that cannot expose
+   prefers-reduced-transparency directly. */
+body[data-glaze-reduced-transparency="true"] .glaze-evidence-card,
+body[data-glaze-reduced-transparency="true"] .glaze-glass-functional {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: var(--glaze-surface-strong) !important;
+}
+
 @media (max-width: 760px) {
   .glaze-evidence-card {
     grid-column: 1 / -1;
@@ -176,8 +185,11 @@
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .glaze-evidence-card {
+  .glaze-evidence-card,
+  .glaze-glass-functional {
+    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+    background: var(--glaze-surface-strong) !important;
   }
 }
 
