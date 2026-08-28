@@ -37,6 +37,8 @@ jobs:
               '"Glaze UI 1.4.0 remains the immediately preceding historical Stable baseline."':
                   '"Glaze UI 1.4.0 is the immediately preceding historical Stable baseline."',
               '"While 1.5.x remains Stable"': '"While 1.5.x is Stable"',
+              '"No Glaze UI 1.6 Candidate capability changes the current 1.5.0 Stable consumer target until separately promoted."':
+                  '"The 1.6 evidence-presentation Candidate is defined by `EVIDENCE_PRESENTATION.md`, `tokens/evidence-presentation.json`, and `tokens/mesh-evidence-profile.json`. The 1.6 Adaptive Workspace Candidate is defined by `WORKSPACE_NAVIGATION.md`, `tokens/workspace-navigation.candidate.json`, `css/glaze.workspace.candidate.css`, `reference/candidate-1.6-workspace.html`, and `scripts/validate_workspace_navigation.py`. Both are implemented source material under formal promotion review and are **not** part of the 1.5.0 Stable compatibility promise or current Stable consumer target."',
           }
           for old, new in source_anchor_fixes.items():
               if old in body:
@@ -47,10 +49,15 @@ jobs:
           if obsolete_call in body:
               body = body.replace(obsolete_call, optional_call)
 
-          old_current_release = 'replace("STABILITY.md", "the current Stable 1.5.0 release", "the current Stable 1.6.0 release")'
-          optional_current_release = 'replace("STABILITY.md", "the current Stable 1.5.0 release", "the current Stable 1.6.0 release", required=False)'
-          if old_current_release in body:
-              body = body.replace(old_current_release, optional_current_release)
+          optional_calls = {
+              'replace("STABILITY.md", "the current Stable 1.5.0 release", "the current Stable 1.6.0 release")':
+                  'replace("STABILITY.md", "the current Stable 1.5.0 release", "the current Stable 1.6.0 release", required=False)',
+              'replace("COMPONENT_STATUS.md", "# Glaze UI Component Lifecycle Registry", "# Glaze UI Component Lifecycle Registry")':
+                  'replace("COMPONENT_STATUS.md", "# Glaze UI Component Lifecycle Registry", "# Glaze UI Component Lifecycle Registry", required=False)',
+          }
+          for old, new in optional_calls.items():
+              if old in body:
+                  body = body.replace(old, new)
 
           path.write_text(body, encoding='utf-8')
           PY
