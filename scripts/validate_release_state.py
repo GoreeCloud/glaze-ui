@@ -5,9 +5,15 @@ import json,re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 VERSION=(ROOT/'VERSION').read_text(encoding='utf-8').strip()
+LAUNCHER='GoreeCloud/goreecloud-launcher'; LAUNCHER_ADOPTION='88e7007013ac096a39f04ff4a3993591ef2ed5f2'
+KEYBOARD='GoreeCloud/goreecloud-keyboard'; KEYBOARD_ADOPTION='3c82fff63d328bcc5f375b1b5a9bf9b692cd8c73'
 def require(c,m):
     if not c: raise SystemExit(f'Glaze UI release-state validation failed: {m}')
 def text(p): return (ROOT/p).read_text(encoding='utf-8')
+def by_repo(registry,repo):
+    matches=[c for c in registry.get('consumers',[]) if c.get('repository')==repo]
+    require(len(matches)==1,f'{repo} registry record missing/duplicate')
+    return matches[0]
 def main():
     require(re.fullmatch(r'\d+\.\d+\.\d+',VERSION) is not None,'VERSION must use semantic versioning')
     require(VERSION=='2.0.0','current Stable VERSION must be 2.0.0')
@@ -29,12 +35,18 @@ def main():
     require('1.6.0' in registry.get('historicalStableVersions',[]),'1.6.0 must be historical after 2.0 promotion')
     require(registry.get('enforcement',{}).get('currentStableRequired') is True,'current Stable consumer requirement missing')
     require(registry.get('enforcement',{}).get('productionExceptionsAllowed') is False,'production exceptions must remain forbidden')
-    for repo in ('GoreeCloud/goreecloud-launcher','GoreeCloud/goreecloud-keyboard'):
-        matches=[c for c in registry.get('consumers',[]) if c.get('repository')==repo]
-        require(len(matches)==1,f'{repo} registry record missing/duplicate')
-        entry=matches[0]
-        require(entry.get('status')=='migration-required' and entry.get('targetVersion')=='1.6.0',f'{repo} must preserve 1.6 evidence as migration-required')
-        require(entry.get('requiredTargetVersion')==VERSION and entry.get('productionEligible') is False,f'{repo} current Stable migration boundary drifted')
+
+    launcher=by_repo(registry,LAUNCHER)
+    require(launcher.get('status')=='adoption-candidate' and launcher.get('targetVersion')==VERSION,'Launcher must remain a 2.0 Adoption Candidate during final application acceptance')
+    require(launcher.get('requiredTargetVersion')==VERSION and launcher.get('productionEligible') is False,'Launcher 2.0 Adoption Candidate production boundary drifted')
+    require(launcher.get('referenceRevision')==LAUNCHER_ADOPTION and launcher.get('evidence')=='docs/glaze-ui-adoption.md','Launcher current adoption evidence anchor drifted')
+    require(launcher.get('automatedContract') is True,'Launcher current adoption must remain automated')
+
+    keyboard=by_repo(registry,KEYBOARD)
+    require(keyboard.get('status')=='migration-required' and keyboard.get('targetVersion')=='1.6.0','Keyboard must preserve 1.6 evidence as migration-required')
+    require(keyboard.get('requiredTargetVersion')==VERSION and keyboard.get('productionEligible') is False,'Keyboard current Stable migration boundary drifted')
+    require(keyboard.get('referenceRevision')==KEYBOARD_ADOPTION and keyboard.get('evidence')=='docs/glaze-ui-adoption.md','Keyboard historical adoption evidence anchor drifted')
+    require(keyboard.get('automatedContract') is True,'Keyboard historical adoption evidence must remain automated')
 
     enforcement=json.loads(text('tokens/enforcement.json'))
     require(enforcement.get('meta',{}).get('currentStable')==VERSION,'enforcement current Stable differs from VERSION')
@@ -62,5 +74,5 @@ def main():
     require('application-specific native or real-device acceptance' in conformance,'consumer native/real-device boundary missing')
     require('legacy 1.x compatibility' in components,'legacy compatibility boundary missing')
     require('Glaze Motion' in status and 'Experimental' in status,'Glaze Motion must remain non-Stable')
-    print(f'Glaze UI release-state validation passed for {VERSION}; 2.0 Stable consumer enforcement active')
+    print(f'Glaze UI release-state validation passed for {VERSION}; Launcher Adoption Candidate tracked, remaining consumer enforcement active')
 if __name__=='__main__': main()
