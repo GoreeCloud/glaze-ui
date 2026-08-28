@@ -110,7 +110,7 @@
           if (source && rect(source).width > 0 && (rect(source).width < touchFloor - .5 || rect(source).height < touchFloor - .5)) errors.push(`create target below ${touchFloor}px floor: ${rect(source).width}×${rect(source).height}`);
 
           const backdrop = material ? (style(material).backdropFilter || style(material).webkitBackdropFilter || '') : '';
-          if (mode === 'reduced-transparency' || mode === 'no-backdrop') {
+          if (mode === 'reduced-transparency' || mode === 'no-backdrop' || mode === 'forced-colors') {
             if (backdrop && backdrop !== 'none') errors.push(`${mode} fallback retained backdrop filtering: ${backdrop}`);
             notes.push(`${mode} opaque fallback rendered`);
           } else if (clarity === 'solid') {
