@@ -252,13 +252,13 @@
   background: color-mix(in srgb, var(--glaze-surface) 74%, transparent);
   backdrop-filter: blur(24px) saturate(135%);
   border: 1px solid var(--glaze-border);
-  transition: transform calc(var(--glaze-motion-standard) * var(--glaze-motion-scale)) var(--glaze-spring),
+  transition: padding calc(var(--glaze-motion-standard) * var(--glaze-motion-scale)) var(--glaze-spring),
               gap calc(var(--glaze-motion-standard) * var(--glaze-motion-scale)) var(--glaze-spring);
 }
 
 .glaze-navigation-capsule[data-scroll="forward"] {
-  transform: scale(.94);
   gap: 0;
+  padding-inline: calc(var(--glaze-space-xs) / 2);
 }
 
 .glaze-navigation-capsule [aria-current="page"] {
