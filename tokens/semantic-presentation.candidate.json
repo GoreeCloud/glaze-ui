@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "name": "Glaze UI Semantic Presentation",
+    "candidateVersion": "1.6.0",
+    "status": "Candidate",
+    "stableBaseline": "1.5.0",
+    "principle": "Meaning survives changes in color, motion, transparency, contrast, and visual detail."
+  },
+  "states": {
+    "information": {"symbolRole": "information", "colorFamily": "information", "nonColorCue": "symbol+label"},
+    "success": {"symbolRole": "success", "colorFamily": "success", "nonColorCue": "symbol+label"},
+    "warning": {"symbolRole": "warning", "colorFamily": "warning", "nonColorCue": "symbol+label+border"},
+    "danger": {"symbolRole": "danger", "colorFamily": "danger", "nonColorCue": "symbol+label+double-border"},
+    "privacy": {"symbolRole": "privacy", "colorFamily": "privacy", "nonColorCue": "symbol+label"},
+    "security": {"symbolRole": "security", "colorFamily": "security", "nonColorCue": "symbol+label"},
+    "protected": {"symbolRole": "protected", "colorFamily": "protected", "nonColorCue": "symbol+label"},
+    "restricted": {"symbolRole": "restricted", "colorFamily": "restricted", "nonColorCue": "symbol+label+border"},
+    "online": {"symbolRole": "online", "colorFamily": "online", "nonColorCue": "symbol+label"},
+    "offline": {"symbolRole": "offline", "colorFamily": "offline", "nonColorCue": "symbol+label"},
+    "syncing": {"symbolRole": "syncing", "colorFamily": "syncing", "nonColorCue": "symbol+label"},
+    "paused": {"symbolRole": "paused", "colorFamily": "information", "nonColorCue": "symbol+label"},
+    "unavailable": {"symbolRole": "unavailable", "colorFamily": "unavailable", "nonColorCue": "symbol+label+border"}
+  },
+  "symbol": {
+    "inactivePresentation": "outline",
+    "activePresentation": "filled-or-glazed",
+    "protectedRoles": ["warning", "danger", "privacy", "security", "protected", "restricted", "unavailable"],
+    "compactRule": "Simplification may remove detail but not the identity-defining semantic cue.",
+    "registryStatus": "Planned"
+  },
+  "accessibilityProfiles": {
+    "enhanced-focus": {"focusWidth": 4, "focusOffset": 3, "selectionMustRemainDistinct": true},
+    "large-targets": {"nearViewMinimum": 52, "tvMinimum": 56, "preserveLogicalOrder": true},
+    "high-contrast": {"opaqueChromePreferred": true, "strongBoundaries": true, "decorativeGradientReduction": true},
+    "reduced-transparency": {"backdropFilter": false, "opaqueFallback": true},
+    "reduced-motion": {"nonessentialMotion": false, "transformFeedback": false, "stateChangesRemainImmediate": true},
+    "monochrome": {"decorativeChroma": false, "requireNonColorCue": true, "protectedMeaningSurvives": true}
+  },
+  "invariants": {
+    "visibleLabelOrAccessibleName": true,
+    "nonColorCompanion": true,
+    "focusDistinctFromSelection": true,
+    "osAccessibilityPreferenceNotWeakened": true,
+    "identityAccentCannotOverrideProtectedSemantics": true,
+    "presentationCannotUpgradeAuthority": true
+  },
+  "authority": {
+    "privacy": "Privacy Shield",
+    "security": "Wardveil Security",
+    "continuity": "Everkeep",
+    "coordination": "GoreeCloud Mesh",
+    "applicationState": "application logic"
+  }
+}
