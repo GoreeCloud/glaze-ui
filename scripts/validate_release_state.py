@@ -58,7 +58,7 @@ def main() -> None:
     require('No active 1.4 form-factor capability remains Candidate' in component_status,'1.4 lifecycle reconciliation is incomplete')
     require('Evidence presentation and authority surfaces | Stable' in component_status,'1.6 evidence-presentation lifecycle reconciliation is incomplete')
     require('Adaptive workspace and navigation | Stable' in component_status,'1.6 workspace lifecycle reconciliation is incomplete')
-    require('Glaze Motion 0.6 | Experimental' in component_status,'Glaze Motion must remain Experimental during 1.6 promotion')
+    require('| Motion Core 0.2 | Experimental |' in component_status and 'Glaze Motion is not part of the Glaze UI 1.6.0 Stable compatibility promise' in component_status,'Glaze Motion must remain Experimental during 1.6 promotion')
 
     require('current Stable Glaze UI baseline' in security,'SECURITY.md must bind fixes to the current Stable baseline')
     require('the only supported active application target' in security,'SECURITY.md must bind application support to current Stable')
