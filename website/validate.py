@@ -24,9 +24,9 @@ for forbidden in (
 
 mark = IDENTITY / 'glaze-ui-mark.svg'
 if not mark.is_file():
-    raise SystemExit('missing canonical Glaze UI Facet source')
+    raise SystemExit('missing synchronized Glaze UI Facet source')
 if hashlib.sha256(mark.read_bytes()).hexdigest() != CANONICAL_SHA256:
-    raise SystemExit('canonical Glaze UI Facet source does not match the approved SHA-256')
+    raise SystemExit('synchronized Glaze UI Facet source does not match the approved SHA-256')
 
 subprocess.run([sys.executable, str(SITE / 'build.py')], cwd=ROOT, check=True)
 
@@ -35,7 +35,7 @@ required = (
     'assets/glaze.css', 'assets/glaze.controls.css', 'assets/glaze.expressive.css',
     'assets/glaze.formfactors.css', 'assets/glaze.accessibility.css',
     'assets/glaze.color.css', 'assets/glaze.motion.css', 'assets/glaze.materials.css',
-    'assets/glaze.layout.css', 'assets/glaze.states.css',
+    'assets/glaze.layout.css', 'assets/glaze.states.css', 'assets/glaze.workspace.candidate.css',
     'assets/site.css', 'assets/identity.css', 'assets/site.js',
     'assets/glaze-ui-mark.svg',
 )
@@ -44,7 +44,7 @@ for n in required:
         raise SystemExit(f'missing build artifact: {n}')
 
 if (DIST / 'assets' / 'glaze-ui-mark.svg').read_bytes() != mark.read_bytes():
-    raise SystemExit('public identity asset drifted from canonical Facet source')
+    raise SystemExit('public identity asset drifted from synchronized Facet source')
 
 html = (DIST / 'index.html').read_text()
 headers = (DIST / '_headers').read_text()
@@ -55,6 +55,7 @@ motion = (DIST / 'assets' / 'glaze.motion.css').read_text()
 materials = (DIST / 'assets' / 'glaze.materials.css').read_text()
 layout = (DIST / 'assets' / 'glaze.layout.css').read_text()
 states = (DIST / 'assets' / 'glaze.states.css').read_text()
+workspace = (DIST / 'assets' / 'glaze.workspace.candidate.css').read_text()
 
 for n in (
     'Glaze UI 1.5 Stable',
@@ -62,8 +63,12 @@ for n in (
     'Facet is the official Glaze UI mark.',
     'Official Glaze UI Facet mark',
     'Official Glaze UI Facet standalone mark',
+    'GoreeCloud/goreecloud-branding-assets',
     'Mobile', 'Tablet', 'Desktop', 'TV',
     'Canvas', 'Solid', 'Raised', 'Functional Glass', 'Overlay',
+    'Glaze UI 1.6 Candidate',
+    'Adaptive workspace turns shell behavior into a shared contract.',
+    'Candidate · production baseline remains 1.5.0',
     'Shared semantics, flexible composition',
     'Stable semantics protect beauty and usability',
     '1.5 is Stable and is the production target.',
@@ -73,7 +78,7 @@ for n in (
     if n not in html:
         raise SystemExit(f'required public-site content missing: {n}')
 
-for forbidden_text in ('Fold is the official Glaze UI mark.', 'Official Glaze UI Fold', 'glaze-ui-lockup.svg'):
+for forbidden_text in ('Fold is the official Glaze UI mark.', 'Official Glaze UI Fold', 'glaze-ui-lockup.svg', 'authoritative SVG source lives in the Glaze UI repository'):
     if forbidden_text in html:
         raise SystemExit(f'legacy identity content must not be published: {forbidden_text}')
 
@@ -85,6 +90,7 @@ for s in (
     '/assets/glaze.controls.css', '/assets/glaze.expressive.css', '/assets/glaze.formfactors.css',
     '/assets/glaze.accessibility.css', '/assets/glaze.color.css', '/assets/glaze.motion.css',
     '/assets/glaze.materials.css', '/assets/glaze.layout.css', '/assets/glaze.states.css',
+    '/assets/glaze.workspace.candidate.css',
 ):
     if s not in html:
         raise SystemExit(f'required stylesheet not loaded: {s}')
@@ -100,10 +106,11 @@ for source, markers in (
     (materials, ('glaze-material-functional-glass', 'glaze-material-solid')),
     (layout, ('glaze-container', 'glaze-scroll-x')),
     (states, ('focus-visible', 'aria-selected')),
+    (workspace, ('.glaze-workspace-candidate', '.glaze-workspace-nav-candidate', '.glaze-workspace-toolbar-candidate', '.glaze-workspace-content-candidate', 'pointer: fine', 'pointer: coarse', 'forced-colors')),
 ):
     for marker in markers:
         if marker not in source:
-            raise SystemExit(f'promoted 1.5 public contract missing: {marker}')
+            raise SystemExit(f'public contract missing: {marker}')
 
 for remote in re.findall(r'(?:src|href)=["\'](https?://[^"\']+)', html):
     if 'github.com/GoreeCloud/goreecloud-glaze-ui' not in remote:
@@ -116,4 +123,4 @@ for d in ('Content-Security-Policy:', "frame-ancestors 'none'", 'Permissions-Pol
 if 'localStorage' not in js or 'data-theme-choice' not in html:
     raise SystemExit('local appearance preference contract missing')
 
-print('Glaze UI 1.5 Stable public design site validation passed with canonical Facet identity')
+print('Glaze UI Design Center validation passed: 1.5 Stable with bounded 1.6 Candidate preview and synchronized Facet identity')
