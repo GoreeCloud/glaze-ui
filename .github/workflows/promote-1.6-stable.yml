@@ -65,6 +65,8 @@ jobs:
           PY
       - name: Apply deterministic 1.6 Stable conversion
         run: python3 scripts/promote_1_6_stable.py
+      - name: Keep CI workflow edits out of release automation push
+        run: git checkout -- .github/workflows/ci.yml
       - name: Commit release-state conversion
         run: |
           git config user.name "GoreeCloud Release Automation"
