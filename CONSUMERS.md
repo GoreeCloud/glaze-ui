@@ -37,14 +37,16 @@ Current-Stable version-specific evidence has not been established. Unverified ca
 - **GoreeCloud Manager** — `migration-required`, recorded 1.3.0; required 2.0.0.
 - **GoreeCloud Website** — `migration-required`, recorded 1.5.0; required 2.0.0.
 - **GoreeCloud Tasks** — `migration-required`, recorded 1.3.0; required 2.0.0.
-- **GoreeCloud Launcher** — `migration-required`, recorded 1.6.0 Adoption Candidate evidence is now historical migration input; required 2.0.0.
+- **GoreeCloud Launcher** — `adoption-candidate`, targets 2.0.0 at consumer merge `88e7007013ac096a39f04ff4a3993591ef2ed5f2`; final application acceptance remains pending and production eligibility remains false.
 - **GoreeCloud Keyboard** — `migration-required`, recorded 1.6.0 Adoption Candidate evidence is now historical migration input; required 2.0.0.
 - **GoreeCloud Notes** — `unverified`; fresh repository-local 2.0 implementation evidence is required.
 - **GoreeCloud Monitor** — `migration-required`, recorded 1.0.0; required 2.0.0.
 
-No downstream application is upgraded to 2.0 by this registry transition. Exact prior revisions/evidence paths are preserved so migration work starts from verified history rather than a declaration.
+The Launcher state change is evidence-backed rather than declarative: Launcher main now contains repository-local 2.0 mapping and automated validation. Its central `referenceRevision` is the consumer adoption merge anchor; the Launcher adoption document separately records canonical Glaze UI Stable revision `ff3fff4306bd53ea9c0715a7c0d64265bb038617`.
 
-Launcher and Keyboard retain test-only Glaze Motion evaluations as historical development evidence. Glaze Motion remains Experimental and must not become a production dependency by implication of the 2.0 design-system release.
+No other downstream application is upgraded to 2.0 by this registry reconciliation. Exact prior revisions/evidence paths remain preserved so migration work starts from verified history rather than a declaration.
+
+Launcher and Keyboard retain test-only Glaze Motion evaluations as historical development evidence. Glaze Motion remains Experimental and must not become a production dependency by implication of the 2.0 design-system release or Launcher adoption.
 
 ## Audit completeness
 
