@@ -74,28 +74,28 @@
     {
       "name": "GoreeCloud Launcher",
       "repository": "GoreeCloud/goreecloud-launcher",
-      "status": "migration-required",
-      "targetVersion": "1.5.0",
+      "status": "adoption-candidate",
+      "targetVersion": "1.6.0",
       "requiredTargetVersion": "1.6.0",
-      "referenceRevision": "23a389b3b24db726ceab5e328f9f8157fa7655ae",
+      "referenceRevision": "ea8b9a1e8f044d2489e5f26efda1a07c28cc4160",
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance remain pending and are required before production approval.",
-      "notes": "Existing 1.5.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
+      "visualAcceptance": "Current-Stable 1.6 application-specific rendered/native/accessibility/reduced-motion/physical-device acceptance remains pending and is required before production approval.",
+      "notes": "Glaze UI 1.6.0 Adoption Candidate evidence is merged on Launcher main; the retained native mapping and automated contract do not establish final product acceptance."
     },
     {
       "name": "GoreeCloud Keyboard",
       "repository": "GoreeCloud/goreecloud-keyboard",
-      "status": "migration-required",
-      "targetVersion": "1.5.0",
+      "status": "adoption-candidate",
+      "targetVersion": "1.6.0",
       "requiredTargetVersion": "1.6.0",
-      "referenceRevision": "c9c0500263b40640339cf7a46f1a029d9a2ac240",
+      "referenceRevision": "3c82fff63d328bcc5f375b1b5a9bf9b692cd8c73",
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance remain pending and are required before production approval.",
-      "notes": "Existing 1.5.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
+      "visualAcceptance": "Current-Stable 1.6 phone/tablet native and rendered Glaze UI, applicable Adaptive Workspace, TalkBack/switch-access, representative physical-device, and production acceptance remain pending.",
+      "notes": "Glaze UI 1.6.0 Adoption Candidate evidence is merged on Keyboard main; Experimental Glaze Motion remains test-only and is not a production dependency."
     },
     {
       "name": "GoreeCloud Notes",

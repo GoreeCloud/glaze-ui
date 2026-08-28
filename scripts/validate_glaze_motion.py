@@ -26,9 +26,11 @@ REGISTRY = ROOT / "consumers" / "registry.json"
 LAUNCHER_REPO = "GoreeCloud/goreecloud-launcher"
 LAUNCHER_HEAD = "3095b9320b660f5e166465990d5d2bee061d7422"
 LAUNCHER_MERGE = "23a389b3b24db726ceab5e328f9f8157fa7655ae"
+LAUNCHER_CURRENT_ADOPTION_MERGE = "ea8b9a1e8f044d2489e5f26efda1a07c28cc4160"
 KEYBOARD_REPO = "GoreeCloud/goreecloud-keyboard"
 KEYBOARD_HEAD = "80de7bd2dcff6d07b06b19f8250e37d20155d7ff"
 KEYBOARD_MERGE = "c9c0500263b40640339cf7a46f1a029d9a2ac240"
+KEYBOARD_CURRENT_ADOPTION_MERGE = "3c82fff63d328bcc5f375b1b5a9bf9b692cd8c73"
 
 
 def fail(message: str) -> None:
@@ -187,12 +189,16 @@ def main() -> None:
     current_stable = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     require(registry.get("stableBaseline") == current_stable, "consumer Stable baseline changed")
-    for repo, merge in ((LAUNCHER_REPO, LAUNCHER_MERGE), (KEYBOARD_REPO, KEYBOARD_MERGE)):
+    current_adoptions = (
+        (LAUNCHER_REPO, LAUNCHER_CURRENT_ADOPTION_MERGE),
+        (KEYBOARD_REPO, KEYBOARD_CURRENT_ADOPTION_MERGE),
+    )
+    for repo, current_merge in current_adoptions:
         entry = registry_by_repo(registry, repo)
-        require(entry.get("status") == "migration-required", f"{repo} must become Migration Required after Stable advances")
-        require(entry.get("targetVersion") == "1.5.0", f"{repo} historical evaluated target changed")
+        require(entry.get("status") == "adoption-candidate", f"{repo} must be a current-Stable Adoption Candidate after its 1.6 migration merges")
+        require(entry.get("targetVersion") == current_stable, f"{repo} Adoption Candidate must target current Stable")
         require(entry.get("requiredTargetVersion") == current_stable, f"{repo} required target must match current Stable")
-        require(entry.get("referenceRevision") == merge, f"{repo} registry merge evidence changed")
+        require(entry.get("referenceRevision") == current_merge, f"{repo} current adoption merge evidence changed")
         require(entry.get("evidence") == "docs/glaze-ui-adoption.md", f"{repo} evidence path changed")
         require(entry.get("automatedContract") is True, f"{repo} automated contract missing")
         require(entry.get("productionEligible") is False, f"{repo} must remain production-ineligible")
@@ -267,7 +273,7 @@ def main() -> None:
         "createSettlingBudget",
     ), "rendered reference")
 
-    print("Glaze Motion 0.6 Experimental validated: retained 0.4 runtime, Launcher + Keyboard historical native test-only evidence, Candidate gate remains closed")
+    print("Glaze Motion 0.6 Experimental validated: retained 0.4 runtime and historical 1.5 Launcher/Keyboard native test-only evidence; both consumers now target Glaze UI 1.6 as production-ineligible Adoption Candidates; Candidate gate remains closed")
 
 
 if __name__ == "__main__":
