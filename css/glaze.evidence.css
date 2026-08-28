@@ -154,6 +154,24 @@
   background: var(--glaze-surface-muted);
 }
 
+/* TV is a far-view/directional-input context. Interactive disclosure and
+   appearance controls retain the Stable TV target floor rather than inheriting
+   near-view Desktop sizing. */
+body[data-glaze-form-factor="tv"] .glaze-evidence-details summary,
+body[data-glaze-form-factor="tv"] .theme-group button {
+  min-height: 56px;
+  min-width: 56px;
+}
+
+body[data-glaze-form-factor="tv"] .glaze-evidence-card {
+  gap: 20px;
+  padding: 30px;
+}
+
+body[data-glaze-form-factor="tv"] .glaze-evidence-state {
+  font-size: clamp(1.5rem, 2vw, 2rem);
+}
+
 /* Portable fallback for hosts and rendered acceptance that cannot expose
    prefers-reduced-transparency directly. */
 body[data-glaze-reduced-transparency="true"] .glaze-evidence-card,
