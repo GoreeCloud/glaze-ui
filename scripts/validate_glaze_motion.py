@@ -4,8 +4,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-TOKENS=ROOT/'tokens/glaze-motion.json'; DOC=ROOT/'GLAZE_MOTION.md'; NATIVE=ROOT/'NATIVE_MOTION_MAPPINGS.md'; CSS=ROOT/'css/glaze.motion.core.css'; RUNTIME=ROOT/'js/glaze.motion.js'; ACCESSIBILITY=ROOT/'js/glaze.motion.accessibility.js'; CORE=ROOT/'js/glaze.motion.core.js'; ACCEPTANCE=ROOT/'acceptance/glaze-motion-0.6-experimental.md'; REGISTRY=ROOT/'consumers/registry.json'; REFERENCE=ROOT/'reference/glaze-motion.html'; RENDERED=ROOT/'scripts/validate_glaze_motion_rendered.py'
-LAUNCHER='GoreeCloud/goreecloud-launcher'; KEYBOARD='GoreeCloud/goreecloud-keyboard'; LAUNCHER_HEAD='3095b9320b660f5e166465990d5d2bee061d7422'; LAUNCHER_MERGE='23a389b3b24db726ceab5e328f9f8157fa7655ae'; LAUNCHER_ADOPTION='ea8b9a1e8f044d2489e5f26efda1a07c28cc4160'; KEYBOARD_HEAD='80de7bd2dcff6d07b06b19f8250e37d20155d7ff'; KEYBOARD_MERGE='c9c0500263b40640339cf7a46f1a029d9a2ac240'; KEYBOARD_ADOPTION='3c82fff63d328bcc5f375b1b5a9bf9b692cd8c73'
+TOKENS=ROOT/'tokens/glaze-motion.json'; DOC=ROOT/'GLAZE_MOTION.md'; NATIVE=ROOT/'NATIVE_MOTION_MAPPINGS.md'; CSS=ROOT/'css/glaze.motion.core.css'; RUNTIME=ROOT/'js/glaze.motion.js'; ACCESSIBILITY=ROOT/'js/glaze.motion.accessibility.js'; CORE=ROOT/'js/glaze.motion.core.js'; ACCEPTANCE=ROOT/'acceptance/glaze-motion-0.6-experimental.md'; REGISTRY=ROOT/'consumers'/'registry.json'; REFERENCE=ROOT/'reference/glaze-motion.html'; RENDERED=ROOT/'scripts/validate_glaze_motion_rendered.py'
+LAUNCHER='GoreeCloud/goreecloud-launcher'; KEYBOARD='GoreeCloud/goreecloud-keyboard'; LAUNCHER_HEAD='3095b9320b660f5e166465990d5d2bee061d7422'; LAUNCHER_MERGE='23a389b3b24db726ceab5e328f9f8157fa7655ae'; LAUNCHER_ADOPTION='88e7007013ac096a39f04ff4a3993591ef2ed5f2'; KEYBOARD_HEAD='80de7bd2dcff6d07b06b19f8250e37d20155d7ff'; KEYBOARD_MERGE='c9c0500263b40640339cf7a46f1a029d9a2ac240'; KEYBOARD_ADOPTION='3c82fff63d328bcc5f375b1b5a9bf9b692cd8c73'
 def req(c,m):
     if not c: raise SystemExit(f'Glaze Motion validation failed: {m}')
 def phrases(body,items,label):
@@ -34,15 +34,24 @@ def main():
 
     version=(ROOT/'VERSION').read_text().strip(); req(version=='2.0.0','Glaze Motion governance expects current Stable Glaze UI 2.0.0')
     registry=json.loads(REGISTRY.read_text()); req(registry.get('stableBaseline')==version,'consumer Stable baseline differs from VERSION')
-    for repo,revision in ((LAUNCHER,LAUNCHER_ADOPTION),(KEYBOARD,KEYBOARD_ADOPTION)):
-        r=by_repo(registry.get('consumers',[]),repo); req(r.get('status')=='migration-required',f'{repo} must become migration-required after 2.0 promotion'); req(r.get('targetVersion')=='1.6.0' and r.get('requiredTargetVersion')=='2.0.0',f'{repo} must preserve 1.6 evidence while requiring 2.0'); req(r.get('referenceRevision')==revision and r.get('evidence')=='docs/glaze-ui-adoption.md',f'{repo} adoption evidence changed'); req(r.get('automatedContract') is True and r.get('productionEligible') is False,f'{repo} production boundary changed')
+    launcher=by_repo(registry.get('consumers',[]),LAUNCHER)
+    req(launcher.get('status')=='adoption-candidate','Launcher must remain Adoption Candidate during application-specific 2.0 acceptance')
+    req(launcher.get('targetVersion')=='2.0.0' and launcher.get('requiredTargetVersion')=='2.0.0','Launcher must target current Stable 2.0.0')
+    req(launcher.get('referenceRevision')==LAUNCHER_ADOPTION and launcher.get('evidence')=='docs/glaze-ui-adoption.md','Launcher current adoption evidence changed')
+    req(launcher.get('automatedContract') is True and launcher.get('productionEligible') is False,'Launcher production boundary changed')
 
-    doc=DOC.read_text(); phrases(doc,('Experimental foundation (0.6.0)','Runtime implementation baseline','Direct manipulation and accessible gestures','settling budget','Native mappings','First-party downstream evidence','GoreeCloud Launcher','GoreeCloud Keyboard','Rendered acceptance','Motion Studio — Planned','Motion Spatial — Planned','two test-only native Android evaluations are still insufficient'),'GLAZE_MOTION.md'); req(LAUNCHER_HEAD in doc and LAUNCHER_MERGE in doc and KEYBOARD_HEAD in doc and KEYBOARD_MERGE in doc,'Motion documentation missing exact consumer evidence')
+    keyboard=by_repo(registry.get('consumers',[]),KEYBOARD)
+    req(keyboard.get('status')=='migration-required','Keyboard must remain migration-required until its own 2.0 adoption exists')
+    req(keyboard.get('targetVersion')=='1.6.0' and keyboard.get('requiredTargetVersion')=='2.0.0','Keyboard must preserve 1.6 evidence while requiring 2.0')
+    req(keyboard.get('referenceRevision')==KEYBOARD_ADOPTION and keyboard.get('evidence')=='docs/glaze-ui-adoption.md','Keyboard adoption evidence changed')
+    req(keyboard.get('automatedContract') is True and keyboard.get('productionEligible') is False,'Keyboard production boundary changed')
+
+    doc=DOC.read_text(); phrases(doc,('Experimental foundation (0.6.0)','Runtime implementation baseline','Direct manipulation and accessible gestures','settling budget','Native mappings','First-party downstream evidence','GoreeCloud Launcher','GoreeCloud Keyboard','Rendered acceptance','Motion Studio — Planned','Motion Spatial — Planned','two test-only native Android evaluations are still insufficient'),'GLAZE_MOTION.md'); req(LAUNCHER_HEAD in doc and LAUNCHER_MERGE in doc and KEYBOARD_HEAD in doc and KEYBOARD_MERGE in doc,'Motion documentation missing exact historical consumer evaluation evidence')
     native_doc=NATIVE.read_text(); phrases(native_doc,('Mobile and tablet native','Desktop native','TV native','First-party native evaluation evidence','Performance evidence','Authority boundary','Settings.Global.ANIMATOR_DURATION_SCALE'),'native mapping guidance')
     acceptance=ACCEPTANCE.read_text(); phrases(acceptance,('Experimental evidence/governance iteration','First-party downstream evidence','What 0.6 does not prove','Runtime compatibility boundary','Promotion boundary','This evidence remains insufficient for Candidate promotion.'),'0.6 acceptance')
     css=CSS.read_text(); req('Glaze Motion 0.3 Experimental' in css and '@media (prefers-reduced-motion: reduce)' in css,'retained Motion CSS markers missing'); req('will-change:' not in css,'persistent will-change prohibited')
     runtime=RUNTIME.read_text(); phrases(runtime,('GLAZE_MOTION_VERSION = "0.3.0"','createReorderModel','resolveSwipeAction','resolveDirectionalMove','createPanZoomState','createFrameBudgetProbe','createDragSession','startSharedTransition'),'compatibility runtime')
     acc=ACCESSIBILITY.read_text(); phrases(acc,('GLAZE_MOTION_ACCESSIBILITY_VERSION = "0.4.0"','resolveReorderCommand','createAccessibleReorderController','createSettlingBudget','reason: "reduced-motion"','reason: "budget-exhausted"'),'accessibility runtime'); req('announcement:' not in acc,'runtime must not hard-code localized announcement copy')
     core=CORE.read_text(); phrases(core,('export * from "./glaze.motion.js"','export * from "./glaze.motion.accessibility.js"'),'aggregate runtime')
-    print('Glaze Motion 0.6 Experimental validated under Glaze UI 2.0 Stable: historical evaluations preserved, Launcher/Keyboard now migration-required, Motion remains non-production')
+    print('Glaze Motion 0.6 Experimental validated under Glaze UI 2.0 Stable: historical evaluations preserved, Launcher current-Stable adoption tracked separately, Keyboard migration remains required, Motion remains non-production')
 if __name__=='__main__': main()
