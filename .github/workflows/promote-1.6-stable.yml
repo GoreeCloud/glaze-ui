@@ -1,0 +1,30 @@
+name: Promote Glaze UI 1.6 Stable branch
+
+on:
+  push:
+    branches:
+      - agent/glaze-ui-1.6-stable-promotion
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    if: ${{ !contains(github.event.head_commit.message, '[promotion-bot]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out exact promotion branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: agent/glaze-ui-1.6-stable-promotion
+          persist-credentials: true
+      - name: Apply deterministic 1.6 Stable conversion
+        run: python3 scripts/promote_1_6_stable.py
+      - name: Commit release-state conversion
+        run: |
+          git config user.name "GoreeCloud Release Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Promote Glaze UI 1.6.0 to Stable [promotion-bot]"
+          git push origin HEAD:agent/glaze-ui-1.6-stable-promotion
