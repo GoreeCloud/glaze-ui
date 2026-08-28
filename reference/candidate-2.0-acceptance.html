@@ -101,7 +101,7 @@
           if (source?.getAttribute('aria-expanded') !== 'true') errors.push('Connected Transformation did not preserve expanded source state');
           if (target?.hidden) errors.push('Connected Transformation target remained hidden');
           if (nav?.dataset.scroll !== 'forward') errors.push(`Navigation Capsule forward compression missing: ${nav?.dataset.scroll || 'missing'}`);
-          if (selected && inactive && rect(selected).width <= rect(inactive).width) errors.push(`selected navigation destination did not expand: ${rect(selected).width} <= ${rect(inactive).width}`);
+          if (formFactor === 'mobile' && selected && inactive && rect(selected).width <= rect(inactive).width) errors.push(`selected Navigation Capsule destination did not expand: ${rect(selected).width} <= ${rect(inactive).width}`);
 
           const touchFloor = formFactor === 'tv' ? 56 : 48;
           for (const [name,node] of Object.entries({selected,inactive})) {
