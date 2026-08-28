@@ -1,125 +1,37 @@
 #!/usr/bin/env python3
-"""Validate wearable lifecycle separation and Glaze UI 2.0 Candidate mapping."""
+"""Validate Glaze UI 2.0 Stable wearable semantics and historical native-evidence separation."""
 from __future__ import annotations
-
 import json
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-DOC = ROOT / "WEARABLES.md"
-COMPONENTS = ROOT / "WEARABLE_COMPONENTS.md"
-CANDIDATE_TOKENS = ROOT / "tokens" / "glaze-2.candidate.json"
-CANDIDATE_CSS = ROOT / "css" / "glaze-2.emerging.candidate.css"
-CANDIDATE_RUNTIME = ROOT / "js" / "glaze-2.emerging.candidate.js"
-CANDIDATE_REFERENCE = ROOT / "reference" / "candidate-2.0-emerging.html"
-CANDIDATE_VALIDATOR = ROOT / "scripts" / "validate_candidate_2_emerging.py"
-LEGACY_TOKENS = ROOT / "tokens" / "wearable.candidate.tokens.json"
-LEGACY_CSS = ROOT / "css" / "glaze.wearable.candidate.css"
-LEGACY_REFERENCE = ROOT / "reference" / "wearable-candidate.html"
-LEGACY_EVIDENCE = ROOT / "acceptance" / "wearable-native-evidence.template.json"
-WEAR_OS_REFERENCE = ROOT / "reference" / "native" / "wear-os"
-WATCH_OS_REFERENCE = ROOT / "reference" / "native" / "watchos"
-WEAR_OS_WORKFLOW = ROOT / ".github" / "workflows" / "wear-os-emulator.yml"
-STABLE_CSS = ROOT / "css" / "glaze.css"
-CORE_CANDIDATE_CSS = ROOT / "css" / "glaze-2.candidate.css"
-VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-
-
-def fail(message: str) -> None:
-    raise SystemExit(f"wearable lifecycle validation failed: {message}")
-
-
-def require(condition: bool, message: str) -> None:
-    if not condition:
-        fail(message)
-
-
-def require_phrases(path: Path, phrases: tuple[str, ...], label: str) -> None:
-    text = path.read_text(encoding="utf-8")
-    for phrase in phrases:
-        require(phrase in text, f"{label} missing: {phrase}")
-
-
-def main() -> None:
-    required = (
-        DOC, COMPONENTS, CANDIDATE_TOKENS, CANDIDATE_CSS, CANDIDATE_RUNTIME,
-        CANDIDATE_REFERENCE, CANDIDATE_VALIDATOR, LEGACY_TOKENS, LEGACY_CSS,
-        LEGACY_REFERENCE, LEGACY_EVIDENCE, WEAR_OS_WORKFLOW, STABLE_CSS,
-        CORE_CANDIDATE_CSS,
-    )
-    for path in required:
-        require(path.exists(), f"required artifact missing: {path.relative_to(ROOT)}")
-    require(WEAR_OS_REFERENCE.is_dir(), "historical Wear OS reference directory missing")
-    require(WATCH_OS_REFERENCE.is_dir(), "historical watchOS reference directory missing")
-
-    require(VERSION == "1.6.0", "last validated Stable baseline must remain 1.6.0 while 2.0 is Candidate")
-
-    require_phrases(DOC, (
-        "Current enforced active-development design contract: **Glaze UI 2.0.0 Candidate**",
-        "Last validated Stable implementation baseline: **Glaze UI 1.6.0**",
-        "compact rotational navigation",
-        "not a shrunken phone UI",
-        "must not be reinterpreted as Glaze UI 2.0 native acceptance",
-        "does not claim that a Wear OS crown, watchOS Digital Crown",
-        "Neither validator certifies a physical wearable device",
-    ), "WEARABLES.md")
-
-    require_phrases(COMPONENTS, (
-        "Glaze UI 2.0.0 Candidate is the enforced active-development contract",
-        "rendered** interactive region below that floor",
-        "Exactly one rotational-navigation item should be current/focusable at a time",
-        "Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze",
-        "historical evidence only",
-        "representative real-device operation",
-    ), "WEARABLE_COMPONENTS.md")
-
-    data = json.loads(CANDIDATE_TOKENS.read_text(encoding="utf-8"))
-    meta = data.get("meta", {})
-    require(meta.get("version") == "2.0.0", "2.0 wearable mapping must bind Candidate version 2.0.0")
-    require(meta.get("status") == "Candidate", "2.0 wearable mapping must remain Candidate before promotion")
-    require(meta.get("productionEligible") is False, "2.0 Candidate must remain production-ineligible")
-    nav = data.get("layout", {}).get("navigationTransform", {})
-    require(nav.get("wearable") == "compact-rotational-navigation", "2.0 wearable navigation transform drifted")
-    require(nav.get("spatial") == "floating-control-surface", "2.0 spatial transform drifted")
-
-    candidate_css = CANDIDATE_CSS.read_text(encoding="utf-8")
-    for marker in (
-        "--glaze-wearable-target: 48px",
-        "--glaze-spatial-target: 56px",
-        ".glaze-wearable-rotary-nav",
-        ".glaze-spatial-stage",
-        "prefers-reduced-motion",
-        "forced-colors",
-        "@supports not (transform-style: preserve-3d)",
-    ):
-        require(marker in candidate_css, f"2.0 emerging Candidate CSS missing: {marker}")
-
-    runtime = CANDIDATE_RUNTIME.read_text(encoding="utf-8")
-    for marker in ("bindRotaryNavigation", "setRotarySelection", "setSpatialDepth", "setSpatialFlat"):
-        require(marker in runtime, f"2.0 emerging Candidate runtime missing: {marker}")
-
-    reference = CANDIDATE_REFERENCE.read_text(encoding="utf-8")
-    require("GlazeUI2Emerging.bindRotaryNavigation" in reference, "2.0 wearable reference is not bound to the emerging runtime")
-    require("GlazeUI2Emerging.setSpatialFlat" in reference, "2.0 spatial flat fallback is not bound")
-
-    legacy = json.loads(LEGACY_TOKENS.read_text(encoding="utf-8"))
-    require(legacy.get("glaze", {}).get("wearableCandidate", {}).get("status", {}).get("$value") == "development-candidate", "historical wearable token package must preserve its Development Candidate evidence state")
-
-    stable_css = STABLE_CSS.read_text(encoding="utf-8")
-    core_candidate_css = CORE_CANDIDATE_CSS.read_text(encoding="utf-8")
-    require("glaze.wearable.candidate.css" not in stable_css, "historical wearable Candidate CSS must not be imported by Stable 1.6 CSS")
-    require("glaze.wearable.candidate.css" not in core_candidate_css, "historical 1.x wearable Candidate CSS must not be imported by Glaze UI 2.0 core Candidate CSS")
-
-    workflow = WEAR_OS_WORKFLOW.read_text(encoding="utf-8")
-    require("workflow_dispatch" in workflow, "historical Wear OS emulator workflow must remain explicitly manual")
-    require("Deferred Manual Validation" in workflow, "historical Wear OS workflow must advertise its deferred/manual boundary")
-
-    evidence = json.loads(LEGACY_EVIDENCE.read_text(encoding="utf-8"))
-    require(evidence.get("status") == "template-only", "historical native evidence template must remain template-only")
-    require(evidence.get("promotion", {}).get("stableEligible") is False, "historical native evidence template must remain promotion-ineligible")
-
-    print("Glaze UI wearable lifecycle validated: 2.0 Candidate mapping active, 1.6 Stable retained, historical 1.x native evidence isolated, no native-device certification claimed")
-
-
-if __name__ == "__main__":
-    main()
+ROOT=Path(__file__).resolve().parents[1]
+DOC=ROOT/'WEARABLES.md'; COMPONENTS=ROOT/'WEARABLE_COMPONENTS.md'; VERSION=(ROOT/'VERSION').read_text().strip()
+CANDIDATE_TOKENS=ROOT/'tokens/glaze-2.candidate.json'; CANDIDATE_CSS=ROOT/'css/glaze-2.emerging.candidate.css'; CANDIDATE_RUNTIME=ROOT/'js/glaze-2.emerging.candidate.js'; CANDIDATE_REFERENCE=ROOT/'reference/candidate-2.0-emerging.html'; CANDIDATE_VALIDATOR=ROOT/'scripts/validate_candidate_2_emerging.py'; STABLE=ROOT/'GLAZE_UI_2_STABLE.md'
+LEGACY_TOKENS=ROOT/'tokens/wearable.candidate.tokens.json'; LEGACY_CSS=ROOT/'css/glaze.wearable.candidate.css'; LEGACY_REFERENCE=ROOT/'reference/wearable-candidate.html'; LEGACY_EVIDENCE=ROOT/'acceptance/wearable-native-evidence.template.json'; WEAR_OS_REFERENCE=ROOT/'reference/native/wear-os'; WATCH_OS_REFERENCE=ROOT/'reference/native/watchos'; WEAR_OS_WORKFLOW=ROOT/'.github/workflows/wear-os-emulator.yml'; STABLE_CSS=ROOT/'css/glaze.css'; CORE_CANDIDATE_CSS=ROOT/'css/glaze-2.candidate.css'
+def req(c,m):
+    if not c: raise SystemExit(f'wearable lifecycle validation failed: {m}')
+def phrases(path,items,label):
+    body=path.read_text(encoding='utf-8')
+    for item in items: req(item in body,f'{label} missing: {item}')
+def main():
+    for p in (DOC,COMPONENTS,CANDIDATE_TOKENS,CANDIDATE_CSS,CANDIDATE_RUNTIME,CANDIDATE_REFERENCE,CANDIDATE_VALIDATOR,STABLE,LEGACY_TOKENS,LEGACY_CSS,LEGACY_REFERENCE,LEGACY_EVIDENCE,WEAR_OS_WORKFLOW,STABLE_CSS,CORE_CANDIDATE_CSS): req(p.exists(),f'missing {p.relative_to(ROOT)}')
+    req(WEAR_OS_REFERENCE.is_dir() and WATCH_OS_REFERENCE.is_dir(),'historical native reference directories missing')
+    req(VERSION=='2.0.0','current Stable VERSION must be 2.0.0')
+    phrases(DOC,('Current Stable design contract: **Glaze UI 2.0.0**','compact rotational navigation','not a shrunken phone UI','historical 1.x native evidence','does not certify a Wear OS crown, watchOS Digital Crown','application-specific native or real-device acceptance'),'WEARABLES.md')
+    phrases(COMPONENTS,('Glaze UI 2.0.0 is the current Stable contract','rendered interactive region below that floor','Exactly one rotational-navigation item should be current/focusable at a time','Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze','historical evidence only','representative real-device operation'),'WEARABLE_COMPONENTS.md')
+    phrases(STABLE,('Wearable rotational navigation','application-specific native or real-device acceptance'),'Stable contract')
+    data=json.loads(CANDIDATE_TOKENS.read_text()); meta=data['meta']
+    req(meta['version']=='2.0.0' and meta['status']=='Candidate','pre-promotion Candidate snapshot drifted')
+    req(meta['productionEligible'] is False,'Candidate snapshot production boundary drifted')
+    nav=data['layout']['navigationTransform']; req(nav['wearable']=='compact-rotational-navigation','wearable navigation transform drifted'); req(nav['spatial']=='floating-control-surface','spatial transform drifted')
+    css=CANDIDATE_CSS.read_text()
+    for m in ('--glaze-wearable-target: 48px','--glaze-spatial-target: 56px','.glaze-wearable-rotary-nav','.glaze-spatial-stage','prefers-reduced-motion','forced-colors','@supports not (transform-style: preserve-3d)'): req(m in css,f'promoted emerging CSS missing {m}')
+    runtime=CANDIDATE_RUNTIME.read_text()
+    for m in ('bindRotaryNavigation','setRotarySelection','setSpatialDepth','setSpatialFlat'): req(m in runtime,f'emerging runtime missing {m}')
+    ref=CANDIDATE_REFERENCE.read_text(); req('GlazeUI2Emerging.bindRotaryNavigation' in ref,'wearable reference runtime binding missing'); req('GlazeUI2Emerging.setSpatialFlat' in ref,'spatial flat fallback binding missing')
+    legacy=json.loads(LEGACY_TOKENS.read_text()); req(legacy['glaze']['wearableCandidate']['status']['$value']=='development-candidate','historical wearable token lifecycle drifted')
+    req('glaze.wearable.candidate.css' not in STABLE_CSS.read_text(),'historical wearable CSS imported into legacy Stable CSS')
+    req('glaze.wearable.candidate.css' not in CORE_CANDIDATE_CSS.read_text(),'historical 1.x wearable CSS imported by 2.0 core')
+    workflow=WEAR_OS_WORKFLOW.read_text(); req('workflow_dispatch' in workflow and 'Deferred Manual Validation' in workflow,'historical Wear OS workflow must remain manual/deferred')
+    evidence=json.loads(LEGACY_EVIDENCE.read_text()); req(evidence.get('status')=='template-only','historical native evidence must remain template-only'); req(evidence.get('promotion',{}).get('stableEligible') is False,'historical native evidence must remain promotion-ineligible')
+    print('Glaze UI wearable lifecycle validated: 2.0 Stable platform-neutral mapping active, historical 1.x native evidence isolated, product native-device acceptance still separate')
+if __name__=='__main__': main()

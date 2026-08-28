@@ -1,111 +1,86 @@
-# Glaze UI 1.6 Component Contract
+# Glaze UI 2.0 Component Contract
 
-Glaze UI 1.6 retains the Stable component semantics established in Glaze UI 1.3, preserves the 1.4 form-factor layer, and adds the promoted 1.5 color, iconography, motion, material, layout, density, state, and mixed-input contracts. This contract standardizes component semantics and interaction quality without forcing every GoreeCloud application into the same composition.
+Glaze UI 2.0 standardizes shared semantics and interaction quality without forcing GoreeCloud products into identical composition. The current grammar is governed by **Make interaction feel tangible**: content is stable and readable; controls communicate relationship through Glaze Material, shape, motion, depth, and connected transformation.
 
 ## Universal component rules
 
-Every interactive component must have a clear accessible name, a visible focus state, a minimum 44px practical pointer/touch target when directly actionable, and predictable disabled/loading behavior. Components should use semantic tokens instead of product-local literal colors, radii, spacing, icon sizes, state-layer opacity, focus colors, material values, or motion values when a corresponding token exists.
+Every directly actionable component must expose a clear accessible name, visible focus, predictable disabled/loading state, non-color-only semantics, and an effective interaction region of at least **48px** in the 2.0 reference unless a platform-native control provides an equal or safer target. TV reference targets remain at least **56px**. Component semantics, accessible hit regions, and task completion must survive reduced motion/transparency, increased contrast, forced colors, unsupported blur/backdrop effects, and effects-free operation.
 
-State vocabulary, where relevant: **default, hover, pressed, focused, selected, disabled, loading, info, success, warning, error, destructive**.
+Persistent field labels, associated help/error relationships, checked/selected state, determinate progress semantics, and native accessibility behavior remain mandatory.
 
-Glaze UI defines shared state-layer semantics for hover, pressed, focus, and selected presentation so feedback remains recognizable across products without requiring identical component artwork.
+## Glaze Material
 
-## Material and glass
+Current 2.0 hierarchy:
 
-Ordinary content should default to Solid or Raised surfaces. Functional Glass is reserved primarily for navigation, controls, toolbars, floating action regions, and transient chrome where translucency reinforces hierarchy. Clear Glass is reserved for controls over visually rich media such as photos, video, artwork, or maps.
+1. **Canvas** — main background/workspace.
+2. **Surface** — cards, lists, documents, content containers.
+3. **Soft Glaze** — persistent navigation and secondary controls.
+4. **Glaze** — floating controls and navigation.
+5. **Deep Glaze** — menus, expanded controls and popovers.
+6. **Live Glaze** — actively manipulated, focused, hovered, dragged, resized, spoken-to, or ongoing interactive surfaces.
 
-Glass must never become the default treatment for every card or content container. All translucent components require a readable solid fallback for reduced-transparency preferences, unsupported backdrop filtering, increased contrast, forced colors, and contexts where the background would make the foreground difficult to read.
+Global clarity is Clear / Balanced / Solid. Readability overrides optical effect. Ordinary content stays on Canvas/Surface; glass-like effects are not universal card decoration.
+
+### legacy 1.x compatibility
+
+The retained 1.x regression layers still contain **Functional Glass** and **Clear Glass**, plus Canvas/Solid/Raised/Overlay terminology. These names remain historical compatibility semantics for migration and permanent regression testing only. Functional Glass historically represented functional chrome and Clear Glass historically represented controls over rich media. New and migrated 2.0 work uses the current Glaze Material hierarchy above.
 
 ## Shape and expression
 
-The shared expressive shape scale is **Compact, Standard, Expressive, Hero, and Pressed**. Shape communicates role, hierarchy, grouping, selection, and state; it is not arbitrary decoration.
+Use the 2.0 radius scale `4 / 8 / 12 / 16 / 24 / 32 / 50% / 999`, concentric geometry, and role-driven utility/expression shapes. Expression communicates importance rather than decorating every surface. Calm/Balanced/Expressive personalization may tune visual intensity without changing semantics or accessibility.
 
-Utility controls should normally use Compact or Standard shapes. Expressive shapes may identify prominent actions, selected containers, product-defining moments, or adaptive groups. Hero shapes are reserved for high-value visual moments. Pressed geometry may temporarily tighten during direct interaction when motion preferences permit.
+## Buttons and action groups
 
-Circular icon controls, pill-shaped search and action controls, and rounded card or panel containers are characteristic Glaze forms when they fit the component role. These forms should remain internally consistent within a surface and must not be applied so aggressively that unrelated controls become visually indistinguishable.
+Button roles are **Quiet, Soft, Glaze, Emphasis**. Emphasis is scarce. Physical press response may contract, pull a highlight toward the interaction point, increase optical density, provide optional haptics, and spring back, but effective targets remain stable and reduced-motion mode removes nonessential transformation.
 
-## Visual depth, adaptive color, and grouping
+Button groups may reallocate visual space while preserving semantic, reading, and focus order. Destructive meaning must not depend on color alone.
 
-Glaze components should participate in a coherent visual field rather than appear as isolated widgets. Layering may use restrained blur, translucency, subtle highlight or reflection cues, soft shadow, borders, and floating separation to make the relationship between Canvas, Solid, Raised, Functional Glass, Clear Glass, and Overlay immediately understandable.
+## Fields, inputs, and selection controls
 
-Color should adapt to the surrounding canvas and product accent through semantic roles. Soft tints, deeper accents, and neutral surfaces may shift between light and dark appearances or product contexts, but readable foreground contrast, semantic status meaning, focus visibility, and destructive-state clarity remain authoritative.
+Prefer **native platform controls** when they provide stronger semantics and ergonomics. Every editable field has a persistent label; placeholder text is supplementary. Textareas preserve readable reflow. Search may morph from its invoker but keeps platform keyboard/screen-reader/autofill behavior.
 
-Complex screens should use deliberate whitespace, rounded grouping, aligned control clusters, and clear container hierarchy so information feels organized without becoming crowded. Data-dense products may use tighter density, but they should preserve recognizable grouping, scan paths, and separation between primary, supporting, and transient information.
+Checkbox, radio, toggle, picker, slider, chip, segmented control, and tab state must be programmatically exposed. A switch represents an immediate binary setting. Sliders may enlarge visible or effective touch geometry during direct manipulation while preserving accessible values and targets.
 
-Important content may use stronger weight, larger hero or display typography, and additional spacing to establish immediate hierarchy. Supporting content should remain quieter and readable so oversized type does not become the default for ordinary information.
+## Navigation
 
-## Motion
+Phone primary navigation may use the **Navigation Capsule**. Its selected destination may expand, forward reading may compress surrounding chrome, and reverse scrolling may expand it; compression must never shrink the effective target below the 48px floor.
 
-Effects motion governs changes such as color, opacity, border, glow, and subtle emphasis. Spatial motion governs geometry, layout, position, size, container transformation, navigation, and hero transitions. Prominent or hero interactions may use stronger spatial motion; repetitive utility controls should remain calm and quick.
+The same navigation concept transforms by environment: Tablet rail, Desktop sidebar, TV focus-driven dock, wearable compact rotational navigation, or spatial floating control surface. Components transform rather than merely resize.
 
-Where appropriate, expressive controls may feel physical through bounded stretch, shift, compression, rebound, or shape morphing. Spring-like or bounce-like feedback should be brief and purposeful, should never interfere with task completion or target stability, and should not be used continuously across repetitive utility interactions.
+## Connected Transformation
 
-Reduced-motion mode removes nonessential shape morphing, scaling, spring/rebound behavior, and spatial transformation rather than merely speeding them up.
+Connected Transformation is a signature pattern. An invoker and related destination should preserve source, direction, relationship, and state. Use native View Transition/shared-element mechanisms where appropriate; when unavailable, perform the semantic state change immediately and preserve continuity without blocking task completion. Nothing teleports merely for visual convenience.
 
-## Buttons and adaptive action groups
+## Cards, lists, toolbars, menus, popovers, and sheets
 
-Primary buttons use the Glaze accent treatment and may use the characteristic accent-to-secondary gradient. Secondary buttons use a quieter surface. Destructive actions use the danger semantic and must not rely on color alone. Loading buttons retain their label context and expose busy state to assistive technology. Compact density may reduce horizontal padding, but it must not reduce the minimum actionable target.
+Cards contain independent or meaningfully grouped objects; nested cards are uncommon. Lists prioritize scanability and generous targets. Toolbars are compact contextual control islands. Menus/popovers emerge from their source control when possible. Phone sheets support Peek / Partial / Full states and may reduce radius as they approach fullscreen.
 
-Expressive actions may use the expressive shape role and bounded press morphing. Adaptive button groups may allocate more horizontal space to a high-emphasis action while preserving document order, focus order, accessible names, and equivalent access to sibling actions. Layout emphasis must not imply that a destructive action is safer than it is.
+## Live Surfaces and progress
 
-## Icon buttons and icons
+A Live Surface represents an ongoing process such as upload, transfer, navigation, timer, delivery, generation, recording, call, media playback, download, or synchronization. It may move across contexts while remaining recognizably one object. Presentation must never imply freshness, progress, completion, security, privacy, resilience, or coordination truth beyond producer evidence.
 
-Icon-only controls require an accessible name. They use compact rounded geometry, minimum target sizing, visible focus, and optional tooltip support for unfamiliar actions. Shared icon sizes are 16, 20, 24, and 32 pixels or documented platform-native equivalents. Product icons and security/privacy identities remain governed by their separate GoreeCloud branding standards.
+## Foldable layout
 
-## Fields, inputs, search, textareas, and selects
+Foldables are first-class. Interactive content must not blindly span hinges/folds when pane-aware composition is safer. Hinge exclusion regions remain noninteractive; orientation/posture changes preserve task state, reading/focus order, and critical actions.
 
-Every user-editable field must have a persistent accessible label. Placeholder text is supplementary and never substitutes for a label. Help and error messages must be associated programmatically with their field when the platform supports that relationship. Error presentation uses the semantic danger role plus explanatory text; color alone is insufficient.
+## Wearable mapping
 
-Textareas preserve readable line height and user-resizable behavior unless a documented product requirement justifies another approach. Search may use pill geometry where appropriate but must preserve normal keyboard, screen-reader, autofill, and browser behavior.
+Wearable UI is glance-first and is not a shrunken phone UI. Compact rotational navigation keeps one current/focusable item when roving focus is used, preserves a 48px reference floor, and retains an equivalent non-rotary task path where the native platform permits one. Host-managed surfaces and physical-device input require consumer-specific native acceptance.
 
-## Selection controls
+## Spatial mapping
 
-Checkboxes and radio controls should prefer platform-native controls with Glaze accent semantics whenever native behavior satisfies the product need. Custom visual controls must preserve checked state, focus, disabled behavior, target sizing, and forced-colors resilience.
+Spatial anchored surfaces, control volumes, environmental panels, and floating toolbars use depth only as supplemental hierarchy. Perspective must not reduce rendered interactive regions below the 48px floor; the reference therefore uses a larger nominal spatial target where needed. Full depth-free/flat fallback must remain semantically identical and operable.
 
-Switches represent immediate binary settings, not arbitrary action buttons. Their labels remain visible, their checked state is programmatic, and their visual track/thumb state is not the sole indication of the value.
+## Motion and haptics
 
-Segmented controls and tabs expose a single selected item within a small related set. Tabs must preserve tab/list semantics and keyboard interaction when implemented as a tab interface; segmented action groups must use the appropriate pressed/selected semantics for their platform. Expressive selected-state geometry may be used when it remains stable, legible, and predictable.
+Utility motion is 100–180ms, Fluid 180–400ms, Expressive 400–700ms; implementation aliases are 140/280/520ms. Physical interactions prefer springs. Reduced motion substitutes shorter fades/restrained position changes and preserves direct manipulation.
 
-## Cards, panels, and expressive tiles
+Haptics may use tiny tap pulses, toggle snaps, selection ticks, drag-threshold notches, cushioned drops, restrained error double-pulses, and soft success confirmation. No essential meaning may depend on haptics.
 
-Cards may use Solid, Raised, or Glaze surfaces only when the material role is intentional. A card is not automatically translucent. Interactive cards must have a clear focus/hover affordance and cannot hide separate nested actions behind one ambiguous click target.
+## Accessibility and resilience
 
-Expressive tiles may use stronger shape hierarchy for selected, featured, or product-defining content. Ordinary dense data and repeated lists should generally use quieter geometry to avoid visual noise.
+Large text reorganizes instead of clipping. Increased contrast strengthens boundaries/separation. Reduced transparency increases opacity. Color independence is mandatory. Show Boundaries may add explicit interactive outlines. Touch Assistance increases effective hit regions independently from visible size. The system remains usable without blur, translucency, shaders, complex animation, or GPU effects.
 
-## Navigation and toolbars
+## Intelligence and authority
 
-Compact layouts may use bottom navigation, compact headers, drawers, or sheets. Expanded layouts may use sidebars or navigation rails. Current location must be visually and semantically identifiable using `aria-current`, selected state, or a platform-native equivalent. Navigation transforms by breakpoint rather than simply shrinking. Toolbars group related actions and preserve target sizing even when visual density is compact.
-
-Functional Glass is particularly appropriate for navigation and toolbars that float above scrolling content because it creates separation without visually replacing the content layer.
-
-## Dialogs, menus, sheets, overlays, and scrims
-
-Overlays use the Overlay surface level, trap focus only while modal, restore focus on close, support Escape when appropriate, expose a programmatic name, and remain readable without blur/translucency. Modal experiences use the semantic scrim role rather than arbitrary product-local backdrop colors. Dialogs and sheets must account for safe areas and viewport bounds on mobile devices.
-
-## Progress and loading
-
-Progress indicators communicate determinate progress when a meaningful value is known and indeterminate loading only when duration or completion is unknown. Progress bars require an accessible name and value semantics when they represent measurable progress. Loading states must not silently remove the user's task context or make destructive actions appear available while work is pending.
-
-## Tables and dense data
-
-Tables prioritize scanability and accessible header relationships. Compact layouts may transform tables into card/list presentations when horizontal compression would harm readability. Status must not be communicated by color alone. Dense administrative surfaces may use compact spacing while keeping interactive targets accessible.
-
-## Feedback and banners
-
-Toasts, banners, badges, status indicators, loading states, empty states, and errors are first-class components. Feedback is concise, actionable when possible, and announced to assistive technology when the state change requires it. `info`, `success`, `warning`, `error`, and `destructive` are distinct semantic states.
-
-Banners are persistent or semi-persistent in-context feedback and may include a concise action or dismissal control. Destructive or security-sensitive banners must explain the condition in text rather than relying only on a red border or icon.
-
-## Hero typography and hierarchy
-
-Hero typography may use stronger scale, weight, and tighter display spacing to establish a memorable product moment. It should remain concise and is paired with readable supporting text. Hero typography must respect user font scaling, localization, reflow, and platform accessibility behavior.
-
-## Safe areas, reachability, and mobile ergonomics
-
-Client interfaces must account for display cutouts, system bars, gesture regions, and platform safe-area insets where applicable. Glaze UI safe-area helpers are additive; platform-native clients should map them to the operating system's native inset APIs.
-
-On compact touch layouts, frequent actions may be composed in a lower reachability zone when that improves one-handed use. This visual placement must not reorder the DOM, keyboard sequence, reading order, or programmatic relationship of the interface.
-
-## Product-specific expression
-
-Applications may vary accent emphasis, artwork, information density, navigation composition, hero treatments, data visualization, and specialized components. The goal is a family resemblance, not identical screens. Expression should strengthen a product's Role and Purpose rather than exist only to make the interface busier.
+Prompt fields, assist surfaces, generation state, source surfaces, and agent-activity presentation use normal Glaze component grammar. Glaze UI is presentation-only: it creates neither execution authority nor domain truth. Privacy Shield, Wardveil Security, Everkeep, GoreeCloud Mesh, and application logic remain authoritative for their respective substantive state.

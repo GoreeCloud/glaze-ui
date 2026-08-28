@@ -1,12 +1,34 @@
 {
   "meta": {
     "name": "Glaze UI",
-    "version": "1.6.0",
+    "version": "2.0.0",
     "status": "Stable",
-    "stableBaseline": "1.6.0",
+    "stableBaseline": "2.0.0",
     "format": "GoreeCloud semantic token map v1",
-    "principle": "Preserve visual delight while standardizing semantics, accessibility, behavior, and cross-product consistency.",
-    "lineage": "One UI 8.5 ergonomics + Liquid Glass hierarchy and fluid material + Material 3 Expressive shape, motion, and adaptive expression + GoreeCloud privacy, identity, accessibility, and simplicity."
+    "principle": "Make interaction feel tangible.",
+    "lineage": "One UI 8.5 ergonomics + Liquid Glass hierarchy and fluid material + Material 3 Expressive shape, motion, and adaptive expression + GoreeCloud privacy, identity, accessibility, and simplicity.",
+    "governingSentence": "Make interaction feel tangible.",
+    "signature": "ergonomic spatial hierarchy + Glaze Material + connected transformation + adaptive expression",
+    "currentContractSource": "tokens/glaze-2.candidate.json",
+    "currentWebLayer": "css/glaze-2.candidate.css",
+    "currentRuntime": "js/glaze-2.candidate.js",
+    "compatibilityFoundation": "The retained 1.x token fields below remain compatibility semantics for controlled migration and permanent regression validation; new and migrated 2.0 consumers use the promoted Glaze UI 2.0 contract."
+  },
+  "currentContract": {
+    "major": 2,
+    "materialLevels": ["Canvas", "Surface", "Soft Glaze", "Glaze", "Deep Glaze", "Live Glaze"],
+    "clarityModes": ["clear", "balanced", "solid"],
+    "appearanceModes": ["light", "dark", "deep-dark"],
+    "expressionModes": ["calm", "balanced", "expressive"],
+    "touchMinimum": 48,
+    "tvMinimum": 56,
+    "motionAliasesMs": {"fast": 140, "standard": 280, "expressive": 520},
+    "connectedTransformation": true,
+    "foldableFirstClass": true,
+    "wearableRotationalNavigation": true,
+    "spatialFloatingSurfaces": true,
+    "advancedEffectsOptional": true,
+    "presentationCreatesDomainTruth": false
   },
   "color": {
     "light": {
@@ -110,15 +132,15 @@
       "blur": 24,
       "saturation": 145,
       "opacity": 0.78,
-      "usage": "navigation, controls, toolbars, transient chrome"
+      "usage": "legacy 1.x compatibility role for navigation, controls, toolbars, transient chrome; use the Glaze UI 2.0 material levels for new work"
     },
     "clearGlass": {
       "blur": 12,
       "saturation": 118,
       "opacity": 0.34,
-      "usage": "controls floating above visually rich media only"
+      "usage": "legacy 1.x compatibility role for controls over visually rich media; use 2.0 clarity and material levels for new work"
     },
-    "contentRule": "Prefer Solid or Raised surfaces for ordinary content; glass is a functional hierarchy layer, not a universal card treatment."
+    "contentRule": "Compatibility rule: legacy 1.x content uses Solid or Raised; current 2.0 content uses Canvas/Surface while interaction uses Soft Glaze/Glaze/Deep Glaze/Live Glaze according to role."
   },
   "blur": {
     "glaze": 22,
@@ -151,7 +173,7 @@
     "easeEmphasized": "cubic-bezier(0.2,0.8,0.2,1)",
     "easeEffects": "cubic-bezier(0.2,0,0,1)",
     "easeSpatial": "cubic-bezier(0.16,1,0.3,1)",
-    "principle": "Use effect motion for color/opacity feedback and spatial motion for geometry, hierarchy, navigation, and hero transitions. Expressive motion is reserved for prominent moments."
+    "principle": "Retained 1.x compatibility timings. Current 2.0 interaction aliases are 140ms fast, 280ms standard, and 520ms expressive with Utility/Fluid/Expressive families defined by the promoted 2.0 contract."
   },
   "breakpoint": {
     "compactMax": 599,
