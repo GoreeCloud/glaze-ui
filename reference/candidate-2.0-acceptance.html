@@ -45,126 +45,131 @@
           return settle('fail', ['candidate frame unavailable']);
         }
 
-        const inspect = (attempt = 0) => {
-          if (doc.body?.dataset.runtimeAccepted === 'pending' && attempt < 80) {
-            return setTimeout(() => inspect(attempt + 1), 50);
-          }
+        let observer;
+        const inspect = () => {
+          const runtimeState = doc.body?.dataset.runtimeAccepted;
+          if (!runtimeState || runtimeState === 'pending') return;
+          observer?.disconnect();
           clearTimeout(failTimer);
-          win.requestAnimationFrame(() => win.requestAnimationFrame(() => {
-            const errors = [];
-            const notes = [];
-            const style = node => win.getComputedStyle(node);
-            const rect = node => node.getBoundingClientRect();
-            const root = doc.documentElement;
-            const body = doc.body;
-            const shell = doc.querySelector('.reference-shell');
-            const content = doc.getElementById('solid-content');
-            const live = doc.getElementById('live-surface');
-            const nav = doc.getElementById('primary-nav');
-            const selected = nav?.querySelector('[aria-current="page"]');
-            const inactive = nav?.querySelector('button:not([aria-current])');
-            const inspector = doc.querySelector('.inspector');
-            const source = doc.getElementById('create-source');
-            const target = doc.getElementById('create-target');
-            const material = doc.querySelector('.reference-toolbar.glaze-material') || nav;
-            const effectiveClarity = mode === 'reduced-transparency' ? 'solid' : clarity;
 
-            if (body.dataset.glazeCandidate !== '2.0') errors.push('Candidate identity marker missing');
-            if (body.dataset.runtimeAccepted !== 'true') errors.push(`runtime acceptance ${body.dataset.runtimeAccepted || 'missing'}: ${body.dataset.runtimeError || 'unknown error'}`);
-            if (root.dataset.glazeAppearance !== appearance) errors.push(`appearance marker ${root.dataset.glazeAppearance || 'missing'} != ${appearance}`);
-            if (root.dataset.glazeClarity !== effectiveClarity) errors.push(`clarity marker ${root.dataset.glazeClarity || 'missing'} != ${effectiveClarity}`);
-            if (root.dataset.glazeExpression !== expression) errors.push(`expression marker ${root.dataset.glazeExpression || 'missing'} != ${expression}`);
-            if (!shell || shell.dataset.formFactor !== formFactor) errors.push(`form-factor marker ${shell?.dataset.formFactor || 'missing'} != ${formFactor}`);
-            if (!shell || shell.dataset.mode !== mode) errors.push(`mode marker ${shell?.dataset.mode || 'missing'} != ${mode}`);
-            if (win.innerWidth !== width) errors.push(`viewport width ${win.innerWidth} != ${width}`);
-            if (root.scrollWidth > root.clientWidth + 1 || body.scrollWidth > body.clientWidth + 1) errors.push('horizontal overflow detected');
+          // getComputedStyle/getBoundingClientRect synchronously resolve current layout,
+          // avoiding virtual-time/rAF scheduling races in headless forced-colors runs.
+          const errors = [];
+          const notes = [];
+          const style = node => win.getComputedStyle(node);
+          const rect = node => node.getBoundingClientRect();
+          const root = doc.documentElement;
+          const body = doc.body;
+          const shell = doc.querySelector('.reference-shell');
+          const content = doc.getElementById('solid-content');
+          const live = doc.getElementById('live-surface');
+          const nav = doc.getElementById('primary-nav');
+          const selected = nav?.querySelector('[aria-current="page"]');
+          const inactive = nav?.querySelector('button:not([aria-current])');
+          const inspector = doc.querySelector('.inspector');
+          const source = doc.getElementById('create-source');
+          const target = doc.getElementById('create-target');
+          const material = doc.querySelector('.reference-toolbar.glaze-material') || nav;
+          const effectiveClarity = mode === 'reduced-transparency' ? 'solid' : clarity;
 
-            for (const [name,node] of Object.entries({shell,content,live,nav,selected,inactive,target})) {
-              if (!node || rect(node).width <= 0 || rect(node).height <= 0) errors.push(`required region did not render: ${name}`);
-            }
+          if (body.dataset.glazeCandidate !== '2.0') errors.push('Candidate identity marker missing');
+          if (runtimeState !== 'true') errors.push(`runtime acceptance ${runtimeState}: ${body.dataset.runtimeError || 'unknown error'}`);
+          if (root.dataset.glazeAppearance !== appearance) errors.push(`appearance marker ${root.dataset.glazeAppearance || 'missing'} != ${appearance}`);
+          if (root.dataset.glazeClarity !== effectiveClarity) errors.push(`clarity marker ${root.dataset.glazeClarity || 'missing'} != ${effectiveClarity}`);
+          if (root.dataset.glazeExpression !== expression) errors.push(`expression marker ${root.dataset.glazeExpression || 'missing'} != ${expression}`);
+          if (!shell || shell.dataset.formFactor !== formFactor) errors.push(`form-factor marker ${shell?.dataset.formFactor || 'missing'} != ${formFactor}`);
+          if (!shell || shell.dataset.mode !== mode) errors.push(`mode marker ${shell?.dataset.mode || 'missing'} != ${mode}`);
+          if (win.innerWidth !== width) errors.push(`viewport width ${win.innerWidth} != ${width}`);
+          if (root.scrollWidth > root.clientWidth + 1 || body.scrollWidth > body.clientWidth + 1) errors.push('horizontal overflow detected');
 
-            if (content) {
-              const background = style(content).backgroundColor;
-              if (!background || background === 'rgba(0, 0, 0, 0)' || background === 'transparent') errors.push(`content surface is not solid: ${background || 'missing'}`);
-              notes.push(`solid content ${background}`);
-            }
+          for (const [name,node] of Object.entries({shell,content,live,nav,selected,inactive,target})) {
+            if (!node || rect(node).width <= 0 || rect(node).height <= 0) errors.push(`required region did not render: ${name}`);
+          }
 
-            if (appearance === 'deep-dark') {
-              const canvas = style(body).backgroundColor.replace(/\s+/g, '');
-              if (canvas !== 'rgb(0,0,0)' && canvas !== 'rgba(0,0,0,1)') errors.push(`Deep Dark canvas is not black: ${style(body).backgroundColor}`);
-              notes.push('Deep Dark black canvas rendered');
-            }
+          if (content) {
+            const background = style(content).backgroundColor;
+            if (!background || background === 'rgba(0, 0, 0, 0)' || background === 'transparent') errors.push(`content surface is not solid: ${background || 'missing'}`);
+            notes.push(`solid content ${background}`);
+          }
 
-            if (source?.getAttribute('aria-expanded') !== 'true') errors.push('Connected Transformation did not preserve expanded source state');
-            if (target?.hidden) errors.push('Connected Transformation target remained hidden');
-            if (nav?.dataset.scroll !== 'forward') errors.push(`Navigation Capsule forward compression missing: ${nav?.dataset.scroll || 'missing'}`);
-            if (selected && inactive && rect(selected).width <= rect(inactive).width) errors.push(`selected navigation destination did not expand: ${rect(selected).width} <= ${rect(inactive).width}`);
+          if (appearance === 'deep-dark') {
+            const canvas = style(body).backgroundColor.replace(/\s+/g, '');
+            if (canvas !== 'rgb(0,0,0)' && canvas !== 'rgba(0,0,0,1)') errors.push(`Deep Dark canvas is not black: ${style(body).backgroundColor}`);
+            notes.push('Deep Dark black canvas rendered');
+          }
 
-            const touchFloor = formFactor === 'tv' ? 56 : 48;
-            for (const [name,node] of Object.entries({selected,inactive})) {
-              if (node && (rect(node).width < touchFloor - .5 || rect(node).height < touchFloor - .5)) errors.push(`${name} target below ${touchFloor}px floor: ${rect(node).width}×${rect(node).height}`);
-            }
-            if (source && rect(source).width > 0 && (rect(source).width < touchFloor - .5 || rect(source).height < touchFloor - .5)) errors.push(`create target below ${touchFloor}px floor: ${rect(source).width}×${rect(source).height}`);
+          if (source?.getAttribute('aria-expanded') !== 'true') errors.push('Connected Transformation did not preserve expanded source state');
+          if (target?.hidden) errors.push('Connected Transformation target remained hidden');
+          if (nav?.dataset.scroll !== 'forward') errors.push(`Navigation Capsule forward compression missing: ${nav?.dataset.scroll || 'missing'}`);
+          if (selected && inactive && rect(selected).width <= rect(inactive).width) errors.push(`selected navigation destination did not expand: ${rect(selected).width} <= ${rect(inactive).width}`);
 
-            const backdrop = material ? (style(material).backdropFilter || style(material).webkitBackdropFilter || '') : '';
-            if (mode === 'reduced-transparency' || mode === 'no-backdrop') {
-              if (backdrop && backdrop !== 'none') errors.push(`${mode} fallback retained backdrop filtering: ${backdrop}`);
-              notes.push(`${mode} opaque fallback rendered`);
-            } else if (clarity === 'solid') {
-              if (!/blur\(0px\)/.test(backdrop) && backdrop !== 'none') errors.push(`Solid clarity retained non-zero blur: ${backdrop}`);
-              notes.push('Solid clarity removed optical blur');
-            } else if (!backdrop || backdrop === 'none') {
-              errors.push(`interactive Glaze material lost backdrop behavior: ${backdrop || 'missing'}`);
-            }
+          const touchFloor = formFactor === 'tv' ? 56 : 48;
+          for (const [name,node] of Object.entries({selected,inactive})) {
+            if (node && (rect(node).width < touchFloor - .5 || rect(node).height < touchFloor - .5)) errors.push(`${name} target below ${touchFloor}px floor: ${rect(node).width}×${rect(node).height}`);
+          }
+          if (source && rect(source).width > 0 && (rect(source).width < touchFloor - .5 || rect(source).height < touchFloor - .5)) errors.push(`create target below ${touchFloor}px floor: ${rect(source).width}×${rect(source).height}`);
 
-            if (mode === 'reduced-motion') {
-              if (!win.matchMedia('(prefers-reduced-motion: reduce)').matches) errors.push('reduced-motion preference not active');
-              const motionScale = parseFloat(style(root).getPropertyValue('--glaze-motion-scale'));
-              if (!(motionScale <= .35)) errors.push(`reduced-motion scale ${motionScale} > .35`);
-              notes.push('reduced-motion rendering accepted');
-            }
+          const backdrop = material ? (style(material).backdropFilter || style(material).webkitBackdropFilter || '') : '';
+          if (mode === 'reduced-transparency' || mode === 'no-backdrop') {
+            if (backdrop && backdrop !== 'none') errors.push(`${mode} fallback retained backdrop filtering: ${backdrop}`);
+            notes.push(`${mode} opaque fallback rendered`);
+          } else if (clarity === 'solid') {
+            if (!/blur\(0px\)/.test(backdrop) && backdrop !== 'none') errors.push(`Solid clarity retained non-zero blur: ${backdrop}`);
+            notes.push('Solid clarity removed optical blur');
+          } else if (!backdrop || backdrop === 'none') {
+            errors.push(`interactive Glaze material lost backdrop behavior: ${backdrop || 'missing'}`);
+          }
 
-            if (mode === 'forced-colors') {
-              if (!win.matchMedia('(forced-colors: active)').matches) errors.push('forced-colors mode not active');
-              if (selected && parseFloat(style(selected).outlineWidth) < 3) errors.push(`forced-colors selected outline below 3px: ${style(selected).outlineWidth}`);
-              notes.push('forced-colors boundaries rendered');
-            }
+          if (mode === 'reduced-motion') {
+            if (!win.matchMedia('(prefers-reduced-motion: reduce)').matches) errors.push('reduced-motion preference not active');
+            const motionScale = parseFloat(style(root).getPropertyValue('--glaze-motion-scale'));
+            if (!(motionScale <= .35)) errors.push(`reduced-motion scale ${motionScale} > .35`);
+            notes.push('reduced-motion rendering accepted');
+          }
 
-            if (mode === 'large-text') {
-              if (parseFloat(style(shell).fontSize) < 30) errors.push(`large-text adapter below 200% intent: ${style(shell).fontSize}`);
-              if (root.scrollWidth > width + 1 || body.scrollWidth > width + 1) errors.push('large-text layout failed reflow');
-              notes.push('large-text reflow rendered without horizontal scrolling');
-            }
+          if (mode === 'forced-colors') {
+            if (!win.matchMedia('(forced-colors: active)').matches) errors.push('forced-colors mode not active');
+            if (selected && parseFloat(style(selected).outlineWidth) < 3) errors.push(`forced-colors selected outline below 3px: ${style(selected).outlineWidth}`);
+            notes.push('forced-colors boundaries rendered');
+          }
 
-            if (formFactor === 'mobile') {
-              if (style(doc.querySelector('.reference-footer')).position !== 'fixed') errors.push('Mobile Navigation Capsule is not fixed in the Action Zone');
-              if (inspector && style(inspector).display !== 'none') errors.push('Mobile inspector did not yield to primary content');
-              if (nav && style(nav).flexDirection !== 'row') errors.push(`Mobile navigation is not horizontal: ${style(nav).flexDirection}`);
-              notes.push('Mobile Action Zone rendered');
-            } else if (formFactor === 'tablet') {
-              if (nav && style(nav).flexDirection !== 'column') errors.push(`Tablet adaptive navigation did not become a rail: ${style(nav).flexDirection}`);
-              if (inspector && style(inspector).display === 'none') errors.push('Tablet supporting controls unexpectedly hidden');
-              notes.push('Tablet navigation rail adaptation rendered');
-            } else if (formFactor === 'desktop' || formFactor === 'wide-desktop') {
-              if (nav && style(nav).flexDirection !== 'column') errors.push(`${formFactor} navigation did not become persistent vertical navigation: ${style(nav).flexDirection}`);
-              if (inspector && style(inspector).display === 'none') errors.push(`${formFactor} inspector unexpectedly hidden`);
-              if (formFactor === 'wide-desktop' && inspector && rect(inspector).width < 360) errors.push(`Wide Desktop inspector below 360px: ${rect(inspector).width}`);
-              notes.push(`${formFactor} persistent navigation and inspector rendered`);
-            } else if (formFactor === 'tv') {
-              if (nav && style(nav).flexDirection !== 'column') errors.push(`TV focus dock did not retain vertical navigation: ${style(nav).flexDirection}`);
-              if (selected && rect(selected).height < 56) errors.push(`TV selection target below 56px: ${rect(selected).height}`);
-              notes.push('TV far-view target scaling rendered');
-            }
+          if (mode === 'large-text') {
+            if (parseFloat(style(shell).fontSize) < 30) errors.push(`large-text adapter below 200% intent: ${style(shell).fontSize}`);
+            if (root.scrollWidth > width + 1 || body.scrollWidth > width + 1) errors.push('large-text layout failed reflow');
+            notes.push('large-text reflow rendered without horizontal scrolling');
+          }
 
-            notes.push(`viewport ${width}×${height}`);
-            notes.push(`appearance ${appearance}`);
-            notes.push(`clarity ${effectiveClarity}`);
-            notes.push(`expression ${expression}`);
-            notes.push(`form factor ${formFactor}`);
-            notes.push(`mode ${mode}`);
-            settle(errors.length ? 'fail' : 'pass', [...notes, ...errors]);
-          }));
+          if (formFactor === 'mobile') {
+            if (style(doc.querySelector('.reference-footer')).position !== 'fixed') errors.push('Mobile Navigation Capsule is not fixed in the Action Zone');
+            if (inspector && style(inspector).display !== 'none') errors.push('Mobile inspector did not yield to primary content');
+            if (nav && style(nav).flexDirection !== 'row') errors.push(`Mobile navigation is not horizontal: ${style(nav).flexDirection}`);
+            notes.push('Mobile Action Zone rendered');
+          } else if (formFactor === 'tablet') {
+            if (nav && style(nav).flexDirection !== 'column') errors.push(`Tablet adaptive navigation did not become a rail: ${style(nav).flexDirection}`);
+            if (inspector && style(inspector).display === 'none') errors.push('Tablet supporting controls unexpectedly hidden');
+            notes.push('Tablet navigation rail adaptation rendered');
+          } else if (formFactor === 'desktop' || formFactor === 'wide-desktop') {
+            if (nav && style(nav).flexDirection !== 'column') errors.push(`${formFactor} navigation did not become persistent vertical navigation: ${style(nav).flexDirection}`);
+            if (inspector && style(inspector).display === 'none') errors.push(`${formFactor} inspector unexpectedly hidden`);
+            if (formFactor === 'wide-desktop' && inspector && rect(inspector).width < 360) errors.push(`Wide Desktop inspector below 360px: ${rect(inspector).width}`);
+            notes.push(`${formFactor} persistent navigation and inspector rendered`);
+          } else if (formFactor === 'tv') {
+            if (nav && style(nav).flexDirection !== 'column') errors.push(`TV focus dock did not retain vertical navigation: ${style(nav).flexDirection}`);
+            if (selected && rect(selected).height < 56) errors.push(`TV selection target below 56px: ${rect(selected).height}`);
+            notes.push('TV far-view target scaling rendered');
+          }
+
+          notes.push(`viewport ${width}×${height}`);
+          notes.push(`appearance ${appearance}`);
+          notes.push(`clarity ${effectiveClarity}`);
+          notes.push(`expression ${expression}`);
+          notes.push(`form factor ${formFactor}`);
+          notes.push(`mode ${mode}`);
+          settle(errors.length ? 'fail' : 'pass', [...notes, ...errors]);
         };
+
+        observer = new MutationObserver(inspect);
+        if (doc.body) observer.observe(doc.body, {attributes:true, attributeFilter:['data-runtime-accepted','data-runtime-error']});
         inspect();
       }, {once:true});
 
