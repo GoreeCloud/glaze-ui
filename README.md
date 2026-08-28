@@ -30,6 +30,16 @@ Application identity, wallpaper, user accent, and content context may influence 
 
 Wear OS remains outside the implemented 1.5 interaction contract. This is **not an exception**: a GoreeCloud smartwatch or wearable application remains production-blocked until an applicable Stable wearable Glaze UI contract is implemented, validated, and promoted.
 
+## Glaze UI 1.6 Candidate — Evidence Presentation and Adaptive Workspace
+
+Glaze UI 1.6 is active **Candidate** development on top of the 1.5.0 Stable baseline. Candidate source may be evaluated and validated on `main`, but it is not part of the Stable compatibility promise, does not change the current production target, and does not trigger consumer migration until separately promoted.
+
+The first 1.6 Candidate system formalizes evidence presentation and authority surfaces: producer-authoritative state, provenance and freshness, Mesh transport context, accessible evidence disclosure, and fail-closed unavailable/invalid handling without inventing security, privacy, recovery, or coordination truth.
+
+The Adaptive Workspace Candidate adds a reusable semantic shell for window/title regions, navigation, toolbars, primary content, inspectors, status regions, overlays, density, input-aware target floors, and form-factor transformation. Desktop may use persistent resizable navigation and inspectors; Tablet may collapse or overlay them; Mobile may transform them into drawers/sheets; TV retains directional-focus and far-view constraints. Adaptation preserves semantic order, focus order, current destination, action state, and platform-authoritative truth.
+
+The Candidate implementation is defined by `WORKSPACE_NAVIGATION.md`, `tokens/workspace-navigation.candidate.json`, `css/glaze.workspace.candidate.css`, `reference/candidate-1.6-workspace.html`, and `scripts/validate_workspace_navigation.py`. Stable promotion remains subject to exact-head CI, rendered/native acceptance where applicable, accessibility/resilience review, compatibility/migration review, and `STABILITY.md`.
+
 ## Mandatory current-Stable consumer target
 
 The current Stable consumer target is **1.5.0**, as recorded by `consumers/registry.json`. It is the only Glaze UI version that may satisfy current GoreeCloud application conformance or production-readiness requirements.
@@ -73,6 +83,12 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `MATERIALS.md` — 1.5 Stable material, depth, translucency, backdrop, elevation, and accessibility contract.
 - `tokens/materials.json` — machine-readable 1.5 Stable material and depth roles.
 - `css/glaze.materials.css` — reusable 1.5 Stable material primitives and fallbacks.
+- `EVIDENCE_PRESENTATION.md` and its token/profile contracts — Glaze UI 1.6 Candidate evidence and authority presentation.
+- `WORKSPACE_NAVIGATION.md` — Glaze UI 1.6 Candidate adaptive workspace and navigation contract.
+- `tokens/workspace-navigation.candidate.json` — machine-readable 1.6 Candidate workspace anatomy, sizing, density, targets, adaptation, accessibility, and authority rules.
+- `css/glaze.workspace.candidate.css` — reusable 1.6 Candidate workspace shell primitives and responsive/accessibility fallbacks.
+- `reference/candidate-1.6-workspace.html` — dependency-free 1.6 Candidate workspace evaluation surface.
+- `scripts/validate_workspace_navigation.py` — fail-closed 1.6 Candidate workspace validator.
 - `ENFORCEMENT.md` — full-spectrum, non-exhaustive, fail-closed Glaze UI governance.
 - `tokens/enforcement.json` — machine-readable enforcement domains, authorities, and blocking gates.
 - `FORM_FACTORS.md` — Mobile, Tablet, Desktop, and TV contract.
@@ -91,8 +107,8 @@ Glaze Sans is **not an active or Planned font-development project**. `GLAZE_SANS
 - `ADOPTION.md` — consumer integration guidance.
 - `ACCEPTANCE.md` — Stable acceptance protocol.
 - `acceptance/` — version-specific design-system promotion evidence.
-- `reference/index.html` and `reference/formfactors.html` — dependency-free references.
-- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_enforcement.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, `scripts/validate_rendered_reference.py`, `scripts/validate_adaptive_colors.py`, `scripts/validate_iconography.py`, `scripts/validate_motion.py`, and `scripts/validate_materials.py` — fail-closed validation.
+- `reference/index.html` and `reference/formfactors.html` — dependency-free Stable references.
+- `scripts/validate_glaze_ui.py`, `scripts/validate_release_state.py`, `scripts/validate_enforcement.py`, `scripts/validate_form_factors.py`, `scripts/validate_consumer_registry.py`, `scripts/validate_rendered_reference.py`, `scripts/validate_adaptive_colors.py`, `scripts/validate_iconography.py`, `scripts/validate_motion.py`, `scripts/validate_materials.py`, `scripts/validate_evidence_presentation.py`, and `scripts/validate_workspace_navigation.py` — fail-closed validation.
 
 ## Material hierarchy
 
@@ -135,7 +151,15 @@ python3 scripts/validate_layout.py
 python3 scripts/validate_states.py
 ```
 
-The promoted 1.5 subsystem validators remain permanent Stable regression gates. Motion and material promotion also require representative rendered evidence across supported form factors, light/dark appearances, reduced-motion/reduced-transparency behavior, and relevant performance/contrast boundaries. Iconography additionally requires representative rendered artwork and optical-size acceptance.
+For implemented Glaze UI 1.6 Candidate systems, run:
+
+```bash
+python3 scripts/validate_evidence_presentation.py
+python3 scripts/validate_workspace_navigation.py
+node --test tests/mesh-evidence-consumer.test.mjs tests/mesh-evidence-refresh-response.test.mjs
+```
+
+The promoted 1.5 subsystem validators remain permanent Stable regression gates. Candidate validation proves source-contract consistency only; it does not promote 1.6. Stable promotion also requires the applicable rendered/native evidence, accessibility/resilience review, compatibility and migration review, release-state synchronization, and exact-final-revision CI defined by `STABILITY.md`.
 
 Wear OS emulator validation is manual development/reference validation only and is intentionally excluded from current Stable and 1.5 promotion gates.
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="The GoreeCloud Design Center documents Glaze UI 1.5 Stable, GoreeCloud's shared visual and interaction design system for mobile, tablet, desktop, TV, and web experiences.">
+  <meta name="description" content="The GoreeCloud Design Center documents Glaze UI 1.5 Stable and previews validated Glaze UI Candidate systems for mobile, tablet, desktop, TV, and web experiences.">
   <title>GoreeCloud Design Center — Glaze UI 1.5 Stable</title>
   <link rel="icon" href="/assets/glaze-ui-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/glaze.css">
@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="/assets/glaze.materials.css">
   <link rel="stylesheet" href="/assets/glaze.layout.css">
   <link rel="stylesheet" href="/assets/glaze.states.css">
+  <link rel="stylesheet" href="/assets/glaze.workspace.candidate.css">
   <link rel="stylesheet" href="/assets/site.css">
   <link rel="stylesheet" href="/assets/identity.css">
 </head>
@@ -32,6 +33,7 @@
         <a href="#foundations">Foundations</a>
         <a href="#identity">Identity</a>
         <a href="#form-factors">Form factors</a>
+        <a href="#workspace-candidate">Workspace</a>
         <a href="#components">Components</a>
         <a href="#conformance">Conformance</a>
         <a href="#adoption">Adoption</a>
@@ -85,12 +87,12 @@
       <div class="section-heading">
         <span class="eyebrow">Official identity</span>
         <h2>Facet is the official Glaze UI mark.</h2>
-        <p>Facet is the canonical visual signature for Glaze UI. The authoritative SVG source lives in the Glaze UI repository, and every public or generated representation must trace back to that exact source.</p>
+        <p>The authoritative Facet SVG lives in <code>GoreeCloud/goreecloud-branding-assets</code> at <code>systems/glaze-ui/glaze-ui-mark.svg</code>. The Design Center and this repository consume a synchronized byte-equivalent copy for validation and publication; that local copy is not an independent branding authority.</p>
       </div>
       <div class="identity-grid">
         <article class="glaze-surface-raised glaze-card identity-card identity-mark-card">
           <img src="/assets/glaze-ui-mark.svg" alt="Official Glaze UI Facet standalone mark" width="220" height="220">
-          <div><h3>Facet</h3><p>Use the canonical mark for favicons, profile and avatar surfaces, compact identity, public documentation, and other Glaze UI identity placements.</p></div>
+          <div><h3>Facet</h3><p>Use the approved mark for favicons, profile and avatar surfaces, compact identity, public documentation, and other Glaze UI identity placements.</p></div>
         </article>
       </div>
       <p class="identity-note">Do not redraw, rotate, stretch, distort, recolor ad hoc, or substitute alternate Glaze UI artwork.</p>
@@ -107,6 +109,33 @@
         <article class="glaze-surface-raised glaze-card demo"><h3>Tablet</h3><p>Rails, panes, posture/window adaptation, touch-first ergonomics.</p></article>
         <article class="glaze-glass-functional glaze-shape-expressive demo"><h3>Desktop</h3><p>Resizable workspaces, pointer/keyboard precision, toolbars and multi-pane workflows.</p></article>
         <article class="glaze-surface-solid glaze-card demo"><h3>TV</h3><p>Far-view readability, overscan-safe content, directional focus, remote-first operation.</p></article>
+      </div>
+    </section>
+
+    <section id="workspace-candidate" class="section-block">
+      <div class="section-heading">
+        <span class="eyebrow">Glaze UI 1.6 Candidate</span>
+        <h2>Adaptive workspace turns shell behavior into a shared contract.</h2>
+        <p>The Candidate layer formalizes title regions, navigation, toolbars, primary content, inspectors, status regions, density, input-aware targets, and responsive transformation. It is implemented for evaluation and CI validation, but Glaze UI 1.5.0 remains the Stable production target.</p>
+      </div>
+      <div class="glaze-workspace-candidate" data-density="compact" data-inspector="closed" aria-label="Glaze UI 1.6 Candidate workspace preview" style="min-height:420px;border:1px solid var(--glaze-line);box-shadow:var(--glaze-shadow-raised)">
+        <div class="glaze-workspace-title-candidate"><strong>GoreeCloud Workspace</strong><span style="margin-inline-start:auto;color:var(--glaze-muted)">1.6 Candidate</span></div>
+        <nav class="glaze-workspace-nav-candidate" aria-label="Candidate workspace preview navigation">
+          <a class="glaze-workspace-nav-item-candidate" aria-current="page" href="#workspace-candidate">Overview</a>
+          <a class="glaze-workspace-nav-item-candidate" href="#components">Components</a>
+          <a class="glaze-workspace-nav-item-candidate" href="#conformance">Conformance</a>
+        </nav>
+        <div class="glaze-workspace-toolbar-candidate" role="toolbar" aria-label="Candidate workspace actions">
+          <button class="glaze-workspace-control-candidate glaze-button" type="button">New</button>
+          <button class="glaze-workspace-control-candidate glaze-button" type="button">Share</button>
+        </div>
+        <div class="glaze-workspace-content-candidate">
+          <div class="demo-grid">
+            <article class="glaze-surface-solid glaze-workspace-panel-candidate demo"><h3>Content first</h3><p>Primary work remains visually dominant while chrome supports it.</p></article>
+            <article class="glaze-surface-raised glaze-workspace-panel-candidate demo"><h3>Input aware</h3><p>Pointer density can tighten without sacrificing touch, focus, or TV activation floors.</p></article>
+          </div>
+        </div>
+        <div class="glaze-workspace-status-candidate"><span>Candidate · production baseline remains 1.5.0</span></div>
       </div>
     </section>
 
@@ -137,7 +166,7 @@
     <section id="adoption" class="section-block glaze-surface glaze-card adoption">
       <span class="eyebrow">Adoption</span>
       <h2>1.5 is Stable and is the production target.</h2>
-      <p>Every GoreeCloud-controlled user-facing application is required to target Glaze UI 1.5.0 through controlled, evidence-backed adoption. Older pins are migration-required rather than grandfathered production exceptions.</p>
+      <p>Every GoreeCloud-controlled user-facing application is required to target Glaze UI 1.5.0 through controlled, evidence-backed adoption. Candidate 1.6 systems may be evaluated but do not trigger migration or production-conformance claims until promoted.</p>
       <div class="actions">
         <a class="glaze-button" data-variant="primary" href="https://github.com/GoreeCloud/goreecloud-glaze-ui/blob/main/ADOPTION.md">Adoption guide</a>
         <a class="glaze-button" href="https://github.com/GoreeCloud/goreecloud-glaze-ui/blob/main/CONFORMANCE.md">Conformance contract</a>
