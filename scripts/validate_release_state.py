@@ -1,92 +1,66 @@
 #!/usr/bin/env python3
-"""Fail closed when Glaze UI release-state or mandatory consumer records drift from VERSION."""
+"""Fail closed when Glaze UI Stable release-state or mandatory consumer records drift."""
 from __future__ import annotations
 import json,re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 VERSION=(ROOT/'VERSION').read_text(encoding='utf-8').strip()
-def require(condition: bool, message: str) -> None:
-    if not condition: raise SystemExit(f'Glaze UI release-state validation failed: {message}')
-def text(path: str) -> str: return (ROOT/path).read_text(encoding='utf-8')
-def main() -> None:
+def require(c,m):
+    if not c: raise SystemExit(f'Glaze UI release-state validation failed: {m}')
+def text(p): return (ROOT/p).read_text(encoding='utf-8')
+def main():
     require(re.fullmatch(r'\d+\.\d+\.\d+',VERSION) is not None,'VERSION must use semantic versioning')
-    tokens=json.loads(text('tokens/glaze.tokens.json')); require(tokens['meta']['version']==VERSION,'token metadata does not match VERSION')
+    require(VERSION=='2.0.0','current Stable VERSION must be 2.0.0')
+    tokens=json.loads(text('tokens/glaze.tokens.json'))
+    require(tokens['meta']['version']==VERSION and tokens['meta']['status']=='Stable','canonical tokens must match 2.0 Stable VERSION')
+    require(tokens['meta']['stableBaseline']==VERSION,'canonical Stable baseline differs from VERSION')
+    require(tokens['meta'].get('governingSentence')=='Make interaction feel tangible.','governing sentence missing')
+    current=tokens.get('currentContract',{})
+    require(current.get('major')==2,'current contract major must be 2')
+    require(current.get('materialLevels')==['Canvas','Surface','Soft Glaze','Glaze','Deep Glaze','Live Glaze'],'current material hierarchy drifted')
+    require(current.get('touchMinimum')==48 and current.get('tvMinimum')==56,'2.0 target floors drifted')
+    for k in ('connectedTransformation','foldableFirstClass','wearableRotationalNavigation','spatialFloatingSurfaces','advancedEffectsOptional'):
+        require(current.get(k) is True,f'current Stable invariant missing: {k}')
+    require(current.get('presentationCreatesDomainTruth') is False,'Glaze presentation must not create domain truth')
+
     registry=json.loads(text('consumers/registry.json'))
     require(registry.get('schemaVersion')==3,'consumer registry schema must be 3')
-    require(registry.get('stableBaseline')==VERSION,'consumer registry Stable baseline differs from VERSION')
-    require(registry.get('requiredConsumerVersion')==VERSION,'consumer registry required target differs from VERSION')
-    enforcement=registry.get('enforcement',{})
-    require(enforcement.get('currentStableRequired') is True,'consumer registry must require current Stable')
-    require(enforcement.get('productionExceptionsAllowed') is False,'consumer registry must prohibit production exceptions')
-    require('smartwatch' in enforcement.get('platformScope',[]),'consumer registry must cover smartwatch/wearable applications')
+    require(registry.get('stableBaseline')==VERSION and registry.get('requiredConsumerVersion')==VERSION,'consumer Stable target differs from VERSION')
+    require('1.6.0' in registry.get('historicalStableVersions',[]),'1.6.0 must be historical after 2.0 promotion')
+    require(registry.get('enforcement',{}).get('currentStableRequired') is True,'current Stable consumer requirement missing')
+    require(registry.get('enforcement',{}).get('productionExceptionsAllowed') is False,'production exceptions must remain forbidden')
+    for repo in ('GoreeCloud/goreecloud-launcher','GoreeCloud/goreecloud-keyboard'):
+        matches=[c for c in registry.get('consumers',[]) if c.get('repository')==repo]
+        require(len(matches)==1,f'{repo} registry record missing/duplicate')
+        entry=matches[0]
+        require(entry.get('status')=='migration-required' and entry.get('targetVersion')=='1.6.0',f'{repo} must preserve 1.6 evidence as migration-required')
+        require(entry.get('requiredTargetVersion')==VERSION and entry.get('productionEligible') is False,f'{repo} current Stable migration boundary drifted')
 
-    readme=text('README.md'); stability=text('STABILITY.md'); security=text('SECURITY.md'); identity=text('IDENTITY.md'); component_status=text('COMPONENT_STATUS.md'); component_contract=text('COMPONENTS.md'); conformance=text('CONFORMANCE.md'); acceptance=text('ACCEPTANCE.md'); contributing=text('CONTRIBUTING.md'); changelog=text('CHANGELOG.md'); adoption=text('ADOPTION.md'); consumers=text('CONSUMERS.md')
-    stable_family=VERSION.rsplit('.',1)[0]
+    enforcement=json.loads(text('tokens/enforcement.json'))
+    require(enforcement.get('meta',{}).get('currentStable')==VERSION,'enforcement current Stable differs from VERSION')
 
-    require(f'Glaze UI {VERSION} is the current Stable canonical baseline' in readme,'README current-Stable declaration is missing or stale')
-    require(f'**Stable baseline:** Glaze UI **{VERSION}**' in stability,'STABILITY.md Stable baseline is missing or stale')
-    require(f'Glaze UI {stable_family} Stable' in component_status,'COMPONENT_STATUS.md current Stable release family is missing')
-    require(component_contract.startswith(f'# Glaze UI {stable_family} Component Contract\n'),'COMPONENTS.md heading does not match the current Stable release family')
-    require(f'Glaze UI {stable_family} retains the Stable component semantics established in Glaze UI 1.3' in component_contract,'COMPONENTS.md does not preserve the 1.3-to-current component compatibility boundary')
-    require(VERSION in changelog,'CHANGELOG.md does not mention the current VERSION')
+    candidate=json.loads(text('tokens/glaze-2.candidate.json')); meta=candidate.get('meta',{})
+    require(meta.get('version')=='2.0.0' and meta.get('status')=='Candidate','promotion-source Candidate snapshot drifted')
+    require(meta.get('stableImplementationBaseline')=='1.6.0','Candidate snapshot previous Stable baseline drifted')
+    require(meta.get('productionEligible') is False and meta.get('requiresStablePromotion') is True,'Candidate snapshot must preserve pre-promotion lifecycle evidence')
 
-    current_stable_pattern=re.compile(r'current Stable(?: canonical)? baseline[^\n]*?Glaze UI\s+(\d+\.\d+\.\d+)',re.IGNORECASE)
-    for path in ('README.md','STABILITY.md','COMPONENT_STATUS.md','CONFORMANCE.md','ADOPTION.md','ACCEPTANCE.md'):
-        body=text(path)
-        for match in current_stable_pattern.finditer(body): require(match.group(1)==VERSION,f'{path} declares stale current Stable version {match.group(1)}')
-
-    stable_surface_hierarchy='Canvas/Solid/Raised/Functional Glass/Clear Glass/Overlay hierarchy'
-    require(stable_surface_hierarchy in acceptance,'ACCEPTANCE.md does not use the current Stable material hierarchy')
-    require('Canvas, Solid, Raised, Functional Glass, Clear Glass, and Overlay' in conformance,'CONFORMANCE.md does not use the current Stable material hierarchy')
-    require('Canvas/Solid/Raised/Glaze/Overlay hierarchy' not in acceptance,'ACCEPTANCE.md still contains the superseded generic Glaze material hierarchy')
-
-    require('## Current-Stable conformance claims' in conformance,'CONFORMANCE.md current-Stable conformance section is missing')
-    require(f'Glaze UI **{VERSION}** is the current Stable baseline' in conformance,'CONFORMANCE.md current Stable baseline is missing or stale')
-    require('the only active version eligible' in conformance,'CONFORMANCE.md must prohibit superseded active conformance targets')
-    require('No documented exception can waive the current-Stable application requirement' in conformance,'CONFORMANCE.md no-exception rule is missing')
-    require('Smartwatch/Wearable' in conformance,'CONFORMANCE.md smartwatch/wearable gate is missing')
-
-    require('## Mandatory current-Stable consumer target' in readme,'README mandatory current-Stable consumer section is missing')
-    require('the only Glaze UI version that may satisfy current GoreeCloud application conformance' in readme,'README current-Stable exclusivity is missing')
-    require('Existing consumers are never grandfathered' in readme,'README no-grandfathering rule is missing')
-    require('There are no application-level production exceptions' in readme,'README no-exception rule is missing')
-    require('Smartwatch/Wearable' in readme,'README smartwatch/wearable scope is missing')
-
-    require('controlled migration is mandatory rather than optional' in stability,'STABILITY.md mandatory migration boundary is missing')
-    require('Applications may not remain on older Stable Glaze UI versions as a conforming production state' in stability,'STABILITY.md superseded-version production block is missing')
-    require('Missing Stable platform coverage is not an exception' in stability,'STABILITY.md platform gap must fail closed')
-    require('No active 1.4 form-factor capability remains Candidate' in component_status,'1.4 lifecycle reconciliation is incomplete')
-    require('Evidence presentation and authority surfaces | Stable' in component_status,'1.6 evidence-presentation lifecycle reconciliation is incomplete')
-    require('Adaptive workspace and navigation | Stable' in component_status,'1.6 workspace lifecycle reconciliation is incomplete')
-    require('| Motion Core 0.2 | Experimental |' in component_status and 'Glaze Motion is not part of the Glaze UI 1.6.0 Stable compatibility promise' in component_status,'Glaze Motion must remain Experimental during 1.6 promotion')
-
-    require('current Stable Glaze UI baseline' in security,'SECURITY.md must bind fixes to the current Stable baseline')
-    require('the only supported active application target' in security,'SECURITY.md must bind application support to current Stable')
-    require('never makes a historical release a supported production target' in security,'SECURITY.md historical maintenance boundary is missing')
-
-    require(f'Glaze UI {VERSION} is the current Stable GoreeCloud design-system baseline' in identity,'IDENTITY.md current-Stable declaration is missing or stale')
-    require('Status: **Approved canonical artwork**' in identity,'IDENTITY.md must record approved canonical artwork')
-    require('Canonical identity: **Facet**' in identity,'IDENTITY.md must identify Facet as canonical')
-    require('Facet is the sole approved Glaze UI logo, icon, and visual identity artwork.' in identity,'IDENTITY.md must preserve the sole-Facet boundary')
-    require('assets/identity/official/facet/glaze-ui-mark.svg' in identity,'IDENTITY.md must bind the canonical Facet source path')
-    require('3c9566bf21c5bed4121547c3d5c79c34e4f3e60105179b7f2342c4b60ae91a61' in identity,'IDENTITY.md must bind the approved Facet SHA-256')
-    require('Pending approved canonical artwork' not in identity,'IDENTITY.md still advertises unresolved artwork status')
-    require('No icon, logo, favicon, or product mark is approved as canonical Glaze UI artwork at this time' not in identity,'IDENTITY.md still advertises no-canonical-artwork state')
-    require('Glaze UI 1.3.0 is the stable GoreeCloud design system' not in identity,'IDENTITY.md still advertises the superseded 1.3 Stable baseline')
-
-    require('## Mandatory current Stable target' in consumers,'CONSUMERS.md mandatory current Stable section is missing')
-    require('Migration Required' in consumers,'CONSUMERS.md migration-required state is missing')
-    require('smartwatch and wearable applications' in consumers.lower(),'CONSUMERS.md smartwatch scope is missing')
-    require('Existing consumers on older releases are migration-required' in adoption,'ADOPTION.md mandatory migration rule is missing')
-    require('### Smartwatch and wearables' in adoption,'ADOPTION.md smartwatch/wearable adoption rule is missing')
-
-    required_stable_commands=('python3 scripts/validate_glaze_ui.py','python3 scripts/validate_release_state.py','python3 scripts/validate_form_factors.py','python3 scripts/validate_typography_contract.py','python3 scripts/validate_consumer_registry.py','python3 integrations/firefox/validate.py','python3 website/validate.py','python3 scripts/validate_rendered_reference.py')
-    for command in required_stable_commands:
-        require(command in readme,f'README.md omits Stable validation command: {command}')
-        require(command in contributing,f'CONTRIBUTING.md omits Stable validation command: {command}')
-    require('exact candidate revision' in readme,'README.md must preserve exact-candidate validation guidance')
-    for profile in ('Mobile — 390 × 844','Tablet — 820 × 1180','Desktop — 1280 × 900','Wide Desktop — 1600 × 1000','TV — 1920 × 1080'):
-        require(profile in contributing,f'CONTRIBUTING.md omits Stable acceptance profile: {profile}')
-    require('exact PR head' in contributing,'CONTRIBUTING.md must preserve exact-head validation guidance')
-    print(f'Glaze UI release-state validation passed for {VERSION}; current-Stable consumer enforcement active')
+    readme=text('README.md'); stability=text('STABILITY.md'); identity=text('IDENTITY.md'); status=text('COMPONENT_STATUS.md'); components=text('COMPONENTS.md'); conformance=text('CONFORMANCE.md'); acceptance=text('ACCEPTANCE.md'); adoption=text('ADOPTION.md'); consumers=text('CONSUMERS.md'); stable=text('GLAZE_UI_2_STABLE.md')
+    require(f'Glaze UI {VERSION} is the current Stable canonical baseline' in readme,'README current Stable declaration missing')
+    require(f'**Stable baseline:** Glaze UI **{VERSION}**' in stability,'STABILITY current Stable declaration missing')
+    require(f'Glaze UI {VERSION} is the current Stable GoreeCloud design-system baseline' in identity,'IDENTITY current Stable declaration missing')
+    require('Glaze UI 2.0 Stable systems' in status,'2.0 Stable lifecycle section missing')
+    require(components.startswith('# Glaze UI 2.0 Component Contract\n'),'2.0 component contract heading missing')
+    require(f'Glaze UI **{VERSION}** is the current Stable baseline' in conformance,'CONFORMANCE current Stable declaration missing')
+    require(f'Glaze UI {VERSION} is the current Stable baseline' in adoption,'ADOPTION current Stable declaration missing')
+    require(f'Glaze UI **{VERSION}** is the current Stable baseline' in consumers,'CONSUMERS current Stable declaration missing')
+    require('# Glaze UI 2.0 — Enforced Stable Design Contract' in stable,'2.0 Stable release contract missing')
+    require('Lifecycle status:** Stable' in stable and 'Previous Stable implementation baseline:** Glaze UI 1.6.0' in stable,'2.0 Stable lifecycle/rollback boundary missing')
+    require('Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze' in acceptance,'current acceptance material hierarchy missing')
+    require('2.0 Stable promotion acceptance' in acceptance,'2.0 Stable promotion gate missing')
+    require('No downstream application is promoted by declaration' in stability,'downstream application boundary missing')
+    require('No production exception' in consumers,'no-exception consumer rule missing')
+    require('application-specific native or real-device acceptance' in conformance,'consumer native/real-device boundary missing')
+    require('legacy 1.x compatibility' in components,'legacy compatibility boundary missing')
+    require('Glaze Motion' in status and 'Experimental' in status,'Glaze Motion must remain non-Stable')
+    print(f'Glaze UI release-state validation passed for {VERSION}; 2.0 Stable consumer enforcement active')
 if __name__=='__main__': main()

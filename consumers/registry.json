@@ -1,14 +1,15 @@
 {
   "schemaVersion": 3,
-  "stableBaseline": "1.6.0",
-  "requiredConsumerVersion": "1.6.0",
+  "stableBaseline": "2.0.0",
+  "requiredConsumerVersion": "2.0.0",
   "historicalStableVersions": [
     "1.0.0",
     "1.1.0",
     "1.2.0",
     "1.3.0",
     "1.4.0",
-    "1.5.0"
+    "1.5.0",
+    "1.6.0"
   ],
   "auditedAt": "2026-08-28",
   "statusVocabulary": [
@@ -37,91 +38,91 @@
       "repository": "GoreeCloud/goreecloud-manager",
       "status": "migration-required",
       "targetVersion": "1.3.0",
-      "requiredTargetVersion": "1.6.0",
+      "requiredTargetVersion": "2.0.0",
       "referenceRevision": "0cd084d9c888a9697cbd9fdd2c4d2bd91286c56c",
       "evidence": "docs/glaze-ui.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
-      "notes": "Existing 1.3.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
+      "visualAcceptance": "Current-Stable 2.0 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
+      "notes": "Existing 1.3.0 evidence is historical migration input only after Glaze UI 2.0.0 promotion."
     },
     {
       "name": "GoreeCloud Website",
       "repository": "GoreeCloud/goreecloud-website",
       "status": "migration-required",
-      "targetVersion": "1.1.0",
-      "requiredTargetVersion": "1.6.0",
-      "referenceRevision": "5c8320de4f770614a3e2bcf9de2a27f7fcfd920c",
+      "targetVersion": "1.5.0",
+      "requiredTargetVersion": "2.0.0",
+      "referenceRevision": "2c5078410d022eba683c8e029bc3cafe773df0b7",
       "evidence": "docs/glaze-ui-conformance.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
-      "notes": "Existing 1.1.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
+      "visualAcceptance": "Current-Stable 2.0 migration and application-specific rendered/accessibility acceptance are required before production approval.",
+      "notes": "Repository-local 1.5 evidence remains historical migration input and does not satisfy the current 2.0 Stable gate."
     },
     {
       "name": "GoreeCloud Tasks",
       "repository": "GoreeCloud/goreecloud-tasks",
       "status": "migration-required",
       "targetVersion": "1.3.0",
-      "requiredTargetVersion": "1.6.0",
+      "requiredTargetVersion": "2.0.0",
       "referenceRevision": "96cc27050c098a5f06f571923f0cb9be54989a92",
       "evidence": "docs/glaze-ui.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
-      "notes": "Existing 1.3.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
+      "visualAcceptance": "Current-Stable 2.0 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
+      "notes": "Existing 1.3.0 evidence is historical migration input only after Glaze UI 2.0.0 promotion."
     },
     {
       "name": "GoreeCloud Launcher",
       "repository": "GoreeCloud/goreecloud-launcher",
-      "status": "adoption-candidate",
+      "status": "migration-required",
       "targetVersion": "1.6.0",
-      "requiredTargetVersion": "1.6.0",
+      "requiredTargetVersion": "2.0.0",
       "referenceRevision": "ea8b9a1e8f044d2489e5f26efda1a07c28cc4160",
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 application-specific rendered/native/accessibility/reduced-motion/physical-device acceptance remains pending and is required before production approval.",
-      "notes": "Glaze UI 1.6.0 Adoption Candidate evidence is merged on Launcher main; the retained native mapping and automated contract do not establish final product acceptance."
+      "visualAcceptance": "Current-Stable 2.0 migration plus application-specific rendered/native/accessibility/reduced-motion/physical-device acceptance are required before production approval.",
+      "notes": "The prior 1.6 Adoption Candidate evidence remains valid migration input only. It does not establish Glaze UI 2.0 adoption or product acceptance."
     },
     {
       "name": "GoreeCloud Keyboard",
       "repository": "GoreeCloud/goreecloud-keyboard",
-      "status": "adoption-candidate",
+      "status": "migration-required",
       "targetVersion": "1.6.0",
-      "requiredTargetVersion": "1.6.0",
+      "requiredTargetVersion": "2.0.0",
       "referenceRevision": "3c82fff63d328bcc5f375b1b5a9bf9b692cd8c73",
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 phone/tablet native and rendered Glaze UI, applicable Adaptive Workspace, TalkBack/switch-access, representative physical-device, and production acceptance remain pending.",
-      "notes": "Glaze UI 1.6.0 Adoption Candidate evidence is merged on Keyboard main; Experimental Glaze Motion remains test-only and is not a production dependency."
+      "visualAcceptance": "Current-Stable 2.0 migration plus phone/tablet native/rendered Glaze UI, TalkBack/switch-access, representative physical-device, and production acceptance are required.",
+      "notes": "The prior 1.6 Adoption Candidate evidence remains historical migration input. Experimental Glaze Motion remains test-only and is not a production dependency."
     },
     {
       "name": "GoreeCloud Notes",
       "repository": "GoreeCloud/goreecloud-notes",
-      "status": "migration-required",
-      "targetVersion": "1.0.0",
-      "requiredTargetVersion": "1.6.0",
-      "referenceRevision": "d6e446fd8ef251259d16368d50aad90d9287a774",
-      "evidence": "frontend/scripts/validate-glaze-foundation.mjs",
-      "automatedContract": true,
+      "status": "unverified",
+      "targetVersion": null,
+      "requiredTargetVersion": "2.0.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "automatedContract": false,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
-      "notes": "Existing 1.0.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
+      "visualAcceptance": "Fresh repository-local Glaze UI 2.0 evidence, automated validation, and application-specific rendered/native/accessibility acceptance are required before production approval.",
+      "notes": "The previously registered Glaze evidence path is absent on Notes main. Policy text alone does not establish versioned Glaze implementation evidence."
     },
     {
       "name": "GoreeCloud Monitor",
       "repository": "GoreeCloud/goreecloud-monitor",
       "status": "migration-required",
       "targetVersion": "1.0.0",
-      "requiredTargetVersion": "1.6.0",
+      "requiredTargetVersion": "2.0.0",
       "referenceRevision": "d6e446fd8ef251259d16368d50aad90d9287a774",
       "evidence": "static/monitoring/css/glaze.css",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 1.6 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
-      "notes": "Existing 1.0.0 evidence is historical migration input only after Glaze UI 1.6.0 promotion."
+      "visualAcceptance": "Current-Stable 2.0 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
+      "notes": "Existing 1.0.0 evidence is historical migration input only after Glaze UI 2.0.0 promotion."
     }
   ]
 }

@@ -4,7 +4,7 @@ Status: **Approved canonical artwork**
 
 Canonical identity: **Facet**
 
-Glaze UI 1.6.0 is the current Stable GoreeCloud design-system baseline. Facet is the sole approved Glaze UI logo, icon, and visual identity artwork.
+Glaze UI 2.0.0 is the current Stable GoreeCloud design-system baseline. Facet is the sole approved Glaze UI logo, icon, and visual identity artwork.
 
 ## Branding authority
 
@@ -30,17 +30,17 @@ The unified canonical source contains the exact reviewed Facet SVG promoted with
 
 ## Identity role
 
-Glaze UI is a GoreeCloud platform/design-system identity, not an ordinary Suite application. Facet communicates layered hierarchy, selective translucency, calm structure, adaptive composition, and reusable interface geometry while remaining visually distinct from GoreeCloud platform, product, privacy, and security identities.
+Glaze UI is a GoreeCloud platform/design-system identity, not an ordinary Suite application. Facet communicates layered hierarchy, selective translucency, calm structure, adaptive composition, and reusable interface geometry while remaining visually distinct from GoreeCloud platform, product, privacy, security, resilience and coordination identities.
 
 ## Canonical-use rules
 
 - Use Facet as the Glaze UI mark wherever a Glaze UI logo or icon is required.
 - Do not substitute alternate Glaze UI artwork.
 - Do not redraw, rotate, stretch, distort, or alter the Facet geometry.
-- Full-color derivatives must preserve the approved source geometry and intended gradient relationships.
-- Monochrome, favicon, raster, platform, and size-specific derivatives must be reproducibly derived from the canonical source.
-- Decorative presentation may adapt to light/dark surfaces, accessibility modes, and supported output formats without changing the underlying identity geometry.
-- The SVG must remain self-contained: no scriptable behavior, embedded remote resources, or external runtime dependencies.
+- Full-color derivatives preserve the approved source geometry and intended gradient relationships.
+- Monochrome, favicon, raster, platform, and size-specific derivatives are reproducibly derived from the canonical source.
+- Decorative presentation may adapt to Light/Dark/Deep Dark, accessibility modes and supported output formats without changing the identity geometry.
+- The SVG remains self-contained: no scriptable behavior, embedded remote resources or external runtime dependencies.
 
 ## Traceability
 
@@ -48,10 +48,10 @@ Glaze UI is a GoreeCloud platform/design-system identity, not an ordinary Suite 
 
 ## Public-site state
 
-`design.goreecloud.com` uses Facet as the official Glaze UI favicon, header mark, hero identity artwork, identity reference, and footer mark. The public artifact may be generated from the synchronized local source used by the Glaze UI build, provided that source remains byte-equivalent to the unified canonical artwork.
+`design.goreecloud.com` uses Facet as the official Glaze UI favicon, header mark, hero identity artwork, identity reference and footer mark. Public presentation follows current Stable Glaze UI 2.0 semantics while retaining the exact Facet geometry.
 
 ## Future changes
 
-Facet remains canonical until the GoreeCloud administrator explicitly approves a replacement identity. Any replacement or revision must be approved and committed in `GoreeCloud/goreecloud-branding-assets` first, then synchronized into this repository. Merely committing, generating, rendering, or proposing alternate artwork in a consumer repository does not change canonical status.
+Facet remains canonical until the GoreeCloud administrator explicitly approves a replacement identity. Any replacement or revision must be approved and committed in `GoreeCloud/goreecloud-branding-assets` first, then synchronized into this repository.
 
-Branding approval does not establish Glaze UI conformance for any consumer. Conformance and Stable acceptance remain governed by Glaze UI's implementation, validation, and evidence contracts.
+Branding approval does not establish Glaze UI conformance for any consumer. Conformance and Stable acceptance remain governed by Glaze UI implementation, validation and evidence contracts.

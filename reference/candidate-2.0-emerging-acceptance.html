@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glaze UI 2.0 Candidate wearable/spatial acceptance</title>
+  <style>
+    html,body{margin:0;background:#111;color:#fff;font-family:ui-monospace,monospace}
+    iframe{display:block;border:0;background:#fff}
+    #result{white-space:pre-wrap;margin:0;padding:12px}
+  </style>
+</head>
+<body>
+  <iframe id="target" title="Glaze UI 2.0 Candidate wearable/spatial target"></iframe>
+  <pre id="result" data-status="pending">PENDING</pre>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const testCase = params.get('case') || 'wearable';
+      const width = Number(params.get('width') || 360);
+      const height = Number(params.get('height') || 360);
+      const appearance = params.get('appearance') || 'light';
+      const mode = params.get('mode') || 'normal';
+      const flat = params.get('flat') === '1';
+      const frame = document.getElementById('target');
+      const result = document.getElementById('result');
+      frame.style.width = `${width}px`;
+      frame.style.height = `${height}px`;
+
+      const settle = (status, messages) => {
+        if (result.dataset.status !== 'pending') return;
+        result.dataset.status = status;
+        result.textContent = `${status.toUpperCase()}\n${messages.join('\n')}`;
+        document.title = `${status.toUpperCase()} — Glaze UI 2.0 Candidate wearable/spatial acceptance`;
+      };
+
+      const timer = setTimeout(() => settle('fail', ['wearable/spatial frame did not complete']), 14000);
+
+      frame.addEventListener('load', () => {
+        const win = frame.contentWindow;
+        const doc = frame.contentDocument;
+        if (!win || !doc) {
+          clearTimeout(timer);
+          return settle('fail', ['wearable/spatial frame unavailable']);
+        }
+
+        let observer;
+        const inspect = () => {
+          const runtimeState = doc.body?.dataset.runtimeAccepted;
+          if (!runtimeState || runtimeState === 'pending') return;
+          observer?.disconnect();
+          clearTimeout(timer);
+
+          const errors = [];
+          const notes = [];
+          const rect = node => node.getBoundingClientRect();
+          const style = node => win.getComputedStyle(node);
+          const root = doc.documentElement;
+          const body = doc.body;
+
+          if (body.dataset.glazeCandidate !== '2.0') errors.push('Candidate identity missing');
+          if (runtimeState !== 'true') errors.push(`runtime acceptance ${runtimeState}: ${body.dataset.runtimeError || 'unknown error'}`);
+          if (body.dataset.case !== testCase) errors.push(`case marker ${body.dataset.case || 'missing'} != ${testCase}`);
+          if (root.dataset.glazeAppearance !== appearance) errors.push(`appearance marker ${root.dataset.glazeAppearance || 'missing'} != ${appearance}`);
+          if (win.innerWidth !== width) errors.push(`viewport width ${win.innerWidth} != ${width}`);
+          if (root.scrollWidth > root.clientWidth + 1 || body.scrollWidth > body.clientWidth + 1) errors.push('horizontal overflow detected');
+          if (mode === 'reduced-motion' && !win.matchMedia('(prefers-reduced-motion: reduce)').matches) errors.push('reduced-motion browser preference missing');
+
+          if (testCase === 'wearable') {
+            const wearable = doc.getElementById('wearable-case');
+            const nav = doc.getElementById('wearable-nav');
+            const items = [...doc.querySelectorAll('[data-glaze-rotary-item]')];
+            if (!wearable || wearable.hidden) errors.push('wearable reference did not render');
+            if (body.dataset.wearableRotary !== 'true' || nav?.dataset.glazeRotaryBound !== 'true') errors.push('rotary runtime was not bound');
+            if (wearable) {
+              const wearableRect = rect(wearable);
+              if (Math.abs(wearableRect.width - wearableRect.height) > 1) errors.push(`wearable frame is not square: ${wearableRect.width}x${wearableRect.height}`);
+              if (wearableRect.width > width + 1 || wearableRect.height > height + 1) errors.push('wearable frame exceeds reference viewport');
+              const radius = style(wearable).borderTopLeftRadius;
+              if (!(radius.includes('%') || parseFloat(radius) >= wearableRect.width * .45)) errors.push(`wearable frame is not circular: radius=${radius}`);
+            }
+            if (items.length < 5) errors.push(`wearable rotary item count ${items.length} < 5`);
+            for (const item of items) {
+              const itemRect = rect(item);
+              if (itemRect.height < 48 || itemRect.width < 48) errors.push(`wearable target below 48px: ${item.textContent.trim()} ${itemRect.width}x${itemRect.height}`);
+            }
+            const currentBefore = items.findIndex(item => item.getAttribute('aria-current') === 'true');
+            if (currentBefore !== 0) errors.push(`initial rotary index ${currentBefore} != 0`);
+            const keyEvent = new win.KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
+            nav?.dispatchEvent(keyEvent);
+            const afterKey = items.findIndex(item => item.getAttribute('aria-current') === 'true');
+            if (!keyEvent.defaultPrevented || afterKey !== 1) errors.push(`ArrowDown rotary movement failed: prevented=${keyEvent.defaultPrevented} index=${afterKey}`);
+            const wheelEvent = new win.WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true });
+            nav?.dispatchEvent(wheelEvent);
+            const afterWheel = items.findIndex(item => item.getAttribute('aria-current') === 'true');
+            if (!wheelEvent.defaultPrevented || afterWheel !== 2) errors.push(`wheel rotary movement failed: prevented=${wheelEvent.defaultPrevented} index=${afterWheel}`);
+            const currentItems = items.filter(item => item.getAttribute('aria-current') === 'true');
+            const focusableItems = items.filter(item => item.tabIndex === 0);
+            if (currentItems.length !== 1 || focusableItems.length !== 1 || currentItems[0] !== focusableItems[0]) errors.push('rotary selection/roving tabindex invariant failed');
+            if (currentItems[0] && doc.activeElement !== currentItems[0]) errors.push('rotary selection did not move focus with selection');
+            if (nav && currentItems[0]) {
+              const navRect = rect(nav);
+              const itemRect = rect(currentItems[0]);
+              if (itemRect.top < navRect.top - 1 || itemRect.bottom > navRect.bottom + 1) errors.push('selected rotary item is outside the visible navigation region');
+            }
+            if (mode === 'reduced-motion' && currentItems[0] && style(currentItems[0]).transform !== 'none') errors.push(`reduced-motion wearable selection still transforms: ${style(currentItems[0]).transform}`);
+            notes.push('wearable compact rotational navigation preserves 48px targets, roving focus, wheel/arrow parity, and circular safe composition');
+          } else if (testCase === 'spatial') {
+            const stage = doc.getElementById('spatial-case');
+            const anchors = [...doc.querySelectorAll('.glaze-spatial-anchor')];
+            const controls = [...doc.querySelectorAll('.glaze-spatial-stage button')];
+            if (!stage || stage.hidden || rect(stage).width <= 0 || rect(stage).height <= 0) errors.push('spatial stage did not render');
+            if (body.dataset.spatialFlat !== String(flat) || body.dataset.glazeSpatialFlat !== String(flat)) errors.push(`spatial flat marker mismatch: ${body.dataset.spatialFlat}/${body.dataset.glazeSpatialFlat}`);
+            if (anchors.length !== 3) errors.push(`spatial anchor count ${anchors.length} != 3`);
+            if (controls.length !== 3) errors.push(`spatial control count ${controls.length} != 3`);
+            for (const control of controls) {
+              const controlRect = rect(control);
+              if (controlRect.height < 48 || controlRect.width < 48) errors.push(`spatial target below 48px: ${control.textContent.trim()} ${controlRect.width}x${controlRect.height}`);
+              if (controlRect.width <= 0 || controlRect.height <= 0) errors.push(`spatial control not visible: ${control.textContent.trim()}`);
+              if (control.tabIndex < 0) errors.push(`spatial control removed from sequential focus: ${control.textContent.trim()}`);
+            }
+            for (const anchor of anchors) {
+              const matrix = new win.DOMMatrix(style(anchor).transform);
+              if (flat && Math.abs(matrix.m43) > .01) errors.push(`flat spatial fallback retained z-depth: ${matrix.m43}`);
+              if (!flat && anchor.dataset.spatialDepth !== '0' && Math.abs(matrix.m43) < 1) errors.push(`spatial depth missing for ${anchor.id}: ${matrix.m43}`);
+            }
+            if (stage) {
+              const stageRect = rect(stage);
+              for (const anchor of anchors) {
+                const anchorRect = rect(anchor);
+                if (anchorRect.left < stageRect.left - 1 || anchorRect.right > stageRect.right + 1 || anchorRect.top < stageRect.top - 1 || anchorRect.bottom > stageRect.bottom + 1) errors.push(`spatial anchor escaped stage: ${anchor.id}`);
+              }
+            }
+            if (mode === 'reduced-motion') {
+              for (const anchor of anchors) if (style(anchor).transitionDuration !== '0s') errors.push(`reduced-motion spatial transition remains on ${anchor.id}: ${style(anchor).transitionDuration}`);
+            }
+            notes.push(flat ? 'spatial anchored surfaces remain usable with depth flattened' : 'spatial anchored surfaces preserve semantic focusability while depth remains supplemental');
+          } else {
+            errors.push(`unknown emerging-environment case ${testCase}`);
+          }
+
+          notes.push(`viewport ${width}×${height}`);
+          notes.push(`appearance ${appearance}`);
+          notes.push(`mode ${mode}`);
+          notes.push(`case ${testCase}`);
+          settle(errors.length ? 'fail' : 'pass', [...notes, ...errors]);
+        };
+
+        observer = new MutationObserver(inspect);
+        if (doc.body) observer.observe(doc.body, { attributes: true, attributeFilter: ['data-runtime-accepted','data-runtime-error'] });
+        inspect();
+      }, { once: true });
+
+      const targetParams = new URLSearchParams({ case: testCase, appearance });
+      if (flat) targetParams.set('flat', '1');
+      frame.src = `./candidate-2.0-emerging.html?${targetParams.toString()}`;
+    })();
+  </script>
+</body>
+</html>
