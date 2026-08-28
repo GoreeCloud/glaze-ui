@@ -42,7 +42,7 @@ def main():
         req(current.get(k) is True,f'current Stable invariant {k} missing')
     req(current.get('presentationCreatesDomainTruth') is False,'presentation must not create domain truth')
     acceptance=txt('acceptance/2.0-candidate.md')
-    for marker in ('prefers-contrast: more','View Transition API','1114×834','wearable','spatial'):
+    for marker in ('prefers-contrast: more','View Transitions are unavailable','1114×834','wearable','spatial'):
         req(marker in acceptance,f'Candidate acceptance provenance missing {marker}')
     print('Glaze UI 2.0 Stable contract and preserved Candidate provenance validated')
 if __name__=='__main__': main()
