@@ -60,8 +60,8 @@ def registry_by_repo(registry: dict, repo: str) -> dict:
 def validate_common_evaluation(entry: dict, *, name: str, repo: str, motion: str, pr: int, head: str, merge: str, ci: int) -> None:
     require(entry.get("consumer") == name, f"{name} consumer name changed")
     require(entry.get("repository") == repo, f"{name} repository changed")
-    require(entry.get("consumerState") == "adoption-candidate", f"{name} must remain Adoption Candidate")
-    require(entry.get("targetGlazeUi") == "1.5.0", f"{name} must target current Stable")
+    require(entry.get("consumerState") == "adoption-candidate", f"{name} historical evaluation state changed")
+    require(entry.get("targetGlazeUi") == "1.5.0", f"{name} historical evaluated Glaze UI target changed")
     require(entry.get("evaluatedMotionVersion") == motion, f"{name} evaluated Motion version changed")
     require(entry.get("pullRequest") == pr, f"{name} PR evidence changed")
     require(entry.get("validatedHead") == head, f"{name} exact validated head changed")
@@ -86,7 +86,7 @@ def main() -> None:
     meta = data.get("glazeMotion", {})
     require(meta.get("version") == "0.6.0", "unexpected Glaze Motion version")
     require(meta.get("status") == "experimental", "Glaze Motion must remain Experimental")
-    require(meta.get("extendsGlazeUi") == "1.5.0", "Glaze Motion must extend current Glaze UI Stable")
+    require(meta.get("extendsGlazeUi") == "1.5.0", "Glaze Motion 0.6 historical evaluation baseline changed")
     require(meta.get("runtimeCompatibilityBaseline") == "0.4.0", "0.6 must retain the 0.4 runtime compatibility baseline")
 
     tiers = data.get("tiers", {})
@@ -184,12 +184,14 @@ def main() -> None:
         "coordinationTruth": "GoreeCloud Mesh",
     }, "authority mapping changed")
 
+    current_stable = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
-    require(registry.get("stableBaseline") == "1.5.0", "consumer Stable baseline changed")
+    require(registry.get("stableBaseline") == current_stable, "consumer Stable baseline changed")
     for repo, merge in ((LAUNCHER_REPO, LAUNCHER_MERGE), (KEYBOARD_REPO, KEYBOARD_MERGE)):
         entry = registry_by_repo(registry, repo)
-        require(entry.get("status") == "adoption-candidate", f"{repo} must remain Adoption Candidate")
-        require(entry.get("targetVersion") == "1.5.0", f"{repo} must target current Stable")
+        require(entry.get("status") == "migration-required", f"{repo} must become Migration Required after Stable advances")
+        require(entry.get("targetVersion") == "1.5.0", f"{repo} historical evaluated target changed")
+        require(entry.get("requiredTargetVersion") == current_stable, f"{repo} required target must match current Stable")
         require(entry.get("referenceRevision") == merge, f"{repo} registry merge evidence changed")
         require(entry.get("evidence") == "docs/glaze-ui-adoption.md", f"{repo} evidence path changed")
         require(entry.get("automatedContract") is True, f"{repo} automated contract missing")
@@ -265,7 +267,7 @@ def main() -> None:
         "createSettlingBudget",
     ), "rendered reference")
 
-    print("Glaze Motion 0.6 Experimental validated: retained 0.4 runtime, Launcher + Keyboard native test-only evidence, Candidate gate remains closed")
+    print("Glaze Motion 0.6 Experimental validated: retained 0.4 runtime, Launcher + Keyboard historical native test-only evidence, Candidate gate remains closed")
 
 
 if __name__ == "__main__":
