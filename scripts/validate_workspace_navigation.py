@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Glaze UI 1.6 Candidate adaptive workspace contract."""
+"""Validate the Glaze UI 1.6 Stable adaptive workspace contract."""
 
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ def main() -> None:
 
     meta = data.get("meta", {})
     if meta.get("candidateVersion") != "1.6.0":
-        fail("candidateVersion must remain 1.6.0 until explicit promotion/version change")
+        fail("historical candidateVersion must remain 1.6.0 for compatibility")
     if meta.get("status") != "Stable":
         fail("workspace layer must be Stable after 1.6.0 promotion")
     if meta.get("stableBaseline") != "1.6.0":
@@ -93,7 +93,7 @@ def main() -> None:
 
     authority = data.get("authority", {})
     if authority.get("presentationOnly") is not True:
-        fail("workspace Candidate must remain presentation-only")
+        fail("workspace Stable contract must remain presentation-only")
     for key, value in {
         "privacy": "Privacy Shield",
         "security": "Wardveil Security",
@@ -122,7 +122,7 @@ def main() -> None:
             "@media (prefers-reduced-transparency: reduce)",
             "@media (forced-colors: active)",
         ),
-        "candidate CSS",
+        "retained workspace CSS",
     )
 
     doc = DOC.read_text(encoding="utf-8")
@@ -135,10 +135,15 @@ def main() -> None:
             "## Input-aware targets",
             "## Accessibility and resilience",
             "## State and authority boundaries",
-            "## Promotion boundary",
+            "## Stable implementation",
+            "## Stable rendered acceptance matrix",
+            "## Stable release boundary",
+            "Evidence Presentation and Authority Surfaces contract is also Stable",
         ),
         "workspace documentation",
     )
+    if "The separate Glaze UI 1.6 Evidence Presentation Candidate" in doc:
+        fail("workspace documentation still declares Evidence Presentation Candidate after Stable promotion")
 
     reference = REFERENCE.read_text(encoding="utf-8")
     require_text(
@@ -157,7 +162,7 @@ def main() -> None:
             "reduced-transparency",
             "performance-constrained",
         ),
-        "workspace reference",
+        "historical workspace reference",
     )
 
     acceptance = ACCEPTANCE.read_text(encoding="utf-8")
@@ -173,7 +178,7 @@ def main() -> None:
             "reduced-transparency opaque fallback rendered",
             "forced-colors selection treatment rendered",
         ),
-        "workspace rendered acceptance harness",
+        "historical workspace rendered acceptance harness",
     )
 
     rendered_validator = RENDERED_VALIDATOR.read_text(encoding="utf-8")
@@ -200,10 +205,10 @@ def main() -> None:
             "mandatory current Stable target",
             "Adaptive Workspace rendered matrix does not substitute",
         ),
-        "1.6 Candidate acceptance record",
+        "1.6 Stable acceptance record",
     )
 
-    print("Glaze UI 1.6 Candidate adaptive workspace/navigation contract validated")
+    print("Glaze UI 1.6 Stable adaptive workspace/navigation contract validated")
 
 
 if __name__ == "__main__":
