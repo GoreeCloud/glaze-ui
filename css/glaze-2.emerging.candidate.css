@@ -7,6 +7,7 @@
   --glaze-wearable-target: 48px;
   --glaze-spatial-depth-step: 36px;
   --glaze-spatial-perspective: 1200px;
+  --glaze-spatial-target: 56px;
 }
 
 .glaze-wearable-frame {
@@ -131,8 +132,11 @@
 .glaze-spatial-environmental-panel :is(button, a, [tabindex]),
 .glaze-spatial-control-volume :is(button, a, [tabindex]) {
   box-sizing: border-box;
-  min-block-size: var(--glaze-touch-min);
-  min-inline-size: var(--glaze-touch-min);
+  /* Perspective can visually shrink negative-depth surfaces. Keep the nominal
+   * spatial target above the 48px general floor so its rendered hit region
+   * remains at least 48px at every supported Candidate depth. */
+  min-block-size: var(--glaze-spatial-target);
+  min-inline-size: var(--glaze-spatial-target);
 }
 
 .glaze-spatial-anchor[data-spatial-depth="-1"] { --glaze-spatial-depth: -1; }
