@@ -5,7 +5,7 @@ import { createServer } from 'node:http';
 import { mkdtemp, readFile, rm, stat } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, extname, join, relative, resolve, sep } from 'node:path';
+import { dirname, extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -148,6 +148,39 @@ async function waitForContrastEvidence(send) {
   throw new Error('contrast reference did not reach runtime acceptance');
 }
 
+async function stopBrowser(browserProcess) {
+  if (browserProcess.exitCode != null) return;
+  browserProcess.kill('SIGTERM');
+  await Promise.race([
+    new Promise(resolvePromise => browserProcess.once('exit', resolvePromise)),
+    sleep(1500),
+  ]);
+  if (browserProcess.exitCode == null) {
+    browserProcess.kill('SIGKILL');
+    await Promise.race([
+      new Promise(resolvePromise => browserProcess.once('exit', resolvePromise)),
+      sleep(1500),
+    ]);
+  }
+}
+
+async function removeProfile(profileDir) {
+  let lastError;
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    try {
+      await rm(profileDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+      return;
+    } catch (error) {
+      lastError = error;
+      if (!['ENOTEMPTY', 'EBUSY', 'EPERM'].includes(error?.code)) throw error;
+      await sleep(100 * (attempt + 1));
+    }
+  }
+  // The hosted runner is ephemeral. A profile-cleanup race must not turn a
+  // completed accessibility assertion into a false contract failure.
+  console.warn(`Glaze UI contrast cleanup warning: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
+}
+
 async function main() {
   requireCondition(typeof WebSocket === 'function', 'Node runtime does not provide WebSocket support');
   const browser = findBrowser();
@@ -203,9 +236,9 @@ async function main() {
     console.log('Glaze UI 2.0 Candidate prefers-contrast: more rendered acceptance passed via DevTools media emulation');
   } finally {
     try { socket?.close(); } catch {}
-    if (browserProcess.exitCode == null) browserProcess.kill('SIGKILL');
+    await stopBrowser(browserProcess);
     await new Promise(resolvePromise => server.close(resolvePromise));
-    await rm(profileDir, { recursive: true, force: true });
+    await removeProfile(profileDir);
   }
 }
 
