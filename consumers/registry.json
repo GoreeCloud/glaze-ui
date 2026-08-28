@@ -75,15 +75,15 @@
     {
       "name": "GoreeCloud Launcher",
       "repository": "GoreeCloud/goreecloud-launcher",
-      "status": "migration-required",
-      "targetVersion": "1.6.0",
+      "status": "adoption-candidate",
+      "targetVersion": "2.0.0",
       "requiredTargetVersion": "2.0.0",
-      "referenceRevision": "ea8b9a1e8f044d2489e5f26efda1a07c28cc4160",
+      "referenceRevision": "88e7007013ac096a39f04ff4a3993591ef2ed5f2",
       "evidence": "docs/glaze-ui-adoption.md",
       "automatedContract": true,
       "productionEligible": false,
-      "visualAcceptance": "Current-Stable 2.0 migration plus application-specific rendered/native/accessibility/reduced-motion/physical-device acceptance are required before production approval.",
-      "notes": "The prior 1.6 Adoption Candidate evidence remains valid migration input only. It does not establish Glaze UI 2.0 adoption or product acceptance."
+      "visualAcceptance": "Final application-specific rendered/native/accessibility/reduced-motion/increased-contrast/reduced-transparency/phone-tablet/physical-device acceptance remains pending before production approval.",
+      "notes": "Launcher main now contains a bounded native Glaze UI 2.0 Adoption Candidate mapping with the 48 dp floor, promoted 2.0 spacing/geometry, and Light/Dark token mapping. Deep Dark and the remaining product-specific acceptance gates are explicitly unclaimed. The reference revision is the consumer adoption merge anchor; the repository-local adoption record separately identifies canonical Glaze UI Stable revision ff3fff4306bd53ea9c0715a7c0d64265bb038617."
     },
     {
       "name": "GoreeCloud Keyboard",
