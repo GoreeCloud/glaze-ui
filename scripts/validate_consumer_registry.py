@@ -14,6 +14,9 @@ EXPECTED_REPOS={
     'GoreeCloud/goreecloud-keyboard',
     'GoreeCloud/goreecloud-notes',
     'GoreeCloud/goreecloud-monitor',
+    'GoreeCloud/goreecloud-browser',
+    'GoreeCloud/goreecloud-wardveil-security',
+    'GoreeCloud/goreecloud-privacy-shield',
 }
 REQUIRED_PLATFORMS={'web','desktop','mobile','tablet','tv','smartwatch','other-user-facing'}
 SEMVER=re.compile(r'^\d+\.\d+\.\d+$'); SHA40=re.compile(r'^[0-9a-f]{40}$')

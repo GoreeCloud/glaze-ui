@@ -14,7 +14,7 @@ When a newer Glaze UI release is promoted Stable, every GoreeCloud-controlled us
 
 The current-Stable rule applies to every GoreeCloud-controlled user-facing presentation layer: web/PWA, Linux and other desktop, mobile, tablet, TV, smartwatch/wearable, dashboard, administrative, family-facing, maintained fork, spatial/hardware surface and other controlled interface where Glaze UI applies.
 
-A headless/protocol/infrastructure-only component with no controlled UI is outside visual scope; that is a scope classification, not an exception. If it gains a controlled UI, the current-Stable requirement applies.
+A headless/protocol/infrastructure-only component with no controlled UI is outside visual scope; that is a scope classification, not an exception. If it gains a controlled UI, the current-Stable requirement applies. GoreeCloud Messenger's current repository service is headless in this audit and therefore does not claim visual Glaze UI conformance; any first-party Messenger client surface must enter the consumer registry before production qualification.
 
 Glaze UI 2.0 contains platform-neutral wearable and spatial contracts. A native/hardware consumer still requires application-specific native, accessibility, performance, system-integration and representative real-device acceptance.
 
@@ -41,8 +41,11 @@ Current-Stable version-specific evidence has not been established. Unverified ca
 - **GoreeCloud Keyboard** — `migration-required`, recorded 1.6.0 Adoption Candidate evidence is now historical migration input; required 2.0.0.
 - **GoreeCloud Notes** — `unverified`; fresh repository-local 2.0 implementation evidence is required.
 - **GoreeCloud Monitor** — `migration-required`, recorded 1.0.0; required 2.0.0.
+- **GoreeCloud Browser** — `adoption-candidate`, targets 2.0.0 at merge `ebd83fc04c0c6e08839f0fc27b8ea25ae1576d50`; the GTK beta shell compiles with 48 px Glaze target floors, while rendered cross-platform acceptance remains pending.
+- **GoreeCloud Security Center** — `adoption-candidate`, targets 2.0.0 at Wardveil Security merge `128906f53b902b0728249378d3773652cfff76c2`; source/build validation and a successful Cloudflare Pages preview exist, while rendered/browser accessibility acceptance remains pending.
+- **GoreeCloud Privacy Center** — `adoption-candidate`, targets 2.0.0 at Privacy Shield merge `7032bd10082609e0df10848caa496dce7e3162f3`; source/build validation and a successful Cloudflare Pages preview exist, while rendered/browser accessibility acceptance remains pending.
 
-The Launcher state change is evidence-backed rather than declarative: Launcher main now contains repository-local 2.0 mapping and automated validation. Its central `referenceRevision` is the consumer adoption merge anchor; the Launcher adoption document separately records canonical Glaze UI Stable revision `ff3fff4306bd53ea9c0715a7c0d64265bb038617`.
+These state changes are evidence-backed rather than declarative. Each Adoption Candidate has repository-local 2.0 mapping and automated validation, but none is promoted to `aligned-current-stable` merely because source migration merged.
 
 No other downstream application is upgraded to 2.0 by this registry reconciliation. Exact prior revisions/evidence paths remain preserved so migration work starts from verified history rather than a declaration.
 
@@ -50,7 +53,7 @@ Launcher and Keyboard retain test-only Glaze Motion evaluations as historical de
 
 ## Audit completeness
 
-The seven named repositories above form the current central audit set. This set does not limit policy scope: the current-Stable rule applies to every GoreeCloud-controlled user-facing application whether or not it is already represented in the central registry.
+The ten named repositories above form the current central audit set. This set does not limit policy scope: the current-Stable rule applies to every GoreeCloud-controlled user-facing application whether or not it is already represented in the central registry.
 
 Removing an audited repository requires an explicit audit-scope change rather than silently reducing coverage. Each application repository remains responsible for its own current-Stable mapping, CI, rendered/native/real-device acceptance and production-readiness evidence.
 
@@ -58,6 +61,6 @@ Removing an audited repository requires an explicit audit-scope change rather th
 
 A repository claiming current-Stable alignment must identify Glaze UI 2.0.0, the reviewed canonical revision/release anchor, repository-local mapping/conformance record, applicable automated checks, product acceptance boundary and supported platform contexts.
 
-A Stable consumer **must not silently depend on Candidate or Experimental** behavior. The promoted 2.0 implementation retains some Candidate-named files only to preserve exact promotion provenance; their current lifecycle is governed by `GLAZE_UI_2_STABLE.md` and the release state, not by the filename.
+A Stable consumer **must not silently depend on Candidate or Experimental** behavior. New web consumers should use the versioned Stable entrypoints defined by `GLAZE_UI_2_STABLE.md`; retained Candidate-named implementation files remain immutable promotion provenance and controlled compatibility evidence.
 
 An older exact-version claim may be preserved only as historical evidence. It must never be represented as current conformance, current-Stable alignment or production UI acceptance.

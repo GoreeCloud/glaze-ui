@@ -12,11 +12,12 @@ Glaze UI **2.0.0** is the current Stable GoreeCloud design-system contract. It p
 - **Defining identity:** **ergonomic spatial hierarchy + Glaze Material + connected transformation + adaptive expression**.
 - **Candidate provenance:** `GLAZE_UI_2.md`, `tokens/glaze-2.candidate.json`, `acceptance/2.0-candidate.md`.
 - **Current Stable token map:** `tokens/glaze.tokens.json`.
-- **Promoted web implementation:** `css/glaze-2.candidate.css` and `js/glaze-2.candidate.js`; the Candidate filenames are retained as immutable promotion-source paths, matching the repository's established evidence-preservation pattern.
+- **Canonical Stable web entrypoints:** `css/glaze-2.0.0.css` and `js/glaze-2.0.0.js`.
+- **Promoted web implementation provenance:** `css/glaze-2.candidate.css` and `js/glaze-2.candidate.js`; these Candidate filenames remain immutable promotion-source paths and are reached through the versioned Stable entrypoints rather than being the preferred production-facing consumer paths.
 - **Promoted foldable implementation:** `css/glaze-2.foldable.candidate.css` and the retained resilience reference/gate.
 - **Promoted wearable/spatial design-system implementation:** `css/glaze-2.emerging.candidate.css`, `js/glaze-2.emerging.candidate.js`, and the retained emerging reference/gate.
 
-The Candidate snapshot remains marked Candidate because it is historical evidence of the exact pre-promotion state. Stable status is established by this release contract, `VERSION`, the canonical Stable token map, release-state governance, final acceptance evidence, and the promoted release commit. Historical evidence must not be rewritten to pretend it was Stable before promotion.
+The Candidate snapshot remains marked Candidate because it is historical evidence of the exact pre-promotion state. Stable status is established by this release contract, `VERSION`, the canonical Stable token map, versioned Stable web entrypoints, release-state governance, final acceptance evidence, and the promoted release commit. Historical evidence must not be rewritten to pretend it was Stable before promotion.
 
 ## Normative 2.0 semantics
 
@@ -25,6 +26,12 @@ The 37 numbered sections in `GLAZE_UI_2.md` are incorporated by reference as the
 The current material hierarchy is **Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze**. Content defaults to Canvas/Surface; interaction uses Glaze Material according to role. Clear / Balanced / Solid clarity, Light / Dark / Deep Dark appearance, Calm / Balanced / Expressive expression, Connected Transformation, Live Surfaces, Navigation Capsule, 48px general target floor, 56px TV floor, foldable hinge awareness, compact wearable rotational navigation, and spatial floating surfaces are Stable design-system semantics.
 
 Glaze UI 1.x Canvas/Solid/Raised/Functional Glass/Clear Glass/Overlay names remain only as compatibility and historical regression semantics. They are not the current vocabulary for new 2.0 work.
+
+## Stable consumer entrypoints
+
+New web consumers must use the versioned Stable CSS and JavaScript entrypoints and the canonical Stable token map. The versioned entrypoints deliberately reference the exact promoted Candidate implementation snapshot so the bytes that passed promotion remain auditable without requiring production consumers to encode a Candidate lifecycle path directly.
+
+Direct references to `glaze-2.candidate.*` are reserved for promotion provenance, regression evidence, and controlled compatibility work. A future Glaze UI Stable release must introduce its own versioned production-facing entrypoints rather than silently retargeting the `2.0.0` paths.
 
 ## Platform and consumer boundary
 
