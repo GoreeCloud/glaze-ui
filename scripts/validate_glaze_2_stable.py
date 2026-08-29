@@ -10,7 +10,7 @@ def txt(p): return (ROOT/p).read_text(encoding='utf-8')
 def main():
     required=(
         'GLAZE_UI_2_STABLE.md','GLAZE_UI_2.md','VERSION','tokens/glaze.tokens.json','tokens/glaze-2.candidate.json',
-        'css/glaze-2.candidate.css','js/glaze-2.candidate.js','css/glaze-2.foldable.candidate.css',
+        'css/glaze-2.0.0.css','js/glaze-2.0.0.js','css/glaze-2.candidate.css','js/glaze-2.candidate.js','css/glaze-2.foldable.candidate.css',
         'css/glaze-2.emerging.candidate.css','js/glaze-2.emerging.candidate.js','acceptance/2.0-candidate.md',
         'reference/candidate-2.0.html','reference/candidate-2.0-acceptance.html','reference/candidate-2.0-resilience.html',
         'reference/candidate-2.0-resilience-acceptance.html','reference/candidate-2.0-emerging.html',
@@ -23,8 +23,13 @@ def main():
     for marker in (
         'Lifecycle status:** Stable','Stable semantic version:** 2.0.0','Previous Stable implementation baseline:** Glaze UI 1.6.0',
         'Make interaction feel tangible.','Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze',
+        'css/glaze-2.0.0.css','js/glaze-2.0.0.js','tokens/glaze.tokens.json',
         'No downstream application is promoted by declaration','application-specific native or real-device acceptance'
     ): req(marker in stable,f'Stable contract missing {marker}')
+    stable_css=txt('css/glaze-2.0.0.css')
+    stable_js=txt('js/glaze-2.0.0.js')
+    req('@import url("./glaze-2.candidate.css");' in stable_css,'Stable CSS entrypoint must bind the exact promoted implementation snapshot')
+    req('export { GlazeUI2 } from "./glaze-2.candidate.js";' in stable_js,'Stable JS entrypoint must bind the exact promoted interaction snapshot')
     candidate=json.loads(txt('tokens/glaze-2.candidate.json')); meta=candidate['meta']
     req(meta['version']=='2.0.0' and meta['status']=='Candidate','Candidate token snapshot lifecycle drifted')
     req(meta['stableImplementationBaseline']=='1.6.0','Candidate snapshot previous Stable drifted')
@@ -44,5 +49,5 @@ def main():
     acceptance=txt('acceptance/2.0-candidate.md')
     for marker in ('prefers-contrast: more','View Transitions are unavailable','1114×834','wearable','spatial'):
         req(marker in acceptance,f'Candidate acceptance provenance missing {marker}')
-    print('Glaze UI 2.0 Stable contract and preserved Candidate provenance validated')
+    print('Glaze UI 2.0 Stable contract, canonical entrypoints, and preserved Candidate provenance validated')
 if __name__=='__main__': main()
