@@ -8,7 +8,7 @@ import {
 
 const subjectView = {
   subject: { kind: "service", id: "goreecloud-drive", scope: "runtime" },
-  transport: { state: "current", current_count: 2, stale_count: 1, refresh_required: false },
+  transport: { state: "current", current_count: 3, stale_count: 1, refresh_required: false },
   authorities: [
     {
       producer: "wardveil-security",
@@ -66,28 +66,79 @@ const subjectView = {
         },
       ],
     },
+    {
+      producer: "goreecloud-identity",
+      authority_domain: "authentication",
+      assertions: [
+        {
+          assertion: "authentication-result",
+          latest: {
+            id: "identity-1",
+            outcome: "verified",
+            summary: "Service authentication was verified by GoreeCloud Identity.",
+            fresh: true,
+            observed_at: "2026-08-26T22:05:00Z",
+            valid_until: "2026-08-26T22:20:00Z",
+            source: "identity://evidence/authentication-result/1",
+          },
+          latest_current: {
+            id: "identity-1",
+            outcome: "verified",
+            summary: "Service authentication was verified by GoreeCloud Identity.",
+            fresh: true,
+            observed_at: "2026-08-26T22:05:00Z",
+            valid_until: "2026-08-26T22:20:00Z",
+            source: "identity://evidence/authentication-result/1",
+          },
+          history_count: 1,
+        },
+      ],
+    },
   ],
 };
 
 test("preserves independent producer authority without an overall verdict", () => {
   const model = normalizeMeshEvidenceSubjectView(subjectView);
+  assert.equal(model.candidate, "2.0");
+  assert.equal(model.stable_consumer_target, "2.0.0");
   assert.equal(model.transport.state, "current");
   assert.equal(model.transport.refresh_required, false);
-  assert.equal(model.authorities.length, 2);
+  assert.equal(model.authorities.length, 3);
   assert.equal(model.authorities[0].producer, "wardveil-security");
   assert.equal(model.authorities[0].assertions[0].outcome, "attention");
   assert.equal(model.authorities[0].assertions[0].current_outcome, "attention");
   assert.equal(model.authorities[0].assertions[0].usable_as_current, true);
   assert.equal(model.authorities[1].producer, "everkeep");
   assert.equal(model.authorities[1].assertions[0].outcome, "pass");
+  assert.equal(model.authorities[2].producer, "goreecloud-identity");
+  assert.equal(model.authorities[2].authority_domain, "authentication");
+  assert.equal(model.authorities[2].assertions[0].outcome, "verified");
   assert.equal("verdict" in model, false);
   assert.equal("safe" in model, false);
   assert.equal("score" in model, false);
 });
 
+test("rejects cross-domain producer authority escalation before presentation", () => {
+  const identityClaimsSecurity = structuredClone(subjectView);
+  identityClaimsSecurity.authorities[2].authority_domain = "security";
+  const rejectedIdentity = normalizeMeshEvidenceSubjectView(identityClaimsSecurity);
+  assert.equal(rejectedIdentity.transport.state, "invalid");
+  assert.deepEqual(rejectedIdentity.authorities, []);
+
+  const privacyClaimsAuthentication = structuredClone(subjectView);
+  privacyClaimsAuthentication.authorities[0] = {
+    producer: "privacy-shield",
+    authority_domain: "authentication",
+    assertions: subjectView.authorities[0].assertions,
+  };
+  const rejectedPrivacy = normalizeMeshEvidenceSubjectView(privacyClaimsAuthentication);
+  assert.equal(rejectedPrivacy.transport.state, "invalid");
+  assert.deepEqual(rejectedPrivacy.authorities, []);
+});
+
 test("accepts legacy available lifecycle while Mesh rolls forward", () => {
   const legacy = structuredClone(subjectView);
-  legacy.transport = { state: "available", current_count: 2, stale_count: 1 };
+  legacy.transport = { state: "available", current_count: 3, stale_count: 1 };
   const model = normalizeMeshEvidenceSubjectView(legacy);
   assert.equal(model.transport.state, "current");
   assert.equal(model.transport.refresh_required, false);
@@ -159,26 +210,47 @@ test("builds a stale refresh action without minting producer truth or execution 
   assert.equal("verdict" in action, false);
 });
 
-test("builds empty refresh action only for an explicit known producer authority", () => {
+test("builds empty refresh actions only for explicit producer-owned domains", () => {
   const empty = normalizeMeshEvidenceSubjectView({
     subject: { kind: "service", id: "goreecloud-drive", scope: "runtime" },
     transport: { state: "empty", current_count: 0, stale_count: 0, refresh_required: true },
     authorities: [],
   });
-  const action = buildMeshEvidenceRefreshAction(empty, {
+  const privacyAction = buildMeshEvidenceRefreshAction(empty, {
     producer: "privacy-shield",
     authorityDomain: "privacy",
     assertion: "privacy-status",
     requestedAt: "2026-08-27T18:55:00Z",
   });
-  assert.equal(action.reason, "empty");
-  assert.equal(action.latest_observed_at, null);
-  assert.equal(action.target.producer, "privacy-shield");
-  assert.equal(action.execution_authorized, false);
+  assert.equal(privacyAction.reason, "empty");
+  assert.equal(privacyAction.latest_observed_at, null);
+  assert.equal(privacyAction.target.producer, "privacy-shield");
+  assert.equal(privacyAction.execution_authorized, false);
+
+  const identityAction = buildMeshEvidenceRefreshAction(empty, {
+    producer: "goreecloud-identity",
+    authorityDomain: "authentication",
+    assertion: "authentication-result",
+    requestedAt: "2026-08-27T18:55:00Z",
+  });
+  assert.equal(identityAction.target.producer, "goreecloud-identity");
+  assert.equal(identityAction.target.authority_domain, "authentication");
+  assert.equal(identityAction.execution_authorized, false);
+
   assert.throws(() => buildMeshEvidenceRefreshAction(empty, {
     producer: "privacy-shield",
     authorityDomain: "security",
     assertion: "privacy-status",
+  }));
+  assert.throws(() => buildMeshEvidenceRefreshAction(empty, {
+    producer: "goreecloud-identity",
+    authorityDomain: "security",
+    assertion: "authentication-result",
+  }));
+  assert.throws(() => buildMeshEvidenceRefreshAction(empty, {
+    producer: "goreecloud-mesh",
+    authorityDomain: "coordination",
+    assertion: "transport-state",
   }));
 });
 
@@ -223,7 +295,7 @@ test("uses Identity read credential only as bearer authorization", async () => {
   assert.equal(captured.url, "https://mesh.goreecloud.test/v1/evidence/subjects/service/goreecloud-drive?scope=runtime");
   assert.equal(captured.init.headers.Authorization, "Bearer read-credential");
   assert.equal(JSON.stringify(model).includes("read-credential"), false);
-  assert.equal(model.authorities.length, 2);
+  assert.equal(model.authorities.length, 3);
 });
 
 test("network failure becomes transport unavailable without domain claims", async () => {
