@@ -1,7 +1,7 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.0.1",
   "system": "glaze-ui",
-  "producer_repository": "GoreeCloud/glaze-ui",
+  "producer_repository": "GoreeCloud/goreecloud-glaze-ui",
   "authority_domains": ["presentation", "design-conformance"],
   "mesh_envelope": {
     "version": "goreecloud.evidence-envelope.v1",
@@ -32,7 +32,8 @@
   },
   "authority_rules": [
     "Glaze UI is authoritative only for presentation and design-conformance assertions.",
-    "Glaze UI may display Wardveil, Privacy Shield, Everkeep, and Mesh evidence but cannot create or strengthen their domain truth.",
+    "Glaze UI may display Wardveil, Privacy Shield, Everkeep, GoreeCloud Identity, and Mesh evidence but cannot create or strengthen their domain truth.",
+    "GoreeCloud Identity remains authoritative for identity, authentication, authorization, account, device, credential, and session assertions presented through Glaze UI.",
     "Transport freshness and presentation polish must never be rendered as proof of positive producer-domain state.",
     "Cross-domain surfaces must retain producer authority identity and must not collapse independent states into a generic safe or protected verdict."
   ],
