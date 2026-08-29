@@ -123,6 +123,45 @@
       "productionEligible": false,
       "visualAcceptance": "Current-Stable 2.0 migration and application-specific rendered/native/accessibility acceptance are required before production approval.",
       "notes": "Existing 1.0.0 evidence is historical migration input only after Glaze UI 2.0.0 promotion."
+    },
+    {
+      "name": "GoreeCloud Browser",
+      "repository": "GoreeCloud/goreecloud-browser",
+      "status": "adoption-candidate",
+      "targetVersion": "2.0.0",
+      "requiredTargetVersion": "2.0.0",
+      "referenceRevision": "ebd83fc04c0c6e08839f0fc27b8ea25ae1576d50",
+      "evidence": "docs/GLAZE_UI_ADOPTION.md",
+      "automatedContract": true,
+      "productionEligible": false,
+      "visualAcceptance": "Rendered cross-platform visual, accessibility, input, localization, safe-area/form-factor, and representative physical-device acceptance remains pending before production approval.",
+      "notes": "Browser main now pins Glaze UI 2.0.0 and the exact Stable promotion revision, enforces the 48 px general and 56 px TV target floors, maps current 2.0 materials and interaction semantics, and compiles the GTK beta shell with native toolbar/search controls bound to the 48 px floor."
+    },
+    {
+      "name": "GoreeCloud Security Center",
+      "repository": "GoreeCloud/goreecloud-wardveil-security",
+      "status": "adoption-candidate",
+      "targetVersion": "2.0.0",
+      "requiredTargetVersion": "2.0.0",
+      "referenceRevision": "128906f53b902b0728249378d3773652cfff76c2",
+      "evidence": "website/GLAZE-UI-2.0-ADOPTION.md",
+      "automatedContract": true,
+      "productionEligible": false,
+      "visualAcceptance": "Rendered/browser accessibility and supported-platform acceptance remains pending before production approval.",
+      "notes": "Security Center main now exposes a version-pinned Glaze UI 2.0 Stable web subset, read-only validation, 48 px target floors, Appearance/Clarity semantics, accessibility fallbacks, and evidence-preserving Wardveil security-state boundaries."
+    },
+    {
+      "name": "GoreeCloud Privacy Center",
+      "repository": "GoreeCloud/goreecloud-privacy-shield",
+      "status": "adoption-candidate",
+      "targetVersion": "2.0.0",
+      "requiredTargetVersion": "2.0.0",
+      "referenceRevision": "7032bd10082609e0df10848caa496dce7e3162f3",
+      "evidence": "website/GLAZE-UI-2.0-ADOPTION.md",
+      "automatedContract": true,
+      "productionEligible": false,
+      "visualAcceptance": "Rendered/browser accessibility and supported-platform acceptance remains pending before production approval.",
+      "notes": "Privacy Center main now exposes a version-pinned Glaze UI 2.0 Stable web subset, read-only validation, 48 px target floors, Appearance/Clarity semantics, accessibility fallbacks, and evidence-preserving Privacy Shield authority boundaries."
     }
   ]
 }
