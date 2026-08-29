@@ -1,9 +1,10 @@
 {
   "glaze_ui": {
-    "candidate": "1.6",
+    "candidate": "2.0",
     "lifecycle": "stable",
-    "stable_consumer_target": "1.6.0",
-    "release": "1.6.0"
+    "introduced_in": "1.6.0",
+    "stable_consumer_target": "2.0.0",
+    "release": "2.0.0"
   },
   "contract": "evidence-presentation",
   "authority_systems": {
@@ -34,6 +35,19 @@
         "governance"
       ],
       "presentation_role": "coordination-authority"
+    },
+    "goreecloud-identity": {
+      "domains": [
+        "identity",
+        "authentication",
+        "authorization",
+        "accounts",
+        "devices",
+        "credentials",
+        "sessions",
+        "delegated-authority"
+      ],
+      "presentation_role": "identity-authority"
     },
     "glaze-ui": {
       "domains": [
@@ -115,14 +129,15 @@
   },
   "material_guidance": {
     "ordinary": [
-      "solid",
-      "raised"
+      "surface",
+      "soft-glaze"
     ],
     "contextual": [
-      "functional-glass",
+      "glaze",
+      "deep-glaze",
       "overlay"
     ],
-    "critical_dense_text_clear_glass": "prohibited"
+    "critical_dense_text_live_glaze": "prohibited_without_readable_fallback"
   },
   "accessibility": {
     "color_only_state": "prohibited",
@@ -135,8 +150,10 @@
   "invariants": [
     "Glaze UI presents supplied evidence and never creates evidence.",
     "Freshness cannot be styled as positive domain truth by itself.",
-    "Transport availability cannot be styled as security, privacy, recovery, or conformance success.",
-    "Producer authority domains cannot be merged into a generic safe/protected state.",
+    "Transport availability cannot be styled as security, privacy, recovery, identity, authentication, authorization, or conformance success.",
+    "Producer authority domains cannot be merged into a generic safe/protected/trusted state.",
+    "Identity provenance for transport is not a substitute for producer-specific Identity evidence.",
+    "A valid GoreeCloud Identity assertion does not independently establish Privacy Shield authorization, Wardveil protection, Everkeep recoverability, Mesh governance success, or Glaze UI conformance.",
     "System identity artwork never independently proves implementation or acceptance.",
     "Missing, invalid, stale, unsupported, or unavailable evidence must not resolve to success."
   ]
