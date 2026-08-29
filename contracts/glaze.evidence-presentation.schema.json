@@ -18,7 +18,7 @@
   "properties": {
     "version": {"const": "glaze.evidence-presentation.v1"},
     "surface": {"enum": ["compact", "detailed", "administrative", "alert", "recovery"]},
-    "authority": {"enum": ["wardveil-security", "privacy-shield", "everkeep", "goreecloud-mesh", "glaze-ui"]},
+    "authority": {"enum": ["wardveil-security", "privacy-shield", "everkeep", "goreecloud-mesh", "goreecloud-identity", "glaze-ui"]},
     "domain_state": {
       "type": "string",
       "minLength": 1,
