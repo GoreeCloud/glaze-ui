@@ -3,6 +3,7 @@ const AUTHORITY_SYSTEMS = new Set([
   "privacy-shield",
   "everkeep",
   "goreecloud-mesh",
+  "goreecloud-identity",
   "glaze-ui",
 ]);
 const MESH_LIFECYCLE_STATES = new Set(["current", "stale-only", "empty"]);
@@ -10,7 +11,24 @@ const PRODUCER_AUTHORITY_DOMAINS = new Map([
   ["wardveil-security", new Set(["security"])],
   ["privacy-shield", new Set(["privacy"])],
   ["everkeep", new Set(["resilience", "recovery", "preservation", "continuity"])],
+  ["goreecloud-mesh", new Set(["coordination", "governance"])],
+  ["goreecloud-identity", new Set([
+    "identity",
+    "authentication",
+    "authorization",
+    "accounts",
+    "devices",
+    "credentials",
+    "sessions",
+    "delegated-authority",
+  ])],
   ["glaze-ui", new Set(["presentation", "design-conformance"])],
+]);
+const REFRESHABLE_PRODUCERS = new Set([
+  "wardveil-security",
+  "privacy-shield",
+  "everkeep",
+  "goreecloud-identity",
 ]);
 
 function endpoint(meshBaseUrl, kind, id, scope = "") {
@@ -31,8 +49,8 @@ function endpoint(meshBaseUrl, kind, id, scope = "") {
 
 function transportOnly(state, reason = "") {
   return {
-    candidate: "1.6",
-    stable_consumer_target: "1.5.0",
+    candidate: "2.0",
+    stable_consumer_target: "2.0.0",
     subject: null,
     transport: {
       state,
@@ -84,10 +102,11 @@ function freshness(envelope) {
 }
 
 /**
- * Convert the authenticated Mesh subject view into a Glaze UI 1.6 Candidate
- * presentation model. Producer outcomes are preserved verbatim and authority
- * groups remain separate. This function deliberately does not emit an overall
- * verdict, safety score, protection score, compliance score, or recovery score.
+ * Convert an authenticated Mesh subject view into a Glaze UI 2.0 presentation
+ * model. Producer outcomes are preserved verbatim and authority groups remain
+ * separate. This function deliberately does not emit an overall verdict,
+ * safety score, trust score, protection score, compliance score, or recovery
+ * score. Producer/domain pairs are validated fail-closed before presentation.
  */
 export function normalizeMeshEvidenceSubjectView(view) {
   if (!view || typeof view !== "object") return transportOnly("invalid", "Mesh subject view is missing");
@@ -101,8 +120,10 @@ export function normalizeMeshEvidenceSubjectView(view) {
 
   const authorities = [];
   for (const authority of view.authorities) {
-    if (!AUTHORITY_SYSTEMS.has(authority?.producer) || !String(authority?.authority_domain ?? "").trim()) {
-      return transportOnly("invalid", "Mesh authority metadata is invalid");
+    const producer = String(authority?.producer ?? "").trim();
+    const authorityDomain = String(authority?.authority_domain ?? "").trim();
+    if (!AUTHORITY_SYSTEMS.has(producer) || !PRODUCER_AUTHORITY_DOMAINS.get(producer)?.has(authorityDomain)) {
+      return transportOnly("invalid", "Mesh producer authority metadata is invalid");
     }
     if (!Array.isArray(authority.assertions)) {
       return transportOnly("invalid", "Mesh assertion group is invalid");
@@ -137,15 +158,15 @@ export function normalizeMeshEvidenceSubjectView(view) {
       };
     });
     authorities.push({
-      producer: authority.producer,
-      authority_domain: authority.authority_domain,
+      producer,
+      authority_domain: authorityDomain,
       assertions,
     });
   }
 
   return {
-    candidate: "1.6",
-    stable_consumer_target: "1.5.0",
+    candidate: "2.0",
+    stable_consumer_target: "2.0.0",
     subject: view.subject ?? null,
     transport: lifecycle,
     authorities,
@@ -154,7 +175,7 @@ export function normalizeMeshEvidenceSubjectView(view) {
 }
 
 /**
- * Build a Glaze Candidate action descriptor for requesting refreshed producer
+ * Build a Glaze 2.0 action descriptor for requesting refreshed producer
  * evidence through Mesh. This descriptor is presentation intent only: Glaze
  * does not mint the canonical Mesh refresh contract, contact the producer,
  * authorize execution, or claim that evidence has been refreshed.
@@ -176,7 +197,11 @@ export function buildMeshEvidenceRefreshAction(model, {
   const targetProducer = String(producer ?? "").trim();
   const targetDomain = String(authorityDomain ?? "").trim();
   const targetAssertion = String(assertion ?? "").trim();
-  if (!PRODUCER_AUTHORITY_DOMAINS.get(targetProducer)?.has(targetDomain) || !targetAssertion) {
+  if (
+    !REFRESHABLE_PRODUCERS.has(targetProducer)
+    || !PRODUCER_AUTHORITY_DOMAINS.get(targetProducer)?.has(targetDomain)
+    || !targetAssertion
+  ) {
     throw new Error("refresh target must name a known producer authority and assertion");
   }
 
@@ -193,7 +218,8 @@ export function buildMeshEvidenceRefreshAction(model, {
   const timestamp = requestedAt instanceof Date ? requestedAt : new Date(requestedAt);
   if (Number.isNaN(timestamp.getTime())) throw new Error("requestedAt must be a valid timestamp");
   return {
-    candidate: "1.6",
+    candidate: "2.0",
+    stable_consumer_target: "2.0.0",
     action: "request-evidence-refresh",
     coordinator: "goreecloud-mesh",
     target: {
@@ -215,8 +241,9 @@ export function buildMeshEvidenceRefreshAction(model, {
 
 /**
  * Fetch a Mesh subject view using a GoreeCloud Identity bearer credential with
- * mesh.evidence.read scope, then convert it to the Candidate presentation model.
- * Credentials are used only in the Authorization header and never returned.
+ * mesh.evidence.read scope, then convert it to the Glaze 2.0 presentation
+ * model. Credentials are used only in the Authorization header and never
+ * returned.
  */
 export async function fetchMeshEvidenceSubject({
   meshBaseUrl,
@@ -258,6 +285,6 @@ export async function fetchMeshEvidenceSubject({
   try {
     return normalizeMeshEvidenceSubjectView(payload);
   } catch {
-    return transportOnly("invalid", "Mesh evidence response failed Candidate validation");
+    return transportOnly("invalid", "Mesh evidence response failed Glaze 2.0 validation");
   }
 }
