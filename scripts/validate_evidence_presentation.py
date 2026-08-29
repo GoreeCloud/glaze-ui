@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / "EVIDENCE_PRESENTATION.md"
 TOKENS = ROOT / "tokens" / "evidence-presentation.json"
+SCHEMA = ROOT / "contracts" / "glaze.evidence-presentation.schema.json"
 CSS = ROOT / "css" / "glaze.evidence.css"
 REFERENCE = ROOT / "reference" / "candidate-1.6-evidence.html"
 ACCEPTANCE = ROOT / "reference" / "candidate-1.6-evidence-acceptance.html"
@@ -13,6 +14,7 @@ ACCEPTANCE_RECORD = ROOT / "acceptance" / "1.6.0.md"
 CONSUMER = ROOT / "reference" / "mesh-evidence-consumer.mjs"
 CONSUMER_TEST = ROOT / "tests" / "mesh-evidence-consumer.test.mjs"
 STATUS = ROOT / "COMPONENT_STATUS.md"
+VERSION = ROOT / "VERSION"
 
 
 def fail(message: str) -> None:
@@ -22,6 +24,7 @@ def fail(message: str) -> None:
 for path in (
     DOC,
     TOKENS,
+    SCHEMA,
     CSS,
     REFERENCE,
     ACCEPTANCE,
@@ -30,21 +33,29 @@ for path in (
     CONSUMER,
     CONSUMER_TEST,
     STATUS,
+    VERSION,
 ):
     if not path.is_file():
         fail(f"missing {path.relative_to(ROOT)}")
 
 try:
     data = json.loads(TOKENS.read_text())
+    schema = json.loads(SCHEMA.read_text())
 except Exception as exc:
-    fail(f"invalid token JSON: {exc}")
+    fail(f"invalid contract JSON: {exc}")
 
-if data.get("glaze_ui", {}).get("candidate") != "1.6":
-    fail("candidate must remain 1.6")
+if VERSION.read_text().strip() != "2.0.0":
+    fail("repository VERSION must remain the current 2.0.0 Stable target")
+if data.get("glaze_ui", {}).get("candidate") != "2.0":
+    fail("current evidence presentation target must be Glaze UI 2.0")
 if data.get("glaze_ui", {}).get("lifecycle") != "stable":
-    fail("evidence presentation must be Stable after 1.6.0 promotion")
-if data.get("glaze_ui", {}).get("stable_consumer_target") != "1.6.0":
-    fail("evidence presentation Stable consumer target must be 1.6.0")
+    fail("evidence presentation must remain Stable")
+if data.get("glaze_ui", {}).get("introduced_in") != "1.6.0":
+    fail("historical evidence presentation introduction must remain 1.6.0")
+if data.get("glaze_ui", {}).get("stable_consumer_target") != "2.0.0":
+    fail("current evidence presentation Stable consumer target must be 2.0.0")
+if data.get("glaze_ui", {}).get("release") != "2.0.0":
+    fail("current evidence presentation release must be 2.0.0")
 
 for family in ("freshness_states", "transport_states"):
     values = data.get(family, {})
@@ -55,10 +66,39 @@ for family in ("freshness_states", "transport_states"):
             fail(f"{family}.{name} must never imply positive domain truth")
 
 systems = data.get("authority_systems", {})
-for system in ("wardveil-security", "privacy-shield", "everkeep", "goreecloud-mesh", "glaze-ui"):
+for system in (
+    "wardveil-security",
+    "privacy-shield",
+    "everkeep",
+    "goreecloud-mesh",
+    "goreecloud-identity",
+    "glaze-ui",
+):
     if system not in systems:
         fail(f"missing authority system {system}")
 
+identity_domains = set(systems["goreecloud-identity"].get("domains", []))
+expected_identity_domains = {
+    "identity",
+    "authentication",
+    "authorization",
+    "accounts",
+    "devices",
+    "credentials",
+    "sessions",
+    "delegated-authority",
+}
+if identity_domains != expected_identity_domains:
+    fail("GoreeCloud Identity presentation domains drifted from the canonical authority boundary")
+
+schema_authorities = set(schema.get("properties", {}).get("authority", {}).get("enum", []))
+if not set(systems).issubset(schema_authorities):
+    fail("evidence schema authority enum must cover every presentation authority system")
+
+# The 1.6 rendered artifacts are retained historical promotion evidence. They
+# remain immutable regression inputs; current 2.0 Identity support is validated
+# separately at source/consumer-contract level until a dedicated rendered
+# Identity Center acceptance matrix is promoted.
 html = REFERENCE.read_text()
 for marker in (
     "Glaze UI 1.6 Candidate",
@@ -85,7 +125,7 @@ for marker in (
     "reduced-transparency",
 ):
     if marker not in html:
-        fail(f"reference invariant missing: {marker}")
+        fail(f"historical 1.6 reference invariant missing: {marker}")
 
 if "All safe" in html or "Everything is protected" in html:
     fail("reference must not collapse distinct authority domains into generic safety")
@@ -102,10 +142,10 @@ for marker in (
     "@media (forced-colors: active)",
 ):
     if marker not in css:
-        fail(f"candidate CSS invariant missing: {marker}")
+        fail(f"evidence CSS invariant missing: {marker}")
 
 if "current/available must never inherit success/protected styling" not in css:
-    fail("candidate CSS must document neutral current/available transport semantics")
+    fail("evidence CSS must document neutral current/available transport semantics")
 
 acceptance = ACCEPTANCE.read_text()
 for marker in (
@@ -118,7 +158,7 @@ for marker in (
     "forced-colors evidence distinction rendered",
 ):
     if marker not in acceptance:
-        fail(f"rendered evidence acceptance invariant missing: {marker}")
+        fail(f"historical rendered evidence acceptance invariant missing: {marker}")
 
 rendered_validator = RENDERED_VALIDATOR.read_text()
 for marker in (
@@ -133,7 +173,7 @@ for marker in (
     "text_scale=2",
 ):
     if marker not in rendered_validator:
-        fail(f"rendered evidence validator missing required case: {marker}")
+        fail(f"historical rendered evidence validator missing required case: {marker}")
 
 consumer = CONSUMER.read_text()
 for marker in (
@@ -142,6 +182,9 @@ for marker in (
     "wardveil-security",
     "privacy-shield",
     "everkeep",
+    "goreecloud-identity",
+    '"authentication"',
+    "PRODUCER_AUTHORITY_DOMAINS",
     "Transport state is not domain truth.",
     "no overall domain verdict is created",
     "Mesh evidence transport is unavailable",
@@ -154,13 +197,26 @@ for prohibited in (
     "protection_score",
     "privacy_score",
     "recovery_score",
+    "identity_score",
+    "trust_score",
 ):
     if prohibited in consumer:
         fail(f"Mesh consumer must not create combined domain truth: {prohibited}")
 
+consumer_test = CONSUMER_TEST.read_text()
+for marker in (
+    'producer: "goreecloud-identity"',
+    'authority_domain: "authentication"',
+    "rejects cross-domain producer authority escalation before presentation",
+):
+    if marker not in consumer_test:
+        fail(f"Identity presentation regression missing: {marker}")
+
 status = STATUS.read_text()
 if "Evidence presentation and authority surfaces | Stable" not in status:
     fail("component lifecycle registry must mark evidence presentation Stable")
+if "2.0.0 is the current Stable consumer target" not in status:
+    fail("component lifecycle registry must identify 2.0.0 as current Stable target")
 
 doc = DOC.read_text()
 for marker in (
@@ -172,7 +228,9 @@ for marker in (
     "Privacy Center",
     "Continuity Center",
     "Mesh Center",
-    "200% text-scaling/reflow validation",
+    "Identity Center",
+    "GoreeCloud Identity",
+    "2.0.0",
 ):
     if marker not in doc:
         fail(f"documentation invariant missing: {marker}")
@@ -181,9 +239,8 @@ acceptance_record = ACCEPTANCE_RECORD.read_text()
 for marker in (
     "Stable version: `1.6.0`",
     "Previous Stable baseline: `1.5.0`",
-    "Stable version: `1.6.0`",
 ):
     if marker not in acceptance_record:
-        fail(f"1.6 acceptance record missing lifecycle invariant: {marker}")
+        fail(f"historical 1.6 acceptance record missing lifecycle invariant: {marker}")
 
-print("Glaze UI 1.6 evidence presentation Candidate contract: OK")
+print("Glaze UI 2.0 evidence presentation contract with Identity authority: OK")
