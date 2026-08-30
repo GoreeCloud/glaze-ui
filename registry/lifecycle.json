@@ -4,60 +4,13 @@
   "updated": "2026-08-29",
   "currentStable": "2.0.0",
   "activeCandidate": "2.1.0-candidate.1",
-  "lifecycleDefinitions": {
-    "stable": "Documented and validated capability included in the current compatibility promise.",
-    "candidate": "Implemented or specified capability under formal promotion review; not a Stable consumer dependency.",
-    "experimental": "Exploratory capability that may change substantially and cannot be a mandatory Stable dependency.",
-    "planned": "Roadmap direction without sufficient implementation/evidence for Candidate status.",
-    "deprecated": "Still documented for migration/compatibility but scheduled for removal or replacement.",
-    "historical": "Retained release or capability evidence that is no longer a current production target."
-  },
-  "releases": [
-    {"version":"2.0.0","status":"stable","contract":"GLAZE_UI_2_STABLE.md","consumerEligible":true},
-    {"version":"2.1.0-candidate.1","status":"candidate","contract":"GLAZE_UI_2_1_CANDIDATE.md","consumerEligible":false}
-  ],
+  "lifecycleDefinitions": {"stable":"Documented and validated capability included in the current compatibility promise.","candidate":"Implemented or specified capability under formal promotion review; not a Stable consumer dependency.","experimental":"Exploratory capability that may change substantially and cannot be a mandatory Stable dependency.","planned":"Roadmap direction without sufficient implementation/evidence for Candidate status.","deprecated":"Still documented for migration/compatibility but scheduled for removal or replacement.","historical":"Retained release or capability evidence that is no longer a current production target."},
+  "releases": [{"version":"2.0.0","status":"stable","contract":"GLAZE_UI_2_STABLE.md","consumerEligible":true},{"version":"2.1.0-candidate.1","status":"candidate","contract":"GLAZE_UI_2_1_CANDIDATE.md","consumerEligible":false}],
   "capabilities": {
-    "glaze-material-hierarchy": {"status":"stable","since":"2.0.0","carriedForwardTo":"2.1.0-candidate.1"},
-    "connected-transformation": {"status":"stable","since":"2.0.0","carriedForwardTo":"2.1.0-candidate.1"},
-    "adaptive-expression": {"status":"stable","since":"2.0.0","carriedForwardTo":"2.1.0-candidate.1"},
-    "navigation-capsule": {"status":"stable","since":"2.0.0","candidateRefinement":"navigation-capsule-2.1"},
-    "live-surfaces": {"status":"stable","since":"2.0.0","candidateRefinement":"live-surface-continuity-priority"},
-    "visual-excellence-gate": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"VISUAL_EXCELLENCE.md"},
-    "canonical-lifecycle-registry": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"registry/lifecycle.json"},
-    "machine-readable-component-contracts": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"schemas/component-contract.schema.json"},
-    "navigation-capsule-2.1": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/components/navigation-capsule.json"},
-    "machine-readable-material-contracts": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"schemas/material-contract.schema.json"},
-    "material-budgets": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/materials/glaze-material-2.1.json","runtimeImplementation":"js/glaze-2.1.candidate.mjs"},
-    "deterministic-material-behavior": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/materials/glaze-material-2.1.json","runtimeImplementation":"js/glaze-2.1.candidate.mjs"},
-    "material-clarity-preference": {"status":"stable","since":"2.0.0","candidateRefinement":"adaptive-optical-engine"},
-    "adaptive-optical-engine": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/materials/glaze-material-2.1.json"},
-    "density-profiles": {"status":"candidate","since":"2.1.0-candidate.1","profiles":["comfortable","standard","compact","far-view"]},
-    "machine-readable-accessibility-resolution": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"schemas/accessibility-resolution.schema.json"},
-    "accessibility-resolution-matrix": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/accessibility/resolution-matrix.json","runtimeImplementation":"js/glaze-2.1.candidate.mjs"},
-    "glaze-recipes": {"status":"candidate","since":"2.1.0-candidate.1","profiles":["productivity","communication","media","administration","creative"]},
-    "performance-profiles": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/materials/glaze-material-2.1.json","profiles":["full","balanced","constrained","minimal"]},
-    "web-reference-runtime-resolution": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"js/glaze-2.1.candidate.mjs","tests":"tests/glaze-2.1-runtime.test.mjs"},
-    "canonical-reference-flows-2.1": {"status":"candidate","since":"2.1.0-candidate.1","coverage":["settings-preferences","file-management"],"implementations":["reference/candidate-2.1-settings.html","reference/candidate-2.1-files.html"],"acceptance":"acceptance/2.1-candidate.md"},
-    "rendered-reference-acceptance-2.1": {"status":"candidate","since":"2.1.0-candidate.1","implementation":"scripts/validate_glaze_2_1_rendered.py"},
-    "system-icon-registry": {"status":"planned","target":"2.1"},
-    "icon-linter-2.1": {"status":"planned","target":"2.1"},
-    "expanded-conformance-linter": {"status":"candidate","since":"2.1.0-candidate.1","foundationValidator":"scripts/validate_glaze_2_1_candidate.py"},
-    "expanded-acceptance-matrix-2.1": {"status":"planned","target":"2.1"},
-    "visual-regression-2.1": {"status":"planned","target":"2.1"},
-    "interaction-regression-2.1": {"status":"planned","target":"2.1"},
-    "development-inspector": {"status":"planned","target":"2.1"},
-    "generated-documentation": {"status":"planned","target":"2.1"},
-    "developer-integration-packages": {"status":"planned","target":"2.1"},
-    "consumer-conformance-registry-2.1": {"status":"planned","target":"2.1"},
-    "glaze-motion": {"status":"experimental","note":"Remains separately governed and is not promoted by Glaze UI 2.1 Candidate."}
+    "glaze-material-hierarchy":{"status":"stable","since":"2.0.0","carriedForwardTo":"2.1.0-candidate.1"},"connected-transformation":{"status":"stable","since":"2.0.0","carriedForwardTo":"2.1.0-candidate.1"},"adaptive-expression":{"status":"stable","since":"2.0.0","carriedForwardTo":"2.1.0-candidate.1"},"navigation-capsule":{"status":"stable","since":"2.0.0","candidateRefinement":"navigation-capsule-2.1"},"live-surfaces":{"status":"stable","since":"2.0.0","candidateRefinement":"live-surface-continuity-priority"},
+    "visual-excellence-gate":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"VISUAL_EXCELLENCE.md"},"canonical-lifecycle-registry":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"registry/lifecycle.json"},"machine-readable-component-contracts":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"schemas/component-contract.schema.json"},"navigation-capsule-2.1":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/components/navigation-capsule.json"},"machine-readable-material-contracts":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"schemas/material-contract.schema.json"},"material-budgets":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/materials/glaze-material-2.1.json","runtimeImplementation":"js/glaze-2.1.candidate.mjs"},"deterministic-material-behavior":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/materials/glaze-material-2.1.json","runtimeImplementation":"js/glaze-2.1.candidate.mjs"},"material-clarity-preference":{"status":"stable","since":"2.0.0","candidateRefinement":"adaptive-optical-engine"},"adaptive-optical-engine":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/materials/glaze-material-2.1.json"},"density-profiles":{"status":"candidate","since":"2.1.0-candidate.1","profiles":["comfortable","standard","compact","far-view"]},"machine-readable-accessibility-resolution":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"schemas/accessibility-resolution.schema.json"},"accessibility-resolution-matrix":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/accessibility/resolution-matrix.json","runtimeImplementation":"js/glaze-2.1.candidate.mjs"},"glaze-recipes":{"status":"candidate","since":"2.1.0-candidate.1","profiles":["productivity","communication","media","administration","creative"]},"performance-profiles":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/materials/glaze-material-2.1.json","profiles":["full","balanced","constrained","minimal"]},"web-reference-runtime-resolution":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"js/glaze-2.1.candidate.mjs","tests":"tests/glaze-2.1-runtime.test.mjs"},
+    "canonical-reference-flows-2.1":{"status":"candidate","since":"2.1.0-candidate.1","coverage":["settings-preferences","file-management","search-command","communication-live-activity","media-playback"],"implementations":["reference/candidate-2.1-settings.html","reference/candidate-2.1-files.html","reference/candidate-2.1-search.html","reference/candidate-2.1-communication.html","reference/candidate-2.1-media.html"],"acceptance":"acceptance/2.1-candidate.md"},"rendered-reference-acceptance-2.1":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"scripts/validate_glaze_2_1_rendered.py"},"rendered-visual-invariant-regression-2.1":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/regression/reference-invariants.json","renderedAcceptance":"scripts/validate_glaze_2_1_expanded_rendered.py","scope":"computed-layout-style-and-state-invariants"},"expanded-acceptance-matrix-2.1":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"contracts/regression/reference-invariants.json","renderedAcceptance":"scripts/validate_glaze_2_1_expanded_rendered.py"},"interaction-regression-2.1":{"status":"candidate","since":"2.1.0-candidate.1","implementation":"reference/candidate-2.1-expanded-acceptance.html","validator":"scripts/validate_glaze_2_1_expanded_rendered.py","scenarios":["command-open-select","message-send","playback-toggle"]},
+    "system-icon-registry":{"status":"planned","target":"2.1"},"icon-linter-2.1":{"status":"planned","target":"2.1"},"expanded-conformance-linter":{"status":"candidate","since":"2.1.0-candidate.1","foundationValidator":"scripts/validate_glaze_2_1_candidate.py","regressionValidator":"scripts/validate_glaze_2_1_regression.py"},"visual-regression-2.1":{"status":"planned","target":"2.1","note":"Pixel/screenshot baseline capture and diffing remains Planned; current Candidate evidence is computed rendered visual-invariant regression only."},"development-inspector":{"status":"planned","target":"2.1"},"generated-documentation":{"status":"planned","target":"2.1"},"developer-integration-packages":{"status":"planned","target":"2.1"},"consumer-conformance-registry-2.1":{"status":"planned","target":"2.1"},"glaze-motion":{"status":"experimental","note":"Remains separately governed and is not promoted by Glaze UI 2.1 Candidate."}
   },
-  "promotionRules": {
-    "candidateMaySatisfyStableConsumerConformance": false,
-    "stableVersionFileMustRemain": "2.0.0",
-    "requiresExactFinalRevisionCI": true,
-    "requiresRenderedAcceptance": true,
-    "requiresAccessibilityAndResilienceAcceptance": true,
-    "requiresNativeOrDeviceEvidenceWhereApplicable": true,
-    "requiresHumanVisualExcellenceReview": true
-  }
+  "promotionRules":{"candidateMaySatisfyStableConsumerConformance":false,"stableVersionFileMustRemain":"2.0.0","requiresExactFinalRevisionCI":true,"requiresRenderedAcceptance":true,"requiresAccessibilityAndResilienceAcceptance":true,"requiresNativeOrDeviceEvidenceWhereApplicable":true,"requiresHumanVisualExcellenceReview":true}
 }
