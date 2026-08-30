@@ -9,11 +9,11 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 ERRORS: list[str] = []
-BASELINE_REVISION = "8cbfaa62fc9e25b428255a0fd967887c787ffd27"
-ARTIFACT_DIGEST = "sha256:c4b34c0762bf4f0ec2a04439c04cb336478e4024c6a1b5cdf1b501391f8271c8"
+BASELINE_REVISION = "b010531f499b701f25f380eb7004291d3cc5f72a"
+ARTIFACT_DIGEST = "sha256:3525d15c5500ebce38a8bbbcc94b3a15047897f3096091bdd7df6419175b591f"
 EXPECTED_HASHES = {
     "settings-desktop-light": "185a33fc913cc706f3c830a5a9fd3ae29790e243760f9224263ac42bf44fc498",
-    "files-mobile-reduced-transparency": "fbc5666f7732e7936a61b3f23b94af70230918670a0e3f918f594ace764a9ce3",
+    "files-mobile-reduced-transparency": "fa6eb1359915f9b43a9b84b843c2082f74dea227d4893f5cf749cf52f6e6fb31",
     "search-command-open-deep-dark": "75d4ed41b141d46480f312468bb2a140cf2413cad6b8b08b26882228bb245260",
     "communication-tablet-sent-large-text": "54fa0af9180626f81df781b0ead032776342a5922b2b8a07aa9c3a06cebe403e",
     "media-tv-playing": "bf7ae6bebe9de8101f4068fb3783b649f0ec292ae7f00d6bc97004840fbad6a2",
@@ -136,7 +136,7 @@ def main() -> int:
     if manifest.get("baselineStrategy") != "source-revision-same-run-render": fail("visual baseline strategy must be source-revision-same-run-render")
     if manifest.get("baselineRevision") != BASELINE_REVISION: fail(f"visual baseline revision must be {BASELINE_REVISION}")
     provenance = manifest.get("captureProvenance", {})
-    if provenance.get("workflowRunId") != 33289470624 or provenance.get("artifactId") != 9725500882: fail("visual baseline capture provenance run/artifact identity changed")
+    if provenance.get("workflowRunId") != 33319861567 or provenance.get("artifactId") != 9734580515: fail("visual baseline capture provenance run/artifact identity changed")
     if provenance.get("artifactDigest") != ARTIFACT_DIGEST: fail("visual baseline capture provenance artifact digest changed")
     if "not human Visual Excellence acceptance" not in str(provenance.get("note", "")): fail("visual baseline provenance must explicitly keep human Visual Excellence separate")
 
