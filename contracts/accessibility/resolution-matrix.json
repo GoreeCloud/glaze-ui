@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "id": "accessibility-resolution-matrix-2-1",
+  "lifecycle": "candidate",
+  "resolutionOrder": [
+    "protected-semantic-meaning",
+    "forced-colors",
+    "reduced-motion",
+    "reduced-transparency",
+    "increased-contrast-and-show-boundaries",
+    "large-text-and-touch-assistance",
+    "material-clarity",
+    "expression-and-accent"
+  ],
+  "preferences": {
+    "reducedMotion": {
+      "source": "platform-or-user-accessibility-setting",
+      "effects": [
+        "replace nonessential large morphs, zooms, rotations, parallax and sweeping movement with fade, small position change or direct state change",
+        "preserve direct manipulation tracking where removing motion would break control",
+        "do not merely accelerate the original animation"
+      ]
+    },
+    "reducedTransparency": {
+      "source": "platform-or-user-accessibility-setting",
+      "effects": [
+        "force effective Material Clarity to Solid",
+        "disable blur, refraction, distortion and ambient sampling",
+        "preserve hierarchy with tonal separation, geometry, borders, depth and contrast"
+      ]
+    },
+    "increasedContrast": {
+      "source": "platform-or-user-accessibility-setting",
+      "effects": [
+        "strengthen text contrast, boundaries, focus, surface separation, interaction states and semantic distinctions",
+        "do not flatten hierarchy or merely darken all surfaces"
+      ]
+    },
+    "largeText": {
+      "source": "platform-or-user-accessibility-setting",
+      "effects": [
+        "reflow layouts instead of clipping or shrinking important content",
+        "permit multi-line labels, increased row heights and alternative arrangements",
+        "support 200 percent text scaling in the acceptance matrix"
+      ]
+    },
+    "showBoundaries": {
+      "source": "platform-or-user-accessibility-setting",
+      "effects": [
+        "ensure interactive and floating surfaces have a visible non-color-only boundary",
+        "retain boundary visibility in Solid and Forced Colors modes"
+      ]
+    },
+    "touchAssistance": {
+      "source": "platform-or-user-accessibility-setting",
+      "effects": [
+        "raise touch hit-area floor to 56px where the platform permits",
+        "allow visible geometry to remain smaller than the hit area",
+        "prevent overlap from making adjacent targets ambiguous"
+      ]
+    },
+    "forcedColors": {
+      "source": "platform-forced-color-environment",
+      "effects": [
+        "use platform/system color roles instead of custom material colors",
+        "force Solid material rendering and disable translucency-dependent meaning",
+        "preserve focus, state, labels and hierarchy without requiring ambient color"
+      ]
+    },
+    "materialClarity": {
+      "source": "glaze-user-preference",
+      "effects": [
+        "select Clear, Balanced or Solid only after accessibility overrides are applied",
+        "must not change application structure or semantic meaning"
+      ]
+    },
+    "accentPersonalization": {
+      "source": "glaze-user-preference",
+      "effects": [
+        "may influence identity and ambient roles",
+        "cannot override protected semantic state colors or focus visibility"
+      ]
+    },
+    "expressionLevel": {
+      "source": "glaze-user-preference",
+      "effects": [
+        "select Calm, Balanced or Expressive visual behavior",
+        "cannot re-enable motion or transparency suppressed by accessibility settings",
+        "cannot alter critical semantic meaning"
+      ]
+    }
+  },
+  "combinationRules": [
+    {
+      "when": ["forcedColors"],
+      "then": ["effectiveMaterialClarity=solid", "ambientColor=off", "customSemanticColorMapping=platform", "refraction=off", "distortion=off"],
+      "reason": "Forced Colors is the highest rendering override after semantic meaning."
+    },
+    {
+      "when": ["reducedTransparency", "materialClarity=clear"],
+      "then": ["effectiveMaterialClarity=solid"],
+      "reason": "Accessibility transparency preference overrides visual clarity personalization."
+    },
+    {
+      "when": ["reducedTransparency", "materialClarity=balanced"],
+      "then": ["effectiveMaterialClarity=solid"],
+      "reason": "Accessibility transparency preference overrides visual clarity personalization."
+    },
+    {
+      "when": ["reducedMotion", "expressionLevel=expressive"],
+      "then": ["motionExpression=calm", "nonMotionExpressionMayRemain=expressive"],
+      "reason": "Expression may remain rich through color, typography and geometry but may not reintroduce suppressed movement."
+    },
+    {
+      "when": ["increasedContrast", "showBoundaries"],
+      "then": ["boundaryStrength=max(accessibility-required,component-required)", "focusVisibility=strong"],
+      "reason": "The stronger compatible boundary treatment wins without changing semantic hierarchy."
+    },
+    {
+      "when": ["largeText", "density=compact"],
+      "then": ["effectiveDensity=standard-or-comfortable-as-needed", "reflowRequired=true"],
+      "reason": "Compact density cannot defeat legibility or target accessibility."
+    },
+    {
+      "when": ["touchAssistance", "density=compact"],
+      "then": ["touchHitAreaMinPx=56", "visibleDensityMayRemainCompact=true"],
+      "reason": "Hit area and visible geometry are resolved independently."
+    },
+    {
+      "when": ["forcedColors", "accentPersonalization"],
+      "then": ["accentMayNotOverridePlatformForcedColors=true"],
+      "reason": "Platform forced-color semantics supersede identity tint."
+    }
+  ],
+  "protectedSemantics": [
+    "error",
+    "warning",
+    "destructive",
+    "success",
+    "privacy",
+    "security",
+    "focus",
+    "protected",
+    "restricted",
+    "identity-trust",
+    "offline",
+    "unavailable"
+  ],
+  "testCases": [
+    {
+      "id": "rt-clear",
+      "inputs": {"reducedTransparency": true, "materialClarity": "clear"},
+      "expected": ["effectiveMaterialClarity=solid", "blur=off", "refraction=off", "distortion=off"]
+    },
+    {
+      "id": "rm-expressive",
+      "inputs": {"reducedMotion": true, "expressionLevel": "expressive"},
+      "expected": ["motionExpression=calm", "nonMotionExpressionMayRemain=expressive"]
+    },
+    {
+      "id": "fc-accent",
+      "inputs": {"forcedColors": true, "accentPersonalization": "custom"},
+      "expected": ["effectiveMaterialClarity=solid", "customSemanticColorMapping=platform", "accentMayNotOverridePlatformForcedColors=true"]
+    },
+    {
+      "id": "large-compact",
+      "inputs": {"largeText": true, "textScalePercent": 200, "density": "compact"},
+      "expected": ["reflowRequired=true", "effectiveDensity=standard-or-comfortable-as-needed", "noCriticalTextClipping=true"]
+    },
+    {
+      "id": "touch-compact",
+      "inputs": {"touchAssistance": true, "density": "compact"},
+      "expected": ["touchHitAreaMinPx=56", "visibleDensityMayRemainCompact=true"]
+    },
+    {
+      "id": "contrast-boundaries",
+      "inputs": {"increasedContrast": true, "showBoundaries": true},
+      "expected": ["focusVisibility=strong", "boundaryStrength=max(accessibility-required,component-required)"]
+    }
+  ],
+  "visualReview": {
+    "required": true,
+    "criteria": [
+      "Each accessibility combination looks intentionally designed rather than like a broken or stripped fallback.",
+      "Hierarchy remains immediately understandable when translucency, custom color or rich motion is removed.",
+      "Large Text and 200 percent scaling remain balanced and usable across representative mobile, tablet and desktop flows.",
+      "Focus, selection, warning, privacy and security states remain optically distinct without relying on color alone."
+    ]
+  }
+}
