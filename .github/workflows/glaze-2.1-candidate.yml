@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           repository: GoreeCloud/goreecloud-glaze-ui
-          ref: 609dc8e9e76c8e0fe306bb46961e1242bcdad86f
+          ref: 5b46903c18660ae78e7f1aaea39a93136efacda7
           path: .glaze-2.1-visual-baseline-source
           persist-credentials: false
       - name: Compile Glaze UI 2.1 Candidate validators
