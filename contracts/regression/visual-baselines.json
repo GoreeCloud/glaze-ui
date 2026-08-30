@@ -5,13 +5,13 @@
   "lifecycle": "candidate",
   "status": "source-pinned-candidate",
   "baselineStrategy": "source-revision-same-run-render",
-  "baselineRevision": "b010531f499b701f25f380eb7004291d3cc5f72a",
+  "baselineRevision": "609dc8e9e76c8e0fe306bb46961e1242bcdad86f",
   "captureProvenance": {
-    "workflowRunId": 33319861567,
-    "artifactId": 9734580515,
-    "artifactName": "glaze-ui-2.1-visual-regression-b010531f499b701f25f380eb7004291d3cc5f72a",
-    "artifactDigest": "sha256:3525d15c5500ebce38a8bbbcc94b3a15047897f3096091bdd7df6419175b591f",
-    "note": "The exact-head six-case current render at b010531f was reviewed for gross clipping/state errors and the intended deterministic Files New-action glyph correction before repinning. Five cases are pixel-identical to the prior source baseline; the Files change remained inside the unchanged comparator thresholds. This is not human Visual Excellence acceptance. Normal CI re-renders this pinned source revision and the current head on the same Chromium runner before pixel comparison."
+    "workflowRunId": 33326116037,
+    "artifactId": 9736279015,
+    "artifactName": "glaze-ui-2.1-visual-regression-609dc8e9e76c8e0fe306bb46961e1242bcdad86f",
+    "artifactDigest": "sha256:9b1ed13f4c18da681cdf2a5d6e5224499e65d76d76b581e5b078fa3a498d0d52",
+    "note": "The exact-head six-case current render at 609dc8e was reviewed for gross clipping, snapshot-state errors, form-factor composition, the corrected Files mobile action safe area, and finished Resilience navigation iconography before repinning. This is not human Visual Excellence acceptance. Normal CI re-renders this pinned source revision and the current head on the same Chromium runner before pixel comparison."
   },
   "thresholds": {
     "perChannelTolerance": 12,
@@ -19,12 +19,12 @@
     "maxMeanAbsoluteChannelDelta": 1.5
   },
   "cases": [
-    {"id":"settings-desktop-light","flow":"settings","path":"reference/candidate-2.1-settings.html","width":1280,"height":900,"appearance":"light","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"settings-desktop-light.png","captureArtifactSha256":"185a33fc913cc706f3c830a5a9fd3ae29790e243760f9224263ac42bf44fc498"},
-    {"id":"files-mobile-reduced-transparency","flow":"files","path":"reference/candidate-2.1-files.html","width":390,"height":844,"appearance":"dark","clarity":"clear","density":"standard","performance":"balanced","formFactor":"mobile","mode":"reduced-transparency","snapshotState":"idle","baselineFile":"files-mobile-reduced-transparency.png","captureArtifactSha256":"fa6eb1359915f9b43a9b84b843c2082f74dea227d4893f5cf749cf52f6e6fb31"},
-    {"id":"search-command-open-deep-dark","flow":"search","path":"reference/candidate-2.1-search.html","width":1280,"height":900,"appearance":"deep-dark","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"increased-contrast","snapshotState":"command-open","baselineFile":"search-command-open-deep-dark.png","captureArtifactSha256":"75d4ed41b141d46480f312468bb2a140cf2413cad6b8b08b26882228bb245260"},
-    {"id":"communication-tablet-sent-large-text","flow":"communication","path":"reference/candidate-2.1-communication.html","width":820,"height":1180,"appearance":"dark","clarity":"balanced","density":"compact","performance":"balanced","formFactor":"tablet","mode":"large-text","snapshotState":"message-sent","baselineFile":"communication-tablet-sent-large-text.png","captureArtifactSha256":"54fa0af9180626f81df781b0ead032776342a5922b2b8a07aa9c3a06cebe403e"},
-    {"id":"media-tv-playing","flow":"media","path":"reference/candidate-2.1-media.html","width":1920,"height":1080,"appearance":"dark","clarity":"balanced","density":"far-view","performance":"balanced","formFactor":"tv","mode":"normal","snapshotState":"playing","baselineFile":"media-tv-playing.png","captureArtifactSha256":"bf7ae6bebe9de8101f4068fb3783b649f0ec292ae7f00d6bc97004840fbad6a2"},
-    {"id":"resilience-desktop-light","flow":"resilience","path":"reference/candidate-2.1-resilience.html","width":1280,"height":900,"appearance":"light","clarity":"solid","density":"standard","performance":"constrained","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"resilience-desktop-light.png","captureArtifactSha256":"13c1f57e9d0da02c94edc5df89b4c0d06b62766af7f5ec8a695c0c7410ba2da9"}
+    {"id":"settings-desktop-light","flow":"settings","path":"reference/candidate-2.1-settings.html","width":1280,"height":900,"appearance":"light","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"settings-desktop-light.png","captureArtifactSha256":"8b836ed117528d5468db1786783ae697e27f52b74389647b92064eda51c18f22"},
+    {"id":"files-mobile-reduced-transparency","flow":"files","path":"reference/candidate-2.1-files.html","width":390,"height":844,"appearance":"dark","clarity":"clear","density":"standard","performance":"balanced","formFactor":"mobile","mode":"reduced-transparency","snapshotState":"idle","baselineFile":"files-mobile-reduced-transparency.png","captureArtifactSha256":"b152219d444c1bd77971abeba38fa5b43cf0d3f1a31efddf2c8652381a8c01d7"},
+    {"id":"search-command-open-deep-dark","flow":"search","path":"reference/candidate-2.1-search.html","width":1280,"height":900,"appearance":"deep-dark","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"increased-contrast","snapshotState":"command-open","baselineFile":"search-command-open-deep-dark.png","captureArtifactSha256":"7931c1d2b2ee09290fb2838cddeba7e9f55839c257e46ac04301f77beef88097"},
+    {"id":"communication-tablet-sent-large-text","flow":"communication","path":"reference/candidate-2.1-communication.html","width":820,"height":1180,"appearance":"dark","clarity":"balanced","density":"compact","performance":"balanced","formFactor":"tablet","mode":"large-text","snapshotState":"message-sent","baselineFile":"communication-tablet-sent-large-text.png","captureArtifactSha256":"403a840c6b8f5607a5523fbdc5cd4cbb5ad212396531ad9a042aec530c00fb4b"},
+    {"id":"media-tv-playing","flow":"media","path":"reference/candidate-2.1-media.html","width":1920,"height":1080,"appearance":"dark","clarity":"balanced","density":"far-view","performance":"balanced","formFactor":"tv","mode":"normal","snapshotState":"playing","baselineFile":"media-tv-playing.png","captureArtifactSha256":"b49b592640f2e236e25a18eb24e3c1d40d379445159f95423fbf87c13bdc6717"},
+    {"id":"resilience-desktop-light","flow":"resilience","path":"reference/candidate-2.1-resilience.html","width":1280,"height":900,"appearance":"light","clarity":"solid","density":"standard","performance":"constrained","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"resilience-desktop-light.png","captureArtifactSha256":"301c71c828d597fb2a36c4d6210ec5e224c2e04263bd75248f92ef176faf9ed7"}
   ],
   "promotionBoundary": {
     "stableVersionRemains": "2.0.0",
