@@ -180,12 +180,23 @@ def case_large_text_touch(serial: str, dpi: int) -> dict:
         "--es", "appearance", "dark",
         "--ez", "touchAssistance", "true",
     ])
+
+    # Large Text intentionally expands the native reference beyond one viewport.
+    # Keep every acceptance assertion, but validate the facts as reachable content
+    # instead of incorrectly requiring them all to exist in the initial UI dump.
     ui = dump_ui(serial)
     assert_contains(ui, "Glaze UI 2.1")
+
+    ui, _ = visible_after_scroll(serial, "Appearance: Dark", attempts=4)
     assert_contains(ui, "Appearance: Dark")
-    assert_contains(ui, "Touch Assistance: 56 dp minimum target")
+
+    ui, _ = visible_after_scroll(serial, "Target floor: 56 dp", attempts=4)
     assert_contains(ui, "Target floor: 56 dp")
+
+    ui, _ = visible_after_scroll(serial, "Touch Assistance: 56 dp minimum target", attempts=4)
+    assert_contains(ui, "Touch Assistance: 56 dp minimum target")
     sha = screenshot(serial, OUT / "android-large-text-touch-assistance.png")
+
     ui, button = visible_after_scroll(serial, "Continue", attempts=7)
     height = target_height_dp(button, dpi)
     if height < 55.0:
