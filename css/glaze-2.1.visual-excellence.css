@@ -1,6 +1,10 @@
 @import url("./glaze-2.1.visual-excellence.core.css");
 
-/* Accessibility preservation overrides for the Visual Excellence layer. */
+/* Accessibility and state-preservation overrides for the Visual Excellence layer. */
 .primary-nav button {
   min-height: max(50px, var(--g21-touch-min));
+}
+
+.primary-nav [aria-current="page"] {
+  background-color: var(--g21-accent-soft);
 }
