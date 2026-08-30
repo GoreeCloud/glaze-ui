@@ -10,6 +10,14 @@ When a newer Glaze UI release is promoted Stable, every GoreeCloud-controlled us
 
 **No production exception**, grandfathering rule, compatibility pin, platform exemption, schedule exemption or convenience exemption permits an application to remain on a superseded Glaze UI version.
 
+## Glaze UI 2.1 Candidate assessment layer
+
+The same canonical `consumers/registry.json` now carries a bounded assessment layer for **2.1.0-candidate.1**. This is readiness and migration infrastructure, not a second consumer registry and not a replacement for the current-Stable audit.
+
+A 2.1 Candidate evaluation may be recorded only with repository-local version/component mapping, exact-revision automated validation, applicable rendered or native acceptance, accessibility evidence, representative platform evidence, and the required human Visual Excellence evidence when that gate applies. Candidate evaluations are always non-production and cannot rewrite a consumer's Stable 2.0 conformance state.
+
+The Candidate assessment list is currently empty. Therefore no downstream application is represented as having adopted, completed evaluation of, conformed to, or become ready for Glaze UI 2.1. A repository absent from the Candidate evaluation list is **unassessed**, not implicitly compatible.
+
 ## Platform scope
 
 The current-Stable rule applies to every GoreeCloud-controlled user-facing presentation layer: web/PWA, Linux and other desktop, mobile, tablet, TV, smartwatch/wearable, dashboard, administrative, family-facing, maintained fork, spatial/hardware surface and other controlled interface where Glaze UI applies.

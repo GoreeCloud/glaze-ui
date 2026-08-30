@@ -26,9 +26,11 @@ jobs:
           path: .glaze-2.1-visual-baseline-source
           persist-credentials: false
       - name: Compile Glaze UI 2.1 Candidate validators
-        run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_regression.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py
+        run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_regression.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py scripts/validate_glaze_2_1_native.py scripts/validate_glaze_2_1_android_runtime.py
       - name: Validate Glaze UI 2.1 Candidate contracts
         run: python3 scripts/validate_glaze_2_1_candidate.py
+      - name: Validate Glaze UI 2.1 native Android and consumer-assessment structure
+        run: python3 scripts/validate_glaze_2_1_native.py
       - name: Validate Glaze UI 2.1 expanded regression and source-pinned screenshot contract
         run: python3 scripts/validate_glaze_2_1_regression.py
       - name: Validate Glaze UI 2.1 runtime syntax

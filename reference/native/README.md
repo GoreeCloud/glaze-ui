@@ -1,17 +1,29 @@
-# Glaze UI Wearable Native References
+# Glaze UI Native References
 
-Status: **Development Candidate implementation evidence**
+Status: **Candidate / Development Candidate implementation evidence according to platform record**
 
-These native reference files map the Glaze UI wearable candidate contract onto representative platform-native UI frameworks:
+These native reference files map Glaze UI semantics onto representative platform-native UI frameworks. They intentionally prefer native controls and navigation behavior where the operating system provides stronger accessibility, focus, ergonomics, battery, or input behavior. They are semantic mappings, not pixel-identical cross-platform implementations.
+
+## Android handheld — Glaze UI 2.1 Candidate
+
+`android/buildable/` is the bounded Glaze UI 2.1 Android handheld native reference. It uses Android framework UI primitives rather than WebView and builds with AGP 9.3.0, Java 17, compileSdk/targetSdk 36 and minSdk 28.
+
+The reference exercises solid Canvas/Surface content, a bounded Glaze action zone, 48 dp baseline targets, 56 dp Touch Assistance targets, Light/Dark/Deep Dark appearance, true-black Deep Dark canvas, Reduced Transparency → Solid fallback, native system text scaling/reflow, and explicit text-labeled simulated semantic states. It does not query or assert live GoreeCloud platform state.
+
+`.github/workflows/glaze-2.1-android-native.yml` builds the exact-source debug APK, boots a disposable hosted Android emulator, installs the package and runs `scripts/validate_glaze_2_1_android_runtime.py`. The runtime gate inspects UIAutomator layout/labels, exercises the primary native action, checks the 48/56 dp floors, exercises 200% font scale reachability, and captures three PNGs plus machine-readable evidence.
+
+A successful Android handheld workflow is Candidate native emulator evidence only. It does not prove TalkBack, Switch Access, OEM behavior, representative Moto G 2026 behavior, physical touch ergonomics, performance/battery, interruption restoration, production signing/distribution, or human Visual Excellence acceptance.
+
+## Wear OS and watchOS — retained Development Candidate evidence
 
 - `wear-os/buildable/app/src/main/kotlin/com/goreecloud/glazeui/reference/wearable/GlazeWearableReference.kt` — canonical Compose for Wear OS reference using a vertical `TransformingLazyColumn`, native Material 3 semantics, current minimum interactive sizing, and platform rotary behavior.
 - `wear-os/buildable/app/src/main/kotlin/com/goreecloud/glazeui/reference/wearable/MainActivity.kt` plus the surrounding `wear-os/buildable/` project — minimal reproducible Android application harness against a pinned stable-platform toolchain: AGP 9.3.0, Kotlin Compose plugin 2.3.21, compileSdk/targetSdk 36 for stable Android 16, Wear Compose Material 3 1.5.0, and verified Gradle 9.5.0.
 - `watchos/GlazeWearableReference.swift` — SwiftUI watchOS reference using a vertical `ScrollView`, native Button semantics, Dynamic Type-compatible text, accessibility labels/values, and system Digital Crown scrolling behavior.
 - `watchos/GlazeWearableReferenceApp.swift` — minimal `@main App` entry point used by the watchOS SDK typecheck and simulator build/runtime gates.
 
-The Wear OS reference uses the conventional Android app source tree so source inputs cannot overlap Gradle build outputs. These files intentionally prefer native controls and navigation behavior where the operating system provides stronger accessibility, focus, ergonomics, battery, or input behavior. They are semantic mappings, not pixel-identical cross-platform implementations.
+The Wear OS reference uses the conventional Android app source tree so source inputs cannot overlap Gradle build outputs.
 
-## Build and SDK evidence boundary
+## Wearable build and SDK evidence boundary
 
 The Wear OS harness is intentionally unsigned and non-production. A successful `:app:assembleDebug` CI result proves only that the reference source compiles into a debug APK against the pinned SDK/toolchain on the recorded exact repository revision. It does not by itself prove emulator execution, visual acceptance, TalkBack behavior, rotary task completion, battery behavior, interruption restoration, signing/release readiness, or real-device acceptance.
 
@@ -27,6 +39,6 @@ A successful watchOS Simulator launch gate proves simulator-target compile/link/
 
 ## Evidence boundary
 
-Repository presence, source validation, successful Wear OS debug compilation, a successful Wear OS emulator runtime gate, successful watchOS SDK typechecking, and successful watchOS Simulator package/runtime gates remain Development Candidate implementation evidence. They do **not** prove full runtime correctness, UI/accessibility acceptance, watch hardware acceptance, battery behavior, complication/tile/widget behavior, or production readiness.
+Native repository presence, source validation, build success and emulator/simulator launch gates are only the evidence specifically described by their lifecycle records. None of them silently establishes production readiness or representative hardware acceptance.
 
-Stable promotion still requires native round/rectangular visual acceptance, touch-only task completion, rotary/crown-enhanced task completion where supported, large-text and screen-reader acceptance, reduced-motion and reduced-transparency acceptance, interruption/state-restoration validation, production packaging/signing evidence where applicable, and real-device validation for every supported wearable platform.
+Stable promotion still requires the native/platform-specific evidence applicable to the promoted scope, accessibility acceptance, production packaging/signing where required, representative real-device evidence where source/emulator evidence is insufficient, and recorded human Visual Excellence acceptance.
