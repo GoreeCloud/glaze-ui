@@ -29,15 +29,12 @@ jobs:
           SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
           test -n "$SDK_ROOT"
           SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
-          AVDMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/avdmanager"
           test -x "$SDKMANAGER"
-          test -x "$AVDMANAGER"
           ANDROID_IMAGE="$("$SDKMANAGER" --list --verbose | grep -E '^system-images;android-[0-9]+(-ext[0-9]+)?;google_apis;x86_64$' | sort -V | tail -n 1)"
           test -n "$ANDROID_IMAGE"
           echo "Using Android emulator system image: $ANDROID_IMAGE"
           echo "SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
           echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
-          echo "AVDMANAGER=$AVDMANAGER" >> "$GITHUB_ENV"
           echo "ANDROID_IMAGE=$ANDROID_IMAGE" >> "$GITHUB_ENV"
 
       - name: Install Android emulator dependencies
@@ -74,7 +71,59 @@ jobs:
         run: |
           set -euo pipefail
           AVD_NAME=glaze-android-native
-          echo no | "$AVDMANAGER" create avd --force --name "$AVD_NAME" --package "$ANDROID_IMAGE"
+          AVD_ROOT="$HOME/.android/avd"
+          AVD_DIR="$AVD_ROOT/$AVD_NAME.avd"
+          IMAGE_RELATIVE="${ANDROID_IMAGE//;/\/}/"
+          IMAGE_DIR="$SDK_ROOT/$IMAGE_RELATIVE"
+          test -f "$IMAGE_DIR/system.img"
+          test -f "$IMAGE_DIR/kernel-ranchu"
+          mkdir -p "$AVD_DIR"
+          cat > "$AVD_ROOT/$AVD_NAME.ini" <<EOF
+          avd.ini.encoding=UTF-8
+          path=$AVD_DIR
+          path.rel=avd/$AVD_NAME.avd
+          target=android-36
+          EOF
+          cat > "$AVD_DIR/config.ini" <<EOF
+          AvdId=$AVD_NAME
+          PlayStore.enabled=false
+          abi.type=x86_64
+          avd.ini.displayname=Glaze UI Android Handheld Runtime
+          avd.ini.encoding=UTF-8
+          disk.dataPartition.size=4G
+          fastboot.forceColdBoot=yes
+          fastboot.forceFastBoot=no
+          hw.accelerometer=yes
+          hw.audioInput=no
+          hw.battery=yes
+          hw.camera.back=none
+          hw.camera.front=none
+          hw.cpu.arch=x86_64
+          hw.cpu.ncore=2
+          hw.device.manufacturer=GoreeCloud-CI
+          hw.device.name=glaze_android_handheld
+          hw.gps=yes
+          hw.keyboard=yes
+          hw.lcd.circular=false
+          hw.lcd.density=420
+          hw.lcd.height=2400
+          hw.lcd.width=1080
+          hw.mainKeys=no
+          hw.ramSize=2048
+          hw.sdCard=no
+          hw.sensors.orientation=yes
+          hw.sensors.proximity=yes
+          hw.trackBall=no
+          image.sysdir.1=$IMAGE_RELATIVE
+          runtime.network.latency=none
+          runtime.network.speed=full
+          skin.dynamic=yes
+          tag.display=Google APIs
+          tag.id=google_apis
+          vm.heapSize=512
+          EOF
+          grep -F 'hw.device.name=glaze_android_handheld' "$AVD_DIR/config.ini"
+          grep -F 'tag.id=google_apis' "$AVD_DIR/config.ini"
           "$SDK_ROOT/emulator/emulator" -list-avds | grep -Fx "$AVD_NAME"
           if test -e /dev/kvm; then
             sudo chmod 666 /dev/kvm
@@ -121,13 +170,15 @@ jobs:
         run: python3 scripts/validate_glaze_2_1_android_runtime.py
 
       - name: Upload Android native Candidate evidence
-        if: ${{ always() }}
+        if: ${{ success() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: glaze-ui-2.1-android-native-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             reference/native/android/buildable/app/build/outputs/apk/debug/app-debug.apk
-            .artifacts/glaze-2.1-android-native/*.png
+            .artifacts/glaze-2.1-android-native/android-light-balanced.png
+            .artifacts/glaze-2.1-android-native/android-deep-dark-solid.png
+            .artifacts/glaze-2.1-android-native/android-large-text-touch-assistance.png
             .artifacts/glaze-2.1-android-native/android-native-evidence.json
           if-no-files-found: error
           retention-days: 14
