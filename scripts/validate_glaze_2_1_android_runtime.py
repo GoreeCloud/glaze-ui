@@ -138,14 +138,53 @@ def visible_after_scroll(serial: str, value: str, attempts: int = 5) -> tuple[ET
     raise SystemExit(f"UI element did not become reachable after scrolling: {value}")
 
 
+def fully_revealed_target(
+    serial: str,
+    value: str,
+    dpi: int,
+    floor_dp: float,
+    attempts: int = 5,
+    reveal_attempts: int = 4,
+) -> tuple[ET.Element, ET.Element, float]:
+    """Return a target after revealing its full UIAutomator bounds.
+
+    UIAutomator clips bounds to the visible ScrollView viewport. A control that
+    has just entered at the lower edge can therefore appear smaller than its
+    actual native target and make the runtime gate depend on scroll-step timing.
+    We keep the accessibility floor unchanged and nudge forward until the same
+    node is fully exposed. If the measured height remains below the floor once
+    exposed, the caller still fails closed.
+    """
+    ui, node = visible_after_scroll(serial, value, attempts=attempts)
+    height = target_height_dp(node, dpi)
+    required = floor_dp - 1.0
+
+    for _ in range(reveal_attempts):
+        if height >= required:
+            return ui, node, height
+
+        # visible_after_scroll always progresses forward through this vertical
+        # reference. A partially visible target first enters from the bottom, so
+        # a short additional forward scroll reveals rather than obscures it.
+        adb(serial, "shell", "input", "swipe", "500", "1500", "500", "1250", "220")
+        time.sleep(0.25)
+        ui = dump_ui(serial)
+        refreshed = find_text(ui, value)
+        if refreshed is None:
+            continue
+        node = refreshed
+        height = target_height_dp(node, dpi)
+
+    return ui, node, height
+
+
 def case_light(serial: str, dpi: int) -> dict:
     launch(serial, ["--es", "appearance", "light"])
-    ui, button = visible_after_scroll(serial, "Continue")
+    ui, button, height = fully_revealed_target(serial, "Continue", dpi, 48.0)
     assert_contains(ui, "Appearance: Light")
     assert_contains(ui, "Material Clarity: Balanced")
     assert_contains(ui, "Target floor: 48 dp")
     assert_contains(ui, "no live GoreeCloud state")
-    height = target_height_dp(button, dpi)
     if height < 47.0:
         raise SystemExit(f"Continue target below 48 dp floor: {height:.2f} dp")
     x1, y1, x2, y2 = bounds(button)
@@ -162,12 +201,11 @@ def case_deep_dark(serial: str, dpi: int) -> dict:
         "--es", "appearance", "deep-dark",
         "--ez", "reducedTransparency", "true",
     ])
-    ui, button = visible_after_scroll(serial, "Continue")
+    ui, button, height = fully_revealed_target(serial, "Continue", dpi, 48.0)
     assert_contains(ui, "Appearance: Deep Dark")
     assert_contains(ui, "Material Clarity: Solid")
     assert_contains(ui, "Canvas: true black")
     assert_contains(ui, "Reduced Transparency: Solid interaction treatment")
-    height = target_height_dp(button, dpi)
     if height < 47.0:
         raise SystemExit(f"Deep Dark target below 48 dp floor: {height:.2f} dp")
     sha = screenshot(serial, OUT / "android-deep-dark-solid.png")
@@ -195,12 +233,18 @@ def case_large_text_touch(serial: str, dpi: int) -> dict:
 
     ui, _ = visible_after_scroll(serial, "Touch Assistance: 56 dp minimum target", attempts=4)
     assert_contains(ui, "Touch Assistance: 56 dp minimum target")
-    sha = screenshot(serial, OUT / "android-large-text-touch-assistance.png")
 
-    ui, button = visible_after_scroll(serial, "Continue", attempts=7)
-    height = target_height_dp(button, dpi)
+    ui, button, height = fully_revealed_target(
+        serial,
+        "Continue",
+        dpi,
+        56.0,
+        attempts=7,
+        reveal_attempts=4,
+    )
     if height < 55.0:
         raise SystemExit(f"Touch Assistance target below 56 dp floor: {height:.2f} dp")
+    sha = screenshot(serial, OUT / "android-large-text-touch-assistance.png")
     return {"id": "large-text-touch-assistance", "targetDp": round(height, 2), "screenshotSha256": sha}
 
 
