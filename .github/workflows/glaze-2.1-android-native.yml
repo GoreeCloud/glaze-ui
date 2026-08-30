@@ -1,4 +1,4 @@
-name: Glaze UI 2.1 Android Native Candidate
+name: Glaze UI 2.1 Android Native Stable
 
 on:
   pull_request:
@@ -18,10 +18,8 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-
-      - name: Validate Glaze UI 2.1 Android native structure
-        run: python3 scripts/validate_glaze_2_1_native.py
-
+      - name: Validate Glaze UI 2.1 Stable structure
+        run: python3 scripts/validate_glaze_2_1_stable.py
       - name: Resolve Android SDK and stable handheld emulator image
         shell: bash
         run: |
@@ -36,7 +34,6 @@ jobs:
           echo "SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
           echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
           echo "ANDROID_IMAGE=$ANDROID_IMAGE" >> "$GITHUB_ENV"
-
       - name: Install Android emulator dependencies
         shell: bash
         run: |
@@ -47,37 +44,27 @@ jobs:
           test -x "$SDK_ROOT/emulator/emulator"
           echo "$SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
           echo "$SDK_ROOT/emulator" >> "$GITHUB_PATH"
-
       - name: Install verified Gradle 9.5.0
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error \
-            https://services.gradle.org/distributions/gradle-9.5.0-bin.zip \
-            --output /tmp/gradle-9.5.0-bin.zip
+          curl --fail --location --silent --show-error https://services.gradle.org/distributions/gradle-9.5.0-bin.zip --output /tmp/gradle-9.5.0-bin.zip
           echo "553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746  /tmp/gradle-9.5.0-bin.zip" | sha256sum --check --strict
           unzip -q /tmp/gradle-9.5.0-bin.zip -d /tmp
           echo "/tmp/gradle-9.5.0/bin" >> "$GITHUB_PATH"
-
       - name: Build Glaze UI 2.1 Android handheld reference APK
         working-directory: reference/native/android/buildable
         shell: bash
         env:
           JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
         run: gradle :app:assembleDebug --no-daemon --stacktrace
-
       - name: Create deterministic Android handheld emulator
         shell: bash
         run: |
           set -euo pipefail
           AVD_NAME=glaze-android-native
-          AVD_ROOT="$HOME/.android/avd"
-          AVD_DIR="$AVD_ROOT/$AVD_NAME.avd"
-          IMAGE_RELATIVE="${ANDROID_IMAGE//;/\/}/"
-          IMAGE_DIR="$SDK_ROOT/$IMAGE_RELATIVE"
-          test -f "$IMAGE_DIR/system.img"
-          test -f "$IMAGE_DIR/kernel-ranchu"
-          mkdir -p "$AVD_DIR"
+          AVD_ROOT="$HOME/.android/avd"; AVD_DIR="$AVD_ROOT/$AVD_NAME.avd"; IMAGE_RELATIVE="${ANDROID_IMAGE//;/\/}/"; IMAGE_DIR="$SDK_ROOT/$IMAGE_RELATIVE"
+          test -f "$IMAGE_DIR/system.img"; test -f "$IMAGE_DIR/kernel-ranchu"; mkdir -p "$AVD_DIR"
           cat > "$AVD_ROOT/$AVD_NAME.ini" <<EOF
           avd.ini.encoding=UTF-8
           path=$AVD_DIR
@@ -122,58 +109,29 @@ jobs:
           tag.id=google_apis
           vm.heapSize=512
           EOF
-          grep -F 'hw.device.name=glaze_android_handheld' "$AVD_DIR/config.ini"
-          grep -F 'tag.id=google_apis' "$AVD_DIR/config.ini"
           "$SDK_ROOT/emulator/emulator" -list-avds | grep -Fx "$AVD_NAME"
-          if test -e /dev/kvm; then
-            sudo chmod 666 /dev/kvm
-          fi
-
+          if test -e /dev/kvm; then sudo chmod 666 /dev/kvm; fi
       - name: Boot and install Android handheld reference
         shell: bash
         env:
           APK_PATH: reference/native/android/buildable/app/build/outputs/apk/debug/app-debug.apk
         run: |
           set -euo pipefail
-          test -f "$APK_PATH"
-          EMULATOR_LOG="$RUNNER_TEMP/glaze-android-emulator.log"
-          nohup "$SDK_ROOT/emulator/emulator" \
-            -avd glaze-android-native \
-            -no-window \
-            -gpu swiftshader_indirect \
-            -noaudio \
-            -no-boot-anim \
-            -no-snapshot \
-            -no-metrics \
-            -camera-back none \
-            -camera-front none \
-            >"$EMULATOR_LOG" 2>&1 &
-          echo "$!" > "$RUNNER_TEMP/glaze-android-emulator.pid"
-
-          adb wait-for-device
-          BOOTED=0
-          for _ in $(seq 1 150); do
-            if test "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1"; then
-              BOOTED=1
-              break
-            fi
-            sleep 2
-          done
-          test "$BOOTED" = "1"
-          adb shell settings put global window_animation_scale 0
-          adb shell settings put global transition_animation_scale 0
-          adb shell settings put global animator_duration_scale 0
-          adb install -r "$APK_PATH"
-          adb shell pm path com.goreecloud.glazeui.reference.android | grep -F 'package:'
-
+          test -f "$APK_PATH"; EMULATOR_LOG="$RUNNER_TEMP/glaze-android-emulator.log"
+          nohup "$SDK_ROOT/emulator/emulator" -avd glaze-android-native -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -no-metrics -camera-back none -camera-front none >"$EMULATOR_LOG" 2>&1 &
+          echo "$!" > "$RUNNER_TEMP/glaze-android-emulator.pid"; adb wait-for-device; BOOTED=0
+          for _ in $(seq 1 150); do if test "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1"; then BOOTED=1; break; fi; sleep 2; done
+          test "$BOOTED" = "1"; adb shell settings put global window_animation_scale 0; adb shell settings put global transition_animation_scale 0; adb shell settings put global animator_duration_scale 0
+          adb install -r "$APK_PATH"; adb shell pm path com.goreecloud.glazeui.reference.android | grep -F 'package:'
       - name: Run Glaze UI 2.1 Android emulator acceptance
+        env:
+          GLAZE_SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: python3 scripts/validate_glaze_2_1_android_runtime.py
-
-      - name: Upload Android native Candidate evidence
+      - name: Upload Android native Stable evidence
         if: ${{ success() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-ui-2.1-android-native-${{ github.event.pull_request.head.sha || github.sha }}
+          name: glaze-ui-2.1-android-native-stable-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             reference/native/android/buildable/app/build/outputs/apk/debug/app-debug.apk
             .artifacts/glaze-2.1-android-native/android-light-balanced.png
@@ -182,19 +140,15 @@ jobs:
             .artifacts/glaze-2.1-android-native/android-native-evidence.json
           if-no-files-found: error
           retention-days: 14
-
       - name: Preserve emulator diagnostics on failure
         if: failure()
         shell: bash
         run: |
           test ! -f "$RUNNER_TEMP/glaze-android-emulator.log" || tail -n 300 "$RUNNER_TEMP/glaze-android-emulator.log"
           adb devices -l || true
-
       - name: Stop Android emulator
         if: always()
         shell: bash
         run: |
           adb emu kill >/dev/null 2>&1 || true
-          if test -f "$RUNNER_TEMP/glaze-android-emulator.pid"; then
-            kill "$(cat "$RUNNER_TEMP/glaze-android-emulator.pid")" >/dev/null 2>&1 || true
-          fi
+          if test -f "$RUNNER_TEMP/glaze-android-emulator.pid"; then kill "$(cat "$RUNNER_TEMP/glaze-android-emulator.pid")" >/dev/null 2>&1 || true; fi
