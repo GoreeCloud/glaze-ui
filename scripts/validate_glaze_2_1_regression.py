@@ -9,15 +9,15 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 ERRORS: list[str] = []
-BASELINE_REVISION = "609dc8e9e76c8e0fe306bb46961e1242bcdad86f"
-ARTIFACT_DIGEST = "sha256:9b1ed13f4c18da681cdf2a5d6e5224499e65d76d76b581e5b078fa3a498d0d52"
+BASELINE_REVISION = "5b46903c18660ae78e7f1aaea39a93136efacda7"
+ARTIFACT_DIGEST = "sha256:ba7385928fbd0a9768adc73d7ec535dfd122c27978a2c16a49cd87df680eb75b"
 EXPECTED_HASHES = {
-    "settings-desktop-light": "8b836ed117528d5468db1786783ae697e27f52b74389647b92064eda51c18f22",
-    "files-mobile-reduced-transparency": "b152219d444c1bd77971abeba38fa5b43cf0d3f1a31efddf2c8652381a8c01d7",
-    "search-command-open-deep-dark": "7931c1d2b2ee09290fb2838cddeba7e9f55839c257e46ac04301f77beef88097",
-    "communication-tablet-sent-large-text": "403a840c6b8f5607a5523fbdc5cd4cbb5ad212396531ad9a042aec530c00fb4b",
-    "media-tv-playing": "b49b592640f2e236e25a18eb24e3c1d40d379445159f95423fbf87c13bdc6717",
-    "resilience-desktop-light": "301c71c828d597fb2a36c4d6210ec5e224c2e04263bd75248f92ef176faf9ed7",
+    "settings-desktop-light": "b705691ea0dd4d5aa5c825a76b04c11c4e67bae4de5b9167c27ab7997a608c17",
+    "files-mobile-reduced-transparency": "60488dabc7d7e8e483b4466774c1b19ed0cdaf8d3515a3b6d7291365bd623062",
+    "search-command-open-deep-dark": "8640f2c0f1091a90e0e752f5c7b329c8dbe2abf5225e76a952a660ddce42b385",
+    "communication-tablet-sent-large-text": "3b06fa79b334c37159d5b58b5f7f90ed649ec5a8dba50976962305e0e8291d26",
+    "media-tv-playing": "8f2cbd80585980f014a2db5c837fee530a0e10bfcf65bbd3ab9613b16dad6f41",
+    "resilience-desktop-light": "b1b60a114e598a5c5e2db46151c1e4970f5dc074e53407596d4eac8714d76d5e",
 }
 
 
@@ -136,9 +136,9 @@ def main() -> int:
     if manifest.get("baselineStrategy") != "source-revision-same-run-render": fail("visual baseline strategy must be source-revision-same-run-render")
     if manifest.get("baselineRevision") != BASELINE_REVISION: fail(f"visual baseline revision must be {BASELINE_REVISION}")
     provenance = manifest.get("captureProvenance", {})
-    if provenance.get("workflowRunId") != 33326116037 or provenance.get("artifactId") != 9736279015: fail("visual baseline capture provenance run/artifact identity changed")
+    if provenance.get("workflowRunId") != 33327634493 or provenance.get("artifactId") != 9736700947: fail("visual baseline capture provenance run/artifact identity changed")
     if provenance.get("artifactDigest") != ARTIFACT_DIGEST: fail("visual baseline capture provenance artifact digest changed")
-    if "not human Visual Excellence acceptance" not in str(provenance.get("note", "")): fail("visual baseline provenance must explicitly keep human Visual Excellence separate")
+    if "not final human Visual Excellence acceptance" not in str(provenance.get("note", "")): fail("visual baseline provenance must explicitly keep final human Visual Excellence separate")
 
     thresholds = manifest.get("thresholds", {})
     if not isinstance(thresholds.get("perChannelTolerance"), int) or not 0 <= thresholds.get("perChannelTolerance", -1) <= 32: fail("visual per-channel tolerance must be an integer from 0 to 32")
