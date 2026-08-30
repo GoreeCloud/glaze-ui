@@ -1,0 +1,24 @@
+name: Glaze UI 2.1 Candidate Foundation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-candidate-foundation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Compile Glaze UI 2.1 Candidate validator
+        run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py
+      - name: Validate Glaze UI 2.1 Candidate foundation
+        run: python3 scripts/validate_glaze_2_1_candidate.py
