@@ -57,8 +57,9 @@ def main():
  if interaction.get("status")!="candidate" or interaction.get("implementation")!="reference/candidate-2.1-expanded-acceptance.html":fail("interaction regression must be Candidate and point to the expanded rendered harness")
  if visual.get("status")!="candidate" or visual.get("implementation")!="contracts/regression/reference-invariants.json":fail("rendered visual-invariant regression must be Candidate and point to the regression contract")
  if pixel.get("status")!="planned":fail("pixel/screenshot visual regression must remain Planned until baseline artifacts exist")
- for marker in ("scripts/validate_glaze_2_1_regression.py","scripts/validate_glaze_2_1_expanded_rendered.py","reference/candidate-2.1-expanded-acceptance.html"):
+ for marker in ("scripts/validate_glaze_2_1_regression.py","scripts/validate_glaze_2_1_expanded_rendered.py"):
   if marker not in workflow:fail(f"2.1 workflow missing expanded regression marker: {marker}")
+ if "reference/candidate-2.1-expanded-acceptance.html" not in read_text("scripts/validate_glaze_2_1_expanded_rendered.py"):fail("expanded rendered validator must invoke the expanded acceptance harness")
  if ERRORS:
   print("Glaze UI 2.1 expanded regression validation FAILED",file=sys.stderr)
   for e in ERRORS:print(f"- {e}",file=sys.stderr)
