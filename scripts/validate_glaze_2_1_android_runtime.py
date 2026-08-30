@@ -91,13 +91,6 @@ def find_text(root: ET.Element, value: str) -> ET.Element | None:
     return None
 
 
-def require_text(root: ET.Element, value: str) -> ET.Element:
-    node = find_text(root, value)
-    if node is None:
-        raise SystemExit(f"required UI text not found: {value}")
-    return node
-
-
 def assert_contains(root: ET.Element, fragment: str) -> None:
     for node in root.iter("node"):
         if fragment in node.attrib.get("text", ""):
@@ -188,14 +181,15 @@ def case_large_text_touch(serial: str, dpi: int) -> dict:
         "--ez", "touchAssistance", "true",
     ])
     ui = dump_ui(serial)
+    assert_contains(ui, "Glaze UI 2.1")
     assert_contains(ui, "Appearance: Dark")
     assert_contains(ui, "Touch Assistance: 56 dp minimum target")
     assert_contains(ui, "Target floor: 56 dp")
+    sha = screenshot(serial, OUT / "android-large-text-touch-assistance.png")
     ui, button = visible_after_scroll(serial, "Continue", attempts=7)
     height = target_height_dp(button, dpi)
     if height < 55.0:
         raise SystemExit(f"Touch Assistance target below 56 dp floor: {height:.2f} dp")
-    sha = screenshot(serial, OUT / "android-large-text-touch-assistance.png")
     return {"id": "large-text-touch-assistance", "targetDp": round(height, 2), "screenshotSha256": sha}
 
 

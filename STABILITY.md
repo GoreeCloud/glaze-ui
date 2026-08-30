@@ -60,3 +60,13 @@ Applications may not remain on older Stable Glaze UI versions as a conforming pr
 An Adoption Candidate must target the current Stable release. Consumer migration is version-specific, intentional in execution, mandatory in outcome, and must not silently depend on Candidate or Experimental behavior.
 
 Historical note: Glaze UI 1.3.0 and every later 1.x Stable release remain preserved in release history and migration evidence.
+
+## Glaze UI 2.1 Candidate promotion preparation
+
+Glaze UI 2.1 remains Candidate until every applicable gate in `GLAZE_UI_2_1_CANDIDATE.md` is complete. Objective CI, rendered regression, screenshot comparison or emulator success must not be substituted for the required human Visual Excellence review.
+
+`MIGRATION_2_0_TO_2_1.md` records the explicit compatibility impact and controlled consumer migration path required for a future 2.1 Stable promotion. The guide is preparatory while 2.0.0 remains Stable; it becomes the migration basis only after 2.1 is formally promoted.
+
+The 2.1 design-system Android reference may establish native emulator evidence for the design-system mapping. That evidence does not certify any downstream Android application, OEM/device behavior, TalkBack, production signing/distribution or physical-device ergonomics. Those remain application-specific unless a future design-system contract expressly requires a hardware claim.
+
+A final 2.1 promotion revision must preserve the rendered implementation reviewed for Visual Excellence, or prove that any post-review changes are presentation-irrelevant before reusing the human review record.

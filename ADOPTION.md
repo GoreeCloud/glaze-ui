@@ -55,3 +55,11 @@ Representative design-system browser profiles include Mobile 390×844; Tablet 82
 Glaze UI 1.6.0 is the immediately preceding historical Stable baseline. Preserve working application semantics while replacing old material names, 44px legacy minima, navigation assumptions and motion/geometry choices with the 2.0 contract. Do not treat a successful 1.6 Adoption Candidate or historical conformance record as 2.0 evidence.
 
 There are no production exceptions to the current-Stable target. Platform limitations, upstream constraints, schedule pressure, incomplete migration or technical inconvenience require additional implementation work; they do not permit release on a superseded or incomplete Glaze UI implementation.
+
+## Preparing for Glaze UI 2.1
+
+Glaze UI 2.1 remains Candidate and must not be used to satisfy the current production consumer gate before formal promotion. Teams may evaluate it on development branches to identify migration work, but those evaluations must remain separate from Stable 2.0 conformance.
+
+`MIGRATION_2_0_TO_2_1.md` is the canonical 2.0→2.1 migration and compatibility-impact guide. It documents the carried-forward 2.0 identity, the stricter 2.1 accessibility/material/performance/state evidence requirements, native-platform boundaries, rollback semantics and the central consumer-registry effect of a future 2.1 Stable promotion.
+
+When 2.1 is eventually promoted Stable, every GoreeCloud-controlled user-facing consumer will be required to migrate through repository-local implementation and acceptance. The design-system promotion will establish the mandatory target but will not make any downstream application conforming or production-ready by declaration.

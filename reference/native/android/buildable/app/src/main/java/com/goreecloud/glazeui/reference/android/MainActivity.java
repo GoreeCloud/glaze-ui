@@ -103,8 +103,10 @@ public final class MainActivity extends Activity {
     private View buildContent(boolean reducedTransparency, boolean touchAssistance) {
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
+        scroll.setClipToPadding(true);
         scroll.setBackgroundColor(canvasColor);
         scroll.setContentDescription("Glaze UI 2.1 Android reference scroll container");
+        applySystemBarInsets(scroll);
 
         LinearLayout page = new LinearLayout(this);
         page.setOrientation(LinearLayout.VERTICAL);
@@ -146,15 +148,8 @@ public final class MainActivity extends Activity {
         actionState.setContentDescription("Reference action state Ready");
         add(glaze, actionState, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        Button primary = new Button(this);
-        primary.setText("Continue");
-        primary.setAllCaps(false);
-        primary.setTextSize(16);
-        primary.setTextColor(textColor);
-        primary.setMinimumHeight(dp(targetFloorDp));
-        primary.setMinHeight(dp(targetFloorDp));
+        Button primary = actionButton("Continue", glazeColor, true);
         primary.setContentDescription("Continue reference action");
-        primary.setBackground(roundRect(glazeColor, 999, borderColor));
         primary.setOnClickListener(v -> {
             actionState.setText("Reference action state: Completed");
             actionState.setContentDescription("Reference action state Completed");
@@ -163,15 +158,8 @@ public final class MainActivity extends Activity {
         });
         add(glaze, primary, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        Button reset = new Button(this);
-        reset.setText("Reset");
-        reset.setAllCaps(false);
-        reset.setTextSize(16);
-        reset.setTextColor(textColor);
-        reset.setMinimumHeight(dp(targetFloorDp));
-        reset.setMinHeight(dp(targetFloorDp));
+        Button reset = actionButton("Reset", surfaceColor, false);
         reset.setContentDescription("Reset reference action");
-        reset.setBackground(roundRect(surfaceColor, 999, borderColor));
         reset.setOnClickListener(v -> {
             actionState.setText("Reference action state: Ready");
             actionState.setContentDescription("Reference action state Ready");
@@ -194,6 +182,38 @@ public final class MainActivity extends Activity {
             ScrollView.LayoutParams.WRAP_CONTENT
         ));
         return scroll;
+    }
+
+    private void applySystemBarInsets(ScrollView scroll) {
+        scroll.setOnApplyWindowInsetsListener((view, insets) -> {
+            view.setPadding(
+                insets.getSystemWindowInsetLeft(),
+                insets.getSystemWindowInsetTop(),
+                insets.getSystemWindowInsetRight(),
+                insets.getSystemWindowInsetBottom()
+            );
+            return insets;
+        });
+    }
+
+    private Button actionButton(String value, int backgroundColor, boolean strong) {
+        Button button = new Button(this);
+        button.setText(value);
+        button.setAllCaps(false);
+        button.setTextSize(16);
+        button.setTextColor(textColor);
+        button.setGravity(Gravity.CENTER);
+        button.setPadding(dp(16), 0, dp(16), 0);
+        button.setMinimumHeight(dp(targetFloorDp));
+        button.setMinHeight(dp(targetFloorDp));
+        button.setStateListAnimator(null);
+        button.setElevation(0f);
+        button.setBackgroundTintList(null);
+        button.setBackground(roundRect(backgroundColor, 999, borderColor));
+        if (strong) {
+            button.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        }
+        return button;
     }
 
     private LinearLayout panel(int color, int radiusDp, int stroke) {
@@ -220,7 +240,7 @@ public final class MainActivity extends Activity {
         view.setLineSpacing(0f, 1.1f);
         view.setPadding(0, dp(4), 0, dp(8));
         if (strong) {
-            view.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            view.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         }
         return view;
     }

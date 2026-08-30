@@ -51,6 +51,10 @@ def main() -> int:
     lifecycle = data("registry/lifecycle.json")
     consumers = data("consumers/registry.json")
     schema = data("schemas/consumer-registry.schema.json")
+    migration = text("MIGRATION_2_0_TO_2_1.md")
+    adoption = text("ADOPTION.md")
+    stability = text("STABILITY.md")
+    files_reference = text("reference/candidate-2.1-files.html")
 
     for marker in ("compileSdk = 36", "targetSdk = 36", "minSdk = 28", "JavaVersion.VERSION_17"):
         if marker not in app_gradle:
@@ -66,11 +70,18 @@ def main() -> int:
         "Canvas: true black",
         "Reduced Transparency: Solid interaction treatment",
         "no live GoreeCloud state",
+        "setClipToPadding(true)",
+        "setOnApplyWindowInsetsListener",
+        "getSystemWindowInsetTop()",
+        "setStateListAnimator(null)",
+        "setElevation(0f)",
     ):
         if marker not in activity:
             fail(f"Android native reference missing: {marker}")
     if "physical-device acceptance" not in native_readme:
         fail("Android native README must preserve physical-device evidence boundary")
+    if "system-bar insets" not in native_readme or "200%" not in native_readme:
+        fail("Android native README must document system-bar inset and 200% text evidence")
 
     for marker in (
         "android-light-balanced.png",
@@ -78,6 +89,9 @@ def main() -> int:
         "android-large-text-touch-assistance.png",
         '"physicalDevice": False',
         "uiautomator",
+        "exact_source_revision",
+        '"git", "-C", str(ROOT), "rev-parse", "HEAD"',
+        "sourceRevision",
     ):
         if marker not in runtime:
             fail(f"Android runtime validator missing: {marker}")
@@ -85,13 +99,18 @@ def main() -> int:
     for marker in (
         "Check out exact source revision",
         "Build Glaze UI 2.1 Android handheld reference APK",
+        "Create deterministic Android handheld emulator",
         "Run Glaze UI 2.1 Android emulator acceptance",
         "Upload Android native Candidate evidence",
         "scripts/validate_glaze_2_1_native.py",
         "scripts/validate_glaze_2_1_android_runtime.py",
+        "hw.device.name=glaze_android_handheld",
+        "if: ${{ success() }}",
     ):
         if marker not in workflow:
             fail(f"Android native workflow missing: {marker}")
+    if "avdmanager\" create avd" in workflow or "create avd --force" in workflow:
+        fail("Android native workflow must not rely on interactive avdmanager AVD creation")
 
     capabilities = lifecycle.get("capabilities", {})
     android_ref = capabilities.get("android-native-reference-2.1", {})
@@ -141,12 +160,37 @@ def main() -> int:
     if capabilities.get("glaze-motion", {}).get("status") != "experimental":
         fail("Glaze Motion must remain Experimental")
 
+    for marker in (
+        "Current Stable: **2.0.0**",
+        "Target after formal promotion: **2.1.0**",
+        "Glaze Motion remains Experimental",
+        "No downstream",
+        "Visual Excellence",
+        "Rollback",
+        "central consumer",
+    ):
+        if marker.lower() not in migration.lower():
+            fail(f"2.0 to 2.1 migration guide missing: {marker}")
+    if "MIGRATION_2_0_TO_2_1.md" not in adoption:
+        fail("ADOPTION.md must link the 2.0 to 2.1 migration guide")
+    if "MIGRATION_2_0_TO_2_1.md" not in stability:
+        fail("STABILITY.md must link the 2.0 to 2.1 migration guide")
+    if "2.1 remains Candidate" not in adoption:
+        fail("ADOPTION.md must preserve 2.1 Candidate boundary")
+    if "human Visual Excellence" not in stability:
+        fail("STABILITY.md must preserve human Visual Excellence promotion boundary")
+
+    if "＋ New" in files_reference:
+        fail("Files reference must not use unsupported full-width plus glyph")
+    if '<span aria-hidden="true">+</span> New' not in files_reference:
+        fail("Files reference must expose the deterministic New-action plus treatment")
+
     if ERRORS:
         print("Glaze UI 2.1 native/consumer Candidate validation FAILED:", file=sys.stderr)
         for item in ERRORS:
             print(f"  - {item}", file=sys.stderr)
         return 1
-    print("Glaze UI 2.1 native Android and consumer-assessment structure validated.")
+    print("Glaze UI 2.1 native Android, migration and consumer-assessment structure validated.")
     print("Current Stable remains 2.0.0; no downstream 2.1 conformance is implied.")
     return 0
 
