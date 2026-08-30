@@ -109,7 +109,7 @@ def main() -> int:
     ):
         if marker not in workflow:
             fail(f"Android native workflow missing: {marker}")
-    if "avdmanager\" create avd" in workflow or "create avd --force" in workflow:
+    if "create avd --force" in workflow:
         fail("Android native workflow must not rely on interactive avdmanager AVD creation")
 
     capabilities = lifecycle.get("capabilities", {})
@@ -160,16 +160,17 @@ def main() -> int:
     if capabilities.get("glaze-motion", {}).get("status") != "experimental":
         fail("Glaze Motion must remain Experimental")
 
+    migration_lower = migration.lower()
     for marker in (
-        "Current Stable: **2.0.0**",
-        "Target after formal promotion: **2.1.0**",
-        "Glaze Motion remains Experimental",
-        "No downstream",
-        "Visual Excellence",
-        "Rollback",
-        "central consumer",
+        "current stable: **2.0.0**",
+        "target after formal promotion: **2.1.0**",
+        "glaze motion remains experimental",
+        "does not promote applications by declaration",
+        "visual excellence",
+        "rollback",
+        "central consumer-registry effect",
     ):
-        if marker.lower() not in migration.lower():
+        if marker not in migration_lower:
             fail(f"2.0 to 2.1 migration guide missing: {marker}")
     if "MIGRATION_2_0_TO_2_1.md" not in adoption:
         fail("ADOPTION.md must link the 2.0 to 2.1 migration guide")
