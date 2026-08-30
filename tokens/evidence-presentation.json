@@ -1,151 +1,50 @@
 {
   "glaze_ui": {
-    "candidate": "2.0",
+    "candidate": "2.1",
     "lifecycle": "stable",
     "introduced_in": "1.6.0",
-    "stable_consumer_target": "2.0.0",
-    "release": "2.0.0"
+    "stable_consumer_target": "2.1.0",
+    "release": "2.1.0"
   },
   "contract": "evidence-presentation",
   "authority_systems": {
-    "wardveil-security": {
-      "domains": [
-        "security"
-      ],
-      "presentation_role": "security-authority"
-    },
-    "privacy-shield": {
-      "domains": [
-        "privacy"
-      ],
-      "presentation_role": "privacy-authority"
-    },
-    "everkeep": {
-      "domains": [
-        "resilience",
-        "recovery",
-        "preservation",
-        "continuity"
-      ],
-      "presentation_role": "resilience-authority"
-    },
-    "goreecloud-mesh": {
-      "domains": [
-        "coordination",
-        "governance"
-      ],
-      "presentation_role": "coordination-authority"
-    },
-    "goreecloud-identity": {
-      "domains": [
-        "identity",
-        "authentication",
-        "authorization",
-        "accounts",
-        "devices",
-        "credentials",
-        "sessions",
-        "delegated-authority"
-      ],
-      "presentation_role": "identity-authority"
-    },
-    "glaze-ui": {
-      "domains": [
-        "presentation",
-        "design-conformance"
-      ],
-      "presentation_role": "presentation-authority"
-    }
+    "wardveil-security": {"domains":["security"],"presentation_role":"security-authority"},
+    "privacy-shield": {"domains":["privacy"],"presentation_role":"privacy-authority"},
+    "everkeep": {"domains":["resilience","recovery","preservation","continuity"],"presentation_role":"resilience-authority"},
+    "goreecloud-mesh": {"domains":["coordination","governance"],"presentation_role":"coordination-authority"},
+    "goreecloud-identity": {"domains":["identity","authentication","authorization","accounts","devices","credentials","sessions","delegated-authority"],"presentation_role":"identity-authority"},
+    "glaze-ui": {"domains":["presentation","design-conformance"],"presentation_role":"presentation-authority"}
   },
   "freshness_states": {
-    "current": {
-      "meaning": "Evidence is inside the producer-declared validity window.",
-      "positive_domain_truth": false
-    },
-    "stale": {
-      "meaning": "Evidence requires refresh under the producer contract.",
-      "positive_domain_truth": false
-    },
-    "expired": {
-      "meaning": "The producer-declared validity window has ended.",
-      "positive_domain_truth": false
-    },
-    "unknown": {
-      "meaning": "Evidence freshness cannot be established.",
-      "positive_domain_truth": false
-    }
+    "current":{"meaning":"Evidence is inside the producer-declared validity window.","positive_domain_truth":false},
+    "stale":{"meaning":"Evidence requires refresh under the producer contract.","positive_domain_truth":false},
+    "expired":{"meaning":"The producer-declared validity window has ended.","positive_domain_truth":false},
+    "unknown":{"meaning":"Evidence freshness cannot be established.","positive_domain_truth":false}
   },
   "transport_states": {
-    "available": {
-      "meaning": "Transport/envelope metadata is available and structurally usable.",
-      "positive_domain_truth": false
-    },
-    "unavailable": {
-      "meaning": "Transport or source evidence is currently unavailable.",
-      "positive_domain_truth": false
-    },
-    "invalid": {
-      "meaning": "Envelope provenance, authority, minimization, or validation failed.",
-      "positive_domain_truth": false
-    }
+    "available":{"meaning":"Transport/envelope metadata is available and structurally usable.","positive_domain_truth":false},
+    "unavailable":{"meaning":"Transport or source evidence is currently unavailable.","positive_domain_truth":false},
+    "invalid":{"meaning":"Envelope provenance, authority, minimization, or validation failed.","positive_domain_truth":false}
   },
   "surface_roles": {
-    "evidence-summary": {
-      "required_semantics": [
-        "producer-state",
-        "scope"
-      ],
-      "recommended_semantics": [
-        "authority",
-        "freshness",
-        "reason"
-      ]
-    },
-    "evidence-detail": {
-      "required_semantics": [
-        "producer-state",
-        "scope",
-        "authority",
-        "freshness",
-        "source-detail"
-      ]
-    },
-    "evidence-authority": {
-      "required_semantics": [
-        "authority"
-      ]
-    },
-    "evidence-freshness": {
-      "required_semantics": [
-        "freshness"
-      ],
-      "must_not_imply_success": true
-    },
-    "evidence-action": {
-      "required_semantics": [
-        "producer-authorized-action"
-      ]
-    }
+    "evidence-summary":{"required_semantics":["producer-state","scope"],"recommended_semantics":["authority","freshness","reason"]},
+    "evidence-detail":{"required_semantics":["producer-state","scope","authority","freshness","source-detail"]},
+    "evidence-authority":{"required_semantics":["authority"]},
+    "evidence-freshness":{"required_semantics":["freshness"],"must_not_imply_success":true},
+    "evidence-action":{"required_semantics":["producer-authorized-action"]}
   },
   "material_guidance": {
-    "ordinary": [
-      "surface",
-      "soft-glaze"
-    ],
-    "contextual": [
-      "glaze",
-      "deep-glaze",
-      "overlay"
-    ],
-    "critical_dense_text_live_glaze": "prohibited_without_readable_fallback"
+    "ordinary":["surface","soft-glaze"],
+    "contextual":["glaze","deep-glaze","overlay"],
+    "critical_dense_text_live_glaze":"prohibited_without_readable_fallback"
   },
   "accessibility": {
-    "color_only_state": "prohibited",
-    "icon_only_state": "prohibited",
-    "motion_only_state": "prohibited",
-    "authority_exposed_to_accessibility_tree": true,
-    "freshness_exposed_to_accessibility_tree": true,
-    "producer_state_exposed_to_accessibility_tree": true
+    "color_only_state":"prohibited",
+    "icon_only_state":"prohibited",
+    "motion_only_state":"prohibited",
+    "authority_exposed_to_accessibility_tree":true,
+    "freshness_exposed_to_accessibility_tree":true,
+    "producer_state_exposed_to_accessibility_tree":true
   },
   "invariants": [
     "Glaze UI presents supplied evidence and never creates evidence.",
