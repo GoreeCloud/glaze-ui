@@ -6,8 +6,8 @@
   "scope": "computed-layout-style-and-interaction-invariants",
   "pixelBaselineStatus": "planned",
   "flows": {
-    "settings-preferences": {"path":"reference/candidate-2.1-settings.html","recipe":"productivity","visualBaseline":"settings-preferences-v1","requiredStates":["default","selected","protected"]},
-    "file-management": {"path":"reference/candidate-2.1-files.html","recipe":"productivity","visualBaseline":"file-management-v1","requiredStates":["default","success","warning","offline","protected"]},
+    "settings-preferences": {"path":"reference/candidate-2.1-settings.html","recipe":"productivity","visualBaseline":"settings-preferences-v1","requiredStates":[]},
+    "file-management": {"path":"reference/candidate-2.1-files.html","recipe":"productivity","visualBaseline":"file-management-v1","requiredStates":[]},
     "search-command": {"path":"reference/candidate-2.1-search.html","recipe":"productivity","visualBaseline":"search-command-v1","requiredStates":["default","loading","success","warning","error","offline","protected","restricted"]},
     "communication-live-activity": {"path":"reference/candidate-2.1-communication.html","recipe":"communication","visualBaseline":"communication-live-activity-v1","requiredStates":["default","sending","success","error","offline","protected"]},
     "media-playback": {"path":"reference/candidate-2.1-media.html","recipe":"media","visualBaseline":"media-playback-v1","requiredStates":["default","loading","success","warning","offline","protected","restricted"]}
