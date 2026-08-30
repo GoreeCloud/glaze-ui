@@ -11,14 +11,20 @@ permissions:
 jobs:
   validate-candidate-foundation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Check out exact source revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - name: Compile Glaze UI 2.1 Candidate validator
-        run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py
-      - name: Validate Glaze UI 2.1 Candidate foundation
+      - name: Compile Glaze UI 2.1 Candidate validators
+        run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py scripts/validate_glaze_2_1_rendered.py
+      - name: Validate Glaze UI 2.1 Candidate contracts
         run: python3 scripts/validate_glaze_2_1_candidate.py
+      - name: Validate Glaze UI 2.1 runtime syntax
+        run: node --check js/glaze-2.1.candidate.mjs
+      - name: Test Glaze UI 2.1 runtime resolution and Material Budgets
+        run: node --test tests/glaze-2.1-runtime.test.mjs
+      - name: Validate rendered Glaze UI 2.1 reference flows
+        run: python3 scripts/validate_glaze_2_1_rendered.py
