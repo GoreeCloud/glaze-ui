@@ -4,9 +4,9 @@ Glaze UI is a shared production dependency. Stability means predictable semantic
 
 ## Current release boundary
 
-- **Stable baseline:** Glaze UI **2.0.0**.
-- Glaze UI 1.6.0 is the immediately preceding historical Stable baseline and remains preserved for migration, rollback diagnosis, and audit evidence.
-- Glaze UI 1.0.0 through 1.6.0 are historical Stable releases, not supported active application targets.
+- **Stable baseline:** Glaze UI **2.1.0**.
+- Glaze UI 2.0.0 is the immediately preceding historical Stable baseline and remains preserved for migration, rollback diagnosis, permanent regression and audit evidence.
+- Glaze UI 1.0.0 through 2.0.0 are historical Stable releases, not supported active application targets.
 - Every GoreeCloud-controlled user-facing consumer must target the current Stable baseline.
 - Controlled migration is mandatory when a newer Stable release exists.
 - **No downstream application is promoted by declaration.** A design-system release establishes the mandatory target; each product still completes its own adoption and acceptance.
@@ -20,53 +20,52 @@ Historical compatibility means prior release evidence remains available to suppo
 2. Stable means fail closed.
 3. Stable means evidence-bound to exact promotion revisions.
 4. Stable means product-safe: design-system promotion never implies downstream application readiness.
-5. Stable means accessible under reduced motion/transparency, increased contrast, forced colors, large text, and effects-free fallbacks.
+5. Stable means accessible under reduced motion/transparency, increased contrast, forced colors, large text, Touch Assistance, and effects-free fallbacks.
 6. Stable means local and privacy-conscious.
 7. Stable means reversible.
 8. Stable means current: superseded releases do not satisfy current production conformance.
+9. Stable visual acceptance is human-reviewed where required and remains bound to the reviewed presentation.
 
 ## Stable promotion gate
 
-A Candidate may become Stable only when repository validation, rendered acceptance, applicable accessibility/resilience/form-factor cases, compatibility/migration assessment, lifecycle records, version/status documentation, and rollback are complete on exact final revisions. Platform-native or real-device evidence is required when the **design-system candidate itself** claims native behavior that the platform-neutral reference cannot prove. Consumer-native implementations remain subject to application-specific native and real-device acceptance.
+A Candidate may become Stable only when repository validation, rendered acceptance, applicable accessibility/resilience/form-factor cases, compatibility/migration assessment, lifecycle records, version/status documentation, rollback, and required human Visual Excellence review are complete on exact final revisions. Platform-native or real-device evidence is required when the **design-system candidate itself** claims native behavior that the platform-neutral reference cannot prove. Consumer-native implementations remain subject to application-specific native and real-device acceptance.
 
 **If any applicable gate is incomplete, the release remains Candidate.**
 
 Promotion of a new Stable release creates a mandatory migration requirement for GoreeCloud-controlled user-facing consumers. Applications may remain temporarily on the previous release only while actively migrating in a nonconforming or migration-required state.
 
-## 2.0 Stable applicability
+## 2.1 Stable applicability
 
-Glaze UI 2.0 promotes the administrator-enforced platform-neutral contract in `GLAZE_UI_2_STABLE.md`. Its exact pre-promotion Candidate source and browser-rendered evidence remain preserved. Stable 2.0 includes Mobile, Tablet, Desktop, Wide Desktop, TV, foldable/hinge-aware, compact wearable rotational-navigation, and spatial floating-surface semantics at the design-system layer.
+Glaze UI 2.1 promotes the contract in `GLAZE_UI_2_1_STABLE.md` from the preserved 2.1 Candidate source. Stable 2.1 includes deterministic Material Budgets and performance degradation, machine-readable component/material/accessibility-resolution contracts, Clear/Balanced/Solid Material Clarity, density profiles, six canonical reference flows, exceptional-state acceptance, source-pinned screenshot pixel regression, a bounded native Android handheld reference, and the human-approved color-coded glass refinement.
 
-The wearable/spatial references prove Glaze UI composition, input semantics, effective target floors, reduced-motion behavior, depth fallback, and effects-free operation. They do not certify Wear OS, watchOS, XR hardware, physical crowns, host-managed surfaces, battery behavior, platform accessibility APIs, device safe areas, or hardware performance. Those remain application-specific native or real-device acceptance requirements.
+The approved presentation keeps durable content planes solid while making navigation, controls, action islands, command surfaces and Live Glaze more visibly translucent. Accent and semantic colors remain explicit. Reduced Transparency / effective Solid and Forced Colors remove the optical material effects when required.
 
-The previous 1.x material vocabulary remains in repository compatibility/regression assets, but 2.0's current normative hierarchy is Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze.
+The design-system Android reference establishes exact-source emulator build/install/launch/runtime evidence for its bounded mapping. It does not certify any downstream Android application, OEM/device behavior, TalkBack, Switch Access, production signing/distribution or physical-device ergonomics.
+
+Glaze UI 2.0's Mobile, Tablet, Desktop, Wide Desktop, TV, foldable/hinge-aware, compact wearable rotational-navigation, and spatial floating-surface semantics remain retained compatibility/regression evidence where 2.1 carries them forward.
 
 ## Stable maintenance rules
 
-While 2.0.x remains Stable, compatibility, accessibility, deterministic validation, accurate documentation, controlled adoption, mandatory consumer migration, and regression resistance outrank feature expansion. No speculative intelligence or roadmap concept enters Stable merely because it has been discussed.
+While 2.1.x remains Stable, compatibility, accessibility, deterministic validation, accurate documentation, controlled adoption, mandatory consumer migration, semantic color integrity, material-budget discipline and regression resistance outrank feature expansion. No speculative intelligence or roadmap concept enters Stable merely because it has been discussed.
 
 Security, privacy, accessibility, and defect fixes are maintained on the current Stable release. Historical releases may be used temporarily for rollback or migration diagnosis, but such use does not restore current conformance.
 
 ## Regression blockers
 
-Stable changes are blocked by current-token drift without migration, loss of visible focus, effective targets below required floors, loss of field/selection semantics, nonessential motion under reduced-motion, unreadable transparency fallback, forced-colors state loss, effects required for basic usability, unapproved remote presentation dependencies, generic scaled form-factor layouts, broken Connected Transformation continuity/fallback, hinge-region violations, depth-induced target shrinkage, version/status disagreement, stale/non-exact promotion evidence, or governance that permits a production consumer to remain on a superseded release.
+Stable changes are blocked by current-token drift without migration, loss of visible focus, effective targets below required floors, loss of field/selection semantics, nonessential motion under Reduced Motion, unreadable Reduced Transparency fallback, Forced Colors state loss, effects required for basic usability, semantic color loss through glass, Material Budget violations, unapproved remote presentation dependencies, generic scaled form-factor layouts, broken Connected Transformation continuity/fallback, hinge-region violations, depth-induced target shrinkage, version/status disagreement, stale/non-exact promotion evidence, or governance that permits a production consumer to remain on a superseded release.
 
 ## Consumer compatibility
 
-`CONSUMERS.md` and `consumers/registry.json` distinguish current-Stable alignment, Adoption Candidate work, Migration Required consumers, and Unverified evidence.
+`CONSUMERS.md` and `consumers/registry.json` distinguish current-Stable alignment, Migration Required consumers, and Unverified evidence.
 
-Applications may not remain on older Stable Glaze UI versions as a conforming production state. A consumer still targeting 1.x is `migration-required` until it targets 2.0.0 and completes application-specific acceptance.
+Applications may not remain on older Stable Glaze UI versions as a conforming production state. A consumer still targeting 2.0.0 or earlier is `migration-required` until it targets 2.1.0 and completes application-specific acceptance.
 
-An Adoption Candidate must target the current Stable release. Consumer migration is version-specific, intentional in execution, mandatory in outcome, and must not silently depend on Candidate or Experimental behavior.
+An Adoption Candidate, when used during future migrations, must target the current Stable release. Consumer migration is version-specific, intentional in execution, mandatory in outcome, and must not silently depend on Candidate or Experimental behavior.
 
-Historical note: Glaze UI 1.3.0 and every later 1.x Stable release remain preserved in release history and migration evidence.
+Historical note: Glaze UI 1.3.0 and every later 1.x Stable release, plus Glaze UI 2.0.0, remain preserved in release history and migration evidence.
 
-## Glaze UI 2.1 Candidate promotion preparation
+## Glaze UI 2.1 promotion evidence
 
-Glaze UI 2.1 remains Candidate until every applicable gate in `GLAZE_UI_2_1_CANDIDATE.md` is complete. Objective CI, rendered regression, screenshot comparison or emulator success must not be substituted for the required human Visual Excellence review.
+The approved visual baseline source revision is `5b46903c18660ae78e7f1aaea39a93136efacda7`. The reviewed exact-head Candidate revision is `a21601691dc412baa6a889533d6fa5b3a7996dc2`. Human Visual Excellence was explicitly approved on 2026-08-30.
 
-`MIGRATION_2_0_TO_2_1.md` records the explicit compatibility impact and controlled consumer migration path required for a future 2.1 Stable promotion. The guide is preparatory while 2.0.0 remains Stable; it becomes the migration basis only after 2.1 is formally promoted.
-
-The 2.1 design-system Android reference may establish native emulator evidence for the design-system mapping. That evidence does not certify any downstream Android application, OEM/device behavior, TalkBack, production signing/distribution or physical-device ergonomics. Those remain application-specific unless a future design-system contract expressly requires a hardware claim.
-
-A final 2.1 promotion revision must preserve the rendered implementation reviewed for Visual Excellence, or prove that any post-review changes are presentation-irrelevant before reusing the human review record.
+`MIGRATION_2_0_TO_2_1.md` is now the controlled migration basis for downstream applications. Design-system Stable promotion does not automatically satisfy any application's own production gate.
