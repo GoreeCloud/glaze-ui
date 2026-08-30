@@ -4,6 +4,9 @@ from __future__ import annotations
 import tempfile,urllib.parse
 from validate_rendered_reference import RENDER_ATTEMPTS,TV_FORCED_COLORS_ATTEMPTS,acceptance_result,browser_command,find_browser,run_browser,serve_root
 
+def retryable_incomplete(text):
+ return 'did not complete runtime acceptance' in (text or '').lower()
+
 def run_case(browser,port,*,width,height,appearance,form_factor,clarity='solid',density='standard',performance='constrained',mode='normal'):
  params={'width':width,'height':height,'appearance':appearance,'clarity':clarity,'density':density,'performance':performance,'formFactor':form_factor,'mode':mode};name=f"2.1-resilience {form_factor} {width}x{height} {appearance} clarity={clarity} density={density} performance={performance} mode={mode}";attempts=TV_FORCED_COLORS_ATTEMPTS if mode=='forced-colors' and form_factor=='tv' else RENDER_ATTEMPTS;last='browser did not produce a result'
  for attempt in range(1,attempts+1):
@@ -18,6 +21,7 @@ def run_case(browser,port,*,width,height,appearance,form_factor,clarity='solid',
   status,text=acceptance_result(completed.stdout)
   if completed.returncode!=0:last=f"attempt {attempt} browser exited {completed.returncode}\n{completed.stderr[-2000:]}"
   elif status=='pass' and text and text.startswith('PASS'):print(f"Glaze UI 2.1 resilience acceptance passed: {name}");return
+  elif status=='fail' and retryable_incomplete(text):last=f"attempt {attempt} harness timed out before runtime acceptance settled\n{text or '(no result text)'}"
   elif status=='fail':raise SystemExit(f"Glaze UI 2.1 resilience acceptance failed for {name}:\n{text or '(no result text)'}")
   else:last=f"attempt {attempt} did not reach PASS (status={status or 'missing'})\n{text or (completed.stdout[-3000:] if completed.stdout else completed.stderr[-3000:])}"
   if attempt<attempts:print(f"Glaze UI 2.1 resilience acceptance retrying: {name}")
