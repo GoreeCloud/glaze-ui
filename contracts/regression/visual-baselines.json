@@ -5,13 +5,13 @@
   "lifecycle": "candidate",
   "status": "source-pinned-candidate",
   "baselineStrategy": "source-revision-same-run-render",
-  "baselineRevision": "609dc8e9e76c8e0fe306bb46961e1242bcdad86f",
+  "baselineRevision": "5b46903c18660ae78e7f1aaea39a93136efacda7",
   "captureProvenance": {
-    "workflowRunId": 33326116037,
-    "artifactId": 9736279015,
-    "artifactName": "glaze-ui-2.1-visual-regression-609dc8e9e76c8e0fe306bb46961e1242bcdad86f",
-    "artifactDigest": "sha256:9b1ed13f4c18da681cdf2a5d6e5224499e65d76d76b581e5b078fa3a498d0d52",
-    "note": "The exact-head six-case current render at 609dc8e was reviewed for gross clipping, snapshot-state errors, form-factor composition, the corrected Files mobile action safe area, and finished Resilience navigation iconography before repinning. This is not human Visual Excellence acceptance. Normal CI re-renders this pinned source revision and the current head on the same Chromium runner before pixel comparison."
+    "workflowRunId": 33327634493,
+    "artifactId": 9736700947,
+    "artifactName": "glaze-ui-2.1-visual-regression-5b46903c18660ae78e7f1aaea39a93136efacda7",
+    "artifactDigest": "sha256:ba7385928fbd0a9768adc73d7ec535dfd122c27978a2c16a49cd87df680eb75b",
+    "note": "The exact-head six-case current render at 5b46903 incorporates human review feedback requesting a little more translucency/glass character while retaining color coding. The review was implemented as bounded interaction-chrome translucency with accent and semantic tinting, while solid content, Reduced Transparency/Solid, Forced Colors, accessibility precedence and performance fallbacks remain authoritative. The capture was reviewed for gross clipping, snapshot-state errors and form-factor composition before repinning. This provenance review is not final human Visual Excellence acceptance. Normal CI re-renders this pinned source revision and the current head on the same Chromium runner before pixel comparison."
   },
   "thresholds": {
     "perChannelTolerance": 12,
@@ -19,12 +19,12 @@
     "maxMeanAbsoluteChannelDelta": 1.5
   },
   "cases": [
-    {"id":"settings-desktop-light","flow":"settings","path":"reference/candidate-2.1-settings.html","width":1280,"height":900,"appearance":"light","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"settings-desktop-light.png","captureArtifactSha256":"8b836ed117528d5468db1786783ae697e27f52b74389647b92064eda51c18f22"},
-    {"id":"files-mobile-reduced-transparency","flow":"files","path":"reference/candidate-2.1-files.html","width":390,"height":844,"appearance":"dark","clarity":"clear","density":"standard","performance":"balanced","formFactor":"mobile","mode":"reduced-transparency","snapshotState":"idle","baselineFile":"files-mobile-reduced-transparency.png","captureArtifactSha256":"b152219d444c1bd77971abeba38fa5b43cf0d3f1a31efddf2c8652381a8c01d7"},
-    {"id":"search-command-open-deep-dark","flow":"search","path":"reference/candidate-2.1-search.html","width":1280,"height":900,"appearance":"deep-dark","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"increased-contrast","snapshotState":"command-open","baselineFile":"search-command-open-deep-dark.png","captureArtifactSha256":"7931c1d2b2ee09290fb2838cddeba7e9f55839c257e46ac04301f77beef88097"},
-    {"id":"communication-tablet-sent-large-text","flow":"communication","path":"reference/candidate-2.1-communication.html","width":820,"height":1180,"appearance":"dark","clarity":"balanced","density":"compact","performance":"balanced","formFactor":"tablet","mode":"large-text","snapshotState":"message-sent","baselineFile":"communication-tablet-sent-large-text.png","captureArtifactSha256":"403a840c6b8f5607a5523fbdc5cd4cbb5ad212396531ad9a042aec530c00fb4b"},
-    {"id":"media-tv-playing","flow":"media","path":"reference/candidate-2.1-media.html","width":1920,"height":1080,"appearance":"dark","clarity":"balanced","density":"far-view","performance":"balanced","formFactor":"tv","mode":"normal","snapshotState":"playing","baselineFile":"media-tv-playing.png","captureArtifactSha256":"b49b592640f2e236e25a18eb24e3c1d40d379445159f95423fbf87c13bdc6717"},
-    {"id":"resilience-desktop-light","flow":"resilience","path":"reference/candidate-2.1-resilience.html","width":1280,"height":900,"appearance":"light","clarity":"solid","density":"standard","performance":"constrained","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"resilience-desktop-light.png","captureArtifactSha256":"301c71c828d597fb2a36c4d6210ec5e224c2e04263bd75248f92ef176faf9ed7"}
+    {"id":"settings-desktop-light","flow":"settings","path":"reference/candidate-2.1-settings.html","width":1280,"height":900,"appearance":"light","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"settings-desktop-light.png","captureArtifactSha256":"b705691ea0dd4d5aa5c825a76b04c11c4e67bae4de5b9167c27ab7997a608c17"},
+    {"id":"files-mobile-reduced-transparency","flow":"files","path":"reference/candidate-2.1-files.html","width":390,"height":844,"appearance":"dark","clarity":"clear","density":"standard","performance":"balanced","formFactor":"mobile","mode":"reduced-transparency","snapshotState":"idle","baselineFile":"files-mobile-reduced-transparency.png","captureArtifactSha256":"60488dabc7d7e8e483b4466774c1b19ed0cdaf8d3515a3b6d7291365bd623062"},
+    {"id":"search-command-open-deep-dark","flow":"search","path":"reference/candidate-2.1-search.html","width":1280,"height":900,"appearance":"deep-dark","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"increased-contrast","snapshotState":"command-open","baselineFile":"search-command-open-deep-dark.png","captureArtifactSha256":"8640f2c0f1091a90e0e752f5c7b329c8dbe2abf5225e76a952a660ddce42b385"},
+    {"id":"communication-tablet-sent-large-text","flow":"communication","path":"reference/candidate-2.1-communication.html","width":820,"height":1180,"appearance":"dark","clarity":"balanced","density":"compact","performance":"balanced","formFactor":"tablet","mode":"large-text","snapshotState":"message-sent","baselineFile":"communication-tablet-sent-large-text.png","captureArtifactSha256":"3b06fa79b334c37159d5b58b5f7f90ed649ec5a8dba50976962305e0e8291d26"},
+    {"id":"media-tv-playing","flow":"media","path":"reference/candidate-2.1-media.html","width":1920,"height":1080,"appearance":"dark","clarity":"balanced","density":"far-view","performance":"balanced","formFactor":"tv","mode":"normal","snapshotState":"playing","baselineFile":"media-tv-playing.png","captureArtifactSha256":"8f2cbd80585980f014a2db5c837fee530a0e10bfcf65bbd3ab9613b16dad6f41"},
+    {"id":"resilience-desktop-light","flow":"resilience","path":"reference/candidate-2.1-resilience.html","width":1280,"height":900,"appearance":"light","clarity":"solid","density":"standard","performance":"constrained","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"resilience-desktop-light.png","captureArtifactSha256":"b1b60a114e598a5c5e2db46151c1e4970f5dc074e53407596d4eac8714d76d5e"}
   ],
   "promotionBoundary": {
     "stableVersionRemains": "2.0.0",
