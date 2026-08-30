@@ -364,9 +364,9 @@ def main() -> int:
     if a11y_review.get("required") is not True or not a11y_review.get("criteria"):
         fail("Accessibility Resolution Matrix must require human visual review")
 
-    recommend("Add rendered reference-flow evidence for Clear, Balanced and Solid material modes before Stable promotion.")
-    recommend("Exercise the accessibility resolution fixtures in native/web rendering harnesses and 200% text-scale acceptance before Stable promotion.")
-    recommend("Add runtime Material Budget instrumentation and visual regression thresholds before Stable promotion.")
+    recommend("Accept exact-head screenshot baselines and pass pixel comparison before Stable promotion.")
+    recommend("Add native/runtime and representative physical-device evidence where applicable before Stable promotion.")
+    recommend("Complete compatibility/migration and downstream consumer evidence before Stable promotion.")
     recommend("Record human Visual Excellence evidence against exact promotion revisions before Stable promotion.")
 
     if RECOMMENDATIONS:
