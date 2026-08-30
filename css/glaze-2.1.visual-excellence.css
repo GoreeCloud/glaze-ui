@@ -8,3 +8,7 @@
 .primary-nav [aria-current="page"] {
   background-color: var(--g21-accent-soft);
 }
+
+body[data-reference-flow="resilience-exception-states"] .exception-card .g21-btn {
+  min-height: max(38px, var(--g21-touch-min));
+}
