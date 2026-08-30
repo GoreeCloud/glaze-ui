@@ -4,13 +4,14 @@
   "lifecycle": "candidate",
   "since": "2.1.0-candidate.1",
   "scope": "computed-layout-style-and-interaction-invariants",
-  "pixelBaselineStatus": "planned",
+  "pixelBaselineStatus": "capture-required",
   "flows": {
     "settings-preferences": {"path":"reference/candidate-2.1-settings.html","recipe":"productivity","visualBaseline":"settings-preferences-v1","requiredStates":[]},
     "file-management": {"path":"reference/candidate-2.1-files.html","recipe":"productivity","visualBaseline":"file-management-v1","requiredStates":[]},
     "search-command": {"path":"reference/candidate-2.1-search.html","recipe":"productivity","visualBaseline":"search-command-v1","requiredStates":["default","loading","success","warning","error","offline","protected","restricted"]},
     "communication-live-activity": {"path":"reference/candidate-2.1-communication.html","recipe":"communication","visualBaseline":"communication-live-activity-v1","requiredStates":["default","sending","success","error","offline","protected"]},
-    "media-playback": {"path":"reference/candidate-2.1-media.html","recipe":"media","visualBaseline":"media-playback-v1","requiredStates":["default","loading","success","warning","offline","protected","restricted"]}
+    "media-playback": {"path":"reference/candidate-2.1-media.html","recipe":"media","visualBaseline":"media-playback-v1","requiredStates":["default","loading","success","warning","offline","protected","restricted"]},
+    "resilience-exception-states": {"path":"reference/candidate-2.1-resilience.html","recipe":"administration","visualBaseline":"resilience-exception-states-v1","requiredStates":["default","empty","unavailable","conflict","expired","destructive","degraded","warning","error","offline","protected","restricted"]}
   },
   "visualInvariants": [
     "Primary content remains on an opaque Canvas or Surface plane.",
@@ -21,13 +22,14 @@
     "Deep Dark uses a black canvas while preserving readable surface separation.",
     "Mobile primary navigation remains fixed in the Action Zone and desktop/tablet navigation remains spatially persistent.",
     "TV and far-view references maintain at least 56px interactive target geometry.",
-    "Loading, error, offline, protected and restricted states remain visibly labeled and are not encoded by color alone."
+    "Loading, error, offline, protected and restricted states remain visibly labeled and are not encoded by color alone.",
+    "Empty, unavailable, conflict, expired, destructive and degraded states remain explicit, actionable and visually distinct without implying live GoreeCloud platform status."
   ],
   "interactionScenarios": [
     {"id":"command-open-select","flow":"search-command","trigger":"[data-command-trigger]","expectedState":"command-selected","continuity":["trigger-identity","selection","focus-return"]},
     {"id":"message-send","flow":"communication-live-activity","trigger":"[data-send-button]","expectedState":"message-sent","continuity":["draft","message-position","delivery-state"]},
     {"id":"playback-toggle","flow":"media-playback","trigger":"[data-play-toggle]","expectedState":"playing","continuity":["media-position","control-identity","live-activity"]}
   ],
-  "stateVocabulary": ["default","hover","focus","pressed","selected","disabled","loading","sending","success","warning","error","offline","protected","restricted"],
+  "stateVocabulary": ["default","hover","focus","pressed","selected","disabled","loading","sending","success","warning","error","offline","protected","restricted","empty","unavailable","conflict","expired","destructive","degraded"],
   "promotionBoundary": {"stableVersionRemains":"2.0.0","humanVisualExcellenceRequired":true,"pixelScreenshotDiffingRequiredBeforeStable":true,"nativeAndRealDeviceEvidenceRequiredWhereApplicable":true}
 }

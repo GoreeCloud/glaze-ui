@@ -11,7 +11,7 @@ permissions:
 jobs:
   validate-candidate-foundation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - name: Check out exact source revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -19,10 +19,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - name: Compile Glaze UI 2.1 Candidate validators
-        run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_regression.py scripts/validate_glaze_2_1_expanded_rendered.py
+        run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_regression.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py
       - name: Validate Glaze UI 2.1 Candidate contracts
         run: python3 scripts/validate_glaze_2_1_candidate.py
-      - name: Validate Glaze UI 2.1 expanded regression contract
+      - name: Validate Glaze UI 2.1 expanded regression and screenshot capture contract
         run: python3 scripts/validate_glaze_2_1_regression.py
       - name: Validate Glaze UI 2.1 runtime syntax
         run: node --check js/glaze-2.1.candidate.mjs
@@ -32,3 +32,14 @@ jobs:
         run: python3 scripts/validate_glaze_2_1_rendered.py
       - name: Validate expanded Glaze UI 2.1 interaction and visual invariants
         run: python3 scripts/validate_glaze_2_1_expanded_rendered.py
+      - name: Validate Glaze UI 2.1 resilience and exceptional states
+        run: python3 scripts/validate_glaze_2_1_resilience_rendered.py
+      - name: Capture Glaze UI 2.1 visual baseline candidates
+        run: python3 scripts/glaze_2_1_visual_regression.py capture --output-dir .artifacts/glaze-2.1-visual-baseline-candidates
+      - name: Upload exact-head visual baseline candidates
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: glaze-ui-2.1-visual-baseline-candidates-${{ github.event.pull_request.head.sha || github.sha }}
+          path: .artifacts/glaze-2.1-visual-baseline-candidates/*.png
+          if-no-files-found: error
+          retention-days: 7

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "glaze-ui-2.1-visual-baselines",
+  "lifecycle": "planned",
+  "status": "capture-required",
+  "baselineRevision": null,
+  "captureEngine": {
+    "family": "Chromium",
+    "headlessMode": "new",
+    "deviceScaleFactor": 1,
+    "viewportCapture": "window",
+    "animations": "resolved-by-reference-runtime"
+  },
+  "thresholds": {
+    "perChannelTolerance": 12,
+    "maxChangedPixelRatio": 0.0075,
+    "maxMeanAbsoluteChannelDelta": 1.5
+  },
+  "cases": [
+    {"id":"settings-desktop-light","flow":"settings","path":"reference/candidate-2.1-settings.html","width":1280,"height":900,"appearance":"light","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"normal","snapshotState":"idle","baseline":"reference/baselines/2.1/settings-desktop-light.png"},
+    {"id":"files-mobile-reduced-transparency","flow":"files","path":"reference/candidate-2.1-files.html","width":390,"height":844,"appearance":"dark","clarity":"clear","density":"standard","performance":"balanced","formFactor":"mobile","mode":"reduced-transparency","snapshotState":"idle","baseline":"reference/baselines/2.1/files-mobile-reduced-transparency.png"},
+    {"id":"search-command-open-deep-dark","flow":"search","path":"reference/candidate-2.1-search.html","width":1280,"height":900,"appearance":"deep-dark","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"increased-contrast","snapshotState":"command-open","baseline":"reference/baselines/2.1/search-command-open-deep-dark.png"},
+    {"id":"communication-tablet-sent-large-text","flow":"communication","path":"reference/candidate-2.1-communication.html","width":820,"height":1180,"appearance":"dark","clarity":"balanced","density":"compact","performance":"balanced","formFactor":"tablet","mode":"large-text","snapshotState":"message-sent","baseline":"reference/baselines/2.1/communication-tablet-sent-large-text.png"},
+    {"id":"media-tv-playing","flow":"media","path":"reference/candidate-2.1-media.html","width":1920,"height":1080,"appearance":"dark","clarity":"balanced","density":"far-view","performance":"balanced","formFactor":"tv","mode":"normal","snapshotState":"playing","baseline":"reference/baselines/2.1/media-tv-playing.png"},
+    {"id":"resilience-desktop-light","flow":"resilience","path":"reference/candidate-2.1-resilience.html","width":1280,"height":900,"appearance":"light","clarity":"solid","density":"standard","performance":"constrained","formFactor":"desktop","mode":"normal","snapshotState":"idle","baseline":"reference/baselines/2.1/resilience-desktop-light.png"}
+  ]
+}
