@@ -30,11 +30,34 @@ def main():
     require(current.get('presentationCreatesDomainTruth') is False,'Glaze presentation must not create domain truth')
 
     registry=json.loads(text('consumers/registry.json'))
-    require(registry.get('schemaVersion')==3,'consumer registry schema must be 3')
+    require(registry.get('schemaVersion')==4,'consumer registry schema must be 4')
     require(registry.get('stableBaseline')==VERSION and registry.get('requiredConsumerVersion')==VERSION,'consumer Stable target differs from VERSION')
     require('1.6.0' in registry.get('historicalStableVersions',[]),'1.6.0 must be historical after 2.0 promotion')
     require(registry.get('enforcement',{}).get('currentStableRequired') is True,'current Stable consumer requirement missing')
     require(registry.get('enforcement',{}).get('productionExceptionsAllowed') is False,'production exceptions must remain forbidden')
+
+    lifecycle=json.loads(text('registry/lifecycle.json'))
+    active_candidate=lifecycle.get('activeCandidate')
+    require(active_candidate=='2.1.0-candidate.1','active Candidate must remain 2.1.0-candidate.1 during this tranche')
+    candidate_release=[r for r in lifecycle.get('releases',[]) if isinstance(r,dict) and r.get('version')==active_candidate]
+    require(len(candidate_release)==1 and candidate_release[0].get('status')=='candidate','active Candidate release record missing/invalid')
+    require(candidate_release[0].get('consumerEligible') is False,'active Candidate release must remain non-consumer-eligible')
+    promotion=lifecycle.get('promotionRules',{})
+    require(promotion.get('candidateMaySatisfyStableConsumerConformance') is False,'Candidate must not satisfy Stable consumer conformance')
+    require(promotion.get('stableVersionFileMustRemain')==VERSION,'Candidate work must preserve current Stable VERSION')
+
+    assessment=registry.get('candidateAssessment',{})
+    require(assessment.get('version')==active_candidate,'consumer Candidate assessment must track lifecycle activeCandidate')
+    require(assessment.get('lifecycle')=='candidate','consumer Candidate assessment lifecycle must remain Candidate')
+    require(assessment.get('consumerEligible') is False,'consumer Candidate assessment must remain non-consumer-eligible')
+    require(assessment.get('productionEligible') is False,'consumer Candidate assessment must remain non-production')
+    evaluations=assessment.get('evaluations')
+    require(isinstance(evaluations,list),'consumer Candidate evaluations must be a list')
+    for item in evaluations:
+        require(isinstance(item,dict),'consumer Candidate evaluation must be an object')
+        require(item.get('targetVersion')==active_candidate,'consumer Candidate evaluation target must equal activeCandidate')
+        require(item.get('productionEligible') is False,'consumer Candidate evaluation must remain non-production')
+        require(item.get('stableConformanceUnaffected') is True,'consumer Candidate evaluation must not rewrite Stable conformance')
 
     launcher=by_repo(registry,LAUNCHER)
     require(launcher.get('status')=='adoption-candidate' and launcher.get('targetVersion')==VERSION,'Launcher must remain a 2.0 Adoption Candidate during final application acceptance')
@@ -74,5 +97,5 @@ def main():
     require('application-specific native or real-device acceptance' in conformance,'consumer native/real-device boundary missing')
     require('legacy 1.x compatibility' in components,'legacy compatibility boundary missing')
     require('Glaze Motion' in status and 'Experimental' in status,'Glaze Motion must remain non-Stable')
-    print(f'Glaze UI release-state validation passed for {VERSION}; Launcher Adoption Candidate tracked, remaining consumer enforcement active')
+    print(f'Glaze UI release-state validation passed for {VERSION}; schema 4 Stable audit preserved and {active_candidate} remains non-consumer-eligible')
 if __name__=='__main__': main()

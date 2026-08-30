@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "id": "navigation-capsule",
+  "name": "Navigation Capsule 2.1",
+  "lifecycle": "candidate",
+  "since": "2.1.0-candidate.1",
+  "semanticRole": "Primary reachable destination navigation that preserves destination identity while adapting representation across form factors.",
+  "materialRole": {
+    "default": "soft-glaze",
+    "allowed": ["surface", "soft-glaze", "glaze"],
+    "budgetRole": "persistent-interaction"
+  },
+  "typography": {
+    "roles": ["label"],
+    "largeTextReflowRequired": true
+  },
+  "geometry": {
+    "family": "utility",
+    "radiusRoles": ["large", "capsule"],
+    "concentricNesting": true,
+    "opticalCorrectionAllowed": true
+  },
+  "spacing": {
+    "tokenRoles": ["space-8", "space-12", "space-16", "space-24"],
+    "arbitrarySpacingProhibited": true
+  },
+  "colors": {
+    "semanticRoles": ["foundation", "identity-accent", "identity-container", "identity-contrast", "focus", "disabled"],
+    "colorIndependentStateRequired": true
+  },
+  "states": ["default", "hover", "focus", "pressed", "selected", "disabled"],
+  "targets": {
+    "touchMinPx": 48,
+    "pointerMinPx": 32,
+    "tvMinPx": 56,
+    "visualSizeMayDifferFromHitArea": true
+  },
+  "input": {
+    "keyboard": "Every destination is reachable in logical order; activation uses native button/link semantics and must not depend on pointer behavior.",
+    "focus": "Focus remains strongly visible and distinct from selection. Focus order follows logical destination order and is preserved through responsive transformations.",
+    "hover": "Pointer hover may strengthen boundary, tint, or depth without becoming the only indication of availability or selection.",
+    "press": "Press may contract slightly, increase optical density, and shift a bounded highlight toward the interaction point; activation must remain immediate.",
+    "selection": "The active destination may expand and expose a label while inactive destinations remain compact; selection remains communicated through more than color alone.",
+    "directional": "TV/remote focus uses a Focus Dock representation with strong visible focus, large targets, and deterministic directional traversal.",
+    "directManipulation": "Forward reading/scrolling may compress the capsule and reverse scrolling may restore it when the behavior does not hide critical navigation or create focus instability."
+  },
+  "motion": {
+    "role": "connected-navigation",
+    "timing": "standard",
+    "spring": "restrained",
+    "interruptible": true,
+    "reversible": true,
+    "reducedMotionAlternative": "Use immediate or short-fade state changes with no large translation, zoom, or morph while preserving selection and focus continuity."
+  },
+  "haptics": {
+    "roles": ["tap", "selection"],
+    "optionalWhenUnsupported": true
+  },
+  "accessibility": {
+    "semantics": "Expose a navigation landmark/container and native destination semantics, current destination state, accessible names, and deterministic reading/focus order.",
+    "reducedMotion": "Disable large capsule translation/morphing and use direct or short-fade state changes without changing navigation semantics.",
+    "reducedTransparency": "Replace translucent material with a deliberately tuned opaque or tonal Surface/Soft Glaze equivalent while retaining hierarchy and boundaries.",
+    "increasedContrast": "Strengthen text, boundaries, focus, selected state, and separation without flattening the destination hierarchy.",
+    "largeText": "Allow labels to reflow, enlarge destinations, or transform to a roomier navigation representation rather than clip or shrink text.",
+    "forcedColors": "Use system colors and explicit focus/selection boundaries while preserving native navigation semantics.",
+    "showBoundaries": "Strengthen destination and container boundaries without altering destination order or meaning.",
+    "touchAssistance": "Increase hit regions independently of visible capsule geometry and maintain safe-area separation."
+  },
+  "density": ["comfortable", "standard", "compact", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "adaptiveTransformations": [
+    {
+      "from": "mobile/navigation-capsule",
+      "to": "tablet/navigation-rail",
+      "preserve": ["destination identity", "selection", "focus continuity", "logical order", "task continuity"]
+    },
+    {
+      "from": "tablet/navigation-rail",
+      "to": "desktop/sidebar",
+      "preserve": ["destination identity", "selection", "focus continuity", "logical order", "task continuity"]
+    },
+    {
+      "from": "desktop/sidebar",
+      "to": "tv/focus-dock",
+      "preserve": ["destination identity", "selection", "logical order", "directional reachability", "task continuity"]
+    }
+  ],
+  "fallbacks": {
+    "material": "Advanced Glaze may reduce through Simplified Glaze to Tonal Surface or Solid Surface while retaining navigation hierarchy and boundaries.",
+    "motion": "Connected transform may reduce through restrained movement to fade or immediate state change while preserving focus and selection.",
+    "performance": "Disable expensive background sampling, refraction, lighting, or continuous material response before reducing legibility, target size, or navigation availability."
+  },
+  "nativeMappings": {
+    "android": "Use platform-native navigation primitives and accessibility semantics where appropriate while preserving Glaze destination identity, reachability, focus, material fallback, and form-factor transformation.",
+    "linux": "Use toolkit-native navigation/focus semantics while preserving Glaze hierarchy, keyboard behavior, density, and adaptive representation.",
+    "web": "Use semantic navigation and link/button primitives with keyboard/focus correctness; enhanced material and connected transitions remain progressive enhancement.",
+    "tv": "Use deterministic directional focus and far-view geometry; do not depend on hover or touch."
+  },
+  "platformStateSources": ["application"],
+  "visualReview": {
+    "required": true,
+    "criteria": [
+      "selected and inactive destinations are optically balanced",
+      "capsule proportions feel calm rather than oversized or cramped",
+      "material use remains restrained against surrounding content",
+      "icon and label baselines are optically aligned",
+      "compression and restoration feel connected rather than distracting",
+      "focus remains beautiful and unmistakable in every appearance/accessibility mode",
+      "larger-screen transformations retain the same product identity"
+    ],
+    "opticalNotes": [
+      "Icon glyph boxes may require small optical offsets inside equal mathematical frames.",
+      "Selected-label expansion may use bounded asymmetric padding when equal padding appears visually unbalanced."
+    ]
+  }
+}

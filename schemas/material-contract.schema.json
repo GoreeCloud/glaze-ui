@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.github.io/glaze-ui/schemas/material-contract.schema.json",
+  "title": "Glaze UI 2.1 Candidate Material Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "lifecycle",
+    "materialLevels",
+    "clarityProfiles",
+    "performanceProfiles",
+    "materialBudgets",
+    "adaptiveOpticalInputs",
+    "fallbackChain",
+    "accessibilityOverrides",
+    "invariants",
+    "visualReview"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "lifecycle": {"enum": ["candidate"]},
+    "since": {"type": "string"},
+    "materialLevels": {
+      "type": "object",
+      "minProperties": 6,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "opacity", "blurPx", "saturation", "tintStrength", "refraction", "distortion", "boundary", "depth"],
+        "properties": {
+          "role": {"type": "string", "minLength": 1},
+          "opacity": {"$ref": "#/$defs/range01"},
+          "blurPx": {"$ref": "#/$defs/rangeNonNegative"},
+          "saturation": {"$ref": "#/$defs/rangeNonNegative"},
+          "tintStrength": {"$ref": "#/$defs/range01"},
+          "refraction": {"enum": ["none", "subtle", "bounded"]},
+          "distortion": {"enum": ["none", "subtle", "bounded"]},
+          "boundary": {"enum": ["none", "tonal", "hairline", "strong"]},
+          "depth": {"enum": ["flat", "low", "medium", "high", "active"]},
+          "directionalHighlight": {"type": "boolean"}
+        }
+      }
+    },
+    "clarityProfiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clear", "balanced", "solid"],
+      "properties": {
+        "clear": {"$ref": "#/$defs/clarityProfile"},
+        "balanced": {"$ref": "#/$defs/clarityProfile"},
+        "solid": {"$ref": "#/$defs/clarityProfile"}
+      }
+    },
+    "performanceProfiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["full", "balanced", "constrained", "minimal"],
+      "properties": {
+        "full": {"$ref": "#/$defs/performanceProfile"},
+        "balanced": {"$ref": "#/$defs/performanceProfile"},
+        "constrained": {"$ref": "#/$defs/performanceProfile"},
+        "minimal": {"$ref": "#/$defs/performanceProfile"}
+      }
+    },
+    "materialBudgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "recipes"],
+      "properties": {
+        "metric": {"const": "simultaneous-high-intensity-viewport-area-percent"},
+        "recipes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["productivity", "communication", "media", "administration", "creative"],
+          "properties": {
+            "productivity": {"$ref": "#/$defs/materialBudget"},
+            "communication": {"$ref": "#/$defs/materialBudget"},
+            "media": {"$ref": "#/$defs/materialBudget"},
+            "administration": {"$ref": "#/$defs/materialBudget"},
+            "creative": {"$ref": "#/$defs/materialBudget"}
+          }
+        }
+      }
+    },
+    "adaptiveOpticalInputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "fallbackChain": {"type": "array", "minItems": 4, "items": {"type": "string"}},
+    "accessibilityOverrides": {"type": "object", "additionalProperties": true},
+    "invariants": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "visualReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "criteria"],
+      "properties": {
+        "required": {"const": true},
+        "criteria": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    }
+  },
+  "$defs": {
+    "range01": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number", "minimum": 0, "maximum": 1},
+        {"type": "number", "minimum": 0, "maximum": 1}
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "rangeNonNegative": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number", "minimum": 0},
+        {"type": "number", "minimum": 0}
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "clarityProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["opacityBias", "blurMultiplier", "ambientInfluence", "refractionEnabled", "distortionEnabled"],
+      "properties": {
+        "opacityBias": {"type": "number", "minimum": -0.25, "maximum": 0.25},
+        "blurMultiplier": {"type": "number", "minimum": 0, "maximum": 2},
+        "ambientInfluence": {"enum": ["off", "low", "medium", "high"]},
+        "refractionEnabled": {"type": "boolean"},
+        "distortionEnabled": {"type": "boolean"}
+      }
+    },
+    "performanceProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxBlurPx", "environmentSampling", "refraction", "distortion", "shadowComplexity", "motionComplexity", "lightingResponse"],
+      "properties": {
+        "maxBlurPx": {"type": "number", "minimum": 0},
+        "environmentSampling": {"enum": ["full", "reduced", "minimal", "off"]},
+        "refraction": {"enum": ["full", "subtle", "off"]},
+        "distortion": {"enum": ["bounded", "subtle", "off"]},
+        "shadowComplexity": {"enum": ["full", "reduced", "minimal", "off"]},
+        "motionComplexity": {"enum": ["full", "reduced", "minimal"]},
+        "lightingResponse": {"enum": ["full", "reduced", "minimal", "off"]}
+      }
+    },
+    "materialBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxPercent", "maxDeepGlazeSurfaces", "maxLiveGlazeSurfaces"],
+      "properties": {
+        "maxPercent": {"type": "number", "minimum": 0, "maximum": 100},
+        "maxDeepGlazeSurfaces": {"type": "integer", "minimum": 0},
+        "maxLiveGlazeSurfaces": {"type": "integer", "minimum": 0},
+        "exception": {"type": "string"}
+      }
+    }
+  }
+}

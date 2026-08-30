@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "stableBaseline": "2.0.0",
   "requiredConsumerVersion": "2.0.0",
   "historicalStableVersions": [
@@ -11,7 +11,7 @@
     "1.5.0",
     "1.6.0"
   ],
-  "auditedAt": "2026-08-28",
+  "auditedAt": "2026-08-30",
   "statusVocabulary": [
     "aligned-current-stable",
     "adoption-candidate",
@@ -31,6 +31,28 @@
       "other-user-facing"
     ],
     "unsupportedPlatformRule": "A user-facing platform without an applicable Stable Glaze UI contract is production-blocked until that contract is implemented, validated, and promoted Stable."
+  },
+  "candidateAssessment": {
+    "version": "2.1.0-candidate.1",
+    "lifecycle": "candidate",
+    "consumerEligible": false,
+    "productionEligible": false,
+    "evaluationStatusVocabulary": [
+      "evaluation-in-progress",
+      "evaluation-complete",
+      "blocked"
+    ],
+    "requiredEvidence": [
+      "repository-local-version-and-component-mapping",
+      "exact-revision-automated-validation",
+      "rendered-or-native-acceptance-as-applicable",
+      "accessibility-acceptance",
+      "representative-platform-acceptance",
+      "human-visual-excellence-when-applicable"
+    ],
+    "coverageRule": "A repository absent from evaluations is unassessed for Glaze UI 2.1 Candidate. Absence must never be interpreted as adoption, readiness, conformance, or approval.",
+    "rule": "Glaze UI 2.1 Candidate evaluations are migration/readiness evidence only. They cannot satisfy the current Stable consumer gate, cannot make a consumer production eligible, and do not alter that consumer's recorded 2.0 Stable conformance state.",
+    "evaluations": []
   },
   "consumers": [
     {

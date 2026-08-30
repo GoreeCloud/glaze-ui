@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark">
+  <title>Glaze UI 2.1 Candidate — File management reference flow</title>
+  <link rel="stylesheet" href="../css/glaze-2.1.reference.css">
+  <link rel="stylesheet" href="../css/glaze-2.1.visual-excellence.css">
+</head>
+<body data-glaze-candidate="2.1" data-reference-flow="file-management" data-runtime-accepted="pending" data-material-budget-accepted="pending">
+  <div class="g21-shell" data-form-factor="desktop" data-mode="normal">
+    <header class="g21-topbar"><div class="g21-title"><h1>Files</h1><p>Location, synchronization and protection state are explicit; the content plane remains quiet and solid.</p></div><div class="files-toolbar" data-glaze-material-level="glaze" role="toolbar" aria-label="File actions"><input class="search-box" aria-label="Search files" placeholder="Search files"><button class="g21-btn emphasis" data-hit-target type="button"><span aria-hidden="true">+</span> New</button></div></header>
+    <div class="g21-layout">
+      <nav class="primary-nav" data-glaze-material-level="soft-glaze" aria-label="File navigation"><button data-hit-target aria-current="page"><span>◉</span><span>Files</span></button><button data-hit-target><span>◌</span><span class="nav-label-secondary">Recent</span></button><button data-hit-target><span>◌</span><span class="nav-label-secondary">Shared</span></button><button data-hit-target><span>◌</span><span class="nav-label-secondary">Trash</span></button></nav>
+      <main class="g21-main">
+        <section id="solid-content" class="solid-content" aria-labelledby="files-heading"><h2 id="files-heading">GoreeCloud Drive</h2><p>State labels distinguish where data lives and whether protection or synchronization is complete.</p>
+          <div class="details-grid"><div class="metric"><strong>18</strong><span>items</span></div><div class="metric"><strong>12</strong><span>synced</span></div><div class="metric"><strong>4</strong><span>offline copies</span></div></div>
+        </section>
+        <section class="g21-panel file-list" aria-label="Files and folders">
+          <div class="file-row"><div class="file-main"><strong>Design Center</strong><span>Folder · modified today</span></div><span class="file-state" data-state="synced">Synced</span><span class="file-meta">Stored in GoreeCloud</span></div>
+          <div class="file-row"><div class="file-main"><strong>Browser Notes.md</strong><span>Markdown · 24 KB</span></div><span class="file-state" data-state="local-only">Local only</span><span class="file-meta">Offline copy available</span></div>
+          <div class="file-row"><div class="file-main"><strong>Launch Artwork</strong><span>Folder · 1.8 GB</span></div><span class="file-state" data-state="backup-protected">Backup protected</span><span class="file-meta">Stored in GoreeCloud</span></div>
+          <div class="file-row"><div class="file-main"><strong>Shared Roadmap.doc</strong><span>Document · conflict requires review</span></div><span class="file-state" data-state="conflict">Conflict</span><span class="file-meta">Sync pending</span></div>
+        </section>
+        <aside class="g21-status-strip" data-glaze-material-level="live-glaze" aria-label="Live synchronization"><strong>Syncing 3 items</strong><span>GoreeCloud Sync · 68%</span></aside>
+      </main>
+    </div>
+  </div>
+  <script type="module">
+    import { applyReferenceRuntime, measureVisibleMaterialBudget, modeToPreferenceInput } from '../js/glaze-2.1.candidate.mjs';
+    const p=new URLSearchParams(location.search); const mode=p.get('mode')||'normal'; const shell=document.querySelector('.g21-shell');
+    const input=modeToPreferenceInput(mode,{appearance:p.get('appearance')||'light',materialClarity:p.get('clarity')||'balanced',expressionLevel:p.get('expression')||'balanced',density:p.get('density')||'standard',performanceProfile:p.get('performance')||'balanced'});
+    shell.dataset.formFactor=p.get('formFactor')||'desktop';
+    try{const resolved=applyReferenceRuntime({shell,recipe:'productivity',input});document.body.dataset.resolutionSignature=[resolved.effectiveMaterialClarity,resolved.motionExpression,resolved.effectiveDensity,resolved.touchHitAreaMinPx].join(':');
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{const budget=measureVisibleMaterialBudget(document,'productivity');document.body.dataset.materialBudgetPercent=String(budget.percent);document.body.dataset.materialBudgetAccepted=budget.accepted?'true':'false';document.body.dataset.runtimeAccepted=budget.accepted?'true':'false';if(!budget.accepted)document.body.dataset.runtimeError=budget.reasons.join('; ');}));
+    }catch(error){document.body.dataset.runtimeAccepted='false';document.body.dataset.runtimeError=String(error?.stack||error);}
+  </script>
+</body>
+</html>
