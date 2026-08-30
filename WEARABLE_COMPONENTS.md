@@ -1,8 +1,8 @@
 # Glaze UI Wearable Component Mapping Record
 
-## Current 2.0 mapping
+## Current 2.1 mapping
 
-**Glaze UI 2.0.0 is the current Stable contract.** Wearable component behavior derives from `GLAZE_UI_2_STABLE.md`, the promoted 2.0 semantics in `tokens/glaze.tokens.json`, and the exact promotion-source implementation retained in `css/glaze-2.emerging.candidate.css` / `js/glaze-2.emerging.candidate.js`.
+**Glaze UI 2.1.0 is the current Stable contract.** Wearable component behavior derives from `GLAZE_UI_2_1_STABLE.md`, current 2.1 semantics in `tokens/glaze.tokens.json`, and the retained 2.x platform-neutral implementation in `css/glaze-2.emerging.candidate.css` / `js/glaze-2.emerging.candidate.js`.
 
 The design-system reference proves a compact rotational-navigation pattern and its interaction/accessibility floor. It does not establish a complete native smartwatch component library or physical-device certification.
 
@@ -30,7 +30,7 @@ The design-system reference proves a compact rotational-navigation pattern and i
 
 ### Materials and motion
 
-Current material terminology is **Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze**. Readability overrides translucency. Reduced motion removes nonessential transformation while preserving selection/focus/task completion. Reduced transparency or unsupported effects resolve to readable bounded surfaces.
+Current material terminology is **Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze**. Readability overrides translucency. Semantic color remains explicit through labels/state treatment and is not color-only. Reduced Motion removes nonessential transformation while preserving selection/focus/task completion. Reduced Transparency or unsupported effects resolve to readable bounded surfaces.
 
 ### Native product acceptance
 
@@ -38,4 +38,4 @@ A product shipping on a smartwatch/wearable must map these semantics to its actu
 
 ## Historical precursor mapping
 
-Older 1.x Wearable Development Candidate component/native artifacts are retained for audit and migration research. They are **historical evidence only** and cannot satisfy a Glaze UI 2.0 native or production claim without explicit 2.0 migration and revalidation.
+Older 1.x Wearable Development Candidate component/native artifacts and the 2.0 Stable mapping are retained for audit and migration research. They are **historical evidence only** and cannot satisfy a Glaze UI 2.1 native or production claim without explicit 2.1 migration and revalidation.

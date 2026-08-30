@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Validate current Glaze UI 2.1 evidence-presentation authority and retained 1.6 rendered evidence."""
 import json
 from pathlib import Path
 
@@ -44,18 +45,18 @@ try:
 except Exception as exc:
     fail(f"invalid contract JSON: {exc}")
 
-if VERSION.read_text().strip() != "2.0.0":
-    fail("repository VERSION must remain the current 2.0.0 Stable target")
-if data.get("glaze_ui", {}).get("candidate") != "2.0":
-    fail("current evidence presentation target must be Glaze UI 2.0")
+if VERSION.read_text().strip() != "2.1.0":
+    fail("repository VERSION must be the current 2.1.0 Stable target")
+if data.get("glaze_ui", {}).get("candidate") != "2.1":
+    fail("current evidence presentation target must be Glaze UI 2.1")
 if data.get("glaze_ui", {}).get("lifecycle") != "stable":
     fail("evidence presentation must remain Stable")
 if data.get("glaze_ui", {}).get("introduced_in") != "1.6.0":
     fail("historical evidence presentation introduction must remain 1.6.0")
-if data.get("glaze_ui", {}).get("stable_consumer_target") != "2.0.0":
-    fail("current evidence presentation Stable consumer target must be 2.0.0")
-if data.get("glaze_ui", {}).get("release") != "2.0.0":
-    fail("current evidence presentation release must be 2.0.0")
+if data.get("glaze_ui", {}).get("stable_consumer_target") != "2.1.0":
+    fail("current evidence presentation Stable consumer target must be 2.1.0")
+if data.get("glaze_ui", {}).get("release") != "2.1.0":
+    fail("current evidence presentation release must be 2.1.0")
 
 for family in ("freshness_states", "transport_states"):
     values = data.get(family, {})
@@ -95,10 +96,9 @@ schema_authorities = set(schema.get("properties", {}).get("authority", {}).get("
 if not set(systems).issubset(schema_authorities):
     fail("evidence schema authority enum must cover every presentation authority system")
 
-# The 1.6 rendered artifacts are retained historical promotion evidence. They
-# remain immutable regression inputs; current 2.0 Identity support is validated
-# separately at source/consumer-contract level until a dedicated rendered
-# Identity Center acceptance matrix is promoted.
+# The 1.6 rendered artifacts are immutable historical promotion evidence. Their
+# embedded version/lifecycle wording is intentionally preserved and must not be
+# rewritten to manufacture modern provenance.
 html = REFERENCE.read_text()
 for marker in (
     "Glaze UI 1.6 Candidate",
@@ -215,8 +215,8 @@ for marker in (
 status = STATUS.read_text()
 if "Evidence presentation and authority surfaces | Stable" not in status:
     fail("component lifecycle registry must mark evidence presentation Stable")
-if "2.0.0 is the current Stable consumer target" not in status:
-    fail("component lifecycle registry must identify 2.0.0 as current Stable target")
+if "Glaze UI **2.1.0 is the current Stable consumer target**" not in status:
+    fail("component lifecycle registry must identify 2.1.0 as current Stable target")
 
 doc = DOC.read_text()
 for marker in (
@@ -230,7 +230,9 @@ for marker in (
     "Mesh Center",
     "Identity Center",
     "GoreeCloud Identity",
-    "2.0.0",
+    "Glaze UI **2.1.0** Stable consumer target",
+    "Current 2.1 acceptance boundary",
+    "Reduced Transparency / effective Solid",
 ):
     if marker not in doc:
         fail(f"documentation invariant missing: {marker}")
@@ -243,4 +245,4 @@ for marker in (
     if marker not in acceptance_record:
         fail(f"historical 1.6 acceptance record missing lifecycle invariant: {marker}")
 
-print("Glaze UI 2.0 evidence presentation contract with Identity authority: OK")
+print("Glaze UI 2.1 evidence presentation contract validated; retained 1.6 rendered provenance and producer authority remain intact")

@@ -1,0 +1,6 @@
+/* Glaze UI 2.1.0 — Stable web reference entrypoint.
+ * Promotes the approved 2.1 reference/material presentation without rewriting
+ * the preserved Candidate source files. Content remains solid; interaction is glazed.
+ */
+@import url("./glaze-2.1.reference.css");
+@import url("./glaze-2.1.visual-excellence.css");

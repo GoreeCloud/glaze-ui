@@ -1,4 +1,4 @@
-name: Glaze UI 2.1 Candidate Foundation
+name: Glaze UI 2.1 Stable Acceptance
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  validate-candidate-foundation:
+  validate-stable-2-1:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -18,23 +18,19 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - name: Check out pinned Glaze UI 2.1 visual baseline source
+      - name: Check out approved Glaze UI 2.1 visual baseline source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           repository: GoreeCloud/goreecloud-glaze-ui
           ref: 5b46903c18660ae78e7f1aaea39a93136efacda7
           path: .glaze-2.1-visual-baseline-source
           persist-credentials: false
-      - name: Compile Glaze UI 2.1 Candidate validators
-        run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_regression.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py scripts/validate_glaze_2_1_native.py scripts/validate_glaze_2_1_android_runtime.py
-      - name: Validate Glaze UI 2.1 Candidate contracts
-        run: python3 scripts/validate_glaze_2_1_candidate.py
-      - name: Validate Glaze UI 2.1 native Android and consumer-assessment structure
-        run: python3 scripts/validate_glaze_2_1_native.py
-      - name: Validate Glaze UI 2.1 expanded regression and source-pinned screenshot contract
-        run: python3 scripts/validate_glaze_2_1_regression.py
-      - name: Validate Glaze UI 2.1 runtime syntax
-        run: node --check js/glaze-2.1.candidate.mjs
+      - name: Compile Glaze UI 2.1 Stable validators
+        run: python3 -m py_compile scripts/validate_glaze_2_1_stable.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py scripts/validate_glaze_2_1_android_runtime.py
+      - name: Validate Glaze UI 2.1 Stable promotion contract
+        run: python3 scripts/validate_glaze_2_1_stable.py
+      - name: Validate Glaze UI 2.1 Stable runtime syntax
+        run: node --check js/glaze-2.1.0.mjs
       - name: Test Glaze UI 2.1 runtime resolution and Material Budgets
         run: node --test tests/glaze-2.1-runtime.test.mjs
       - name: Validate rendered Glaze UI 2.1 reference flows
@@ -43,18 +39,18 @@ jobs:
         run: python3 scripts/validate_glaze_2_1_expanded_rendered.py
       - name: Validate Glaze UI 2.1 resilience and exceptional states
         run: python3 scripts/validate_glaze_2_1_resilience_rendered.py
-      - name: Render pinned Glaze UI 2.1 visual baseline source
+      - name: Render approved Glaze UI 2.1 visual baseline source
         run: python3 .glaze-2.1-visual-baseline-source/scripts/glaze_2_1_visual_regression.py capture --output-dir ../.artifacts/glaze-2.1-visual-baseline-reference
       - name: Validate Glaze UI 2.1 source-pinned screenshot pixel regression
         run: python3 scripts/glaze_2_1_visual_regression.py compare --baseline-dir .artifacts/glaze-2.1-visual-baseline-reference --output-dir .artifacts/glaze-2.1-visual-regression
-      - name: Capture current Glaze UI 2.1 Visual Excellence review set
+      - name: Capture exact-head Glaze UI 2.1 Stable review set
         if: ${{ always() }}
         run: python3 scripts/glaze_2_1_visual_regression.py capture --output-dir .artifacts/glaze-2.1-visual-review-current
-      - name: Upload exact-head visual regression evidence
+      - name: Upload exact-head Stable visual evidence
         if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-ui-2.1-visual-regression-${{ github.event.pull_request.head.sha || github.sha }}
+          name: glaze-ui-2.1-stable-visual-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             .artifacts/glaze-2.1-visual-review-current/*.png
             .artifacts/glaze-2.1-visual-baseline-reference/*.png
