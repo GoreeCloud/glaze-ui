@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Capture and compare Glaze UI 2.1 Candidate screenshot baselines without third-party image libraries."""
+"""Capture and compare Glaze UI 2.1 Candidate screenshot references.
+
+Normal Candidate CI uses a source-pinned baseline: it renders the manifest's immutable
+baseline source revision and the current exact source on the same Chromium runner, then
+compares the two PNG sets. This avoids current-source self-blessing and browser-version
+skew while preserving the source revision as the canonical automated visual reference.
+"""
 from __future__ import annotations
 
 import argparse
@@ -100,9 +106,12 @@ def decode_png(path: Path) -> tuple[int, int, bytes]:
         kind = data[pos + 4:pos + 8]
         chunk = data[pos + 8:pos + 8 + length]
         pos += 12 + length
-        if kind == b"IHDR": ihdr = chunk
-        elif kind == b"IDAT": compressed.extend(chunk)
-        elif kind == b"IEND": break
+        if kind == b"IHDR":
+            ihdr = chunk
+        elif kind == b"IDAT":
+            compressed.extend(chunk)
+        elif kind == b"IEND":
+            break
     if ihdr is None or len(ihdr) != 13:
         raise ValueError(f"missing/invalid IHDR in {path}")
     width, height, bit_depth, color_type, compression, filter_method, interlace = struct.unpack(">IIBBBBB", ihdr)
@@ -111,69 +120,121 @@ def decode_png(path: Path) -> tuple[int, int, bytes]:
     channels = {0: 1, 2: 3, 4: 2, 6: 4}.get(color_type)
     if channels is None:
         raise ValueError(f"unsupported PNG color type {color_type} in {path}")
-    raw = zlib.decompress(bytes(compressed)); stride = width * channels
+    raw = zlib.decompress(bytes(compressed))
+    stride = width * channels
     if len(raw) != height * (stride + 1):
         raise ValueError(f"unexpected PNG raster size in {path}")
     rows, offset, previous = [], 0, bytearray(stride)
     for _ in range(height):
-        filter_type = raw[offset]; offset += 1
-        scan = bytearray(raw[offset:offset + stride]); offset += stride
+        filter_type = raw[offset]
+        offset += 1
+        scan = bytearray(raw[offset:offset + stride])
+        offset += stride
         for i in range(stride):
-            left = scan[i - channels] if i >= channels else 0; up = previous[i]; up_left = previous[i - channels] if i >= channels else 0
-            if filter_type == 1: scan[i] = (scan[i] + left) & 255
-            elif filter_type == 2: scan[i] = (scan[i] + up) & 255
-            elif filter_type == 3: scan[i] = (scan[i] + ((left + up) // 2)) & 255
-            elif filter_type == 4: scan[i] = (scan[i] + paeth(left, up, up_left)) & 255
-            elif filter_type != 0: raise ValueError(f"unsupported PNG filter {filter_type} in {path}")
-        rows.append(bytes(scan)); previous = scan
-    rgb = bytearray(width * height * 3); out = 0
+            left = scan[i - channels] if i >= channels else 0
+            up = previous[i]
+            up_left = previous[i - channels] if i >= channels else 0
+            if filter_type == 1:
+                scan[i] = (scan[i] + left) & 255
+            elif filter_type == 2:
+                scan[i] = (scan[i] + up) & 255
+            elif filter_type == 3:
+                scan[i] = (scan[i] + ((left + up) // 2)) & 255
+            elif filter_type == 4:
+                scan[i] = (scan[i] + paeth(left, up, up_left)) & 255
+            elif filter_type != 0:
+                raise ValueError(f"unsupported PNG filter {filter_type} in {path}")
+        rows.append(bytes(scan))
+        previous = scan
+    rgb = bytearray(width * height * 3)
+    out = 0
     for row in rows:
         for x in range(width):
             i = x * channels
-            if color_type in (0, 4): r = g = b = row[i]
-            else: r, g, b = row[i:i + 3]
-            rgb[out:out + 3] = bytes((r, g, b)); out += 3
+            if color_type in (0, 4):
+                r = g = b = row[i]
+            else:
+                r, g, b = row[i:i + 3]
+            rgb[out:out + 3] = bytes((r, g, b))
+            out += 3
     return width, height, bytes(rgb)
 
 
 def write_diff_ppm(path: Path, width: int, height: int, baseline: bytes, current: bytes, tolerance: int) -> None:
     pixels = bytearray(width * height * 3)
     for p in range(width * height):
-        i = p * 3; delta = max(abs(current[i + c] - baseline[i + c]) for c in range(3))
-        if delta > tolerance: pixels[i:i + 3] = b"\xff\x00\x00"
+        i = p * 3
+        delta = max(abs(current[i + c] - baseline[i + c]) for c in range(3))
+        if delta > tolerance:
+            pixels[i:i + 3] = b"\xff\x00\x00"
         else:
-            gray = sum(current[i:i + 3]) // 6 + 64; pixels[i:i + 3] = bytes((gray, gray, gray))
+            gray = sum(current[i:i + 3]) // 6 + 64
+            pixels[i:i + 3] = bytes((gray, gray, gray))
     path.write_bytes(f"P6\n{width} {height}\n255\n".encode("ascii") + pixels)
 
 
-def compare_case(case: dict, current: Path, thresholds: dict, output_dir: Path) -> None:
-    baseline = ROOT / case["baseline"]
-    if not baseline.is_file(): raise SystemExit(f"missing visual baseline for {case['id']}: {case['baseline']}")
-    bw, bh, bp = decode_png(baseline); cw, ch, cp = decode_png(current)
-    if (bw, bh) != (cw, ch): raise SystemExit(f"visual regression {case['id']} dimensions changed: baseline {bw}x{bh}, current {cw}x{ch}")
-    if (bw, bh) != (case["width"], case["height"]): raise SystemExit(f"visual baseline {case['id']} dimensions {bw}x{bh} do not match manifest {case['width']}x{case['height']}")
-    tolerance = int(thresholds["perChannelTolerance"]); changed = total_delta = 0; pixels = bw * bh
+def compare_case(case: dict, baseline: Path, current: Path, thresholds: dict, output_dir: Path) -> None:
+    if not baseline.is_file():
+        raise SystemExit(f"missing source-pinned visual baseline for {case['id']}: {baseline}")
+    bw, bh, bp = decode_png(baseline)
+    cw, ch, cp = decode_png(current)
+    if (bw, bh) != (cw, ch):
+        raise SystemExit(f"visual regression {case['id']} dimensions changed: baseline {bw}x{bh}, current {cw}x{ch}")
+    if (bw, bh) != (case["width"], case["height"]):
+        raise SystemExit(f"visual baseline {case['id']} dimensions {bw}x{bh} do not match manifest {case['width']}x{case['height']}")
+    tolerance = int(thresholds["perChannelTolerance"])
+    changed = total_delta = 0
+    pixels = bw * bh
     for p in range(pixels):
-        i = p * 3; diffs = [abs(cp[i + c] - bp[i + c]) for c in range(3)]; total_delta += sum(diffs)
-        if max(diffs) > tolerance: changed += 1
-    ratio = changed / pixels if pixels else 0.0; mean_delta = total_delta / (pixels * 3) if pixels else 0.0
-    max_ratio = float(thresholds["maxChangedPixelRatio"]); max_mean = float(thresholds["maxMeanAbsoluteChannelDelta"])
+        i = p * 3
+        diffs = [abs(cp[i + c] - bp[i + c]) for c in range(3)]
+        total_delta += sum(diffs)
+        if max(diffs) > tolerance:
+            changed += 1
+    ratio = changed / pixels if pixels else 0.0
+    mean_delta = total_delta / (pixels * 3) if pixels else 0.0
+    max_ratio = float(thresholds["maxChangedPixelRatio"])
+    max_mean = float(thresholds["maxMeanAbsoluteChannelDelta"])
     print(f"Visual diff {case['id']}: changed={ratio:.6%} (limit {max_ratio:.6%}), mean-channel-delta={mean_delta:.4f} (limit {max_mean:.4f})")
     if ratio > max_ratio or mean_delta > max_mean:
-        diff = output_dir / f"{case['id']}.diff.ppm"; write_diff_ppm(diff, bw, bh, bp, cp, tolerance)
+        diff = output_dir / f"{case['id']}.diff.ppm"
+        write_diff_ppm(diff, bw, bh, bp, cp, tolerance)
         raise SystemExit(f"visual regression failed for {case['id']}: changed ratio {ratio:.6%}, mean channel delta {mean_delta:.4f}; diff written to {diff}")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(); parser.add_argument("mode", choices=("capture", "compare")); parser.add_argument("--output-dir", default=".artifacts/glaze-2.1-visual"); args = parser.parse_args()
-    manifest = load_manifest(); output_dir = ROOT / args.output_dir
-    if output_dir.exists(): shutil.rmtree(output_dir)
-    output_dir.mkdir(parents=True); browser = find_browser()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("mode", choices=("capture", "compare"))
+    parser.add_argument("--output-dir", default=".artifacts/glaze-2.1-visual")
+    parser.add_argument("--baseline-dir", help="Directory containing source-pinned baseline PNGs. Required for compare mode.")
+    args = parser.parse_args()
+    if args.mode == "compare" and not args.baseline_dir:
+        raise SystemExit("compare mode requires --baseline-dir so current output cannot bless itself")
+
+    manifest = load_manifest()
+    output_dir = (ROOT / args.output_dir).resolve()
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True)
+    browser = find_browser()
+    baseline_dir = (ROOT / args.baseline_dir).resolve() if args.baseline_dir else None
+
     with serve_root() as port:
         for case in manifest.get("cases", []):
-            current = output_dir / f"{case['id']}.png"; capture_case(browser, port, case, current)
-            if args.mode == "compare": compare_case(case, current, manifest["thresholds"], output_dir)
-    if args.mode == "capture": print("Glaze UI 2.1 screenshot capture completed. These PNGs are review inputs, not accepted baselines.")
-    else: print("Glaze UI 2.1 screenshot pixel regression passed against committed Candidate baselines.")
+            current = output_dir / f"{case['id']}.png"
+            capture_case(browser, port, case, current)
+            if args.mode == "compare":
+                baseline = baseline_dir / case["baselineFile"]
+                compare_case(case, baseline, current, manifest["thresholds"], output_dir)
 
-if __name__ == "__main__": main()
+    if args.mode == "capture":
+        print("Glaze UI 2.1 screenshot capture completed. This output is rendered evidence; it is not self-accepted as a baseline.")
+    else:
+        print(
+            "Glaze UI 2.1 screenshot pixel regression passed against the source-pinned Candidate baseline "
+            f"revision {manifest.get('baselineRevision')}."
+        )
+
+
+if __name__ == "__main__":
+    main()

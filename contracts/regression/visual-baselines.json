@@ -1,15 +1,17 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
   "id": "glaze-ui-2.1-visual-baselines",
-  "lifecycle": "planned",
-  "status": "capture-required",
-  "baselineRevision": null,
-  "captureEngine": {
-    "family": "Chromium",
-    "headlessMode": "new",
-    "deviceScaleFactor": 1,
-    "viewportCapture": "window",
-    "animations": "resolved-by-reference-runtime"
+  "lifecycle": "candidate",
+  "status": "source-pinned-candidate",
+  "baselineStrategy": "source-revision-same-run-render",
+  "baselineRevision": "8cbfaa62fc9e25b428255a0fd967887c787ffd27",
+  "captureProvenance": {
+    "workflowRunId": 33289470624,
+    "artifactId": 9725500882,
+    "artifactName": "glaze-ui-2.1-visual-baseline-candidates-8cbfaa62fc9e25b428255a0fd967887c787ffd27",
+    "artifactDigest": "sha256:c4b34c0762bf4f0ec2a04439c04cb336478e4024c6a1b5cdf1b501391f8271c8",
+    "note": "The exact-head six-PNG capture artifact was inspected for gross clipping/state errors and anchors this Candidate baseline revision. This is not human Visual Excellence acceptance. Normal CI re-renders the pinned source revision and the current head on the same Chromium runner before pixel comparison."
   },
   "thresholds": {
     "perChannelTolerance": 12,
@@ -17,11 +19,17 @@
     "maxMeanAbsoluteChannelDelta": 1.5
   },
   "cases": [
-    {"id":"settings-desktop-light","flow":"settings","path":"reference/candidate-2.1-settings.html","width":1280,"height":900,"appearance":"light","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"normal","snapshotState":"idle","baseline":"reference/baselines/2.1/settings-desktop-light.png"},
-    {"id":"files-mobile-reduced-transparency","flow":"files","path":"reference/candidate-2.1-files.html","width":390,"height":844,"appearance":"dark","clarity":"clear","density":"standard","performance":"balanced","formFactor":"mobile","mode":"reduced-transparency","snapshotState":"idle","baseline":"reference/baselines/2.1/files-mobile-reduced-transparency.png"},
-    {"id":"search-command-open-deep-dark","flow":"search","path":"reference/candidate-2.1-search.html","width":1280,"height":900,"appearance":"deep-dark","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"increased-contrast","snapshotState":"command-open","baseline":"reference/baselines/2.1/search-command-open-deep-dark.png"},
-    {"id":"communication-tablet-sent-large-text","flow":"communication","path":"reference/candidate-2.1-communication.html","width":820,"height":1180,"appearance":"dark","clarity":"balanced","density":"compact","performance":"balanced","formFactor":"tablet","mode":"large-text","snapshotState":"message-sent","baseline":"reference/baselines/2.1/communication-tablet-sent-large-text.png"},
-    {"id":"media-tv-playing","flow":"media","path":"reference/candidate-2.1-media.html","width":1920,"height":1080,"appearance":"dark","clarity":"balanced","density":"far-view","performance":"balanced","formFactor":"tv","mode":"normal","snapshotState":"playing","baseline":"reference/baselines/2.1/media-tv-playing.png"},
-    {"id":"resilience-desktop-light","flow":"resilience","path":"reference/candidate-2.1-resilience.html","width":1280,"height":900,"appearance":"light","clarity":"solid","density":"standard","performance":"constrained","formFactor":"desktop","mode":"normal","snapshotState":"idle","baseline":"reference/baselines/2.1/resilience-desktop-light.png"}
-  ]
+    {"id":"settings-desktop-light","flow":"settings","path":"reference/candidate-2.1-settings.html","width":1280,"height":900,"appearance":"light","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"settings-desktop-light.png","captureArtifactSha256":"185a33fc913cc706f3c830a5a9fd3ae29790e243760f9224263ac42bf44fc498"},
+    {"id":"files-mobile-reduced-transparency","flow":"files","path":"reference/candidate-2.1-files.html","width":390,"height":844,"appearance":"dark","clarity":"clear","density":"standard","performance":"balanced","formFactor":"mobile","mode":"reduced-transparency","snapshotState":"idle","baselineFile":"files-mobile-reduced-transparency.png","captureArtifactSha256":"fbc5666f7732e7936a61b3f23b94af70230918670a0e3f918f594ace764a9ce3"},
+    {"id":"search-command-open-deep-dark","flow":"search","path":"reference/candidate-2.1-search.html","width":1280,"height":900,"appearance":"deep-dark","clarity":"balanced","density":"standard","performance":"balanced","formFactor":"desktop","mode":"increased-contrast","snapshotState":"command-open","baselineFile":"search-command-open-deep-dark.png","captureArtifactSha256":"75d4ed41b141d46480f312468bb2a140cf2413cad6b8b08b26882228bb245260"},
+    {"id":"communication-tablet-sent-large-text","flow":"communication","path":"reference/candidate-2.1-communication.html","width":820,"height":1180,"appearance":"dark","clarity":"balanced","density":"compact","performance":"balanced","formFactor":"tablet","mode":"large-text","snapshotState":"message-sent","baselineFile":"communication-tablet-sent-large-text.png","captureArtifactSha256":"54fa0af9180626f81df781b0ead032776342a5922b2b8a07aa9c3a06cebe403e"},
+    {"id":"media-tv-playing","flow":"media","path":"reference/candidate-2.1-media.html","width":1920,"height":1080,"appearance":"dark","clarity":"balanced","density":"far-view","performance":"balanced","formFactor":"tv","mode":"normal","snapshotState":"playing","baselineFile":"media-tv-playing.png","captureArtifactSha256":"bf7ae6bebe9de8101f4068fb3783b649f0ec292ae7f00d6bc97004840fbad6a2"},
+    {"id":"resilience-desktop-light","flow":"resilience","path":"reference/candidate-2.1-resilience.html","width":1280,"height":900,"appearance":"light","clarity":"solid","density":"standard","performance":"constrained","formFactor":"desktop","mode":"normal","snapshotState":"idle","baselineFile":"resilience-desktop-light.png","captureArtifactSha256":"13c1f57e9d0da02c94edc5df89b4c0d06b62766af7f5ec8a695c0c7410ba2da9"}
+  ],
+  "promotionBoundary": {
+    "stableVersionRemains": "2.0.0",
+    "baselineRevisionIsCandidateOnly": true,
+    "humanVisualExcellenceRequired": true,
+    "nativeAndRealDeviceEvidenceRequiredWhereApplicable": true
+  }
 }

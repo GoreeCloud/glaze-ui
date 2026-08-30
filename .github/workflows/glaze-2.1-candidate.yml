@@ -18,11 +18,18 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - name: Check out pinned Glaze UI 2.1 visual baseline source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: GoreeCloud/goreecloud-glaze-ui
+          ref: 8cbfaa62fc9e25b428255a0fd967887c787ffd27
+          path: .glaze-2.1-visual-baseline-source
+          persist-credentials: false
       - name: Compile Glaze UI 2.1 Candidate validators
         run: python3 -m py_compile scripts/validate_glaze_2_1_candidate.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_regression.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py
       - name: Validate Glaze UI 2.1 Candidate contracts
         run: python3 scripts/validate_glaze_2_1_candidate.py
-      - name: Validate Glaze UI 2.1 expanded regression and screenshot capture contract
+      - name: Validate Glaze UI 2.1 expanded regression and source-pinned screenshot contract
         run: python3 scripts/validate_glaze_2_1_regression.py
       - name: Validate Glaze UI 2.1 runtime syntax
         run: node --check js/glaze-2.1.candidate.mjs
@@ -34,12 +41,17 @@ jobs:
         run: python3 scripts/validate_glaze_2_1_expanded_rendered.py
       - name: Validate Glaze UI 2.1 resilience and exceptional states
         run: python3 scripts/validate_glaze_2_1_resilience_rendered.py
-      - name: Capture Glaze UI 2.1 visual baseline candidates
-        run: python3 scripts/glaze_2_1_visual_regression.py capture --output-dir .artifacts/glaze-2.1-visual-baseline-candidates
-      - name: Upload exact-head visual baseline candidates
+      - name: Render pinned Glaze UI 2.1 visual baseline source
+        run: python3 .glaze-2.1-visual-baseline-source/scripts/glaze_2_1_visual_regression.py capture --output-dir ../.artifacts/glaze-2.1-visual-baseline-reference
+      - name: Validate Glaze UI 2.1 source-pinned screenshot pixel regression
+        run: python3 scripts/glaze_2_1_visual_regression.py compare --baseline-dir .artifacts/glaze-2.1-visual-baseline-reference --output-dir .artifacts/glaze-2.1-visual-regression
+      - name: Upload exact-head visual regression evidence
+        if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-ui-2.1-visual-baseline-candidates-${{ github.event.pull_request.head.sha || github.sha }}
-          path: .artifacts/glaze-2.1-visual-baseline-candidates/*.png
+          name: glaze-ui-2.1-visual-regression-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            .artifacts/glaze-2.1-visual-baseline-reference/*.png
+            .artifacts/glaze-2.1-visual-regression/*
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 14
