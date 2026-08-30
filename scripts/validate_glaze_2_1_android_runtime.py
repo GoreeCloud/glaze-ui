@@ -22,6 +22,7 @@ OUT = ROOT / ".artifacts" / "glaze-2.1-android-native"
 PACKAGE = "com.goreecloud.glazeui.reference.android"
 ACTIVITY = f"{PACKAGE}/.MainActivity"
 BOUNDS = re.compile(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]")
+SHA40 = re.compile(r"^[0-9a-f]{40}$")
 
 
 def run(*args: str, text: bool = True, check: bool = True) -> subprocess.CompletedProcess:
@@ -30,6 +31,21 @@ def run(*args: str, text: bool = True, check: bool = True) -> subprocess.Complet
 
 def adb(serial: str, *args: str, text: bool = True, check: bool = True) -> subprocess.CompletedProcess:
     return run("adb", "-s", serial, *args, text=text, check=check)
+
+
+def exact_source_revision() -> str:
+    revision = run("git", "-C", str(ROOT), "rev-parse", "HEAD").stdout.strip()
+    if not SHA40.fullmatch(revision):
+        raise SystemExit(f"could not resolve exact checked-out source revision: {revision!r}")
+    expected = os.environ.get("GLAZE_SOURCE_REVISION", "").strip()
+    if expected:
+        if not SHA40.fullmatch(expected):
+            raise SystemExit(f"invalid expected Glaze source revision: {expected!r}")
+        if expected != revision:
+            raise SystemExit(
+                f"checked-out source revision {revision} does not match expected exact head {expected}"
+            )
+    return revision
 
 
 def serial_from_adb() -> str:
@@ -185,6 +201,7 @@ def case_large_text_touch(serial: str, dpi: int) -> dict:
 
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
+    source_revision = exact_source_revision()
     serial = serial_from_adb()
     dpi = density(serial)
     original_font_scale = adb(serial, "shell", "settings", "get", "system", "font_scale").stdout.strip() or "1.0"
@@ -203,7 +220,7 @@ def main() -> int:
     evidence = {
         "schemaVersion": 1,
         "candidateVersion": "2.1.0-candidate.1",
-        "sourceRevision": os.environ.get("GITHUB_SHA"),
+        "sourceRevision": source_revision,
         "platform": "android-handheld-emulator",
         "physicalDevice": False,
         "talkBackAccepted": False,
@@ -225,7 +242,7 @@ def main() -> int:
     (OUT / "android-native-evidence.json").write_text(
         json.dumps(evidence, indent=2) + "\n", encoding="utf-8"
     )
-    print(f"Glaze UI 2.1 Android native emulator acceptance passed: {len(cases)} cases")
+    print(f"Glaze UI 2.1 Android native emulator acceptance passed: {len(cases)} cases at {source_revision}")
     return 0
 
 
