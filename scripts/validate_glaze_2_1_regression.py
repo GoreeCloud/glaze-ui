@@ -18,7 +18,7 @@ def read_json(p):
 
 def main():
  if read_text("VERSION").strip()!="2.0.0":fail("Glaze UI 2.1 Candidate regression must not change Stable VERSION from 2.0.0")
- contract=read_json("contracts/regression/reference-invariants.json");visual_manifest=read_json("contracts/regression/visual-baselines.json");registry=read_json("registry/lifecycle.json");workflow=read_text(".github/workflows/glaze-2.1-candidate.yml");css=read_text("css/glaze-2.1.expanded-reference.css");base_css=read_text("css/glaze-2.1.reference.css");resilience_css=read_text("css/glaze-2.1.resilience-reference.css");snapshot=read_text("reference/candidate-2.1-snapshot.html")
+ contract=read_json("contracts/regression/reference-invariants.json");manifest=read_json("contracts/regression/visual-baselines.json");registry=read_json("registry/lifecycle.json");workflow=read_text(".github/workflows/glaze-2.1-candidate.yml");css=read_text("css/glaze-2.1.expanded-reference.css");base_css=read_text("css/glaze-2.1.reference.css");resilience_css=read_text("css/glaze-2.1.resilience-reference.css");snapshot=read_text("reference/candidate-2.1-snapshot.html")
  if contract.get("lifecycle")!="candidate":fail("reference regression contract must remain Candidate")
  if contract.get("scope")!="computed-layout-style-and-interaction-invariants":fail("reference regression scope must remain computed layout/style/interaction invariants")
  if contract.get("pixelBaselineStatus")!="capture-required":fail("pixel baseline status must remain capture-required until reviewed baseline PNGs are committed and compared")
@@ -43,7 +43,7 @@ def main():
   if f'data-regression-state="{state}"' not in combined:fail(f"expanded reference flows do not visibly exercise state {state}")
  for selector in (":hover",":focus-visible",":active",":disabled",'[aria-current="page"]','[aria-pressed="true"]'):
   if selector not in css and selector not in base_css:fail(f"reference CSS missing state selector {selector}")
- for marker in (".exception-grid","data-regression-state=\"conflict\"","data-regression-state=\"destructive\"","@media(forced-colors:active)"):
+ for marker in (".exception-grid",'data-regression-state="conflict"','data-regression-state="destructive"',"@media(forced-colors:active)"):
   if marker not in resilience_css:fail(f"resilience CSS missing marker: {marker}")
  scenarios=contract.get("interactionScenarios",[]);sm={i.get("id"):i for i in scenarios if isinstance(i,dict)};expected_s={"command-open-select":"search-command","message-send":"communication-live-activity","playback-toggle":"media-playback"}
  if set(sm)!=set(expected_s):fail(f"interaction scenarios must remain exactly {sorted(expected_s)}")
@@ -64,12 +64,12 @@ def main():
  if pixel.get("status")!="planned":fail("screenshot visual regression must remain Planned before reviewed baseline PNGs exist")
  for key,value in (("manifest","contracts/regression/visual-baselines.json"),("captureImplementation","scripts/glaze_2_1_visual_regression.py"),("snapshotHarness","reference/candidate-2.1-snapshot.html")):
   if pixel.get(key)!=value:fail(f"visual-regression-2.1 {key} must be {value}")
- if visual_manifest.get("lifecycle")!="planned" or visual_manifest.get("status")!="capture-required" or visual_manifest.get("baselineRevision") is not None:fail("visual baseline manifest must remain Planned/capture-required with null baselineRevision before baseline acceptance")
- thresholds=visual_manifest.get("thresholds",{})
+ if manifest.get("lifecycle")!="planned" or manifest.get("status")!="capture-required" or manifest.get("baselineRevision") is not None:fail("visual baseline manifest must remain Planned/capture-required with null baselineRevision before baseline acceptance")
+ thresholds=manifest.get("thresholds",{})
  if not isinstance(thresholds.get("perChannelTolerance"),int) or not 0<=thresholds.get("perChannelTolerance",-1)<=32:fail("visual per-channel tolerance must be an integer from 0 to 32")
  if not isinstance(thresholds.get("maxChangedPixelRatio"),(int,float)) or not 0<thresholds.get("maxChangedPixelRatio",0)<=0.02:fail("visual changed-pixel ratio must be >0 and <=2%")
  if not isinstance(thresholds.get("maxMeanAbsoluteChannelDelta"),(int,float)) or not 0<thresholds.get("maxMeanAbsoluteChannelDelta",0)<=4:fail("visual mean channel delta must be >0 and <=4")
- expected_cases={"settings-desktop-light","files-mobile-reduced-transparency","search-command-open-deep-dark","communication-tablet-sent-large-text","media-tv-playing","resilience-desktop-light"};cases=visual_manifest.get("cases",[]);case_map={c.get("id"):c for c in cases if isinstance(c,dict)}
+ expected_cases={"settings-desktop-light","files-mobile-reduced-transparency","search-command-open-deep-dark","communication-tablet-sent-large-text","media-tv-playing","resilience-desktop-light"};cases=manifest.get("cases",[]);case_map={c.get("id"):c for c in cases if isinstance(c,dict)}
  if set(case_map)!=expected_cases:fail(f"visual baseline manifest case set must be exactly {sorted(expected_cases)}")
  for cid,case in case_map.items():
   if case.get("flow") not in {"settings","files","search","communication","media","resilience"}:fail(f"visual case {cid} has invalid flow")
@@ -83,7 +83,7 @@ def main():
  if "reference/candidate-2.1-expanded-acceptance.html" not in read_text("scripts/validate_glaze_2_1_expanded_rendered.py"):fail("expanded rendered validator must invoke expanded acceptance harness")
  if "reference/candidate-2.1-resilience-acceptance.html" not in read_text("scripts/validate_glaze_2_1_resilience_rendered.py"):fail("resilience validator must invoke resilience acceptance harness")
  visual_script=read_text("scripts/glaze_2_1_visual_regression.py")
- for marker in ("decode_png","compare_case","--force-device-scale-factor=1","data-snapshot-ready=\\\"true\\\""):
+ for marker in ("decode_png","compare_case","--force-device-scale-factor=1",'data-snapshot-ready="true"'):
   if marker not in visual_script:fail(f"visual regression script missing marker: {marker}")
  if ERRORS:
   print("Glaze UI 2.1 expanded regression validation FAILED",file=sys.stderr)
