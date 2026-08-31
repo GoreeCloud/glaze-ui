@@ -40,7 +40,8 @@ def validate_guidance(data: dict[str, object], stable: str) -> None:
         "CONSUMERS.md must identify the current Stable baseline",
     )
     req(
-        f"only Glaze UI version that may satisfy current GoreeCloud application conformance" in guidance,
+        "only Glaze UI version that may satisfy current GoreeCloud application conformance"
+        in guidance,
         "CONSUMERS.md must state the current-Stable production rule",
     )
     req(
@@ -78,7 +79,9 @@ def validate_guidance(data: dict[str, object], stable: str) -> None:
 
     consumers = data.get("consumers", [])
     req(isinstance(consumers, list), "consumers list type")
-    expected_names = {str(consumer.get("name")) for consumer in consumers if isinstance(consumer, dict)}
+    expected_names = {
+        str(consumer.get("name")) for consumer in consumers if isinstance(consumer, dict)
+    }
     req(set(documented) == expected_names, "CONSUMERS.md audited consumer set drift")
 
     for consumer in consumers:
@@ -91,6 +94,13 @@ def validate_guidance(data: dict[str, object], stable: str) -> None:
             target = str(consumer.get("targetVersion"))
             req(f"recorded {target}" in body, f"{name} documented historical target")
             req(f"required {stable}" in body, f"{name} documented Stable target")
+        elif status == "adoption-candidate":
+            target = str(consumer.get("targetVersion"))
+            req(target == stable, f"{name} documented adoption target")
+            req(
+                "production" in body.lower() and "incomplete" in body.lower(),
+                f"{name} adoption-candidate acceptance boundary",
+            )
         elif status == "unverified":
             req("fresh repository-local 2.1" in body, f"{name} unverified evidence boundary")
         else:
@@ -110,6 +120,11 @@ def main() -> None:
         and data.get("requiredConsumerVersion") == stable,
         "Stable target",
     )
+    req(
+        set(data.get("statusVocabulary", []))
+        == {"aligned-current-stable", "adoption-candidate", "migration-required", "unverified"},
+        "status vocabulary",
+    )
 
     historical = data.get("historicalStableVersions", [])
     req(
@@ -128,9 +143,7 @@ def main() -> None:
         "lifecycle Stable state",
     )
     stable_release = [
-        release
-        for release in lifecycle.get("releases", [])
-        if release.get("version") == stable
+        release for release in lifecycle.get("releases", []) if release.get("version") == stable
     ]
     req(
         len(stable_release) == 1 and stable_release[0].get("status") == "stable",
@@ -156,10 +169,7 @@ def main() -> None:
         repo = consumer.get("repository")
         req(repo in EXPECTED and repo not in seen, f"invalid/duplicate {repo}")
         seen.add(repo)
-        req(
-            consumer.get("requiredTargetVersion") == stable,
-            f"{repo} required target",
-        )
+        req(consumer.get("requiredTargetVersion") == stable, f"{repo} required target")
         req(consumer.get("productionEligible") is False, f"{repo} must not auto-promote")
 
         status = consumer.get("status")
@@ -177,6 +187,21 @@ def main() -> None:
                 consumer.get("automatedContract") is True and consumer.get("evidence"),
                 f"{repo} evidence",
             )
+        elif status == "adoption-candidate":
+            req(target == stable, f"{repo} adoption target")
+            req(
+                SHA40.fullmatch(str(consumer.get("referenceRevision", ""))) is not None,
+                f"{repo} candidate revision",
+            )
+            req(
+                consumer.get("automatedContract") is True and consumer.get("evidence"),
+                f"{repo} candidate evidence",
+            )
+            visual = str(consumer.get("visualAcceptance", "")).lower()
+            req(
+                "remain" in visual and "production" in visual,
+                f"{repo} candidate must retain incomplete product acceptance",
+            )
         elif status == "unverified":
             req(
                 target is None
@@ -186,16 +211,14 @@ def main() -> None:
                 f"{repo} unverified boundary",
             )
         else:
-            req(
-                False,
-                f"{repo} must remain migration-required or unverified immediately after Stable promotion",
-            )
+            req(False, f"unsupported consumer status for {repo}")
 
     req(seen == EXPECTED, "audit scope drift")
     validate_guidance(data, stable)
+    candidates = sum(1 for consumer in consumers if consumer.get("status") == "adoption-candidate")
     print(
         f"Glaze UI consumer registry and guidance validated: {len(consumers)} consumers "
-        f"require Stable {stable}; none auto-promoted"
+        f"require Stable {stable}; {candidates} evidence-backed adoption candidate(s); none auto-promoted"
     )
 
 
