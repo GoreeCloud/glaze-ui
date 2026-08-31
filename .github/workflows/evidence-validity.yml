@@ -1,0 +1,24 @@
+name: Glaze UI Evidence Validity
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-evidence-validity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Compile evidence validity validator
+        run: python3 -m py_compile scripts/validate_evidence_validity.py
+      - name: Validate machine-readable conformance evidence contract
+        run: python3 scripts/validate_evidence_validity.py
