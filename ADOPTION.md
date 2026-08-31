@@ -56,9 +56,11 @@ Accessibility is part of the component and layout contract, not a post-release p
 
 Width is one signal, not a device identity. Navigation and layout may transform across phone, tablet, desktop, TV, foldable, wearable, and spatial environments while preserving semantic order, current destination, authoritative state, focus continuity, and task continuity.
 
+## 8. Design explicitly for phone, tablet, and desktop
+
 ### Phone
 
-Phone layouts prioritize reachability, touch, safe areas, compact task focus, and intentional bottom/edge action placement. Mobile must not be a shrunken desktop or tablet shell.
+Phone layouts prioritize reachability, touch, safe areas, compact task focus, and intentional bottom/edge action placement. Mobile must not be a shrunken tablet or desktop shell.
 
 ### Tablet
 
@@ -84,27 +86,27 @@ Wearable UI is glance-first and purpose-built. Do not shrink Mobile. Rotational 
 
 Use depth as supplemental hierarchy only. Anchored and floating controls remain semantic and usable when flattened; advanced graphics are never required for basic task completion.
 
-## 8. Preserve logical order and authoritative state
+## 9. Preserve logical order and authoritative state
 
 Reachability, adaptive grouping, and Connected Transformation may change visual allocation, never reading order, semantic meaning, authoritative state, keyboard/focus order, or security/privacy/identity boundaries.
 
-## 9. Keep presentation local by default
+## 10. Keep presentation local by default
 
 Glaze UI 2.1 does not require analytics, trackers, remote fonts or icons, CDN UI dependencies, network calls, or browser storage in the core design-system runtime. GoreeCloud websites and applications should keep presentation assets local unless an explicit reviewed product requirement establishes otherwise.
 
-## 10. Use approved GoreeCloud visual identity
+## 11. Use approved GoreeCloud visual identity
 
 Glaze UI governs interface design; it does not authorize product branding. GoreeCloud logos, product icons, system marks, artwork, and approved production derivatives come from `GoreeCloud/goreecloud-branding-assets`.
 
 Do not redraw, recolor, substitute, or invent an official GoreeCloud asset when an approved canonical asset exists. When no approved asset exists, use a clearly neutral presentation until the branding authority publishes one.
 
-## 11. Add a consumer contract test
+## 12. Add a consumer contract test
 
 Validate the subset consumed: exact current Stable version/revision, current material/token semantics, interaction states, accessibility and resilience fallbacks, form-factor activation, target floors, platform-specific input behavior, asset provenance where relevant, and authority boundaries. Fail closed on a superseded active version or missing required evidence.
 
 A build-time rewrite that silently converts stale active source markup into 2.1 should not be the only conformance control. Current source, generated artifact, and deployed representation should agree on the active design-system contract.
 
-## 12. Perform visual and product acceptance
+## 13. Perform visual and product acceptance
 
 Representative web review profiles include Mobile **390×844**, Tablet **820×1180**, Desktop **1280×900**, and Wide Desktop **1600×1000**, plus additional form factors when the product supports them. Review real task flows and all important states, not screenshots alone.
 
