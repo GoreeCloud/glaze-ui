@@ -50,10 +50,10 @@ Current-Stable version-specific evidence has not been established. Unverified ca
 - **GoreeCloud Notes** — `unverified`; fresh repository-local 2.1 implementation evidence is required.
 - **GoreeCloud Monitor** — `migration-required`, recorded 1.0.0; required 2.1.0.
 - **GoreeCloud Browser** — `migration-required`, recorded 2.0.0; required 2.1.0. Its 2.0 implementation evidence remains historical migration input.
-- **GoreeCloud Security Center** — `migration-required`, recorded 2.0.0; required 2.1.0. Wardveil Security retains security-truth authority; a source migration branch or preview does not by itself satisfy current-Stable application acceptance.
-- **GoreeCloud Privacy Center** — `migration-required`, recorded 2.0.0; required 2.1.0. Privacy Shield retains privacy-truth authority; a source migration branch or preview does not by itself satisfy current-Stable application acceptance.
+- **GoreeCloud Security Center** — `adoption-candidate`, targets 2.1.0 at validated revision `3b7f1a59107c07e5762b1d9282c3675658b61f3c`; source was subsequently merged to Wardveil main. Human rendered/browser accessibility, Visual Excellence, deployed-site acceptance, and production eligibility remain incomplete. Wardveil Security retains security-truth authority.
+- **GoreeCloud Privacy Center** — `adoption-candidate`, targets 2.1.0 at validated revision `d0bf264b5ea4d3f9d9a36f37c218300412945ba6`; source and checked-in publication artifact were validated and the source was subsequently merged to Privacy Shield main. Human rendered/browser accessibility, Visual Excellence, deployed-site acceptance, and production eligibility remain incomplete. Privacy Shield retains privacy-truth authority.
 
-These states are evidence-backed rather than declarative. No repository is promoted to `aligned-current-stable` merely because 2.1 source migration exists or a preview renders successfully. Current-Stable conformance requires the exact application-specific evidence recorded by the registry.
+These states are evidence-backed rather than declarative. No repository is promoted to `aligned-current-stable` merely because 2.1 source migration exists, source was merged, or a preview renders successfully. Current-Stable conformance requires the exact application-specific evidence recorded by the registry.
 
 Launcher and Keyboard retain earlier Glaze Motion evaluations as historical development evidence. Stable Glaze UI 2.1 does not turn unrelated Experimental behavior into a production dependency by implication.
 
