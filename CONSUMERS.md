@@ -32,7 +32,7 @@ Glaze UI 2.1 contains platform-neutral wearable, spatial, adaptive, accessibilit
 Targets 2.1.0 with reviewed revision evidence, repository-local mapping, applicable automated validation, and completed product acceptance. This is the only state eligible to satisfy the Glaze UI production gate.
 
 ### Adoption Candidate
-Targets 2.1.0 with evidence-backed adoption in progress, but final product acceptance remains incomplete. Adoption Candidate is not production-accepted conformance.
+Targets 2.1.0 with a reviewed current-Stable release anchor, an exact application revision, repository-local mapping/evidence, and applicable automated validation, while final rendered/native/accessibility/platform acceptance is still incomplete. Adoption Candidate is explicitly production-ineligible and must not be promoted to current-Stable alignment merely because source migration or CI succeeds.
 
 ### Migration Required
 Still targets a historical Stable release. Historical evidence remains migration input and audit history, but the consumer is nonconforming with current Stable and production-blocked on the Glaze UI gate.
@@ -52,20 +52,23 @@ Current-Stable version-specific evidence has not been established. Unverified ca
 - **GoreeCloud Browser** — `migration-required`, recorded 2.0.0; required 2.1.0. Its 2.0 implementation evidence remains historical migration input.
 - **GoreeCloud Security Center** — `migration-required`, recorded 2.0.0; required 2.1.0. Wardveil Security retains security-truth authority; a source migration branch or preview does not by itself satisfy current-Stable application acceptance.
 - **GoreeCloud Privacy Center** — `migration-required`, recorded 2.0.0; required 2.1.0. Privacy Shield retains privacy-truth authority; a source migration branch or preview does not by itself satisfy current-Stable application acceptance.
+- **GoreeCloud App Store** — `adoption-candidate`, targets 2.1.0; application-specific rendered/native/accessibility/form-factor/representative physical-device acceptance pending; production acceptance remains false.
 
 These states are evidence-backed rather than declarative. No repository is promoted to `aligned-current-stable` merely because 2.1 source migration exists or a preview renders successfully. Current-Stable conformance requires the exact application-specific evidence recorded by the registry.
 
-Launcher and Keyboard retain earlier Glaze Motion evaluations as historical development evidence. Stable Glaze UI 2.1 does not turn unrelated Experimental behavior into a production dependency by implication.
+Launcher and Keyboard retain earlier Glaze Motion evaluations as historical development evidence. Stable Glaze UI 2.1 does not turn unrelated Experimental behavior into a production dependency by implication. The App Store does not consume Glaze Motion.
 
 ## Audit completeness
 
-The ten named repositories above form the current central audit set. This set does not limit policy scope: the current-Stable rule applies to every GoreeCloud-controlled user-facing application whether or not it is already represented in the central registry.
+The eleven named repositories above form the current central audit set. This set does not limit policy scope: the current-Stable rule applies to every GoreeCloud-controlled user-facing application whether or not it is already represented in the central registry.
 
 Removing an audited repository requires an explicit audit-scope change rather than silently reducing coverage. Each application repository remains responsible for its own current-Stable mapping, CI, rendered/native/real-device acceptance, and production-readiness evidence.
 
 ## Rules for consumer claims
 
 A repository claiming current-Stable alignment must identify Glaze UI 2.1.0, the reviewed canonical revision/release anchor, repository-local mapping/conformance record, applicable automated checks, product acceptance boundary, and supported platform contexts.
+
+A repository recorded as `adoption-candidate` must target current Stable, pin an exact 40-character application revision, provide repository-local evidence and an automated contract, remain `productionEligible=false`, and explicitly retain incomplete rendered/native/accessibility/platform acceptance. Adoption Candidate is progress evidence, not a conformance shortcut.
 
 A Stable consumer **must not silently depend on Candidate or Experimental** behavior. New consumers should use the versioned Stable entrypoints and contracts defined by the 2.1 Stable release documentation. Retained Candidate-named implementation files, where present, are immutable promotion provenance and controlled compatibility evidence rather than a current lifecycle claim.
 
