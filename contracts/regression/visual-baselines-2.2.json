@@ -3,12 +3,12 @@
   "schemaVersion": 1,
   "id": "glaze-ui-2.2-visual-baselines",
   "lifecycle": "candidate",
-  "status": "baseline-source-prepin",
+  "status": "source-pinned-candidate",
   "baselineStrategy": "source-revision-same-run-render",
-  "baselineRevision": null,
+  "baselineRevision": "ae002a642a05a08b8125da5bc124453727df7111",
   "humanVisualExcellenceAccepted": false,
   "humanDecision": "Pending",
-  "note": "This Candidate manifest defines the deterministic review set before its source revision is pinned. Capture output is evidence only and cannot self-approve Human Visual Excellence.",
+  "note": "The immutable Candidate source revision is re-rendered on the same Chromium runner as the exact current revision. Passing pixel regression protects the review presentation but does not constitute Human Visual Excellence acceptance or Stable promotion.",
   "thresholds": {
     "perChannelTolerance": 12,
     "maxChangedPixelRatio": 0.0075,
@@ -85,7 +85,8 @@
   "promotionBoundary": {
     "candidateVersion": "2.2.0-candidate.1",
     "currentStable": "2.1.0",
-    "baselineRevisionPinned": false,
+    "baselineRevisionPinned": true,
+    "baselineRevisionIsCandidateReviewSource": true,
     "humanVisualExcellenceAccepted": false,
     "stablePromotionAuthorized": false
   }

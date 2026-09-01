@@ -13,7 +13,7 @@ permissions:
 jobs:
   validate-candidate-2-2:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - name: Check out exact source revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -21,8 +21,16 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
 
+      - name: Check out pinned Glaze UI 2.2 Candidate visual baseline source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: GoreeCloud/goreecloud-glaze-ui
+          ref: ae002a642a05a08b8125da5bc124453727df7111
+          path: .glaze-2.2-visual-baseline-source
+          persist-credentials: false
+
       - name: Compile Glaze UI 2.2 Candidate validators
-        run: python3 -m py_compile scripts/validate_glaze_2_2_candidate.py scripts/validate_glaze_2_2_components.py scripts/validate_glaze_2_2_structure_components.py scripts/validate_glaze_2_2_overlay_components.py scripts/validate_glaze_2_2_advanced_components.py scripts/validate_glaze_2_2_migration.py scripts/validate_glaze_2_2_performance.py scripts/validate_glaze_2_2_components_rendered.py scripts/validate_glaze_2_2_structure_rendered.py scripts/validate_glaze_2_2_overlay_rendered.py scripts/validate_glaze_2_2_advanced_rendered.py scripts/validate_glaze_2_2_system_interactions_rendered.py scripts/validate_glaze_2_2_performance_rendered.py scripts/validate_glaze_2_2_rendered.py
+        run: python3 -m py_compile scripts/validate_glaze_2_2_candidate.py scripts/validate_glaze_2_2_components.py scripts/validate_glaze_2_2_structure_components.py scripts/validate_glaze_2_2_overlay_components.py scripts/validate_glaze_2_2_advanced_components.py scripts/validate_glaze_2_2_migration.py scripts/validate_glaze_2_2_performance.py scripts/validate_glaze_2_2_components_rendered.py scripts/validate_glaze_2_2_structure_rendered.py scripts/validate_glaze_2_2_overlay_rendered.py scripts/validate_glaze_2_2_advanced_rendered.py scripts/validate_glaze_2_2_system_interactions_rendered.py scripts/validate_glaze_2_2_performance_rendered.py scripts/validate_glaze_2_2_rendered.py scripts/glaze_2_2_visual_regression.py .glaze-2.2-visual-baseline-source/scripts/glaze_2_2_visual_regression.py
 
       - name: Validate Glaze UI 2.2 Candidate runtime syntax
         run: node --check js/glaze-2.2.candidate.mjs && node --check js/glaze-2.2.system-interactions.candidate.mjs
@@ -77,3 +85,25 @@ jobs:
 
       - name: Validate rendered Glaze UI 2.2 performance and Glaze budget behavior
         run: python3 scripts/validate_glaze_2_2_performance_rendered.py
+
+      - name: Render pinned Glaze UI 2.2 Candidate visual baseline source
+        run: python3 .glaze-2.2-visual-baseline-source/scripts/glaze_2_2_visual_regression.py capture --output-dir ../.artifacts/glaze-2.2-visual-baseline-reference
+
+      - name: Validate Glaze UI 2.2 source-pinned screenshot pixel regression
+        run: python3 scripts/glaze_2_2_visual_regression.py compare --baseline-dir .artifacts/glaze-2.2-visual-baseline-reference --output-dir .artifacts/glaze-2.2-visual-regression
+
+      - name: Capture exact-head Glaze UI 2.2 Candidate visual review set
+        if: ${{ always() }}
+        run: python3 scripts/glaze_2_2_visual_regression.py capture --output-dir .artifacts/glaze-2.2-visual-review-current
+
+      - name: Upload exact-head Glaze UI 2.2 Candidate visual evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: glaze-ui-2.2-candidate-visual-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            .artifacts/glaze-2.2-visual-review-current/*.png
+            .artifacts/glaze-2.2-visual-baseline-reference/*.png
+            .artifacts/glaze-2.2-visual-regression/*
+          if-no-files-found: error
+          retention-days: 14
