@@ -4,7 +4,7 @@
   "id": "glz-select-2-2",
   "name": "GlzSelect",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "foundation",
   "semanticRole": "Choose one value from a bounded option set while preserving native selection, labeling, validation, and adaptive presentation semantics.",
   "variants": ["standard", "filled", "glaze"],
