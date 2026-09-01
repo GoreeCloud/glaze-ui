@@ -1,0 +1,89 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-icon-button-2-2",
+  "name": "GlzIconButton",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "planned",
+  "tier": "foundation",
+  "semanticRole": "Execute a compact action represented primarily by one recognizable symbol.",
+  "variants": ["quiet", "surface", "glaze", "accent", "danger"],
+  "sizes": [
+    {"name": "xs", "visualHeightPx": 28, "touchHitMinPx": 48, "iconPx": 14, "radiusPx": 10},
+    {"name": "sm", "visualHeightPx": 32, "touchHitMinPx": 48, "iconPx": 16, "radiusPx": 10},
+    {"name": "md", "visualHeightPx": 40, "touchHitMinPx": 48, "iconPx": 18, "radiusPx": 12},
+    {"name": "lg", "visualHeightPx": 48, "touchHitMinPx": 48, "iconPx": 24, "radiusPx": 14},
+    {"name": "xl", "visualHeightPx": 56, "touchHitMinPx": 56, "iconPx": 28, "radiusPx": 16}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {
+    "default": "surface",
+    "allowed": ["surface", "raised", "regular-glaze", "solid-glaze"],
+    "glazeIsExceptional": true,
+    "rule": "Quiet is preferred inside ordinary toolbars; Glaze is reserved for floating controls; danger is only for genuinely destructive actions."
+  },
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": false},
+  "input": {
+    "keyboard": "Enter or Space activates once; ambiguous icon actions expose an accessible name and tooltip without requiring hover.",
+    "focus": "Focus ring surrounds the hit target rather than only the glyph.",
+    "hover": "Hover may reveal a tooltip and restrained state layer; no essential information depends on hover.",
+    "press": "Immediate state layer/compression feedback; no icon jump or relayout.",
+    "selection": "Selected icon buttons use at least two cues such as tint plus filled symbol or selection indicator."
+  },
+  "accessibility": {
+    "role": "button",
+    "name": "Every icon-only control has an explicit accessible action name; ambiguous, destructive, or shortcut actions also expose a concise tooltip such as Share project.",
+    "state": "Disabled, selected, loading, and error state are programmatically exposed when applicable.",
+    "value": "No value for ordinary icon actions; toggle-like icon actions expose checked/pressed state rather than encoding value in color.",
+    "keyboard": "Keyboard activation and tooltip discoverability are supported without pointer hover.",
+    "focus": "Visible focus covers the full target and remains stronger than or equal to hover discoverability.",
+    "errorAssociation": "Errors caused by the action are announced through the associated status/error region.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Remove decorative icon morph/scale unless the morph is required to explain state; use direct state swap or short crossfade.",
+    "reducedTransparency": "Glaze variant becomes opaque raised.",
+    "increasedContrast": "Strengthen target boundary, selected indicator, and focus ring.",
+    "forcedColors": "Use platform button/focus colors and preserve selected/danger meaning with shape, fill, or label.",
+    "largeText": "Tooltip text scales and wraps; target size remains usable."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {
+    "reducedMotion": "Short state swap/crossfade.",
+    "reducedTransparency": "Opaque raised surface.",
+    "highContrast": "Stronger focus/boundary/selection treatment.",
+    "forcedColors": "Platform colors and explicit selected/destructive semantics.",
+    "performance": "Remove optional material blur and decorative shadow first."
+  },
+  "api": {
+    "semanticProps": ["variant", "size", "label", "tooltip", "selected", "disabled", "loading", "icon"],
+    "events": ["onPress", "onFocus", "onBlur"],
+    "slots": ["root", "icon", "loadingIndicator", "tooltipAnchor"],
+    "escapeHatches": ["className", "style", "slotProps", "tokens"],
+    "rawVisualPropsPreferred": false
+  },
+  "content": {
+    "overflow": "The control itself never clips the semantic symbol; tooltip handles longer action names.",
+    "localization": "Accessible name and tooltip localize independently of the fixed icon geometry.",
+    "rtl": "Directional symbols mirror when their action direction mirrors; non-directional symbols retain orientation.",
+    "textExpansionPercent": [30, 50]
+  },
+  "testing": {
+    "themes": ["light", "dark", "deep-dark"],
+    "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"],
+    "inputs": ["mouse", "touch", "keyboard", "remote"],
+    "directions": ["ltr", "rtl"],
+    "textScalePercent": [100, 200],
+    "motion": ["full", "reduced"],
+    "contrast": ["standard", "high", "forced-colors"]
+  },
+  "visualReview": {
+    "required": true,
+    "criteria": [
+      "Glyph occupies an optically balanced portion of the container without crowding.",
+      "Selected and danger states are readable without color-only cues.",
+      "Tooltip relationship is clear without making every icon permanently labeled.",
+      "Floating Glaze variant remains restrained and does not turn ordinary toolbars into glass clusters."
+    ]
+  }
+}
