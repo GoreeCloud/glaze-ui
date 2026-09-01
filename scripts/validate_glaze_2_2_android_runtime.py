@@ -226,15 +226,15 @@ def case_search_and_exclusivity(serial: str, dpi: int) -> dict:
     search_input = find_desc(ui, "Search everything")
     if search_input is None or search_input.attrib.get("focused") != "true":
         raise SystemExit("Universal Search did not move native focus immediately to the query field")
-    result = find_text(ui, "Project Brief")
-    if result is None:
-        raise SystemExit("deterministic Project Brief result missing")
-    result_dp = require_target(result, dpi, 48.0, "Project Brief")
-    # Provenance remains mandatory, but safe-area and text reflow are allowed to
-    # move the generated-source card below the initial viewport.
+
+    # Correct safe-area handling can reduce the IME viewport enough that the
+    # deterministic result is below the first dump. Immediate focus is proven
+    # above; dismiss only the IME before measuring result geometry.
+    dismiss_ime(serial)
+    _, result, result_dp = fully_revealed_target(serial, "Project Brief", dpi, 48.0)
+    require_target(result, dpi, 48.0, "Project Brief")
     find_reachable(serial, "Generated answer · Source: Project Brief", attempts=8)
 
-    dismiss_ime(serial)
     _, delete, delete_dp = fully_revealed_target(serial, "Delete local cache", dpi, 48.0)
     require_target(delete, dpi, 48.0, "Delete local cache")
     tap(serial, delete)
