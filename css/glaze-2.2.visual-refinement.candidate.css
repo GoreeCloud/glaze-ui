@@ -118,9 +118,9 @@
   margin-block-start:10px;
   padding:8px;
   border-radius:32px;
-  background: color-mix(in srgb,var(--glz22-raised) 94%,transparent);
+  background: color-mix(in srgb,var(--glz22-raised) 90%,transparent);
   border:1px solid color-mix(in srgb,var(--glz22-optical-edge) 54%,var(--glz22-line));
-  box-shadow: var(--glz22-optical-shadow-float);
+  box-shadow: inset 0 1px 0 color-mix(in srgb,var(--glz22-optical-highlight) 44%,transparent),var(--glz22-optical-shadow-float);
 }
 .glz22-search-group {padding:8px 6px}
 .glz22-search-group+.glz22-search-group {border-block-start:0}
@@ -136,7 +136,7 @@
 }
 .glz22-search-generated {
   border-radius:24px;
-  background:color-mix(in srgb,var(--glz22-base) 92%,var(--glz22-aurora-a));
+  background:color-mix(in srgb,var(--glz22-base) 86%,var(--glz22-aurora-a));
 }
 
 .glz22-morph-card,.glz22-ai-suggestion,.glz22-ai-answer,.glz22-smart-summary,.glz22-aurora {
@@ -153,6 +153,47 @@
 .glz22-aurora[data-intensity="hero"]::before {opacity:.28}
 .glz22-summary-signal {border-radius:999px;background:var(--glz22-interaction-fill)}
 
+/* Remove OS-specific desktop decoration cues from the reference. */
+.traffic {display:none!important}
+.window-sidebar .nav-label:first-of-type {margin-top:0}
+.floating-dock {
+  gap:4px!important;
+  padding:5px 7px!important;
+  border-radius:26px!important;
+}
+.dock-item {
+  inline-size:52px!important;
+  block-size:44px!important;
+  border-radius:18px!important;
+  background:transparent!important;
+}
+.dock-item.current {
+  background:var(--glz22-selected-fill)!important;
+  color:var(--glz22-focus)!important;
+  box-shadow:inset 0 0 0 1px var(--glz22-selected-ring),inset 0 1px 0 var(--glz22-optical-highlight)!important;
+}
+
+/* Intelligence keeps its cards calm while the surrounding field provides depth. */
+.intel-stage::before,.intel-stage::after {
+  content:"";position:absolute;pointer-events:none;border-radius:50%;filter:blur(18px);opacity:.7
+}
+.intel-stage::before {
+  inline-size:260px;block-size:260px;inset:10% auto auto 8%;
+  background:radial-gradient(circle,var(--glz22-aurora-a),transparent 68%)
+}
+.intel-stage::after {
+  inline-size:320px;block-size:320px;inset:auto 7% 5% auto;
+  background:radial-gradient(circle,var(--glz22-aurora-b),transparent 70%)
+}
+.intel-backdrop {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--glz22-base) 86%,var(--glz22-aurora-a)),color-mix(in srgb,var(--glz22-base) 88%,var(--glz22-aurora-b)))!important;
+  border-color:color-mix(in srgb,var(--glz22-optical-edge) 44%,var(--glz22-line))!important;
+}
+.intel-grid .glz22-ai-answer,.intel-grid .glz22-smart-summary,.intel-grid .glz22-ai-suggestion,.intel-grid .glz22-morph-card {
+  background:color-mix(in srgb,var(--glz22-base) 80%,transparent)!important;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--glz22-optical-highlight) 46%,transparent),var(--glz22-optical-shadow-soft)
+}
+
 /* Explicit accessibility precedence remains stronger than optical styling. */
 [data-glz-transparency="reduced"] .glz22-system-overlay,
 [data-glz-transparency="reduced"] .glz22-system-panel,
@@ -165,6 +206,7 @@
   box-shadow:none;
 }
 [data-glz-transparency="reduced"] .glz22-search-panel {background:var(--glz22-raised);box-shadow:none}
+[data-glz-transparency="reduced"] .intel-stage::before,[data-glz-transparency="reduced"] .intel-stage::after {display:none}
 
 html[data-mode="increased-contrast"] .glz22-system-overlay,
 html[data-mode="increased-contrast"] .glz22-system-panel,
@@ -173,14 +215,33 @@ html[data-mode="increased-contrast"] .glz22-search-entry,
 html[data-mode="increased-contrast"] .glz22-search-panel {box-shadow:none}
 
 @media(max-width:700px) {
-  .glz22-universal-search[data-open="true"] {inset:10px}
-  .glz22-universal-search[data-open="true"] .glz22-search-entry {background:var(--glz22-glass-strong)}
-  .glz22-universal-search[data-open="true"] .glz22-search-panel {border-radius:28px}
+  .state-search .eyebrow {display:none}
+  .glz22-universal-search[data-open="true"] {
+    inset:auto 9px 12px!important;
+    inline-size:auto!important;
+    max-block-size:calc(100vh - 76px);
+  }
+  .glz22-universal-search[data-open="true"] .glz22-search-entry {
+    background:var(--glz22-glass-strong);
+    border-radius:999px;
+  }
+  .glz22-universal-search[data-open="true"] .glz22-search-panel {
+    block-size:auto!important;
+    max-block-size:min(64vh,640px)!important;
+    border-radius:28px;
+    background:var(--glz22-glass-strong);
+    -webkit-backdrop-filter:blur(var(--glz22-panel-blur)) saturate(1.18);
+    backdrop-filter:blur(var(--glz22-panel-blur)) saturate(1.18);
+  }
+  .floating-dock {bottom:12px!important}
 }
 
 @media(forced-colors:active) {
   .glz22-system-overlay,.glz22-system-panel,.glz22-capsule,.glz22-search-entry,.glz22-search-panel,.glz22-smart-rail,
-  .glz22-advanced-button,.glz22-ai-action,.glz22-source-chip,.glz22-morph-card,.glz22-ai-suggestion,.glz22-ai-answer,.glz22-smart-summary,.glz22-aurora {
-    background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none
+  .glz22-advanced-button,.glz22-ai-action,.glz22-source-chip,.glz22-morph-card,.glz22-ai-suggestion,.glz22-ai-answer,.glz22-smart-summary,.glz22-aurora,
+  .floating-dock,.dock-item,.intel-backdrop {
+    background:Canvas!important;color:CanvasText!important;border-color:CanvasText!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important
   }
+  .intel-stage::before,.intel-stage::after {display:none}
+  .dock-item.current {background:Highlight!important;color:HighlightText!important}
 }

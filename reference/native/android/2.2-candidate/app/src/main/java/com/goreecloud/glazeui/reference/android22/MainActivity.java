@@ -164,6 +164,7 @@ public final class MainActivity extends Activity {
         title.setTextColor(textPrimary);
         root.addView(title);
         root.addView(label("Optical Reachability · Native Android reference", 14, false));
+        root.addView(label("Current Stable: 2.1.0", 13, false));
         root.addView(spacer(7));
         TextView hierarchy = label("Workspace → Application → System Overlay → System Panel → Critical System", 13, false);
         hierarchy.setPadding(0, 0, 0, dp(5));
