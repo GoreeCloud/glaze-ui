@@ -1,0 +1,31 @@
+/*
+ * Glaze UI 2.2 Foundation Components — composed Candidate runtime entrypoint.
+ * Planned until exact-head rendered acceptance passes.
+ */
+@import url("./glaze-2.2.components.adaptive.candidate.css");
+
+/* Deterministic focus: a focused control always retains a visible boundary.
+   :focus-visible remains supported by the imported layer, but accessibility
+   must not depend on a browser's focus-visible heuristic. */
+.glz22-button:focus,
+.glz22-icon-button:focus,
+.glz22-field-control:focus-within,
+.glz22-select:focus,
+.glz22-choice input:focus + .glz22-choice-control,
+.glz22-switch input:focus + .glz22-switch-track,
+.glz22-slider input:focus {
+  outline: var(--glz22-focus-width) solid var(--glz22-focus);
+  outline-offset: var(--glz22-focus-offset);
+}
+
+@media (forced-colors: active) {
+  .glz22-button:focus,
+  .glz22-icon-button:focus,
+  .glz22-field-control:focus-within,
+  .glz22-select:focus,
+  .glz22-choice input:focus + .glz22-choice-control,
+  .glz22-switch input:focus + .glz22-switch-track,
+  .glz22-slider input:focus {
+    outline-color: Highlight;
+  }
+}
