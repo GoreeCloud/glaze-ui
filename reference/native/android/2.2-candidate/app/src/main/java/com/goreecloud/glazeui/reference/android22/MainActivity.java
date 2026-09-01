@@ -22,14 +22,20 @@ import android.widget.TextView;
 public final class MainActivity extends Activity {
     private int targetDp = 48;
     private int canvas;
+    private int ambientA;
+    private int ambientB;
     private int surface;
     private int raised;
+    private int glassSoft;
+    private int glassStrong;
+    private int accentSoft;
     private int textPrimary;
     private int textSecondary;
     private int accent;
     private int line;
     private boolean reducedTransparency;
     private boolean deleteConfirming;
+    private boolean largeText;
 
     private LinearLayout root;
     private LinearLayout searchPanel;
@@ -49,6 +55,7 @@ public final class MainActivity extends Activity {
         reducedTransparency = intent.getBooleanExtra("reducedTransparency", false);
         boolean touchAssistance = intent.getBooleanExtra("touchAssistance", false);
         targetDp = touchAssistance ? 56 : 48;
+        largeText = getResources().getConfiguration().fontScale >= 1.5f;
         configurePalette(appearance);
         configureWindow();
         setContentView(buildUi(appearance, touchAssistance));
@@ -56,29 +63,48 @@ public final class MainActivity extends Activity {
 
     private void configurePalette(String appearance) {
         if ("deep-dark".equals(appearance)) {
-            canvas = Color.rgb(5, 7, 10);
-            surface = Color.rgb(13, 16, 21);
-            raised = Color.rgb(23, 28, 35);
-            textPrimary = Color.rgb(245, 247, 250);
-            textSecondary = Color.rgb(171, 180, 194);
-            accent = Color.rgb(141, 181, 255);
-            line = Color.rgb(62, 70, 82);
+            canvas = Color.rgb(4, 6, 10);
+            ambientA = Color.rgb(9, 18, 34);
+            ambientB = Color.rgb(22, 12, 34);
+            surface = Color.rgb(14, 17, 23);
+            raised = Color.rgb(29, 35, 45);
+            glassSoft = Color.argb(214, 24, 30, 40);
+            glassStrong = Color.argb(238, 22, 27, 36);
+            accentSoft = Color.argb(92, 99, 145, 255);
+            textPrimary = Color.rgb(246, 248, 252);
+            textSecondary = Color.rgb(177, 186, 201);
+            accent = Color.rgb(125, 166, 255);
+            line = Color.rgb(73, 82, 98);
         } else if ("dark".equals(appearance)) {
-            canvas = Color.rgb(11, 13, 17);
-            surface = Color.rgb(18, 21, 27);
-            raised = Color.rgb(27, 32, 40);
-            textPrimary = Color.rgb(245, 247, 250);
-            textSecondary = Color.rgb(176, 183, 195);
-            accent = Color.rgb(141, 181, 255);
-            line = Color.rgb(63, 70, 82);
+            canvas = Color.rgb(9, 12, 18);
+            ambientA = Color.rgb(19, 34, 58);
+            ambientB = Color.rgb(38, 25, 58);
+            surface = Color.rgb(20, 24, 32);
+            raised = Color.rgb(34, 40, 51);
+            glassSoft = Color.argb(218, 31, 38, 49);
+            glassStrong = Color.argb(240, 27, 33, 43);
+            accentSoft = Color.argb(92, 88, 139, 255);
+            textPrimary = Color.rgb(246, 248, 252);
+            textSecondary = Color.rgb(181, 189, 202);
+            accent = Color.rgb(125, 166, 255);
+            line = Color.rgb(75, 83, 98);
         } else {
-            canvas = Color.rgb(245, 247, 250);
-            surface = Color.WHITE;
-            raised = Color.rgb(250, 251, 253);
+            canvas = Color.rgb(240, 246, 255);
+            ambientA = Color.rgb(218, 233, 255);
+            ambientB = Color.rgb(238, 226, 255);
+            surface = Color.rgb(250, 252, 255);
+            raised = Color.WHITE;
+            glassSoft = Color.argb(218, 251, 253, 255);
+            glassStrong = Color.argb(240, 252, 253, 255);
+            accentSoft = Color.argb(64, 72, 124, 246);
             textPrimary = Color.rgb(21, 26, 35);
-            textSecondary = Color.rgb(93, 102, 117);
-            accent = Color.rgb(52, 120, 246);
-            line = Color.rgb(214, 219, 226);
+            textSecondary = Color.rgb(91, 101, 117);
+            accent = Color.rgb(66, 113, 236);
+            line = Color.rgb(198, 207, 221);
+        }
+        if (reducedTransparency) {
+            glassSoft = raised;
+            glassStrong = surface;
         }
     }
 
@@ -93,18 +119,18 @@ public final class MainActivity extends Activity {
 
     private View buildUi(String appearance, boolean touchAssistance) {
         FrameLayout safeHost = new FrameLayout(this);
-        safeHost.setBackgroundColor(canvas);
+        safeHost.setBackground(ambientBackground());
         safeHost.setClipChildren(true);
         safeHost.setClipToPadding(true);
 
         FrameLayout viewport = new FrameLayout(this);
-        viewport.setBackgroundColor(canvas);
+        viewport.setBackgroundColor(Color.TRANSPARENT);
         viewport.setClipChildren(true);
         viewport.setClipToPadding(true);
 
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
-        scroll.setBackgroundColor(canvas);
+        scroll.setBackgroundColor(Color.TRANSPARENT);
         scroll.setClipToPadding(true);
 
         root = new LinearLayout(this);
@@ -121,8 +147,7 @@ public final class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         safeHost.addView(viewport, viewportParams);
-        final int largeTextSystemChromeSafety =
-                getResources().getConfiguration().fontScale >= 1.5f ? dp(8) : 0;
+        final int largeTextSystemChromeSafety = largeText ? dp(8) : 0;
         safeHost.setOnApplyWindowInsetsListener((v, insets) -> {
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) viewport.getLayoutParams();
             params.setMargins(
@@ -135,24 +160,25 @@ public final class MainActivity extends Activity {
         });
         safeHost.requestApplyInsets();
 
-        root.addView(label("Glaze UI 2.2 Candidate", 28, true));
-        root.addView(label("Current Stable: 2.1.0", 15, false));
+        TextView title = label("Glaze UI 2.2 Candidate", 28, true);
+        title.setTextColor(textPrimary);
+        root.addView(title);
+        root.addView(label("Optical Reachability · Native Android reference", 14, false));
+        root.addView(spacer(7));
+        TextView hierarchy = label("Workspace → Application → System Overlay → System Panel → Critical System", 13, false);
+        hierarchy.setPadding(0, 0, 0, dp(5));
+        root.addView(hierarchy);
         root.addView(spacer(8));
-        root.addView(label("Native Android System Shell reference", 18, true));
-        root.addView(label("Workspace → Application → System Overlay → System Panel → Critical System", 14, false));
-        root.addView(spacer(12));
 
         String appearanceLabel = "deep-dark".equals(appearance) ? "Deep Dark" : "dark".equals(appearance) ? "Dark" : "Light";
-        root.addView(infoCard("Appearance: " + appearanceLabel));
-        root.addView(infoCard("Target floor: " + targetDp + " dp"));
+        addInfoPair("Appearance: " + appearanceLabel, "Target floor: " + targetDp + " dp");
         root.addView(infoCard(touchAssistance ? "Touch Assistance: 56 dp minimum target" : "Touch Assistance: Off"));
         root.addView(infoCard(reducedTransparency
                 ? "Reduced Transparency: Solid system panels"
-                : "Transparency: Native effects are optional; semantics do not depend on blur"));
+                : "Optical Glaze: Native translucency is decorative; semantics do not depend on blur"));
         root.addView(infoCard("System Glaze budget: one dominant panel"));
-        root.addView(spacer(12));
+        root.addView(spacer(11));
 
-        boolean largeText = getResources().getConfiguration().fontScale >= 1.5f;
         LinearLayout launcherRow = new LinearLayout(this);
         launcherRow.setOrientation(largeText ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
         launcherRow.setGravity(Gravity.CENTER_VERTICAL);
@@ -172,10 +198,11 @@ public final class MainActivity extends Activity {
         }
         root.addView(launcherRow);
 
-        panelState = label("Dominant panel: None", 14, false);
+        panelState = label("Dominant panel: None", 13, false);
         panelState.setContentDescription("Dominant panel state");
+        panelState.setPadding(dp(3), dp(7), 0, dp(2));
         root.addView(panelState);
-        root.addView(spacer(10));
+        root.addView(spacer(8));
 
         searchPanel = panelContainer("Universal Search");
         searchPanel.setVisibility(View.GONE);
@@ -186,12 +213,13 @@ public final class MainActivity extends Activity {
         searchInput.setTextColor(textPrimary);
         searchInput.setContentDescription("Search everything");
         searchInput.setMinHeight(dp(targetDp));
-        searchInput.setPadding(dp(12), dp(8), dp(12), dp(8));
-        searchInput.setBackground(panelShape(raised, 14));
+        searchInput.setPadding(dp(16), dp(9), dp(16), dp(9));
+        searchInput.setBackground(panelShape(reducedTransparency ? raised : glassSoft, 24));
         searchPanel.addView(searchInput, matchWrap());
         searchPanel.addView(sectionLabel("BEST MATCH"));
         Button projectResult = actionButton("Project Brief");
         projectResult.setContentDescription("Project Brief, File, exact match");
+        projectResult.setBackground(panelShape(reducedTransparency ? raised : accentSoft, 22));
         searchPanel.addView(projectResult, matchTarget());
         searchPanel.addView(sectionLabel("ACTIONS"));
         Button appearanceResult = actionButton("Appearance settings");
@@ -201,8 +229,12 @@ public final class MainActivity extends Activity {
         searchPanel.addView(deleteButton, matchTarget());
         TextView generated = infoCard("Generated answer · Source: Project Brief");
         generated.setContentDescription("Generated answer. Source Project Brief.");
+        generated.setBackground(panelShape(reducedTransparency ? raised : Color.argb(54, 119, 92, 246), 22));
+        LinearLayout.LayoutParams generatedParams = matchWrap();
+        generatedParams.topMargin = dp(8);
+        generated.setLayoutParams(generatedParams);
         searchPanel.addView(generated);
-        actionState = label("Search action: None", 14, false);
+        actionState = label("Search action: None", 13, false);
         actionState.setContentDescription("Search action state");
         searchPanel.addView(actionState);
         root.addView(searchPanel, matchWrap());
@@ -211,10 +243,11 @@ public final class MainActivity extends Activity {
         controlPanel.setVisibility(View.GONE);
         wifiButton = actionButton("Wi-Fi: On");
         wifiButton.setContentDescription("Wi-Fi toggle, on");
-        controlPanel.addView(wifiButton, matchTarget());
+        wifiButton.setBackground(panelShape(reducedTransparency ? raised : accentSoft, 22));
         Button bluetoothButton = actionButton("Bluetooth: On");
         bluetoothButton.setContentDescription("Bluetooth toggle, on");
-        controlPanel.addView(bluetoothButton, matchTarget());
+        bluetoothButton.setBackground(panelShape(reducedTransparency ? raised : accentSoft, 22));
+        addButtonPair(controlPanel, wifiButton, bluetoothButton);
         controlPanel.addView(sectionLabel("Brightness"));
         SeekBar brightness = range("Brightness", 64);
         controlPanel.addView(brightness, matchTarget());
@@ -223,13 +256,14 @@ public final class MainActivity extends Activity {
         controlPanel.addView(volume, matchTarget());
         Button focusButton = actionButton("Focus: Off");
         focusButton.setContentDescription("Focus toggle, off");
-        controlPanel.addView(focusButton, matchTarget());
         Button mediaButton = actionButton("Media: Playing");
         mediaButton.setContentDescription("Media playback toggle, playing");
-        controlPanel.addView(mediaButton, matchTarget());
+        mediaButton.setBackground(panelShape(reducedTransparency ? raised : accentSoft, 22));
+        addButtonPair(controlPanel, focusButton, mediaButton);
         root.addView(controlPanel, matchWrap());
 
         TextView boundary = infoCard("Reference boundary: emulator-native interaction evidence only; no live GoreeCloud state, physical-device certification, TalkBack acceptance, signing, distribution, or human Visual Excellence claim.");
+        boundary.setBackground(panelShape(reducedTransparency ? raised : glassSoft, 22));
         LinearLayout.LayoutParams boundaryParams = matchWrap();
         boundaryParams.topMargin = dp(14);
         root.addView(boundary, boundaryParams);
@@ -245,6 +279,41 @@ public final class MainActivity extends Activity {
         mediaButton.setOnClickListener(v -> toggleMedia(mediaButton));
 
         return safeHost;
+    }
+
+    private void addInfoPair(String first, String second) {
+        if (largeText) {
+            root.addView(infoCard(first));
+            root.addView(infoCard(second));
+            return;
+        }
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        TextView a = infoCard(first);
+        TextView b = infoCard(second);
+        row.addView(a, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        LinearLayout.LayoutParams bParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        bParams.setMarginStart(dp(8));
+        row.addView(b, bParams);
+        root.addView(row, matchWrap());
+    }
+
+    private void addButtonPair(LinearLayout parent, Button first, Button second) {
+        if (largeText) {
+            parent.addView(first, matchTarget());
+            parent.addView(second, matchTarget());
+            return;
+        }
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams firstParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        firstParams.topMargin = dp(7);
+        row.addView(first, firstParams);
+        LinearLayout.LayoutParams secondParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        secondParams.topMargin = dp(7);
+        secondParams.setMarginStart(dp(8));
+        row.addView(second, secondParams);
+        parent.addView(row, matchWrap());
     }
 
     private void openSearch() {
@@ -283,12 +352,14 @@ public final class MainActivity extends Activity {
         boolean on = button.getText().toString().endsWith("On");
         button.setText(name + ": " + (on ? "Off" : "On"));
         button.setContentDescription(name + " toggle, " + (on ? "off" : "on"));
+        button.setBackground(panelShape(reducedTransparency ? raised : (on ? glassSoft : accentSoft), 22));
     }
 
     private void toggleMedia(Button button) {
         boolean playing = button.getText().toString().contains("Playing");
         button.setText("Media: " + (playing ? "Paused" : "Playing"));
         button.setContentDescription("Media playback toggle, " + (playing ? "paused" : "playing"));
+        button.setBackground(panelShape(reducedTransparency ? raised : (playing ? glassSoft : accentSoft), 22));
     }
 
     private SeekBar range(String name, int initial) {
@@ -310,11 +381,15 @@ public final class MainActivity extends Activity {
     private LinearLayout panelContainer(String title) {
         LinearLayout panel = new LinearLayout(this);
         panel.setOrientation(LinearLayout.VERTICAL);
-        panel.setPadding(dp(14), dp(14), dp(14), dp(14));
-        panel.setBackground(panelShape(reducedTransparency ? raised : surface, 22));
+        panel.setPadding(dp(16), dp(16), dp(16), dp(16));
+        panel.setBackground(panelShape(reducedTransparency ? surface : glassStrong, 30));
+        panel.setElevation(reducedTransparency ? 0f : dp(10));
         panel.setContentDescription(title + " system panel");
-        panel.addView(label(title, 20, true));
+        panel.addView(label(title, 22, true));
         panel.addView(label("Only one dominant system panel may be open.", 13, false));
+        LinearLayout.LayoutParams params = matchWrap();
+        params.topMargin = dp(6);
+        panel.setLayoutParams(params);
         return panel;
     }
 
@@ -329,9 +404,10 @@ public final class MainActivity extends Activity {
     }
 
     private TextView sectionLabel(String text) {
-        TextView view = label(text, 12, true);
+        TextView view = label(text, 11, true);
+        view.setTextColor(textSecondary);
         LinearLayout.LayoutParams params = matchWrap();
-        params.topMargin = dp(10);
+        params.topMargin = dp(12);
         view.setLayoutParams(params);
         return view;
     }
@@ -339,8 +415,9 @@ public final class MainActivity extends Activity {
     private TextView infoCard(String text) {
         TextView view = label(text, 14, false);
         view.setTextColor(textPrimary);
-        view.setPadding(dp(12), dp(10), dp(12), dp(10));
-        view.setBackground(panelShape(raised, 14));
+        view.setPadding(dp(14), dp(11), dp(14), dp(11));
+        view.setBackground(panelShape(reducedTransparency ? raised : glassSoft, 22));
+        view.setElevation(reducedTransparency ? 0f : dp(1));
         LinearLayout.LayoutParams params = matchWrap();
         params.bottomMargin = dp(7);
         view.setLayoutParams(params);
@@ -358,10 +435,19 @@ public final class MainActivity extends Activity {
         button.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
         button.setSingleLine(false);
         button.setMaxLines(3);
-        button.setPadding(dp(14), dp(8), dp(14), dp(8));
-        button.setBackground(panelShape(raised, 14));
+        button.setPadding(dp(16), dp(9), dp(16), dp(9));
+        button.setBackground(panelShape(reducedTransparency ? raised : glassSoft, 22));
         button.setStateListAnimator(null);
+        button.setElevation(reducedTransparency ? 0f : dp(1));
         return button;
+    }
+
+    private GradientDrawable ambientBackground() {
+        GradientDrawable drawable = new GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                new int[]{ambientA, canvas, ambientB});
+        drawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+        return drawable;
     }
 
     private GradientDrawable panelShape(int color, int radiusDp) {

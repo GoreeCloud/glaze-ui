@@ -92,31 +92,21 @@ jobs:
       - name: Validate Glaze UI 2.2 source-pinned screenshot pixel regression
         run: python3 scripts/glaze_2_2_visual_regression.py compare --baseline-dir .artifacts/glaze-2.2-visual-baseline-reference --output-dir .artifacts/glaze-2.2-visual-regression
 
-      - name: Stage exact-head Glaze UI 2.2 Candidate visual review set
+      - name: Capture exact-head Glaze UI 2.2 Candidate visual review set
         if: ${{ always() }}
         run: |
-          python3 - <<'PY'
-          import json
-          import shutil
-          from pathlib import Path
-
-          manifest = json.loads(Path("contracts/regression/visual-baselines-2.2.json").read_text(encoding="utf-8"))
-          source = Path(".artifacts/glaze-2.2-visual-regression")
-          target = Path(".artifacts/glaze-2.2-visual-review-current")
-          target.mkdir(parents=True, exist_ok=True)
-          cases = manifest.get("cases", [])
-          if len(cases) != 6:
-              raise SystemExit(f"expected six Glaze UI 2.2 review cases, found {len(cases)}")
-          for case in cases:
-              screenshot = source / f"{case['id']}.png"
-              if not screenshot.is_file() or screenshot.stat().st_size < 256:
-                  raise SystemExit(f"missing exact-head screenshot: {screenshot}")
-              shutil.copy2(screenshot, target / screenshot.name)
-          staged = sorted(target.glob("*.png"))
-          if len(staged) != len(cases):
-              raise SystemExit(f"expected {len(cases)} staged review screenshots, found {len(staged)}")
-          print("Staged the exact six current screenshots for Human Visual Excellence review. Pixel-regression status remains separately authoritative.")
-          PY
+          set -e
+          for attempt in 1 2 3; do
+            echo "Glaze UI 2.2 exact-head review capture attempt ${attempt}/3"
+            rm -rf .artifacts/glaze-2.2-visual-review-current
+            if python3 scripts/glaze_2_2_visual_regression.py capture --output-dir .artifacts/glaze-2.2-visual-review-current; then
+              count=$(find .artifacts/glaze-2.2-visual-review-current -maxdepth 1 -name '*.png' | wc -l)
+              test "$count" -eq 6
+              exit 0
+            fi
+          done
+          echo "Glaze UI 2.2 exact-head review capture failed after 3 attempts" >&2
+          exit 1
 
       - name: Upload exact-head Glaze UI 2.2 Candidate visual evidence
         if: ${{ always() }}
