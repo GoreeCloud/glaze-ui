@@ -4,7 +4,7 @@
   "id": "glz-dialog-2-2",
   "name": "GlzDialog",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "overlay",
   "semanticRole": "Present a short modal decision or focused task with explicit hierarchy, deterministic focus containment, and proportionate confirmation behavior.",
   "variants": ["standard", "confirmation", "destructive"],
