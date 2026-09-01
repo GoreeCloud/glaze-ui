@@ -2,9 +2,9 @@
 """Fail-closed validation for bounded Glaze UI 2.2 Structure contracts.
 
 This validates objective contract structure and canonical component invariants.
-It does not provide rendered, native/device, consumer, migration, or human
-Visual Excellence evidence and therefore cannot by itself promote Structure
-components to Candidate or Stable.
+It does not provide native/device, consumer, migration, or human Visual
+Excellence evidence and therefore cannot by itself promote Structure
+components beyond their recorded Candidate lifecycle.
 """
 from __future__ import annotations
 
@@ -106,8 +106,8 @@ def validate_common(filename: str, expected_name: str, contract: dict[str, Any],
         fail(f"{filename} id must be {expected_id}")
     if contract.get("version") != "2.2.0-candidate.1":
         fail(f"{filename} version must remain 2.2.0-candidate.1")
-    if contract.get("lifecycle") != "planned":
-        fail(f"{filename} must remain Planned until separate Structure rendered evidence is accepted")
+    if contract.get("lifecycle") != "candidate":
+        fail(f"{filename} must remain Candidate after bounded Structure rendered acceptance")
     if contract.get("tier") != "structure":
         fail(f"{filename} must remain in the Structure tier")
     nonempty(contract.get("semanticRole"), f"{filename} semanticRole")
@@ -322,7 +322,7 @@ def main() -> int:
         return 1
 
     print("Glaze UI 2.2 Structure contract validation passed.")
-    print("Validated eight Planned Structure contracts; no Candidate/Stable promotion is inferred.")
+    print("Validated eight Candidate Structure contracts; Stable promotion remains separately gated.")
     return 0
 
 
