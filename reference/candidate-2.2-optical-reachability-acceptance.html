@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glaze UI 2.2 Optical Reachability Acceptance</title>
+<link rel="stylesheet" href="../css/glaze-2.2.structure.candidate.css">
+<link rel="stylesheet" href="../css/glaze-2.2.optical-reachability.candidate.css">
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}body{min-height:100vh;background:var(--glz22-canvas);color:var(--glz22-text-primary);font-family:system-ui,sans-serif}.page{width:min(1180px,100%);margin:auto;padding:16px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.stage{min-width:0;padding:16px;border:1px solid var(--glz22-line);border-radius:28px;background:var(--glz22-base)}.stage h2{margin:0 0 12px;font-size:18px}.row{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.stack{display:grid;gap:10px}.sample-sidebar{inline-size:100%;min-inline-size:0;max-inline-size:none}.sample-overlay{position:relative!important;inset:auto!important;inline-size:100%!important;max-inline-size:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important}.sample-dialog{inline-size:100%;max-block-size:none}.sample-toast{inline-size:100%;opacity:1;transform:none;pointer-events:auto}.sample-dock{inline-size:100%}.sample-field{max-inline-size:420px}.support{color:var(--glz22-text-secondary)}#result{position:fixed;z-index:999;inset:6px 6px auto;max-height:45vh;overflow:auto;margin:0;padding:8px;background:#111;color:#fff;font:11px/1.35 monospace;opacity:.02;pointer-events:none}#result[data-status="fail"]{opacity:.98;background:#7b1717}@media(max-width:700px){.grid{grid-template-columns:1fr}.page{padding:10px}.stage{padding:12px}}html[data-mode="large-text"]{font-size:32px}html[data-mode="large-text"] .grid{grid-template-columns:1fr}html[data-mode="large-text"] h1{font-size:1.25rem}html[data-mode="large-text"] .stage h2{font-size:1rem}
+</style>
+</head>
+<body>
+<main class="page" id="page">
+<h1>Glaze UI 2.2 Optical Reachability</h1>
+<p class="support">Component-system acceptance for reachable geometry, optical interaction chrome, solid content planes, and accessibility precedence.</p>
+<div class="grid">
+  <section class="stage" aria-labelledby="foundation-heading">
+    <h2 id="foundation-heading">Foundation</h2>
+    <div class="row">
+      <button class="glz22-button" data-variant="primary" data-size="md" id="primary">Continue</button>
+      <button class="glz22-button" data-variant="glaze" data-size="md" id="glaze-button">Share</button>
+      <button class="glz22-icon-button" data-variant="glaze" data-size="md" data-state="selected" aria-pressed="true" aria-label="Pinned" id="icon">◆</button>
+    </div>
+    <div class="stack" style="margin-top:12px">
+      <label class="glz22-field sample-field" for="field-input"><span class="glz22-field-label">Workspace</span><span class="glz22-field-control" data-size="md" data-variant="glaze" id="field"><input id="field-input" value="Aurora Workspace"></span></label>
+      <label class="glz22-switch" id="switch-row"><span style="flex:1">Sync over Wi-Fi</span><input type="checkbox" role="switch" checked><span class="glz22-switch-track" id="switch-track" aria-hidden="true"><span class="glz22-switch-thumb"></span></span></label>
+      <label class="glz22-slider" for="range"><span>Brightness</span><span class="glz22-slider-row" id="slider-row"><input type="range" id="range" min="0" max="100" value="66"><output class="glz22-slider-value">66%</output></span></label>
+    </div>
+  </section>
+
+  <section class="stage" aria-labelledby="structure-heading">
+    <h2 id="structure-heading">Structure</h2>
+    <div class="glz22-tabs" role="tablist" aria-label="Workspace sections" id="tabs">
+      <button class="glz22-tab" role="tab" aria-selected="true" id="tab-current">Overview</button>
+      <button class="glz22-tab" role="tab" aria-selected="false">Activity</button>
+      <button class="glz22-tab" role="tab" aria-selected="false">Access</button>
+    </div>
+    <nav class="glz22-sidebar sample-sidebar" aria-label="Project navigation" id="sidebar" style="margin-top:12px">
+      <button class="glz22-sidebar-item" aria-current="page" id="sidebar-current"><span>◆</span><span>Projects</span></button>
+      <button class="glz22-sidebar-item"><span>□</span><span>Files</span></button>
+    </nav>
+    <div class="glz22-card" data-selected="true" id="selected-card" style="margin-top:12px"><strong>Gateway deployment</strong><p class="support">Content remains solid; selection is explicit and contained.</p></div>
+    <nav class="glz22-dock sample-dock" aria-label="Reachable navigation" id="dock" style="margin-top:12px">
+      <button class="glz22-dock-item" aria-current="page" id="dock-current"><span class="glz22-dock-icon">◆</span><span>Home</span></button>
+      <button class="glz22-dock-item"><span class="glz22-dock-icon">□</span><span>Files</span></button>
+      <button class="glz22-dock-item"><span class="glz22-dock-icon">⌕</span><span>Search</span></button>
+    </nav>
+  </section>
+
+  <section class="stage" aria-labelledby="toolbar-heading">
+    <h2 id="toolbar-heading">Command chrome</h2>
+    <div class="glz22-toolbar" role="toolbar" aria-label="Document commands" id="toolbar">
+      <strong>Project Brief</strong><span class="glz22-toolbar-spacer"></span>
+      <button class="glz22-toolbar-overflow" aria-label="More commands" id="toolbar-more">•••</button>
+    </div>
+    <div class="glz22-popover glz22-thick-overlay sample-overlay" data-open="true" id="popover" style="margin-top:12px">
+      <h3>Quick action</h3><p class="support">Transient interaction chrome may use Optical Glaze.</p>
+      <button class="glz22-overlay-button" data-primary="true" id="overlay-primary">Apply</button>
+    </div>
+  </section>
+
+  <section class="stage" aria-labelledby="decision-heading">
+    <h2 id="decision-heading">Decision + feedback</h2>
+    <section class="glz22-dialog sample-dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" id="dialog">
+      <div class="glz22-dialog-inner"><h2 id="dialog-title">Remove local copy?</h2><p>This explicit decision surface remains high-opacity rather than decorative glass.</p><div class="glz22-dialog-actions"><button class="glz22-overlay-button">Cancel</button><button class="glz22-overlay-button" data-primary="true">Continue</button></div></div>
+    </section>
+    <div class="glz22-toast sample-toast" data-open="true" role="status" id="toast" style="margin-top:12px"><span aria-hidden="true">✓</span><span>Changes saved</span><button>Undo</button></div>
+  </section>
+</div>
+</main>
+<pre id="result" data-status="pending">PENDING</pre>
+<script>
+(()=>{
+ const p=new URLSearchParams(location.search),root=document.documentElement;
+ const mode=p.get('mode')||'normal',appearance=p.get('appearance')||'light',dir=p.get('direction')||'ltr',input=p.get('input')||'pointer';
+ root.dataset.mode=mode;root.dataset.glzInput=input;root.dir=dir;
+ if(appearance==='deep-dark')root.setAttribute('data-glz-appearance','deep-dark');
+ if(mode==='reduced-transparency')root.dataset.glzTransparency='reduced';
+ if(mode==='touch-assistance')root.dataset.glzTouchAssistance='true';
+ if(mode==='large-text')root.dataset.glzTextScale='200';
+ const one=s=>document.querySelector(s),cs=(e,pseudo)=>getComputedStyle(e,pseudo),rect=e=>e.getBoundingClientRect(),px=v=>Number.parseFloat(v)||0;
+ const backdrop=e=>{const s=cs(e);return s.backdropFilter||s.webkitBackdropFilter||''};
+ const assert=(c,m,f)=>{if(!c)f.push(m)};
+ addEventListener('load',()=>setTimeout(()=>{
+  const f=[],vw=innerWidth;
+  assert(document.documentElement.scrollWidth<=vw+1,`horizontal overflow ${document.documentElement.scrollWidth}>${vw}`,f);
+  assert(px(cs(root).getPropertyValue('--glz22-optical-control-radius'))>=20,'Optical Reachability token layer not loaded',f);
+  for(const id of ['primary','glaze-button','icon','field','switch-row','slider-row','tabs','sidebar','selected-card','dock','toolbar','popover','dialog','toast']){const r=rect(document.getElementById(id));assert(r.width>0&&r.height>0,`${id} not rendered`,f)}
+  assert(px(cs(one('#primary')).borderRadius)>=18,'primary button is not sculpted',f);
+  const ir=rect(one('#icon'));assert(Math.abs(ir.width-ir.height)<2&&px(cs(one('#icon')).borderRadius)>=ir.width*.45,'icon button is not circular',f);
+  assert(px(cs(one('#field')).borderRadius)>=18,'field is not optically rounded',f);
+  assert(rect(one('#switch-track')).width>=55,'switch track did not retain reachable optical geometry',f);
+  assert(px(cs(one('#selected-card')).borderRadius)>=24,'content card radius is below Optical Reachability contract',f);
+  assert(!backdrop(one('#selected-card'))||backdrop(one('#selected-card'))==='none','content card incorrectly gained backdrop blur',f);
+  assert(px(cs(one('#tabs')).borderRadius)>=30,'tabs are not contained capsule chrome',f);
+  assert(cs(one('#tab-current'),'::after').display==='none','selected tab retained legacy underline indicator',f);
+  assert(one('#tab-current').getAttribute('aria-selected')==='true','tab selection semantics missing',f);
+  assert(one('#sidebar-current').getAttribute('aria-current')==='page'&&one('#dock-current').getAttribute('aria-current')==='page','navigation selection semantics missing',f);
+  assert(px(cs(one('#sidebar-current')).borderRadius)>=16,'sidebar selected destination is not contained',f);
+  assert(px(cs(one('#dialog')).borderRadius)>=28,'dialog decision surface is not sculpted',f);
+  assert(!backdrop(one('#dialog'))||backdrop(one('#dialog'))==='none','dialog decision surface incorrectly uses backdrop blur',f);
+  assert(px(cs(one('#toast')).borderRadius)>=24,'toast is not optical feedback chrome',f);
+  one('#primary').focus();const focus=cs(one('#primary'));assert(focus.outlineStyle!=='none'&&px(focus.outlineWidth)>=2,'focus ring missing',f);
+  if(input==='touch'||mode==='touch-assistance'){
+    const expected=mode==='touch-assistance'?56:48;
+    for(const id of ['primary','glaze-button','icon','field','switch-row','slider-row','tab-current','sidebar-current','dock-current','toolbar-more','overlay-primary']){const r=rect(document.getElementById(id));assert(r.height+0.1>=expected,`${id} touch height ${r.height.toFixed(1)}<${expected}`,f)}
+  }
+  if(mode==='reduced-transparency'||mode==='forced-colors'){
+    for(const id of ['glaze-button','field','tabs','sidebar','dock','toolbar','popover','toast']){const b=backdrop(document.getElementById(id));assert(!b||b==='none',`${id} retained backdrop ${b}`,f)}
+  } else {
+    for(const id of ['glaze-button','tabs','sidebar','dock','toolbar','popover'])assert(backdrop(document.getElementById(id))&&backdrop(document.getElementById(id))!=='none',`${id} missing bounded optical backdrop`,f)
+  }
+  if(mode==='increased-contrast')assert(px(cs(one('#popover')).borderTopWidth)>=2,'increased contrast optical boundary <2px',f);
+  if(mode==='large-text'){assert(px(cs(root).fontSize)>=30,'200% text root scale missing',f);assert(document.documentElement.scrollWidth<=vw+1,'200% text caused horizontal overflow',f)}
+  if(dir==='rtl')assert(cs(root).direction==='rtl','RTL not applied',f);
+  if(mode==='forced-colors')assert(matchMedia('(forced-colors: active)').matches,'forced-colors browser mode not active',f);
+  if(mode==='reduced-motion')assert(matchMedia('(prefers-reduced-motion: reduce)').matches,'reduced-motion browser mode not active',f);
+  const out=one('#result');out.dataset.status=f.length?'fail':'pass';out.textContent=f.length?`FAIL\n${f.join('\n')}`:`PASS 2.2 Optical Reachability ${appearance} ${mode} ${dir} ${input}`;
+ },90),{once:true});
+})();
+</script>
+</body>
+</html>
