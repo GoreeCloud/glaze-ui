@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
@@ -91,9 +92,13 @@ public final class MainActivity extends Activity {
     }
 
     private View buildUi(String appearance, boolean touchAssistance) {
+        FrameLayout safeHost = new FrameLayout(this);
+        safeHost.setBackgroundColor(canvas);
+
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
         scroll.setBackgroundColor(canvas);
+        scroll.setClipToPadding(true);
 
         root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -101,6 +106,19 @@ public final class MainActivity extends Activity {
         scroll.addView(root, new ScrollView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        safeHost.addView(scroll, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        safeHost.setOnApplyWindowInsetsListener((v, insets) -> {
+            v.setPadding(
+                    insets.getSystemWindowInsetLeft(),
+                    insets.getSystemWindowInsetTop(),
+                    insets.getSystemWindowInsetRight(),
+                    insets.getSystemWindowInsetBottom());
+            return insets;
+        });
+        safeHost.requestApplyInsets();
 
         root.addView(label("Glaze UI 2.2 Candidate", 28, true));
         root.addView(label("Current Stable: 2.1.0", 15, false));
@@ -119,16 +137,24 @@ public final class MainActivity extends Activity {
         root.addView(infoCard("System Glaze budget: one dominant panel"));
         root.addView(spacer(12));
 
+        boolean largeText = getResources().getConfiguration().fontScale >= 1.5f;
         LinearLayout launcherRow = new LinearLayout(this);
-        launcherRow.setOrientation(LinearLayout.HORIZONTAL);
+        launcherRow.setOrientation(largeText ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
         launcherRow.setGravity(Gravity.CENTER_VERTICAL);
         Button searchButton = actionButton("Open Search");
         searchButton.setContentDescription("Open Universal Search");
         Button controlButton = actionButton("Open Control Center");
-        launcherRow.addView(searchButton, new LinearLayout.LayoutParams(0, dp(targetDp), 1f));
-        LinearLayout.LayoutParams controlParams = new LinearLayout.LayoutParams(0, dp(targetDp), 1f);
-        controlParams.setMarginStart(dp(8));
-        launcherRow.addView(controlButton, controlParams);
+        if (largeText) {
+            launcherRow.addView(searchButton, matchWrapTarget());
+            LinearLayout.LayoutParams controlParams = matchWrapTarget();
+            controlParams.topMargin = dp(8);
+            launcherRow.addView(controlButton, controlParams);
+        } else {
+            launcherRow.addView(searchButton, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+            LinearLayout.LayoutParams controlParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+            controlParams.setMarginStart(dp(8));
+            launcherRow.addView(controlButton, controlParams);
+        }
         root.addView(launcherRow);
 
         panelState = label("Dominant panel: None", 14, false);
@@ -145,7 +171,7 @@ public final class MainActivity extends Activity {
         searchInput.setTextColor(textPrimary);
         searchInput.setContentDescription("Search everything");
         searchInput.setMinHeight(dp(targetDp));
-        searchInput.setPadding(dp(12), 0, dp(12), 0);
+        searchInput.setPadding(dp(12), dp(8), dp(12), dp(8));
         searchInput.setBackground(panelShape(raised, 14));
         searchPanel.addView(searchInput, matchWrap());
         searchPanel.addView(sectionLabel("BEST MATCH"));
@@ -203,7 +229,7 @@ public final class MainActivity extends Activity {
         focusButton.setOnClickListener(v -> toggleButton(focusButton, "Focus"));
         mediaButton.setOnClickListener(v -> toggleMedia(mediaButton));
 
-        return scroll;
+        return safeHost;
     }
 
     private void openSearch() {
@@ -315,7 +341,9 @@ public final class MainActivity extends Activity {
         button.setMinHeight(dp(targetDp));
         button.setMinimumHeight(dp(targetDp));
         button.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
-        button.setPadding(dp(14), 0, dp(14), 0);
+        button.setSingleLine(false);
+        button.setMaxLines(3);
+        button.setPadding(dp(14), dp(8), dp(14), dp(8));
         button.setBackground(panelShape(raised, 14));
         button.setStateListAnimator(null);
         return button;
@@ -339,8 +367,12 @@ public final class MainActivity extends Activity {
         return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
+    private LinearLayout.LayoutParams matchWrapTarget() {
+        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
     private LinearLayout.LayoutParams matchTarget() {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(targetDp));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.topMargin = dp(6);
         return params;
     }
