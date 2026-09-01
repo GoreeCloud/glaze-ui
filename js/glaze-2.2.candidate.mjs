@@ -29,7 +29,7 @@ const REDUCED_MOTION_MS = Object.freeze({
   unlock: 120,
 });
 
-export const SYSTEM_GLaze_BUDGET = Object.freeze({
+export const SYSTEM_GLAZE_BUDGET = Object.freeze({
   dominantPanelMax: 1,
   smallFloatingControlsMax: 3,
 });
@@ -112,19 +112,19 @@ export function evaluateSystemGlazeBudget({
   const controls = Math.max(0, Number(smallFloatingControls) || 0);
   const reasons = [];
 
-  if (!explicitException && panels > SYSTEM_GLaze_BUDGET.dominantPanelMax) {
-    reasons.push(`dominant Glaze panel count ${panels} exceeds ${SYSTEM_GLaze_BUDGET.dominantPanelMax}`);
+  if (!explicitException && panels > SYSTEM_GLAZE_BUDGET.dominantPanelMax) {
+    reasons.push(`dominant Glaze panel count ${panels} exceeds ${SYSTEM_GLAZE_BUDGET.dominantPanelMax}`);
   }
-  if (!explicitException && controls > SYSTEM_GLaze_BUDGET.smallFloatingControlsMax) {
-    reasons.push(`small floating Glaze control count ${controls} exceeds ${SYSTEM_GLaze_BUDGET.smallFloatingControlsMax}`);
+  if (!explicitException && controls > SYSTEM_GLAZE_BUDGET.smallFloatingControlsMax) {
+    reasons.push(`small floating Glaze control count ${controls} exceeds ${SYSTEM_GLAZE_BUDGET.smallFloatingControlsMax}`);
   }
 
   return Object.freeze({
     accepted: reasons.length === 0,
     dominantPanels: panels,
-    dominantPanelMax: SYSTEM_GLaze_BUDGET.dominantPanelMax,
+    dominantPanelMax: SYSTEM_GLAZE_BUDGET.dominantPanelMax,
     smallFloatingControls: controls,
-    smallFloatingControlsMax: SYSTEM_GLaze_BUDGET.smallFloatingControlsMax,
+    smallFloatingControlsMax: SYSTEM_GLAZE_BUDGET.smallFloatingControlsMax,
     explicitException: Boolean(explicitException),
     reasons,
   });
