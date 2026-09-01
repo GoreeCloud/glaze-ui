@@ -136,6 +136,19 @@
 [data-glz-text-scale="200"] .glz22-navigation-rail { display:none; }
 [data-glz-text-scale="200"] .glz22-card { padding:16px; }
 
+html[data-mode="increased-contrast"] {
+  --glz22-focus-width:4px;
+}
+html[data-mode="increased-contrast"] .glz22-card,
+html[data-mode="increased-contrast"] .glz22-list,
+html[data-mode="increased-contrast"] .glz22-table-wrap,
+html[data-mode="increased-contrast"] .glz22-sidebar,
+html[data-mode="increased-contrast"] .glz22-navigation-rail,
+html[data-mode="increased-contrast"] .glz22-dock,
+html[data-mode="increased-contrast"] .glz22-toolbar {
+  border-width:2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glz22-card[data-interactive="true"], .glz22-card[data-interactive="true"]:hover, .glz22-card[data-interactive="true"]:active { transition:none; transform:none; }
 }
