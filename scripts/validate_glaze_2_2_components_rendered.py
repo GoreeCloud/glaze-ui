@@ -20,12 +20,13 @@ from validate_rendered_reference import (
     serve_root,
 )
 
+PAGE = "candidate-2.2-foundation-acceptance.html"
+
 
 def run_case(
     browser: str,
     port: int,
     *,
-    page: str = "candidate-2.2-components.html",
     width: int,
     height: int,
     appearance: str = "light",
@@ -39,11 +40,11 @@ def run_case(
         "direction": direction,
         "input": input_mode,
     }
-    name = f"2.2 components {page} {width}x{height} {appearance} mode={mode} dir={direction} input={input_mode}"
+    name = f"2.2 Foundation {width}x{height} {appearance} mode={mode} dir={direction} input={input_mode}"
     last = "browser did not produce a result"
     for attempt in range(1, RENDER_ATTEMPTS + 1):
         query = urllib.parse.urlencode({**params, "attempt": attempt})
-        url = f"http://127.0.0.1:{port}/reference/{page}?{query}"
+        url = f"http://127.0.0.1:{port}/reference/{PAGE}?{query}"
         with tempfile.TemporaryDirectory(prefix="glaze-22-components-") as profile:
             command = browser_command(browser, url, profile, width=width, height=height, mode=mode)
             try:
@@ -84,17 +85,17 @@ def main() -> None:
         dict(width=390, height=844, appearance="dark", mode="reduced-transparency", input_mode="touch"),
         dict(width=390, height=844, appearance="light", mode="large-text", input_mode="touch"),
         dict(width=390, height=844, appearance="light", mode="touch-assistance", input_mode="touch"),
+        dict(width=390, height=844, appearance="dark", mode="normal", direction="rtl", input_mode="touch"),
         dict(width=820, height=1180, appearance="dark", mode="normal", input_mode="touch"),
+        dict(width=820, height=1180, appearance="light", mode="touch-assistance", input_mode="touch"),
         dict(width=1280, height=900, appearance="light", mode="normal"),
         dict(width=1280, height=900, appearance="dark", mode="reduced-motion"),
         dict(width=1280, height=900, appearance="deep-dark", mode="normal"),
         dict(width=1280, height=900, appearance="light", mode="increased-contrast"),
         dict(width=1280, height=900, appearance="light", mode="forced-colors"),
         dict(width=1280, height=900, appearance="dark", mode="normal", direction="rtl"),
-        dict(page="candidate-2.2-components-adaptive.html", width=390, height=844, appearance="light", mode="touch", input_mode="touch"),
-        dict(page="candidate-2.2-components-adaptive.html", width=390, height=844, appearance="light", mode="touch-assistance", input_mode="touch"),
-        dict(page="candidate-2.2-components-adaptive.html", width=1280, height=900, appearance="light", mode="increased-contrast"),
-        dict(page="candidate-2.2-components-adaptive.html", width=1280, height=900, appearance="dark", mode="reduced-transparency"),
+        dict(width=1600, height=1000, appearance="light", mode="normal"),
+        dict(width=1600, height=1000, appearance="deep-dark", mode="reduced-transparency"),
     )
     with serve_root() as port:
         for case in cases:
