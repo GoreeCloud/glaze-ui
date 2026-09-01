@@ -1,0 +1,89 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-button-2-2",
+  "name": "GlzButton",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "planned",
+  "tier": "foundation",
+  "semanticRole": "Execute a clearly labeled user action with one dominant semantic intent.",
+  "variants": ["primary", "secondary", "quiet", "glaze", "danger"],
+  "sizes": [
+    {"name": "xs", "visualHeightPx": 28, "touchHitMinPx": 48, "horizontalPaddingPx": 10, "gapPx": 6, "fontPx": [12, 13], "iconPx": 14, "radiusPx": 10},
+    {"name": "sm", "visualHeightPx": 32, "touchHitMinPx": 48, "horizontalPaddingPx": 12, "gapPx": 6, "fontPx": [13, 13], "iconPx": 16, "radiusPx": 10},
+    {"name": "md", "visualHeightPx": 40, "touchHitMinPx": 48, "horizontalPaddingPx": 16, "gapPx": 8, "fontPx": [14, 14], "iconPx": 18, "radiusPx": 12},
+    {"name": "lg", "visualHeightPx": 48, "touchHitMinPx": 48, "horizontalPaddingPx": 18, "gapPx": 8, "fontPx": [15, 16], "iconPx": 20, "radiusPx": 14},
+    {"name": "xl", "visualHeightPx": 56, "touchHitMinPx": 56, "horizontalPaddingPx": 22, "gapPx": 10, "fontPx": [16, 16], "iconPx": 22, "radiusPx": 16}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error", "success"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {
+    "default": "surface",
+    "allowed": ["surface", "raised", "regular-glaze", "solid-glaze"],
+    "glazeIsExceptional": true,
+    "rule": "Use the glaze variant only for floating or spatially contextual actions; ordinary content actions remain solid or raised. Danger expresses destructive semantics, not decoration."
+  },
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {
+    "keyboard": "Enter or Space activates the focused button exactly once; activation must not wait for animation.",
+    "focus": "Visible focus ring is at least as discoverable as hover and remains visible in high contrast and forced colors.",
+    "hover": "Pointer hover may add a 3–6% state layer and restrained elevation without changing label or geometry.",
+    "press": "Pressed feedback begins immediately and uses the shared pressed state layer without layout shift.",
+    "selection": "Selected is used only when the action legitimately represents a retained toggle-like state; otherwise omit selected semantics."
+  },
+  "accessibility": {
+    "role": "button",
+    "name": "Accessible name comes from the visible action label or an equivalent programmatic name.",
+    "state": "Disabled, loading, selected where applicable, error, and success states are programmatically exposed without color-only meaning.",
+    "value": "No value is required for ordinary action buttons; progress/value is exposed separately when a loading operation has measurable progress.",
+    "keyboard": "Fully operable with keyboard and switch-access activation semantics.",
+    "focus": "Focus is never removed for visual cleanliness and returns predictably after transient overlays invoked by the button close.",
+    "errorAssociation": "If an action error requires explanation, associate the error message with the action or resulting status region.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Replace spring/scale flourish with immediate or short opacity/state feedback.",
+    "reducedTransparency": "Glaze variant resolves to an opaque raised surface while preserving hierarchy.",
+    "increasedContrast": "Strengthen boundary and focus treatment; danger retains explicit label/icon semantics.",
+    "forcedColors": "Use platform ButtonFace/ButtonText/Highlight semantics and preserve destructive text/icon meaning.",
+    "largeText": "Allow labels to grow or wrap where necessary; do not truncate the only action name."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {
+    "reducedMotion": "Short state change with no nonessential scale or spring.",
+    "reducedTransparency": "Opaque raised or solid surface.",
+    "highContrast": "Stronger edge, focus ring, and explicit semantic state.",
+    "forcedColors": "Platform colors and system focus/selection semantics.",
+    "performance": "Remove optional blur, shadow complexity, and decorative specular effects before changing layout or meaning."
+  },
+  "api": {
+    "semanticProps": ["variant", "size", "disabled", "loading", "leadingIcon", "trailingIcon", "aria-label"],
+    "events": ["onPress", "onFocus", "onBlur"],
+    "slots": ["root", "leading", "label", "trailing", "loadingIndicator"],
+    "escapeHatches": ["className", "style", "slotProps", "tokens"],
+    "rawVisualPropsPreferred": false
+  },
+  "content": {
+    "overflow": "Keep labels stable during loading/success transitions; prefer semantic resizing or controlled wrapping over clipping.",
+    "localization": "Loading and success labels remain meaningful, for example Save → Saving… → Saved, with stable width where practical.",
+    "rtl": "Leading/trailing icon placement mirrors semantically; directional icons mirror only when their meaning is directional.",
+    "textExpansionPercent": [30, 50]
+  },
+  "testing": {
+    "themes": ["light", "dark", "deep-dark"],
+    "states": ["rest", "hover", "focus", "pressed", "disabled", "loading", "error", "success"],
+    "inputs": ["mouse", "touch", "keyboard", "remote"],
+    "directions": ["ltr", "rtl"],
+    "textScalePercent": [100, 200],
+    "motion": ["full", "reduced"],
+    "contrast": ["standard", "high", "forced-colors"]
+  },
+  "visualReview": {
+    "required": true,
+    "criteria": [
+      "Primary action is visually dominant without excessive saturated area.",
+      "All five variants remain clearly related members of one component family.",
+      "Loading and Saved transitions do not produce distracting layout shift.",
+      "Compact pointer sizes retain an accessible hit area without appearing touch-inflated on desktop."
+    ]
+  }
+}
