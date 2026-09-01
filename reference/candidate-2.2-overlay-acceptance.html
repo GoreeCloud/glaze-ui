@@ -116,7 +116,7 @@
  sheetTrigger.addEventListener('click',openSheet);one('#sheet-close').addEventListener('click',closeSheet);one('#sheet-scrim').addEventListener('click',closeSheet);one('#sheet-medium').addEventListener('click',()=>sheet.dataset.detent='medium');one('#sheet-large').addEventListener('click',()=>sheet.dataset.detent='large');
  const toast=one('#toast'),toastTrigger=one('#toast-trigger');function openToast(){toast.dataset.open='true'}function closeToast(){toast.dataset.open='false'}toastTrigger.addEventListener('click',openToast);one('#toast-undo').addEventListener('click',closeToast);
  document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(sheetLayer.dataset.open==='true'){e.preventDefault();closeSheet();return}if(popover.dataset.open==='true'){e.preventDefault();closePopover()}});
- async function tick(){return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))}
+ async function tick(){return new Promise(r=>setTimeout(r,16))}
  async function run(){const f=[];try{
    assert(all('.glz22-tooltip,.glz22-popover,.glz22-menu,.glz22-dialog,.glz22-sheet,.glz22-toast').length===6,'six canonical Overlay surfaces are required',f);
    const floor=mode==='touch-assistance'?56:48;all('.glz22-overlay-button,#toast-undo').forEach(b=>assert(rect(b).height+0.5>=floor,'target floor failed: '+b.id+' '+rect(b).height+' < '+floor,f));
