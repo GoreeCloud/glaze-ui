@@ -92,7 +92,8 @@ jobs:
       - name: Validate Glaze UI 2.2 source-pinned screenshot pixel regression
         run: python3 scripts/glaze_2_2_visual_regression.py compare --baseline-dir .artifacts/glaze-2.2-visual-baseline-reference --output-dir .artifacts/glaze-2.2-visual-regression
 
-      - name: Stage verified exact-head Glaze UI 2.2 Candidate visual review set
+      - name: Stage exact-head Glaze UI 2.2 Candidate visual review set
+        if: ${{ always() }}
         run: |
           python3 - <<'PY'
           import json
@@ -109,12 +110,12 @@ jobs:
           for case in cases:
               screenshot = source / f"{case['id']}.png"
               if not screenshot.is_file() or screenshot.stat().st_size < 256:
-                  raise SystemExit(f"missing verified exact-head screenshot: {screenshot}")
+                  raise SystemExit(f"missing exact-head screenshot: {screenshot}")
               shutil.copy2(screenshot, target / screenshot.name)
           staged = sorted(target.glob("*.png"))
           if len(staged) != len(cases):
               raise SystemExit(f"expected {len(cases)} staged review screenshots, found {len(staged)}")
-          print("Staged the exact six pixel-regression-passed screenshots for Human Visual Excellence review.")
+          print("Staged the exact six current screenshots for Human Visual Excellence review. Pixel-regression status remains separately authoritative.")
           PY
 
       - name: Upload exact-head Glaze UI 2.2 Candidate visual evidence
