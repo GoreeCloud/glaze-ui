@@ -239,6 +239,9 @@
   .glz22-thick-overlay,.glz22-overlay-button,.glz22-tooltip,.glz22-popover,.glz22-menu,.glz22-menu-item,.glz22-dialog,.glz22-sheet,.glz22-toast {
     background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none
   }
+  .glz22-button[data-variant="glaze"],.glz22-icon-button[data-variant="glaze"],.glz22-field-control[data-variant="glaze"],.glz22-select[data-variant="glaze"] {
+    background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none
+  }
   .glz22-button[data-variant="primary"],.glz22-overlay-button[data-primary="true"],.glz22-tab[aria-selected="true"],.glz22-sidebar-item[aria-current="page"],
   .glz22-rail-item[aria-current="page"],.glz22-dock-item[aria-current="page"],.glz22-list-item[data-selected="true"],.glz22-card[data-selected="true"] {
     background:Highlight;color:HighlightText;border-color:Highlight
