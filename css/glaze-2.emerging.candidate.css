@@ -152,6 +152,9 @@
 [data-glaze-spatial-flat="true"] .glaze-spatial-anchor {
   transform: translate(-50%, -50%);
   transform-style: flat;
+  /* Flat fallback is an accessibility/resilience state, not an animated depth
+   * transition. Remove interpolation so no transient z-depth survives after
+   * the runtime marks the fallback active. */
   transition: none;
 }
 
