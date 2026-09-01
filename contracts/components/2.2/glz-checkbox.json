@@ -4,7 +4,7 @@
   "id": "glz-checkbox-2-2",
   "name": "GlzCheckbox",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "foundation",
   "semanticRole": "Represent an independent boolean or mixed-state choice that may be submitted or applied with a surrounding task.",
   "variants": ["standard"],
