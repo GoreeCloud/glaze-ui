@@ -94,6 +94,8 @@ public final class MainActivity extends Activity {
     private View buildUi(String appearance, boolean touchAssistance) {
         FrameLayout safeHost = new FrameLayout(this);
         safeHost.setBackgroundColor(canvas);
+        safeHost.setClipChildren(true);
+        safeHost.setClipToPadding(true);
 
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
@@ -110,7 +112,7 @@ public final class MainActivity extends Activity {
         safeHost.addView(scroll, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        safeHost.setOnApplyWindowInsetsListener((v, insets) -> {
+        scroll.setOnApplyWindowInsetsListener((v, insets) -> {
             v.setPadding(
                     insets.getSystemWindowInsetLeft(),
                     insets.getSystemWindowInsetTop(),
@@ -118,7 +120,7 @@ public final class MainActivity extends Activity {
                     insets.getSystemWindowInsetBottom());
             return insets;
         });
-        safeHost.requestApplyInsets();
+        scroll.requestApplyInsets();
 
         root.addView(label("Glaze UI 2.2 Candidate", 28, true));
         root.addView(label("Current Stable: 2.1.0", 15, false));
