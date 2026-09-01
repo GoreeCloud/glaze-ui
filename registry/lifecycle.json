@@ -43,302 +43,63 @@
     }
   ],
   "capabilities": {
-    "glaze-material-hierarchy": {
-      "status": "stable",
-      "since": "2.0.0",
-      "refinedIn": "2.1.0"
-    },
-    "connected-transformation": {
-      "status": "stable",
-      "since": "2.0.0"
-    },
-    "adaptive-expression": {
-      "status": "stable",
-      "since": "2.0.0"
-    },
-    "navigation-capsule": {
-      "status": "stable",
-      "since": "2.0.0",
-      "refinedIn": "2.1.0"
-    },
-    "live-surfaces": {
-      "status": "stable",
-      "since": "2.0.0",
-      "refinedIn": "2.1.0"
-    },
-    "visual-excellence-gate": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "VISUAL_EXCELLENCE.md",
-      "acceptance": "acceptance/2.1-stable.md"
-    },
-    "canonical-lifecycle-registry": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "registry/lifecycle.json"
-    },
-    "machine-readable-component-contracts": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "schemas/component-contract.schema.json"
-    },
-    "navigation-capsule-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "contracts/components/navigation-capsule.json"
-    },
-    "machine-readable-material-contracts": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "schemas/material-contract.schema.json"
-    },
-    "material-budgets": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "contracts/materials/glaze-material-2.1.json",
-      "runtimeImplementation": "js/glaze-2.1.0.mjs"
-    },
-    "deterministic-material-behavior": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "contracts/materials/glaze-material-2.1.json",
-      "runtimeImplementation": "js/glaze-2.1.0.mjs"
-    },
-    "material-clarity-preference": {
-      "status": "stable",
-      "since": "2.0.0",
-      "refinedIn": "2.1.0"
-    },
-    "adaptive-optical-engine": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "contracts/materials/glaze-material-2.1.json"
-    },
-    "density-profiles": {
-      "status": "stable",
-      "since": "2.1.0",
-      "profiles": [
-        "comfortable",
-        "standard",
-        "compact",
-        "far-view"
-      ]
-    },
-    "machine-readable-accessibility-resolution": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "schemas/accessibility-resolution.schema.json"
-    },
-    "accessibility-resolution-matrix": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "contracts/accessibility/resolution-matrix.json",
-      "runtimeImplementation": "js/glaze-2.1.0.mjs"
-    },
-    "glaze-recipes": {
-      "status": "stable",
-      "since": "2.1.0",
-      "profiles": [
-        "productivity",
-        "communication",
-        "media",
-        "administration",
-        "creative"
-      ]
-    },
-    "performance-profiles": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "contracts/materials/glaze-material-2.1.json",
-      "profiles": [
-        "full",
-        "balanced",
-        "constrained",
-        "minimal"
-      ]
-    },
-    "web-reference-runtime-resolution": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "js/glaze-2.1.0.mjs",
-      "promotionSource": "js/glaze-2.1.candidate.mjs",
-      "tests": "tests/glaze-2.1-runtime.test.mjs"
-    },
+    "glaze-material-hierarchy": {"status": "stable", "since": "2.0.0", "refinedIn": "2.1.0"},
+    "connected-transformation": {"status": "stable", "since": "2.0.0"},
+    "adaptive-expression": {"status": "stable", "since": "2.0.0"},
+    "navigation-capsule": {"status": "stable", "since": "2.0.0", "refinedIn": "2.1.0"},
+    "live-surfaces": {"status": "stable", "since": "2.0.0", "refinedIn": "2.1.0"},
+    "visual-excellence-gate": {"status": "stable", "since": "2.1.0", "implementation": "VISUAL_EXCELLENCE.md", "acceptance": "acceptance/2.1-stable.md"},
+    "canonical-lifecycle-registry": {"status": "stable", "since": "2.1.0", "implementation": "registry/lifecycle.json"},
+    "machine-readable-component-contracts": {"status": "stable", "since": "2.1.0", "implementation": "schemas/component-contract.schema.json"},
+    "navigation-capsule-2.1": {"status": "stable", "since": "2.1.0", "implementation": "contracts/components/navigation-capsule.json"},
+    "machine-readable-material-contracts": {"status": "stable", "since": "2.1.0", "implementation": "schemas/material-contract.schema.json"},
+    "material-budgets": {"status": "stable", "since": "2.1.0", "implementation": "contracts/materials/glaze-material-2.1.json", "runtimeImplementation": "js/glaze-2.1.0.mjs"},
+    "deterministic-material-behavior": {"status": "stable", "since": "2.1.0", "implementation": "contracts/materials/glaze-material-2.1.json", "runtimeImplementation": "js/glaze-2.1.0.mjs"},
+    "material-clarity-preference": {"status": "stable", "since": "2.0.0", "refinedIn": "2.1.0"},
+    "adaptive-optical-engine": {"status": "stable", "since": "2.1.0", "implementation": "contracts/materials/glaze-material-2.1.json"},
+    "density-profiles": {"status": "stable", "since": "2.1.0", "profiles": ["comfortable", "standard", "compact", "far-view"]},
+    "machine-readable-accessibility-resolution": {"status": "stable", "since": "2.1.0", "implementation": "schemas/accessibility-resolution.schema.json"},
+    "accessibility-resolution-matrix": {"status": "stable", "since": "2.1.0", "implementation": "contracts/accessibility/resolution-matrix.json", "runtimeImplementation": "js/glaze-2.1.0.mjs"},
+    "glaze-recipes": {"status": "stable", "since": "2.1.0", "profiles": ["productivity", "communication", "media", "administration", "creative"]},
+    "performance-profiles": {"status": "stable", "since": "2.1.0", "implementation": "contracts/materials/glaze-material-2.1.json", "profiles": ["full", "balanced", "constrained", "minimal"]},
+    "web-reference-runtime-resolution": {"status": "stable", "since": "2.1.0", "implementation": "js/glaze-2.1.0.mjs", "promotionSource": "js/glaze-2.1.candidate.mjs", "tests": "tests/glaze-2.1-runtime.test.mjs"},
     "canonical-reference-flows-2.1": {
       "status": "stable",
       "since": "2.1.0",
-      "coverage": [
-        "settings-preferences",
-        "file-management",
-        "search-command",
-        "communication-live-activity",
-        "media-playback",
-        "resilience-exception-states"
-      ],
-      "implementations": [
-        "reference/candidate-2.1-settings.html",
-        "reference/candidate-2.1-files.html",
-        "reference/candidate-2.1-search.html",
-        "reference/candidate-2.1-communication.html",
-        "reference/candidate-2.1-media.html",
-        "reference/candidate-2.1-resilience.html"
-      ],
+      "coverage": ["settings-preferences", "file-management", "search-command", "communication-live-activity", "media-playback", "resilience-exception-states"],
+      "implementations": ["reference/candidate-2.1-settings.html", "reference/candidate-2.1-files.html", "reference/candidate-2.1-search.html", "reference/candidate-2.1-communication.html", "reference/candidate-2.1-media.html", "reference/candidate-2.1-resilience.html"],
       "acceptance": "acceptance/2.1-stable.md"
     },
-    "rendered-reference-acceptance-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "scripts/validate_glaze_2_1_rendered.py"
-    },
-    "rendered-visual-invariant-regression-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "contracts/regression/reference-invariants.json",
-      "renderedAcceptance": "scripts/validate_glaze_2_1_expanded_rendered.py",
-      "resilienceAcceptance": "scripts/validate_glaze_2_1_resilience_rendered.py",
-      "scope": "computed-layout-style-and-state-invariants"
-    },
-    "expanded-acceptance-matrix-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "contracts/regression/reference-invariants.json",
-      "renderedAcceptance": "scripts/validate_glaze_2_1_expanded_rendered.py",
-      "resilienceAcceptance": "scripts/validate_glaze_2_1_resilience_rendered.py"
-    },
-    "interaction-regression-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "reference/candidate-2.1-expanded-acceptance.html",
-      "validator": "scripts/validate_glaze_2_1_expanded_rendered.py",
-      "scenarios": [
-        "command-open-select",
-        "message-send",
-        "playback-toggle"
-      ]
-    },
-    "expanded-conformance-linter": {
-      "status": "stable",
-      "since": "2.1.0",
-      "stableValidator": "scripts/validate_glaze_2_1_stable.py"
-    },
-    "visual-regression-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "manifest": "contracts/regression/visual-baselines.json",
-      "implementation": "scripts/glaze_2_1_visual_regression.py",
-      "snapshotHarness": "reference/candidate-2.1-snapshot.html",
-      "baselineStrategy": "source-revision-same-run-render",
-      "baselineRevision": "5b46903c18660ae78e7f1aaea39a93136efacda7",
-      "baselineCaseCount": 6,
-      "humanVisualExcellenceAccepted": true
-    },
-    "android-native-reference-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "reference/native/android/buildable",
-      "workflow": ".github/workflows/glaze-2.1-android-native.yml",
-      "scope": "android-handheld-native-reference"
-    },
-    "android-handheld-emulator-acceptance-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "runtimeValidator": "scripts/validate_glaze_2_1_android_runtime.py",
-      "workflow": ".github/workflows/glaze-2.1-android-native.yml",
-      "physicalDeviceAccepted": false,
-      "note": "Design-system emulator acceptance is Stable evidence for the bounded reference only; downstream physical-device/OEM and assistive-technology acceptance remains application-specific."
-    },
-    "consumer-conformance-registry-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "implementation": "consumers/registry.json",
-      "schema": "schemas/consumer-registry.schema.json",
-      "validator": "scripts/validate_consumer_registry.py",
-      "scope": "mandatory-current-stable-target"
-    },
-    "system-icon-registry": {
-      "status": "planned",
-      "target": "post-2.1"
-    },
-    "icon-linter-2.1": {
-      "status": "planned",
-      "target": "post-2.1"
-    },
-    "development-inspector": {
-      "status": "planned",
-      "target": "post-2.1"
-    },
-    "generated-documentation": {
-      "status": "planned",
-      "target": "post-2.1"
-    },
-    "developer-integration-packages": {
-      "status": "planned",
-      "target": "post-2.1"
-    },
-    "glaze-ui-2.2-foundation-contract": {
-      "status": "candidate",
-      "since": "2.2.0-candidate.1",
-      "implementation": "GLAZE_UI_2_2_CANDIDATE.md"
-    },
-    "glaze-ui-2.2-core-token-contract": {
-      "status": "candidate",
-      "since": "2.2.0-candidate.1",
-      "implementation": "tokens/glaze-2.2.candidate.json"
-    },
-    "system-shell-contract-schema-2.2": {
-      "status": "candidate",
-      "since": "2.2.0-candidate.1",
-      "implementation": "schemas/system-shell-contract.schema.json"
-    },
-    "system-shell-foundation-2.2": {
-      "status": "candidate",
-      "since": "2.2.0-candidate.1",
-      "implementation": "contracts/system-shell/glaze-system-shell-2.2.json"
-    },
-    "web-candidate-foundation-2.2": {
-      "status": "candidate",
-      "since": "2.2.0-candidate.1",
-      "implementation": "css/glaze-2.2.candidate.css"
-    },
-    "candidate-validation-2.2": {
-      "status": "candidate",
-      "since": "2.2.0-candidate.1",
-      "implementation": "scripts/validate_glaze_2_2_candidate.py",
-      "workflow": ".github/workflows/glaze-2.2-candidate.yml",
-      "acceptance": "acceptance/2.2-candidate.md"
-    },
-    "component-library-2.2-complete": {
-      "status": "planned",
-      "target": "2.2"
-    },
-    "universal-search-runtime-2.2": {
-      "status": "planned",
-      "target": "2.2"
-    },
-    "control-center-runtime-2.2": {
-      "status": "planned",
-      "target": "2.2"
-    },
-    "native-system-shell-reference-2.2": {
-      "status": "planned",
-      "target": "2.2"
-    },
-    "rendered-reference-acceptance-2.2": {
-      "status": "planned",
-      "target": "2.2"
-    },
-    "visual-regression-2.2": {
-      "status": "planned",
-      "target": "2.2"
-    },
-    "migration-2.1-to-2.2": {
-      "status": "planned",
-      "target": "2.2"
-    },
-    "glaze-motion": {
-      "status": "experimental",
-      "note": "Remains separately governed and is not promoted by Glaze UI 2.1 or the Glaze UI 2.2 Candidate foundation."
-    }
+    "rendered-reference-acceptance-2.1": {"status": "stable", "since": "2.1.0", "implementation": "scripts/validate_glaze_2_1_rendered.py"},
+    "rendered-visual-invariant-regression-2.1": {"status": "stable", "since": "2.1.0", "implementation": "contracts/regression/reference-invariants.json", "renderedAcceptance": "scripts/validate_glaze_2_1_expanded_rendered.py", "resilienceAcceptance": "scripts/validate_glaze_2_1_resilience_rendered.py", "scope": "computed-layout-style-and-state-invariants"},
+    "expanded-acceptance-matrix-2.1": {"status": "stable", "since": "2.1.0", "implementation": "contracts/regression/reference-invariants.json", "renderedAcceptance": "scripts/validate_glaze_2_1_expanded_rendered.py", "resilienceAcceptance": "scripts/validate_glaze_2_1_resilience_rendered.py"},
+    "interaction-regression-2.1": {"status": "stable", "since": "2.1.0", "implementation": "reference/candidate-2.1-expanded-acceptance.html", "validator": "scripts/validate_glaze_2_1_expanded_rendered.py", "scenarios": ["command-open-select", "message-send", "playback-toggle"]},
+    "expanded-conformance-linter": {"status": "stable", "since": "2.1.0", "stableValidator": "scripts/validate_glaze_2_1_stable.py"},
+    "visual-regression-2.1": {"status": "stable", "since": "2.1.0", "manifest": "contracts/regression/visual-baselines.json", "implementation": "scripts/glaze_2_1_visual_regression.py", "snapshotHarness": "reference/candidate-2.1-snapshot.html", "baselineStrategy": "source-revision-same-run-render", "baselineRevision": "5b46903c18660ae78e7f1aaea39a93136efacda7", "baselineCaseCount": 6, "humanVisualExcellenceAccepted": true},
+    "android-native-reference-2.1": {"status": "stable", "since": "2.1.0", "implementation": "reference/native/android/buildable", "workflow": ".github/workflows/glaze-2.1-android-native.yml", "scope": "android-handheld-native-reference"},
+    "android-handheld-emulator-acceptance-2.1": {"status": "stable", "since": "2.1.0", "runtimeValidator": "scripts/validate_glaze_2_1_android_runtime.py", "workflow": ".github/workflows/glaze-2.1-android-native.yml", "physicalDeviceAccepted": false, "note": "Design-system emulator acceptance is Stable evidence for the bounded reference only; downstream physical-device/OEM and assistive-technology acceptance remains application-specific."},
+    "consumer-conformance-registry-2.1": {"status": "stable", "since": "2.1.0", "implementation": "consumers/registry.json", "schema": "schemas/consumer-registry.schema.json", "validator": "scripts/validate_consumer_registry.py", "scope": "mandatory-current-stable-target"},
+    "system-icon-registry": {"status": "planned", "target": "post-2.1"},
+    "icon-linter-2.1": {"status": "planned", "target": "post-2.1"},
+    "development-inspector": {"status": "planned", "target": "post-2.1"},
+    "generated-documentation": {"status": "planned", "target": "post-2.1"},
+    "developer-integration-packages": {"status": "planned", "target": "post-2.1"},
+    "glaze-ui-2.2-foundation-contract": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "GLAZE_UI_2_2_CANDIDATE.md"},
+    "glaze-ui-2.2-core-token-contract": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "tokens/glaze-2.2.candidate.json"},
+    "system-shell-contract-schema-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "schemas/system-shell-contract.schema.json"},
+    "system-shell-foundation-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "contracts/system-shell/glaze-system-shell-2.2.json"},
+    "web-candidate-foundation-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "css/glaze-2.2.candidate.css"},
+    "system-shell-runtime-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "js/glaze-2.2.candidate.mjs", "tests": "tests/glaze-2.2-runtime.test.mjs"},
+    "system-shell-reference-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "reference/candidate-2.2-system-shell.html", "scope": ["workspace", "search", "control-center", "critical-system"]},
+    "rendered-reference-acceptance-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "scripts/validate_glaze_2_2_rendered.py", "reference": "reference/candidate-2.2-system-shell.html", "scope": "bounded-system-shell-web-reference"},
+    "candidate-validation-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "scripts/validate_glaze_2_2_candidate.py", "workflow": ".github/workflows/glaze-2.2-candidate.yml", "acceptance": "acceptance/2.2-candidate.md"},
+    "component-library-2.2-complete": {"status": "planned", "target": "2.2"},
+    "universal-search-runtime-2.2": {"status": "planned", "target": "2.2", "note": "Current search reference validates shell presentation only, not indexing, semantic search, command execution, or intelligence backends."},
+    "control-center-runtime-2.2": {"status": "planned", "target": "2.2", "note": "Current Control Center reference validates shell presentation only, not system-control backends."},
+    "native-system-shell-reference-2.2": {"status": "planned", "target": "2.2"},
+    "visual-regression-2.2": {"status": "planned", "target": "2.2"},
+    "migration-2.1-to-2.2": {"status": "planned", "target": "2.2"},
+    "glaze-motion": {"status": "experimental", "note": "Remains separately governed and is not promoted by Glaze UI 2.1 or the Glaze UI 2.2 Candidate foundation."}
   },
   "promotionRules": {
     "candidateMaySatisfyStableConsumerConformance": false,
