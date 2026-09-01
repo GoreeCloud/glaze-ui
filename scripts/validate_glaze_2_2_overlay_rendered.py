@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Rendered pre-promotion acceptance for bounded Glaze UI 2.2 Overlay components.
+"""Rendered acceptance for bounded Glaze UI 2.2 Overlay Candidate components.
 
 This exercises Tooltip, Popover, Menu, Dialog, Sheet, and Toast in browser
-reference matrices. Passing is objective evidence only and does not establish
-native/device acceptance, downstream adoption, Human Visual Excellence, or
-Stable promotion.
+reference matrices. Passing is objective bounded Candidate evidence only and
+does not establish native/device acceptance, downstream adoption, Human Visual
+Excellence, consumer eligibility, or Stable promotion.
 """
 from __future__ import annotations
 
@@ -92,7 +92,7 @@ def main() -> None:
     with serve_root() as port:
         for case in cases:
             run_case(browser, port, **case)
-    print("Glaze UI 2.2 Overlay rendered acceptance passed (Planned pre-promotion evidence)")
+    print("Glaze UI 2.2 Overlay rendered acceptance passed (Candidate lifecycle enforced)")
 
 
 if __name__ == "__main__":
