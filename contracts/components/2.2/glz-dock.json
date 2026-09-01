@@ -4,7 +4,7 @@
   "id": "glz-dock-2-2",
   "name": "GlzDock",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "structure",
   "semanticRole": "Provide reachable primary touch navigation for three to five core destinations at the lower edge of a mobile or touch-centric workspace.",
   "variants": ["attached", "floating", "compact"],
