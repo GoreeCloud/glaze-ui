@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Fail-closed structural validation for the Glaze UI 2.2 Candidate foundation.
 
-This validator proves only objective repository invariants for the bounded
-2.2.0-candidate.1 foundation. It does not manufacture rendered, native,
+This validator proves objective repository invariants for the bounded
+2.2.0-candidate.1 line. It does not manufacture rendered, native,
 physical-device, consumer, or human Visual Excellence evidence.
 """
 
@@ -95,7 +95,6 @@ def validate_lifecycle(registry: dict[str, Any]) -> None:
         ),
         "lifecycle registry",
     )
-
     if registry.get("currentStable") != "2.1.0":
         fail("Glaze UI 2.2 Candidate must keep currentStable at 2.1.0")
     if registry.get("activeCandidate") != "2.2.0-candidate.1":
@@ -105,22 +104,12 @@ def validate_lifecycle(registry: dict[str, Any]) -> None:
     if not isinstance(releases, list):
         fail("lifecycle releases must be an array")
         releases = []
-
-    stable = [
-        record
-        for record in releases
-        if isinstance(record, dict) and record.get("version") == "2.1.0"
-    ]
+    stable = [r for r in releases if isinstance(r, dict) and r.get("version") == "2.1.0"]
+    candidate = [r for r in releases if isinstance(r, dict) and r.get("version") == "2.2.0-candidate.1"]
     if len(stable) != 1:
         fail("lifecycle registry must contain exactly one 2.1.0 release")
     elif stable[0].get("status") != "stable" or stable[0].get("consumerEligible") is not True:
         fail("2.1.0 must remain consumer-eligible Stable")
-
-    candidate = [
-        record
-        for record in releases
-        if isinstance(record, dict) and record.get("version") == "2.2.0-candidate.1"
-    ]
     if len(candidate) != 1:
         fail("lifecycle registry must contain exactly one 2.2.0-candidate.1 release")
     elif candidate[0].get("status") != "candidate" or candidate[0].get("consumerEligible") is not False:
@@ -207,7 +196,6 @@ def validate_tokens(tokens: dict[str, Any]) -> None:
         ),
         "2.2 token contract",
     )
-
     meta = tokens.get("meta", {})
     if meta.get("version") != "2.2.0-candidate.1":
         fail("2.2 tokens must declare candidate version 2.2.0-candidate.1")
@@ -219,11 +207,9 @@ def validate_tokens(tokens: dict[str, Any]) -> None:
         fail("2.2 Candidate tokens must not be consumer eligible")
 
     interaction = tokens.get("interaction", {})
-    expected_states = ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"]
-    expected_priority = ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"]
-    if interaction.get("states") != expected_states:
+    if interaction.get("states") != ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"]:
         fail("2.2 shared state vocabulary drifted")
-    if interaction.get("statePriority") != expected_priority:
+    if interaction.get("statePriority") != ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"]:
         fail("2.2 state priority drifted")
     layers = interaction.get("stateLayerOpacity", {})
     require_numeric_range(layers.get("hover"), "hover state opacity", expected=(0.03, 0.06), minimum=0, maximum=1)
@@ -236,15 +222,16 @@ def validate_tokens(tokens: dict[str, Any]) -> None:
     if surface.get("contentRule") != "Solid where you read. Glazed where you interact.":
         fail("2.2 content/material rule drifted")
 
-    deep_dark = tokens.get("color", {}).get("deepDark", {})
+    color = tokens.get("color", {})
+    deep_dark = color.get("deepDark", {})
     if deep_dark.get("canvas") != "#05070A":
         fail("Deep Dark Canvas must be #05070A")
     if deep_dark.get("base") != "#0D1015":
         fail("Deep Dark Base must be #0D1015")
     if deep_dark.get("raised") != "#171C23":
         fail("Deep Dark Raised must be #171C23")
-    require_numeric_range(tokens.get("color", {}).get("ambientTintPercent"), "ambient tint percent", expected=(4, 10), minimum=0, maximum=100)
-    if tokens.get("color", {}).get("wallpaperSemanticOverrideAllowed") is not False:
+    require_numeric_range(color.get("ambientTintPercent"), "ambient tint percent", expected=(4, 10), minimum=0, maximum=100)
+    if color.get("wallpaperSemanticOverrideAllowed") is not False:
         fail("wallpaper must not override semantic colors")
 
     targets = tokens.get("targetPx", {})
@@ -298,8 +285,7 @@ def validate_tokens(tokens: dict[str, Any]) -> None:
 
     accessibility = tokens.get("accessibility", {})
     required_independence = {"precision-gestures", "color", "transparency", "animation", "sound", "hover"}
-    actual_independence = set(accessibility.get("alternativePathMustNotDependOn", []))
-    if not required_independence.issubset(actual_independence):
+    if not required_independence.issubset(set(accessibility.get("alternativePathMustNotDependOn", []))):
         fail("accessibility alternative-path independence is incomplete")
     for key in ("reducedTransparency", "reducedMotion", "increasedContrast", "forcedColors", "largeText", "keyboard", "touch", "pointer"):
         if accessibility.get(key) is not True:
@@ -350,6 +336,7 @@ def validate_shell_contract(shell: dict[str, Any]) -> None:
         fail("keyboard traversal must not wait for animation")
     if shell.get("motion", {}).get("directManipulationTracksInput") is not True:
         fail("direct manipulation must track input")
+
     privacy = shell.get("privacy", {})
     for key in ("stateVisible", "stateUnderstandable", "stateActionable", "recordingIndicatorPersistent", "sensorUseDiscoverable"):
         if privacy.get(key) is not True:
@@ -372,26 +359,9 @@ def validate_schema(schema: dict[str, Any]) -> None:
     require_keys(schema, ("$schema", "$id", "title", "type", "required", "properties", "$defs"), "system shell schema")
     required = set(schema.get("required", [])) if isinstance(schema.get("required"), list) else set()
     expected = {
-        "schemaVersion",
-        "id",
-        "name",
-        "version",
-        "lifecycle",
-        "stableBaseline",
-        "consumerEligible",
-        "scope",
-        "surfaceClasses",
-        "materialHierarchy",
-        "glazeBudget",
-        "motion",
-        "targets",
-        "accessibility",
-        "privacy",
-        "security",
-        "responsive",
-        "fallbacks",
-        "implementation",
-        "validation",
+        "schemaVersion", "id", "name", "version", "lifecycle", "stableBaseline", "consumerEligible",
+        "scope", "surfaceClasses", "materialHierarchy", "glazeBudget", "motion", "targets",
+        "accessibility", "privacy", "security", "responsive", "fallbacks", "implementation", "validation",
     }
     if not expected.issubset(required):
         fail(f"system shell schema does not require: {sorted(expected - required)}")
@@ -426,7 +396,6 @@ def validate_css(css: str) -> None:
         fail("2.2 Candidate CSS must not depend on remote/imported presentation")
     if "http://" in css or "https://" in css:
         fail("2.2 Candidate CSS must remain local and must not contain remote presentation URLs")
-
     critical_start = css.find(".glz22-critical-system {")
     critical_end = css.find("}", critical_start)
     critical_block = css[critical_start:critical_end] if critical_start >= 0 and critical_end >= 0 else ""
@@ -478,11 +447,13 @@ def main() -> int:
         (
             "2.2.0-candidate.1",
             "Current Stable:** 2.1.0",
-            "Candidate foundation only",
             "does not establish Stable promotion",
-            "Human Visual Excellence: Pending",
-            "Rendered acceptance: Pending",
-            "Native/device acceptance: Pending",
+            "Optical Reachability static + 15-case rendered acceptance: **Passed**",
+            "Android-native 2.2 Candidate emulator acceptance: **Passed**",
+            "Active-presentation source-pinned pixel regression: **Pending new approved baseline**",
+            "Human Visual Excellence review for the active Optical Reachability presentation: **Pending**",
+            "Complete cross-platform native System Shell implementation: **Pending / Planned**",
+            "Final-release exact-final-revision rendered/visual regression and lifecycle promotion checks: **Pending**",
         ),
         "2.2 Candidate acceptance record",
     )
