@@ -4,7 +4,7 @@
   "id": "glz-button-2-2",
   "name": "GlzButton",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "foundation",
   "semanticRole": "Execute a clearly labeled user action with one dominant semantic intent.",
   "variants": ["primary", "secondary", "quiet", "glaze", "danger"],
