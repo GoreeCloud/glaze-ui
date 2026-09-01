@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-switch-2-2",
+  "name": "GlzSwitch",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "planned",
+  "tier": "foundation",
+  "semanticRole": "Toggle an immediately applied binary setting whose current on/off state remains visible and reversible.",
+  "variants": ["standard"],
+  "sizes": [
+    {"name": "sm", "visualHeightPx": 28, "touchHitMinPx": 48, "gapPx": 10, "iconPx": 14, "radiusPx": 999},
+    {"name": "md", "visualHeightPx": 32, "touchHitMinPx": 48, "gapPx": 12, "iconPx": 16, "radiusPx": 999}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "error", "checked", "unchecked"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {
+    "default": "surface",
+    "allowed": ["surface", "raised", "solid-glaze"],
+    "glazeIsExceptional": true,
+    "rule": "The switch control itself stays solid and tactile. Use it only for immediate settings; deferred form choices use Checkbox instead."
+  },
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {
+    "keyboard": "Space toggles the focused switch; Enter may toggle where platform convention supports it; activation applies state immediately.",
+    "focus": "Visible focus surrounds the full target and remains distinct from the on/off state.",
+    "hover": "Hover may strengthen track/thumb definition but never communicates state by itself.",
+    "press": "Thumb/track feedback begins immediately and follows direct manipulation where drag-to-toggle is supported.",
+    "selection": "On/off state uses thumb position plus programmatic checked state and optional semantic icon, not color alone.",
+    "directManipulation": "If dragging is supported, the thumb tracks the pointer/finger continuously and settles to a valid binary state on release."
+  },
+  "accessibility": {
+    "role": "switch",
+    "name": "A persistent visible setting label supplies the accessible name; optional description explains consequences.",
+    "state": "Checked/on, unchecked/off, disabled, and invalid/error state where meaningful are programmatically exposed.",
+    "value": "Boolean checked state is the semantic value; visual thumb position never substitutes for it.",
+    "keyboard": "Space toggles reliably without requiring drag or pointer precision.",
+    "focus": "Focus is visible independently from the checked state and remains legible in forced colors.",
+    "errorAssociation": "If immediate application fails, associate the error/status message with the setting and restore or explain authoritative state.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Thumb movement becomes short restrained glide or direct state change while preserving position meaning.",
+    "reducedTransparency": "No functional change required because the switch is solid by default.",
+    "increasedContrast": "Strengthen track/thumb boundary, focus, and on/off distinction.",
+    "forcedColors": "Use platform switch/checkbox semantics or system colors with position and checked state preserved.",
+    "largeText": "Label and description reflow; switch remains aligned to the logical setting row without reducing target size."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {
+    "reducedMotion": "Short restrained thumb glide or direct state change.",
+    "reducedTransparency": "Retain solid track/thumb.",
+    "highContrast": "Stronger track/thumb/focus distinction.",
+    "forcedColors": "Platform checked-state semantics and system colors.",
+    "performance": "No blur/material dependency; simplify optional shadow only."
+  },
+  "api": {
+    "semanticProps": ["checked", "defaultChecked", "disabled", "label", "description", "name", "value"],
+    "events": ["onChange", "onFocus", "onBlur"],
+    "slots": ["root", "labelGroup", "label", "description", "control", "track", "thumb", "statusMessage"],
+    "escapeHatches": ["className", "style", "slotProps", "tokens"],
+    "rawVisualPropsPreferred": false
+  },
+  "content": {
+    "overflow": "Labels/descriptions wrap; the switch remains reachable and does not overlap text at narrow widths.",
+    "localization": "Setting labels and descriptions tolerate 30–50% expansion and locale-specific sentence structure.",
+    "rtl": "Setting row alignment follows direction; logical off/on thumb positions mirror with platform convention.",
+    "textExpansionPercent": [30, 50]
+  },
+  "testing": {
+    "themes": ["light", "dark", "deep-dark"],
+    "states": ["rest", "hover", "focus", "checked", "unchecked", "disabled", "error"],
+    "inputs": ["mouse", "touch", "keyboard", "remote"],
+    "directions": ["ltr", "rtl"],
+    "textScalePercent": [100, 200],
+    "motion": ["full", "reduced"],
+    "contrast": ["standard", "high", "forced-colors"]
+  },
+  "visualReview": {
+    "required": true,
+    "criteria": [
+      "On/off state is readable from position and structure before color.",
+      "Thumb movement feels connected to direct manipulation without bounce or lag.",
+      "Long labels do not force the switch into an ambiguous detached position.",
+      "Error/application-failure feedback does not falsely show a state the producer rejected."
+    ]
+  }
+}
