@@ -4,7 +4,7 @@
   "id": "glz-radio-2-2",
   "name": "GlzRadio",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "foundation",
   "semanticRole": "Choose exactly one mutually exclusive option from a labeled choice set.",
   "variants": ["standard"],
