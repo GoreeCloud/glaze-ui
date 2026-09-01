@@ -5,7 +5,7 @@
   "lifecycle": "candidate",
   "status": "source-pinned-candidate",
   "baselineStrategy": "source-revision-same-run-render",
-  "baselineRevision": "ae002a642a05a08b8125da5bc124453727df7111",
+  "baselineRevision": "8e1b9702b80840e49b5e14e3de61c154f2d57351",
   "humanVisualExcellenceAccepted": false,
   "humanDecision": "Pending",
   "note": "The immutable Candidate source revision is re-rendered on the same Chromium runner as the exact current revision. Passing pixel regression protects the review presentation but does not constitute Human Visual Excellence acceptance or Stable promotion.",
