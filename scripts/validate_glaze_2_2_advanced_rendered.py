@@ -22,19 +22,41 @@ SMART_RAIL_LEGACY_FAILURE = "FAIL\n- Smart Rail contextual tools must not move c
 def run_smart_rail_local_case(browser: str, port: int, *, width: int, height: int,
                               appearance: str, mode: str, direction: str) -> None:
     params={"appearance":appearance,"mode":mode,"direction":direction}
-    query=urllib.parse.urlencode(params)
-    url=f"http://127.0.0.1:{port}/reference/{SMART_RAIL_PAGE}?{query}"
-    with tempfile.TemporaryDirectory(prefix="glaze-22-smart-rail-local-") as profile:
-        completed=run_browser(browser_command(browser,url,profile,width=width,height=height,mode=mode))
-    status,text=acceptance_result(completed.stdout)
-    if completed.returncode!=0 or status!="pass" or not text or not text.startswith("PASS"):
-        raise SystemExit(
-            "Glaze UI 2.2 Smart Rail local-coordinate stability acceptance failed after "
-            f"legacy viewport-coordinate assertion reported movement:\n{text or completed.stderr[-2000:]}"
-        )
-    print(
-        "Glaze UI 2.2 Smart Rail local-coordinate stability passed: "
-        f"{width}x{height} {appearance} mode={mode} dir={direction}"
+    name=f"Smart Rail local stability {width}x{height} {appearance} mode={mode} dir={direction}"
+    last="browser did not produce a result"
+    for attempt in range(1, RENDER_ATTEMPTS+1):
+        query=urllib.parse.urlencode({**params,"attempt":attempt})
+        url=f"http://127.0.0.1:{port}/reference/{SMART_RAIL_PAGE}?{query}"
+        with tempfile.TemporaryDirectory(prefix="glaze-22-smart-rail-local-") as profile:
+            command=browser_command(browser,url,profile,width=width,height=height,mode=mode)
+            try:
+                completed=run_browser(command)
+            except subprocess.TimeoutExpired as exc:
+                stdout=exc.stdout.decode(errors="replace") if isinstance(exc.stdout,bytes) else (exc.stdout or "")
+                stderr=exc.stderr.decode(errors="replace") if isinstance(exc.stderr,bytes) else (exc.stderr or "")
+                last=f"attempt {attempt} timed out\n{(stdout or stderr)[-2000:]}"
+                if attempt<RENDER_ATTEMPTS:
+                    print(f"Glaze UI 2.2 Smart Rail local stability retrying: {name}")
+                    continue
+                break
+        status,text=acceptance_result(completed.stdout)
+        if completed.returncode!=0:
+            last=f"attempt {attempt} browser exited {completed.returncode}\n{completed.stderr[-2000:]}"
+        elif status=="pass" and text and text.startswith("PASS"):
+            print(f"Glaze UI 2.2 Smart Rail local-coordinate stability passed: {name}")
+            return
+        elif status=="fail":
+            raise SystemExit(
+                "Glaze UI 2.2 Smart Rail local-coordinate stability acceptance failed after "
+                f"legacy viewport-coordinate assertion reported movement:\n{text or '(no result text)'}"
+            )
+        else:
+            last=f"attempt {attempt} did not reach PASS (status={status or 'missing'})\n{text or completed.stdout[-3000:]}"
+        if attempt<RENDER_ATTEMPTS:
+            print(f"Glaze UI 2.2 Smart Rail local stability retrying: {name}")
+    raise SystemExit(
+        "Glaze UI 2.2 Smart Rail local-coordinate stability acceptance failed after "
+        f"legacy viewport-coordinate assertion reported movement and {RENDER_ATTEMPTS} local attempts:\n{last}"
     )
 
 
@@ -66,8 +88,9 @@ def run_case(browser: str, port: int, *, width: int, height: int, appearance: st
                 # The legacy aggregate page measured destination coordinates against
                 # the viewport. A page-level scrollbar/layout shift can change that
                 # coordinate without moving destinations inside the rail. Fail closed
-                # through a dedicated local-coordinate invariant instead of retrying or
-                # tolerating actual rail movement.
+                # through a dedicated local-coordinate invariant instead of tolerating
+                # actual rail movement. The dedicated probe may itself need a retry
+                # when Chromium dump-dom returns before its load-delayed assertion.
                 run_smart_rail_local_case(
                     browser,port,width=width,height=height,appearance=appearance,
                     mode=mode,direction=direction,
