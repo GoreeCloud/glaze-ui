@@ -244,4 +244,11 @@ html[data-mode="increased-contrast"] .glz22-search-panel {box-shadow:none}
   }
   .intel-stage::before,.intel-stage::after {display:none}
   .dock-item.current {background:Highlight!important;color:HighlightText!important}
+  .critical-button.primary {
+    forced-color-adjust:none;
+    background:ButtonFace!important;
+    color:ButtonText!important;
+    border:2px solid ButtonText!important;
+    font-weight:700;
+  }
 }
