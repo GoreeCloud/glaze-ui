@@ -70,6 +70,19 @@
 }
 
 @media (forced-colors: active) {
+  /* Match or exceed the specificity of Glaze variant rules. Forced Colors is
+     an effects-free semantic rendering, never translucent glass with system
+     colors painted over it. */
+  .glz22-button[data-variant="glaze"],
+  .glz22-icon-button[data-variant="glaze"],
+  .glz22-field-control[data-variant="glaze"],
+  .glz22-select[data-variant="glaze"] {
+    background: Canvas;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
   .glz22-button:focus,
   .glz22-icon-button:focus,
   .glz22-field-control:focus-within,
