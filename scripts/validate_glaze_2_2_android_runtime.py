@@ -223,7 +223,6 @@ def case_search_and_exclusivity(serial: str, dpi: int) -> dict:
     tap(serial, search_invoker)
     ui = dump_ui(serial)
     assert_contains(ui, "Dominant panel: Universal Search")
-    assert_contains(ui, "Generated answer · Source: Project Brief")
     search_input = find_desc(ui, "Search everything")
     if search_input is None or search_input.attrib.get("focused") != "true":
         raise SystemExit("Universal Search did not move native focus immediately to the query field")
@@ -231,6 +230,9 @@ def case_search_and_exclusivity(serial: str, dpi: int) -> dict:
     if result is None:
         raise SystemExit("deterministic Project Brief result missing")
     result_dp = require_target(result, dpi, 48.0, "Project Brief")
+    # Provenance remains mandatory, but safe-area and text reflow are allowed to
+    # move the generated-source card below the initial viewport.
+    find_reachable(serial, "Generated answer · Source: Project Brief", attempts=8)
 
     dismiss_ime(serial)
     _, delete, delete_dp = fully_revealed_target(serial, "Delete local cache", dpi, 48.0)
@@ -290,6 +292,11 @@ def case_large_text_touch_assistance(serial: str, dpi: int) -> dict:
         raise SystemExit("Touch Assistance target-floor label missing")
     _, search_invoker, invoker_dp = fully_revealed_target(serial, "Open Search", dpi, 56.0)
     require_target(search_invoker, dpi, 56.0, "Touch Assistance Open Search")
+    _, control_invoker, control_invoker_dp = fully_revealed_target(serial, "Open Control Center", dpi, 56.0)
+    require_target(control_invoker, dpi, 56.0, "Touch Assistance Open Control Center")
+    launcher_sha = screenshot(serial, OUT / "android-22-large-text-launchers.png")
+    # Re-resolve Search after any reveal scroll before activation.
+    _, search_invoker, _ = fully_revealed_target(serial, "Open Search", dpi, 56.0)
     tap(serial, search_invoker)
 
     ui = dump_ui(serial)
@@ -304,7 +311,14 @@ def case_large_text_touch_assistance(serial: str, dpi: int) -> dict:
     # must remain reachable, but need not be simultaneously visible with Best Match.
     find_reachable(serial, "Generated answer · Source: Project Brief", attempts=8)
     sha = screenshot(serial, OUT / "android-22-large-text-touch-assistance.png")
-    return {"id": "large-text-touch-assistance", "invokerTargetDp": round(invoker_dp, 2), "resultTargetDp": round(result_dp, 2), "screenshotSha256": sha}
+    return {
+        "id": "large-text-touch-assistance",
+        "invokerTargetDp": round(invoker_dp, 2),
+        "controlInvokerTargetDp": round(control_invoker_dp, 2),
+        "resultTargetDp": round(result_dp, 2),
+        "launcherScreenshotSha256": launcher_sha,
+        "screenshotSha256": sha,
+    }
 
 
 def main() -> int:
