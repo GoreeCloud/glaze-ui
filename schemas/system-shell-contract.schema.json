@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/system-shell-contract.schema.json",
+  "title": "Glaze UI System Shell Contract",
+  "description": "Machine-readable contract for bounded Glaze UI system-shell semantics. Schema validity does not imply lifecycle promotion or platform implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "scope",
+    "surfaceClasses",
+    "materialHierarchy",
+    "glazeBudget",
+    "motion",
+    "targets",
+    "accessibility",
+    "privacy",
+    "security",
+    "responsive",
+    "fallbacks",
+    "implementation",
+    "validation"
+  ],
+  "properties": {
+    "schemaVersion": {"type": "integer", "minimum": 1},
+    "id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "pattern": "^2\\.2\\.0-candidate\\.[0-9]+$"},
+    "lifecycle": {"const": "candidate"},
+    "stableBaseline": {"const": "2.1.0"},
+    "consumerEligible": {"const": false},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implemented", "notClaimed"],
+      "properties": {
+        "implemented": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "notClaimed": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "surfaceClasses": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "workspace"},
+        {"const": "application"},
+        {"const": "system-overlay"},
+        {"const": "system-panel"},
+        {"const": "critical-system"}
+      ],
+      "items": false,
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "materialHierarchy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workspace", "application", "systemOverlay", "systemPanel", "criticalSystem", "nestedBackdropBlurAllowed"],
+      "properties": {
+        "workspace": {"type": "string", "minLength": 1},
+        "application": {"type": "string", "minLength": 1},
+        "systemOverlay": {"type": "string", "minLength": 1},
+        "systemPanel": {"type": "string", "minLength": 1},
+        "criticalSystem": {"type": "string", "minLength": 1},
+        "nestedBackdropBlurAllowed": {"const": false}
+      }
+    },
+    "glazeBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dominantPanelMax", "smallFloatingControlsMin", "smallFloatingControlsMax", "exceptionRequiresExplicitContext"],
+      "properties": {
+        "dominantPanelMax": {"const": 1},
+        "smallFloatingControlsMin": {"const": 1},
+        "smallFloatingControlsMax": {"const": 3},
+        "exceptionRequiresExplicitContext": {"const": true}
+      }
+    },
+    "motion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["popoverMs", "controlCenterMs", "searchMs", "workspaceMs", "unlockMs", "keyboardTraversalWaitsForAnimation", "directManipulationTracksInput"],
+      "properties": {
+        "popoverMs": {"$ref": "#/$defs/integerRange"},
+        "controlCenterMs": {"$ref": "#/$defs/integerRange"},
+        "searchMs": {"$ref": "#/$defs/integerRange"},
+        "workspaceMs": {"$ref": "#/$defs/integerRange"},
+        "unlockMs": {"$ref": "#/$defs/integerRange"},
+        "keyboardTraversalWaitsForAnimation": {"const": false},
+        "directManipulationTracksInput": {"const": true}
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["touchShellMinPx", "touchAssistanceMinPx", "farViewMinPx"],
+      "properties": {
+        "touchShellMinPx": {"type": "integer", "minimum": 44},
+        "touchAssistanceMinPx": {"type": "integer", "minimum": 56},
+        "farViewMinPx": {"type": "integer", "minimum": 56}
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alternativePathIndependentOf", "reducedMotion", "reducedTransparency", "increasedContrast", "forcedColors", "largeText", "keyboard", "touch", "pointer", "colorOnlyMeaningAllowed"],
+      "properties": {
+        "alternativePathIndependentOf": {"type": "array", "minItems": 6, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "reducedMotion": {"const": true},
+        "reducedTransparency": {"const": true},
+        "increasedContrast": {"const": true},
+        "forcedColors": {"const": true},
+        "largeText": {"const": true},
+        "keyboard": {"const": true},
+        "touch": {"const": true},
+        "pointer": {"const": true},
+        "colorOnlyMeaningAllowed": {"const": false}
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stateVisible", "stateUnderstandable", "stateActionable", "recordingIndicatorPersistent", "sensorUseDiscoverable"],
+      "properties": {
+        "stateVisible": {"const": true},
+        "stateUnderstandable": {"const": true},
+        "stateActionable": {"const": true},
+        "recordingIndicatorPersistent": {"const": true},
+        "sensorUseDiscoverable": {"const": true}
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criticalSurfacesBecomeMoreSolid", "explicitLanguageIncreasesWithStakes", "decorativeTransparencyRequired"],
+      "properties": {
+        "criticalSurfacesBecomeMoreSolid": {"const": true},
+        "explicitLanguageIncreasesWithStakes": {"const": true},
+        "decorativeTransparencyRequired": {"const": false}
+      }
+    },
+    "responsive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mobile", "tablet", "desktop"],
+      "properties": {
+        "mobile": {"type": "string", "minLength": 1},
+        "tablet": {"type": "string", "minLength": 1},
+        "desktop": {"type": "string", "minLength": 1}
+      }
+    },
+    "fallbacks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reducedMotion", "reducedTransparency", "highContrast", "deepDark"],
+      "properties": {
+        "reducedMotion": {"type": "string", "minLength": 1},
+        "reducedTransparency": {"type": "string", "minLength": 1},
+        "highContrast": {"type": "string", "minLength": 1},
+        "deepDark": {"type": "string", "minLength": 1}
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tokens", "css", "candidateContract"],
+      "properties": {
+        "tokens": {"const": "tokens/glaze-2.2.candidate.json"},
+        "css": {"const": "css/glaze-2.2.candidate.css"},
+        "candidateContract": {"const": "GLAZE_UI_2_2_CANDIDATE.md"}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validator", "workflow", "acceptance"],
+      "properties": {
+        "validator": {"const": "scripts/validate_glaze_2_2_candidate.py"},
+        "workflow": {"const": ".github/workflows/glaze-2.2-candidate.yml"},
+        "acceptance": {"const": "acceptance/2.2-candidate.md"}
+      }
+    }
+  },
+  "$defs": {
+    "integerRange": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "integer", "minimum": 0},
+        {"type": "integer", "minimum": 0}
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    }
+  }
+}
