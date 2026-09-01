@@ -4,7 +4,7 @@
   "id": "glz-tooltip-2-2",
   "name": "GlzTooltip",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "overlay",
   "semanticRole": "Provide short, non-interactive explanatory text for a control without carrying warnings, forms, or essential-only information.",
   "variants": ["standard", "shortcut"],
