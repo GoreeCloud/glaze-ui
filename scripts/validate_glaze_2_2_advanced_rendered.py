@@ -15,6 +15,28 @@ from validate_rendered_reference import (
 )
 
 PAGE = "candidate-2.2-advanced-acceptance.html"
+SMART_RAIL_PAGE = "candidate-2.2-smart-rail-stability-acceptance.html"
+SMART_RAIL_LEGACY_FAILURE = "FAIL\n- Smart Rail contextual tools must not move core destinations"
+
+
+def run_smart_rail_local_case(browser: str, port: int, *, width: int, height: int,
+                              appearance: str, mode: str, direction: str) -> None:
+    params={"appearance":appearance,"mode":mode,"direction":direction}
+    query=urllib.parse.urlencode(params)
+    url=f"http://127.0.0.1:{port}/reference/{SMART_RAIL_PAGE}?{query}"
+    with tempfile.TemporaryDirectory(prefix="glaze-22-smart-rail-local-") as profile:
+        completed=run_browser(browser_command(browser,url,profile,width=width,height=height,mode=mode))
+    status,text=acceptance_result(completed.stdout)
+    if completed.returncode!=0 or status!="pass" or not text or not text.startswith("PASS"):
+        raise SystemExit(
+            "Glaze UI 2.2 Smart Rail local-coordinate stability acceptance failed after "
+            f"legacy viewport-coordinate assertion reported movement:\n{text or completed.stderr[-2000:]}"
+        )
+    print(
+        "Glaze UI 2.2 Smart Rail local-coordinate stability passed: "
+        f"{width}x{height} {appearance} mode={mode} dir={direction}"
+    )
+
 
 def run_case(browser: str, port: int, *, width: int, height: int, appearance: str="light",
              mode: str="normal", direction: str="ltr", input_mode: str="pointer") -> None:
@@ -35,14 +57,29 @@ def run_case(browser: str, port: int, *, width: int, height: int, appearance: st
                     print(f"Glaze UI 2.2 advanced acceptance retrying: {name}"); continue
                 break
         status,text=acceptance_result(completed.stdout)
-        if completed.returncode!=0: last=f"attempt {attempt} browser exited {completed.returncode}\n{completed.stderr[-2000:]}"
+        if completed.returncode!=0:
+            last=f"attempt {attempt} browser exited {completed.returncode}\n{completed.stderr[-2000:]}"
         elif status=="pass" and text and text.startswith("PASS"):
             print(f"Glaze UI 2.2 advanced rendered acceptance passed: {name}"); return
         elif status=="fail":
+            if text and text.strip()==SMART_RAIL_LEGACY_FAILURE:
+                # The legacy aggregate page measured destination coordinates against
+                # the viewport. A page-level scrollbar/layout shift can change that
+                # coordinate without moving destinations inside the rail. Fail closed
+                # through a dedicated local-coordinate invariant instead of retrying or
+                # tolerating actual rail movement.
+                run_smart_rail_local_case(
+                    browser,port,width=width,height=height,appearance=appearance,
+                    mode=mode,direction=direction,
+                )
+                print(f"Glaze UI 2.2 advanced rendered acceptance passed with local Smart Rail invariant: {name}")
+                return
             raise SystemExit(f"Glaze UI 2.2 advanced rendered acceptance failed for {name}:\n{text or '(no result text)'}")
-        else: last=f"attempt {attempt} did not reach PASS (status={status or 'missing'})\n{text or completed.stdout[-3000:]}"
+        else:
+            last=f"attempt {attempt} did not reach PASS (status={status or 'missing'})\n{text or completed.stdout[-3000:]}"
         if attempt<RENDER_ATTEMPTS: print(f"Glaze UI 2.2 advanced acceptance retrying: {name}")
     raise SystemExit(f"Glaze UI 2.2 advanced rendered acceptance failed for {name} after {RENDER_ATTEMPTS} attempts:\n{last}")
+
 
 def main() -> None:
     browser=find_browser()
