@@ -26,9 +26,11 @@ jobs:
           path: .glaze-2.1-visual-baseline-source
           persist-credentials: false
       - name: Compile Glaze UI 2.1 Stable validators
-        run: python3 -m py_compile scripts/validate_glaze_2_1_stable.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py scripts/run_glaze_2_1_visual_regression.py scripts/validate_glaze_2_1_android_runtime.py
+        run: python3 -m py_compile scripts/validate_glaze_2_1_stable.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py scripts/run_glaze_2_1_visual_regression.py scripts/validate_glaze_2_1_android_runtime.py scripts/validate_design_center_responsive.py
       - name: Validate Glaze UI 2.1 Stable promotion contract
         run: python3 scripts/validate_glaze_2_1_stable.py
+      - name: Validate Design Center responsive integration
+        run: python3 scripts/validate_design_center_responsive.py
       - name: Validate Glaze UI 2.1 Stable runtime syntax
         run: node --check js/glaze-2.1.0.mjs
       - name: Test Glaze UI 2.1 runtime resolution and Material Budgets
