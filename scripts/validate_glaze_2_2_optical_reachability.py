@@ -2,14 +2,16 @@
 """Static acceptance for the Glaze UI 2.2 Optical Reachability presentation layer.
 
 This gate verifies that the consolidated Candidate layer spans Foundation,
-Structure, Overlay, Signature/Intelligence inherited styling, and accessibility
-fallbacks. It does not approve Human Visual Excellence or Stable promotion.
+Structure, Overlay, Signature/Intelligence inherited styling, accessibility
+fallbacks, and review-evidence wiring. It does not approve Human Visual
+Excellence or Stable promotion.
 """
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CSS = ROOT / "css" / "glaze-2.2.optical-reachability.candidate.css"
 REFERENCE = ROOT / "reference" / "candidate-2.2-optical-reachability-acceptance.html"
+REVIEW_CAPTURE = ROOT / "scripts" / "capture_glaze_2_2_optical_component_review.py"
 WORKFLOW = ROOT / ".github" / "workflows" / "glaze-2.2-candidate.yml"
 
 
@@ -19,12 +21,13 @@ def require(text: str, marker: str, label: str) -> None:
 
 
 def main() -> None:
-    for path in (CSS, REFERENCE, WORKFLOW):
+    for path in (CSS, REFERENCE, REVIEW_CAPTURE, WORKFLOW):
         if not path.is_file():
             raise SystemExit(f"Glaze UI 2.2 Optical Reachability validation failed: missing {path.relative_to(ROOT)}")
 
     css = CSS.read_text(encoding="utf-8")
     page = REFERENCE.read_text(encoding="utf-8")
+    capture = REVIEW_CAPTURE.read_text(encoding="utf-8")
     workflow = WORKFLOW.read_text(encoding="utf-8")
 
     for marker, label in (
@@ -62,16 +65,30 @@ def main() -> None:
     ):
         require(page, marker, label)
 
+    for marker, label in (
+        ('optical-components-desktop-light', 'desktop component review case'),
+        ('optical-components-mobile-dark', 'mobile component review case'),
+        ('optical-components-tablet-reduced-transparency', 'Reduced Transparency review case'),
+        ('optical-components-mobile-large-text', 'large-text review case'),
+        ('optical-components-mobile-touch-assisted', 'Touch Assistance review case'),
+        ('optical-components-desktop-deep-dark', 'Deep Dark review case'),
+        ('Evidence only; human approval remains required', 'human-review boundary'),
+    ):
+        require(capture, marker, label)
+
     for marker in (
         'validate_glaze_2_2_optical_reachability.py',
         'validate_glaze_2_2_optical_reachability_rendered.py',
+        'capture_glaze_2_2_optical_component_review.py',
         'Validate Glaze UI 2.2 Optical Reachability component presentation',
         'Validate rendered Glaze UI 2.2 Optical Reachability component presentation',
+        'Capture exact-head Glaze UI 2.2 Optical Reachability component review set',
+        '.artifacts/glaze-2.2-optical-component-review/*.png',
     ):
         require(workflow, marker, 'workflow integration')
 
     print('Glaze UI 2.2 Optical Reachability static acceptance: PASS')
-    print('Current Stable remains 2.1.0; this Candidate presentation layer does not establish Human Visual Excellence.')
+    print('Current Stable remains 2.1.0; Candidate review images are evidence only and do not establish Human Visual Excellence.')
 
 
 if __name__ == '__main__':
