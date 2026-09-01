@@ -13,34 +13,10 @@
     "historical": "Retained release or capability evidence that is no longer a current production target."
   },
   "releases": [
-    {
-      "version": "2.0.0",
-      "status": "historical",
-      "contract": "GLAZE_UI_2_STABLE.md",
-      "consumerEligible": false
-    },
-    {
-      "version": "2.1.0-candidate.1",
-      "status": "historical",
-      "contract": "GLAZE_UI_2_1_CANDIDATE.md",
-      "consumerEligible": false,
-      "promotedTo": "2.1.0"
-    },
-    {
-      "version": "2.1.0",
-      "status": "stable",
-      "contract": "GLAZE_UI_2_1_STABLE.md",
-      "consumerEligible": true,
-      "promotedFromCandidate": "2.1.0-candidate.1",
-      "acceptance": "acceptance/2.1-stable.md"
-    },
-    {
-      "version": "2.2.0-candidate.1",
-      "status": "candidate",
-      "contract": "GLAZE_UI_2_2_CANDIDATE.md",
-      "consumerEligible": false,
-      "acceptance": "acceptance/2.2-candidate.md"
-    }
+    {"version": "2.0.0", "status": "historical", "contract": "GLAZE_UI_2_STABLE.md", "consumerEligible": false},
+    {"version": "2.1.0-candidate.1", "status": "historical", "contract": "GLAZE_UI_2_1_CANDIDATE.md", "consumerEligible": false, "promotedTo": "2.1.0"},
+    {"version": "2.1.0", "status": "stable", "contract": "GLAZE_UI_2_1_STABLE.md", "consumerEligible": true, "promotedFromCandidate": "2.1.0-candidate.1", "acceptance": "acceptance/2.1-stable.md"},
+    {"version": "2.2.0-candidate.1", "status": "candidate", "contract": "GLAZE_UI_2_2_CANDIDATE.md", "consumerEligible": false, "acceptance": "acceptance/2.2-candidate.md"}
   ],
   "capabilities": {
     "glaze-material-hierarchy": {"status": "stable", "since": "2.0.0", "refinedIn": "2.1.0"},
@@ -63,13 +39,7 @@
     "glaze-recipes": {"status": "stable", "since": "2.1.0", "profiles": ["productivity", "communication", "media", "administration", "creative"]},
     "performance-profiles": {"status": "stable", "since": "2.1.0", "implementation": "contracts/materials/glaze-material-2.1.json", "profiles": ["full", "balanced", "constrained", "minimal"]},
     "web-reference-runtime-resolution": {"status": "stable", "since": "2.1.0", "implementation": "js/glaze-2.1.0.mjs", "promotionSource": "js/glaze-2.1.candidate.mjs", "tests": "tests/glaze-2.1-runtime.test.mjs"},
-    "canonical-reference-flows-2.1": {
-      "status": "stable",
-      "since": "2.1.0",
-      "coverage": ["settings-preferences", "file-management", "search-command", "communication-live-activity", "media-playback", "resilience-exception-states"],
-      "implementations": ["reference/candidate-2.1-settings.html", "reference/candidate-2.1-files.html", "reference/candidate-2.1-search.html", "reference/candidate-2.1-communication.html", "reference/candidate-2.1-media.html", "reference/candidate-2.1-resilience.html"],
-      "acceptance": "acceptance/2.1-stable.md"
-    },
+    "canonical-reference-flows-2.1": {"status": "stable", "since": "2.1.0", "coverage": ["settings-preferences", "file-management", "search-command", "communication-live-activity", "media-playback", "resilience-exception-states"], "implementations": ["reference/candidate-2.1-settings.html", "reference/candidate-2.1-files.html", "reference/candidate-2.1-search.html", "reference/candidate-2.1-communication.html", "reference/candidate-2.1-media.html", "reference/candidate-2.1-resilience.html"], "acceptance": "acceptance/2.1-stable.md"},
     "rendered-reference-acceptance-2.1": {"status": "stable", "since": "2.1.0", "implementation": "scripts/validate_glaze_2_1_rendered.py"},
     "rendered-visual-invariant-regression-2.1": {"status": "stable", "since": "2.1.0", "implementation": "contracts/regression/reference-invariants.json", "renderedAcceptance": "scripts/validate_glaze_2_1_expanded_rendered.py", "resilienceAcceptance": "scripts/validate_glaze_2_1_resilience_rendered.py", "scope": "computed-layout-style-and-state-invariants"},
     "expanded-acceptance-matrix-2.1": {"status": "stable", "since": "2.1.0", "implementation": "contracts/regression/reference-invariants.json", "renderedAcceptance": "scripts/validate_glaze_2_1_expanded_rendered.py", "resilienceAcceptance": "scripts/validate_glaze_2_1_resilience_rendered.py"},
@@ -89,14 +59,14 @@
     "system-shell-contract-schema-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "schemas/system-shell-contract.schema.json"},
     "system-shell-foundation-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "contracts/system-shell/glaze-system-shell-2.2.json"},
     "web-candidate-foundation-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "css/glaze-2.2.candidate.css"},
-    "system-shell-runtime-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "js/glaze-2.2.candidate.mjs", "tests": "tests/glaze-2.2-runtime.test.mjs"},
-    "system-shell-reference-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "reference/candidate-2.2-system-shell.html", "scope": ["workspace", "search", "control-center", "critical-system"]},
-    "rendered-reference-acceptance-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "scripts/validate_glaze_2_2_rendered.py", "reference": "reference/candidate-2.2-system-shell.html", "scope": "bounded-system-shell-web-reference"},
     "candidate-validation-2.2": {"status": "candidate", "since": "2.2.0-candidate.1", "implementation": "scripts/validate_glaze_2_2_candidate.py", "workflow": ".github/workflows/glaze-2.2-candidate.yml", "acceptance": "acceptance/2.2-candidate.md"},
+    "system-shell-runtime-2.2": {"status": "planned", "target": "2.2", "implementation": "js/glaze-2.2.candidate.mjs", "tests": "tests/glaze-2.2-runtime.test.mjs", "note": "Implementation exists; Candidate status requires exact-head runtime and rendered validation."},
+    "system-shell-reference-2.2": {"status": "planned", "target": "2.2", "implementation": "reference/candidate-2.2-system-shell.html", "scope": ["workspace", "search", "control-center", "critical-system"], "note": "Implementation exists; Candidate status requires exact-head rendered validation."},
     "component-library-2.2-complete": {"status": "planned", "target": "2.2"},
-    "universal-search-runtime-2.2": {"status": "planned", "target": "2.2", "note": "Current search reference validates shell presentation only, not indexing, semantic search, command execution, or intelligence backends."},
-    "control-center-runtime-2.2": {"status": "planned", "target": "2.2", "note": "Current Control Center reference validates shell presentation only, not system-control backends."},
+    "universal-search-runtime-2.2": {"status": "planned", "target": "2.2"},
+    "control-center-runtime-2.2": {"status": "planned", "target": "2.2"},
     "native-system-shell-reference-2.2": {"status": "planned", "target": "2.2"},
+    "rendered-reference-acceptance-2.2": {"status": "planned", "target": "2.2", "implementation": "scripts/validate_glaze_2_2_rendered.py", "reference": "reference/candidate-2.2-system-shell.html", "note": "Validator exists; capability remains Planned until an exact-head rendered run passes."},
     "visual-regression-2.2": {"status": "planned", "target": "2.2"},
     "migration-2.1-to-2.2": {"status": "planned", "target": "2.2"},
     "glaze-motion": {"status": "experimental", "note": "Remains separately governed and is not promoted by Glaze UI 2.1 or the Glaze UI 2.2 Candidate foundation."}
