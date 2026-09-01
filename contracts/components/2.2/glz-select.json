@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-select-2-2",
+  "name": "GlzSelect",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "planned",
+  "tier": "foundation",
+  "semanticRole": "Choose one value from a bounded option set while preserving native selection, labeling, validation, and adaptive presentation semantics.",
+  "variants": ["standard", "filled", "glaze"],
+  "sizes": [
+    {"name": "sm", "visualHeightPx": 36, "touchHitMinPx": 48, "horizontalPaddingPx": 12, "gapPx": 6, "fontPx": [13, 14], "iconPx": 16, "radiusPx": 12},
+    {"name": "md", "visualHeightPx": 44, "touchHitMinPx": 48, "horizontalPaddingPx": 14, "gapPx": 8, "fontPx": [14, 15], "iconPx": 18, "radiusPx": 14},
+    {"name": "lg", "visualHeightPx": 52, "touchHitMinPx": 52, "horizontalPaddingPx": 16, "gapPx": 8, "fontPx": [15, 16], "iconPx": 20, "radiusPx": 14}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error", "expanded", "collapsed"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {
+    "default": "surface",
+    "allowed": ["surface", "raised", "regular-glaze", "solid-glaze"],
+    "glazeIsExceptional": true,
+    "rule": "Use ordinary solid/raised fields by default. Desktop options open in an anchored popover; mobile options may transform to a sheet. Glaze is limited to genuinely floating/overlay contexts."
+  },
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {
+    "keyboard": "Enter, Space, or platform-appropriate Alt+ArrowDown opens; arrows navigate options; Enter commits; Escape closes without destroying prior selection; typeahead is supported where appropriate.",
+    "focus": "Focus stays on the semantic select/combobox control or moves into the listbox according to the chosen accessible pattern; close restores focus predictably.",
+    "hover": "Hover may strengthen field boundary or option highlight but never exposes an option unavailable to keyboard/touch.",
+    "press": "Press opens the option surface immediately without waiting for material/morph animation.",
+    "selection": "The selected option uses text plus check/selection semantics rather than color alone."
+  },
+  "accessibility": {
+    "role": "Native select semantics are preferred where suitable; custom implementations use the appropriate combobox/listbox pattern.",
+    "name": "A persistent label provides the accessible name; placeholder text is not the sole label.",
+    "state": "Expanded/collapsed, disabled, required, invalid, loading where applicable, and selected option are programmatically exposed.",
+    "value": "The currently selected option is exposed as the control value.",
+    "keyboard": "Complete keyboard opening, navigation, selection, cancellation, and typeahead behavior is required.",
+    "focus": "Focus remains visible on the trigger and active option and returns to the trigger after a transient option surface closes.",
+    "errorAssociation": "Invalid state is programmatically associated with an explanatory message.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Popover/sheet transformation becomes direct or a short fade while focus and selection continuity remain unchanged.",
+    "reducedTransparency": "Glaze trigger/options become opaque raised surfaces.",
+    "increasedContrast": "Strengthen trigger boundary, active option, selected indicator, and focus ring.",
+    "forcedColors": "Use platform field/list/selection/focus colors and retain text/check selection cues.",
+    "largeText": "Labels and options wrap/reflow without clipping; mobile sheet may use additional height."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {
+    "reducedMotion": "Direct open/close or short fade.",
+    "reducedTransparency": "Opaque trigger and option surface.",
+    "highContrast": "Stronger boundaries, active option, selection, and focus.",
+    "forcedColors": "Platform field/list/selection colors and native semantics where possible.",
+    "performance": "Remove optional blur/shadow and use an opaque popover/sheet before changing interaction behavior."
+  },
+  "api": {
+    "semanticProps": ["variant", "size", "label", "value", "defaultValue", "options", "disabled", "required", "error", "placeholder", "searchable", "renderOption"],
+    "events": ["onOpen", "onClose", "onChange", "onFocus", "onBlur"],
+    "slots": ["root", "label", "trigger", "value", "indicator", "optionSurface", "option", "supportText", "errorMessage"],
+    "escapeHatches": ["className", "style", "slotProps", "tokens"],
+    "rawVisualPropsPreferred": false
+  },
+  "content": {
+    "overflow": "Selected values and options may wrap or ellipsize only when the full accessible value remains available; option surfaces scroll rather than escaping the viewport.",
+    "localization": "Option labels, grouping, sorting, placeholder, support text, and value formatting are locale-aware.",
+    "rtl": "Trigger indicator, option alignment, and directional affordances mirror semantically while intrinsic-direction values remain intact.",
+    "textExpansionPercent": [30, 50]
+  },
+  "testing": {
+    "themes": ["light", "dark", "deep-dark"],
+    "states": ["rest", "hover", "focus", "expanded", "selected", "disabled", "loading", "error"],
+    "inputs": ["mouse", "touch", "keyboard", "remote"],
+    "directions": ["ltr", "rtl"],
+    "textScalePercent": [100, 200],
+    "motion": ["full", "reduced"],
+    "contrast": ["standard", "high", "forced-colors"]
+  },
+  "visualReview": {
+    "required": true,
+    "criteria": [
+      "Trigger reads as an input rather than an unrelated button.",
+      "Selected and focused options remain distinct without relying on color alone.",
+      "Desktop popover and mobile sheet feel like one semantic component across form factors.",
+      "Long localized values do not collide with the disclosure indicator or validation affordances."
+    ]
+  }
+}
