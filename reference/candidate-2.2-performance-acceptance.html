@@ -22,23 +22,55 @@
 <pre id="result" data-status="pending">PENDING</pre>
 <script type="module">
 import {applySystemShellRuntime,evaluateSystemGlazeBudget,measureSystemGlazeBudget,resolveSystemMotion,resolveSystemPreferences,resolveSystemSurface} from '../js/glaze-2.2.candidate.mjs';
+
 const params=new URLSearchParams(location.search),profile=params.get('profile')||'balanced',mode=params.get('mode')||'normal',appearance=params.get('appearance')||'light',root=document.documentElement,shell=document.getElementById('shell');
-root.style.colorScheme=appearance==='light'?'light':'dark';const input={appearance,performanceProfile:profile,reducedTransparency:mode==='reduced-transparency',forcedColors:mode==='forced-colors',reducedMotion:mode==='reduced-motion'};const prefs=resolveSystemPreferences(input);applySystemShellRuntime({root,shell,input});
+root.style.colorScheme=appearance==='light'?'light':'dark';
+const input={appearance,performanceProfile:profile,reducedTransparency:mode==='reduced-transparency',forcedColors:mode==='forced-colors',reducedMotion:mode==='reduced-motion'};
+const prefs=resolveSystemPreferences(input);
+applySystemShellRuntime({root,shell,input});
 if(mode==='reduced-transparency')root.dataset.glzTransparency='reduced';
+
 const expectedCaps={full:32,balanced:28,constrained:14,minimal:0},baseBlur={'system-overlay':22,'system-panel':28,'critical-system':0};
-const one=s=>document.querySelector(s),assert=(c,m,f)=>{if(!c)f.push(m)},tick=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-await tick();const failures=[];
-try{
-  for(const surface of Object.keys(baseBlur)){const resolved=resolveSystemSurface(surface,prefs),cap=expectedCaps[profile];const expected=(prefs.reducedTransparency||prefs.forcedColors||surface==='critical-system')?0:Math.min(baseBlur[surface],cap);assert(resolved.blurPx===expected,`${profile} ${surface} blur ${resolved.blurPx} != ${expected}`,failures);assert(resolved.nestedBackdropBlurAllowed===false,`${surface} permits nested blur`,failures)}
-  assert(one('#critical').dataset.effectiveBlur==='0','critical rendered blur must be zero',failures);
-  const overlayBlur=Number(one('#overlay').dataset.effectiveBlur);assert(overlayBlur<=expectedCaps[profile],`rendered overlay blur ${overlayBlur} exceeds ${profile} cap`,failures);
-  const budget=measureSystemGlazeBudget(document);assert(budget.accepted&&budget.dominantPanels===1&&budget.smallFloatingControls===1,'visible runtime Glaze budget must accept one panel + one floating control',failures);
-  assert(evaluateSystemGlazeBudget({dominantPanels:2,smallFloatingControls:1}).accepted===false,'two dominant panels must fail budget without explicit exception',failures);
-  one('#overlay').hidden=true;one('#panel').hidden=false;await tick();const switched=measureSystemGlazeBudget(document);assert(switched.accepted&&switched.dominantPanels===1,'hidden prior panel must not consume visible Glaze budget',failures);
-  if(mode==='reduced-transparency'||mode==='forced-colors'){assert(Number(one('#panel').dataset.effectiveBlur)===0,'effects-free fallback must render panel blur at zero',failures)}
-  const motion=resolveSystemMotion('panel',resolveSystemPreferences({...input,reducedMotion:true}));assert(motion.keyboardTraversalWaitsForAnimation===false&&motion.directManipulationTracksInput===true,'motion fallback must preserve immediate semantic interaction',failures);
-  assert(document.documentElement.scrollWidth<=innerWidth+1,'performance reference exceeds viewport width',failures);
-}catch(err){failures.push(err?.stack||String(err))}
-const out=one('#result');out.dataset.status=failures.length?'fail':'pass';out.textContent=failures.length?'FAIL\n- '+failures.join('\n- '):`PASS performance ${profile} ${mode} ${appearance} ${innerWidth}x${innerHeight}`;document.title=out.textContent.split('\n')[0];
+const one=s=>document.querySelector(s),assert=(c,m,f)=>{if(!c)f.push(m)},tick=(ms=20)=>new Promise(r=>setTimeout(r,ms));
+
+async function run(){
+  const failures=[];
+  try{
+    await tick();
+    for(const surface of Object.keys(baseBlur)){
+      const resolved=resolveSystemSurface(surface,prefs),cap=expectedCaps[profile];
+      const expected=(prefs.reducedTransparency||prefs.forcedColors||surface==='critical-system')?0:Math.min(baseBlur[surface],cap);
+      assert(resolved.blurPx===expected,`${profile} ${surface} blur ${resolved.blurPx} != ${expected}`,failures);
+      assert(resolved.nestedBackdropBlurAllowed===false,`${surface} permits nested blur`,failures);
+    }
+    assert(one('#critical').dataset.effectiveBlur==='0','critical rendered blur must be zero',failures);
+    const overlayBlur=Number(one('#overlay').dataset.effectiveBlur);
+    assert(overlayBlur<=expectedCaps[profile],`rendered overlay blur ${overlayBlur} exceeds ${profile} cap`,failures);
+    const budget=measureSystemGlazeBudget(document);
+    assert(budget.accepted&&budget.dominantPanels===1&&budget.smallFloatingControls===1,'visible runtime Glaze budget must accept one panel + one floating control',failures);
+    assert(evaluateSystemGlazeBudget({dominantPanels:2,smallFloatingControls:1}).accepted===false,'two dominant panels must fail budget without explicit exception',failures);
+
+    one('#overlay').hidden=true;
+    one('#panel').hidden=false;
+    await tick();
+    const switched=measureSystemGlazeBudget(document);
+    assert(switched.accepted&&switched.dominantPanels===1,'hidden prior panel must not consume visible Glaze budget',failures);
+    if(mode==='reduced-transparency'||mode==='forced-colors'){
+      assert(Number(one('#panel').dataset.effectiveBlur)===0,'effects-free fallback must render panel blur at zero',failures);
+    }
+
+    const motion=resolveSystemMotion('panel',resolveSystemPreferences({...input,reducedMotion:true}));
+    assert(motion.keyboardTraversalWaitsForAnimation===false&&motion.directManipulationTracksInput===true,'motion fallback must preserve immediate semantic interaction',failures);
+    assert(document.documentElement.scrollWidth<=innerWidth+1,'performance reference exceeds viewport width',failures);
+  }catch(err){
+    failures.push(err?.stack||String(err));
+  }
+  const out=one('#result');
+  out.dataset.status=failures.length?'fail':'pass';
+  out.textContent=failures.length?'FAIL\n- '+failures.join('\n- '):`PASS performance ${profile} ${mode} ${appearance} ${innerWidth}x${innerHeight}`;
+  document.title=out.textContent.split('\n')[0];
+}
+
+addEventListener('load',()=>setTimeout(run,mode==='reduced-motion'?50:300));
 </script>
 </body></html>
