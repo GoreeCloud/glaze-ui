@@ -97,6 +97,11 @@ public final class MainActivity extends Activity {
         safeHost.setClipChildren(true);
         safeHost.setClipToPadding(true);
 
+        FrameLayout viewport = new FrameLayout(this);
+        viewport.setBackgroundColor(canvas);
+        viewport.setClipChildren(true);
+        viewport.setClipToPadding(true);
+
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
         scroll.setBackgroundColor(canvas);
@@ -109,18 +114,24 @@ public final class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        safeHost.addView(scroll, new FrameLayout.LayoutParams(
+        viewport.addView(scroll, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        scroll.setOnApplyWindowInsetsListener((v, insets) -> {
-            v.setPadding(
+        FrameLayout.LayoutParams viewportParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        safeHost.addView(viewport, viewportParams);
+        safeHost.setOnApplyWindowInsetsListener((v, insets) -> {
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) viewport.getLayoutParams();
+            params.setMargins(
                     insets.getSystemWindowInsetLeft(),
                     insets.getSystemWindowInsetTop(),
                     insets.getSystemWindowInsetRight(),
                     insets.getSystemWindowInsetBottom());
+            viewport.setLayoutParams(params);
             return insets;
         });
-        scroll.requestApplyInsets();
+        safeHost.requestApplyInsets();
 
         root.addView(label("Glaze UI 2.2 Candidate", 28, true));
         root.addView(label("Current Stable: 2.1.0", 15, false));
