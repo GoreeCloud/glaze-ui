@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-slider-2-2",
+  "name": "GlzSlider",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "planned",
+  "tier": "foundation",
+  "semanticRole": "Adjust a continuous, stepped, or bounded range value through direct manipulation with an equivalent keyboard path.",
+  "variants": ["continuous", "stepped", "range"],
+  "sizes": [
+    {"name": "sm", "visualHeightPx": 24, "touchHitMinPx": 48, "gapPx": 8, "iconPx": 14, "radiusPx": 999},
+    {"name": "md", "visualHeightPx": 32, "touchHitMinPx": 48, "gapPx": 10, "iconPx": 16, "radiusPx": 999}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "error", "dragging"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {
+    "default": "surface",
+    "allowed": ["surface", "raised", "thick-glaze", "solid-glaze"],
+    "glazeIsExceptional": true,
+    "rule": "Track and thumb remain solid. A transient value bubble may use compact solid or Thick Glaze when it floats above content and preserves contrast."
+  },
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": false},
+  "input": {
+    "keyboard": "Arrow keys change by one step; Home/End move to bounds; PageUp/PageDown may use larger documented increments; range sliders provide a predictable path between thumbs.",
+    "focus": "Focused thumb/track has a visible ring or boundary independent from the current value color.",
+    "hover": "Pointer hover may increase track thickness from approximately 4px to 6px and reveal the thumb/value affordance without changing the value.",
+    "press": "Press/drag feedback is immediate; no delayed spring stands between pointer movement and value.",
+    "selection": "Filled track plus thumb position communicates current value; any selected range also exposes numeric values programmatically.",
+    "directManipulation": "Thumb tracks pointer/touch/stylus continuously; stepped variants snap at documented increments with optional threshold haptic where supported."
+  },
+  "accessibility": {
+    "role": "slider",
+    "name": "A visible label provides the accessible name; range variants give each thumb a distinct programmatic name.",
+    "state": "Disabled, invalid/error where applicable, orientation, minimum, maximum, and current value are programmatically exposed.",
+    "value": "Expose numeric current value and human-readable value text including units where needed; range variants expose both endpoints.",
+    "keyboard": "Every pointer/touch adjustment has a keyboard equivalent with deterministic steps and bounds.",
+    "focus": "Focused thumb is clearly visible in standard, increased-contrast, and forced-color modes.",
+    "errorAssociation": "Invalid/out-of-domain values associate a concise explanation with the slider or containing field.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Remove decorative spring/value-bubble motion; direct manipulation still tracks input exactly.",
+    "reducedTransparency": "Floating value bubble becomes opaque while track/thumb remain unchanged.",
+    "increasedContrast": "Strengthen track, active range, thumb boundary, ticks, and focus.",
+    "forcedColors": "Use system Highlight/Canvas/Text colors and preserve thumb/track geometry and current-value semantics.",
+    "largeText": "Label, value, ticks, and units reflow; the track retains an accessible hit area and does not overlap text."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {
+    "reducedMotion": "Direct tracking and immediate snap with no decorative spring.",
+    "reducedTransparency": "Opaque value bubble.",
+    "highContrast": "Stronger track/thumb/tick/focus treatment.",
+    "forcedColors": "System colors with preserved geometry and value exposure.",
+    "performance": "Remove bubble blur/shadow and optional tick effects before changing interaction precision."
+  },
+  "api": {
+    "semanticProps": ["variant", "value", "defaultValue", "min", "max", "step", "disabled", "label", "valueFormat", "orientation", "showTicks", "showValue"],
+    "events": ["onChange", "onChangeEnd", "onFocus", "onBlur"],
+    "slots": ["root", "label", "track", "activeTrack", "thumb", "tick", "valueBubble", "supportText", "errorMessage"],
+    "escapeHatches": ["className", "style", "slotProps", "tokens"],
+    "rawVisualPropsPreferred": false
+  },
+  "content": {
+    "overflow": "Value bubbles stay within viewport/container bounds; tick labels thin or reflow rather than overlap when space is insufficient.",
+    "localization": "Value text, decimal separators, units, direction, and tick labels use locale-aware formatting.",
+    "rtl": "Horizontal logical progression follows locale/platform convention while explicit numeric min/max semantics remain authoritative.",
+    "textExpansionPercent": [30, 50]
+  },
+  "testing": {
+    "themes": ["light", "dark", "deep-dark"],
+    "states": ["rest", "hover", "focus", "pressed", "dragging", "disabled", "error"],
+    "inputs": ["mouse", "touch", "keyboard", "stylus", "remote"],
+    "directions": ["ltr", "rtl"],
+    "textScalePercent": [100, 200],
+    "motion": ["full", "reduced"],
+    "contrast": ["standard", "high", "forced-colors"]
+  },
+  "visualReview": {
+    "required": true,
+    "criteria": [
+      "Thumb and track remain optically balanced at both pointer and touch densities.",
+      "Direct manipulation feels immediate and continuous with no lagging decorative motion.",
+      "Value bubble remains readable without obscuring the thumb or nearby labels.",
+      "Stepped/range states remain understandable in high contrast and without color."
+    ]
+  }
+}
