@@ -17,8 +17,11 @@
     button, input { font: inherit; }
     button { color: inherit; }
     .demo-shell {
-      min-height: 100vh;
+      block-size: 100vh;
+      min-block-size: 0;
       position: relative;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
       background:
         radial-gradient(circle at 18% 14%, color-mix(in srgb, var(--glz22-search-purple) 14%, transparent), transparent 32%),
@@ -28,6 +31,7 @@
     .demo-system-bar {
       position: relative;
       z-index: 20;
+      flex: 0 0 auto;
       justify-content: space-between;
       border-bottom: 1px solid color-mix(in srgb, var(--glz22-line) 70%, transparent);
       background: color-mix(in srgb, var(--glz22-base) 62%, transparent);
@@ -46,7 +50,8 @@
       cursor: pointer;
     }
     .demo-work-area {
-      height: calc(100vh - 40px);
+      flex: 1 1 auto;
+      min-block-size: 0;
       display: grid;
       grid-template-columns: minmax(180px, 240px) minmax(0, 1fr) minmax(220px, 300px);
       gap: 16px;
@@ -240,6 +245,14 @@
     [data-glz-text-scale="200"] .demo-file-meta,
     [data-glz-text-scale="200"] .demo-result-meta { white-space: normal; }
 
+    .glz22-reduced-transparency .demo-system-bar,
+    [data-glz-transparency="reduced"] .demo-system-bar {
+      background: var(--glz22-raised);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      border-color: color-mix(in srgb, var(--glz22-text-primary) 20%, var(--glz22-line));
+    }
+
     @media (max-width: 899px) {
       .demo-work-area { grid-template-columns: 190px minmax(0,1fr); padding: 12px 12px 82px; gap: 12px; }
       .demo-inspector { display: none; }
@@ -295,9 +308,7 @@
 
       <article class="demo-window glz22-application" data-glz22-surface="application" aria-label="Files application window">
         <div class="demo-window-toolbar">
-          <div>
-            <div class="glz22-workspace-title" style="font-size:22px">Projects</div>
-          </div>
+          <div><div class="glz22-workspace-title" style="font-size:22px">Projects</div></div>
           <div class="demo-window-toolbar__actions">
             <button class="demo-button glz22-shell-control glz22-state-layer" type="button">New</button>
             <button class="demo-button glz22-shell-control glz22-state-layer" type="button" aria-label="More actions">•••</button>
@@ -478,7 +489,7 @@
     }
 
     if (mode === 'reduced-transparency') {
-      for (const node of document.querySelectorAll('.glz22-system-overlay, .glz22-system-panel, .glz22-capsule')) {
+      for (const node of document.querySelectorAll('.demo-system-bar, .glz22-system-overlay, .glz22-system-panel, .glz22-capsule')) {
         if (!visible(node)) continue;
         const style = getComputedStyle(node);
         pass(style.backdropFilter === 'none' || style.webkitBackdropFilter === 'none' || !style.backdropFilter, `Reduced Transparency left blur on ${node.className}`);
