@@ -121,11 +121,13 @@ public final class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         safeHost.addView(viewport, viewportParams);
+        final int largeTextSystemChromeSafety =
+                getResources().getConfiguration().fontScale >= 1.5f ? dp(8) : 0;
         safeHost.setOnApplyWindowInsetsListener((v, insets) -> {
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) viewport.getLayoutParams();
             params.setMargins(
                     insets.getSystemWindowInsetLeft(),
-                    insets.getSystemWindowInsetTop(),
+                    insets.getSystemWindowInsetTop() + largeTextSystemChromeSafety,
                     insets.getSystemWindowInsetRight(),
                     insets.getSystemWindowInsetBottom());
             viewport.setLayoutParams(params);
