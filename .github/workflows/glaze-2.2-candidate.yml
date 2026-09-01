@@ -1,4 +1,4 @@
-name: Glaze UI 2.2 Candidate
+name: Glaze UI 2.2 Candidate Foundation
 
 on:
   pull_request:
