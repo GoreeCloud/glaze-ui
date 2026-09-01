@@ -152,6 +152,7 @@
 [data-glaze-spatial-flat="true"] .glaze-spatial-anchor {
   transform: translate(-50%, -50%);
   transform-style: flat;
+  transition: none;
 }
 
 @media (max-width: 719px) {
