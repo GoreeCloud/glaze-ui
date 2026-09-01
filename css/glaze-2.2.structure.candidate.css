@@ -1,6 +1,6 @@
 /*
- * Glaze UI 2.2 Structure tier — bounded reference implementation.
- * Lifecycle: Planned until exact-head Structure rendered acceptance is green.
+ * Glaze UI 2.2 Structure tier — bounded Candidate reference implementation.
+ * Lifecycle: Candidate after exact-head contract and 15-case rendered acceptance.
  * Current Stable remains Glaze UI 2.1.0.
  */
 @import url("./glaze-2.2.components.runtime.candidate.css");
