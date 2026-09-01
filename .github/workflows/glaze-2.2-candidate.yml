@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           repository: GoreeCloud/goreecloud-glaze-ui
-          ref: 8e1b9702b80840e49b5e14e3de61c154f2d57351
+          ref: 83bc9241590a47547d51369ea0812e40bb96775d
           path: .glaze-2.2-visual-baseline-source
           persist-credentials: false
 
