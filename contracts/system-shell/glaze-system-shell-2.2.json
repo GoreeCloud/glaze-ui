@@ -1,0 +1,126 @@
+{
+  "$schema": "../../schemas/system-shell-contract.schema.json",
+  "schemaVersion": 1,
+  "id": "glaze-system-shell-2.2",
+  "name": "Glaze UI 2.2 System Shell Foundation",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "candidate",
+  "stableBaseline": "2.1.0",
+  "consumerEligible": false,
+  "scope": {
+    "implemented": [
+      "system-surface-classification",
+      "bounded-system-material-hierarchy",
+      "system-glaze-budget",
+      "system-motion-envelopes",
+      "system-target-floors",
+      "reduced-motion-fallback",
+      "reduced-transparency-fallback",
+      "high-contrast-fallback",
+      "forced-colors-fallback",
+      "deep-dark-foundation",
+      "privacy-status-presentation-boundary",
+      "security-critical-surface-boundary",
+      "responsive-shell-composition-semantics"
+    ],
+    "notClaimed": [
+      "operating-system-runtime",
+      "window-manager-runtime",
+      "compositor-runtime",
+      "authentication-provider",
+      "notification-daemon",
+      "control-center-runtime",
+      "universal-search-index",
+      "native-system-shell-certification",
+      "downstream-consumer-conformance",
+      "stable-promotion"
+    ]
+  },
+  "surfaceClasses": [
+    "workspace",
+    "application",
+    "system-overlay",
+    "system-panel",
+    "critical-system"
+  ],
+  "materialHierarchy": {
+    "workspace": "opaque canvas; user-owned environment",
+    "application": "opaque or raised application surface; content-first",
+    "systemOverlay": "Regular Glaze when spatial context helps; opaque fallback required",
+    "systemPanel": "Thick Glaze with restrained internal grouping; opaque fallback required",
+    "criticalSystem": "Solid Glaze or highly opaque Thick Glaze with explicit security language",
+    "nestedBackdropBlurAllowed": false
+  },
+  "glazeBudget": {
+    "dominantPanelMax": 1,
+    "smallFloatingControlsMin": 1,
+    "smallFloatingControlsMax": 3,
+    "exceptionRequiresExplicitContext": true
+  },
+  "motion": {
+    "popoverMs": [160, 200],
+    "controlCenterMs": [220, 280],
+    "searchMs": [240, 320],
+    "workspaceMs": [320, 420],
+    "unlockMs": [280, 420],
+    "keyboardTraversalWaitsForAnimation": false,
+    "directManipulationTracksInput": true
+  },
+  "targets": {
+    "touchShellMinPx": 48,
+    "touchAssistanceMinPx": 56,
+    "farViewMinPx": 56
+  },
+  "accessibility": {
+    "alternativePathIndependentOf": [
+      "precision-gestures",
+      "color",
+      "transparency",
+      "animation",
+      "sound",
+      "hover"
+    ],
+    "reducedMotion": true,
+    "reducedTransparency": true,
+    "increasedContrast": true,
+    "forcedColors": true,
+    "largeText": true,
+    "keyboard": true,
+    "touch": true,
+    "pointer": true,
+    "colorOnlyMeaningAllowed": false
+  },
+  "privacy": {
+    "stateVisible": true,
+    "stateUnderstandable": true,
+    "stateActionable": true,
+    "recordingIndicatorPersistent": true,
+    "sensorUseDiscoverable": true
+  },
+  "security": {
+    "criticalSurfacesBecomeMoreSolid": true,
+    "explicitLanguageIncreasesWithStakes": true,
+    "decorativeTransparencyRequired": false
+  },
+  "responsive": {
+    "mobile": "application content + system status + contextual bars + reachable dock where appropriate + system sheets",
+    "tablet": "workspace + rail/applications + split or floating windows + contextual inspectors + Glaze system overlays",
+    "desktop": "workspace + windows + optional widgets + restrained system bar + dock + contextual capsules + summoned system panels"
+  },
+  "fallbacks": {
+    "reducedMotion": "replace large spatial motion, morphing, launcher expansion, and depth movement with short crossfade, opacity, and small-scale feedback while preserving direct manipulation",
+    "reducedTransparency": "replace Thin, Regular, and Thick Glaze with increasingly opaque surfaces while retaining hierarchy through borders, elevation, and tonal separation",
+    "highContrast": "strengthen focus rings, window edges, selected indicators, panel opacity, status icons, and semantic boundaries while reducing atmospheric tint",
+    "deepDark": "use Canvas #05070A, Base #0D1015, Raised #171C23 and tune routine highlights below maximum display luminance"
+  },
+  "implementation": {
+    "tokens": "tokens/glaze-2.2.candidate.json",
+    "css": "css/glaze-2.2.candidate.css",
+    "candidateContract": "GLAZE_UI_2_2_CANDIDATE.md"
+  },
+  "validation": {
+    "validator": "scripts/validate_glaze_2_2_candidate.py",
+    "workflow": ".github/workflows/glaze-2.2-candidate.yml",
+    "acceptance": "acceptance/2.2-candidate.md"
+  }
+}
