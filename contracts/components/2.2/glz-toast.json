@@ -4,7 +4,7 @@
   "id": "glz-toast-2-2",
   "name": "GlzToast",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "overlay",
   "semanticRole": "Deliver a transient confirmation or low-interruption status update with an optional single recovery action and no dependency on hover.",
   "variants": ["confirmation", "status", "undo", "error"],
