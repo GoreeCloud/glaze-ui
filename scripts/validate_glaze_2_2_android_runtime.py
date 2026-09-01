@@ -232,9 +232,6 @@ def case_search_and_exclusivity(serial: str, dpi: int) -> dict:
         raise SystemExit("deterministic Project Brief result missing")
     result_dp = require_target(result, dpi, 48.0, "Project Brief")
 
-    # The keyboard is part of the focus assertion above, but it is not part of
-    # the destructive-action target geometry. Dismiss only the IME, retain the
-    # Search panel, then reveal and activate the full native button bounds.
     dismiss_ime(serial)
     _, delete, delete_dp = fully_revealed_target(serial, "Delete local cache", dpi, 48.0)
     require_target(delete, dpi, 48.0, "Delete local cache")
@@ -294,6 +291,16 @@ def case_large_text_touch_assistance(serial: str, dpi: int) -> dict:
     _, search_invoker, invoker_dp = fully_revealed_target(serial, "Open Search", dpi, 56.0)
     require_target(search_invoker, dpi, 56.0, "Touch Assistance Open Search")
     tap(serial, search_invoker)
+
+    # Large Text still proves immediate native query focus before the keyboard is
+    # dismissed. The IME is then removed only to expose the full 56 dp result
+    # geometry; this does not weaken Search focus semantics or the target floor.
+    ui = dump_ui(serial)
+    assert_contains(ui, "Dominant panel: Universal Search")
+    search_input = find_desc(ui, "Search everything")
+    if search_input is None or search_input.attrib.get("focused") != "true":
+        raise SystemExit("Large Text Universal Search did not focus the native query field")
+    dismiss_ime(serial)
     ui, result, result_dp = fully_revealed_target(serial, "Project Brief", dpi, 56.0)
     require_target(result, dpi, 56.0, "Touch Assistance Project Brief")
     assert_contains(ui, "Generated answer · Source: Project Brief")
