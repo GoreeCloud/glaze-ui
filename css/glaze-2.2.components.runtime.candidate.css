@@ -4,6 +4,34 @@
  */
 @import url("./glaze-2.2.components.adaptive.candidate.css");
 
+/* Foundation primitives must never force a responsive pane wider than its
+   containing layout. Long localized values wrap/reflow within the semantic
+   control instead of creating document-level horizontal overflow. */
+.glz22-button,
+.glz22-icon-button,
+.glz22-field,
+.glz22-field-control,
+.glz22-select,
+.glz22-choice,
+.glz22-switch,
+.glz22-slider,
+.glz22-slider-row {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+.glz22-button,
+.glz22-choice,
+.glz22-switch,
+.glz22-field-label,
+.glz22-field-message {
+  overflow-wrap: anywhere;
+}
+.glz22-choice > :last-child,
+.glz22-switch > :first-child,
+.glz22-slider-row > input[type="range"] {
+  min-inline-size: 0;
+}
+
 /* Deterministic focus: a focused control always retains a visible boundary.
    :focus-visible remains supported by the imported layer, but accessibility
    must not depend on a browser's focus-visible heuristic. */
