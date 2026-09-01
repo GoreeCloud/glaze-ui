@@ -18,83 +18,62 @@ jobs:
       - name: Check out exact source revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
 
-      - name: Compile Glaze UI 2.2 validators
-        run: |
-          python3 -m py_compile scripts/validate_glaze_2_2_candidate.py
-          python3 -m py_compile scripts/validate_glaze_2_2_components.py
-          python3 -m py_compile scripts/validate_glaze_2_2_foundation_components.py
-          python3 -m py_compile scripts/validate_glaze_2_2_foundation_rendered.py
-          python3 -m py_compile scripts/validate_glaze_2_2_structure_components.py
-          python3 -m py_compile scripts/validate_glaze_2_2_structure_rendered.py
-          python3 -m py_compile scripts/validate_glaze_2_2_overlay_components.py
-          python3 -m py_compile scripts/validate_glaze_2_2_overlay_rendered.py
-          python3 -m py_compile scripts/validate_glaze_2_2_system_shell_rendered.py
-          python3 -m py_compile scripts/validate_glaze_2_2_advanced_components.py
-          python3 -m py_compile scripts/validate_glaze_2_2_advanced_rendered.py
-          python3 -m py_compile scripts/validate_glaze_2_2_system_interactions_rendered.py
-          python3 -m py_compile scripts/validate_glaze_2_2_migration.py
-          python3 -m py_compile scripts/validate_glaze_2_2_performance.py
-          python3 -m py_compile scripts/validate_glaze_2_2_performance_rendered.py
-          python3 -m py_compile scripts/validate_release_state.py
+      - name: Compile Glaze UI 2.2 Candidate validators
+        run: python3 -m py_compile scripts/validate_glaze_2_2_candidate.py scripts/validate_glaze_2_2_components.py scripts/validate_glaze_2_2_structure_components.py scripts/validate_glaze_2_2_overlay_components.py scripts/validate_glaze_2_2_advanced_components.py scripts/validate_glaze_2_2_migration.py scripts/validate_glaze_2_2_performance.py scripts/validate_glaze_2_2_components_rendered.py scripts/validate_glaze_2_2_structure_rendered.py scripts/validate_glaze_2_2_overlay_rendered.py scripts/validate_glaze_2_2_advanced_rendered.py scripts/validate_glaze_2_2_system_interactions_rendered.py scripts/validate_glaze_2_2_performance_rendered.py scripts/validate_glaze_2_2_rendered.py
 
-      - name: Check Glaze UI 2.2 web runtimes
-        run: |
-          node --check js/glaze-2.2.runtime.candidate.mjs
-          node --check js/glaze-2.2.system-interactions.candidate.mjs
+      - name: Validate Glaze UI 2.2 Candidate runtime syntax
+        run: node --check js/glaze-2.2.candidate.mjs && node --check js/glaze-2.2.system-interactions.candidate.mjs
 
-      - name: Test Glaze UI 2.2 runtime reducers
-        run: |
-          node --test tests/glaze-2.2-runtime.test.mjs
-          node --test tests/glaze-2.2-system-interactions.test.mjs
-          node --test tests/glaze-2.2-performance.test.mjs
+      - name: Test Glaze UI 2.2 Candidate runtime behavior
+        run: node --test tests/glaze-2.2-runtime.test.mjs tests/glaze-2.2-system-interactions.test.mjs tests/glaze-2.2-performance.test.mjs
 
-      - name: Validate Glaze UI 2.2 Candidate source
+      - name: Validate Glaze UI 2.2 Candidate foundation
         run: python3 scripts/validate_glaze_2_2_candidate.py
 
-      - name: Validate Glaze UI 2.2 component contracts
+      - name: Validate Glaze UI 2.2 Foundation component contracts
         run: python3 scripts/validate_glaze_2_2_components.py
 
-      - name: Validate Glaze UI 2.2 Foundation contracts
-        run: python3 scripts/validate_glaze_2_2_foundation_components.py
-
-      - name: Validate Glaze UI 2.2 Structure contracts
+      - name: Validate Glaze UI 2.2 Structure component contracts
         run: python3 scripts/validate_glaze_2_2_structure_components.py
 
-      - name: Validate Glaze UI 2.2 Overlay contracts
+      - name: Validate Glaze UI 2.2 Overlay component contracts
         run: python3 scripts/validate_glaze_2_2_overlay_components.py
 
-      - name: Validate Glaze UI 2.2 advanced contracts
+      - name: Validate Glaze UI 2.2 Signature and Intelligence component contracts
         run: python3 scripts/validate_glaze_2_2_advanced_components.py
 
-      - name: Validate Glaze UI 2.2 migration evidence
+      - name: Validate Glaze UI 2.1 to 2.2 migration compatibility
         run: python3 scripts/validate_glaze_2_2_migration.py
 
-      - name: Validate Glaze UI 2.2 performance evidence
+      - name: Validate Glaze UI 2.2 performance and Glaze budget contract
         run: python3 scripts/validate_glaze_2_2_performance.py
 
-      - name: Validate Glaze UI release state
+      - name: Validate canonical release-state consistency
         run: python3 scripts/validate_release_state.py
 
-      - name: Run Glaze UI 2.2 System Shell rendered acceptance
-        run: python3 scripts/validate_glaze_2_2_system_shell_rendered.py
+      - name: Validate retained Glaze UI repository contracts
+        run: python3 scripts/validate_glaze_ui.py
 
-      - name: Run Glaze UI 2.2 Foundation rendered acceptance
-        run: python3 scripts/validate_glaze_2_2_foundation_rendered.py
+      - name: Validate rendered Glaze UI 2.2 System Shell reference
+        run: python3 scripts/validate_glaze_2_2_rendered.py
 
-      - name: Run Glaze UI 2.2 Structure rendered acceptance
+      - name: Validate rendered Glaze UI 2.2 Foundation components
+        run: python3 scripts/validate_glaze_2_2_components_rendered.py
+
+      - name: Validate rendered Glaze UI 2.2 Structure components
         run: python3 scripts/validate_glaze_2_2_structure_rendered.py
 
-      - name: Run Glaze UI 2.2 Overlay rendered acceptance
+      - name: Validate rendered Glaze UI 2.2 Overlay components
         run: python3 scripts/validate_glaze_2_2_overlay_rendered.py
 
-      - name: Run Glaze UI 2.2 advanced rendered acceptance
+      - name: Validate rendered Glaze UI 2.2 Signature and Intelligence components
         run: python3 scripts/validate_glaze_2_2_advanced_rendered.py
 
-      - name: Run Glaze UI 2.2 system interaction rendered acceptance
+      - name: Validate rendered Glaze UI 2.2 Universal Search and Control Center runtime
         run: python3 scripts/validate_glaze_2_2_system_interactions_rendered.py
 
-      - name: Run Glaze UI 2.2 performance rendered acceptance
+      - name: Validate rendered Glaze UI 2.2 performance and Glaze budget behavior
         run: python3 scripts/validate_glaze_2_2_performance_rendered.py
