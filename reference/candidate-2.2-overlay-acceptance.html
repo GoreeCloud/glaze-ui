@@ -110,7 +110,7 @@
  menuItems.forEach(x=>x.addEventListener('click',()=>{if(x.getAttribute('aria-disabled')!=='true')closeMenu()}));
  const dialog=one('#dialog'),dialogTrigger=one('#dialog-trigger');
  function openDialog(){dialog.showModal();one('#dialog-cancel').focus()} function closeDialog(){dialog.close();dialogTrigger.focus()}
- dialogTrigger.addEventListener('click',openDialog);one('#dialog-cancel').addEventListener('click',closeDialog);one('#dialog-confirm').addEventListener('click',closeDialog);dialog.addEventListener('close',()=>dialogTrigger.focus());dialog.addEventListener('cancel',()=>{});
+ dialogTrigger.addEventListener('click',openDialog);one('#dialog-cancel').addEventListener('click',closeDialog);one('#dialog-confirm').addEventListener('click',closeDialog);dialog.addEventListener('cancel',()=>{});
  const sheetLayer=one('#sheet-layer'),sheetTrigger=one('#sheet-trigger'),sheet=one('#sheet');
  function openSheet(){sheetLayer.dataset.open='true';one('#sheet-close').focus()} function closeSheet(){sheetLayer.dataset.open='false';sheetTrigger.focus()}
  sheetTrigger.addEventListener('click',openSheet);one('#sheet-close').addEventListener('click',closeSheet);one('#sheet-scrim').addEventListener('click',closeSheet);one('#sheet-medium').addEventListener('click',()=>sheet.dataset.detent='medium');one('#sheet-large').addEventListener('click',()=>sheet.dataset.detent='large');
