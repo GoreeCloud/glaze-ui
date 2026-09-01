@@ -97,7 +97,7 @@
  if(mode==='reduced-transparency')root.dataset.glzTransparency='reduced';
  if(mode==='touch-assistance')root.dataset.glzTouchAssistance='true';
  if(mode==='large-text')root.dataset.glzTextScale='200';
- const one=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)],rect=e=>e.getBoundingClientRect(),css=(e,p)=>getComputedStyle(e,p),assert=(c,m,f)=>{if(!c)f.push(m)};
+ const one=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)],rect=e=>e.getBoundingClientRect(),css=(e,p)=>getComputedStyle(e,p),visible=e=>{const r=rect(e);return r.width>0&&r.height>0},assert=(c,m,f)=>{if(!c)f.push(m)};
  const capsule=one('#capsule'),capsuleToggle=one('#capsule-toggle');
  capsuleToggle.addEventListener('click',()=>{const open=capsule.dataset.expanded!=='true';capsule.dataset.expanded=String(open);capsuleToggle.setAttribute('aria-expanded',String(open))});
  const morph=one('#morph');morph.addEventListener('click',()=>morph.setAttribute('aria-expanded',String(morph.getAttribute('aria-expanded')!=='true')));
@@ -114,7 +114,7 @@
    if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();selected=(selected+(e.key==='ArrowDown'?1:-1)+results.length)%results.length;syncSelection();return}
    if(e.key==='Enter'&&document.activeElement!==searchInput){e.preventDefault();executeResult()}
  });
- searchInput.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();selected=0;syncSelection()}});
+ searchInput.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();e.stopPropagation();selected=0;syncSelection()}});
  results.forEach((r,i)=>r.addEventListener('click',()=>{selected=i;syncSelection();executeResult()}));
  const aiAction=one('#ai-action');aiAction.addEventListener('click',()=>{aiAction.dataset.busy='true';one('#ai-action-status').textContent='Summarizing';queueMicrotask(()=>{aiAction.dataset.busy='false';one('#ai-action-status').textContent='Summary ready'})});
  one('#suggest-dismiss').addEventListener('click',()=>{one('#ai-suggestion').hidden=true;one('#ai-action').focus()});
@@ -124,13 +124,13 @@
  async function tick(ms=16){return new Promise(r=>setTimeout(r,ms))}
  async function run(){const f=[];try{
    assert(all('.glz22-capsule,.glz22-morph-card,.glz22-smart-rail,.glz22-aurora,.glz22-universal-search,.glz22-ai-action,.glz22-ai-suggestion,.glz22-ai-answer,.glz22-smart-summary,.glz22-source-chip').length>=10,'advanced component surfaces are missing',f);
-   const floor=mode==='touch-assistance'?56:48;all('.glz22-advanced-button,.glz22-ai-action,.glz22-rail-item').forEach(b=>assert(rect(b).height+.5>=floor,'effective target floor failed: '+(b.id||b.textContent.trim())+' '+rect(b).height+' < '+floor,f));
-   if(input==='touch'||mode==='touch-assistance')all('.glz22-source-chip').forEach(b=>assert(rect(b).height+.5>=floor,'source chip touch target floor failed: '+rect(b).height+' < '+floor,f));
+   const floor=mode==='touch-assistance'?56:48;all('.glz22-advanced-button,.glz22-ai-action,.glz22-rail-item').filter(visible).forEach(b=>assert(rect(b).height+.5>=floor,'effective target floor failed: '+(b.id||b.textContent.trim())+' '+rect(b).height+' < '+floor,f));
+   if(input==='touch'||mode==='touch-assistance')all('.glz22-source-chip').filter(visible).forEach(b=>assert(rect(b).height+.5>=floor,'source chip touch target floor failed: '+rect(b).height+' < '+floor,f));
    capsuleToggle.focus();capsuleToggle.click();await tick();assert(capsule.dataset.expanded==='true'&&capsuleToggle.getAttribute('aria-expanded')==='true','Capsule must expose continuous expanded state',f);capsuleToggle.click();
    morph.focus();morph.click();await tick();assert(morph.getAttribute('aria-expanded')==='true'&&!one('#morph-detail').hidden,'Morph Card must expose detail without losing shared card identity',f);morph.click();
-   const before=[rect(one('#rail-home')).top,rect(one('#rail-search')).top,rect(one('#rail-files')).top];one('#rail-context-toggle').click();await tick();const after=[rect(one('#rail-home')).top,rect(one('#rail-search')).top,rect(one('#rail-files')).top];assert(before.every((v,i)=>Math.abs(v-after[i])<1),'Smart Rail contextual tools must not move core destinations',f);assert(css(one('.glz22-rail-context')).display!=='none','Smart Rail contextual zone must appear',f);
+   const before=[rect(one('#rail-home')).top,rect(one('#rail-search')).top,rect(one('#rail-files')).top];one('#rail-context-toggle').click();await tick();const after=[rect(one('#rail-home')).top,rect(one('#rail-search')).top,rect(one('#rail-files')).top];assert(before.every((v,i)=>Math.abs(v-after[i])<1),'Smart Rail contextual tools must not move core destinations',f);assert(css(one('.glz22-rail-context')).display!=='none','Smart Rail contextual zone must appear',f);all('.glz22-rail-item[data-context-action="true"]').forEach(b=>assert(visible(b)&&rect(b).height+.5>=floor,'visible Smart Rail contextual action must preserve target floor: '+rect(b).height+' < '+floor,f));
    const auraOpacity=parseFloat(css(one('#aurora'),'::before').opacity);assert(auraOpacity>=.10&&auraOpacity<=.16,'Aurora standard intensity must remain within 10–16%, got '+auraOpacity,f);
-   document.dispatchEvent(new KeyboardEvent('keydown',{key:'k',ctrlKey:true,bubbles:true}));await tick();assert(search.dataset.open==='true'&&document.activeElement===searchInput,'Ctrl+K must open Universal Search with immediate query focus',f);
+   document.dispatchEvent(new KeyboardEvent('keydown',{key:'k',ctrlKey:true,bubbles:true}));await tick();assert(search.dataset.open==='true'&&document.activeElement===searchInput,'Ctrl+K must open Universal Search with immediate query focus',f);if(input==='touch'||mode==='touch-assistance')all('.glz22-search-generated .glz22-source-chip').forEach(b=>assert(visible(b)&&rect(b).height+.5>=floor,'visible search source chip must preserve touch target floor: '+rect(b).height+' < '+floor,f));
    searchInput.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));await tick();assert(document.activeElement===one('#result-open'),'Arrow navigation must enter deterministic Best Match first',f);
    document.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));await tick();assert(document.activeElement===one('#result-settings'),'ArrowDown must traverse results',f);
    one('#result-delete').click();await tick();assert(confirming===true&&executed!=='result-delete','destructive search action must require a second explicit step',f);one('#result-delete').click();await tick();assert(executed==='result-delete','second explicit destructive activation must execute',f);
