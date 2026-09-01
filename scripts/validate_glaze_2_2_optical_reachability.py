@@ -56,7 +56,7 @@ def main() -> None:
         ('id="popover"', 'Overlay sample'),
         ('id="dialog"', 'solid decision sample'),
         ('id="toast"', 'feedback sample'),
-        ('data-glz-transparency', 'Reduced Transparency exercise'),
+        ('dataset.glzTransparency', 'Reduced Transparency exercise'),
         ('forced-colors: active', 'Forced Colors exercise'),
         ('touch-assistance', 'Touch Assistance exercise'),
     ):
