@@ -4,7 +4,7 @@
   "id": "glz-popover-2-2",
   "name": "GlzPopover",
   "version": "2.2.0-candidate.1",
-  "lifecycle": "planned",
+  "lifecycle": "candidate",
   "tier": "overlay",
   "semanticRole": "Present anchored transient content such as filters, compact forms, or contextual help while preserving a clear relationship to its trigger.",
   "variants": ["standard", "filter", "form", "help"],
