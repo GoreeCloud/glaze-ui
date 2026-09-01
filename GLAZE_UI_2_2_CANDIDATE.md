@@ -33,7 +33,11 @@ The 2.2 identity is a combination of readable neutral surfaces, selective respon
 7. exact-head Candidate CI in `.github/workflows/glaze-2.2-candidate.yml`;
 8. a Candidate acceptance boundary in `acceptance/2.2-candidate.md`.
 
-This tranche does **not** claim complete implementation of the Glaze UI 2.2 component catalog, Universal Search runtime, Control Center runtime, window manager, lock/login shell, notification system, system settings, file manager, native platform shell, system intelligence, developer packages, generated documentation, or downstream consumer adoption. Those remain separate implementation and evidence workstreams until explicitly implemented and validated.
+The same Candidate line now also contains separately bounded, fail-closed implementation and evidence tranches for the complete 32-contract component catalog: eight Foundation, eight Structure, six Overlay, five Signature, and five Intelligence contracts. Their web reference layers and rendered acceptance harnesses are validated by the dedicated 2.2 Candidate workflow. Signature includes GlzCapsule, GlzMorphCard, GlzSmartRail, GlzAuroraSurface, and GlzUniversalSearch; Intelligence includes GlzAIAction, GlzAISuggestion, GlzAIAnswer, GlzSmartSummary, and GlzSourceChip.
+
+Additional bounded Candidate evidence includes the Universal Search / Control Center interaction reference in `js/glaze-2.2.system-interactions.candidate.mjs`, the 2.1→2.2 compatibility assessment in `contracts/migration/glaze-2.1-to-2.2.json`, the performance and System Glaze-budget contract in `contracts/performance/glaze-2.2-performance-budget.json`, and the buildable Android-native Candidate reference under `reference/native/android/2.2-candidate/`. These artifacts prove only their recorded scopes; they do not turn the corresponding complete-release lifecycle capabilities into Stable or authorize production consumer migration.
+
+This tranche does **not** claim complete implementation of the Glaze UI 2.2 component catalog across every native platform, complete Universal Search runtime, complete Control Center runtime, window manager, lock/login shell, notification system, system settings, file manager, native platform shell, system intelligence backend, developer packages, generated documentation, or downstream consumer adoption. Those remain separate implementation and evidence workstreams until explicitly implemented and validated.
 
 ## 3. Shared interaction state model
 
@@ -148,10 +152,13 @@ Privacy state must be visible, understandable, and actionable. Sensor or recordi
 
 ## 12. Candidate web implementation
 
-`css/glaze-2.2.candidate.css` is a reference implementation layer for the bounded Candidate foundation. It provides:
+`css/glaze-2.2.candidate.css` is the shell foundation reference layer. The Candidate implementation also includes the separately bounded component layers `css/glaze-2.2.components.candidate.css`, `css/glaze-2.2.components.adaptive.candidate.css`, `css/glaze-2.2.components.runtime.candidate.css`, `css/glaze-2.2.structure.candidate.css`, `css/glaze-2.2.overlay.candidate.css`, and `css/glaze-2.2.advanced.candidate.css`.
+
+Together, the bounded reference layers provide:
 
 - core 2.2 semantic custom properties;
 - Workspace, Application, System Overlay, System Panel, Critical System, Capsule, and system-status roles;
+- bounded Foundation, Structure, Overlay, Signature, and Intelligence component presentation;
 - bounded Glaze material and shadow behavior;
 - visible keyboard focus;
 - Reduced Motion and Reduced Transparency fallbacks;
@@ -159,11 +166,11 @@ Privacy state must be visible, understandable, and actionable. Sensor or recordi
 - Deep Dark anchors;
 - shell target-size and typography primitives.
 
-The CSS layer is evidence for this bounded web foundation only. It is not an operating system, compositor, window manager, notification daemon, search index, authentication provider, privacy authority, or native-platform certification.
+These web layers are evidence for their bounded reference scopes only. They are not an operating system, compositor, window manager, notification daemon, search index, authentication provider, privacy authority, intelligence backend, or native-platform certification.
 
 ## 13. Candidate implementation discipline
 
-2.2 implementation work must remain staged. A capability becomes Candidate only when a concrete repository artifact and objective validation exist. Planned specifications stay Planned until that boundary is crossed.
+2.2 implementation work must remain staged. A capability becomes Candidate only when a concrete repository artifact and objective validation exist. Planned specifications stay Planned until that boundary is crossed. Bounded implementation evidence must not be generalized into a complete-release claim when the lifecycle registry still records the broader capability as Planned.
 
 The lifecycle registry is authoritative for release and capability state. Documentation, tokens, code, acceptance records, and CI must not disagree about the current Stable version or Candidate line.
 
