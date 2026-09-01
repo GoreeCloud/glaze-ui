@@ -18,6 +18,29 @@
   outline-offset: var(--glz22-focus-offset);
 }
 
+/* Native browser zoom scales CSS pixels automatically. Hosts that expose an
+   explicit Glaze text-scale state use these relative roles so 200% text does
+   not remain pinned to compact pixel typography. */
+[data-glz-text-scale="200"] .glz22-button,
+[data-glz-text-scale="200"] .glz22-icon-button,
+[data-glz-text-scale="200"] .glz22-field-control,
+[data-glz-text-scale="200"] .glz22-select,
+[data-glz-text-scale="200"] .glz22-choice,
+[data-glz-text-scale="200"] .glz22-switch,
+[data-glz-text-scale="200"] .glz22-slider {
+  font-size: 1rem;
+}
+[data-glz-text-scale="200"] .glz22-field-label { font-size: 0.875rem; }
+[data-glz-text-scale="200"] .glz22-field-message,
+[data-glz-text-scale="200"] .glz22-slider-value { font-size: 0.75rem; }
+[data-glz-text-scale="200"] .glz22-button,
+[data-glz-text-scale="200"] .glz22-field-control,
+[data-glz-text-scale="200"] .glz22-select {
+  white-space: normal;
+  block-size: auto;
+  min-block-size: var(--glz22-control-hit);
+}
+
 @media (forced-colors: active) {
   .glz22-button:focus,
   .glz22-icon-button:focus,
