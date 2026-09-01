@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Fail-closed validation for the bounded Glaze UI 2.2 Overlay tier.
 
-Overlay remains Planned while this validator is introduced. Passing this gate is
-objective pre-promotion evidence only; it is not native/device acceptance,
-consumer eligibility, Human Visual Excellence approval, or Stable promotion.
+Overlay is a bounded Candidate tranche after exact-head pre-promotion evidence.
+This validator protects that lifecycle and objective contract boundary; it is not
+native/device acceptance, consumer eligibility, Human Visual Excellence approval,
+or Stable promotion.
 """
 from __future__ import annotations
 
@@ -92,8 +93,8 @@ def validate_common(filename: str, expected_name: str, contract: dict[str, Any],
         fail(f"{filename} id must be {expected_id}")
     if contract.get("version") != "2.2.0-candidate.1":
         fail(f"{filename} version must remain 2.2.0-candidate.1")
-    if contract.get("lifecycle") != "planned":
-        fail(f"{filename} must remain Planned until exact-head Overlay pre-promotion evidence passes")
+    if contract.get("lifecycle") != "candidate":
+        fail(f"{filename} must remain Candidate after bounded Overlay rendered acceptance")
     if contract.get("tier") != "overlay":
         fail(f"{filename} must remain in the Overlay tier")
     nonempty(contract.get("semanticRole"), f"{filename} semanticRole")
@@ -231,7 +232,7 @@ def main() -> None:
         print("Glaze UI 2.2 Overlay contract validation failed:")
         for error in ERRORS: print(f"- {error}")
         raise SystemExit(1)
-    print("Glaze UI 2.2 Overlay contract validation passed (Planned pre-promotion evidence)")
+    print("Glaze UI 2.2 Overlay contract validation passed (Candidate lifecycle enforced)")
 
 
 if __name__ == "__main__":
