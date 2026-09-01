@@ -22,7 +22,7 @@ jobs:
           persist-credentials: false
 
       - name: Compile Glaze UI 2.2 Candidate validators
-        run: python3 -m py_compile scripts/validate_glaze_2_2_candidate.py scripts/validate_glaze_2_2_rendered.py
+        run: python3 -m py_compile scripts/validate_glaze_2_2_candidate.py scripts/validate_glaze_2_2_components.py scripts/validate_glaze_2_2_rendered.py
 
       - name: Validate Glaze UI 2.2 Candidate runtime syntax
         run: node --check js/glaze-2.2.candidate.mjs
@@ -32,6 +32,9 @@ jobs:
 
       - name: Validate Glaze UI 2.2 Candidate foundation
         run: python3 scripts/validate_glaze_2_2_candidate.py
+
+      - name: Validate Glaze UI 2.2 Foundation component contracts
+        run: python3 scripts/validate_glaze_2_2_components.py
 
       - name: Validate canonical release-state consistency
         run: python3 scripts/validate_release_state.py
