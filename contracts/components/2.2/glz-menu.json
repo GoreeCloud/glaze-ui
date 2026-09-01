@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-menu-2-2",
+  "name": "GlzMenu",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "planned",
+  "tier": "overlay",
+  "semanticRole": "Present a compact, shallow action list including standard, contextual, and nested commands with deterministic keyboard navigation.",
+  "variants": ["standard", "context", "submenu"],
+  "sizes": [
+    {"name": "compact", "visualHeightPx": 32, "touchHitMinPx": 48, "horizontalPaddingPx": 10, "gapPx": 8, "fontPx": [13, 14], "iconPx": 16, "radiusPx": 12},
+    {"name": "standard", "visualHeightPx": 36, "touchHitMinPx": 48, "horizontalPaddingPx": 12, "gapPx": 8, "fontPx": [14, 15], "iconPx": 18, "radiusPx": 14},
+    {"name": "touch", "visualHeightPx": 48, "touchHitMinPx": 48, "horizontalPaddingPx": 14, "gapPx": 10, "fontPx": [15, 16], "iconPx": 20, "radiusPx": 16}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error", "expanded", "collapsed"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {"default": "thick-glaze", "allowed": ["thick-glaze", "solid-glaze", "raised"], "glazeIsExceptional": false, "rule": "Menus use Thick Glaze. Hierarchy stays shallow, destructive commands are separated, and Reduced Transparency resolves to an opaque menu surface."},
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {"keyboard": "Arrow keys move within the menu, Home and End reach bounds, Enter or Space activates, directional arrows traverse submenus, and Escape closes to the invoker.", "focus": "Opening focuses an eligible item; closing restores invoker focus and disabled items are skipped.", "hover": "Hover may move active indication or open a submenu after intent delay, with equivalent keyboard access.", "press": "Press activates one enabled command and closes unless the command explicitly keeps the menu open.", "selection": "Checked or current menu items expose structural state and labels rather than color alone."},
+  "accessibility": {"role": "Use menu and menuitem semantics, with checkbox or radio menu roles only for genuine stateful commands.", "name": "Menu has a stable label from its trigger or context and each item has an actionable name.", "state": "Expose disabled, checked, expanded submenu, and current state where applicable.", "value": "Stateful items expose checked state; ordinary commands do not invent values.", "keyboard": "Support arrow navigation, Home, End, activation, submenu traversal, and Escape dismissal.", "focus": "Focus remains visibly within the open menu and returns to the invoking control on close.", "errorAssociation": "Command failures are announced through a persistent status or error region rather than silent dismissal.", "nonColorMeaning": true, "reducedMotion": "Submenus open directly or with a short crossfade.", "reducedTransparency": "Use opaque Solid Glaze.", "increasedContrast": "Strengthen menu boundary, active item, focus, separators, and checked state.", "forcedColors": "Use system Menu, Canvas, Highlight, and focus colors with no blur.", "largeText": "Long labels and shortcuts remain readable at 200% text and the menu stays within the viewport."},
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {"reducedMotion": "Use direct submenu state changes or short crossfades.", "reducedTransparency": "Use opaque Solid Glaze.", "highContrast": "Strengthen focus, selection, and necessary separators.", "forcedColors": "Use system colors with structural selection and focus cues.", "performance": "Remove blur and decorative shadow before altering menu geometry or keyboard behavior."},
+  "api": {"semanticProps": ["open", "items", "context", "placement", "selectionMode"], "events": ["onOpen", "onClose", "onAction", "onSelectionChange", "onEscape"], "slots": ["trigger", "root", "group", "item", "icon", "label", "shortcut", "separator", "submenu"], "escapeHatches": ["className", "style", "slotProps", "tokens"], "rawVisualPropsPreferred": false},
+  "content": {"overflow": "Use bounded widths; long labels may wrap or ellipsize only when the full accessible name remains available. Submenus flip before clipping.", "localization": "Command labels and shortcuts tolerate 30–50% expansion and destructive wording stays explicit.", "rtl": "Directional submenu indicators and start or end alignment mirror semantically.", "textExpansionPercent": [30, 50]},
+  "testing": {"themes": ["light", "dark", "deep-dark"], "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "expanded", "collapsed", "error"], "inputs": ["mouse", "touch", "keyboard"], "directions": ["ltr", "rtl"], "textScalePercent": [100, 200], "motion": ["full", "reduced"], "contrast": ["standard", "high", "forced-colors"]},
+  "visualReview": {"required": true, "criteria": ["Menu remains compact and scan-friendly rather than becoming a translucent card stack.", "Destructive commands are separated without making routine commands alarm-like.", "Keyboard focus, checked state, and disabled state remain distinct without color-only meaning."]}
+}
