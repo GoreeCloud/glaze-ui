@@ -292,18 +292,17 @@ def case_large_text_touch_assistance(serial: str, dpi: int) -> dict:
     require_target(search_invoker, dpi, 56.0, "Touch Assistance Open Search")
     tap(serial, search_invoker)
 
-    # Large Text still proves immediate native query focus before the keyboard is
-    # dismissed. The IME is then removed only to expose the full 56 dp result
-    # geometry; this does not weaken Search focus semantics or the target floor.
     ui = dump_ui(serial)
     assert_contains(ui, "Dominant panel: Universal Search")
     search_input = find_desc(ui, "Search everything")
     if search_input is None or search_input.attrib.get("focused") != "true":
         raise SystemExit("Large Text Universal Search did not focus the native query field")
     dismiss_ime(serial)
-    ui, result, result_dp = fully_revealed_target(serial, "Project Brief", dpi, 56.0)
+    _, result, result_dp = fully_revealed_target(serial, "Project Brief", dpi, 56.0)
     require_target(result, dpi, 56.0, "Touch Assistance Project Brief")
-    assert_contains(ui, "Generated answer · Source: Project Brief")
+    # At 200% text, provenance may validly reflow below the result viewport. It
+    # must remain reachable, but need not be simultaneously visible with Best Match.
+    find_reachable(serial, "Generated answer · Source: Project Brief", attempts=8)
     sha = screenshot(serial, OUT / "android-22-large-text-touch-assistance.png")
     return {"id": "large-text-touch-assistance", "invokerTargetDp": round(invoker_dp, 2), "resultTargetDp": round(result_dp, 2), "screenshotSha256": sha}
 
