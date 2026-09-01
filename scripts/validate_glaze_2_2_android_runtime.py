@@ -160,11 +160,56 @@ def find_reachable(serial: str, value: str, *, desc: bool = False, attempts: int
     raise SystemExit(f"native UI element did not become reachable: {value}")
 
 
+def fully_revealed_target(
+    serial: str,
+    value: str,
+    dpi: int,
+    floor_dp: float,
+    *,
+    desc: bool = False,
+    attempts: int = 8,
+    reveal_attempts: int = 4,
+) -> tuple[ET.Element, ET.Element, float]:
+    """Return a reachable target only after its native bounds expose the full target.
+
+    UIAutomator clips bounds at a ScrollView or IME viewport edge. A partially
+    visible 48/56 dp control can therefore look smaller and its clipped center
+    can land on the keyboard instead of the control. Keep the target floors
+    unchanged and reveal the control before measuring or tapping it.
+    """
+    finder = find_desc if desc else find_text
+    ui, node = find_reachable(serial, value, desc=desc, attempts=attempts)
+    height = target_height_dp(node, dpi)
+    required = floor_dp - 1.0
+
+    for _ in range(reveal_attempts):
+        if height >= required:
+            return ui, node, height
+        adb(serial, "shell", "input", "swipe", "500", "1550", "500", "1200", "220")
+        time.sleep(0.25)
+        ui = dump_ui(serial)
+        refreshed = finder(ui, value)
+        if refreshed is None:
+            continue
+        node = refreshed
+        height = target_height_dp(node, dpi)
+
+    return ui, node, height
+
+
 def require_target(node: ET.Element, dpi: int, floor: float, label: str) -> float:
     height = target_height_dp(node, dpi)
     if height < floor - 1.0:
         raise SystemExit(f"{label} target below {floor:.0f} dp floor: {height:.2f} dp")
     return height
+
+
+def dismiss_ime(serial: str) -> None:
+    """Dismiss the software keyboard without closing the active Search panel."""
+    adb(serial, "shell", "input", "keyevent", "4")
+    time.sleep(0.35)
+    ui = dump_ui(serial)
+    assert_contains(ui, "Dominant panel: Universal Search")
 
 
 def case_search_and_exclusivity(serial: str, dpi: int) -> dict:
@@ -173,8 +218,8 @@ def case_search_and_exclusivity(serial: str, dpi: int) -> dict:
     assert_contains(ui, "Glaze UI 2.2 Candidate")
     assert_contains(ui, "Current Stable: 2.1.0")
     assert_contains(ui, "Target floor: 48 dp")
-    _, search_invoker = find_reachable(serial, "Open Search")
-    invoker_dp = require_target(search_invoker, dpi, 48.0, "Open Search")
+    _, search_invoker, invoker_dp = fully_revealed_target(serial, "Open Search", dpi, 48.0)
+    require_target(search_invoker, dpi, 48.0, "Open Search")
     tap(serial, search_invoker)
     ui = dump_ui(serial)
     assert_contains(ui, "Dominant panel: Universal Search")
@@ -187,21 +232,36 @@ def case_search_and_exclusivity(serial: str, dpi: int) -> dict:
         raise SystemExit("deterministic Project Brief result missing")
     result_dp = require_target(result, dpi, 48.0, "Project Brief")
 
-    _, delete = find_reachable(serial, "Delete local cache")
+    # The keyboard is part of the focus assertion above, but it is not part of
+    # the destructive-action target geometry. Dismiss only the IME, retain the
+    # Search panel, then reveal and activate the full native button bounds.
+    dismiss_ime(serial)
+    _, delete, delete_dp = fully_revealed_target(serial, "Delete local cache", dpi, 48.0)
+    require_target(delete, dpi, 48.0, "Delete local cache")
     tap(serial, delete)
-    ui, confirm = find_reachable(serial, "Confirm Delete local cache")
+    ui, confirm, confirm_dp = fully_revealed_target(serial, "Confirm Delete local cache", dpi, 48.0)
     assert_contains(ui, "Search action: Confirmation required")
+    require_target(confirm, dpi, 48.0, "Confirm Delete local cache")
     tap(serial, confirm)
     ui = dump_ui(serial)
     assert_contains(ui, "Search action: Deleted local cache")
 
-    _, control_invoker = find_reachable(serial, "Open Control Center")
+    _, control_invoker, control_invoker_dp = fully_revealed_target(serial, "Open Control Center", dpi, 48.0)
+    require_target(control_invoker, dpi, 48.0, "Open Control Center")
     tap(serial, control_invoker)
     ui = dump_ui(serial)
     assert_contains(ui, "Dominant panel: Control Center")
     assert_absent_exact(ui, "Universal Search")
     sha = screenshot(serial, OUT / "android-22-light-search-control-exclusivity.png")
-    return {"id": "light-search-control-exclusivity", "invokerTargetDp": round(invoker_dp, 2), "resultTargetDp": round(result_dp, 2), "screenshotSha256": sha}
+    return {
+        "id": "light-search-control-exclusivity",
+        "invokerTargetDp": round(invoker_dp, 2),
+        "resultTargetDp": round(result_dp, 2),
+        "deleteTargetDp": round(delete_dp, 2),
+        "confirmTargetDp": round(confirm_dp, 2),
+        "controlInvokerTargetDp": round(control_invoker_dp, 2),
+        "screenshotSha256": sha,
+    }
 
 
 def case_control_center_reduced_transparency(serial: str, dpi: int) -> dict:
@@ -209,15 +269,15 @@ def case_control_center_reduced_transparency(serial: str, dpi: int) -> dict:
     ui = dump_ui(serial)
     assert_contains(ui, "Appearance: Dark")
     assert_contains(ui, "Reduced Transparency: Solid system panels")
-    _, control_invoker = find_reachable(serial, "Open Control Center")
+    _, control_invoker, _ = fully_revealed_target(serial, "Open Control Center", dpi, 48.0)
     tap(serial, control_invoker)
-    ui, wifi = find_reachable(serial, "Wi-Fi: On")
-    wifi_dp = require_target(wifi, dpi, 48.0, "Wi-Fi")
+    ui, wifi, wifi_dp = fully_revealed_target(serial, "Wi-Fi: On", dpi, 48.0)
+    require_target(wifi, dpi, 48.0, "Wi-Fi")
     tap(serial, wifi)
     ui = dump_ui(serial)
     assert_contains(ui, "Wi-Fi: Off")
-    _, brightness = find_reachable(serial, "Brightness 64 percent", desc=True)
-    brightness_dp = require_target(brightness, dpi, 48.0, "Brightness")
+    _, brightness, brightness_dp = fully_revealed_target(serial, "Brightness 64 percent", dpi, 48.0, desc=True)
+    require_target(brightness, dpi, 48.0, "Brightness")
     assert_contains(ui, "Dominant panel: Control Center")
     sha = screenshot(serial, OUT / "android-22-dark-control-solid.png")
     return {"id": "dark-control-reduced-transparency", "wifiTargetDp": round(wifi_dp, 2), "rangeTargetDp": round(brightness_dp, 2), "screenshotSha256": sha}
@@ -231,11 +291,11 @@ def case_large_text_touch_assistance(serial: str, dpi: int) -> dict:
     _, target_text = find_reachable(serial, "Target floor: 56 dp")
     if target_text is None:
         raise SystemExit("Touch Assistance target-floor label missing")
-    _, search_invoker = find_reachable(serial, "Open Search")
-    invoker_dp = require_target(search_invoker, dpi, 56.0, "Touch Assistance Open Search")
+    _, search_invoker, invoker_dp = fully_revealed_target(serial, "Open Search", dpi, 56.0)
+    require_target(search_invoker, dpi, 56.0, "Touch Assistance Open Search")
     tap(serial, search_invoker)
-    ui, result = find_reachable(serial, "Project Brief")
-    result_dp = require_target(result, dpi, 56.0, "Touch Assistance Project Brief")
+    ui, result, result_dp = fully_revealed_target(serial, "Project Brief", dpi, 56.0)
+    require_target(result, dpi, 56.0, "Touch Assistance Project Brief")
     assert_contains(ui, "Generated answer · Source: Project Brief")
     sha = screenshot(serial, OUT / "android-22-large-text-touch-assistance.png")
     return {"id": "large-text-touch-assistance", "invokerTargetDp": round(invoker_dp, 2), "resultTargetDp": round(result_dp, 2), "screenshotSha256": sha}
