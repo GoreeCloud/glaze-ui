@@ -19,7 +19,6 @@ from pathlib import Path
 from validate_rendered_reference import (
     FORCED_COLORS_VIRTUAL_TIME_BUDGET_MS,
     VIRTUAL_TIME_BUDGET_MS,
-    browser_command,
     find_browser,
     run_browser,
     serve_root,
@@ -46,6 +45,35 @@ def case_url(port: int, case: dict) -> str:
         "direction": case.get("direction", "ltr"),
     })
     return f"http://127.0.0.1:{port}/reference/candidate-2.2-snapshot.html?{query}"
+
+
+def ready_command(browser: str, url: str, profile_dir: str, case: dict) -> list[str]:
+    """Build a deterministic DOM-ready probe without inventing mode semantics.
+
+    Reduced Transparency and Large Text are query-driven by the snapshot page, so
+    the DOM probe must not route them through the generic rendered-harness mode
+    mapper. Only browser-native media features need Chromium flags here.
+    """
+    mode = case.get("mode", "normal")
+    virtual_time = FORCED_COLORS_VIRTUAL_TIME_BUDGET_MS if mode == "forced-colors" else VIRTUAL_TIME_BUDGET_MS
+    command = [
+        browser, "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
+        "--disable-background-networking", "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows", "--disable-renderer-backgrounding",
+        "--disable-default-apps", "--disable-extensions", "--disable-sync",
+        "--mute-audio", "--no-first-run", "--run-all-compositor-stages-before-draw",
+        "--force-device-scale-factor=1", f"--virtual-time-budget={virtual_time}",
+        f"--user-data-dir={profile_dir}", f"--window-size={case['width']},{case['height']}",
+        "--dump-dom",
+    ]
+    if case.get("appearance", "light") == "dark":
+        command.append("--force-dark-mode")
+    if mode == "reduced-motion":
+        command.append("--force-prefers-reduced-motion")
+    elif mode == "forced-colors":
+        command.append("--force-high-contrast")
+    command.append(url)
+    return command
 
 
 def screenshot_command(browser: str, url: str, profile_dir: str, output: Path, case: dict) -> list[str]:
@@ -75,16 +103,8 @@ def screenshot_command(browser: str, url: str, profile_dir: str, output: Path, c
 def capture_case(browser: str, port: int, case: dict, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     url = case_url(port, case)
-    ready_command_extra = []
-    if case.get("appearance") == "dark":
-        ready_command_extra.append("--force-dark-mode")
     with tempfile.TemporaryDirectory(prefix="glaze-22-visual-ready-") as profile:
-        command = browser_command(
-            browser, url, profile,
-            width=case["width"], height=case["height"], mode=case.get("mode", "normal"),
-        )
-        command[-1:-1] = ready_command_extra
-        ready = run_browser(command)
+        ready = run_browser(ready_command(browser, url, profile, case))
     if ready.returncode != 0 or 'data-snapshot-ready="true"' not in ready.stdout:
         raise SystemExit(
             f"Glaze UI 2.2 visual snapshot did not reach ready state for {case['id']}\n"
