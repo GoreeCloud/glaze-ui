@@ -477,7 +477,7 @@ def main() -> int:
         acceptance,
         (
             "2.2.0-candidate.1",
-            "Current Stable: 2.1.0",
+            "Current Stable:** 2.1.0",
             "Candidate foundation only",
             "does not establish Stable promotion",
             "Human Visual Excellence: Pending",
