@@ -22,7 +22,7 @@ jobs:
           persist-credentials: false
 
       - name: Compile Glaze UI 2.2 Candidate validators
-        run: python3 -m py_compile scripts/validate_glaze_2_2_candidate.py scripts/validate_glaze_2_2_components.py scripts/validate_glaze_2_2_structure_components.py scripts/validate_glaze_2_2_components_rendered.py scripts/validate_glaze_2_2_rendered.py
+        run: python3 -m py_compile scripts/validate_glaze_2_2_candidate.py scripts/validate_glaze_2_2_components.py scripts/validate_glaze_2_2_structure_components.py scripts/validate_glaze_2_2_components_rendered.py scripts/validate_glaze_2_2_structure_rendered.py scripts/validate_glaze_2_2_rendered.py
 
       - name: Validate Glaze UI 2.2 Candidate runtime syntax
         run: node --check js/glaze-2.2.candidate.mjs
@@ -50,3 +50,6 @@ jobs:
 
       - name: Validate rendered Glaze UI 2.2 Foundation components
         run: python3 scripts/validate_glaze_2_2_components_rendered.py
+
+      - name: Validate rendered Glaze UI 2.2 Structure components
+        run: python3 scripts/validate_glaze_2_2_structure_rendered.py
