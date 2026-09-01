@@ -11,37 +11,42 @@ Nothing in this Candidate contract changes the current Stable consumer target. `
 
 ## 1. Governing design principles
 
-Glaze UI 2.2 carries forward the Stable strengths of 2.1 while sharpening the system around four rules:
+Glaze UI 2.2 carries forward the Stable strengths of 2.1 while sharpening the system around these rules:
 
 - **Content stays clear. Controls become spatial. Motion explains change. Color communicates meaning.**
 - **Solid where you read. Glazed where you interact.**
 - **Accessibility can simplify every visual effect without reducing capability.**
 - **Security interfaces prioritize certainty over beauty.**
+- **Reachability and optical depth must reinforce each other rather than compete.**
 
-The 2.2 identity is a combination of readable neutral surfaces, selective responsive Glaze material, stable semantic color, concentric geometry, adaptive typography and symbols, compact tactile motion, search-centric navigation, contextual capsules, spatial transformation, and first-class accessibility fallbacks. No single visual effect defines conformance.
+The active Candidate visual refinement is named **Optical Reachability**. It is an original GoreeCloud synthesis of spacious, thumb-friendly, modular interaction geometry with selective translucent depth, optical edges, highlights, and floating system chrome. It is not a clone of another platform and must preserve GoreeCloud semantic, accessibility, privacy, and performance rules.
+
+Optical Reachability uses larger sculpted controls, contained selection capsules, context-aware floating navigation/search surfaces, restrained environmental depth, and increasingly solid high-priority surfaces. Optical treatment is never required to understand state or meaning.
 
 ## 2. Candidate foundation scope
 
-`2.2.0-candidate.1` is a bounded implementation foundation. It currently implements and validates:
+`2.2.0-candidate.1` is a bounded implementation foundation. It includes machine-readable 2.2 tokens, System Shell contracts, lifecycle separation, exact-head CI, a complete 32-contract component catalog, bounded web reference layers, Universal Search / Control Center interaction references, migration compatibility assessment, performance / System Glaze-budget evidence, an Android-native Candidate reference, and reproducible rendered/review evidence.
 
-1. a machine-readable 2.2 core token contract in `tokens/glaze-2.2.candidate.json`;
-2. a machine-readable System Shell contract schema in `schemas/system-shell-contract.schema.json`;
-3. a bounded System Shell foundation contract in `contracts/system-shell/glaze-system-shell-2.2.json`;
-4. a web Candidate foundation layer in `css/glaze-2.2.candidate.css`;
-5. lifecycle separation in `registry/lifecycle.json`;
-6. fail-closed structural validation in `scripts/validate_glaze_2_2_candidate.py`;
-7. exact-head Candidate CI in `.github/workflows/glaze-2.2-candidate.yml`;
-8. a Candidate acceptance boundary in `acceptance/2.2-candidate.md`.
+The 32-contract catalog is:
 
-The same Candidate line now also contains separately bounded, fail-closed implementation and evidence tranches for the complete 32-contract component catalog: eight Foundation, eight Structure, six Overlay, five Signature, and five Intelligence contracts. Their web reference layers and rendered acceptance harnesses are validated by the dedicated 2.2 Candidate workflow. Signature includes GlzCapsule, GlzMorphCard, GlzSmartRail, GlzAuroraSurface, and GlzUniversalSearch; Intelligence includes GlzAIAction, GlzAISuggestion, GlzAIAnswer, GlzSmartSummary, and GlzSourceChip.
+- Foundation: 8 — GlzButton, GlzIconButton, GlzTextField, GlzSelect, GlzCheckbox, GlzRadio, GlzSwitch, GlzSlider;
+- Structure: 8 — GlzCard, GlzList, GlzTable, GlzTabs, GlzSidebar, GlzNavigationRail, GlzDock, GlzToolbar;
+- Overlay: 6 — GlzTooltip, GlzPopover, GlzMenu, GlzDialog, GlzSheet, GlzToast;
+- Signature: 5 — GlzCapsule, GlzMorphCard, GlzSmartRail, GlzAuroraSurface, GlzUniversalSearch;
+- Intelligence: 5 — GlzAIAction, GlzAISuggestion, GlzAIAnswer, GlzSmartSummary, GlzSourceChip.
 
-Additional bounded Candidate evidence includes the Universal Search / Control Center interaction reference in `js/glaze-2.2.system-interactions.candidate.mjs`, the 2.1→2.2 compatibility assessment in `contracts/migration/glaze-2.1-to-2.2.json`, the performance and System Glaze-budget contract in `contracts/performance/glaze-2.2-performance-budget.json`, the buildable Android-native Candidate reference under `reference/native/android/2.2-candidate/`, and the six-case source-pinned visual-regression system defined by `reference/candidate-2.2-snapshot.html`, `contracts/regression/visual-baselines-2.2.json`, and `scripts/glaze_2_2_visual_regression.py`.
+The bounded Optical Reachability tranche adds:
 
-The bounded visual-regression gate renders immutable Candidate baseline source revision `83bc9241590a47547d51369ea0812e40bb96775d` on the same Chromium runner as the exact current revision and pixel-compares six representative states. Its passing result is automated regression evidence only. `humanVisualExcellenceAccepted` remains false, and Human Visual Excellence cannot be self-certified by CI or an automated agent.
+- `css/glaze-2.2.visual-refinement.candidate.css` — System Shell / review-surface visual refinement;
+- `css/glaze-2.2.optical-reachability.candidate.css` — consolidated component presentation refinement;
+- `reference/candidate-2.2-optical-reachability-acceptance.html` — component-system presentation acceptance surface;
+- `scripts/validate_glaze_2_2_optical_reachability.py` — static/lifecycle fail-closed gate;
+- `scripts/validate_glaze_2_2_optical_reachability_rendered.py` — 15-case rendered presentation matrix;
+- `scripts/capture_glaze_2_2_optical_component_review.py` — exact-head six-image component review capture.
 
-These artifacts prove only their recorded scopes; they do not turn the corresponding complete-release lifecycle capabilities into Stable or authorize production consumer migration. Broader product Universal Search / Control Center integration, full cross-platform native shell implementation, final-release exact-final-revision acceptance, and downstream adoption remain separately gated.
+These artifacts prove only their recorded scopes. They do not turn broader complete-release capabilities into Stable or authorize production consumer migration.
 
-This tranche does **not** claim complete implementation of the Glaze UI 2.2 component catalog across every native platform, complete product Universal Search runtime, complete product Control Center runtime, window manager, lock/login shell, notification system, system settings, file manager, native platform shell, system intelligence backend, developer packages, generated documentation, or downstream consumer adoption. Those remain separate implementation and evidence workstreams until explicitly implemented and validated.
+This Candidate does **not** claim complete product adoption across every GoreeCloud application, complete cross-platform native implementation, operating-system services, production Universal Search indexing, production Control Center integration, authentication/privacy/intelligence backends, downstream consumer migration, or Human Visual Excellence approval.
 
 ## 3. Shared interaction state model
 
@@ -49,25 +54,19 @@ The Candidate foundation adopts the 2.2 shared state vocabulary:
 
 `rest → hover → focus → pressed → selected → disabled → loading → error`
 
-When states compete, the semantic priority is:
+When states compete, semantic priority is:
 
 `disabled > error > pressed > focus > selected > hover > rest`
 
 Components may extend this vocabulary with domain states such as success, warning, offline, protected, restricted, syncing, or indeterminate, but must preserve deterministic precedence and non-color-only meaning.
 
-Interaction state layers are applied over the semantic base surface rather than replacing semantic surface identity. The bounded candidate token ranges are:
-
-- hover: 3–6%
-- pressed: 7–12%
-- selected: 8–16%
-
-Focus remains explicitly visible and is not subordinated to hover styling.
+Interaction state layers are applied over the semantic base surface rather than replacing semantic identity. Focus remains explicitly visible and is not subordinated to hover or selected styling.
 
 ## 4. Core geometry and target behavior
 
-The Candidate foundation preserves a practical interaction floor of 48 px for touch-oriented shell controls and 56 px when Touch Assistance or far-view requirements apply. Compact pointer-oriented controls may render smaller visual geometry only when the accessible hit target remains appropriate to the input environment.
+The Candidate preserves a practical interaction floor of 48 px for touch-oriented shell controls and 56 px when Touch Assistance or far-view requirements apply. Compact pointer-oriented visual geometry may be smaller only where the input environment and accessible hit target remain appropriate.
 
-Primary shell geometry uses a restrained family centered on 12 px, 20 px, 28 px, and pill radii. Large system panels may use 24–32 px geometry. Dense application interiors may remain tighter; the system shell is intentionally softer.
+Optical Reachability refines the geometry family toward sculpted 16–24 px controls, 24–30 px content/chrome containers, and pills/capsules where the interaction is conceptually continuous. Dense application interiors may remain tighter. Large text must reflow rather than shrink targets or clip content.
 
 ## 5. System Shell surface hierarchy
 
@@ -79,23 +78,21 @@ Glaze UI 2.2 defines five system-level semantic surface classes:
 4. **System Panel** — notifications, Control Center, app/window switching, and system panels;
 5. **Critical System** — authentication, security warnings, shutdown, recovery, and similarly high-stakes surfaces.
 
-Higher-priority system layers become progressively more solid and explicit. Security-critical interaction must never depend on decorative transparency over complex content.
-
-The shell hierarchy is:
+Higher-priority system layers become progressively more solid and explicit. The shell hierarchy is:
 
 **Workspace → Apps → Context → System**
 
-The system should remain quiet until requested and immediately available when summoned.
+Critical System interaction must never depend on decorative transparency over complex content.
 
 ## 6. System Glaze budget
 
-The Candidate foundation encodes the 2.2 shell restraint rule: under ordinary conditions, a shell should show no more than **one dominant Glaze panel plus one to three small floating Glaze controls** at once unless the interaction explicitly requires more.
+Under ordinary conditions, a shell should show no more than **one dominant Glaze panel plus one to three small floating Glaze controls** at once unless the interaction explicitly requires more.
 
-Nested backdrop blur is prohibited as a design strategy. The conceptual render stack is:
+Nested backdrop blur is prohibited as a design strategy. The conceptual render stack remains:
 
 `content → single environmental diffusion → foreground material`
 
-Dense reading or configuration content remains primarily solid. Glaze is an interaction-depth tool, not wallpaper.
+Optical Reachability does not expand the Glaze budget. It changes geometry, layering, edge treatment, and reachability within the existing performance restraint.
 
 ## 7. System motion hierarchy
 
@@ -107,36 +104,29 @@ The Candidate token contract defines bounded system timing ranges:
 - workspace transitions: 320–420 ms;
 - unlock transitions: 280–420 ms.
 
-The semantic motion hierarchy is:
-
-- small state → Snap;
-- panel → Glide;
-- workspace → Spatial Glide;
-- direct manipulation → Spring.
-
-Keyboard traversal, direct manipulation, focus movement, and semantic state changes must not wait for decorative animation to finish.
+The semantic hierarchy is small state → Snap, panel → Glide, workspace → Spatial Glide, direct manipulation → Spring. Keyboard traversal, direct manipulation, focus movement, and semantic state changes must not wait for decorative animation.
 
 ## 8. Accessibility resolution
 
 Every system feature must retain an alternative path that does not depend on precision gestures, color, transparency, animation, sound, or hover.
 
-The Candidate web layer includes explicit Reduced Motion, Reduced Transparency, Increased Contrast, and Forced Colors fallbacks. Reduced Motion replaces large spatial movement and decorative morphing with short crossfades, opacity changes, or small-scale feedback while preserving direct manipulation. Reduced Transparency replaces Glaze materials with increasingly opaque surfaces while preserving hierarchy through border, elevation, and tonal separation.
+Reduced Motion removes or simplifies large spatial movement. Reduced Transparency replaces Optical Glaze with increasingly opaque surfaces while preserving hierarchy through boundaries, elevation, and tonal separation. Increased Contrast strengthens focus, boundaries, selected indicators, and status clarity. Forced Colors removes decorative Glaze and preserves system colors and focus semantics.
 
-High Contrast strengthens focus, boundaries, selected indicators, panel opacity, and status clarity. Semantic meaning remains available through text, icons, shape, and programmatic semantics rather than color alone.
+The active Optical Reachability rendered matrix explicitly covers mobile touch, tablet, desktop, wide desktop, Dark, Deep Dark, Reduced Motion, Reduced Transparency, Increased Contrast, Forced Colors, RTL, 200% text, and Touch Assistance states.
 
 ## 9. Deep Dark foundation
 
-The Candidate foundation encodes the documented Deep Dark shell anchors:
+The Candidate retains the documented Deep Dark shell anchors:
 
 - Canvas: `#05070A`
 - Base: `#0D1015`
 - Raised: `#171C23`
 
-Routine UI highlights must not consume maximum HDR luminance. Glaze surfaces remain distinguishable from the Canvas without turning large regions into high-luminance panels.
+Routine UI highlights must not consume maximum HDR luminance. Optical surfaces remain distinguishable from Canvas without turning large regions into high-luminance panels.
 
 ## 10. System typography and symbols
 
-Initial shell token ranges are:
+Initial shell token ranges remain:
 
 - shell labels: 13–15 px;
 - panel titles: 18–22 px;
@@ -144,67 +134,65 @@ Initial shell token ranges are:
 - lock-screen time: 56–88 px;
 - common system symbols: 20–24 px.
 
-System UI must not depend on ultra-thin typography. Critical status symbols may use stronger optical weight, but critical meaning also requires an explicit semantic label or notification where appropriate.
+System UI must not depend on ultra-thin typography. Critical meaning requires explicit semantics in addition to visual emphasis.
 
 ## 11. System color and privacy boundaries
 
-Color remains secondary to labels and symbols. The initial category identities are encoded as bounded Candidate metadata, not permission for decorative saturation. Semantic warning, critical, danger, security, success, privacy, and accessibility meaning overrides application or wallpaper color.
+Color remains secondary to labels and symbols. Semantic warning, critical, danger, security, success, privacy, and accessibility meaning overrides decorative application/wallpaper color.
 
-Wallpaper may influence ambient shell tint only within a clamped range. It must never alter semantic meanings.
-
-Privacy state must be visible, understandable, and actionable. Sensor or recording status is a system-level truth surface and must not be hidden by application styling.
+Wallpaper may influence ambient shell tint only within a clamped range. Privacy state must remain visible, understandable, and actionable. Sensor or recording status is a system truth surface and must not be hidden by product styling.
 
 ## 12. Candidate web implementation
 
-`css/glaze-2.2.candidate.css` is the shell foundation reference layer. The Candidate implementation also includes the separately bounded component layers `css/glaze-2.2.components.candidate.css`, `css/glaze-2.2.components.adaptive.candidate.css`, `css/glaze-2.2.components.runtime.candidate.css`, `css/glaze-2.2.structure.candidate.css`, `css/glaze-2.2.overlay.candidate.css`, and `css/glaze-2.2.advanced.candidate.css`.
+`css/glaze-2.2.candidate.css` remains the shell foundation reference layer. Bounded component layers include:
 
-Together, the bounded reference layers provide:
+- `css/glaze-2.2.components.candidate.css`;
+- `css/glaze-2.2.components.adaptive.candidate.css`;
+- `css/glaze-2.2.components.runtime.candidate.css`;
+- `css/glaze-2.2.structure.candidate.css`;
+- `css/glaze-2.2.overlay.candidate.css`;
+- `css/glaze-2.2.advanced.candidate.css`;
+- `css/glaze-2.2.visual-refinement.candidate.css`;
+- `css/glaze-2.2.optical-reachability.candidate.css`.
 
-- core 2.2 semantic custom properties;
-- Workspace, Application, System Overlay, System Panel, Critical System, Capsule, and system-status roles;
-- bounded Foundation, Structure, Overlay, Signature, and Intelligence component presentation;
-- bounded Glaze material and shadow behavior;
-- visible keyboard focus;
-- Reduced Motion and Reduced Transparency fallbacks;
-- Increased Contrast and Forced Colors fallbacks;
-- Deep Dark anchors;
-- shell target-size and typography primitives.
+The tier layers remain separately bounded rather than being silently collapsed into a release package. Optical Reachability is a presentation refinement composed with the appropriate tier base in its acceptance surface. This avoids inventing a Stable consumer entrypoint while 2.2 remains Candidate.
 
-These web layers are evidence for their bounded reference scopes only. They are not an operating system, compositor, window manager, notification daemon, search index, authentication provider, privacy authority, intelligence backend, or native-platform certification.
+Together, the bounded reference layers provide core semantic custom properties, System Shell roles, complete contract-tier presentation, selective Glaze material, visible focus, accessibility fallbacks, Deep Dark, target-size primitives, and the active Optical Reachability geometry/depth language.
 
 ## 13. Candidate implementation discipline
 
-2.2 implementation work must remain staged. A capability becomes Candidate only when a concrete repository artifact and objective validation exist. Planned specifications stay Planned until that boundary is crossed. Bounded implementation evidence must not be generalized into a complete-release claim when the lifecycle registry still records the broader capability as Planned.
+2.2 implementation remains evidence-first. A capability becomes Candidate only when concrete repository artifacts and objective validation exist. Planned specifications stay Planned until that boundary is crossed. Bounded evidence must not be generalized into complete-release claims.
 
-The lifecycle registry therefore records bounded Signature/Intelligence, system-interaction, migration-assessment, performance, Android-emulator, and source-pinned visual-regression evidence separately from broader product/runtime/full-release capabilities. This separation is intentional and prevents successful reference evidence from silently authorizing Stable or downstream product claims.
+The lifecycle registry records Optical Reachability, Android emulator acceptance, component contracts, system interactions, migration, performance, and visual evidence separately from broader product/runtime/full-release capabilities.
 
-The lifecycle registry is authoritative for release and capability state. Documentation, tokens, code, acceptance records, and CI must not disagree about the current Stable version or Candidate line.
-
-Glaze Motion remains separately governed and Experimental unless explicitly promoted through its own evidence path. 2.2 may map to its semantics without silently promoting it.
+The pre-Optical-Reachability source-pinned screenshot baseline remains historical Candidate evidence for the presentation it covered. It is explicitly non-current for the active redesign. A replacement baseline must not be created merely to turn CI green.
 
 ## 14. Stable promotion gate
 
-Glaze UI 2.2 may become Stable only after the applicable current governance gates are complete on exact final revisions, including:
+Glaze UI 2.2 may become Stable only after applicable governance gates are complete on exact final revisions, including:
 
 - complete release contract and migration boundary;
-- machine-readable token/component/material/system-shell contracts for the promoted scope;
+- machine-readable token/component/material/System Shell contracts for the promoted scope;
 - executable reference implementation where applicable;
 - exact-revision repository CI;
 - rendered acceptance across representative form factors and appearances;
-- accessibility and resilience acceptance, including Reduced Motion, Reduced Transparency, Increased Contrast, Forced Colors, large text, keyboard, touch, and pointer paths as applicable;
-- regression evidence for state, interaction, responsive transformation, and visual output;
-- native or device evidence for any design-system-native behavior claimed by the release;
+- accessibility and resilience acceptance including Reduced Motion, Reduced Transparency, Increased Contrast, Forced Colors, large text, keyboard, touch, and pointer paths;
+- interaction and visual regression evidence;
+- native/device evidence for claimed design-system-native behavior;
 - performance and Glaze-budget validation;
 - compatibility and migration analysis from 2.1.0;
-- recorded human Visual Excellence review for the final presentation;
+- **recorded human Visual Excellence review for the active final presentation**;
+- a human-approved immutable visual baseline for that presentation;
 - lifecycle, version, changelog, acceptance, rollback, and release records aligned to the exact final revision.
+
+For Optical Reachability, automated presentation/rendered/review capture evidence is now bounded Candidate evidence, but Human Visual Excellence remains Pending. Until that review occurs, the active redesign intentionally remains blocked by the historical pre-redesign pixel baseline.
 
 If any applicable gate is incomplete, Glaze UI 2.2 remains Candidate.
 
 ## 15. Consumer boundary
 
-No downstream GoreeCloud application is promoted by declaration. While 2.2 remains Candidate, all production consumers continue targeting Glaze UI 2.1.0 Stable. After a future 2.2 Stable promotion, each consumer will still require its own exact-revision adoption and acceptance before it may claim current 2.2 conformance.
+No downstream GoreeCloud application is promoted by declaration. While 2.2 remains Candidate, production consumers continue targeting Glaze UI 2.1.0 Stable. After any future 2.2 Stable promotion, each consumer still requires its own exact-revision adoption and acceptance before claiming 2.2 conformance.
 
-The Candidate rule is therefore explicit:
+The Candidate rule remains explicit:
 
 > **2.2 is being built in public evidence. It is not Stable until the evidence says it is Stable.**

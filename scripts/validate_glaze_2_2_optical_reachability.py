@@ -3,15 +3,17 @@
 
 This gate verifies that the consolidated Candidate layer spans Foundation,
 Structure, Overlay, Signature/Intelligence inherited styling, accessibility
-fallbacks, and review-evidence wiring. It does not approve Human Visual
-Excellence or Stable promotion.
+fallbacks, review-evidence wiring, and lifecycle registration. It does not
+approve Human Visual Excellence or Stable promotion.
 """
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CSS = ROOT / "css" / "glaze-2.2.optical-reachability.candidate.css"
 REFERENCE = ROOT / "reference" / "candidate-2.2-optical-reachability-acceptance.html"
 REVIEW_CAPTURE = ROOT / "scripts" / "capture_glaze_2_2_optical_component_review.py"
+LIFECYCLE = ROOT / "registry" / "lifecycle.json"
 WORKFLOW = ROOT / ".github" / "workflows" / "glaze-2.2-candidate.yml"
 
 
@@ -21,7 +23,7 @@ def require(text: str, marker: str, label: str) -> None:
 
 
 def main() -> None:
-    for path in (CSS, REFERENCE, REVIEW_CAPTURE, WORKFLOW):
+    for path in (CSS, REFERENCE, REVIEW_CAPTURE, LIFECYCLE, WORKFLOW):
         if not path.is_file():
             raise SystemExit(f"Glaze UI 2.2 Optical Reachability validation failed: missing {path.relative_to(ROOT)}")
 
@@ -29,6 +31,7 @@ def main() -> None:
     page = REFERENCE.read_text(encoding="utf-8")
     capture = REVIEW_CAPTURE.read_text(encoding="utf-8")
     workflow = WORKFLOW.read_text(encoding="utf-8")
+    lifecycle = json.loads(LIFECYCLE.read_text(encoding="utf-8"))
 
     for marker, label in (
         ('Current Stable remains Glaze UI 2.1.0', 'Stable boundary'),
@@ -75,6 +78,31 @@ def main() -> None:
         ('Evidence only; human approval remains required', 'human-review boundary'),
     ):
         require(capture, marker, label)
+
+    capabilities = lifecycle.get("capabilities", {})
+    record = capabilities.get("optical-reachability-component-presentation-2.2")
+    if not isinstance(record, dict):
+        raise SystemExit("Glaze UI 2.2 Optical Reachability validation failed: lifecycle capability missing")
+    expected = {
+        "status": "candidate",
+        "since": "2.2.0-candidate.1",
+        "implementation": "css/glaze-2.2.optical-reachability.candidate.css",
+        "reference": "reference/candidate-2.2-optical-reachability-acceptance.html",
+        "validator": "scripts/validate_glaze_2_2_optical_reachability.py",
+        "renderedAcceptance": "scripts/validate_glaze_2_2_optical_reachability_rendered.py",
+        "reviewCapture": "scripts/capture_glaze_2_2_optical_component_review.py",
+        "humanVisualExcellenceAccepted": False,
+        "visualBaselineStatus": "superseded-pending-human-review",
+    }
+    for key, value in expected.items():
+        if record.get(key) != value:
+            raise SystemExit(f"Glaze UI 2.2 Optical Reachability validation failed: lifecycle {key} must be {value!r}")
+    if record.get("renderedCaseCount") != 15 or record.get("reviewImageCount") != 6:
+        raise SystemExit("Glaze UI 2.2 Optical Reachability validation failed: lifecycle evidence counts drifted")
+
+    old_visual = capabilities.get("bounded-source-pinned-visual-regression-2.2", {})
+    if old_visual.get("presentationCurrent") is not False or old_visual.get("humanVisualExcellenceAccepted") is not False:
+        raise SystemExit("Glaze UI 2.2 Optical Reachability validation failed: superseded baseline must remain non-current and non-human-approved")
 
     for marker in (
         'validate_glaze_2_2_optical_reachability.py',
