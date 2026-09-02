@@ -32,6 +32,10 @@ TOP_LEVEL = {
     "integral_platform_integrations",
     "evidence_references",
 }
+MAX_NAME_LENGTH = 160
+MAX_REFERENCE_LENGTH = 500
+MAX_EVIDENCE_REFERENCES = 50
+MAX_INTEGRATION_REFERENCES = 20
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 
 
@@ -61,16 +65,28 @@ def require_bool(value: Any, name: str) -> bool:
     return value
 
 
-def require_references(value: Any, name: str, *, required: bool) -> list[str]:
+def require_bounded_string(value: Any, name: str, *, max_length: int) -> str:
+    if not isinstance(value, str) or not value.strip() or len(value) > max_length:
+        raise EvidenceError(f"{name} must be a bounded non-empty string of at most {max_length} characters")
+    return value
+
+
+def require_references(
+    value: Any,
+    name: str,
+    *,
+    required: bool,
+    max_items: int,
+) -> list[str]:
     if not isinstance(value, list):
         raise EvidenceError(f"{name} must be an array")
     if required and not value:
         raise EvidenceError(f"{name} must contain at least one evidence reference")
-    if len(value) > 50:
-        raise EvidenceError(f"{name} exceeds the evidence-reference limit")
+    if len(value) > max_items:
+        raise EvidenceError(f"{name} exceeds the {max_items}-item evidence-reference limit")
     normalized: list[str] = []
     for index, item in enumerate(value):
-        if not isinstance(item, str) or not item.strip() or len(item) > 500:
+        if not isinstance(item, str) or not item.strip() or len(item) > MAX_REFERENCE_LENGTH:
             raise EvidenceError(f"{name}[{index}] must be a bounded non-empty string")
         normalized.append(item.strip())
     if len(normalized) != len(set(normalized)):
@@ -101,8 +117,7 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
 
     producer = require_object(data["producer"], "producer")
     require_exact_keys(producer, {"system", "authoritative"}, "producer")
-    if not isinstance(producer["system"], str) or not producer["system"].strip():
-        raise EvidenceError("producer.system must be a non-empty string")
+    require_bounded_string(producer["system"], "producer.system", max_length=MAX_NAME_LENGTH)
     if producer["authoritative"] is not True:
         raise EvidenceError("evidence producer must be authoritative")
 
@@ -112,8 +127,9 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
         {"application", "glaze_version", "source_revision", "form_factors"},
         "target",
     )
-    if not isinstance(target["application"], str) or not target["application"].strip():
-        raise EvidenceError("target.application must be a non-empty string")
+    require_bounded_string(
+        target["application"], "target.application", max_length=MAX_NAME_LENGTH
+    )
     repository_version = VERSION_FILE.read_text(encoding="utf-8").strip()
     if repository_version != CURRENT_STABLE:
         raise EvidenceError(
@@ -135,9 +151,14 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
 
     observed = parse_datetime(data["observed_at"], "observed_at")
     valid_until = parse_datetime(data["valid_until"], "valid_until")
+    clock = now or datetime.now(UTC)
+    if clock.tzinfo is None:
+        raise EvidenceError("validation clock must include a timezone")
+    clock = clock.astimezone(UTC)
+    if observed > clock:
+        raise EvidenceError("observed_at must not be in the future")
     if valid_until <= observed:
         raise EvidenceError("valid_until must be after observed_at")
-    clock = (now or datetime.now(UTC)).astimezone(UTC)
     if valid_until <= clock:
         raise EvidenceError("evidence is expired")
 
@@ -181,6 +202,7 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
             item["evidence_references"],
             f"{system}.evidence_references",
             required=applicability == "applicable",
+            max_items=MAX_INTEGRATION_REFERENCES,
         )
         if applicability == "not_applicable" and (evidence_valid or references):
             raise EvidenceError(
@@ -191,7 +213,12 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
                 f"accepted Glaze claim requires current valid {system} integration evidence"
             )
 
-    require_references(data["evidence_references"], "evidence_references", required=True)
+    require_references(
+        data["evidence_references"],
+        "evidence_references",
+        required=True,
+        max_items=MAX_EVIDENCE_REFERENCES,
+    )
     if accepted and not application_accepted:
         raise EvidenceError(
             "accepted Glaze claim requires application-specific acceptance to be complete"
