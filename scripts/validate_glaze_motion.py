@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 TOKENS=ROOT/'tokens/glaze-motion.json'; DOC=ROOT/'GLAZE_MOTION.md'; NATIVE=ROOT/'NATIVE_MOTION_MAPPINGS.md'; CSS=ROOT/'css/glaze.motion.core.css'; RUNTIME=ROOT/'js/glaze.motion.js'; ACCESSIBILITY=ROOT/'js/glaze.motion.accessibility.js'; CORE=ROOT/'js/glaze.motion.core.js'; ACCEPTANCE=ROOT/'acceptance/glaze-motion-0.6-experimental.md'; REGISTRY=ROOT/'consumers'/'registry.json'; REFERENCE=ROOT/'reference/glaze-motion.html'; RENDERED=ROOT/'scripts/validate_glaze_motion_rendered.py'
-LAUNCHER='GoreeCloud/goreecloud-launcher'; KEYBOARD='GoreeCloud/goreecloud-keyboard'; LAUNCHER_HEAD='3095b9320b660f5e166465990d5d2bee061d7422'; LAUNCHER_MERGE='23a389b3b24db726ceab5e328f9f8157fa7655ae'; LAUNCHER_CURRENT_EVIDENCE='a87f5b1bf20ce8005ca589bd4a38efa8440e7500'; KEYBOARD_HEAD='80de7bd2dcff6d07b06b19f8250e37d20155d7ff'; KEYBOARD_MERGE='c9c0500263b40640339cf7a46f1a029d9a2ac240'; KEYBOARD_CURRENT_ADOPTION='e56ec4a01dde4024aa5ef54b3d13fd681ef8ada7'
+LAUNCHER='GoreeCloud/goreecloud-launcher'; KEYBOARD='GoreeCloud/goreecloud-keyboard'; LAUNCHER_HEAD='3095b9320b660f5e166465990d5d2bee061d7422'; LAUNCHER_MERGE='23a389b3b24db726ceab5e328f9f8157fa7655ae'; LAUNCHER_CURRENT_ADOPTION='4043895afd26991d0a20461e94d002f91c890703'; KEYBOARD_HEAD='80de7bd2dcff6d07b06b19f8250e37d20155d7ff'; KEYBOARD_MERGE='c9c0500263b40640339cf7a46f1a029d9a2ac240'; KEYBOARD_CURRENT_ADOPTION='e56ec4a01dde4024aa5ef54b3d13fd681ef8ada7'
 def req(c,m):
     if not c: raise SystemExit(f'Glaze Motion validation failed: {m}')
 def phrases(body,items,label):
@@ -36,15 +36,16 @@ def main():
     # 1.5-era native evaluations stay immutable historical Motion evidence while
     # the canonical consumer registry advances independently only when each
     # consumer's repository-local evidence supports the current Stable claim.
-    # Historical Stable evidence remains migration input and must not be relabeled
-    # as current-Stable adoption merely because it is the newest known revision.
+    # Current-Stable Glaze UI adoption must not reinterpret historical Motion
+    # evaluations as a production dependency, native-device certification, or
+    # sufficient evidence for Motion promotion.
     version=(ROOT/'VERSION').read_text().strip(); req(version=='2.2.0','Glaze Motion governance expects current Stable Glaze UI 2.2.0')
     registry=json.loads(REGISTRY.read_text()); req(registry.get('stableBaseline')==version and registry.get('requiredConsumerVersion')==version,'consumer Stable baseline differs from VERSION')
     launcher=by_repo(registry.get('consumers',[]),LAUNCHER)
-    req(launcher.get('status')=='migration-required','Launcher must remain migration-required until repository-local 2.2 evidence exists')
-    req(launcher.get('targetVersion')=='2.1.0' and launcher.get('requiredTargetVersion')=='2.2.0','Launcher historical/current Stable boundary changed')
-    req(launcher.get('referenceRevision')==LAUNCHER_CURRENT_EVIDENCE and launcher.get('evidence')=='docs/glaze-ui-adoption.md','Launcher current historical evidence changed')
-    req(launcher.get('automatedContract') is True and launcher.get('productionEligible') is False,'Launcher production boundary changed')
+    req(launcher.get('status')=='adoption-candidate','Launcher current Stable adoption state changed')
+    req(launcher.get('targetVersion')=='2.2.0' and launcher.get('requiredTargetVersion')=='2.2.0','Launcher must target current Stable 2.2.0')
+    req(launcher.get('referenceRevision')==LAUNCHER_CURRENT_ADOPTION and launcher.get('evidence')=='docs/glaze-ui-adoption.md','Launcher current Stable adoption evidence changed')
+    req(launcher.get('automatedContract') is True and launcher.get('automatedContractPath')=='scripts/check_glaze_ui.py' and launcher.get('productionEligible') is False,'Launcher current Stable production/evidence boundary changed')
 
     keyboard=by_repo(registry.get('consumers',[]),KEYBOARD)
     req(keyboard.get('status')=='adoption-candidate','Keyboard current Stable adoption state changed')
@@ -59,5 +60,5 @@ def main():
     runtime=RUNTIME.read_text(); phrases(runtime,('GLAZE_MOTION_VERSION = "0.3.0"','createReorderModel','resolveSwipeAction','resolveDirectionalMove','createPanZoomState','createFrameBudgetProbe','createDragSession','startSharedTransition'),'compatibility runtime')
     acc=ACCESSIBILITY.read_text(); phrases(acc,('GLAZE_MOTION_ACCESSIBILITY_VERSION = "0.4.0"','resolveReorderCommand','createAccessibleReorderController','createSettlingBudget','reason: "reduced-motion"','reason: "budget-exhausted"'),'accessibility runtime'); req('announcement:' not in acc,'runtime must not hard-code localized announcement copy')
     core=CORE.read_text(); phrases(core,('export * from "./glaze.motion.js"','export * from "./glaze.motion.accessibility.js"'),'aggregate runtime')
-    print('Glaze Motion 0.6 Experimental validated under Glaze UI 2.2 Stable: historical Motion evaluations preserved; Launcher remains 2.1 migration-required while Keyboard may advance through evidence-backed 2.2 adoption without Motion production authority')
+    print('Glaze Motion 0.6 Experimental validated under Glaze UI 2.2 Stable: historical Launcher/Keyboard Motion evaluations remain immutable test-only evidence while both consumers may advance through independently evidence-backed 2.2 Glaze UI adoption without Motion production authority')
 if __name__=='__main__': main()
