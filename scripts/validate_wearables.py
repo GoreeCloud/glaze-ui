@@ -18,7 +18,7 @@ def main():
     req(VERSION=='2.2.0','current Stable VERSION must be 2.2.0')
     phrases(DOC,('Current Stable design contract: **Glaze UI 2.2.0**','compact rotational navigation','not a shrunken phone UI','historical 1.x native evidence','does not certify a Wear OS crown, watchOS Digital Crown','application-specific native or real-device acceptance'),'WEARABLES.md')
     phrases(COMPONENTS,('Glaze UI 2.2.0 is the current Stable contract','rendered interactive region below that floor','Exactly one rotational-navigation item should be current/focusable at a time','Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze','historical evidence only','representative real-device operation'),'WEARABLE_COMPONENTS.md')
-    phrases(STABLE,('bounded Android handheld native reference','No downstream application is promoted by declaration','downstream physical-device/OEM acceptance'),'2.2 Stable contract')
+    phrases(STABLE,('bounded Android handheld native reference','No downstream application is promoted by declaration','does not claim that every downstream GoreeCloud product has already migrated'),'2.2 Stable contract')
     data=json.loads(CANDIDATE_TOKENS.read_text()); meta=data['meta']
     req(meta['version']=='2.0.0' and meta['status']=='Candidate','preserved 2.0 Candidate snapshot drifted')
     req(meta['productionEligible'] is False,'Candidate snapshot production boundary drifted')
