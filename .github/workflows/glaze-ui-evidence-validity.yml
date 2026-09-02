@@ -1,0 +1,63 @@
+name: Glaze UI Evidence Validity
+
+on:
+  pull_request:
+    paths:
+      - "VERSION"
+      - "CONFORMANCE.md"
+      - "contracts/glaze.conformance-evidence.schema.json"
+      - "docs/evidence-validity.md"
+      - "scripts/validate_conformance_evidence.py"
+      - "scripts/test_validate_conformance_evidence.py"
+      - ".github/workflows/glaze-ui-evidence-validity.yml"
+  push:
+    branches: [main]
+    paths:
+      - "VERSION"
+      - "CONFORMANCE.md"
+      - "contracts/glaze.conformance-evidence.schema.json"
+      - "docs/evidence-validity.md"
+      - "scripts/validate_conformance_evidence.py"
+      - "scripts/test_validate_conformance_evidence.py"
+      - ".github/workflows/glaze-ui-evidence-validity.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-evidence-validity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Validate contract JSON
+        run: python3 -m json.tool contracts/glaze.conformance-evidence.schema.json > /dev/null
+
+      - name: Compile validator and tests
+        run: |
+          python3 -m py_compile scripts/validate_conformance_evidence.py
+          python3 -m py_compile scripts/test_validate_conformance_evidence.py
+
+      - name: Run fail-closed evidence tests
+        env:
+          PYTHONPATH: scripts
+        run: python3 -m unittest -v scripts/test_validate_conformance_evidence.py
+
+      - name: Verify current Stable binding
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          version = Path("VERSION").read_text(encoding="utf-8").strip()
+          schema = json.loads(Path("contracts/glaze.conformance-evidence.schema.json").read_text(encoding="utf-8"))
+          target = schema["properties"]["target"]["properties"]
+          assert version == "2.2.0"
+          assert target["glaze_version"]["const"] == version
+          assert schema["properties"]["schema_version"]["const"] == 2
+          PY
