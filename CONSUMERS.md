@@ -45,15 +45,15 @@ Current-Stable version-specific evidence has not been established. Unverified ca
 - **GoreeCloud Manager** — `migration-required`, recorded 1.3.0; required 2.2.0.
 - **GoreeCloud Website** — `migration-required`, recorded 1.5.0; required 2.2.0.
 - **GoreeCloud Tasks** — `migration-required`, recorded 1.3.0; required 2.2.0.
-- **GoreeCloud Launcher** — `migration-required`, recorded 2.0.0; required 2.2.0. Its former 2.0 Adoption Candidate evidence is historical migration input.
-- **GoreeCloud Keyboard** — `migration-required`, recorded 1.6.0; required 2.2.0. Its former 1.6 Adoption Candidate evidence is historical migration input.
+- **GoreeCloud Launcher** — `adoption-candidate`, targets 2.2.0 with exact repository evidence at `ce9ed24678112aa931576f4072967458ae0f6260`; final rendered/native/accessibility/reduced-motion/contrast/transparency/phone-tablet/representative-device acceptance remains required before current-Stable alignment or production approval.
+- **GoreeCloud Keyboard** — `adoption-candidate`, targets 2.2.0 with exact repository evidence at `c7b425d28f96d2da20129843f71e3d54cc232e2f`; phone/tablet native/rendered, TalkBack/switch-access, representative-device, and production acceptance remain required before current-Stable alignment.
 - **GoreeCloud Notes** — `unverified`; fresh repository-local 2.2 implementation evidence is required.
 - **GoreeCloud Monitor** — `migration-required`, recorded 1.0.0; required 2.2.0.
 - **GoreeCloud Browser** — `migration-required`, recorded 2.0.0; required 2.2.0. Its 2.0 implementation evidence remains historical migration input.
 - **GoreeCloud Security Center** — `migration-required`, recorded 2.0.0; required 2.2.0. Wardveil Security retains security-truth authority; a source migration branch or preview does not by itself satisfy current-Stable application acceptance.
 - **GoreeCloud Privacy Center** — `migration-required`, recorded 2.0.0; required 2.2.0. Privacy Shield retains privacy-truth authority; a source migration branch or preview does not by itself satisfy current-Stable application acceptance.
 
-These states are evidence-backed rather than declarative. No repository is promoted to `aligned-current-stable` merely because 2.2 source migration exists or a preview renders successfully. Current-Stable conformance requires the exact application-specific evidence recorded by the registry.
+These states are evidence-backed rather than declarative. `adoption-candidate` means the consumer now targets the current Stable release with repository-local exact-revision validation, but it remains production-ineligible until its application-specific acceptance gates are complete. No repository is promoted to `aligned-current-stable` merely because 2.2 source migration exists or a preview renders successfully. Current-Stable conformance requires the exact application-specific evidence recorded by the registry.
 
 Launcher and Keyboard retain earlier Glaze Motion evaluations as historical development evidence. Stable Glaze UI 2.2 does not turn unrelated Experimental behavior into a production dependency by implication.
 
