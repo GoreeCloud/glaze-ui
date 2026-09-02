@@ -15,11 +15,13 @@ The build copies the canonical Glaze UI CSS implementation and the approved Face
 
 ## Consumer Governance boundary
 
-The source page contains a single `GLAZE_CONSUMER_GOVERNANCE` build token. `website/build.py` replaces that token in the publication artifact with the current canonical registry state, including Stable target, audit date, consumer status, production eligibility, exact evidence revision, and source-evidence contract where registered.
+The source page contains a single `GLAZE_CONSUMER_GOVERNANCE` build token. `website/build.py` replaces that token in the publication artifact with the current canonical registry state, including Stable target, audit date, consumer repository, consumer status, production eligibility, exact evidence revision, and source-evidence contract where registered.
 
 The public surface is descriptive, not promotive. `adoption-candidate` is explicitly distinct from `aligned-current-stable`, and no application becomes production eligible because the Design Center renders its state. Product-specific rendered/native, accessibility, supported-platform, and representative-device acceptance remain required by the canonical consumer contract.
 
-`python3 scripts/validate_design_center_consumer_governance.py` rebuilds the site and fails closed if rendered consumer state, source-evidence fields, summary counts, responsive governance composition, or forced-colors fallback drift from the canonical registry.
+The generated governance surface provides keyboard-native search and status filtering for inspection. These controls are visibility-only: they search the rendered consumer name/repository and hide or reveal cards without rewriting status, evidence, production eligibility, or any registry value. The unfiltered summary remains the canonical registry-wide snapshot even while the card view is narrowed.
+
+`python3 scripts/validate_design_center_consumer_governance.py` rebuilds the site and fails closed if rendered consumer state, repository/evidence fields, summary counts, visibility-only filtering semantics, 48px filter targets, responsive governance composition, or forced-colors fallback drift from the canonical registry and Design Center interaction contract.
 
 ## Canonical identity
 
@@ -34,7 +36,7 @@ python3 website/validate.py
 python3 scripts/validate_design_center_consumer_governance.py
 ```
 
-The first command validates the isolated Glaze UI publication artifact, canonical CSS/Facet identity, local appearance behavior, security headers, and current/historical release boundaries. The second validates the registry-backed Consumer Governance surface against the exact machine-readable consumer authority.
+The first command validates the isolated Glaze UI publication artifact, canonical CSS/Facet identity, local appearance behavior, security headers, and current/historical release boundaries. The second validates the registry-backed Consumer Governance surface against the exact machine-readable consumer authority and syntax-checks the Design Center interaction script before comparing the generated artifact.
 
 ## Publication boundary
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate that the public Design Center renders the canonical consumer registry without semantic drift."""
+"""Validate that the public Design Center renders and filters canonical consumer governance without semantic drift."""
 from __future__ import annotations
 
 import html
@@ -12,12 +12,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "consumers" / "registry.json"
 SOURCE = ROOT / "website" / "index.html"
+SITE_JS = ROOT / "website" / "site.js"
 DIST = ROOT / "website" / "dist" / "index.html"
 GOVERNANCE_CSS = ROOT / "website" / "dist" / "assets" / "governance.css"
+DIST_JS = ROOT / "website" / "dist" / "assets" / "site.js"
 TOKEN = "<!-- GLAZE_CONSUMER_GOVERNANCE -->"
 CARD = re.compile(
     r'<article class="consumer-card glaze-surface" data-consumer-name="(?P<name>[^"]+)" '
-    r'data-consumer-status="(?P<status>[^"]+)" data-production-eligible="(?P<eligible>true|false)">(?P<body>.*?)</article>',
+    r'data-consumer-repository="(?P<repository>[^"]+)" data-consumer-status="(?P<status>[^"]+)" '
+    r'data-production-eligible="(?P<eligible>true|false)">(?P<body>.*?)</article>',
     re.DOTALL,
 )
 
@@ -38,10 +41,12 @@ def main() -> int:
     req(isinstance(consumers, list) and consumers, "consumer registry is empty")
     req(SOURCE.read_text(encoding="utf-8").count(TOKEN) == 1, "source page must contain exactly one build token")
 
+    subprocess.run(["node", "--check", str(SITE_JS)], cwd=ROOT, check=True)
     subprocess.run([sys.executable, str(ROOT / "website" / "build.py")], cwd=ROOT, check=True)
-    req(DIST.is_file() and GOVERNANCE_CSS.is_file(), "governance build artifacts are missing")
+    req(DIST.is_file() and GOVERNANCE_CSS.is_file() and DIST_JS.is_file(), "governance build artifacts are missing")
     rendered = DIST.read_text(encoding="utf-8")
     css = GOVERNANCE_CSS.read_text(encoding="utf-8")
+    js = DIST_JS.read_text(encoding="utf-8")
 
     req(TOKEN not in rendered, "build token leaked into public artifact")
     for marker in (
@@ -52,10 +57,28 @@ def main() -> int:
         "Consumer conformance is a state, not a declaration.",
         "Adoption Candidate means current-Stable implementation evidence exists, but it is not production acceptance.",
         "No application is promoted by this page.",
+        "Search and status filters only change which registry-backed cards are visible; they never change consumer state or evidence.",
         "/assets/governance.css",
         'href="#governance">Governance</a>',
+        'data-governance-search',
+        'data-governance-result role="status" aria-live="polite"',
+        'data-governance-consumers',
+        'data-governance-status="all" aria-pressed="true"',
     ):
         req(marker in rendered, f"public governance marker missing: {marker}")
+
+    filter_labels = {
+        "all": "All",
+        "aligned-current-stable": "Aligned current Stable",
+        "adoption-candidate": "Adoption Candidate",
+        "migration-required": "Migration Required",
+        "unverified": "Unverified",
+    }
+    for status, label in filter_labels.items():
+        req(
+            f'data-governance-status="{status}"' in rendered and f'>{html.escape(label)}</button>' in rendered,
+            f"governance filter missing status option: {status}",
+        )
 
     cards = list(CARD.finditer(rendered))
     req(len(cards) == len(consumers), "rendered consumer-card count differs from registry")
@@ -73,16 +96,19 @@ def main() -> int:
     for consumer in consumers:
         req(isinstance(consumer, dict), "consumer registry contains a non-object entry")
         name = str(consumer.get("name"))
+        repository = str(consumer.get("repository"))
         status = str(consumer.get("status"))
         eligible = consumer.get("productionEligible") is True
         card = rendered_by_name[name]
         body = card.group("body")
+        req(html.unescape(card.group("repository")) == repository, f"{name} rendered repository differs from registry")
         req(card.group("status") == status, f"{name} rendered status differs from registry")
         req(card.group("eligible") == str(eligible).lower(), f"{name} rendered production eligibility differs from registry")
         status_counts[status] = status_counts.get(status, 0) + 1
         production_count += int(eligible)
 
         expected_values = [
+            repository,
             str(consumer.get("targetVersion")) if consumer.get("targetVersion") else "Not verified",
             str(consumer.get("requiredTargetVersion") or stable),
             "Yes" if eligible else "No",
@@ -100,6 +126,7 @@ def main() -> int:
     req(f'<span>Adoption candidates</span><strong>{status_counts.get("adoption-candidate", 0)}</strong>' in rendered, "Adoption Candidate summary drift")
     req(f'<span>Aligned current Stable</span><strong>{status_counts.get("aligned-current-stable", 0)}</strong>' in rendered, "aligned-current-Stable summary drift")
     req(f'<span>Production eligible</span><strong>{production_count}</strong>' in rendered, "production-eligible summary drift")
+    req(f'{len(consumers)} of {len(consumers)} consumers shown.' in rendered, "initial visible-result count drift")
 
     by_repo = {str(consumer.get("repository")): consumer for consumer in consumers if isinstance(consumer, dict)}
     launcher = by_repo.get("GoreeCloud/goreecloud-launcher")
@@ -109,6 +136,23 @@ def main() -> int:
     req(keyboard.get("automatedContractPath") == "scripts/check_glaze_motion_evaluation.py", "Keyboard source-verification contract drift")
 
     for marker in (
+        "data-governance-search",
+        "data-governance-status",
+        "data-consumer-repository",
+        "card.dataset.consumerStatus===status",
+        "card.dataset.consumerRepository",
+        "card.hidden=!show",
+        "button.setAttribute('aria-pressed'",
+        "consumers shown.",
+    ):
+        req(marker in js, f"governance filtering interaction contract missing: {marker}")
+
+    for marker in (
+        ".governance-controls",
+        ".governance-search input{width:100%;min-height:48px",
+        ".governance-filter-actions button{min-height:48px",
+        ".governance-filter-actions button[aria-pressed=\"true\"]",
+        ".consumer-card[hidden]{display:none!important}",
         ".governance-summary",
         ".consumer-grid",
         ".consumer-card",
@@ -120,8 +164,9 @@ def main() -> int:
         req(marker in css, f"governance presentation contract missing: {marker}")
 
     print(
-        "Design Center consumer governance validated: canonical registry schema, exact consumer states, source-evidence fields, "
-        "production boundary, responsive composition, and forced-colors fallback are synchronized."
+        "Design Center consumer governance validated: canonical registry schema, exact consumer states and repositories, "
+        "source-evidence fields, visibility-only search/status filtering, production boundary, responsive composition, "
+        "48px filter targets, and forced-colors fallback are synchronized."
     )
     return 0
 

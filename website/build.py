@@ -23,6 +23,13 @@ def render_consumer_governance(data: dict) -> str:
         'migration-required':'Migration Required',
         'unverified':'Unverified',
     }
+    filter_labels={
+        'all':'All',
+        'aligned-current-stable':'Aligned current Stable',
+        'adoption-candidate':'Adoption Candidate',
+        'migration-required':'Migration Required',
+        'unverified':'Unverified',
+    }
     counts={status:0 for status in labels}
     production_eligible=0
     cards=[]
@@ -30,8 +37,9 @@ def render_consumer_governance(data: dict) -> str:
         if not isinstance(consumer,dict):
             raise SystemExit('consumer registry contains a non-object entry')
         name=str(consumer.get('name',''))
+        repository=str(consumer.get('repository',''))
         status=str(consumer.get('status',''))
-        if not name or status not in labels:
+        if not name or not repository or status not in labels:
             raise SystemExit(f'consumer registry contains unsupported Design Center state: {name or "unnamed"} / {status}')
         counts[status]+=1
         eligible=consumer.get('productionEligible') is True
@@ -43,6 +51,7 @@ def render_consumer_governance(data: dict) -> str:
         contract=consumer.get('automatedContractPath')
 
         details=[
+            ('Repository', repository),
             ('Recorded target', str(target) if target else 'Not verified'),
             ('Required target', str(required) if required else stable),
             ('Production eligible', 'Yes' if eligible else 'No'),
@@ -62,12 +71,28 @@ def render_consumer_governance(data: dict) -> str:
         )
         cards.append(
             f'<article class="consumer-card glaze-surface" data-consumer-name="{html.escape(name,quote=True)}" '
-            f'data-consumer-status="{html.escape(status,quote=True)}" data-production-eligible="{str(eligible).lower()}">'
+            f'data-consumer-repository="{html.escape(repository,quote=True)}" data-consumer-status="{html.escape(status,quote=True)}" '
+            f'data-production-eligible="{str(eligible).lower()}">'
             f'<div class="consumer-card-heading"><h3>{html.escape(name)}</h3>'
             f'<span class="consumer-status" data-status="{html.escape(status,quote=True)}">{html.escape(labels[status])}</span></div>'
             f'<dl>{detail_html}</dl></article>'
         )
 
+    filter_buttons=''.join(
+        f'<button type="button" data-governance-status="{html.escape(status,quote=True)}" '
+        f'aria-pressed="{str(status == "all").lower()}">{html.escape(label)}</button>'
+        for status,label in filter_labels.items()
+    )
+    controls=(
+        f'<div class="governance-controls glaze-surface" aria-label="Consumer governance filters">'
+        f'<div class="governance-search"><label for="governance-search">Find consumer</label>'
+        f'<input id="governance-search" type="search" inputmode="search" autocomplete="off" '
+        f'placeholder="Name or repository" data-governance-search></div>'
+        f'<fieldset class="governance-status-filter"><legend>Status</legend>'
+        f'<div class="governance-filter-actions">{filter_buttons}</div></fieldset>'
+        f'<p class="governance-filter-result" data-governance-result role="status" aria-live="polite">'
+        f'{len(consumers)} of {len(consumers)} consumers shown.</p></div>'
+    )
     summary=(
         f'<div class="governance-summary" role="list" aria-label="Glaze UI consumer governance summary">'
         f'<article role="listitem"><span>Stable baseline</span><strong>{html.escape(stable)}</strong></article>'
@@ -85,10 +110,11 @@ def render_consumer_governance(data: dict) -> str:
         f'<p>The Design Center renders this inspection surface from the canonical consumer registry at build time. '
         f'Adoption Candidate means current-Stable implementation evidence exists, but it is not production acceptance. '
         f'Migration Required and Unverified remain production-blocking on the Glaze UI gate.</p></div>'
-        f'{summary}'
+        f'{controls}{summary}'
         f'<p class="governance-boundary glaze-surface-raised"><strong>Acceptance boundary:</strong> '
-        f'No application is promoted by this page. Product-specific rendered/native, accessibility, supported-platform and representative-device acceptance remain authoritative.</p>'
-        f'<div class="consumer-grid">{"".join(cards)}</div>'
+        f'No application is promoted by this page. Search and status filters only change which registry-backed cards are visible; '
+        f'they never change consumer state or evidence. Product-specific rendered/native, accessibility, supported-platform and representative-device acceptance remain authoritative.</p>'
+        f'<div class="consumer-grid" data-governance-consumers>{"".join(cards)}</div>'
         f'<p class="registry-provenance">Registry schema {schema} · audited {html.escape(audited)} · current Stable {html.escape(stable)}.</p>'
         f'</section>'
     )
