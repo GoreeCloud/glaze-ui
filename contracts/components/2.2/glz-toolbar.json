@@ -1,0 +1,49 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-toolbar-2-2",
+  "name": "GlzToolbar",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "candidate",
+  "tier": "structure",
+  "semanticRole": "Arrange navigation, primary actions, contextual actions, and overflow controls in a stable priority-aware command surface.",
+  "variants": ["standard", "compact", "contextual", "floating"],
+  "sizes": [
+    {"name": "compact", "visualHeightPx": 44, "touchHitMinPx": 48, "horizontalPaddingPx": 8, "gapPx": 6, "fontPx": [13, 14], "iconPx": 18, "radiusPx": 14},
+    {"name": "standard", "visualHeightPx": 52, "touchHitMinPx": 48, "horizontalPaddingPx": 10, "gapPx": 8, "fontPx": [14, 15], "iconPx": 20, "radiusPx": 16},
+    {"name": "touch", "visualHeightPx": 60, "touchHitMinPx": 48, "horizontalPaddingPx": 12, "gapPx": 10, "fontPx": [15, 16], "iconPx": 22, "radiusPx": 18}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {"default": "surface", "allowed": ["surface", "raised", "thin-glaze", "regular-glaze", "solid-glaze"], "glazeIsExceptional": true, "rule": "Attached toolbars are usually solid or raised; genuinely floating toolbars may use Thin or Regular Glaze. Control density is compact 32–36px, standard about 40px, and touch about 48px while effective targets retain accessibility floors."},
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {
+    "keyboard": "All toolbar controls are reachable in a predictable order; arrow-key roving focus may be used when appropriate; overflow and command-palette equivalents remain keyboard accessible.",
+    "focus": "Focus clearly identifies the active toolbar control and does not disappear when context changes.",
+    "hover": "Hover may reveal tooltips or secondary actions but no essential command depends on hover.",
+    "press": "Press feedback begins immediately and the toolbar does not reflow during activation.",
+    "selection": "Toggle-like toolbar controls expose selected or pressed state with non-color cues; ordinary actions do not pretend to be selected."
+  },
+  "accessibility": {
+    "role": "Use toolbar semantics when controls form one command group; nested control roles remain native.",
+    "name": "Multiple or context-specific toolbars have stable programmatic labels and icon-only actions have accessible action names.",
+    "state": "Disabled, selected or pressed, loading, error, and expanded overflow state are exposed when applicable.",
+    "value": "Value-bearing nested controls retain their native values; ordinary toolbar actions do not invent values.",
+    "keyboard": "All commands, groups, overflow actions, and toggle states are fully keyboard accessible.",
+    "focus": "Focus remains visible and predictable across contextual transformations and overflow open/close cycles.",
+    "errorAssociation": "Command failures are announced through an associated status/error region without replacing the actionable label.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Contextual toolbar morph becomes a direct state change or short crossfade.",
+    "reducedTransparency": "Floating Glaze resolves to opaque Raised material.",
+    "increasedContrast": "Strengthen toolbar boundary, focus, selected controls, and separators only where needed.",
+    "forcedColors": "Use system toolbar/button/focus colors and preserve selected state structurally.",
+    "largeText": "Priority overflow occurs before labels or targets become unusable; essential actions remain discoverable."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {"reducedMotion": "Use direct contextual state changes or short crossfades.", "reducedTransparency": "Use opaque toolbar material.", "highContrast": "Strengthen focus, selected states, and necessary grouping boundaries.", "forcedColors": "Use platform colors and structural selection/focus cues.", "performance": "Remove blur and decorative shadow before changing action priority, overflow, or target geometry."},
+  "api": {"semanticProps": ["variant", "actions", "context", "priorities", "overflow", "density"], "events": ["onPress", "onSelect", "onOverflowOpen", "onOverflowClose", "onFocus", "onBlur"], "slots": ["root", "navigation", "primary", "context", "group", "action", "separator", "overflow", "status"], "escapeHatches": ["className", "style", "slotProps", "tokens"], "rawVisualPropsPreferred": false},
+  "content": {"overflow": "Actions follow priority tiers: P1 visible, P2 visible as space permits, P3 overflow, P4 command palette. Lower-priority actions move to overflow before essential controls compress below usable targets.", "localization": "Action labels and tooltips tolerate expansion; icon-only compression requires complete accessible names and discoverable descriptions where ambiguous.", "rtl": "Action groups, navigation direction, overflow placement, and directional icons mirror semantically.", "textExpansionPercent": [30, 50]},
+  "testing": {"themes": ["light", "dark", "deep-dark"], "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"], "inputs": ["mouse", "touch", "keyboard", "remote"], "directions": ["ltr", "rtl"], "textScalePercent": [100, 200], "motion": ["full", "reduced"], "contrast": ["standard", "high", "forced-colors"]},
+  "visualReview": {"required": true, "criteria": ["One dominant primary action remains visually clear without making every command equally loud.", "Priority-driven overflow preserves P1 commands and does not hide essential state.", "Contextual toolbar transformations preserve spatial continuity where practical.", "Floating Glaze is exceptional; dense attached toolbars remain readable and restrained."]}
+}

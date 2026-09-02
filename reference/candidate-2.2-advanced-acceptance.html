@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glaze UI 2.2 Advanced Component Acceptance</title>
+<link rel="stylesheet" href="../css/glaze-2.2.advanced.candidate.css">
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}body{min-height:100vh;background:var(--glz22-canvas);color:var(--glz22-text-primary);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.page{width:min(1180px,100%);margin:auto;padding:18px}.intro{max-width:820px}.intro h1{font-size:24px;margin:0 0 8px}.intro p{color:var(--glz22-text-secondary);margin:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}.demo{min-width:0;padding:16px;border:1px solid var(--glz22-line);border-radius:22px;background:var(--glz22-base)}.demo h2{font-size:17px;margin:0 0 8px}.demo>p{font-size:13px;color:var(--glz22-text-secondary);line-height:1.45}.rail-wrap{display:flex;gap:14px;align-items:flex-start}.workspace{min-width:0;flex:1;padding:12px;border-radius:18px;background:var(--glz22-raised);color:var(--glz22-text-secondary)}.stack{display:grid;gap:10px}.visually-hidden{position:absolute;inline-size:1px;block-size:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}#result{position:fixed;z-index:999;inset:6px 6px auto;max-height:45vh;overflow:auto;margin:0;padding:8px;background:#111;color:#fff;font:11px/1.35 monospace;opacity:.02;pointer-events:none}#result[data-status="fail"]{opacity:.98;background:#7b1717}@media(max-width:760px){.page{padding:10px}.grid{grid-template-columns:1fr}}html[data-mode="large-text"]{font-size:32px}
+</style>
+</head>
+<body>
+<main class="page">
+<section class="intro">
+  <h1>Glaze UI 2.2 Signature + Intelligence acceptance</h1>
+  <p>Bounded Candidate evidence for Capsule, Morph Card, Smart Rail, Aurora Surface, Universal Search, AI Action, AI Suggestion, AI Answer, Smart Summary, and Source Chip. Stable remains 2.1.0.</p>
+</section>
+<div class="grid">
+<section class="demo" aria-labelledby="capsule-h">
+  <h2 id="capsule-h">Capsule</h2><p>One coherent temporary background task with continuous expansion.</p>
+  <div class="glz22-capsule" id="capsule" data-expanded="false" aria-label="Upload status">
+    <div class="glz22-capsule-main"><span class="glz22-capsule-symbol" aria-hidden="true">↑</span><div class="glz22-capsule-copy"><strong>Uploading 6 files</strong><span id="capsule-progress">68% complete</span></div></div>
+    <button class="glz22-advanced-button" id="capsule-toggle" aria-expanded="false" aria-controls="capsule-detail">Details</button>
+    <div class="glz22-capsule-expanded" id="capsule-detail">Project.mov 84% · Assets.zip 51% · Background upload continues safely.</div>
+  </div>
+</section>
+
+<section class="demo" aria-labelledby="morph-h">
+  <h2 id="morph-h">Morph Card</h2><p>Shared identity persists while content expands into detail.</p>
+  <button class="glz22-morph-card" id="morph" aria-expanded="false" aria-controls="morph-detail">
+    <span class="glz22-morph-media" aria-hidden="true">◈</span><span class="glz22-morph-copy"><h3>Aurora Project</h3><p>Design system acceptance workspace</p></span>
+    <span class="glz22-morph-detail" id="morph-detail">The same title, accent identity, and selected object remain visible while destination detail becomes available.</span>
+  </button>
+</section>
+
+<section class="demo" aria-labelledby="rail-h">
+  <h2 id="rail-h">Smart Rail</h2><p>Contextual tools appear without moving core destinations.</p>
+  <div class="rail-wrap">
+    <nav class="glz22-smart-rail" id="smart-rail" data-context="normal" aria-label="Primary">
+      <div class="glz22-rail-zone" id="rail-core">
+        <button class="glz22-rail-item" id="rail-home" aria-current="page"><span aria-hidden="true">⌂</span><span class="glz22-rail-label">Home</span></button>
+        <button class="glz22-rail-item" id="rail-search"><span aria-hidden="true">⌕</span><span class="glz22-rail-label">Search</span></button>
+        <button class="glz22-rail-item" id="rail-files"><span aria-hidden="true">□</span><span class="glz22-rail-label">Files</span></button>
+      </div>
+      <div class="glz22-rail-zone glz22-rail-context" aria-label="Selection actions">
+        <button class="glz22-rail-item" data-context-action="true"><span aria-hidden="true">↗</span><span class="glz22-rail-label">Share</span></button>
+        <button class="glz22-rail-item" data-context-action="true"><span aria-hidden="true">×</span><span class="glz22-rail-label">Delete</span></button>
+      </div>
+    </nav>
+    <div class="workspace"><button class="glz22-advanced-button" id="rail-context-toggle">Toggle selection tools</button><p>Core navigation remains spatially stable.</p></div>
+  </div>
+</section>
+
+<section class="demo" aria-labelledby="aurora-h">
+  <h2 id="aurora-h">Aurora Surface</h2><p>Readable neutral base with restrained ambient identity.</p>
+  <article class="glz22-aurora" id="aurora" data-intensity="standard" aria-labelledby="aurora-title">
+    <div class="glz22-generated-id">✦ Intelligent highlight</div><h3 id="aurora-title">Project signals</h3><p>Three blockers and one upcoming deadline need review.</p>
+  </article>
+</section>
+
+<section class="demo" aria-labelledby="search-h">
+  <h2 id="search-h">Universal Search</h2><p>Deterministic results first; generated interpretation remains separately identified.</p>
+  <div class="glz22-universal-search" id="universal-search" data-open="false">
+    <div class="glz22-search-entry">
+      <span aria-hidden="true">⌕</span>
+      <input id="search-input" type="search" aria-label="Search anything" aria-controls="search-panel" aria-expanded="false" placeholder="Search anything…">
+      <span class="glz22-search-shortcut">Ctrl K</span>
+    </div>
+    <div class="glz22-search-panel" id="search-panel" role="listbox" aria-label="Universal Search results">
+      <section class="glz22-search-group" aria-labelledby="best-match-h"><h4 id="best-match-h">Best Match</h4>
+        <button class="glz22-search-result" id="result-open" role="option" aria-selected="true" data-safe="true"><span aria-hidden="true">□</span><span><strong>Project Brief</strong><small>Files · exact match</small></span><span class="shortcut">Enter</span></button>
+        <button class="glz22-search-result" id="result-settings" role="option" aria-selected="false" data-safe="true"><span aria-hidden="true">⚙</span><span><strong>Appearance settings</strong><small>Settings</small></span><span></span></button>
+        <button class="glz22-search-result" id="result-delete" role="option" aria-selected="false" data-destructive="true"><span aria-hidden="true">×</span><span><strong>Delete local cache</strong><small>Action · confirmation required</small></span><span></span></button>
+      </section>
+      <article class="glz22-aurora glz22-search-generated" data-intensity="subtle" aria-labelledby="generated-h"><div class="glz22-generated-id" id="generated-h">✦ Generated answer</div><p>Project Brief appears to be the primary planning document for Aurora.</p><div class="glz22-source-row"><button class="glz22-source-chip" data-source="brief">□ Project Brief</button></div></article>
+    </div>
+  </div>
+  <div class="visually-hidden" id="search-status" aria-live="polite"></div>
+</section>
+
+<section class="demo stack" aria-labelledby="intelligence-h">
+  <h2 id="intelligence-h">Intelligence components</h2>
+  <div><button class="glz22-ai-action" id="ai-action">Summarize document</button><span id="ai-action-status" role="status" class="visually-hidden"></span></div>
+  <aside class="glz22-ai-suggestion" id="ai-suggestion" aria-label="AI suggestion"><div class="glz22-generated-id">✦ Suggested</div><p>These files appear related. Create a collection?</p><div class="glz22-ai-actions"><button class="glz22-advanced-button" id="suggest-accept" data-primary="true">Create collection</button><button class="glz22-advanced-button" id="suggest-dismiss">Dismiss</button></div></aside>
+  <article class="glz22-ai-answer" aria-labelledby="answer-h"><div class="glz22-generated-id" id="answer-h">✦ Generated answer</div><p class="glz22-answer-body">The latest brief identifies accessibility acceptance as a release blocker.</p><div class="glz22-source-row"><button class="glz22-source-chip" id="source-chip" data-source="brief">□ Project Brief · Acceptance</button><button class="glz22-source-chip" data-source="notes">□ Review Notes</button></div><div class="glz22-ai-actions"><button class="glz22-advanced-button">Useful</button></div></article>
+  <article class="glz22-smart-summary" id="smart-summary" data-expanded="false" aria-labelledby="summary-h"><div class="glz22-generated-id" id="summary-h">✦ Smart summary</div><p>3 blockers, 2 decisions, and 1 upcoming deadline.</p><div class="glz22-summary-signals"><span class="glz22-summary-signal">3 blockers</span><span class="glz22-summary-signal">2 decisions</span><span class="glz22-summary-signal">2 sources</span></div><p class="glz22-summary-detail" id="summary-detail">Accessibility, native runtime, and migration evidence remain open.</p><div class="glz22-ai-actions"><button class="glz22-advanced-button" id="summary-toggle" aria-expanded="false" aria-controls="summary-detail">View details</button></div></article>
+</section>
+</div>
+</main>
+<pre id="result" data-status="pending">PENDING</pre>
+<script>
+(()=>{
+ const params=new URLSearchParams(location.search),root=document.documentElement;
+ const mode=params.get('mode')||'normal',appearance=params.get('appearance')||'light',dir=params.get('direction')||'ltr',input=params.get('input')||'pointer';
+ root.dataset.mode=mode;root.dataset.glzInput=input;root.dataset.appearance=appearance;root.dir=dir;
+ if(appearance==='deep-dark')root.setAttribute('data-glz-appearance','deep-dark');
+ if(mode==='reduced-transparency')root.dataset.glzTransparency='reduced';
+ if(mode==='touch-assistance')root.dataset.glzTouchAssistance='true';
+ if(mode==='large-text')root.dataset.glzTextScale='200';
+ const one=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)],rect=e=>e.getBoundingClientRect(),css=(e,p)=>getComputedStyle(e,p),visible=e=>{const r=rect(e);return r.width>0&&r.height>0},assert=(c,m,f)=>{if(!c)f.push(m)};
+ const capsule=one('#capsule'),capsuleToggle=one('#capsule-toggle');
+ capsuleToggle.addEventListener('click',()=>{const open=capsule.dataset.expanded!=='true';capsule.dataset.expanded=String(open);capsuleToggle.setAttribute('aria-expanded',String(open))});
+ const morph=one('#morph');morph.addEventListener('click',()=>morph.setAttribute('aria-expanded',String(morph.getAttribute('aria-expanded')!=='true')));
+ const rail=one('#smart-rail');one('#rail-context-toggle').addEventListener('click',()=>rail.dataset.context=rail.dataset.context==='selection'?'normal':'selection');
+ const search=one('#universal-search'),searchInput=one('#search-input'),results=all('.glz22-search-result');let selected=0,executed='',confirming=false;
+ function syncSelection(){results.forEach((r,i)=>r.setAttribute('aria-selected',String(i===selected)));results[selected]?.focus({preventScroll:true})}
+ function openSearch(){search.dataset.open='true';searchInput.setAttribute('aria-expanded','true');searchInput.focus({preventScroll:true})}
+ function closeSearch(){search.dataset.open='false';searchInput.setAttribute('aria-expanded','false');confirming=false}
+ function executeResult(){const r=results[selected];if(!r)return;if(r.dataset.destructive==='true'&&!confirming){confirming=true;one('#search-status').textContent='Confirm '+r.textContent.trim();return}executed=r.id;one('#search-status').textContent='Executed '+r.textContent.trim();confirming=false}
+ document.addEventListener('keydown',e=>{
+   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();return}
+   if(search.dataset.open!=='true')return;
+   if(e.key==='Escape'){e.preventDefault();closeSearch();return}
+   if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();selected=(selected+(e.key==='ArrowDown'?1:-1)+results.length)%results.length;syncSelection();return}
+   if(e.key==='Enter'&&document.activeElement!==searchInput){e.preventDefault();executeResult()}
+ });
+ searchInput.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();e.stopPropagation();selected=0;syncSelection()}});
+ results.forEach((r,i)=>r.addEventListener('click',()=>{selected=i;syncSelection();executeResult()}));
+ const aiAction=one('#ai-action');aiAction.addEventListener('click',()=>{aiAction.dataset.busy='true';one('#ai-action-status').textContent='Summarizing';queueMicrotask(()=>{aiAction.dataset.busy='false';one('#ai-action-status').textContent='Summary ready'})});
+ one('#suggest-dismiss').addEventListener('click',()=>{one('#ai-suggestion').hidden=true;one('#ai-action').focus()});
+ one('#suggest-accept').addEventListener('click',()=>one('#ai-suggestion').dataset.accepted='true');
+ const summary=one('#smart-summary'),summaryToggle=one('#summary-toggle');summaryToggle.addEventListener('click',()=>{const open=summary.dataset.expanded!=='true';summary.dataset.expanded=String(open);summaryToggle.setAttribute('aria-expanded',String(open));summaryToggle.textContent=open?'Hide details':'View details'});
+ all('.glz22-source-chip').forEach(chip=>chip.addEventListener('click',()=>{one('#search-status').textContent='Opened source '+chip.dataset.source}));
+ async function tick(ms=16){return new Promise(r=>setTimeout(r,ms))}
+ async function run(){const f=[];try{
+   assert(all('.glz22-capsule,.glz22-morph-card,.glz22-smart-rail,.glz22-aurora,.glz22-universal-search,.glz22-ai-action,.glz22-ai-suggestion,.glz22-ai-answer,.glz22-smart-summary,.glz22-source-chip').length>=10,'advanced component surfaces are missing',f);
+   const floor=mode==='touch-assistance'?56:48;all('.glz22-advanced-button,.glz22-ai-action,.glz22-rail-item').filter(visible).forEach(b=>assert(rect(b).height+.5>=floor,'effective target floor failed: '+(b.id||b.textContent.trim())+' '+rect(b).height+' < '+floor,f));
+   if(input==='touch'||mode==='touch-assistance')all('.glz22-source-chip').filter(visible).forEach(b=>assert(rect(b).height+.5>=floor,'source chip touch target floor failed: '+rect(b).height+' < '+floor,f));
+   capsuleToggle.focus();capsuleToggle.click();await tick();assert(capsule.dataset.expanded==='true'&&capsuleToggle.getAttribute('aria-expanded')==='true','Capsule must expose continuous expanded state',f);capsuleToggle.click();
+   morph.focus();morph.click();await tick();assert(morph.getAttribute('aria-expanded')==='true'&&!one('#morph-detail').hidden,'Morph Card must expose detail without losing shared card identity',f);morph.click();
+   const before=[rect(one('#rail-home')).top,rect(one('#rail-search')).top,rect(one('#rail-files')).top];one('#rail-context-toggle').click();await tick();const after=[rect(one('#rail-home')).top,rect(one('#rail-search')).top,rect(one('#rail-files')).top];assert(before.every((v,i)=>Math.abs(v-after[i])<1),'Smart Rail contextual tools must not move core destinations',f);assert(css(one('.glz22-rail-context')).display!=='none','Smart Rail contextual zone must appear',f);all('.glz22-rail-item[data-context-action="true"]').forEach(b=>assert(visible(b)&&rect(b).height+.5>=floor,'visible Smart Rail contextual action must preserve target floor: '+rect(b).height+' < '+floor,f));
+   const auraOpacity=parseFloat(css(one('#aurora'),'::before').opacity);assert(auraOpacity>=.10&&auraOpacity<=.16,'Aurora standard intensity must remain within 10–16%, got '+auraOpacity,f);
+   document.dispatchEvent(new KeyboardEvent('keydown',{key:'k',ctrlKey:true,bubbles:true}));await tick();assert(search.dataset.open==='true'&&document.activeElement===searchInput,'Ctrl+K must open Universal Search with immediate query focus',f);if(input==='touch'||mode==='touch-assistance')all('.glz22-search-generated .glz22-source-chip').forEach(b=>assert(visible(b)&&rect(b).height+.5>=floor,'visible search source chip must preserve touch target floor: '+rect(b).height+' < '+floor,f));
+   searchInput.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));await tick();assert(document.activeElement===one('#result-open'),'Arrow navigation must enter deterministic Best Match first',f);
+   document.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));await tick();assert(document.activeElement===one('#result-settings'),'ArrowDown must traverse results',f);
+   one('#result-delete').click();await tick();assert(confirming===true&&executed!=='result-delete','destructive search action must require a second explicit step',f);one('#result-delete').click();await tick();assert(executed==='result-delete','second explicit destructive activation must execute',f);
+   assert(one('.glz22-search-generated .glz22-generated-id').textContent.includes('Generated answer'),'search AI interpretation must be explicitly labeled Generated answer',f);assert(one('.glz22-search-generated .glz22-source-chip'),'search AI answer must expose source provenance',f);closeSearch();
+   aiAction.focus();aiAction.click();await tick();assert(one('#ai-action-status').textContent==='Summary ready','AI Action must produce an explicit status without moving focus',f);assert(document.activeElement===aiAction,'AI Action must not steal focus',f);
+   one('#suggest-dismiss').click();await tick();assert(one('#ai-suggestion').hidden&&document.activeElement===aiAction,'AI Suggestion must be dismissible with sensible focus recovery',f);
+   summaryToggle.click();await tick();assert(summary.dataset.expanded==='true'&&summaryToggle.getAttribute('aria-expanded')==='true','Smart Summary must expose expanded state',f);
+   const chip=one('#source-chip');chip.focus();chip.click();await tick();assert(one('#search-status').textContent.includes('Opened source brief'),'Source Chip must reveal its source reference path',f);
+   if(mode==='reduced-transparency'){assert(css(capsule).backdropFilter==='none'||css(capsule).webkitBackdropFilter==='none','Reduced Transparency must remove Capsule backdrop filtering',f);assert(css(one('#aurora'),'::before').display==='none','Reduced Transparency must remove Aurora ambient decoration',f)}
+   if(mode==='reduced-motion'){assert(parseFloat(css(morph).transitionDuration||'0')===0,'Reduced Motion must remove Morph Card spatial transition',f)}
+   if(mode==='large-text'){assert(innerWidth>=rect(one('.page')).right-.5,'200% text must not force page horizontal overflow',f)}
+   assert(rect(one('.page')).right<=innerWidth+1,'page must remain within viewport',f);
+ }catch(err){f.push(err&&err.stack?err.stack:String(err))}
+ const out=one('#result');out.dataset.status=f.length?'fail':'pass';out.textContent=(f.length?'FAIL\n- '+f.join('\n- '):'PASS advanced components '+innerWidth+'x'+innerHeight+' '+appearance+' '+mode+' '+dir+' '+input);
+ document.title=out.textContent.split('\n')[0];
+ }
+ addEventListener('load',()=>setTimeout(run,mode==='reduced-motion'?40:420));
+})();
+</script>
+</body>
+</html>

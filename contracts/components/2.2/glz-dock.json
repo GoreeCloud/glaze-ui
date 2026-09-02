@@ -1,0 +1,48 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-dock-2-2",
+  "name": "GlzDock",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "candidate",
+  "tier": "structure",
+  "semanticRole": "Provide reachable primary touch navigation for three to five core destinations at the lower edge of a mobile or touch-centric workspace.",
+  "variants": ["attached", "floating", "compact"],
+  "sizes": [
+    {"name": "compact", "visualHeightPx": 64, "touchHitMinPx": 48, "horizontalPaddingPx": 10, "gapPx": 6, "fontPx": [12, 13], "iconPx": 22, "radiusPx": 24},
+    {"name": "standard", "visualHeightPx": 72, "touchHitMinPx": 48, "horizontalPaddingPx": 12, "gapPx": 8, "fontPx": [13, 14], "iconPx": 24, "radiusPx": 28}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {"default": "regular-glaze", "allowed": ["surface", "raised", "regular-glaze", "solid-glaze"], "glazeIsExceptional": true, "rule": "A floating mobile dock may use restrained Regular Glaze because it sits over content; attached navigation may resolve to a solid surface. Glaze remains limited to dock chrome rather than surrounding content."},
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {
+    "keyboard": "Keyboard or remote focus moves predictably among destinations and activation follows native button or link semantics.",
+    "focus": "Focused destination remains visibly distinct from current destination.",
+    "hover": "Pointer hover may add quiet state feedback on hybrid devices but is never required.",
+    "press": "Touch press feedback is immediate and neighboring destinations do not shift unpredictably.",
+    "selection": "Selected destination uses filled icon, label emphasis, and restrained accent tint without pushing adjacent destinations."
+  },
+  "accessibility": {
+    "role": "Use navigation landmark semantics with native links/buttons for destinations.",
+    "name": "The dock and each destination expose complete programmatic names from visible labels or equivalent text.",
+    "state": "Current/selected, disabled, loading, and error state are exposed where applicable.",
+    "value": "Current destination is exposed through current-location semantics rather than synthetic values.",
+    "keyboard": "Every destination is operable by keyboard and remote without touch-only gestures.",
+    "focus": "Focus remains visible independently from selection and stays inside safe visible bounds.",
+    "errorAssociation": "Destination or navigation errors are associated with the affected item/status region.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Selection changes use direct state or short glide/crossfade with no unnecessary bounce.",
+    "reducedTransparency": "Regular Glaze resolves to an opaque Raised or Surface material.",
+    "increasedContrast": "Strengthen dock boundary, focus, and current-destination treatment.",
+    "forcedColors": "Use system navigation/focus colors and explicit current indicators.",
+    "largeText": "Labels adapt or wrap without reducing target size or colliding with gesture-safe insets."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {"reducedMotion": "Use direct selection feedback or a short glide.", "reducedTransparency": "Use opaque dock material.", "highContrast": "Strengthen boundary, focus, and current state.", "forcedColors": "Use platform colors and explicit current state.", "performance": "Remove blur and decorative shadow before changing safe-area geometry or destination semantics."},
+  "api": {"semanticProps": ["variant", "items", "selectedKey", "safeAreaInset", "labels"], "events": ["onSelect", "onFocus", "onBlur"], "slots": ["root", "item", "icon", "label", "badge", "selectionIndicator"], "escapeHatches": ["className", "style", "slotProps", "tokens"], "rawVisualPropsPreferred": false},
+  "content": {"overflow": "Three to five primary destinations must fit without page overflow; long labels may adapt according to documented compact rules while accessible names remain complete.", "localization": "Destination labels tolerate expansion and may use compact adaptive presentation without losing accessible names.", "rtl": "Destination order follows product and locale policy; logical geometry mirrors while safe-area handling remains physical-edge correct.", "textExpansionPercent": [30, 50]},
+  "testing": {"themes": ["light", "dark", "deep-dark"], "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"], "inputs": ["mouse", "touch", "keyboard", "remote"], "directions": ["ltr", "rtl"], "textScalePercent": [100, 200], "motion": ["full", "reduced"], "contrast": ["standard", "high", "forced-colors"]},
+  "visualReview": {"required": true, "criteria": ["Dock remains reachable and gesture-safe at the lower edge.", "Selected destination does not push or resize neighbors unpredictably.", "Regular Glaze remains restrained and readable over varied content backgrounds.", "Three to five core destinations remain identifiable at 200% text and Touch Assistance."]}
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-list-2-2",
+  "name": "GlzList",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "candidate",
+  "tier": "structure",
+  "semanticRole": "Present a scannable ordered or unordered collection of related items with optional selection, grouping, navigation, and reordering.",
+  "variants": ["plain", "inset", "grouped", "selectable", "reorderable"],
+  "sizes": [
+    {"name": "compact", "visualHeightPx": 32, "touchHitMinPx": 48, "horizontalPaddingPx": 12, "gapPx": 8, "fontPx": [13, 14], "iconPx": 16, "radiusPx": 10},
+    {"name": "standard", "visualHeightPx": 40, "touchHitMinPx": 48, "horizontalPaddingPx": 14, "gapPx": 10, "fontPx": [14, 15], "iconPx": 18, "radiusPx": 10},
+    {"name": "touch", "visualHeightPx": 48, "touchHitMinPx": 48, "horizontalPaddingPx": 16, "gapPx": 12, "fontPx": [15, 16], "iconPx": 20, "radiusPx": 12}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error", "dragging"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {"default": "surface", "allowed": ["canvas", "surface", "raised", "solid-glaze"], "glazeIsExceptional": true, "rule": "Lists are readability-first and remain solid. Prefer spacing and grouping over full-width dividers; Glaze belongs to surrounding floating chrome, not every row."},
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {
+    "keyboard": "Arrow navigation is provided when the list owns active selection; Enter or Space activates according to item semantics; reorderable lists provide a keyboard alternative to drag.",
+    "focus": "Focus identifies the active item or nested control without collapsing selection and focus into one cue.",
+    "hover": "Hover may reveal secondary row actions and a restrained tint, but essential actions remain available without hover.",
+    "press": "Press feedback is immediate and contained to the active row.",
+    "selection": "Selectable rows use persistent tint plus check, indicator, or typography; selection survives view changes where the semantic object remains the same.",
+    "directManipulation": "Reordering elevates the dragged row, preserves a placeholder, moves neighbors continuously, and exposes a non-drag alternative."
+  },
+  "accessibility": {
+    "role": "Use list/listitem or the more specific native collection pattern required by navigation, selection, or reordering semantics.",
+    "name": "List landmarks and interactive rows expose stable names from visible labels.",
+    "state": "Selection, disabled, loading, expanded grouping, error, and dragging state are exposed when applicable.",
+    "value": "Collection position and set size are exposed where the chosen accessible pattern requires them; no synthetic value is invented otherwise.",
+    "keyboard": "All row activation, selection, grouping, and reordering has a complete keyboard path.",
+    "focus": "Focus is visible independently from row selection and nested controls preserve their own focus.",
+    "errorAssociation": "Collection or row errors are associated with the affected item or status region.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Reorder movement becomes direct or a short glide; no decorative spring is required.",
+    "reducedTransparency": "Any exceptional floating list surface becomes opaque.",
+    "increasedContrast": "Strengthen focus, selection, grouping, and drag/drop indicators.",
+    "forcedColors": "Use system colors and explicit selection/drag markers.",
+    "largeText": "Rows grow and labels wrap rather than clipping."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {"reducedMotion": "Use direct or short reorder/state transitions.", "reducedTransparency": "Use opaque collection surfaces.", "highContrast": "Strengthen focus, selection, grouping, and drop indicators.", "forcedColors": "Use platform colors and explicit structural state.", "performance": "Remove optional shadow and decorative effects before changing collection semantics."},
+  "api": {"semanticProps": ["variant", "items", "selectionMode", "selectedKeys", "reorderable", "loading", "emptyState"], "events": ["onSelect", "onPress", "onReorder", "onFocus", "onBlur"], "slots": ["root", "group", "groupHeader", "item", "leading", "primary", "secondary", "metadata", "actions", "selectionIndicator", "dragHandle"], "escapeHatches": ["className", "style", "slotProps", "tokens"], "rawVisualPropsPreferred": false},
+  "content": {"overflow": "Rows reflow or scroll inside the collection and must not force viewport overflow.", "localization": "Labels, metadata, group titles, badges, and actions tolerate 30–50% expansion.", "rtl": "Indentation, disclosure, leading/trailing content, and reorder affordances mirror semantically.", "textExpansionPercent": [30, 50]},
+  "testing": {"themes": ["light", "dark", "deep-dark"], "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error", "dragging"], "inputs": ["mouse", "touch", "keyboard", "remote"], "directions": ["ltr", "rtl"], "textScalePercent": [100, 200], "motion": ["full", "reduced"], "contrast": ["standard", "high", "forced-colors"]},
+  "visualReview": {"required": true, "criteria": ["Rows remain scannable without unnecessary full-width dividers.", "Hover, focus, selection, and dragging remain visually distinct.", "Reorder placeholders preserve spatial continuity and list length.", "Compact desktop density does not reduce the effective touch target on touch input."]}
+}

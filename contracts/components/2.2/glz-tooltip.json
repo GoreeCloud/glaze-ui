@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-tooltip-2-2",
+  "name": "GlzTooltip",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "candidate",
+  "tier": "overlay",
+  "semanticRole": "Provide short, non-interactive explanatory text for a control without carrying warnings, forms, or essential-only information.",
+  "variants": ["standard", "shortcut"],
+  "sizes": [
+    {"name": "compact", "visualHeightPx": 28, "touchHitMinPx": 48, "horizontalPaddingPx": 8, "gapPx": 6, "fontPx": [12, 13], "radiusPx": 10},
+    {"name": "standard", "visualHeightPx": 32, "touchHitMinPx": 48, "horizontalPaddingPx": 10, "gapPx": 6, "fontPx": [12, 14], "radiusPx": 10}
+  ],
+  "states": ["rest", "hover", "focus", "disabled", "expanded", "collapsed"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {"default": "thick-glaze", "allowed": ["thick-glaze", "solid-glaze", "raised"], "glazeIsExceptional": false, "rule": "Tooltip is a compact Thick Glaze overlay. Reduced Transparency or unavailable blur resolves to Solid Glaze; the trigger remains the target, never the tooltip itself."},
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {"keyboard": "Keyboard focus on the trigger can reveal the tooltip; Escape dismisses it without moving trigger focus.", "focus": "Opening never steals focus from the trigger.", "hover": "Pointer hover may reveal after a short delay; essential information never depends on hover.", "press": "Press behavior belongs to the trigger and the tooltip remains non-interactive."},
+  "accessibility": {"role": "Use tooltip semantics and associate the tooltip from its trigger.", "name": "Tooltip text supplements a separately named trigger rather than becoming its only accessible name.", "state": "Expose visible or hidden state without selection or pressed semantics.", "value": "Tooltip has no independent value.", "keyboard": "Focus-triggered disclosure works without hover and Escape dismisses it.", "focus": "Focus remains on the invoking trigger while shown.", "errorAssociation": "Warnings and validation errors use associated inline or error surfaces instead of a tooltip.", "nonColorMeaning": true, "reducedMotion": "Open and close without nonessential scale or travel.", "reducedTransparency": "Use opaque Solid Glaze with an explicit boundary.", "increasedContrast": "Strengthen boundary and trigger focus.", "forcedColors": "Use platform colors with no blur or color-only meaning.", "largeText": "Wrap to multiple lines and remain within the viewport at 200% text."},
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {"reducedMotion": "Use direct visibility changes or a short crossfade.", "reducedTransparency": "Use opaque Solid Glaze.", "highContrast": "Strengthen boundary and focus indicators.", "forcedColors": "Use system Canvas and CanvasText with no blur.", "performance": "Remove blur and decorative shadow before changing semantics or geometry."},
+  "api": {"semanticProps": ["content", "open", "placement", "shortcut", "delay"], "events": ["onOpen", "onClose"], "slots": ["trigger", "root", "content", "shortcut"], "escapeHatches": ["className", "style", "slotProps", "tokens"], "rawVisualPropsPreferred": false},
+  "content": {"overflow": "Wrap short copy and clamp width before overflowing the viewport.", "localization": "Short explanatory text tolerates 30–50% expansion and may wrap.", "rtl": "Logical placement follows trigger geometry and mirrors start or end placement.", "textExpansionPercent": [30, 50]},
+  "testing": {"themes": ["light", "dark", "deep-dark"], "states": ["rest", "hover", "focus", "expanded", "collapsed", "disabled"], "inputs": ["mouse", "touch", "keyboard"], "directions": ["ltr", "rtl"], "textScalePercent": [100, 200], "motion": ["full", "reduced"], "contrast": ["standard", "high", "forced-colors"]},
+  "visualReview": {"required": true, "criteria": ["Tooltip remains compact and subordinate to its trigger.", "Tooltip never becomes an interactive mini-popover.", "Thick Glaze stays readable over varied content and has an opaque fallback."]}
+}

@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.github.io/glaze-ui/schemas/component-contract-2.2.schema.json",
+  "title": "Glaze UI 2.2 Component Contract",
+  "description": "Machine-readable component contract for Glaze UI 2.2 Candidate work. Schema validity does not imply Candidate or Stable lifecycle status.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "version",
+    "lifecycle",
+    "tier",
+    "semanticRole",
+    "variants",
+    "sizes",
+    "states",
+    "statePriority",
+    "material",
+    "targets",
+    "input",
+    "accessibility",
+    "density",
+    "formFactors",
+    "fallbacks",
+    "api",
+    "content",
+    "testing",
+    "visualReview"
+  ],
+  "properties": {
+    "$schema": {"type": "string", "minLength": 1},
+    "schemaVersion": {"const": 1},
+    "id": {"type": "string", "pattern": "^glz[a-z0-9-]+-2-2$"},
+    "name": {"type": "string", "pattern": "^Glz[A-Za-z0-9]+$"},
+    "version": {"const": "2.2.0-candidate.1"},
+    "lifecycle": {"enum": ["planned", "candidate", "experimental", "deprecated", "historical", "stable"]},
+    "tier": {"enum": ["foundation", "structure", "overlay", "signature", "intelligence"]},
+    "semanticRole": {"type": "string", "minLength": 1},
+    "variants": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "sizes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "visualHeightPx", "touchHitMinPx"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "visualHeightPx": {"type": "integer", "minimum": 1},
+          "touchHitMinPx": {"type": "integer", "minimum": 44},
+          "horizontalPaddingPx": {"type": "integer", "minimum": 0},
+          "gapPx": {"type": "integer", "minimum": 0},
+          "fontPx": {
+            "type": "array",
+            "prefixItems": [{"type": "number", "minimum": 1}, {"type": "number", "minimum": 1}],
+            "items": false,
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "iconPx": {"type": "integer", "minimum": 1},
+          "radiusPx": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "rest", "hover", "focus", "pressed", "selected", "disabled",
+          "loading", "error", "success", "indeterminate", "checked", "unchecked",
+          "mixed", "read-only", "expanded", "collapsed", "dragging"
+        ]
+      }
+    },
+    "statePriority": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "disabled"}, {"const": "error"}, {"const": "pressed"},
+        {"const": "focus"}, {"const": "selected"}, {"const": "hover"}, {"const": "rest"}
+      ],
+      "items": false,
+      "minItems": 7,
+      "maxItems": 7
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default", "allowed", "glazeIsExceptional"],
+      "properties": {
+        "default": {"enum": ["canvas", "surface", "raised", "thin-glaze", "regular-glaze", "thick-glaze", "solid-glaze"]},
+        "allowed": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"enum": ["canvas", "surface", "raised", "thin-glaze", "regular-glaze", "thick-glaze", "solid-glaze"]}
+        },
+        "glazeIsExceptional": {"type": "boolean"},
+        "rule": {"type": "string"}
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pointerVisualMayBeCompact", "touchMinPx", "touchAssistanceMinPx", "wholeLabelTargetWhenApplicable"],
+      "properties": {
+        "pointerVisualMayBeCompact": {"type": "boolean"},
+        "touchMinPx": {"type": "integer", "minimum": 44},
+        "touchAssistanceMinPx": {"type": "integer", "minimum": 56},
+        "wholeLabelTargetWhenApplicable": {"type": "boolean"}
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["keyboard", "focus", "hover", "press"],
+      "properties": {
+        "keyboard": {"type": "string", "minLength": 1},
+        "focus": {"type": "string", "minLength": 1},
+        "hover": {"type": "string", "minLength": 1},
+        "press": {"type": "string", "minLength": 1},
+        "selection": {"type": "string"},
+        "directManipulation": {"type": "string"}
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "name", "state", "value", "keyboard", "focus", "errorAssociation", "nonColorMeaning"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "state": {"type": "string", "minLength": 1},
+        "value": {"type": "string", "minLength": 1},
+        "keyboard": {"type": "string", "minLength": 1},
+        "focus": {"type": "string", "minLength": 1},
+        "errorAssociation": {"type": "string", "minLength": 1},
+        "nonColorMeaning": {"const": true},
+        "reducedMotion": {"type": "string"},
+        "reducedTransparency": {"type": "string"},
+        "increasedContrast": {"type": "string"},
+        "forcedColors": {"type": "string"},
+        "largeText": {"type": "string"}
+      }
+    },
+    "density": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["compact", "standard", "comfortable", "far-view"]}
+    },
+    "formFactors": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"]}
+    },
+    "fallbacks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reducedMotion", "reducedTransparency", "highContrast", "forcedColors", "performance"],
+      "properties": {
+        "reducedMotion": {"type": "string", "minLength": 1},
+        "reducedTransparency": {"type": "string", "minLength": 1},
+        "highContrast": {"type": "string", "minLength": 1},
+        "forcedColors": {"type": "string", "minLength": 1},
+        "performance": {"type": "string", "minLength": 1}
+      }
+    },
+    "api": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["semanticProps", "events", "slots", "escapeHatches", "rawVisualPropsPreferred"],
+      "properties": {
+        "semanticProps": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "events": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "slots": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "escapeHatches": {"type": "array", "uniqueItems": true, "items": {"enum": ["className", "style", "slotProps", "tokens"]}},
+        "rawVisualPropsPreferred": {"const": false}
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overflow", "localization", "rtl", "textExpansionPercent"],
+      "properties": {
+        "overflow": {"type": "string", "minLength": 1},
+        "localization": {"type": "string", "minLength": 1},
+        "rtl": {"type": "string", "minLength": 1},
+        "textExpansionPercent": {
+          "type": "array",
+          "prefixItems": [{"type": "integer", "minimum": 0}, {"type": "integer", "minimum": 0}],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "testing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["themes", "states", "inputs", "directions", "textScalePercent", "motion", "contrast"],
+      "properties": {
+        "themes": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"enum": ["light", "dark", "deep-dark"]}},
+        "states": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "inputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["mouse", "touch", "keyboard", "stylus", "remote"]}},
+        "directions": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"enum": ["ltr", "rtl"]}},
+        "textScalePercent": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "integer", "minimum": 100}},
+        "motion": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"enum": ["full", "reduced"]}},
+        "contrast": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"enum": ["standard", "high", "forced-colors"]}}
+      }
+    },
+    "visualReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "criteria"],
+      "properties": {
+        "required": {"const": true},
+        "criteria": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

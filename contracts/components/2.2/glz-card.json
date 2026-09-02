@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../schemas/component-contract-2.2.schema.json",
+  "schemaVersion": 1,
+  "id": "glz-card-2-2",
+  "name": "GlzCard",
+  "version": "2.2.0-candidate.1",
+  "lifecycle": "candidate",
+  "tier": "structure",
+  "semanticRole": "Group semantically related content and actions when a bounded surface improves comprehension; spacing and layout remain preferred when a card boundary adds no meaning.",
+  "variants": ["plain", "raised", "interactive", "selected", "hero"],
+  "sizes": [
+    {"name": "compact", "visualHeightPx": 96, "touchHitMinPx": 48, "horizontalPaddingPx": 16, "gapPx": 12, "radiusPx": 20},
+    {"name": "standard", "visualHeightPx": 160, "touchHitMinPx": 48, "horizontalPaddingPx": 20, "gapPx": 16, "radiusPx": 20},
+    {"name": "hero", "visualHeightPx": 240, "touchHitMinPx": 48, "horizontalPaddingPx": 24, "gapPx": 20, "radiusPx": 24}
+  ],
+  "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"],
+  "statePriority": ["disabled", "error", "pressed", "focus", "selected", "hover", "rest"],
+  "material": {"default": "surface", "allowed": ["surface", "raised", "regular-glaze", "solid-glaze"], "glazeIsExceptional": true, "rule": "Plain and raised solid surfaces are default. Glaze is exceptional and only justified when the entire card is genuinely floating or spatial; ordinary content cards must not become glass wallpaper."},
+  "targets": {"pointerVisualMayBeCompact": true, "touchMinPx": 48, "touchAssistanceMinPx": 56, "wholeLabelTargetWhenApplicable": true},
+  "input": {
+    "keyboard": "Interactive cards are one coherent focus target only when the whole card performs one primary action; nested controls remain independently focusable and must not create duplicate activation.",
+    "focus": "Interactive card focus clearly identifies the actionable boundary without obscuring nested-control focus.",
+    "hover": "Interactive cards may lift approximately 2px and strengthen elevation; static cards do not imply clickability through hover.",
+    "press": "Interactive cards may compress to approximately 0.992 scale with immediate feedback and no content reflow.",
+    "selection": "Selected cards use accent tint plus a persistent indicator, check, or equivalent non-color cue."
+  },
+  "accessibility": {
+    "role": "Use a semantic grouping element by default; interactive cards use the native role of their single primary action rather than inventing a card role.",
+    "name": "Interactive cards expose an accessible action name from visible title or equivalent programmatic text.",
+    "state": "Selection, disabled, loading, and error state are exposed programmatically when applicable.",
+    "value": "No synthetic value is invented for ordinary cards; nested value-bearing controls retain their own semantics.",
+    "keyboard": "Whole-card activation and nested controls remain fully keyboard operable without duplicate activation.",
+    "focus": "Focus remains visible and distinguishes the card action from nested-control focus.",
+    "errorAssociation": "Card-level errors are associated with the affected content/action region and explained in readable text.",
+    "nonColorMeaning": true,
+    "reducedMotion": "Remove lift/scale and use direct state or short crossfade feedback.",
+    "reducedTransparency": "Glaze cards resolve to opaque Surface or Raised material.",
+    "increasedContrast": "Strengthen boundary, focus, and selected indicator.",
+    "forcedColors": "Use system colors and preserve focus/selection through outline, check, or structure.",
+    "largeText": "Content and actions reflow without clipping or overlap."
+  },
+  "density": ["compact", "standard", "comfortable", "far-view"],
+  "formFactors": ["mobile", "tablet", "desktop", "wide-desktop", "tv", "foldable", "resizable"],
+  "fallbacks": {
+    "reducedMotion": "Replace nonessential movement with direct state changes or short crossfades while preserving hierarchy.",
+    "reducedTransparency": "Replace Glaze with an opaque Surface or Raised equivalent without changing hierarchy.",
+    "highContrast": "Strengthen boundaries, focus, selection, and semantic indicators.",
+    "forcedColors": "Use platform system colors and preserve focus, selection, and state with non-color cues.",
+    "performance": "Remove optional blur, shadow complexity, and decorative effects before changing layout, semantics, or interaction."
+  },
+  "api": {"semanticProps": ["variant", "interactive", "selected", "disabled", "loading", "href", "aria-label"], "events": ["onPress", "onSelect", "onFocus", "onBlur"], "slots": ["root", "media", "header", "title", "supporting", "content", "actions", "selectionIndicator"], "escapeHatches": ["className", "style", "slotProps", "tokens"], "rawVisualPropsPreferred": false},
+  "content": {"overflow": "Content reflows within the owned region without forcing viewport overflow.", "localization": "Titles, metadata, body content, and actions tolerate 30–50% locale expansion.", "rtl": "Logical leading/trailing relationships mirror while intrinsic-direction content remains intact.", "textExpansionPercent": [30, 50]},
+  "testing": {"themes": ["light", "dark", "deep-dark"], "states": ["rest", "hover", "focus", "pressed", "selected", "disabled", "loading", "error"], "inputs": ["mouse", "touch", "keyboard", "remote"], "directions": ["ltr", "rtl"], "textScalePercent": [100, 200], "motion": ["full", "reduced"], "contrast": ["standard", "high", "forced-colors"]},
+  "visualReview": {"required": true, "criteria": ["Card boundaries communicate a meaningful content group rather than compensating for weak spacing.", "Interactive hover and press states do not make nested controls ambiguous.", "Selected state uses at least two cues and remains distinct from hover and focus.", "Hero cards remain rare and do not dominate routine productivity screens."]}
+}

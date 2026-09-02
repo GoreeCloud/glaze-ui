@@ -123,17 +123,30 @@ def main() -> None:
         "historical versions must precede Stable",
     )
 
-    req(
-        lifecycle.get("currentStable") == stable and lifecycle.get("activeCandidate") is None,
-        "lifecycle Stable state",
-    )
+    req(lifecycle.get("currentStable") == stable, "lifecycle current Stable state")
+    active_candidate = lifecycle.get("activeCandidate")
+    if active_candidate is not None:
+        candidate_records = [
+            release for release in lifecycle.get("releases", [])
+            if isinstance(release, dict) and release.get("version") == active_candidate
+        ]
+        req(
+            len(candidate_records) == 1
+            and candidate_records[0].get("status") == "candidate"
+            and candidate_records[0].get("consumerEligible") is False,
+            "active Candidate must be separately registered and non-consumer-eligible",
+        )
+        req(active_candidate != stable, "active Candidate must not replace Stable consumer target")
+
     stable_release = [
         release
         for release in lifecycle.get("releases", [])
-        if release.get("version") == stable
+        if isinstance(release, dict) and release.get("version") == stable
     ]
     req(
-        len(stable_release) == 1 and stable_release[0].get("status") == "stable",
+        len(stable_release) == 1
+        and stable_release[0].get("status") == "stable"
+        and stable_release[0].get("consumerEligible") is True,
         "Stable release record",
     )
     promoted = stable_release[0].get("promotedFromCandidate")
@@ -195,7 +208,7 @@ def main() -> None:
     validate_guidance(data, stable)
     print(
         f"Glaze UI consumer registry and guidance validated: {len(consumers)} consumers "
-        f"require Stable {stable}; none auto-promoted"
+        f"require Stable {stable}; activeCandidate={active_candidate!r}; none auto-promoted"
     )
 
 
