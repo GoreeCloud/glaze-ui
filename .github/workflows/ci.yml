@@ -18,16 +18,18 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - name: Check out immutable Glaze UI 2.1 Stable compatibility source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: GoreeCloud/goreecloud-glaze-ui
+          ref: c49113eb8b93c267613fdf1bbca1f814495acad7
+          path: .glaze-2.1-stable-source
+          persist-credentials: false
       - name: Compile validators
         run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_glaze_2_2_stable.py scripts/validate_glaze_2_1_historical.py scripts/validate_glaze_2_stable.py scripts/validate_glaze_2_1_stable.py scripts/validate_glaze_2_candidate.py scripts/validate_candidate_2_rendered.py scripts/validate_candidate_2_resilience.py scripts/validate_candidate_2_emerging.py scripts/validate_wearables.py scripts/validate_enforcement.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_adaptive_colors.py scripts/validate_iconography.py scripts/validate_motion.py scripts/validate_glaze_motion.py scripts/validate_glaze_motion_rendered.py scripts/validate_materials.py scripts/validate_layout.py scripts/validate_states.py scripts/validate_evidence_presentation.py scripts/validate_workspace_navigation.py scripts/validate_rendered_reference.py scripts/validate_candidate_1_5_rendered.py scripts/validate_candidate_1_6_rendered.py scripts/validate_candidate_1_6_evidence_rendered.py website/build.py website/validate.py integrations/firefox/validate.py
-      - name: Validate retained canonical compatibility repository
-        shell: bash
-        run: |
-          set -euo pipefail
-          current="$(cat VERSION)"
-          trap 'printf "%s\n" "$current" > VERSION' EXIT
-          printf '2.1.0\n' > VERSION
-          python3 scripts/validate_glaze_ui.py
+      - name: Validate immutable Glaze UI 2.1 canonical compatibility source
+        working-directory: .glaze-2.1-stable-source
+        run: python3 scripts/validate_glaze_ui.py
       - name: Validate canonical Glaze UI 2.2 release state
         run: python3 scripts/validate_release_state.py
       - name: Validate Glaze UI 2.2 Stable promotion state
@@ -72,7 +74,7 @@ jobs:
         run: python3 scripts/validate_states.py
       - name: Validate Glaze UI 1.6 evidence presentation Stable regression
         run: python3 scripts/validate_evidence_presentation.py
-      - name: Validate Glaze UI 1.6 adaptive workspace Stable regression
+      - name: Validate Glaze UI 1.6 adaptive workspace and navigation Stable regression
         run: python3 scripts/validate_workspace_navigation.py
       - name: Test Glaze UI 1.6 Mesh evidence consumer and refresh response presentation
         run: node --test tests/mesh-evidence-consumer.test.mjs tests/mesh-evidence-refresh-response.test.mjs
