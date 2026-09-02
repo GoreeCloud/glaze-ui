@@ -58,6 +58,8 @@ def main() -> int:
         "Adoption Candidate means current-Stable implementation evidence exists, but it is not production acceptance.",
         "No application is promoted by this page.",
         "Search and status filters only change which registry-backed cards are visible; they never change consumer state or evidence.",
+        "Pending-acceptance disclosures copy registry requirements and notes for inspection; opening or reading them does not satisfy those requirements.",
+        '<summary>Pending acceptance and notes</summary>',
         "/assets/governance.css",
         'href="#governance">Governance</a>',
         'data-governance-search',
@@ -82,6 +84,7 @@ def main() -> int:
 
     cards = list(CARD.finditer(rendered))
     req(len(cards) == len(consumers), "rendered consumer-card count differs from registry")
+    req(rendered.count('<details class="consumer-acceptance">') == len(consumers), "pending-acceptance disclosure count differs from registry")
     rendered_by_name: dict[str, re.Match[str]] = {}
     for card in cards:
         name = html.unescape(card.group("name"))
@@ -99,6 +102,10 @@ def main() -> int:
         repository = str(consumer.get("repository"))
         status = str(consumer.get("status"))
         eligible = consumer.get("productionEligible") is True
+        acceptance = str(consumer.get("visualAcceptance", "")).strip()
+        notes = str(consumer.get("notes", "")).strip()
+        req(bool(acceptance), f"{name} registry acceptance requirements are missing")
+        req(bool(notes), f"{name} registry notes are missing")
         card = rendered_by_name[name]
         body = card.group("body")
         req(html.unescape(card.group("repository")) == repository, f"{name} rendered repository differs from registry")
@@ -112,6 +119,8 @@ def main() -> int:
             str(consumer.get("targetVersion")) if consumer.get("targetVersion") else "Not verified",
             str(consumer.get("requiredTargetVersion") or stable),
             "Yes" if eligible else "No",
+            acceptance,
+            notes,
         ]
         for key in ("referenceRevision", "evidence", "automatedContractPath"):
             value = consumer.get(key)
@@ -121,6 +130,8 @@ def main() -> int:
             expected_values.append(f"Fresh repository-local Glaze UI {stable} evidence required")
         for value in expected_values:
             req(html.escape(value) in body, f"{name} card missing registry-backed value: {value}")
+        for label in ("Acceptance requirements", "Registry notes"):
+            req(f'<h4>{label}</h4>' in body, f"{name} disclosure missing label: {label}")
 
     req(f'<span>Audited consumers</span><strong>{len(consumers)}</strong>' in rendered, "consumer summary total drift")
     req(f'<span>Adoption candidates</span><strong>{status_counts.get("adoption-candidate", 0)}</strong>' in rendered, "Adoption Candidate summary drift")
@@ -153,6 +164,10 @@ def main() -> int:
         ".governance-filter-actions button{min-height:48px",
         ".governance-filter-actions button[aria-pressed=\"true\"]",
         ".consumer-card[hidden]{display:none!important}",
+        ".consumer-acceptance{",
+        ".consumer-acceptance summary{min-height:48px",
+        ".consumer-acceptance summary:focus-visible",
+        ".consumer-acceptance-body>div{",
         ".governance-summary",
         ".consumer-grid",
         ".consumer-card",
@@ -165,8 +180,8 @@ def main() -> int:
 
     print(
         "Design Center consumer governance validated: canonical registry schema, exact consumer states and repositories, "
-        "source-evidence fields, visibility-only search/status filtering, production boundary, responsive composition, "
-        "48px filter targets, and forced-colors fallback are synchronized."
+        "source-evidence fields, registry-backed pending-acceptance disclosures, visibility-only search/status filtering, "
+        "production boundary, responsive composition, 48px interactive targets, and forced-colors fallback are synchronized."
     )
     return 0
 
