@@ -71,6 +71,13 @@ class EvidenceValidityTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "expired"):
             validate_record(record, now=NOW)
 
+    def test_rejects_future_observation(self) -> None:
+        record = valid_record()
+        record["observed_at"] = (NOW + timedelta(seconds=1)).isoformat()
+        record["valid_until"] = (NOW + timedelta(days=1)).isoformat()
+        with self.assertRaisesRegex(EvidenceError, "must not be in the future"):
+            validate_record(record, now=NOW)
+
     def test_rejects_accepted_claim_without_application_acceptance(self) -> None:
         record = valid_record()
         record["acceptance"]["application_specific_acceptance_complete"] = False  # type: ignore[index]
@@ -105,6 +112,32 @@ class EvidenceValidityTests(unittest.TestCase):
         record = valid_record()
         record["target"]["source_revision"] = "abc"  # type: ignore[index]
         with self.assertRaisesRegex(EvidenceError, "40-character SHA"):
+            validate_record(record, now=NOW)
+
+    def test_enforces_schema_name_bounds(self) -> None:
+        record = valid_record()
+        record["producer"]["system"] = "a" * 161  # type: ignore[index]
+        with self.assertRaisesRegex(EvidenceError, "at most 160 characters"):
+            validate_record(record, now=NOW)
+
+        record = valid_record()
+        record["target"]["application"] = "a" * 161  # type: ignore[index]
+        with self.assertRaisesRegex(EvidenceError, "at most 160 characters"):
+            validate_record(record, now=NOW)
+
+    def test_enforces_schema_reference_limits(self) -> None:
+        record = valid_record()
+        record["integral_platform_integrations"]["identity"][  # type: ignore[index]
+            "evidence_references"
+        ] = [f"evidence://identity/{index}" for index in range(21)]
+        with self.assertRaisesRegex(EvidenceError, "20-item evidence-reference limit"):
+            validate_record(record, now=NOW)
+
+        record = valid_record()
+        record["evidence_references"] = [
+            f"evidence://glaze/{index}" for index in range(51)
+        ]
+        with self.assertRaisesRegex(EvidenceError, "50-item evidence-reference limit"):
             validate_record(record, now=NOW)
 
 
