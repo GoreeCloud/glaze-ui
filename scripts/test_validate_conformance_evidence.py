@@ -66,6 +66,7 @@ class EvidenceValidityTests(unittest.TestCase):
 
     def test_rejects_expired_evidence(self) -> None:
         record = valid_record()
+        record["observed_at"] = (NOW - timedelta(days=1)).isoformat()
         record["valid_until"] = (NOW - timedelta(seconds=1)).isoformat()
         with self.assertRaisesRegex(EvidenceError, "expired"):
             validate_record(record, now=NOW)
