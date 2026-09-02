@@ -130,10 +130,6 @@ Stable form-factor evolution release preserving the complete Glaze UI 1.3 expres
 - Native applications still require application-specific native/real-device acceptance; design-system-core Stable status does not certify downstream products.
 - Speculative intelligence, agents, automation, ambient computing, voice, and operating-experience concepts remain Planned/roadmap-only.
 
-### Added
-
-- `FORM_FACTORS.md` as the canonical form-factor contract based on app window, primary input, viewing distance, platform conventions, posture/resizability, and product task rather than width or device name alone.
-
 ## 1.3.0 — 2026-08-20
 
 Stable expressive-hierarchy release based on the documented Glaze UI lineage of One UI 8.5, Liquid Glass, and Material 3 Expressive while preserving GoreeCloud's original identity and accessibility/privacy requirements.
@@ -149,5 +145,3 @@ Stable expressive-hierarchy release based on the documented Glaze UI lineage of 
 - Expressive action and tile primitives with bounded shape morphing.
 - Adaptive button groups with visual emphasis that preserves logical/action order.
 - Compact reachability composition helpers that support lower action zones without DOM or keyboard reordering.
-- Hero typography tuned for short expressive strings with supporting body-scale limits.
-- First-class Light/Dark behavior, reduced motion, reduced transparency, forced colors, and `@supports` fallbacks for the expressive layer.
