@@ -1,10 +1,10 @@
 # Glaze UI Wearable Component Mapping Record
 
-## Current 2.1 mapping
+## Current 2.2 mapping
 
-**Glaze UI 2.1.0 is the current Stable contract.** Wearable component behavior derives from `GLAZE_UI_2_1_STABLE.md`, current 2.1 semantics in `tokens/glaze.tokens.json`, and the retained 2.x platform-neutral implementation in `css/glaze-2.emerging.candidate.css` / `js/glaze-2.emerging.candidate.js`.
+**Glaze UI 2.2.0 is the current Stable contract.** Wearable component behavior derives from `GLAZE_UI_2_2_STABLE.md`, current 2.2 semantics in `tokens/glaze.tokens.json`, and the retained 2.x platform-neutral implementation in `css/glaze-2.emerging.candidate.css` / `js/glaze-2.emerging.candidate.js`.
 
-The design-system reference proves a compact rotational-navigation pattern and its interaction/accessibility floor. It does not establish a complete native smartwatch component library or physical-device certification.
+The design-system reference proves a compact rotational-navigation pattern and its interaction/accessibility floor. It does not establish a complete native smartwatch component library or physical-device certification. The bounded 2.2 Android handheld reference does not change that wearable boundary.
 
 ### Actions and targets
 
@@ -38,4 +38,4 @@ A product shipping on a smartwatch/wearable must map these semantics to its actu
 
 ## Historical precursor mapping
 
-Older 1.x Wearable Development Candidate component/native artifacts and the 2.0 Stable mapping are retained for audit and migration research. They are **historical evidence only** and cannot satisfy a Glaze UI 2.1 native or production claim without explicit 2.1 migration and revalidation.
+Older 1.x Wearable Development Candidate component/native artifacts and the 2.0/2.1 Stable mappings are retained for audit, rollback and migration research. They are **historical evidence only** and cannot satisfy a Glaze UI 2.2 native or production claim without explicit 2.2 migration and revalidation.

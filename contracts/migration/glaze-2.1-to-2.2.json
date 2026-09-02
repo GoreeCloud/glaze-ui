@@ -1,11 +1,15 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "glaze-ui-2.1-to-2.2-migration",
   "sourceVersion": "2.1.0",
-  "targetVersion": "2.2.0-candidate.1",
-  "targetLifecycle": "candidate",
-  "targetConsumerEligible": false,
-  "productionMigrationAuthorized": false,
+  "targetVersion": "2.2.0",
+  "targetLifecycle": "stable",
+  "targetConsumerEligible": true,
+  "productionMigrationAuthorized": true,
+  "downstreamProductionEligibilityAutomatic": false,
+  "candidatePromotionSource": "2.2.0-candidate.1",
+  "candidateIntegrationHead": "7fb817e28a3f6e9d36f55e7af7acb281813d08f4",
+  "approvedVisualSource": "0411b0f6dd877aea30e2c5674e1acde0105fd97b",
   "stableRollbackVersion": "2.1.0",
   "classification": "additive-semantic-refinement-with-explicit-adoption-work",
   "preserved": [
@@ -31,7 +35,7 @@
     "system-glaze-budget",
     "intelligence-generated-content-provenance",
     "native-2.2-behavior",
-    "future-stable-package-and-entrypoint-names"
+    "stable-package-and-entrypoint-names"
   ],
   "componentCatalog": {
     "foundation": 8,
@@ -93,7 +97,8 @@
     "native-platform-acceptance-where-applicable",
     "human-visual-excellence"
   ],
-  "stableWebEntrypointDuringCandidate": "css/glaze-2.1.0.css",
+  "stableWebEntrypoint": "css/glaze-2.2.0.css",
+  "stableRuntimeEntrypoint": "js/glaze-2.2.0.mjs",
   "candidateImplementationEntrypointsAreProductionAliases": false,
   "documentation": "MIGRATION_2_1_TO_2_2.md",
   "validator": "scripts/validate_glaze_2_2_migration.py"

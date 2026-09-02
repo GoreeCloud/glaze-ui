@@ -1,10 +1,10 @@
-# Glaze UI 2.1 — Evidence Presentation and Authority Surfaces
+# Glaze UI 2.2 — Evidence Presentation and Authority Surfaces
 
-**Lifecycle:** Stable. Introduced in Glaze UI 1.6.0 and retained/extended in the current Glaze UI **2.1.0** Stable consumer target.
+**Lifecycle:** Stable. Introduced in Glaze UI 1.6.0 and retained/extended in the current Glaze UI **2.2.0** Stable consumer target.
 
 The evidence-presentation contract gives GoreeCloud products a shared way to present evidence-backed state from Wardveil Security, Privacy Shield, Everkeep, GoreeCloud Mesh, GoreeCloud Identity, and Glaze UI without allowing presentation to invent, strengthen, merge, or obscure authority.
 
-The historical 1.6 rendered acceptance artifacts remain preserved as promotion evidence. Glaze UI 2.0 extended the source and consumer contract to GoreeCloud Identity; Glaze UI 2.1 carries that authority boundary forward under the current color-coded Glaze Material and accessibility-resolution contract. Dedicated rendered Identity Center acceptance remains application-specific evidence and is not implied by source-contract support alone.
+The historical 1.6 rendered acceptance artifacts remain preserved as promotion evidence. Glaze UI 2.0 extended the source and consumer contract to GoreeCloud Identity; Glaze UI 2.1 carried that authority boundary into the color-coded Glaze Material and accessibility-resolution contract; Glaze UI 2.2 carries it forward under the current System Shell, component, material-budget, and accessibility rules. Dedicated rendered Identity Center acceptance remains application-specific evidence and is not implied by source-contract support alone.
 
 ## Core invariant
 
@@ -84,9 +84,9 @@ A successful Mesh read only establishes that a transport response was obtained a
 
 ## Glaze Material hierarchy
 
-Current 2.1 evidence surfaces use **Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze**. Content-heavy evidence remains solid; interaction and contextual chrome may use bounded color-coded Glaze Material. Readability and producer-state distinction override optical richness.
+Current 2.2 evidence surfaces use **Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze**. Content-heavy evidence remains solid; interaction and contextual chrome may use bounded color-coded Glaze Material. Readability and producer-state distinction override optical richness.
 
-Ordinary evidence surfaces should use **Surface** or **Soft Glaze**. Contextual panels may use **Glaze**, **Deep Glaze**, or Overlay where readability and accessibility remain intact. **Live Glaze** must not reduce critical evidence readability and must always have a readable Reduced Transparency / effective Solid fallback. Forced Colors remains authoritative.
+Ordinary evidence surfaces should use **Surface** or **Soft Glaze**. Contextual panels may use **Glaze**, **Deep Glaze**, or Overlay where readability and accessibility remain intact. **Live Glaze** must not reduce critical evidence readability and must always have a readable Reduced Transparency / effective Solid fallback. Forced Colors remains authoritative. Evidence surfaces also obey the 2.2 System Glaze budget; adding evidence does not authorize stacking additional dominant translucent system panels.
 
 Historical Canvas/Solid/Raised/Functional Glass/Clear Glass behavior remains compatibility history for the retained 1.6 rendered acceptance artifacts.
 
@@ -146,10 +146,10 @@ Application-specific surfaces may consume the same grammar when they preserve pr
 
 That historical matrix covers light and dark Mobile `390×844`, Tablet `820×1180`, Desktop `1280×900`, Wide Desktop `1600×1000`, and TV `1920×1080`, plus reduced motion, reduced transparency, TV forced colors, and Mobile 200% text scaling/reflow.
 
-Those artifacts remain evidence that the original platform-neutral security/privacy/continuity/coordination presentation contract passed its 1.6 promotion gates. Their filenames and embedded historical Candidate labels are intentionally not rewritten to pretend they were originally 2.1 artifacts.
+Those artifacts remain evidence that the original platform-neutral security/privacy/continuity/coordination presentation contract passed its 1.6 promotion gates. Their filenames and embedded historical Candidate labels are intentionally not rewritten to pretend they were originally 2.2 artifacts.
 
-## Current 2.1 acceptance boundary
+## Current 2.2 acceptance boundary
 
-The source contract, tokens, schema, reference Mesh consumer, and automated consumer tests include GoreeCloud Identity as an explicit authority and fail closed on producer/domain mismatch. Stable 2.1 carries this contract forward under the current material and accessibility system.
+The source contract, tokens, schema, reference Mesh consumer, and automated consumer tests include GoreeCloud Identity as an explicit authority and fail closed on producer/domain mismatch. Stable 2.2 carries this contract forward under the current material, System Shell, component, and accessibility systems.
 
 This source-level integration does **not** by itself establish downstream Identity Center acceptance, downstream application adoption, native-platform acceptance, real-device accessibility validation, or production runtime acceptance. Those require separate evidence before application claims are upgraded.

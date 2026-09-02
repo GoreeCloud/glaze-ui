@@ -3,8 +3,8 @@
     "candidate": "2.1",
     "lifecycle": "stable",
     "introduced_in": "1.6.0",
-    "stable_consumer_target": "2.1.0",
-    "release": "2.1.0"
+    "stable_consumer_target": "2.2.0",
+    "release": "2.2.0"
   },
   "contract": "evidence-presentation",
   "authority_systems": {

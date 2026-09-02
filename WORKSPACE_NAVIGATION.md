@@ -1,6 +1,6 @@
 # Glaze UI 1.6 Stable — Adaptive Workspace and Navigation
 
-Status: **Stable in Glaze UI 1.6.0**. This contract is part of the current Stable compatibility and production-conformance baseline.
+Status: **Stable in Glaze UI 1.6.0** and retained in the current **Glaze UI 2.2.0** compatibility and production-conformance baseline.
 
 ## Purpose
 
@@ -31,7 +31,7 @@ Workspace regions map to existing Glaze UI material roles rather than inventing 
 - Clear Glass remains specialized for controls over visually rich media and is not a default workspace panel material;
 - reduced-transparency, unsupported-backdrop, and performance-constrained contexts fall back to opaque Stable surfaces.
 
-Material treatment never upgrades producer-authoritative status or evidence.
+These names record the original 1.6 compatibility mapping. Current 2.2 consumers map the same semantic regions through the current Canvas / Surface / Soft Glaze / Glaze / Deep Glaze / Live Glaze hierarchy and System Glaze budget. Material treatment never upgrades producer-authoritative status or evidence.
 
 ## Navigation transformation
 
@@ -132,4 +132,4 @@ Glaze UI 1.6.0 promotion required exact-head CI, rendered acceptance across repr
 
 The Glaze UI 1.6 Evidence Presentation and Authority Surfaces contract is also Stable. During promotion, passing the Adaptive Workspace matrix alone did not authorize Stable 1.6 promotion; both 1.6 systems and the retained Stable regression stack were required to pass.
 
-Glaze UI 1.6.0 promotion completes the design-system gate only after the exact final release head is merged to `main`. Downstream applications must still complete controlled 1.6 adoption and application-specific rendered/native/real-device acceptance before claiming current Stable conformance.
+Glaze UI 1.6.0 promotion history remains immutable. Under the current 2.2 release, this workspace contract is retained compatibility semantics and regression evidence; downstream applications must adopt **Glaze UI 2.2.0** and complete their own current rendered/native/real-device acceptance before claiming current Stable conformance.

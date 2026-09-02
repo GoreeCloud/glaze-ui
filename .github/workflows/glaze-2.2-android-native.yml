@@ -1,4 +1,4 @@
-name: Glaze UI 2.2 Android Native Candidate
+name: Glaze UI 2.2 Android Native Stable
 
 on:
   pull_request:
@@ -21,11 +21,11 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
 
-      - name: Compile Glaze UI 2.2 Android native validator
-        run: python3 -m py_compile scripts/validate_glaze_2_2_android_runtime.py
+      - name: Compile Glaze UI 2.2 Stable and Android native validators
+        run: python3 -m py_compile scripts/validate_glaze_2_2_stable.py scripts/validate_glaze_2_2_android_runtime.py
 
-      - name: Validate Glaze UI 2.2 Candidate source boundary
-        run: python3 scripts/validate_glaze_2_2_candidate.py
+      - name: Validate Glaze UI 2.2 Stable promotion boundary
+        run: python3 scripts/validate_glaze_2_2_stable.py
 
       - name: Resolve Android SDK and stable handheld emulator image
         shell: bash
@@ -62,7 +62,7 @@ jobs:
           unzip -q /tmp/gradle-9.5.0-bin.zip -d /tmp
           echo "/tmp/gradle-9.5.0/bin" >> "$GITHUB_PATH"
 
-      - name: Build Glaze UI 2.2 Android Candidate reference APK
+      - name: Build Glaze UI 2.2 Android Stable reference APK
         working-directory: reference/native/android/2.2-candidate
         shell: bash
         env:
@@ -91,7 +91,7 @@ jobs:
           AvdId=$AVD_NAME
           PlayStore.enabled=false
           abi.type=x86_64
-          avd.ini.displayname=Glaze UI 2.2 Android Candidate Runtime
+          avd.ini.displayname=Glaze UI 2.2 Android Stable Runtime
           avd.ini.encoding=UTF-8
           disk.dataPartition.size=4G
           fastboot.forceColdBoot=yes
@@ -128,7 +128,7 @@ jobs:
           "$SDK_ROOT/emulator/emulator" -list-avds | grep -Fx "$AVD_NAME"
           if test -e /dev/kvm; then sudo chmod 666 /dev/kvm; fi
 
-      - name: Boot and install Glaze UI 2.2 Android Candidate reference
+      - name: Boot and install Glaze UI 2.2 Android Stable reference
         shell: bash
         env:
           APK_PATH: reference/native/android/2.2-candidate/app/build/outputs/apk/debug/app-debug.apk
@@ -151,16 +151,16 @@ jobs:
           adb install -r "$APK_PATH"
           adb shell pm path com.goreecloud.glazeui.reference.android22 | grep -F 'package:'
 
-      - name: Run Glaze UI 2.2 Android emulator acceptance
+      - name: Run Glaze UI 2.2 Android Stable emulator acceptance
         env:
           GLAZE_SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: python3 scripts/validate_glaze_2_2_android_runtime.py
 
-      - name: Upload Android native Candidate evidence
+      - name: Upload Android native Stable evidence
         if: ${{ success() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-ui-2.2-android-native-candidate-${{ github.event.pull_request.head.sha || github.sha }}
+          name: glaze-ui-2.2-android-native-stable-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             reference/native/android/2.2-candidate/app/build/outputs/apk/debug/app-debug.apk
             .artifacts/glaze-2.2-android-native/*.png

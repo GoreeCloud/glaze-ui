@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Glaze UI 1.6 Stable adaptive workspace contract."""
+"""Validate the retained Glaze UI 1.6 adaptive workspace contract under current 2.2 Stable."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ REFERENCE = ROOT / "reference" / "candidate-1.6-workspace.html"
 ACCEPTANCE = ROOT / "reference" / "candidate-1.6-workspace-acceptance.html"
 RENDERED_VALIDATOR = ROOT / "scripts" / "validate_candidate_1_6_rendered.py"
 ACCEPTANCE_RECORD = ROOT / "acceptance" / "1.6.0.md"
+VERSION = ROOT / "VERSION"
 
 
 def fail(message: str) -> None:
@@ -27,9 +28,12 @@ def require_text(text: str, markers: tuple[str, ...], source: str) -> None:
 
 
 def main() -> None:
-    for path in (TOKENS, CSS, DOC, REFERENCE, ACCEPTANCE, RENDERED_VALIDATOR, ACCEPTANCE_RECORD):
+    for path in (TOKENS, CSS, DOC, REFERENCE, ACCEPTANCE, RENDERED_VALIDATOR, ACCEPTANCE_RECORD, VERSION):
         if not path.is_file():
             fail(f"missing required file {path.relative_to(ROOT)}")
+
+    if VERSION.read_text(encoding="utf-8").strip() != "2.2.0":
+        fail("current repository Stable target must be 2.2.0")
 
     try:
         data = json.loads(TOKENS.read_text(encoding="utf-8"))
@@ -40,9 +44,9 @@ def main() -> None:
     if meta.get("candidateVersion") != "1.6.0":
         fail("historical candidateVersion must remain 1.6.0 for compatibility")
     if meta.get("status") != "Stable":
-        fail("workspace layer must be Stable after 1.6.0 promotion")
+        fail("workspace layer must remain Stable after 1.6.0 promotion")
     if meta.get("stableBaseline") != "1.6.0":
-        fail("workspace Stable baseline must be 1.6.0")
+        fail("historical workspace Stable baseline must remain 1.6.0")
 
     expected_regions = {"window", "title", "navigation", "toolbar", "content", "inspector", "status", "overlay"}
     if set(data.get("regions", {})) != expected_regions:
@@ -129,8 +133,7 @@ def main() -> None:
     require_text(
         doc,
         (
-            "Status: **Stable in Glaze UI 1.6.0**",
-            "current Stable compatibility and production-conformance baseline",
+            "Status: **Stable in Glaze UI 1.6.0** and retained in the current **Glaze UI 2.2.0** compatibility and production-conformance baseline.",
             "## Navigation transformation",
             "## Input-aware targets",
             "## Accessibility and resilience",
@@ -139,6 +142,7 @@ def main() -> None:
             "## Stable rendered acceptance matrix",
             "## Stable release boundary",
             "Evidence Presentation and Authority Surfaces contract is also Stable",
+            "downstream applications must adopt **Glaze UI 2.2.0**",
         ),
         "workspace documentation",
     )
@@ -208,7 +212,7 @@ def main() -> None:
         "1.6 Stable acceptance record",
     )
 
-    print("Glaze UI 1.6 Stable adaptive workspace/navigation contract validated")
+    print("Glaze UI retained 1.6 adaptive workspace/navigation contract validated under current 2.2 Stable")
 
 
 if __name__ == "__main__":

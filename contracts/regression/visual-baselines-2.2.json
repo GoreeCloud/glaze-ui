@@ -2,95 +2,37 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
   "id": "glaze-ui-2.2-visual-baselines",
-  "lifecycle": "candidate",
-  "status": "human-approved-source-pinned-candidate",
+  "lifecycle": "stable",
+  "status": "human-approved-source-pinned-stable",
   "baselineStrategy": "source-revision-same-run-render",
   "baselineRevision": "0411b0f6dd877aea30e2c5674e1acde0105fd97b",
   "humanVisualExcellenceAccepted": true,
   "humanDecision": "Accepted",
   "humanReviewRecord": "acceptance/2.2-visual-review.md",
   "humanReviewAcceptedAt": "2026-09-01T20:53:00-05:00",
-  "note": "Human Visual Excellence was explicitly accepted for immutable source revision 0411b0f6dd877aea30e2c5674e1acde0105fd97b. The approved source is re-rendered independently on the same Chromium runner as later exact revisions. Passing pixel regression proves presentation continuity; it does not allow a changed current render to self-bless.",
+  "note": "Human Visual Excellence was explicitly accepted for immutable source revision 0411b0f6dd877aea30e2c5674e1acde0105fd97b. Stable promotion retains independent same-run rendering of that source and compares the exact current revision against it; current-source self-blessing is prohibited.",
   "thresholds": {
     "perChannelTolerance": 12,
     "maxChangedPixelRatio": 0.0075,
     "maxMeanAbsoluteChannelDelta": 1.5
   },
   "cases": [
-    {
-      "id": "workspace-desktop-light",
-      "state": "workspace",
-      "path": "reference/candidate-2.2-snapshot.html",
-      "width": 1280,
-      "height": 900,
-      "appearance": "light",
-      "mode": "normal",
-      "direction": "ltr",
-      "baselineFile": "workspace-desktop-light.png"
-    },
-    {
-      "id": "search-mobile-dark",
-      "state": "search",
-      "path": "reference/candidate-2.2-snapshot.html",
-      "width": 390,
-      "height": 844,
-      "appearance": "dark",
-      "mode": "normal",
-      "direction": "ltr",
-      "baselineFile": "search-mobile-dark.png"
-    },
-    {
-      "id": "control-tablet-reduced-transparency",
-      "state": "control",
-      "path": "reference/candidate-2.2-snapshot.html",
-      "width": 820,
-      "height": 1180,
-      "appearance": "light",
-      "mode": "reduced-transparency",
-      "direction": "ltr",
-      "baselineFile": "control-tablet-reduced-transparency.png"
-    },
-    {
-      "id": "intelligence-desktop-deep-dark",
-      "state": "intelligence",
-      "path": "reference/candidate-2.2-snapshot.html",
-      "width": 1280,
-      "height": 900,
-      "appearance": "deep-dark",
-      "mode": "normal",
-      "direction": "ltr",
-      "baselineFile": "intelligence-desktop-deep-dark.png"
-    },
-    {
-      "id": "search-tablet-large-text-deep-dark",
-      "state": "search",
-      "path": "reference/candidate-2.2-snapshot.html",
-      "width": 820,
-      "height": 1180,
-      "appearance": "deep-dark",
-      "mode": "large-text",
-      "direction": "ltr",
-      "baselineFile": "search-tablet-large-text-deep-dark.png"
-    },
-    {
-      "id": "critical-mobile-forced-colors",
-      "state": "critical",
-      "path": "reference/candidate-2.2-snapshot.html",
-      "width": 390,
-      "height": 844,
-      "appearance": "light",
-      "mode": "forced-colors",
-      "direction": "ltr",
-      "baselineFile": "critical-mobile-forced-colors.png"
-    }
+    {"id":"workspace-desktop-light","state":"workspace","path":"reference/candidate-2.2-snapshot.html","width":1280,"height":900,"appearance":"light","mode":"normal","direction":"ltr","baselineFile":"workspace-desktop-light.png"},
+    {"id":"search-mobile-dark","state":"search","path":"reference/candidate-2.2-snapshot.html","width":390,"height":844,"appearance":"dark","mode":"normal","direction":"ltr","baselineFile":"search-mobile-dark.png"},
+    {"id":"control-tablet-reduced-transparency","state":"control","path":"reference/candidate-2.2-snapshot.html","width":820,"height":1180,"appearance":"light","mode":"reduced-transparency","direction":"ltr","baselineFile":"control-tablet-reduced-transparency.png"},
+    {"id":"intelligence-desktop-deep-dark","state":"intelligence","path":"reference/candidate-2.2-snapshot.html","width":1280,"height":900,"appearance":"deep-dark","mode":"normal","direction":"ltr","baselineFile":"intelligence-desktop-deep-dark.png"},
+    {"id":"search-tablet-large-text-deep-dark","state":"search","path":"reference/candidate-2.2-snapshot.html","width":820,"height":1180,"appearance":"deep-dark","mode":"large-text","direction":"ltr","baselineFile":"search-tablet-large-text-deep-dark.png"},
+    {"id":"critical-mobile-forced-colors","state":"critical","path":"reference/candidate-2.2-snapshot.html","width":390,"height":844,"appearance":"light","mode":"forced-colors","direction":"ltr","baselineFile":"critical-mobile-forced-colors.png"}
   ],
   "promotionBoundary": {
     "candidateVersion": "2.2.0-candidate.1",
-    "currentStable": "2.1.0",
+    "currentStable": "2.2.0",
     "baselineRevisionPinned": true,
     "baselineRevisionIsCandidateReviewSource": true,
     "humanVisualExcellenceAccepted": true,
-    "stablePromotionAuthorized": false,
-    "note": "Human review is complete. Stable promotion remains blocked until source-pinned regression against this immutable approved source and the remaining exact-final-revision release gates pass."
+    "stablePromotionAuthorized": true,
+    "stableAcceptance": "acceptance/2.2-stable.md",
+    "rollbackVersion": "2.1.0",
+    "note": "The human-approved source is the immutable visual authority for Glaze UI 2.2.0 Stable. Exact-head Stable promotion remains fail-closed on source-pinned regression and the complete release gate."
   }
 }

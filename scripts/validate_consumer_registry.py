@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate mandatory Glaze UI 2.1 Stable consumer migration state and guidance."""
+"""Validate mandatory Glaze UI 2.2 Stable consumer migration state and guidance."""
 from __future__ import annotations
 
 import json
@@ -35,38 +35,16 @@ def version_tuple(version: str) -> tuple[int, ...]:
 
 def validate_guidance(data: dict[str, object], stable: str) -> None:
     guidance = (ROOT / "CONSUMERS.md").read_text(encoding="utf-8")
-    req(
-        f"Glaze UI **{stable}** is the current Stable baseline" in guidance,
-        "CONSUMERS.md must identify the current Stable baseline",
-    )
-    req(
-        f"only Glaze UI version that may satisfy current GoreeCloud application conformance" in guidance,
-        "CONSUMERS.md must state the current-Stable production rule",
-    )
-    req(
-        "No production exception" in guidance and "grandfathering rule" in guidance,
-        "CONSUMERS.md must preserve the no-exception rule",
-    )
-    req(
-        "2.0.0 as the current Stable" not in guidance,
-        "CONSUMERS.md must not describe 2.0.0 as current Stable",
-    )
-    req(
-        "2.1 as Candidate" not in guidance,
-        "CONSUMERS.md must not describe promoted 2.1 as the current Candidate baseline",
-    )
+    req(f"Glaze UI **{stable}** is the current Stable baseline" in guidance, "CONSUMERS.md must identify the current Stable baseline")
+    req("only Glaze UI version that may satisfy current GoreeCloud application conformance" in guidance, "CONSUMERS.md must state the current-Stable production rule")
+    req("No production exception" in guidance and "grandfathering rule" in guidance, "CONSUMERS.md must preserve the no-exception rule")
+    req("2.1.0** is the current Stable" not in guidance, "CONSUMERS.md must not describe 2.1.0 as current Stable")
 
     assessment = data.get("candidateAssessment", {})
     req(isinstance(assessment, dict), "candidate assessment type")
     candidate = assessment.get("version")
-    req(
-        isinstance(candidate, str) and candidate in guidance,
-        "CONSUMERS.md must preserve Candidate promotion provenance",
-    )
-    req(
-        "historical readiness evidence only" in guidance,
-        "CONSUMERS.md must keep Candidate evidence historical",
-    )
+    req(isinstance(candidate, str) and candidate in guidance, "CONSUMERS.md must preserve Candidate promotion provenance")
+    req("historical readiness evidence only" in guidance, "CONSUMERS.md must keep Candidate evidence historical")
 
     documented: dict[str, str] = {}
     for line in guidance.splitlines():
@@ -92,76 +70,36 @@ def validate_guidance(data: dict[str, object], stable: str) -> None:
             req(f"recorded {target}" in body, f"{name} documented historical target")
             req(f"required {stable}" in body, f"{name} documented Stable target")
         elif status == "unverified":
-            req("fresh repository-local 2.1" in body, f"{name} unverified evidence boundary")
+            req("fresh repository-local 2.2" in body, f"{name} unverified evidence boundary")
         else:
             req(False, f"unsupported documented consumer status for {name}")
 
 
 def main() -> None:
     stable = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-    req(stable == "2.1.0", "Stable must be 2.1.0")
+    req(stable == "2.2.0", "Stable must be 2.2.0")
 
     data = json.loads((ROOT / "consumers/registry.json").read_text(encoding="utf-8"))
     lifecycle = json.loads((ROOT / "registry/lifecycle.json").read_text(encoding="utf-8"))
 
     req(data.get("schemaVersion") == 4, "schemaVersion")
-    req(
-        data.get("stableBaseline") == stable
-        and data.get("requiredConsumerVersion") == stable,
-        "Stable target",
-    )
+    req(data.get("stableBaseline") == stable and data.get("requiredConsumerVersion") == stable, "Stable target")
 
     historical = data.get("historicalStableVersions", [])
-    req(
-        isinstance(historical, list)
-        and "2.0.0" in historical
-        and all(isinstance(version, str) and SEMVER.fullmatch(version) for version in historical),
-        "historical Stable list",
-    )
-    req(
-        all(version_tuple(version) < version_tuple(stable) for version in historical),
-        "historical versions must precede Stable",
-    )
+    req(isinstance(historical, list) and "2.1.0" in historical and "2.0.0" in historical and all(isinstance(version, str) and SEMVER.fullmatch(version) for version in historical), "historical Stable list")
+    req(all(version_tuple(version) < version_tuple(stable) for version in historical), "historical versions must precede Stable")
 
     req(lifecycle.get("currentStable") == stable, "lifecycle current Stable state")
-    active_candidate = lifecycle.get("activeCandidate")
-    if active_candidate is not None:
-        candidate_records = [
-            release for release in lifecycle.get("releases", [])
-            if isinstance(release, dict) and release.get("version") == active_candidate
-        ]
-        req(
-            len(candidate_records) == 1
-            and candidate_records[0].get("status") == "candidate"
-            and candidate_records[0].get("consumerEligible") is False,
-            "active Candidate must be separately registered and non-consumer-eligible",
-        )
-        req(active_candidate != stable, "active Candidate must not replace Stable consumer target")
+    req(lifecycle.get("activeCandidate") is None, "Stable promotion must not retain an active Candidate")
 
-    stable_release = [
-        release
-        for release in lifecycle.get("releases", [])
-        if isinstance(release, dict) and release.get("version") == stable
-    ]
-    req(
-        len(stable_release) == 1
-        and stable_release[0].get("status") == "stable"
-        and stable_release[0].get("consumerEligible") is True,
-        "Stable release record",
-    )
+    stable_release = [release for release in lifecycle.get("releases", []) if isinstance(release, dict) and release.get("version") == stable]
+    req(len(stable_release) == 1 and stable_release[0].get("status") == "stable" and stable_release[0].get("consumerEligible") is True, "Stable release record")
     promoted = stable_release[0].get("promotedFromCandidate")
-    req(promoted == "2.1.0-candidate.1", "promotion source")
+    req(promoted == "2.2.0-candidate.1", "promotion source")
 
     assessment = data.get("candidateAssessment", {})
-    req(
-        assessment.get("version") == promoted and assessment.get("lifecycle") == "candidate",
-        "preserved Candidate assessment",
-    )
-    req(
-        assessment.get("consumerEligible") is False
-        and assessment.get("productionEligible") is False,
-        "Candidate assessment boundary",
-    )
+    req(assessment.get("version") == promoted and assessment.get("lifecycle") == "historical" and assessment.get("promotedTo") == stable, "preserved Candidate assessment")
+    req(assessment.get("consumerEligible") is False and assessment.get("productionEligible") is False, "Candidate assessment boundary")
 
     consumers = data.get("consumers", [])
     seen: set[str] = set()
@@ -169,47 +107,23 @@ def main() -> None:
         repo = consumer.get("repository")
         req(repo in EXPECTED and repo not in seen, f"invalid/duplicate {repo}")
         seen.add(repo)
-        req(
-            consumer.get("requiredTargetVersion") == stable,
-            f"{repo} required target",
-        )
+        req(consumer.get("requiredTargetVersion") == stable, f"{repo} required target")
         req(consumer.get("productionEligible") is False, f"{repo} must not auto-promote")
 
         status = consumer.get("status")
         target = consumer.get("targetVersion")
         if status == "migration-required":
-            req(
-                isinstance(target, str) and target in historical,
-                f"{repo} migration source",
-            )
-            req(
-                SHA40.fullmatch(str(consumer.get("referenceRevision", ""))) is not None,
-                f"{repo} revision",
-            )
-            req(
-                consumer.get("automatedContract") is True and consumer.get("evidence"),
-                f"{repo} evidence",
-            )
+            req(isinstance(target, str) and target in historical, f"{repo} migration source")
+            req(SHA40.fullmatch(str(consumer.get("referenceRevision", ""))) is not None, f"{repo} revision")
+            req(consumer.get("automatedContract") is True and consumer.get("evidence"), f"{repo} evidence")
         elif status == "unverified":
-            req(
-                target is None
-                and consumer.get("referenceRevision") is None
-                and consumer.get("evidence") is None
-                and consumer.get("automatedContract") is False,
-                f"{repo} unverified boundary",
-            )
+            req(target is None and consumer.get("referenceRevision") is None and consumer.get("evidence") is None and consumer.get("automatedContract") is False, f"{repo} unverified boundary")
         else:
-            req(
-                False,
-                f"{repo} must remain migration-required or unverified immediately after Stable promotion",
-            )
+            req(False, f"{repo} must remain migration-required or unverified immediately after Stable promotion")
 
     req(seen == EXPECTED, "audit scope drift")
     validate_guidance(data, stable)
-    print(
-        f"Glaze UI consumer registry and guidance validated: {len(consumers)} consumers "
-        f"require Stable {stable}; activeCandidate={active_candidate!r}; none auto-promoted"
-    )
+    print(f"Glaze UI consumer registry and guidance validated: {len(consumers)} consumers require Stable {stable}; none auto-promoted")
 
 
 if __name__ == "__main__":
