@@ -90,6 +90,7 @@ Glaze UI **2.2.0 is the current Stable consumer target**.
 | Overlay components | Stable | 6 machine-readable component contracts with rendered acceptance. |
 | Signature components | Stable | 5 bounded components, including Capsule, Morph Card, Smart Rail, Aurora Surface and Universal Search. |
 | Intelligence components | Stable | 5 presentation components with explicit generated/AI identity and provenance requirements where available. |
+| Evidence presentation and authority surfaces | Stable | Producer-authoritative evidence, provenance/freshness, fail-closed transport presentation, and cross-domain authority separation carried forward under 2.2 material/System Shell rules. |
 | Complete component contract catalog | Stable | 32 total component contracts across the five tiers; catalog stability does not auto-implement them in products. |
 | Universal Search reference runtime | Stable | Bounded keyboard traversal, deterministic results-before-generation, destructive confirmation and focus restoration. |
 | Control Center reference runtime | Stable | Programmatic toggle/range state, dominant-panel exclusivity and focus restoration. |
