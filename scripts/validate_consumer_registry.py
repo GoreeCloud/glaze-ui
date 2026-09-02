@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import re
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
@@ -33,10 +33,21 @@ def version_tuple(version: str) -> tuple[int, ...]:
     return tuple(map(int, version.split(".")))
 
 
+def safe_relative_path(value: object, label: str) -> str:
+    req(isinstance(value, str) and bool(value), f"{label} must be a non-empty path")
+    path = PurePosixPath(value)
+    req(not path.is_absolute() and ".." not in path.parts and "." not in path.parts, f"{label} must be repository-relative without traversal")
+    req(":" not in value and "\\" not in value, f"{label} uses unsupported path syntax")
+    return value
+
+
 def has_current_evidence(consumer: dict[str, object], stable: str, repo: str) -> None:
     req(consumer.get("targetVersion") == stable, f"{repo} current Stable target")
     req(SHA40.fullmatch(str(consumer.get("referenceRevision", ""))) is not None, f"{repo} current revision")
-    req(consumer.get("automatedContract") is True and bool(consumer.get("evidence")), f"{repo} current evidence")
+    req(consumer.get("automatedContract") is True, f"{repo} current automated contract flag")
+    evidence = safe_relative_path(consumer.get("evidence"), f"{repo} current evidence")
+    contract = safe_relative_path(consumer.get("automatedContractPath"), f"{repo} current automated contract path")
+    req(evidence != contract, f"{repo} evidence and automated contract must be distinct files")
 
 
 def validate_guidance(data: dict[str, object], stable: str) -> None:
@@ -45,6 +56,7 @@ def validate_guidance(data: dict[str, object], stable: str) -> None:
     req("only Glaze UI version that may satisfy current GoreeCloud application conformance" in guidance, "CONSUMERS.md must state the current-Stable production rule")
     req("No production exception" in guidance and "grandfathering rule" in guidance, "CONSUMERS.md must preserve the no-exception rule")
     req("2.1.0** is the current Stable" not in guidance, "CONSUMERS.md must not describe 2.1.0 as current Stable")
+    req("exact downstream revision" in guidance and "source-evidence validator" in guidance, "CONSUMERS.md must document source-verification enforcement")
 
     assessment = data.get("candidateAssessment", {})
     req(isinstance(assessment, dict), "candidate assessment type")
@@ -92,7 +104,7 @@ def main() -> None:
     data = json.loads((ROOT / "consumers/registry.json").read_text(encoding="utf-8"))
     lifecycle = json.loads((ROOT / "registry/lifecycle.json").read_text(encoding="utf-8"))
 
-    req(data.get("schemaVersion") == 4, "schemaVersion")
+    req(data.get("schemaVersion") == 5, "schemaVersion")
     req(data.get("stableBaseline") == stable and data.get("requiredConsumerVersion") == stable, "Stable target")
 
     historical = data.get("historicalStableVersions", [])
