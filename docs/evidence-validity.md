@@ -8,7 +8,9 @@ The machine-readable contract in `contracts/glaze.conformance-evidence.schema.js
 
 A record must identify an authoritative producer, the consuming application, exact 40-character application source revision, exact current Stable Glaze version, supported form-factor roles, observation time, expiry time, claim kind, application-specific acceptance state, and bounded evidence references.
 
-Evidence is not timeless. Expired, malformed, superseded, wrong-version, wrong-revision, non-authoritative, or otherwise invalid evidence cannot support a current conformance claim.
+Producer-system and application identifiers are bounded to 160 characters. Top-level evidence records may carry at most 50 evidence references, while each integral platform-system entry may carry at most 20; each reference is bounded to 500 characters.
+
+Evidence is not timeless and cannot be issued from the future. Expired, future-dated, malformed, superseded, wrong-version, wrong-revision, non-authoritative, or otherwise invalid evidence cannot support a current conformance claim.
 
 ## Integral platform-system evidence
 
