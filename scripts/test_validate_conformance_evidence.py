@@ -78,6 +78,17 @@ class EvidenceValidityTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "must not be in the future"):
             validate_record(record, now=NOW)
 
+    def test_rejects_non_rfc3339_datetime_separator(self) -> None:
+        record = valid_record()
+        record["observed_at"] = NOW.isoformat().replace("T", " ", 1)
+        with self.assertRaisesRegex(EvidenceError, "RFC 3339"):
+            validate_record(record, now=NOW)
+
+    def test_accepts_rfc3339_z_suffix(self) -> None:
+        record = valid_record()
+        record["observed_at"] = "2026-09-01T23:55:00Z"
+        self.assertEqual(validate_record(record, now=NOW), record)
+
     def test_rejects_accepted_claim_without_application_acceptance(self) -> None:
         record = valid_record()
         record["acceptance"]["application_specific_acceptance_complete"] = False  # type: ignore[index]
