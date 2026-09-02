@@ -102,7 +102,7 @@ if index.count(GOVERNANCE_TOKEN)!=1:
 registry=json.loads(REGISTRY.read_text(encoding='utf-8'))
 (DIST/'index.html').write_text(index.replace(GOVERNANCE_TOKEN,render_consumer_governance(registry)),encoding='utf-8')
 for name in ('404.html','_headers'): shutil.copy2(SOURCE/name,DIST/name)
-for name in ('site.css','identity.css','site.js'): shutil.copy2(SOURCE/name,DIST/'assets'/name)
+for name in ('site.css','governance.css','identity.css','site.js'): shutil.copy2(SOURCE/name,DIST/'assets'/name)
 for name in (
     'glaze.css','glaze.controls.css','glaze.expressive.css','glaze.formfactors.css','glaze.accessibility.css',
     'glaze.color.css','glaze.motion.css','glaze.materials.css','glaze.layout.css','glaze.states.css','glaze.workspace.candidate.css',
