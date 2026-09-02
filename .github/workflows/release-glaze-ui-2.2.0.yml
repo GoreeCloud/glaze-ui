@@ -1,0 +1,117 @@
+name: Glaze UI 2.2.0 Release Operation
+
+on:
+  push:
+    branches:
+      - 'release/glaze-ui-2.2.0'
+
+permissions:
+  contents: write
+
+jobs:
+  release-v2-2-0:
+    if: contains(github.event.head_commit.message, '[release-v2.2.0]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      RELEASE_SHA: 6731098b28dd0393faa878c70d989a221d714a20
+      RELEASE_TAG: v2.2.0
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out release-operations branch with full history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Validate immutable release target and absence of tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git show "${RELEASE_SHA}:VERSION" | tr -d '\r\n')" = "2.2.0"
+          test "$(git rev-parse "${RELEASE_SHA}")" = "${RELEASE_SHA}"
+
+          set +e
+          git ls-remote --exit-code --tags origin "refs/tags/${RELEASE_TAG}" >/tmp/glaze-ui-release-tag-check.txt 2>&1
+          tag_status=$?
+          set -e
+          if [ "${tag_status}" -eq 0 ]; then
+            echo "Release tag ${RELEASE_TAG} already exists; refusing to move or replace it." >&2
+            exit 1
+          fi
+          if [ "${tag_status}" -ne 2 ]; then
+            cat /tmp/glaze-ui-release-tag-check.txt >&2 || true
+            echo "Unable to establish remote tag absence safely." >&2
+            exit 1
+          fi
+
+      - name: Create and push annotated immutable release tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GoreeCloud"
+          git config user.email "295260680+GoreeCloud@users.noreply.github.com"
+          git tag -a "${RELEASE_TAG}" "${RELEASE_SHA}" -m "Glaze UI 2.2.0 Stable"
+          test "$(git rev-parse "${RELEASE_TAG}^{}")" = "${RELEASE_SHA}"
+          git push origin "refs/tags/${RELEASE_TAG}"
+          peeled="$(git ls-remote origin "refs/tags/${RELEASE_TAG}^{}" | awk '{print $1}')"
+          test "${peeled}" = "${RELEASE_SHA}"
+
+      - name: Write exact release notes
+        shell: bash
+        run: |
+          cat > /tmp/glaze-ui-2.2.0-release.md <<'EOF'
+          Glaze UI 2.2.0 Stable.
+
+          Promotes the human-approved Glaze UI 2.2 Candidate to the current Stable GoreeCloud design-system baseline with the bounded System Shell, 32 component contracts, Universal Search and Control Center reference behavior, System Glaze budgets, Optical Reachability, accessibility-preserving fallbacks, source-pinned screenshot regression, and bounded Android handheld native evidence.
+
+          Stable release commit:
+          6731098b28dd0393faa878c70d989a221d714a20
+
+          Final exact PR head:
+          fb5ecde4a8258503789ffde08ac46a2e524ef71e
+
+          Human Visual Excellence: Accepted on 2026-09-01.
+          Approved visual source: 0411b0f6dd877aea30e2c5674e1acde0105fd97b
+
+          Post-merge Stable web/reference evidence:
+          - workflow run 33589453669
+          - artifact 9831283330
+          - sha256:fbcf79507bd0f0a7458bca998ef7ebf83c1c9676ec569907522fe71e26f71a01
+
+          Post-merge Stable Android evidence:
+          - workflow run 33589453668
+          - artifact 9831331278
+          - sha256:1e368982d3da6d80ce518b10b169f3bb03321b70ca7814cfeeeaacc07d5bf8a9
+
+          Rollback baseline: Glaze UI 2.1.0.
+
+          Downstream GoreeCloud applications remain independently migration- and acceptance-gated. No consumer is auto-promoted by this design-system release. Glaze Motion remains Experimental.
+          EOF
+
+      - name: Publish GitHub Release from verified tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release create "${RELEASE_TAG}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --verify-tag \
+            --title "Glaze UI 2.2.0 Stable" \
+            --notes-file /tmp/glaze-ui-2.2.0-release.md
+
+      - name: Verify published release identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release view "${RELEASE_TAG}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --json tagName,name,isDraft,isPrerelease,url > /tmp/glaze-ui-2.2.0-release.json
+          python3 - <<'PY'
+          import json
+          data=json.load(open('/tmp/glaze-ui-2.2.0-release.json', encoding='utf-8'))
+          assert data['tagName'] == 'v2.2.0', data
+          assert data['name'] == 'Glaze UI 2.2.0 Stable', data
+          assert data['isDraft'] is False, data
+          assert data['isPrerelease'] is False, data
+          print(data['url'])
+          PY
