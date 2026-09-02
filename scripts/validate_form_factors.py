@@ -26,9 +26,9 @@ def main():
     ref=text('reference/formfactors.html')
     for m in ('data-profile="mobile"','data-profile="tablet"','data-profile="desktop"','data-profile="tv"','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'): req(m in ref,f'form-factor reference missing {m}')
     acceptance=text('ACCEPTANCE.md')
-    for m in ('390 × 844','820 × 1180','1280 × 900','1600 × 1000','1920 × 1080','directional focus','overscan-safe','dependency-free Mobile/Tablet/Desktop/Wide Desktop/TV references'):
+    for m in ('## Representative form-factor matrix','390 × 844','820 × 1180','1280 × 900','1600 × 1000','1920 × 1080','directional focus','overscan-safe','## Retained historical regression acceptance'):
         req(m in acceptance,f'acceptance missing {m}')
-    req('dependency-free Mobile/Tablet/Desktop/TV references' not in acceptance,'acceptance contains incomplete four-profile reference wording')
+    req('Phone / Mobile' in acceptance and 'Tablet' in acceptance and 'Desktop' in acceptance and 'Wide Desktop' in acceptance and 'TV' in acceptance,'acceptance must retain all five canonical profile identities')
     readme=text('README.md')
     req(f'Glaze UI {version} is the current Stable canonical baseline' in readme,'README current Stable statement missing')
     req('dependency-free five-profile reference' in readme,'README must retain the five-profile Stable form-factor reference')
