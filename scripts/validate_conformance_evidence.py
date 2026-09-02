@@ -37,6 +37,9 @@ MAX_REFERENCE_LENGTH = 500
 MAX_EVIDENCE_REFERENCES = 50
 MAX_INTEGRATION_REFERENCES = 20
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+RFC3339_RE = re.compile(
+    r"^\d{4}-\d{2}-\d{2}[Tt]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[Zz]|[+-]\d{2}:\d{2})$"
+)
 
 
 class EvidenceError(ValueError):
@@ -95,10 +98,12 @@ def require_references(
 
 
 def parse_datetime(value: Any, name: str) -> datetime:
-    if not isinstance(value, str) or not value.strip():
+    if not isinstance(value, str):
         raise EvidenceError(f"{name} must be an RFC 3339 date-time")
     text = value.strip()
-    if text.endswith("Z"):
+    if not RFC3339_RE.fullmatch(text):
+        raise EvidenceError(f"{name} must be an RFC 3339 date-time")
+    if text.endswith(("Z", "z")):
         text = text[:-1] + "+00:00"
     try:
         parsed = datetime.fromisoformat(text)
