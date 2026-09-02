@@ -1,0 +1,71 @@
+name: Glaze UI 2.2 Closure Changelog Helper
+
+on:
+  push:
+    branches:
+      - 'docs/glaze-ui-2.2-release-closure'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-changelog:
+    if: contains(github.event.head_commit.message, '[closure-changelog]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out closure branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: docs/glaze-ui-2.2-release-closure
+          persist-credentials: true
+
+      - name: Replace only exact Glaze UI 2.2 release-status phrases
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('CHANGELOG.md')
+          text = path.read_text(encoding='utf-8')
+          replacements = [
+              (
+                  '## Unreleased — Glaze UI 2.2.0 Stable promotion',
+                  '## 2.2.0 — Stable — 2026-09-01',
+              ),
+              (
+                  '- Promotes the accepted Glaze UI 2.2 Candidate design-system surface toward `2.2.0` Stable without rewriting the human-reviewed Candidate presentation or its immutable provenance.',
+                  '- Promoted the accepted Glaze UI 2.2 Candidate design-system surface to `2.2.0` Stable without rewriting the human-reviewed Candidate presentation or its immutable provenance.',
+              ),
+              (
+                  '- Promotes the bounded System Shell, 32-component contract catalog, Foundation/Structure/Overlay/Signature/Intelligence reference presentation, Universal Search and Control Center reference interactions, performance/System Glaze budget, Optical Reachability presentation, source-pinned visual regression and bounded Android handheld reference into the proposed Stable contract.',
+                  '- Promoted the bounded System Shell, 32-component contract catalog, Foundation/Structure/Overlay/Signature/Intelligence reference presentation, Universal Search and Control Center reference interactions, performance/System Glaze budget, Optical Reachability presentation, source-pinned visual regression and bounded Android handheld reference into the Stable contract.',
+              ),
+              (
+                  '- Moves lifecycle, canonical token, enforcement, consumer-target, migration and Design Center authorities to the proposed `2.2.0` boundary while preserving `2.1.0` as the documented rollback and historical regression baseline.',
+                  '- Moved lifecycle, canonical token, enforcement, consumer-target, migration and Design Center authorities to the `2.2.0` Stable boundary while preserving `2.1.0` as the documented rollback and historical regression baseline.',
+              ),
+              (
+                  '- Stable release is **not complete** until the exact final promotion revision passes every applicable GitHub/Cloudflare promotion and retained-regression gate, is merged with expected-head protection, and an immutable `v2.2.0` release/tag plus release-closure evidence are recorded.',
+                  '- Stable release completed after exact-head and post-merge GitHub/Cloudflare validation, expected-head-protected PR #115 merge as `6731098b28dd0393faa878c70d989a221d714a20`, annotated `v2.2.0` tag creation, GitHub Release `380971405`, and recorded release-closure evidence.',
+              ),
+          ]
+          for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly one changelog match, found {count}: {old}')
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit changelog and remove helper workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GoreeCloud"
+          git config user.email "295260680+GoreeCloud@users.noreply.github.com"
+          git rm .github/workflows/closure-changelog-helper.yml
+          git add CHANGELOG.md
+          git diff --cached --check
+          git commit -m "Finalize Glaze UI 2.2.0 changelog release status"
+          git push origin HEAD:docs/glaze-ui-2.2-release-closure
