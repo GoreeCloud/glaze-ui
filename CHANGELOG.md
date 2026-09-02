@@ -2,6 +2,19 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
+## Unreleased — Glaze UI 2.2.0 Stable promotion
+
+- Promotes the accepted Glaze UI 2.2 Candidate design-system surface toward `2.2.0` Stable without rewriting the human-reviewed Candidate presentation or its immutable provenance.
+- Adds versioned Stable entrypoints `css/glaze-2.2.0.css` and `js/glaze-2.2.0.mjs` over preserved Candidate implementation layers.
+- Promotes the bounded System Shell, 32-component contract catalog, Foundation/Structure/Overlay/Signature/Intelligence reference presentation, Universal Search and Control Center reference interactions, performance/System Glaze budget, Optical Reachability presentation, source-pinned visual regression and bounded Android handheld reference into the proposed Stable contract.
+- Preserves the Human Visual Excellence decision **Accepted** for source revision `0411b0f6dd877aea30e2c5674e1acde0105fd97b` and requires source-pinned regression to prove presentation continuity on the exact promotion head.
+- Moves lifecycle, canonical token, enforcement, consumer-target, migration and Design Center authorities to the proposed `2.2.0` boundary while preserving `2.1.0` as the documented rollback and historical regression baseline.
+- Keeps every downstream GoreeCloud application separately migration-gated and non-production-eligible until its own repository-local 2.2 adoption, accessibility, rendered/native and product acceptance gates pass.
+- Retains compact platform-neutral wearable/spatial semantics while keeping historical native wearable evidence isolated; neither browser references nor the bounded Android handheld reference certify Wear OS, watchOS or downstream physical devices.
+- Keeps Glaze Motion Experimental and prevents Candidate/Experimental capability from becoming a Stable consumer dependency by implication.
+- Corrects lifecycle-transition drift discovered by fail-closed validation, including Candidate-only migration language, superseded 2.1 current-Stable assumptions, public Design Center 2.1 publication, canonical token authority, wearable lifecycle authority and the system-interaction rendered-validator path. No acceptance threshold or semantic requirement is weakened.
+- Stable release is **not complete** until the exact final promotion revision passes every applicable GitHub/Cloudflare promotion and retained-regression gate, is merged with expected-head protection, and an immutable `v2.2.0` release/tag plus release-closure evidence are recorded.
+
 ## 2.0.0 — Stable — 2026-08-28
 
 - Promoted the administrator-enforced Glaze UI 2.0 design contract to the current Stable GoreeCloud design-system baseline under the governing sentence **Make interaction feel tangible.**
@@ -117,6 +130,10 @@ Stable form-factor evolution release preserving the complete Glaze UI 1.3 expres
 - Native applications still require application-specific native/real-device acceptance; design-system-core Stable status does not certify downstream products.
 - Speculative intelligence, agents, automation, ambient computing, voice, and operating-experience concepts remain Planned/roadmap-only.
 
+### Added
+
+- `FORM_FACTORS.md` as the canonical form-factor contract based on app window, primary input, viewing distance, platform conventions, posture/resizability, and product task rather than width or device name alone.
+
 ## 1.3.0 — 2026-08-20
 
 Stable expressive-hierarchy release based on the documented Glaze UI lineage of One UI 8.5, Liquid Glass, and Material 3 Expressive while preserving GoreeCloud's original identity and accessibility/privacy requirements.
@@ -132,3 +149,5 @@ Stable expressive-hierarchy release based on the documented Glaze UI lineage of 
 - Expressive action and tile primitives with bounded shape morphing.
 - Adaptive button groups with visual emphasis that preserves logical/action order.
 - Compact reachability composition helpers that support lower action zones without DOM or keyboard reordering.
+- Hero typography tuned for short expressive strings with supporting body-scale limits.
+- First-class Light/Dark behavior, reduced motion, reduced transparency, forced colors, and `@supports` fallbacks for the expressive layer.
