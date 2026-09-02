@@ -134,6 +134,22 @@ def main() -> None:
     for key in ("requiresExactFinalRevisionCI","requiresRenderedAcceptance","requiresAccessibilityAndResilienceAcceptance","requiresNativeOrDeviceEvidenceWhereApplicable","requiresHumanVisualExcellenceReview","requiresImmutableReleaseTag"):
         req(rules.get(key) is True, f"promotion rule must require {key}")
 
+    tokens = data("tokens/glaze.tokens.json")
+    meta = tokens.get("meta", {})
+    contract = tokens.get("currentContract", {})
+    req(meta.get("version") == version and meta.get("stableBaseline") == version and meta.get("status") == "Stable", "canonical Stable token metadata must equal VERSION")
+    req(meta.get("currentWebLayer") == "css/glaze-2.2.0.css", "canonical token web layer must use the 2.2 Stable entrypoint")
+    req(meta.get("currentRuntime") == "js/glaze-2.2.0.mjs", "canonical token runtime must use the 2.2 Stable entrypoint")
+    req(meta.get("promotionSource") == "2.2.0-candidate.1", "canonical tokens must preserve Candidate promotion provenance")
+    req(meta.get("approvedVisualSource") == "0411b0f6dd877aea30e2c5674e1acde0105fd97b", "canonical tokens must preserve approved visual source")
+    req(contract.get("major") == 2 and contract.get("minor") == 2, "canonical token contract version must be 2.2")
+    req(contract.get("componentContractCount") == 32, "canonical token contract must record 32 component contracts")
+    req(contract.get("systemSurfaceHierarchy") == ["workspace","application","system-overlay","system-panel","critical-system"], "canonical token System Shell hierarchy drifted")
+    budget = contract.get("systemGlazeBudget", {})
+    req(budget.get("dominantPanelsMax") == 1 and budget.get("smallFloatingControlsMax") == 3 and budget.get("nestedBackdropBlurAllowed") is False, "canonical token System Glaze budget drifted")
+    req(contract.get("touchMinimum") == 48 and contract.get("touchAssistanceMinimum") == 56, "canonical token target floors drifted")
+    req(contract.get("downstreamConsumerAutoPromotion") is False, "canonical token authority must not auto-promote consumers")
+
     consumers = data("consumers/registry.json")
     req(consumers.get("stableBaseline") == version, "consumer stableBaseline must be 2.2.0")
     req(consumers.get("requiredConsumerVersion") == version, "consumer required version must be 2.2.0")
@@ -163,7 +179,7 @@ def main() -> None:
     ):
         req((ROOT / preserved).exists(), f"promotion provenance missing: {preserved}")
 
-    print("Glaze UI 2.2.0 Stable promotion state validated; presentation/native/source gates remain separately mandatory")
+    print("Glaze UI 2.2.0 Stable promotion state validated; canonical tokens are aligned and presentation/native/source gates remain separately mandatory")
 
 
 if __name__ == "__main__":
