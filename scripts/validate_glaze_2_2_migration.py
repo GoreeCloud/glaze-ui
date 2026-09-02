@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Fail-closed Glaze UI 2.1 -> 2.2 migration compatibility validation.
+"""Fail-closed Glaze UI 2.1 -> 2.2 Stable migration validation.
 
-Passing proves that the Candidate migration assessment is internally aligned
-with the current 2.1 Stable boundary and implemented 2.2 Candidate contracts.
-It does not make 2.2 consumer eligible or establish Stable promotion.
+Passing proves the design-system migration contract is aligned with the current
+2.2.0 Stable target. It authorizes repository-local migration work; it never
+auto-promotes a downstream consumer or substitutes for product acceptance.
 """
 from __future__ import annotations
 
@@ -47,22 +47,27 @@ def main() -> None:
     version_file = ROOT / "VERSION"
     require(version_file.is_file(), "VERSION is missing")
     if version_file.is_file():
-        require(version_file.read_text(encoding="utf-8").strip() == "2.1.0", "Candidate migration must keep VERSION at Stable 2.1.0")
+        require(version_file.read_text(encoding="utf-8").strip() == "2.2.0", "Stable migration requires VERSION 2.2.0")
 
     migration = read_json(MIGRATION)
     tokens = read_json(TOKENS)
     require(DOC.is_file(), "MIGRATION_2_1_TO_2_2.md is missing")
     doc = DOC.read_text(encoding="utf-8") if DOC.is_file() else ""
 
-    require(migration.get("schemaVersion") == 1, "migration schemaVersion must be 1")
+    require(migration.get("schemaVersion") == 2, "migration schemaVersion must be 2")
     require(migration.get("sourceVersion") == "2.1.0", "migration sourceVersion must be 2.1.0")
-    require(migration.get("targetVersion") == "2.2.0-candidate.1", "migration targetVersion must be 2.2.0-candidate.1")
-    require(migration.get("targetLifecycle") == "candidate", "migration targetLifecycle must remain Candidate")
-    require(migration.get("targetConsumerEligible") is False, "2.2 Candidate migration target must not be consumer eligible")
-    require(migration.get("productionMigrationAuthorized") is False, "production migration must remain unauthorized while 2.2 is Candidate")
+    require(migration.get("targetVersion") == "2.2.0", "migration targetVersion must be 2.2.0")
+    require(migration.get("targetLifecycle") == "stable", "migration targetLifecycle must be Stable")
+    require(migration.get("targetConsumerEligible") is True, "2.2 Stable design-system target must be consumer eligible")
+    require(migration.get("productionMigrationAuthorized") is True, "Stable 2.2 must authorize controlled production migration")
+    require(migration.get("downstreamProductionEligibilityAutomatic") is False, "downstream product eligibility must never be automatic")
+    require(migration.get("candidatePromotionSource") == "2.2.0-candidate.1", "Candidate promotion provenance missing")
+    require(migration.get("candidateIntegrationHead") == "7fb817e28a3f6e9d36f55e7af7acb281813d08f4", "Candidate integration head drifted")
+    require(migration.get("approvedVisualSource") == "0411b0f6dd877aea30e2c5674e1acde0105fd97b", "approved visual source drifted")
     require(migration.get("stableRollbackVersion") == "2.1.0", "Stable rollback version must remain 2.1.0")
     require(migration.get("classification") == "additive-semantic-refinement-with-explicit-adoption-work", "migration compatibility classification drifted")
-    require(migration.get("stableWebEntrypointDuringCandidate") == "css/glaze-2.1.0.css", "Stable web entrypoint must remain 2.1.0 during Candidate")
+    require(migration.get("stableWebEntrypoint") == "css/glaze-2.2.0.css", "Stable web entrypoint must be 2.2.0")
+    require(migration.get("stableRuntimeEntrypoint") == "js/glaze-2.2.0.mjs", "Stable runtime entrypoint must be 2.2.0")
     require(migration.get("candidateImplementationEntrypointsAreProductionAliases") is False, "Candidate implementation filenames must not become production aliases")
 
     catalog = migration.get("componentCatalog", {})
@@ -120,16 +125,18 @@ def main() -> None:
     require(required_revalidation.issubset(set(migration.get("requiredConsumerRevalidation", []))), "consumer revalidation matrix is incomplete")
 
     for marker in (
-        "Current Stable: **2.1.0**",
-        "Target under review: **2.2.0-candidate.1**",
-        "Production migration authorized: **No**",
-        "32-component Candidate catalog",
+        "Status: **Stable migration contract**",
+        "Current Stable target: **2.2.0**",
+        "Production migration authorized: **Yes, through repository-local evidence gates**",
+        "Automatic downstream production eligibility: **No**",
+        "32-component Stable catalog",
         "one dominant Glaze panel",
         "Universal Search",
         "Control Center",
         "Generated interpretation must remain distinct from retrieved source content.",
-        "remain on Glaze UI 2.1.0 Stable",
-        "does not establish that:\n\n- Glaze UI 2.2 is Stable",
+        "`css/glaze-2.2.0.css`",
+        "`js/glaze-2.2.0.mjs`",
+        "2.1.0 is the historical rollback reference",
     ):
         require(marker in doc, f"migration documentation missing required marker: {marker}")
 
@@ -139,7 +146,7 @@ def main() -> None:
             print(f"- {error}")
         raise SystemExit(1)
 
-    print("Glaze UI 2.1 -> 2.2 migration compatibility validation passed (Candidate remains non-consumer-eligible)")
+    print("Glaze UI 2.1 -> 2.2 Stable migration validation passed; downstream consumers remain separately gated")
 
 
 if __name__ == "__main__":
