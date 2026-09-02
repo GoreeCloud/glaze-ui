@@ -31,7 +31,7 @@ def main():
     req('Phone / Mobile' in acceptance and 'Tablet' in acceptance and 'Desktop' in acceptance and 'Wide Desktop' in acceptance and 'TV' in acceptance,'acceptance must retain all five canonical profile identities')
     readme=text('README.md')
     req(f'Glaze UI {version} is the current Stable canonical baseline' in readme,'README current Stable statement missing')
-    req('dependency-free five-profile reference' in readme,'README must retain the five-profile Stable form-factor reference')
+    req('dependency-free five-profile compatibility reference' in readme,'README must retain the five-profile Stable form-factor compatibility reference')
     req('dependency-free four-profile reference' not in readme,'README contains stale four-profile form-factor wording')
     for m in ('Mobile 390×844','Tablet 820×1180','Desktop 1280×900','Wide Desktop 1600×1000','TV 1920×1080'):
         req(m in readme,f'README Stable form-factor matrix missing {m}')
