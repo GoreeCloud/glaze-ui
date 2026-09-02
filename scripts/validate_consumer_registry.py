@@ -33,6 +33,12 @@ def version_tuple(version: str) -> tuple[int, ...]:
     return tuple(map(int, version.split(".")))
 
 
+def has_current_evidence(consumer: dict[str, object], stable: str, repo: str) -> None:
+    req(consumer.get("targetVersion") == stable, f"{repo} current Stable target")
+    req(SHA40.fullmatch(str(consumer.get("referenceRevision", ""))) is not None, f"{repo} current revision")
+    req(consumer.get("automatedContract") is True and bool(consumer.get("evidence")), f"{repo} current evidence")
+
+
 def validate_guidance(data: dict[str, object], stable: str) -> None:
     guidance = (ROOT / "CONSUMERS.md").read_text(encoding="utf-8")
     req(f"Glaze UI **{stable}** is the current Stable baseline" in guidance, "CONSUMERS.md must identify the current Stable baseline")
@@ -69,6 +75,10 @@ def validate_guidance(data: dict[str, object], stable: str) -> None:
             target = str(consumer.get("targetVersion"))
             req(f"recorded {target}" in body, f"{name} documented historical target")
             req(f"required {stable}" in body, f"{name} documented Stable target")
+        elif status == "adoption-candidate":
+            req(f"targets {stable}" in body, f"{name} documented current Stable target")
+            req(str(consumer.get("referenceRevision")) in body, f"{name} documented exact revision")
+            req("acceptance" in body.lower(), f"{name} documented remaining acceptance boundary")
         elif status == "unverified":
             req("fresh repository-local 2.2" in body, f"{name} unverified evidence boundary")
         else:
@@ -103,6 +113,7 @@ def main() -> None:
 
     consumers = data.get("consumers", [])
     seen: set[str] = set()
+    adoption_candidates = 0
     for consumer in consumers:
         repo = consumer.get("repository")
         req(repo in EXPECTED and repo not in seen, f"invalid/duplicate {repo}")
@@ -116,14 +127,18 @@ def main() -> None:
             req(isinstance(target, str) and target in historical, f"{repo} migration source")
             req(SHA40.fullmatch(str(consumer.get("referenceRevision", ""))) is not None, f"{repo} revision")
             req(consumer.get("automatedContract") is True and consumer.get("evidence"), f"{repo} evidence")
+        elif status == "adoption-candidate":
+            has_current_evidence(consumer, stable, str(repo))
+            adoption_candidates += 1
         elif status == "unverified":
             req(target is None and consumer.get("referenceRevision") is None and consumer.get("evidence") is None and consumer.get("automatedContract") is False, f"{repo} unverified boundary")
         else:
-            req(False, f"{repo} must remain migration-required or unverified immediately after Stable promotion")
+            req(False, f"{repo} unsupported pre-acceptance status")
 
     req(seen == EXPECTED, "audit scope drift")
+    req(adoption_candidates > 0, "post-promotion registry must preserve validated adoption progress")
     validate_guidance(data, stable)
-    print(f"Glaze UI consumer registry and guidance validated: {len(consumers)} consumers require Stable {stable}; none auto-promoted")
+    print(f"Glaze UI consumer registry and guidance validated: {len(consumers)} consumers require Stable {stable}; {adoption_candidates} adoption candidate(s); none auto-promoted")
 
 
 if __name__ == "__main__":
