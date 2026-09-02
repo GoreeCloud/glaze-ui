@@ -3,12 +3,14 @@
   "schemaVersion": 1,
   "id": "glaze-ui-2.2-visual-baselines",
   "lifecycle": "candidate",
-  "status": "source-pinned-candidate",
+  "status": "human-approved-source-pinned-candidate",
   "baselineStrategy": "source-revision-same-run-render",
-  "baselineRevision": "83bc9241590a47547d51369ea0812e40bb96775d",
-  "humanVisualExcellenceAccepted": false,
-  "humanDecision": "Pending",
-  "note": "The immutable Candidate source revision is re-rendered on the same Chromium runner as the exact current revision. Passing pixel regression protects the review presentation but does not constitute Human Visual Excellence acceptance or Stable promotion.",
+  "baselineRevision": "0411b0f6dd877aea30e2c5674e1acde0105fd97b",
+  "humanVisualExcellenceAccepted": true,
+  "humanDecision": "Accepted",
+  "humanReviewRecord": "acceptance/2.2-visual-review.md",
+  "humanReviewAcceptedAt": "2026-09-01T20:53:00-05:00",
+  "note": "Human Visual Excellence was explicitly accepted for immutable source revision 0411b0f6dd877aea30e2c5674e1acde0105fd97b. The approved source is re-rendered independently on the same Chromium runner as later exact revisions. Passing pixel regression proves presentation continuity; it does not allow a changed current render to self-bless.",
   "thresholds": {
     "perChannelTolerance": 12,
     "maxChangedPixelRatio": 0.0075,
@@ -87,7 +89,8 @@
     "currentStable": "2.1.0",
     "baselineRevisionPinned": true,
     "baselineRevisionIsCandidateReviewSource": true,
-    "humanVisualExcellenceAccepted": false,
-    "stablePromotionAuthorized": false
+    "humanVisualExcellenceAccepted": true,
+    "stablePromotionAuthorized": false,
+    "note": "Human review is complete. Stable promotion remains blocked until source-pinned regression against this immutable approved source and the remaining exact-final-revision release gates pass."
   }
 }

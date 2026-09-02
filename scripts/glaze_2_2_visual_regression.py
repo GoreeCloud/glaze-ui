@@ -27,14 +27,33 @@ from validate_rendered_reference import (
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "contracts/regression/visual-baselines-2.2.json"
+REVIEW_RECORD = ROOT / "acceptance/2.2-visual-review.md"
 
 
 def load_manifest() -> dict:
     value = json.loads(MANIFEST.read_text(encoding="utf-8"))
     if value.get("id") != "glaze-ui-2.2-visual-baselines":
         raise SystemExit("Glaze UI 2.2 visual regression manifest identity mismatch")
-    if value.get("humanVisualExcellenceAccepted") is True:
-        raise SystemExit("Candidate visual regression must not self-certify Human Visual Excellence")
+
+    accepted = value.get("humanVisualExcellenceAccepted")
+    decision = value.get("humanDecision")
+    if accepted is True:
+        if decision not in {"Accepted", "Accepted with follow-up"}:
+            raise SystemExit("Human Visual Excellence acceptance requires an accepted humanDecision")
+        revision = value.get("baselineRevision")
+        if not isinstance(revision, str) or len(revision) != 40:
+            raise SystemExit("Human-approved visual regression requires a pinned 40-character baselineRevision")
+        if value.get("humanReviewRecord") != "acceptance/2.2-visual-review.md":
+            raise SystemExit("Human-approved visual regression must point to acceptance/2.2-visual-review.md")
+        if not REVIEW_RECORD.is_file():
+            raise SystemExit("Human-approved visual regression review record is missing")
+        review = REVIEW_RECORD.read_text(encoding="utf-8")
+        if revision not in review:
+            raise SystemExit("Human review record does not identify the pinned baselineRevision")
+        if f"**Decision:** `{decision}`" not in review:
+            raise SystemExit("Human review record decision does not match the visual baseline manifest")
+    elif accepted is not False:
+        raise SystemExit("humanVisualExcellenceAccepted must be a boolean")
     return value
 
 
@@ -258,15 +277,19 @@ def main() -> None:
     if args.mode == "capture":
         print(
             "Glaze UI 2.2 Candidate screenshot capture completed. This output is rendered evidence only; "
-            "it is not self-accepted as a visual baseline or Human Visual Excellence approval."
+            "it does not create or change Human Visual Excellence approval."
         )
     else:
         revision = manifest.get("baselineRevision")
         if not isinstance(revision, str) or len(revision) != 40:
             raise SystemExit("compare mode requires a pinned 40-character baselineRevision")
+        if manifest.get("humanVisualExcellenceAccepted") is True:
+            suffix = " Human Visual Excellence is recorded separately in the immutable review record."
+        else:
+            suffix = " Human Visual Excellence remains separately required."
         print(
             "Glaze UI 2.2 Candidate screenshot pixel regression passed against source-pinned baseline "
-            f"revision {revision}. Human Visual Excellence remains separately required."
+            f"revision {revision}." + suffix
         )
 
 
