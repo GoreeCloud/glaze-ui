@@ -2,18 +2,18 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
-## Unreleased — Glaze UI 2.2.0 Stable promotion
+## 2.2.0 — Stable — 2026-09-01
 
-- Promotes the accepted Glaze UI 2.2 Candidate design-system surface toward `2.2.0` Stable without rewriting the human-reviewed Candidate presentation or its immutable provenance.
+- Promoted the accepted Glaze UI 2.2 Candidate design-system surface to `2.2.0` Stable without rewriting the human-reviewed Candidate presentation or its immutable provenance.
 - Adds versioned Stable entrypoints `css/glaze-2.2.0.css` and `js/glaze-2.2.0.mjs` over preserved Candidate implementation layers.
-- Promotes the bounded System Shell, 32-component contract catalog, Foundation/Structure/Overlay/Signature/Intelligence reference presentation, Universal Search and Control Center reference interactions, performance/System Glaze budget, Optical Reachability presentation, source-pinned visual regression and bounded Android handheld reference into the proposed Stable contract.
+- Promoted the bounded System Shell, 32-component contract catalog, Foundation/Structure/Overlay/Signature/Intelligence reference presentation, Universal Search and Control Center reference interactions, performance/System Glaze budget, Optical Reachability presentation, source-pinned visual regression and bounded Android handheld reference into the Stable contract.
 - Preserves the Human Visual Excellence decision **Accepted** for source revision `0411b0f6dd877aea30e2c5674e1acde0105fd97b` and requires source-pinned regression to prove presentation continuity on the exact promotion head.
-- Moves lifecycle, canonical token, enforcement, consumer-target, migration and Design Center authorities to the proposed `2.2.0` boundary while preserving `2.1.0` as the documented rollback and historical regression baseline.
+- Moved lifecycle, canonical token, enforcement, consumer-target, migration and Design Center authorities to the `2.2.0` Stable boundary while preserving `2.1.0` as the documented rollback and historical regression baseline.
 - Keeps every downstream GoreeCloud application separately migration-gated and non-production-eligible until its own repository-local 2.2 adoption, accessibility, rendered/native and product acceptance gates pass.
 - Retains compact platform-neutral wearable/spatial semantics while keeping historical native wearable evidence isolated; neither browser references nor the bounded Android handheld reference certify Wear OS, watchOS or downstream physical devices.
 - Keeps Glaze Motion Experimental and prevents Candidate/Experimental capability from becoming a Stable consumer dependency by implication.
 - Corrects lifecycle-transition drift discovered by fail-closed validation, including Candidate-only migration language, superseded 2.1 current-Stable assumptions, public Design Center 2.1 publication, canonical token authority, wearable lifecycle authority and the system-interaction rendered-validator path. No acceptance threshold or semantic requirement is weakened.
-- Stable release is **not complete** until the exact final promotion revision passes every applicable GitHub/Cloudflare promotion and retained-regression gate, is merged with expected-head protection, and an immutable `v2.2.0` release/tag plus release-closure evidence are recorded.
+- Stable release completed after exact-head and post-merge GitHub/Cloudflare validation, expected-head-protected PR #115 merge as `6731098b28dd0393faa878c70d989a221d714a20`, annotated `v2.2.0` tag creation, GitHub Release `380971405`, and recorded release-closure evidence.
 
 ## 2.0.0 — Stable — 2026-08-28
 
