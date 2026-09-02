@@ -26,7 +26,7 @@ jobs:
           path: .glaze-2.1-stable-source
           persist-credentials: false
       - name: Compile validators
-        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_glaze_2_2_stable.py scripts/validate_glaze_2_1_historical.py scripts/validate_glaze_2_stable.py scripts/validate_glaze_2_1_stable.py scripts/validate_glaze_2_candidate.py scripts/validate_candidate_2_rendered.py scripts/validate_candidate_2_resilience.py scripts/validate_candidate_2_emerging.py scripts/validate_wearables.py scripts/validate_enforcement.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_adaptive_colors.py scripts/validate_iconography.py scripts/validate_motion.py scripts/validate_glaze_motion.py scripts/validate_glaze_motion_rendered.py scripts/validate_materials.py scripts/validate_layout.py scripts/validate_states.py scripts/validate_evidence_presentation.py scripts/validate_workspace_navigation.py scripts/validate_rendered_reference.py scripts/validate_candidate_1_5_rendered.py scripts/validate_candidate_1_6_rendered.py scripts/validate_candidate_1_6_evidence_rendered.py website/build.py website/validate.py integrations/firefox/validate.py
+        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_glaze_2_2_stable.py scripts/validate_glaze_2_1_historical.py scripts/validate_glaze_2_stable.py scripts/validate_glaze_2_1_stable.py scripts/validate_glaze_2_candidate.py scripts/validate_candidate_2_rendered.py scripts/validate_candidate_2_resilience.py scripts/validate_candidate_2_emerging.py scripts/validate_wearables.py scripts/validate_enforcement.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_consumer_source_evidence.py scripts/validate_typography_contract.py scripts/validate_adaptive_colors.py scripts/validate_iconography.py scripts/validate_motion.py scripts/validate_glaze_motion.py scripts/validate_glaze_motion_rendered.py scripts/validate_materials.py scripts/validate_layout.py scripts/validate_states.py scripts/validate_evidence_presentation.py scripts/validate_workspace_navigation.py scripts/validate_rendered_reference.py scripts/validate_candidate_1_5_rendered.py scripts/validate_candidate_1_6_rendered.py scripts/validate_candidate_1_6_evidence_rendered.py website/build.py website/validate.py integrations/firefox/validate.py
       - name: Validate immutable Glaze UI 2.1 canonical compatibility source
         working-directory: .glaze-2.1-stable-source
         run: python3 scripts/validate_glaze_ui.py
@@ -82,6 +82,8 @@ jobs:
         run: python3 scripts/validate_typography_contract.py
       - name: Validate consumer compatibility registry
         run: python3 scripts/validate_consumer_registry.py
+      - name: Verify exact downstream consumer source evidence
+        run: python3 scripts/validate_consumer_source_evidence.py
       - name: Validate Firefox integration
         run: python3 integrations/firefox/validate.py
       - name: Build and validate public Design Center
