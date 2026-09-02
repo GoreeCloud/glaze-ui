@@ -39,8 +39,10 @@ def render_consumer_governance(data: dict) -> str:
         name=str(consumer.get('name',''))
         repository=str(consumer.get('repository',''))
         status=str(consumer.get('status',''))
-        if not name or not repository or status not in labels:
-            raise SystemExit(f'consumer registry contains unsupported Design Center state: {name or "unnamed"} / {status}')
+        acceptance=str(consumer.get('visualAcceptance','')).strip()
+        notes=str(consumer.get('notes','')).strip()
+        if not name or not repository or status not in labels or not acceptance or not notes:
+            raise SystemExit(f'consumer registry contains incomplete Design Center governance state: {name or "unnamed"} / {status}')
         counts[status]+=1
         eligible=consumer.get('productionEligible') is True
         production_eligible+=int(eligible)
@@ -69,13 +71,20 @@ def render_consumer_governance(data: dict) -> str:
             f'<div><dt>{html.escape(label)}</dt><dd><code>{html.escape(value)}</code></dd></div>'
             for label,value in details
         )
+        acceptance_html=(
+            f'<details class="consumer-acceptance"><summary>Pending acceptance and notes</summary>'
+            f'<div class="consumer-acceptance-body">'
+            f'<div><h4>Acceptance requirements</h4><p>{html.escape(acceptance)}</p></div>'
+            f'<div><h4>Registry notes</h4><p>{html.escape(notes)}</p></div>'
+            f'</div></details>'
+        )
         cards.append(
             f'<article class="consumer-card glaze-surface" data-consumer-name="{html.escape(name,quote=True)}" '
             f'data-consumer-repository="{html.escape(repository,quote=True)}" data-consumer-status="{html.escape(status,quote=True)}" '
             f'data-production-eligible="{str(eligible).lower()}">'
             f'<div class="consumer-card-heading"><h3>{html.escape(name)}</h3>'
             f'<span class="consumer-status" data-status="{html.escape(status,quote=True)}">{html.escape(labels[status])}</span></div>'
-            f'<dl>{detail_html}</dl></article>'
+            f'<dl>{detail_html}</dl>{acceptance_html}</article>'
         )
 
     filter_buttons=''.join(
@@ -113,7 +122,8 @@ def render_consumer_governance(data: dict) -> str:
         f'{controls}{summary}'
         f'<p class="governance-boundary glaze-surface-raised"><strong>Acceptance boundary:</strong> '
         f'No application is promoted by this page. Search and status filters only change which registry-backed cards are visible; '
-        f'they never change consumer state or evidence. Product-specific rendered/native, accessibility, supported-platform and representative-device acceptance remain authoritative.</p>'
+        f'they never change consumer state or evidence. Pending-acceptance disclosures copy registry requirements and notes for inspection; '
+        f'opening or reading them does not satisfy those requirements. Product-specific rendered/native, accessibility, supported-platform and representative-device acceptance remain authoritative.</p>'
         f'<div class="consumer-grid" data-governance-consumers>{"".join(cards)}</div>'
         f'<p class="registry-provenance">Registry schema {schema} · audited {html.escape(audited)} · current Stable {html.escape(stable)}.</p>'
         f'</section>'
