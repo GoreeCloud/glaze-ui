@@ -1,4 +1,4 @@
-name: Glaze UI 2.1 Stable Acceptance
+name: Glaze UI 2.1 Historical Regression
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  validate-stable-2-1:
+  validate-historical-2-1:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -25,15 +25,15 @@ jobs:
           ref: 5b46903c18660ae78e7f1aaea39a93136efacda7
           path: .glaze-2.1-visual-baseline-source
           persist-credentials: false
-      - name: Compile Glaze UI 2.1 Stable validators
-        run: python3 -m py_compile scripts/validate_glaze_2_1_stable.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py scripts/run_glaze_2_1_visual_regression.py scripts/validate_glaze_2_1_android_runtime.py scripts/validate_design_center_responsive.py
-      - name: Validate Glaze UI 2.1 Stable promotion contract
-        run: python3 scripts/validate_glaze_2_1_stable.py
+      - name: Compile Glaze UI 2.1 historical regression validators
+        run: python3 -m py_compile scripts/validate_glaze_2_1_historical.py scripts/validate_glaze_2_1_rendered.py scripts/validate_glaze_2_1_expanded_rendered.py scripts/validate_glaze_2_1_resilience_rendered.py scripts/glaze_2_1_visual_regression.py scripts/run_glaze_2_1_visual_regression.py scripts/validate_glaze_2_1_android_runtime.py scripts/validate_design_center_responsive.py
+      - name: Validate preserved Glaze UI 2.1 release authority
+        run: python3 scripts/validate_glaze_2_1_historical.py
       - name: Validate Design Center responsive integration
         run: python3 scripts/validate_design_center_responsive.py
-      - name: Validate Glaze UI 2.1 Stable runtime syntax
+      - name: Validate Glaze UI 2.1 retained runtime syntax
         run: node --check js/glaze-2.1.0.mjs
-      - name: Test Glaze UI 2.1 runtime resolution and Material Budgets
+      - name: Test Glaze UI 2.1 retained runtime resolution and Material Budgets
         run: node --test tests/glaze-2.1-runtime.test.mjs
       - name: Validate rendered Glaze UI 2.1 reference flows
         run: python3 scripts/validate_glaze_2_1_rendered.py
@@ -45,14 +45,14 @@ jobs:
         run: python3 scripts/run_glaze_2_1_visual_regression.py capture --source-root .glaze-2.1-visual-baseline-source --output-dir ../.artifacts/glaze-2.1-visual-baseline-reference
       - name: Validate Glaze UI 2.1 source-pinned screenshot pixel regression
         run: python3 scripts/run_glaze_2_1_visual_regression.py compare --source-root . --baseline-dir .artifacts/glaze-2.1-visual-baseline-reference --output-dir .artifacts/glaze-2.1-visual-regression
-      - name: Capture exact-head Glaze UI 2.1 Stable review set
+      - name: Capture exact-head Glaze UI 2.1 historical review set
         if: ${{ always() }}
         run: python3 scripts/run_glaze_2_1_visual_regression.py capture --source-root . --output-dir .artifacts/glaze-2.1-visual-review-current
-      - name: Upload exact-head Stable visual evidence
+      - name: Upload exact-head Glaze UI 2.1 historical visual evidence
         if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-ui-2.1-stable-visual-${{ github.event.pull_request.head.sha || github.sha }}
+          name: glaze-ui-2.1-historical-visual-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             .artifacts/glaze-2.1-visual-review-current/*.png
             .artifacts/glaze-2.1-visual-baseline-reference/*.png
