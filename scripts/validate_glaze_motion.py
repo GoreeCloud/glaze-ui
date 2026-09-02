@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 TOKENS=ROOT/'tokens/glaze-motion.json'; DOC=ROOT/'GLAZE_MOTION.md'; NATIVE=ROOT/'NATIVE_MOTION_MAPPINGS.md'; CSS=ROOT/'css/glaze.motion.core.css'; RUNTIME=ROOT/'js/glaze.motion.js'; ACCESSIBILITY=ROOT/'js/glaze.motion.accessibility.js'; CORE=ROOT/'js/glaze.motion.core.js'; ACCEPTANCE=ROOT/'acceptance/glaze-motion-0.6-experimental.md'; REGISTRY=ROOT/'consumers'/'registry.json'; REFERENCE=ROOT/'reference/glaze-motion.html'; RENDERED=ROOT/'scripts/validate_glaze_motion_rendered.py'
-LAUNCHER='GoreeCloud/goreecloud-launcher'; KEYBOARD='GoreeCloud/goreecloud-keyboard'; LAUNCHER_HEAD='3095b9320b660f5e166465990d5d2bee061d7422'; LAUNCHER_MERGE='23a389b3b24db726ceab5e328f9f8157fa7655ae'; LAUNCHER_CURRENT_ADOPTION='a87f5b1bf20ce8005ca589bd4a38efa8440e7500'; KEYBOARD_HEAD='80de7bd2dcff6d07b06b19f8250e37d20155d7ff'; KEYBOARD_MERGE='c9c0500263b40640339cf7a46f1a029d9a2ac240'; KEYBOARD_CURRENT_ADOPTION='c7b425d28f96d2da20129843f71e3d54cc232e2f'
+LAUNCHER='GoreeCloud/goreecloud-launcher'; KEYBOARD='GoreeCloud/goreecloud-keyboard'; LAUNCHER_HEAD='3095b9320b660f5e166465990d5d2bee061d7422'; LAUNCHER_MERGE='23a389b3b24db726ceab5e328f9f8157fa7655ae'; LAUNCHER_CURRENT_ADOPTION='a87f5b1bf20ce8005ca589bd4a38efa8440e7500'; KEYBOARD_HEAD='80de7bd2dcff6d07b06b19f8250e37d20155d7ff'; KEYBOARD_MERGE='c9c0500263b40640339cf7a46f1a029d9a2ac240'; KEYBOARD_CURRENT_ADOPTION='e56ec4a01dde4024aa5ef54b3d13fd681ef8ada7'
 def req(c,m):
     if not c: raise SystemExit(f'Glaze Motion validation failed: {m}')
 def phrases(body,items,label):

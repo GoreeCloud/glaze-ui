@@ -46,7 +46,7 @@ Current-Stable version-specific evidence has not been established. Unverified ca
 - **GoreeCloud Website** — `migration-required`, recorded 1.5.0; required 2.2.0.
 - **GoreeCloud Tasks** — `migration-required`, recorded 1.3.0; required 2.2.0.
 - **GoreeCloud Launcher** — `adoption-candidate`, targets 2.2.0 with exact repository evidence at `a87f5b1bf20ce8005ca589bd4a38efa8440e7500`; final rendered/native/accessibility/reduced-motion/contrast/transparency/phone-tablet/representative-device acceptance remains required before current-Stable alignment or production approval.
-- **GoreeCloud Keyboard** — `adoption-candidate`, targets 2.2.0 with exact repository evidence at `c7b425d28f96d2da20129843f71e3d54cc232e2f`; phone/tablet native/rendered, TalkBack/switch-access, representative-device, and production acceptance remain required before current-Stable alignment.
+- **GoreeCloud Keyboard** — `adoption-candidate`, targets 2.2.0 with exact repository evidence at `e56ec4a01dde4024aa5ef54b3d13fd681ef8ada7`; the source evidence now includes unified viewport-bounded alternate-popup rendering/pointer hit testing, while phone/tablet native/rendered, TalkBack/switch-access, representative physical-device long-press/slide/release and compact-width ergonomics, and production acceptance remain required before current-Stable alignment.
 - **GoreeCloud Notes** — `unverified`; fresh repository-local 2.2 implementation evidence is required.
 - **GoreeCloud Monitor** — `migration-required`, recorded 1.0.0; required 2.2.0.
 - **GoreeCloud Browser** — `migration-required`, recorded 2.0.0; required 2.2.0. Its 2.0 implementation evidence remains historical migration input.
