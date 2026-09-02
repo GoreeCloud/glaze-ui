@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed governance validation for Glaze Motion 0.6 Experimental under Glaze UI 2.1 Stable."""
+"""Fail-closed governance validation for Glaze Motion 0.6 Experimental under current Stable Glaze UI."""
 from __future__ import annotations
 import json
 from pathlib import Path
@@ -32,20 +32,20 @@ def main():
     reduced=data.get('reducedMotion',{}); req(reduced.get('required') is True and reduced.get('durationMs')==0 and reduced.get('preserveDirectManipulationTracking') is True and reduced.get('removePostGestureInertia') is True,'reduced-motion invariants changed')
     req(data.get('authority',{})=={'presentation':'Glaze UI / Glaze Motion','privacyTruth':'Privacy Shield','securityTruth':'Wardveil Security','resilienceTruth':'Everkeep','coordinationTruth':'GoreeCloud Mesh'},'authority mapping changed')
 
-    # Glaze Motion remains Experimental across Stable Glaze UI promotions. The two
-    # native evaluations below are historical Motion evidence, while the canonical
-    # consumer registry must reflect the current Stable 2.1 migration boundary.
-    version=(ROOT/'VERSION').read_text().strip(); req(version=='2.1.0','Glaze Motion governance expects current Stable Glaze UI 2.1.0')
+    # Glaze Motion remains Experimental across Stable Glaze UI promotions. Its
+    # 1.5-era native evaluations stay immutable historical Motion evidence while
+    # the canonical consumer registry follows the current 2.2 Stable target.
+    version=(ROOT/'VERSION').read_text().strip(); req(version=='2.2.0','Glaze Motion governance expects current Stable Glaze UI 2.2.0')
     registry=json.loads(REGISTRY.read_text()); req(registry.get('stableBaseline')==version and registry.get('requiredConsumerVersion')==version,'consumer Stable baseline differs from VERSION')
     launcher=by_repo(registry.get('consumers',[]),LAUNCHER)
-    req(launcher.get('status')=='migration-required','Launcher must be migration-required after Glaze UI 2.1 Stable promotion')
-    req(launcher.get('targetVersion')=='2.0.0' and launcher.get('requiredTargetVersion')=='2.1.0','Launcher must preserve 2.0 evidence while requiring current Stable 2.1.0')
+    req(launcher.get('status')=='migration-required','Launcher must remain migration-required after Glaze UI 2.2 Stable promotion')
+    req(launcher.get('targetVersion')=='2.0.0' and launcher.get('requiredTargetVersion')=='2.2.0','Launcher must preserve 2.0 evidence while requiring current Stable 2.2.0')
     req(launcher.get('referenceRevision')==LAUNCHER_ADOPTION and launcher.get('evidence')=='docs/glaze-ui-adoption.md','Launcher historical adoption evidence changed')
     req(launcher.get('automatedContract') is True and launcher.get('productionEligible') is False,'Launcher production boundary changed')
 
     keyboard=by_repo(registry.get('consumers',[]),KEYBOARD)
-    req(keyboard.get('status')=='migration-required','Keyboard must remain migration-required until its own 2.1 adoption exists')
-    req(keyboard.get('targetVersion')=='1.6.0' and keyboard.get('requiredTargetVersion')=='2.1.0','Keyboard must preserve 1.6 evidence while requiring 2.1')
+    req(keyboard.get('status')=='migration-required','Keyboard must remain migration-required until its own 2.2 adoption exists')
+    req(keyboard.get('targetVersion')=='1.6.0' and keyboard.get('requiredTargetVersion')=='2.2.0','Keyboard must preserve 1.6 evidence while requiring 2.2')
     req(keyboard.get('referenceRevision')==KEYBOARD_ADOPTION and keyboard.get('evidence')=='docs/glaze-ui-adoption.md','Keyboard adoption evidence changed')
     req(keyboard.get('automatedContract') is True and keyboard.get('productionEligible') is False,'Keyboard production boundary changed')
 
@@ -56,5 +56,5 @@ def main():
     runtime=RUNTIME.read_text(); phrases(runtime,('GLAZE_MOTION_VERSION = "0.3.0"','createReorderModel','resolveSwipeAction','resolveDirectionalMove','createPanZoomState','createFrameBudgetProbe','createDragSession','startSharedTransition'),'compatibility runtime')
     acc=ACCESSIBILITY.read_text(); phrases(acc,('GLAZE_MOTION_ACCESSIBILITY_VERSION = "0.4.0"','resolveReorderCommand','createAccessibleReorderController','createSettlingBudget','reason: "reduced-motion"','reason: "budget-exhausted"'),'accessibility runtime'); req('announcement:' not in acc,'runtime must not hard-code localized announcement copy')
     core=CORE.read_text(); phrases(core,('export * from "./glaze.motion.js"','export * from "./glaze.motion.accessibility.js"'),'aggregate runtime')
-    print('Glaze Motion 0.6 Experimental validated under Glaze UI 2.1 Stable: historical evaluations preserved; Launcher and Keyboard require 2.1 migration; Motion remains non-production')
+    print('Glaze Motion 0.6 Experimental validated under Glaze UI 2.2 Stable: historical Motion evaluations preserved; Launcher and Keyboard require 2.2 migration; Motion remains non-production')
 if __name__=='__main__': main()
