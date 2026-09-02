@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Glaze UI Full-Spectrum Enforcement",
-    "currentStable": "2.1.0",
+    "currentStable": "2.2.0",
     "status": "stable-governance"
   },
   "principle": "GoreeCloud-controlled user-visible and interaction-facing decisions are governed by current Stable Glaze UI",
