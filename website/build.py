@@ -84,7 +84,7 @@ def render_consumer_governance(data: dict) -> str:
         for status,label in filter_labels.items()
     )
     controls=(
-        f'<div class="governance-controls glaze-surface" aria-label="Consumer governance filters">'
+        f'<div class="governance-controls glaze-surface" role="group" aria-label="Consumer governance filters">'
         f'<div class="governance-search"><label for="governance-search">Find consumer</label>'
         f'<input id="governance-search" type="search" inputmode="search" autocomplete="off" '
         f'placeholder="Name or repository" data-governance-search></div>'
