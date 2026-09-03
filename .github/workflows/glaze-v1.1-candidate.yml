@@ -1,0 +1,43 @@
+name: Glaze V1.1 Specification Candidate
+
+on:
+  pull_request:
+    paths:
+      - 'GLAZE_UI_V1_1_CANDIDATE.md'
+      - 'contracts/v1.1/**'
+      - 'tokens/glaze-v1.1-*.candidate.json'
+      - 'scripts/validate_glaze_v1_1_candidate.py'
+      - 'acceptance/v1.1-specification-candidate.md'
+      - '.github/workflows/glaze-v1.1-candidate.yml'
+      - 'contracts/performance/glaze-v1-performance-budget.json'
+      - 'contracts/accessibility/resolution-matrix.json'
+      - 'tokens/materials.json'
+      - 'tokens/semantic-colors.json'
+      - 'tokens/layout.json'
+      - 'VERSION'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@v4
+
+      - name: Preserve current V1 baseline
+        run: python3 scripts/validate_glaze_v1.py
+
+      - name: Validate current material contract
+        run: python3 scripts/validate_materials.py
+
+      - name: Validate current semantic color contract
+        run: python3 scripts/validate_semantic_colors.py
+
+      - name: Validate current layout contract
+        run: python3 scripts/validate_layout.py
+
+      - name: Validate V1.1 specification-stable candidate
+        run: python3 scripts/validate_glaze_v1_1_candidate.py
