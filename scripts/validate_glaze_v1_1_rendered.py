@@ -30,11 +30,12 @@ WEB_PORT = 8781
 DRIVER_PORT = 9531
 SERVER_BASE = f"http://{HOST}:{WEB_PORT}"
 DRIVER_BASE = f"http://{HOST}:{DRIVER_PORT}"
+ENTRYPOINT = "glaze-v1.1.0-candidate.css"
 
 SCENES = (
-    ("desktop-workspace", "reference/v1.1/desktop-workspace.html", 1440, 1000, False, "dark"),
-    ("tablet-dashboard", "reference/v1.1/tablet-dashboard.html", 1024, 820, False, "deep-dark"),
-    ("mobile-application", "reference/v1.1/mobile-application.html", 390, 844, True, "light"),
+    ("desktop-workspace", "reference/v1.1/desktop-workspace.html", 1440, 1000, False, "dark", "#0b0d11"),
+    ("tablet-dashboard", "reference/v1.1/tablet-dashboard.html", 1024, 820, False, "deep-dark", "#05070a"),
+    ("mobile-application", "reference/v1.1/mobile-application.html", 390, 844, True, "light", "#f5f7fa"),
 )
 
 
@@ -144,19 +145,11 @@ def create_session() -> str:
 
 
 def execute(session_id: str, script: str) -> Any:
-    return request(
-        "POST",
-        f"/session/{session_id}/execute/sync",
-        {"script": script, "args": []},
-    )
+    return request("POST", f"/session/{session_id}/execute/sync", {"script": script, "args": []})
 
 
 def cdp(session_id: str, command: str, params: dict[str, Any] | None = None) -> Any:
-    return request(
-        "POST",
-        f"/session/{session_id}/goog/cdp/execute",
-        {"cmd": command, "params": params or {}},
-    )
+    return request("POST", f"/session/{session_id}/goog/cdp/execute", {"cmd": command, "params": params or {}})
 
 
 def set_viewport(session_id: str, width: int, height: int, mobile: bool) -> None:
@@ -183,8 +176,7 @@ def navigate(session_id: str, relative: str) -> None:
     request("POST", f"/session/{session_id}/url", {"url": f"{SERVER_BASE}/{relative}"})
     deadline = time.monotonic() + 15
     while time.monotonic() < deadline:
-        ready = execute(session_id, "return document.readyState")
-        if ready == "complete":
+        if execute(session_id, "return document.readyState") == "complete":
             return
         time.sleep(0.1)
     raise RenderedAcceptanceError(f"Page did not finish loading: {relative}")
@@ -209,6 +201,7 @@ def read_state(session_id: str) -> dict[str, Any]:
         const scene=q('[data-glz11-scene]');
         const header=q('.glz11-reference-header');
         const hero=q('.glz11-hero');
+        const rootStyle=getComputedStyle(root);
         const visibleControls=[...document.querySelectorAll('.glz11-button,.glz11-nav-item,.glz11-field')]
           .map(el=>({el,r:el.getBoundingClientRect()}))
           .filter(x=>x.r.width>0&&x.r.height>0)
@@ -227,8 +220,10 @@ def read_state(session_id: str) -> dict[str, Any]:
           candidate:root.getAttribute('data-glaze-version-candidate'),
           appearance:root.getAttribute('data-glz-appearance'),
           scene:scene&&scene.getAttribute('data-glz11-scene'),
-          dir:root.dir||getComputedStyle(root).direction,
-          rootFont:parseFloat(getComputedStyle(root).fontSize),
+          dir:root.dir||rootStyle.direction,
+          rootFont:parseFloat(rootStyle.fontSize),
+          canvasRole:rootStyle.getPropertyValue('--glz1-canvas').trim().toLowerCase(),
+          baseRole:rootStyle.getPropertyValue('--glz1-base').trim().toLowerCase(),
           scripts:document.querySelectorAll('script').length,
           controls:visibleControls,
           beforeDisplay:before.display,
@@ -246,7 +241,7 @@ def read_state(session_id: str) -> dict[str, Any]:
     return value
 
 
-def validate_normal(state: dict[str, Any], scene: str, width: int, appearance: str) -> None:
+def validate_normal(state: dict[str, Any], scene: str, width: int, appearance: str, expected_canvas: str) -> None:
     require(state.get("ready") == "complete", f"{scene}: document is not complete")
     require(abs(int(state.get("width", 0)) - width) <= 1, f"{scene}: viewport width mismatch: {state}")
     require(int(state.get("scrollWidth", width + 2)) <= width + 1, f"{scene}: horizontal overflow: {state}")
@@ -254,7 +249,9 @@ def validate_normal(state: dict[str, Any], scene: str, width: int, appearance: s
     require(state.get("appearance") == appearance, f"{scene}: expected {appearance} appearance: {state}")
     require(state.get("scene") == scene, f"{scene}: reference family marker mismatch")
     require(int(state.get("scripts", 1)) == 0, f"{scene}: reference must remain script-free")
-    require(any("glaze-v1.1-candidate.css" in href for href in state.get("stylesheets", [])), f"{scene}: candidate stylesheet is not active")
+    require(any(ENTRYPOINT in href for href in state.get("stylesheets", [])), f"{scene}: versioned candidate entrypoint is not active")
+    require(state.get("canvasRole") == expected_canvas, f"{scene}: explicit {appearance} appearance adapter did not resolve the V1 canvas role: {state.get('canvasRole')}")
+    require(bool(state.get("baseRole")), f"{scene}: explicit appearance adapter did not resolve the V1 base role")
     require(state.get("beforeDisplay") != "none" and state.get("afterDisplay") != "none", f"{scene}: canonical two-field atmosphere is not rendered")
     require(state.get("beforeBackground") != "none" and state.get("afterBackground") != "none", f"{scene}: atmosphere fields have no rendered background")
     controls = state.get("controls") or []
@@ -329,12 +326,12 @@ def main() -> int:
         wait_driver()
         session_id = create_session()
 
-        for scene, relative, width, height, mobile, appearance in SCENES:
+        for scene, relative, width, height, mobile, appearance, expected_canvas in SCENES:
             set_viewport(session_id, width, height, mobile)
             emulate_media(session_id, [])
             navigate(session_id, relative)
             state = read_state(session_id)
-            validate_normal(state, scene, width, appearance)
+            validate_normal(state, scene, width, appearance, expected_canvas)
             screenshot(session_id, scene)
             validate_reduced_transparency(session_id, scene)
             if scene == "desktop-workspace":
