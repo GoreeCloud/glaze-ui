@@ -16,5 +16,16 @@ jobs:
         run: python scripts/validate_glaze_v1.py
       - name: Validate V1 Design Center publication
         run: python website/validate.py
+      - name: Validate Design Center mobile-first source contract
+        run: python scripts/validate_design_center_responsive.py
+      - name: Validate rendered Design Center Mobile UI
+        run: python scripts/validate_design_center_mobile.py
+      - name: Upload Design Center Mobile UI review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-center-mobile-ui
+          path: artifacts/design-center-mobile-*.png
+          if-no-files-found: warn
       - name: Check V1 runtime syntax
         run: node --check js/glaze-v1.0.0.mjs
