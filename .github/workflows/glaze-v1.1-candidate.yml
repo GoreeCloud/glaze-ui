@@ -10,6 +10,7 @@ on:
       - 'reference/v1.1/**'
       - 'scripts/validate_glaze_v1_1_candidate.py'
       - 'scripts/validate_glaze_v1_1_implementation.py'
+      - 'scripts/validate_glaze_v1_1_rendered.py'
       - 'acceptance/v1.1-specification-candidate.md'
       - '.github/workflows/glaze-v1.1-candidate.yml'
       - 'contracts/performance/glaze-v1-performance-budget.json'
@@ -48,3 +49,14 @@ jobs:
 
       - name: Validate isolated V1.1 implementation candidate
         run: python3 scripts/validate_glaze_v1_1_implementation.py
+
+      - name: Validate rendered V1.1 web candidate
+        run: python3 scripts/validate_glaze_v1_1_rendered.py
+
+      - name: Upload V1.1 rendered review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: glaze-v1.1-candidate-rendered
+          path: artifacts/glaze-v1.1-*.png
+          if-no-files-found: warn
