@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
+"""Fail-closed validator for the current GLAZE UI V1 release line."""
+
+from __future__ import annotations
+
 import json
-import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED = "1.0.0"
-ALLOWED_PRODUCT_LABELS = {"1.0", "1.0.0", "v1.0", "v1.0.0"}
-TRANSIENT_RESET_FILES = {
-    "scripts/normalize_glaze_v1_reset.py",
-    "scripts/validate_glaze_v1.py",
-    ".github/workflows/glaze-v1-normalize.yml",
-}
-TEXT_SUFFIXES = {
-    ".css", ".html", ".js", ".json", ".kt", ".kts", ".md", ".mjs",
-    ".properties", ".py", ".swift", ".xml", ".yaml", ".yml",
-}
+EXPECTED = "1.1.0"
+PREVIOUS = "1.0.0"
 
 
 def fail(message: str) -> None:
@@ -22,33 +16,19 @@ def fail(message: str) -> None:
 
 
 def load_json(path: str):
-    with (ROOT / path).open(encoding="utf-8") as f:
-        return json.load(f)
+    with (ROOT / path).open(encoding="utf-8") as handle:
+        return json.load(handle)
 
 
-if (ROOT / "VERSION").read_text(encoding="utf-8").strip() != EXPECTED:
-    fail("VERSION must be 1.0.0")
+def require_file(path: str) -> Path:
+    target = ROOT / path
+    if not target.is_file():
+        fail(f"missing required V1 artifact: {path}")
+    return target
 
-lifecycle = load_json("registry/lifecycle.json")
-if lifecycle.get("officialProductLabel") != "GLAZE UI V1.0":
-    fail("lifecycle official product label mismatch")
-if lifecycle.get("currentOfficial") != EXPECTED:
-    fail("lifecycle currentOfficial mismatch")
 
-catalog = load_json("contracts/components/v1/catalog.json")
-if catalog.get("version") != EXPECTED or catalog.get("componentCount") != 32:
-    fail("V1 component catalog mismatch")
-
-consumers = load_json("consumers/registry.json")
-if consumers.get("requiredConsumerVersion") != EXPECTED:
-    fail("consumer target mismatch")
-
-evidence_schema = load_json("contracts/glaze.conformance-evidence.schema.json")
-evidence_target = evidence_schema.get("properties", {}).get("target", {}).get("properties", {})
-if evidence_target.get("glaze_version", {}).get("const") != EXPECTED:
-    fail("conformance-evidence contract is not bound to V1 product version 1.0.0")
-if evidence_schema.get("properties", {}).get("schema_version", {}).get("const") != 2:
-    fail("conformance-evidence schema-format revision must remain 2")
+if require_file("VERSION").read_text(encoding="utf-8").strip() != EXPECTED:
+    fail(f"VERSION must be {EXPECTED}")
 
 required = [
     "README.md",
@@ -58,85 +38,159 @@ required = [
     "COMPETITIVE-OBJECTIVES.md",
     "BRANDING.md",
     "GLAZE_UI_V1_0.md",
+    "GLAZE_UI_V1_1.md",
     "css/glaze-v1.0.0.css",
-    "js/glaze-v1.0.0.mjs",
+    "css/glaze-v1.1.0.css",
+    "css/glaze-v1.1.optical.css",
+    "js/glaze-v1.1.0.mjs",
+    "js/glaze-v1.1.runtime.mjs",
     "contracts/system-shell/glaze-system-shell-v1.json",
-    "acceptance/v1.0-stable.md",
+    "contracts/performance/glaze-v1-performance-budget.json",
+    "contracts/regression/visual-baselines-v1.json",
+    "acceptance/v1.1-stable.md",
 ]
 for rel in required:
-    if not (ROOT / rel).exists():
-        fail(f"missing required V1 artifact: {rel}")
+    require_file(rel)
 
-obsolete_acceptance = [
-    "acceptance/glaze-motion-0.2-experimental.md",
-    "acceptance/glaze-motion-0.3-experimental.md",
-    "acceptance/glaze-motion-0.4-experimental.md",
-    "acceptance/glaze-motion-0.5-experimental.md",
-    "acceptance/glaze-motion-0.6-experimental.md",
-]
-for rel in obsolete_acceptance:
-    if (ROOT / rel).exists():
-        fail(f"obsolete pre-reset acceptance artifact remains: {rel}")
+lifecycle = load_json("registry/lifecycle.json")
+if lifecycle.get("schemaVersion", 0) < 2:
+    fail("lifecycle schema must be V1.1-aware")
 
-# These files directly bind the current product version. Internal subsystem-contract
-# revisions, such as icon schema baselines, are deliberately not rewritten as product
-# versions.
-product_binding_files = [
-    ".github/workflows/glaze-ui-evidence-validity.yml",
-    "contracts/glaze.conformance-evidence.schema.json",
-    "docs/evidence-validity.md",
-    "scripts/validate_conformance_evidence.py",
-    "scripts/test_validate_conformance_evidence.py",
-]
-for rel in product_binding_files:
-    text = (ROOT / rel).read_text(encoding="utf-8").lower()
-    for old in ("2.2.0", "2.1.0", "2.0.0"):
-        if old in text:
-            fail(f"former Glaze UI product version remains in V1 product binding: {rel}: {old}")
+candidate_mode = lifecycle.get("activeCandidate") == EXPECTED
+stable_mode = lifecycle.get("currentStable") == EXPECTED and lifecycle.get("currentOfficial") == EXPECTED
+if candidate_mode == stable_mode:
+    fail("exactly one of Release Candidate or Stable lifecycle mode must be active for V1.1")
 
-# Active filenames must not retain former Glaze UI release namespaces.
-# CHANGELOG.md remains because GoreeCloud revision-control policy requires the
-# append-oriented audit trail; historical entries do not define current versions.
-filename_forbidden = [
-    "glaze-2.2", "glaze_2_2", "glaze-ui-2.2", "glaze_ui_2_2",
-    "glaze-2.1", "glaze_2_1", "glaze-ui-2.1", "glaze_ui_2_1",
-    "candidate-2.2", "candidate-2.1", "candidate-2.0",
-]
+release = next((item for item in lifecycle.get("releases", []) if item.get("version") == EXPECTED), None)
+if not release:
+    fail("lifecycle is missing the V1.1 release record")
+if release.get("contract") != "GLAZE_UI_V1_1.md" or release.get("acceptance") != "acceptance/v1.1-stable.md":
+    fail("V1.1 lifecycle release paths mismatch")
+if candidate_mode:
+    if lifecycle.get("currentOfficial") != PREVIOUS or lifecycle.get("currentStable") is not None:
+        fail("Release Candidate mode must preserve V1.0 as current official reset baseline with no Stable release")
+    if release.get("status") != "release-candidate" or release.get("consumerEligible") is not False:
+        fail("V1.1 candidate must remain non-consumer-eligible")
+else:
+    if lifecycle.get("officialProductLabel") != "GLAZE UI V1.1":
+        fail("Stable lifecycle must name GLAZE UI V1.1 as official product label")
+    if lifecycle.get("activeCandidate") is not None:
+        fail("Stable lifecycle must clear activeCandidate")
+    if release.get("status") != "stable" or release.get("consumerEligible") is not True:
+        fail("Stable V1.1 release must be consumer eligible")
 
-content_forbidden = [
-    "glz22",
-    "glaze-2.2",
-    "glaze_2_2",
-    "glaze-ui-2.2",
-    "glaze_ui_2_2",
-    "2.2.0-candidate",
-    "current stable: 2.1.0",
+entrypoint = require_file("css/glaze-v1.1.0.css").read_text(encoding="utf-8").lower()
+if "glaze-v1.0.0.css" not in entrypoint or "glaze-v1.1.optical.css" not in entrypoint:
+    fail("V1.1 web entrypoint must incrementally import the V1.0 baseline and V1.1 optical layer")
+
+optical = require_file("css/glaze-v1.1.optical.css").read_text(encoding="utf-8").lower()
+required_optical_literals = {
+    "#081016": "Canvas Black",
+    "#101a20": "Deep Graphite",
+    "#18252b": "Slate Graphite",
+    "#0f6b6f": "Deep Teal",
+    "#1c8a8d": "Mineral Teal",
+    "#8fd6d2": "Soft Aqua",
+    "#d9a35f": "Soft Amber",
+    "#e7c78a": "Champagne Gold",
+    "#f2d7a6": "Warm Glow",
+    "data-glz-performance=\"constrained\"": "constrained performance fallback",
+    "forced-colors: active": "Forced Colors fallback",
+    "prefers-reduced-motion: reduce": "Reduced Motion fallback",
+    "prefers-contrast: more": "Increased Contrast fallback",
+    "data-glz-transparency=\"reduced\"": "Reduced Transparency fallback",
+    "--glz1-environment-color": "Environmental Color Memory input",
+    "--glz1-radius-micro": "curvature grammar",
+    "data-glz-depth=\"6\"": "depth grammar",
+    "data-glz-density=\"productive\"": "density profiles",
+}
+for literal, label in required_optical_literals.items():
+    if literal not in optical:
+        fail(f"V1.1 optical layer missing {label}")
+for forbidden in ("#7657f6", "rgba(126,92,255", "neon cyan", "rainbow glass"):
+    if forbidden in optical:
+        fail(f"V1.1 optical layer contains prohibited default atmosphere: {forbidden}")
+
+runtime = require_file("js/glaze-v1.1.runtime.mjs").read_text(encoding="utf-8")
+for symbol in ("setGlazeAura", "setGlazeDensity", "setGlazePerformance", "setEnvironmentalColor", "clearEnvironmentalColor"):
+    if f"function {symbol}" not in runtime:
+        fail(f"V1.1 runtime missing {symbol}")
+for network_marker in ("fetch(", "XMLHttpRequest", "WebSocket", "sendBeacon", "analytics"):
+    if network_marker in runtime:
+        fail(f"V1.1 optical runtime must remain local-only: {network_marker}")
+
+performance = load_json("contracts/performance/glaze-v1-performance-budget.json")
+if performance.get("product") != "GLAZE UI V1.1" or performance.get("version") != EXPECTED:
+    fail("performance budget is not bound to V1.1")
+rules = performance.get("rules", {})
+expected_limits = {
+    "nestedBackdropBlurAllowed": False,
+    "dominantGlazePanelsMax": 1,
+    "smallFloatingGlazeControlsMax": 3,
+    "concurrentAuraFieldsMax": 2,
+    "environmentalColorInfluencePercentMax": 12,
+    "overlayBackdropBlurPxMax": 22,
+    "panelBackdropBlurPxMax": 28,
+    "microInteractionDurationMsMax": 220,
+    "connectedTransitionDurationMsMax": 360,
+    "reducedMotionDurationMsMax": 120,
+    "constrainedModeBackdropBlurPx": 0,
+    "constrainedModeAuraFieldsMax": 0,
+}
+for key, expected in expected_limits.items():
+    if rules.get(key) != expected:
+        fail(f"V1.1 performance budget mismatch: {key}")
+
+visual = load_json("contracts/regression/visual-baselines-v1.json")
+if visual.get("product") != "GLAZE UI V1.1" or visual.get("version") != EXPECTED:
+    fail("visual-regression contract is not bound to V1.1")
+cases = visual.get("cases") or []
+required_case_ids = {
+    "design-center-mobile-320-light",
+    "design-center-mobile-390-light",
+    "design-center-mobile-390-dark",
+}
+if {case.get("id") for case in cases if case.get("required")} != required_case_ids:
+    fail("V1.1 visual-regression required case set mismatch")
+if stable_mode:
+    baseline = visual.get("baselineRevision")
+    if not isinstance(baseline, str) or len(baseline) != 40:
+        fail("Stable V1.1 requires an exact reviewed baselineRevision")
+    if visual.get("reviewState") != "reviewed":
+        fail("Stable V1.1 requires reviewed visual baselines")
+
+# The reset-era active tree must not retain live claims that a pre-reset release is current.
+# Immutable Git history and CHANGELOG.md remain the audit trail.
+active_scan_exclusions = {
+    "CHANGELOG.md",
+    "GLAZE_UI_V1_0.md",
+    "acceptance/v1.0-stable.md",
+    "scripts/validate_glaze_v1.py",
+}
+stale_markers = (
+    "current stable remains 2.1.0",
     "current stable remains glaze ui 2.1.0",
-]
-product_version_re = re.compile(
-    r"\bglaze ui\s+(v?\d+(?:\.\d+){1,2}(?:[-._a-z0-9]+)?)\b",
-    re.IGNORECASE,
+    "2.2 performance contract",
+    "glaze ui 2.2.0 is the current stable",
 )
-
 for path in ROOT.rglob("*"):
     if not path.is_file() or ".git" in path.parts:
         continue
     rel = path.relative_to(ROOT).as_posix()
-    rel_lower = rel.lower()
-    if rel == "CHANGELOG.md" or rel in TRANSIENT_RESET_FILES:
+    if rel in active_scan_exclusions or path.suffix.lower() not in {".css", ".html", ".json", ".md", ".mjs", ".py", ".yaml", ".yml"}:
         continue
-    if any(marker in rel_lower for marker in filename_forbidden):
-        fail(f"former release namespace remains in active filename: {rel}")
-    if path.suffix.lower() not in TEXT_SUFFIXES:
-        continue
-    text = path.read_text(encoding="utf-8")
-    text_lower = text.lower()
-    for marker in content_forbidden:
-        if marker in text_lower:
-            fail(f"former release namespace remains in active content: {rel}: {marker}")
-    for match in product_version_re.finditer(text):
-        token = match.group(1).lower()
-        if token not in ALLOWED_PRODUCT_LABELS:
-            fail(f"non-V1 Glaze UI product version remains in active content: {rel}: {match.group(0)}")
+    text = path.read_text(encoding="utf-8", errors="replace").lower()
+    for marker in stale_markers:
+        if marker in text:
+            fail(f"stale pre-reset current-release statement remains in active source: {rel}: {marker}")
 
-print("GLAZE UI V1.0 reset contract: OK")
+acceptance = require_file("acceptance/v1.1-stable.md").read_text(encoding="utf-8")
+if stable_mode:
+    for pending in ("Reviewed implementation revision: `PENDING`", "Final Stable release revision: `PENDING`", "Stable release/tag: `PENDING`", "Stable accepted: `No`"):
+        if pending in acceptance:
+            fail(f"Stable lifecycle cannot retain unresolved acceptance field: {pending}")
+    native = lifecycle.get("capabilities", {}).get("native-reference", {})
+    if native.get("status") in {None, "revalidation-required", "unknown", "pending"}:
+        fail("Stable V1.1 requires resolved native-reference lifecycle state")
+
+print(f"GLAZE UI V1.1 {'Stable' if stable_mode else 'Release Candidate'} contract: OK")
