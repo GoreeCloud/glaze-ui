@@ -15,11 +15,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CURRENT_ENTRY = ROOT / "css" / "glaze-v1.0.0.css"
+CANDIDATE_ENTRY = ROOT / "css" / "glaze-v1.1.0-candidate.css"
 CANDIDATE_CSS = ROOT / "css" / "glaze-v1.1-candidate.css"
+APPEARANCE_CSS = ROOT / "css" / "glaze-v1.1-appearance.candidate.css"
 ATMOSPHERE = ROOT / "tokens" / "glaze-v1.1-atmosphere.candidate.json"
 OPTICAL = ROOT / "contracts" / "v1.1" / "optical-refinement.candidate.json"
 REFERENCE_DIR = ROOT / "reference" / "v1.1"
 ACTIVATION = 'html[data-glaze-version-candidate="1.1"]'
+ENTRY_HREF = 'href="../../css/glaze-v1.1.0-candidate.css"'
 
 
 def load_json(path: Path):
@@ -34,10 +37,15 @@ def main() -> int:
         if not condition:
             errors.append(message)
 
-    require(CURRENT_ENTRY.is_file(), "current V1.0 web entrypoint is missing")
-    require(CANDIDATE_CSS.is_file(), "V1.1 candidate CSS is missing")
-    require(ATMOSPHERE.is_file(), "V1.1 atmosphere token contract is missing")
-    require(OPTICAL.is_file(), "V1.1 optical contract is missing")
+    for path, message in (
+        (CURRENT_ENTRY, "current V1.0 web entrypoint is missing"),
+        (CANDIDATE_ENTRY, "versioned V1.1 candidate web entrypoint is missing"),
+        (CANDIDATE_CSS, "V1.1 optical candidate CSS is missing"),
+        (APPEARANCE_CSS, "V1.1 candidate appearance adapter is missing"),
+        (ATMOSPHERE, "V1.1 atmosphere token contract is missing"),
+        (OPTICAL, "V1.1 optical contract is missing"),
+    ):
+        require(path.is_file(), message)
     require(REFERENCE_DIR.is_dir(), "V1.1 reference directory is missing")
     if errors:
         for error in errors:
@@ -45,34 +53,50 @@ def main() -> int:
         return 1
 
     current_entry = CURRENT_ENTRY.read_text(encoding="utf-8")
+    candidate_entry = CANDIDATE_ENTRY.read_text(encoding="utf-8")
     css = CANDIDATE_CSS.read_text(encoding="utf-8")
+    appearance_css = APPEARANCE_CSS.read_text(encoding="utf-8")
     atmosphere = load_json(ATMOSPHERE)
     optical = load_json(OPTICAL)
 
     # Current consumers must remain unable to activate V1.1 accidentally.
     require("v1.1" not in current_entry.lower(), "current V1.0 entrypoint must not import or mention V1.1 candidate source")
-    require('@import url("./glaze-v1.0.0.css");' in css, "V1.1 candidate must inherit the official V1.0 web entrypoint")
-    require(ACTIVATION in css, "V1.1 candidate CSS must require an explicit root activation attribute")
+    require('@import url("./glaze-v1.1-candidate.css");' in candidate_entry, "versioned candidate entrypoint must import the V1.1 optical layer")
+    require('@import url("./glaze-v1.1-appearance.candidate.css");' in candidate_entry, "versioned candidate entrypoint must import the explicit appearance adapter")
+    require(candidate_entry.index('glaze-v1.1-candidate.css') < candidate_entry.index('glaze-v1.1-appearance.candidate.css'), "appearance adapter must load after the optical layer")
+    require('@import url("./glaze-v1.0.0.css");' in css, "V1.1 optical candidate must inherit the official V1.0 web entrypoint")
+    require(ACTIVATION in css and ACTIVATION in appearance_css, "all V1.1 implementation layers must require explicit root activation")
 
-    # Candidate CSS may refine presentation but must not add material sampling or hidden runtime behavior.
-    require("backdrop-filter" not in css.lower(), "V1.1 candidate CSS must not add backdrop-filter declarations; inherit V1 material behavior")
-    require("@keyframes" not in css.lower(), "V1.1 candidate must not introduce decorative keyframe animation")
-    require("http://" not in css.lower() and "https://" not in css.lower(), "V1.1 candidate CSS must not depend on remote assets")
-    require("javascript:" not in css.lower(), "V1.1 candidate CSS must not embed script URLs")
+    # Candidate layers may refine presentation but must not add material sampling or hidden runtime behavior.
+    for label, source in (("optical", css), ("appearance", appearance_css)):
+        lowered = source.lower()
+        require("backdrop-filter" not in lowered, f"V1.1 {label} layer must not add backdrop-filter declarations; inherit V1 material behavior")
+        require("@keyframes" not in lowered, f"V1.1 {label} layer must not introduce decorative keyframe animation")
+        require("http://" not in lowered and "https://" not in lowered, f"V1.1 {label} layer must not depend on remote assets")
+        require("javascript:" not in lowered, f"V1.1 {label} layer must not embed script URLs")
 
     protected_assignments = re.compile(
         r"--glz1-(?:focus|info|success|warning|critical|protected|restricted|online|offline|syncing|unavailable)\s*:",
         re.IGNORECASE,
     )
     require(not protected_assignments.search(css), "V1.1 optical candidate must not redefine current semantic/protected V1 variables")
+    require(not protected_assignments.search(appearance_css), "V1.1 appearance adapter must not redefine current semantic/protected V1 variables")
 
-    # Every candidate selector must be activation-gated. Declarations and at-rules are ignored.
-    for line_number, line in enumerate(css.splitlines(), start=1):
-        stripped = line.strip()
-        if not stripped or stripped.startswith(("/*", "*", "*/", "@", "--")):
-            continue
-        if stripped.startswith(("html", ".", "body", "#", "[", ":")) and (stripped.endswith("{") or stripped.endswith(",")):
-            require(stripped.startswith(ACTIVATION), f"candidate selector is not root-gated at CSS line {line_number}: {stripped}")
+    # All candidate selectors must remain activation-gated. Declarations and at-rules are ignored.
+    for label, source in (("optical", css), ("appearance", appearance_css)):
+        for line_number, line in enumerate(source.splitlines(), start=1):
+            stripped = line.strip()
+            if not stripped or stripped.startswith(("/*", "*", "*/", "@", "--")):
+                continue
+            if stripped.startswith(("html", ".", "body", "#", "[", ":")) and (stripped.endswith("{") or stripped.endswith(",")):
+                require(stripped.startswith(ACTIVATION), f"{label} selector is not root-gated at CSS line {line_number}: {stripped}")
+
+    # The appearance adapter must cover every declared V1 appearance without changing protected semantics.
+    for appearance in ("light", "dark", "deep-dark"):
+        require(f'{ACTIVATION}[data-glz-appearance="{appearance}"]' in appearance_css, f"appearance adapter missing explicit {appearance} mapping")
+    for required_role in ("--glz1-canvas:", "--glz1-base:", "--glz1-raised:", "--glz1-text-primary:", "--glz1-text-secondary:", "--glz1-line:", "--glz1-overlay-bg:", "--glz1-panel-bg:"):
+        require(appearance_css.count(required_role) >= 3, f"appearance adapter must map structural role across Light/Dark/Deep Dark: {required_role}")
+    require("forced-colors: active" in appearance_css and "CanvasText" in appearance_css, "appearance adapter must preserve Forced Colors fallback")
 
     # Frozen primitive palette must be represented exactly.
     for name, value in atmosphere["primitives"].items():
@@ -125,7 +149,8 @@ def main() -> int:
     require("--glz11-target-min: 48px" in css, "candidate must preserve the V1 48px touch target floor")
     require("--glz11-target-min: 56px" in css, "candidate must preserve Touch Assistance 56px target behavior")
 
-    # Reference families must explicitly opt in, remain local/static, and cover required form factors.
+    # Reference families must explicitly opt in, use the single versioned entrypoint,
+    # remain local/static, and cover required form factors.
     references = {
         "desktop-workspace": REFERENCE_DIR / "desktop-workspace.html",
         "mobile-application": REFERENCE_DIR / "mobile-application.html",
@@ -137,7 +162,8 @@ def main() -> int:
             continue
         text = path.read_text(encoding="utf-8")
         require('data-glaze-version-candidate="1.1"' in text, f"{scene} must explicitly opt into V1.1 candidate")
-        require('href="../../css/glaze-v1.1-candidate.css"' in text, f"{scene} must load candidate CSS directly")
+        require(ENTRY_HREF in text, f"{scene} must load the single versioned V1.1 candidate entrypoint")
+        require('href="../../css/glaze-v1.1-candidate.css"' not in text, f"{scene} must not bypass the versioned entrypoint")
         require(f'data-glz11-scene="{scene}"' in text, f"{scene} must identify its reference family")
         require("<script" not in text.lower(), f"{scene} must remain static and script-free in the first candidate")
         require("http://" not in text.lower() and "https://" not in text.lower(), f"{scene} must not depend on remote content")
@@ -153,7 +179,7 @@ def main() -> int:
 
     # Optional Environmental Color Memory is deliberately not implemented yet.
     require(optical["environmentalColorMemory"]["requiredForConformance"] is False, "machine contract must keep Environmental Color Memory optional")
-    require("environmental-color-memory" not in css.lower(), "first implementation candidate must not add environmental sampling behavior")
+    require("environmental-color-memory" not in css.lower() and "environmental-color-memory" not in appearance_css.lower(), "first implementation candidate must not add environmental sampling behavior")
 
     if errors:
         print("GLAZE UI V1.1 implementation candidate validation FAILED:")
