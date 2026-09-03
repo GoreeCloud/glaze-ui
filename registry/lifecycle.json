@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "schemaVersion": 1,
-  "updated": "2026-09-02",
+  "schemaVersion": 2,
+  "updated": "2026-09-03",
   "officialProductLabel": "GLAZE UI V1.0",
   "currentOfficial": "1.0.0",
   "currentStable": null,
-  "activeCandidate": null,
-  "resetState": "revalidation-required",
+  "activeCandidate": "1.1.0",
+  "candidateProductLabel": "GLAZE UI V1.1",
+  "resetState": "v1.1-stabilization",
   "releases": [
     {
       "version": "1.0.0",
@@ -15,16 +16,27 @@
       "consumerEligible": false,
       "contract": "GLAZE_UI_V1_0.md",
       "acceptance": "acceptance/v1.0-stable.md",
-      "note": "The V1.0 namespace is official. Production consumer eligibility requires fresh post-reset acceptance evidence."
+      "note": "The V1.0 namespace is the current official reset baseline. It never received post-reset Stable acceptance."
+    },
+    {
+      "version": "1.1.0",
+      "label": "GLAZE UI V1.1",
+      "status": "release-candidate",
+      "consumerEligible": false,
+      "contract": "GLAZE_UI_V1_1.md",
+      "acceptance": "acceptance/v1.1-stable.md",
+      "note": "V1.1 is the active stabilization candidate. Stable and consumer eligibility require exact-release acceptance."
     }
   ],
   "capabilities": {
-    "system-shell": {"status": "official-baseline", "since": "1.0.0", "implementation": "contracts/system-shell/glaze-system-shell-v1.json"},
-    "component-catalog": {"status": "official-baseline", "since": "1.0.0", "implementation": "contracts/components/v1/catalog.json"},
-    "web-entrypoint": {"status": "official-baseline", "since": "1.0.0", "implementation": "css/glaze-v1.0.0.css"},
-    "runtime-entrypoint": {"status": "official-baseline", "since": "1.0.0", "implementation": "js/glaze-v1.0.0.mjs"},
-    "performance-budget": {"status": "revalidation-required", "since": "1.0.0", "implementation": "contracts/performance/glaze-v1-performance-budget.json"},
-    "visual-regression": {"status": "revalidation-required", "since": "1.0.0", "implementation": "contracts/regression/visual-baselines-v1.json"},
+    "system-shell": {"status": "release-candidate", "since": "1.0.0", "implementation": "contracts/system-shell/glaze-system-shell-v1.json"},
+    "component-catalog": {"status": "release-candidate", "since": "1.0.0", "implementation": "contracts/components/v1/catalog.json"},
+    "web-entrypoint": {"status": "release-candidate", "since": "1.1.0", "implementation": "css/glaze-v1.1.0.css"},
+    "runtime-entrypoint": {"status": "release-candidate", "since": "1.1.0", "implementation": "js/glaze-v1.1.0.mjs"},
+    "optical-refinement": {"status": "release-candidate", "since": "1.1.0", "implementation": "css/glaze-v1.1.optical.css"},
+    "atmospheric-color": {"status": "release-candidate", "since": "1.1.0", "implementation": "css/glaze-v1.1.optical.css"},
+    "performance-budget": {"status": "release-candidate", "since": "1.1.0", "implementation": "contracts/performance/glaze-v1-performance-budget.json"},
+    "visual-regression": {"status": "release-candidate", "since": "1.1.0", "implementation": "contracts/regression/visual-baselines-v1.json"},
     "native-reference": {"status": "revalidation-required", "since": "1.0.0", "implementation": "reference/native/android/v1"}
   }
 }
