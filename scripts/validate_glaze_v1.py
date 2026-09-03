@@ -43,6 +43,13 @@ consumers = load_json("consumers/registry.json")
 if consumers.get("requiredConsumerVersion") != EXPECTED:
     fail("consumer target mismatch")
 
+evidence_schema = load_json("contracts/glaze.conformance-evidence.schema.json")
+evidence_target = evidence_schema.get("properties", {}).get("target", {}).get("properties", {})
+if evidence_target.get("glaze_version", {}).get("const") != EXPECTED:
+    fail("conformance-evidence contract is not bound to V1 product version 1.0.0")
+if evidence_schema.get("properties", {}).get("schema_version", {}).get("const") != 2:
+    fail("conformance-evidence schema-format revision must remain 2")
+
 required = [
     "README.md",
     "SPECIFICATIONS.md",
@@ -70,6 +77,22 @@ obsolete_acceptance = [
 for rel in obsolete_acceptance:
     if (ROOT / rel).exists():
         fail(f"obsolete pre-reset acceptance artifact remains: {rel}")
+
+# These files directly bind the current product version. Internal subsystem-contract
+# revisions, such as icon schema baselines, are deliberately not rewritten as product
+# versions.
+product_binding_files = [
+    ".github/workflows/glaze-ui-evidence-validity.yml",
+    "contracts/glaze.conformance-evidence.schema.json",
+    "docs/evidence-validity.md",
+    "scripts/validate_conformance_evidence.py",
+    "scripts/test_validate_conformance_evidence.py",
+]
+for rel in product_binding_files:
+    text = (ROOT / rel).read_text(encoding="utf-8").lower()
+    for old in ("2.2.0", "2.1.0", "2.0.0"):
+        if old in text:
+            fail(f"former Glaze UI product version remains in V1 product binding: {rel}: {old}")
 
 # Active filenames must not retain former Glaze UI release namespaces.
 # CHANGELOG.md remains because GoreeCloud revision-control policy requires the
