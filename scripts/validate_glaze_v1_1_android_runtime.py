@@ -106,6 +106,33 @@ def height_dp(node: ET.Element, dpi: int) -> float:
     return (y2 - y1) * 160.0 / dpi
 
 
+def swipe_forward(serial: str) -> None:
+    adb(serial, "shell", "input", "swipe", "520", "1750", "520", "650", "240")
+    time.sleep(0.25)
+
+
+def swipe_backward(serial: str) -> None:
+    adb(serial, "shell", "input", "swipe", "520", "700", "520", "1750", "240")
+    time.sleep(0.25)
+
+
+def require_reachable_contains(serial: str, fragment: str, attempts: int = 12) -> None:
+    """Require a fragment anywhere reachable in the ScrollView, not only the initial viewport.
+
+    UIAutomator exposes only currently rendered/visible nodes for this simple native
+    ScrollView. Large-text acceptance therefore has to exercise reachability before
+    deciding that an expected label is absent.
+    """
+    for index in range(attempts + 1):
+        if contains(dump_ui(serial), fragment):
+            return
+        if index % 5 == 4:
+            swipe_backward(serial)
+        else:
+            swipe_forward(serial)
+    raise SystemExit(f"required reachable native UI fragment not found: {fragment}")
+
+
 def find_reachable_desc(serial: str, value: str, attempts: int = 10) -> ET.Element:
     for index in range(attempts + 1):
         ui = dump_ui(serial)
@@ -113,10 +140,9 @@ def find_reachable_desc(serial: str, value: str, attempts: int = 10) -> ET.Eleme
         if node is not None:
             return node
         if index % 4 == 3:
-            adb(serial, "shell", "input", "swipe", "520", "700", "520", "1750", "240")
+            swipe_backward(serial)
         else:
-            adb(serial, "shell", "input", "swipe", "520", "1750", "520", "650", "240")
-        time.sleep(0.25)
+            swipe_forward(serial)
     raise SystemExit(f"native UI element did not become reachable: {value}")
 
 
@@ -195,9 +221,8 @@ def case_dark_reduced(serial: str, dpi: int) -> dict:
 def case_deep_dark_touch(serial: str, dpi: int) -> dict:
     adb(serial, "shell", "settings", "put", "system", "font_scale", "2.0")
     launch(serial, appearance="deep-dark", touch=True)
-    ui = dump_ui(serial)
     for fragment in ("Appearance: Deep Dark", "Touch Assistance: 56 dp minimum target", "Target floor: 56 dp"):
-        require_contains(ui, fragment)
+        require_reachable_contains(serial, fragment)
     primary_dp = require_target(serial, "Primary action", dpi, 56.0)
     secondary_dp = require_target(serial, "Secondary action", dpi, 56.0)
     name, digest = screenshot(serial, "android-v1.1-deep-dark-large-text-touch.png")
