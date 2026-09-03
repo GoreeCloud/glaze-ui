@@ -6,7 +6,7 @@ on:
       - 'GLAZE_UI_V1_1_CANDIDATE.md'
       - 'contracts/v1.1/**'
       - 'tokens/glaze-v1.1-*.candidate.json'
-      - 'css/glaze-v1.1-*.css'
+      - 'css/glaze-v1.1*.css'
       - 'reference/v1.1/**'
       - 'scripts/validate_glaze_v1_1_candidate.py'
       - 'scripts/validate_glaze_v1_1_implementation.py'
