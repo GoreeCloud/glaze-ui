@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.1 Candidate",
+  "candidateVersion": "1.1.0-candidate.1",
+  "lifecycle": "Specification-Stable Candidate",
+  "currentOfficialTarget": "GLAZE UI V1.0 / 1.0.0",
+  "source": {
+    "repository": "GoreeCloud/goreecloud-glaze-ui",
+    "pullRequest": 125,
+    "branch": "design/glaze-ui-v1.1-stabilization",
+    "exactHeadSha": "979548f6c3e00b22675b61af776b63716f87415d"
+  },
+  "validation": {
+    "workflow": "Glaze V1.1 Candidate",
+    "workflowRunId": 33743909110,
+    "workflowRunNumber": 25,
+    "result": "success",
+    "existingV1WorkflowFamiliesOnSameHead": {
+      "GLAZE UI V1.0 CI": {"runId": 33743909177, "runNumber": 922, "result": "success"},
+      "Glaze UI Semantic Color Contract": {"runId": 33743909145, "runNumber": 567, "result": "success"},
+      "GLAZE UI V1 Icon Construction Contract": {"runId": 33743909178, "runNumber": 532, "result": "success"},
+      "Glaze UI Icon Identity Contract": {"runId": 33743909126, "runNumber": 524, "result": "success"}
+    },
+    "renderedCoverage": [
+      "desktop-1440x1000-dark",
+      "tablet-1024x820-deep-dark",
+      "mobile-390x844-light",
+      "explicit-appearance-role-resolution",
+      "48px-interaction-target-floor",
+      "56px-touch-assistance-target-floor",
+      "keyboard-tab-focus-and-visible-focus-outline",
+      "increased-contrast-visible-boundaries",
+      "reduced-transparency",
+      "reduced-motion",
+      "forced-colors",
+      "200-percent-text",
+      "rtl-no-root-horizontal-overflow",
+      "touch-and-pointer-form-factor-rendering"
+    ]
+  },
+  "renderedArtifact": {
+    "githubActionsArtifactId": 9888848079,
+    "githubActionsArtifactDigest": "sha256:b1f677f962285fdf4ecf52987a4a6e00a4ed65b2eb264cd2460a46962829e7ff",
+    "preservedDriveFileId": "14PrrGF0JTQNkHHSad1FjJQIluW0IIc8U",
+    "preservedDriveTitle": "Evidence — Glaze UI V1.1 Candidate — Rendered Web — 979548f6.zip",
+    "screenshots": {
+      "glaze-v1.1-desktop-workspace.png": "sha256:43da8546b8f17778fb650f43b9e6fa4657079e1d696c7292162c99051486f1c1",
+      "glaze-v1.1-tablet-dashboard.png": "sha256:bed6ce84598c6db8c2b8dad8ef26873b8b31f2ce824bb52d1dfa12c757b22667",
+      "glaze-v1.1-mobile-application.png": "sha256:1d3d8dcab16db1f22fb55bdaac8984ba0a0eda4ec67cd89b37857a06ece67c58",
+      "glaze-v1.1-desktop-reduced-transparency.png": "sha256:a460159cf58a76da3862d723f54679bc8e060bda986d40cdecc8d64ad89ef438",
+      "glaze-v1.1-desktop-forced-colors.png": "sha256:3f452d6141c5d742e70495561a401b8a1f06e20586195072a13db5e9b4643c3d"
+    }
+  },
+  "review": {
+    "automatedRenderedWebAcceptance": "passed",
+    "assistantVisualInspection": "passed-no-blocking-defect-observed",
+    "humanOpticalReview": "pending",
+    "platformNativeEvidence": "not-claimed-by-this-record"
+  },
+  "releaseBoundary": {
+    "changesVersion": false,
+    "promotesCurrentTarget": false,
+    "establishesStableRelease": false,
+    "establishesProductionStable": false,
+    "establishesDownstreamConformance": false,
+    "mergeDoesNotPromote": true
+  }
+}
