@@ -6,6 +6,7 @@ on:
       - 'release/glaze-ui-v1.1.0'
     paths:
       - 'scripts/promote_glaze_v1_1_stable.py'
+      - 'scripts/promote_glaze_v1_1_bindings.py'
       - 'scripts/validate_glaze_v1_1_stable.py'
       - '.github/workflows/glaze-v1.1-promote.yml'
 
@@ -37,14 +38,17 @@ jobs:
         env:
           GLAZE_RC_REVISION: ${{ github.sha }}
           GLAZE_RC_WORKFLOW_RUN_ID: ${{ github.run_id }}
-        run: python3 scripts/promote_glaze_v1_1_stable.py
+        run: |
+          python3 scripts/promote_glaze_v1_1_stable.py
+          python3 scripts/promote_glaze_v1_1_bindings.py
 
       - name: Validate generated Stable source authority
         run: |
           python3 scripts/validate_glaze_v1_1_stable.py
           python3 website/validate.py
           python3 scripts/validate_design_center_responsive.py
-          python3 -m py_compile scripts/validate_glaze_v1.py scripts/validate_glaze_v1_1_stable.py
+          python3 scripts/test_validate_conformance_evidence.py
+          python3 -m py_compile scripts/validate_glaze_v1.py scripts/validate_glaze_v1_1_stable.py scripts/validate_conformance_evidence.py
           node --check js/glaze-v1.1.0.mjs
 
       - name: Commit Stable promotion coherently
