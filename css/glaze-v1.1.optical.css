@@ -1,0 +1,282 @@
+/*
+ * GLAZE UI V1.1 optical and atmospheric refinement layer.
+ * Lifecycle: Release Candidate until exact-revision Stable acceptance completes.
+ * Semantic state colors remain authoritative; atmospheric color is non-semantic.
+ */
+
+:root {
+  /* Environmental neutrals */
+  --glz1-atmosphere-canvas-black: #081016;
+  --glz1-atmosphere-deep-graphite: #101a20;
+  --glz1-atmosphere-slate-graphite: #18252b;
+
+  /* Primary cool atmosphere */
+  --glz1-atmosphere-deep-teal: #0f6b6f;
+  --glz1-atmosphere-mineral-teal: #1c8a8d;
+  --glz1-atmosphere-soft-aqua: #8fd6d2;
+  --glz1-atmosphere-teal-mist: color-mix(in srgb, var(--glz1-atmosphere-soft-aqua) 14%, transparent);
+
+  /* Secondary warm atmosphere */
+  --glz1-atmosphere-soft-amber: #d9a35f;
+  --glz1-atmosphere-champagne: #e7c78a;
+  --glz1-atmosphere-warm-glow: #f2d7a6;
+  --glz1-atmosphere-amber-mist: color-mix(in srgb, var(--glz1-atmosphere-warm-glow) 10%, transparent);
+
+  /* Rare expressive accent. Never a semantic status default. */
+  --glz1-atmosphere-muted-coral: #c97d72;
+
+  /* Environmental Color Memory input; applications may override locally. */
+  --glz1-environment-color: var(--glz1-atmosphere-deep-teal);
+  --glz1-environment-strength: 6%;
+
+  /* Functional Aura categories. */
+  --glz1-aura-cool: var(--glz1-atmosphere-deep-teal);
+  --glz1-aura-cool-highlight: var(--glz1-atmosphere-soft-aqua);
+  --glz1-aura-warm: var(--glz1-atmosphere-soft-amber);
+  --glz1-aura-warm-highlight: var(--glz1-atmosphere-champagne);
+  --glz1-aura-primary: var(--glz1-aura-cool);
+  --glz1-aura-secondary: var(--glz1-aura-warm);
+
+  /* Unified optical lighting. */
+  --glz1-light-edge: rgba(255, 255, 255, 0.58);
+  --glz1-light-highlight: rgba(255, 255, 255, 0.42);
+  --glz1-light-occlusion: rgba(4, 12, 18, 0.10);
+  --glz1-shadow-1: 0 6px 18px rgba(8, 16, 22, 0.09);
+  --glz1-shadow-2: 0 12px 34px rgba(8, 16, 22, 0.13);
+  --glz1-shadow-3: 0 20px 52px rgba(8, 16, 22, 0.17);
+  --glz1-shadow-4: 0 28px 76px rgba(8, 16, 22, 0.21);
+  --glz1-shadow-5: 0 34px 92px rgba(8, 16, 22, 0.24);
+  --glz1-shadow-6: 0 42px 112px rgba(8, 16, 22, 0.27);
+
+  /* Curvature grammar. */
+  --glz1-radius-micro: 8px;
+  --glz1-radius-control: 16px;
+  --glz1-radius-container: 24px;
+  --glz1-radius-hero: 32px;
+  --glz1-radius-capsule: 999px;
+
+  /* Typography roles. */
+  --glz1-type-display-size: clamp(2.5rem, 6vw, 5.5rem);
+  --glz1-type-display-leading: 0.96;
+  --glz1-type-title-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  --glz1-type-heading-size: clamp(1.125rem, 1.7vw, 1.5rem);
+  --glz1-type-body-size: 1rem;
+  --glz1-type-ui-size: 0.9375rem;
+  --glz1-type-caption-size: 0.8125rem;
+
+  /* Interaction microphysics. */
+  --glz1-press-scale: 0.985;
+  --glz1-hover-lift: -1px;
+  --glz1-motion-micro: 160ms;
+  --glz1-motion-standard: 240ms;
+  --glz1-motion-connected: 360ms;
+
+  /* Density defaults. */
+  --glz1-density-space-scale: 1;
+  --glz1-density-control-scale: 1;
+  --glz1-density-row-scale: 1;
+}
+
+/* V1.1 uses teal + amber as environmental light, not semantic status. */
+[data-glz-aura="teal"] {
+  --glz1-aura-primary: var(--glz1-atmosphere-deep-teal);
+  --glz1-aura-secondary: var(--glz1-atmosphere-soft-aqua);
+}
+[data-glz-aura="amber"] {
+  --glz1-aura-primary: var(--glz1-atmosphere-soft-amber);
+  --glz1-aura-secondary: var(--glz1-atmosphere-champagne);
+}
+[data-glz-aura="dual"] {
+  --glz1-aura-primary: var(--glz1-atmosphere-deep-teal);
+  --glz1-aura-secondary: var(--glz1-atmosphere-soft-amber);
+}
+[data-glz-aura="neutral"] {
+  --glz1-aura-primary: var(--glz1-atmosphere-slate-graphite);
+  --glz1-aura-secondary: var(--glz1-atmosphere-soft-aqua);
+}
+
+/* Adaptive Glaze: restrained environmental memory with semantic-safe limits. */
+.glz1-system-overlay,
+.glz1-system-panel,
+.glz1-capsule,
+.glz1-search-entry,
+.glz1-smart-rail {
+  border-color: color-mix(in srgb, var(--glz1-light-edge) 44%, var(--glz1-line));
+  box-shadow:
+    inset 0 1px 0 var(--glz1-light-highlight),
+    inset 0 -1px 0 var(--glz1-light-occlusion),
+    var(--glz1-shadow-2);
+}
+
+.glz1-system-overlay,
+.glz1-capsule,
+.glz1-search-entry,
+.glz1-smart-rail {
+  background: color-mix(
+    in srgb,
+    var(--glz1-overlay-bg) calc(100% - var(--glz1-environment-strength)),
+    var(--glz1-environment-color) var(--glz1-environment-strength)
+  );
+}
+
+.glz1-system-panel {
+  background: color-mix(
+    in srgb,
+    var(--glz1-panel-bg) calc(100% - var(--glz1-environment-strength)),
+    var(--glz1-environment-color) var(--glz1-environment-strength)
+  );
+  box-shadow:
+    inset 0 1px 0 var(--glz1-light-highlight),
+    inset 0 -1px 0 var(--glz1-light-occlusion),
+    var(--glz1-shadow-4);
+}
+
+/* Aura remains a low-frequency field around selected high-value regions. */
+.glz1-aurora::before,
+.glz1-aura-field::before {
+  background:
+    radial-gradient(circle at 22% 24%, color-mix(in srgb, var(--glz1-aura-primary) 44%, transparent), transparent 48%),
+    radial-gradient(circle at 78% 72%, color-mix(in srgb, var(--glz1-aura-secondary) 28%, transparent), transparent 54%);
+}
+.glz1-aurora::before { opacity: 0.13; }
+.glz1-aurora[data-intensity="standard"]::before { opacity: 0.18; }
+.glz1-aurora[data-intensity="hero"]::before { opacity: 0.24; }
+
+/* Atmospheric dark appearances are composed independently rather than inverted. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glz1-canvas: #0a1218;
+    --glz1-base: #101a20;
+    --glz1-raised: #18252b;
+    --glz1-overlay-bg: rgba(17, 31, 36, 0.78);
+    --glz1-panel-bg: rgba(16, 28, 34, 0.90);
+    --glz1-light-edge: rgba(179, 224, 220, 0.22);
+    --glz1-light-highlight: rgba(210, 239, 236, 0.16);
+    --glz1-light-occlusion: rgba(0, 0, 0, 0.28);
+    --glz1-environment-strength: 8%;
+  }
+}
+
+[data-glz-appearance="deep-dark"],
+.glz1-deep-dark {
+  --glz1-canvas: #081016;
+  --glz1-base: #101a20;
+  --glz1-raised: #18252b;
+  --glz1-overlay-bg: rgba(13, 27, 32, 0.80);
+  --glz1-panel-bg: rgba(14, 28, 33, 0.92);
+  --glz1-light-edge: rgba(143, 214, 210, 0.22);
+  --glz1-light-highlight: rgba(231, 199, 138, 0.10);
+  --glz1-environment-strength: 9%;
+}
+
+/* Optical geometry is relational rather than uniformly rounded. */
+.glz1-optical-micro { border-radius: var(--glz1-radius-micro); }
+.glz1-shell-control,
+.glz1-search-result,
+.glz1-rail-item { border-radius: var(--glz1-radius-control); }
+.glz1-application,
+.glz1-morph-card,
+.glz1-ai-suggestion,
+.glz1-ai-answer,
+.glz1-smart-summary { border-radius: var(--glz1-radius-container); }
+.glz1-system-panel,
+.glz1-search-panel,
+.glz1-aurora { border-radius: var(--glz1-radius-hero); }
+.glz1-capsule,
+.glz1-search-entry { border-radius: var(--glz1-radius-capsule); }
+
+/* Explicit depth grammar. */
+[data-glz-depth="0"] { box-shadow: none; }
+[data-glz-depth="1"] { box-shadow: var(--glz1-shadow-1); }
+[data-glz-depth="2"] { box-shadow: var(--glz1-shadow-2); }
+[data-glz-depth="3"] { box-shadow: var(--glz1-shadow-3); }
+[data-glz-depth="4"] { box-shadow: var(--glz1-shadow-4); }
+[data-glz-depth="5"] { box-shadow: var(--glz1-shadow-5); }
+[data-glz-depth="6"] { box-shadow: var(--glz1-shadow-6); }
+
+/* Governed typography roles. */
+.glz1-type-display { font-size: var(--glz1-type-display-size); line-height: var(--glz1-type-display-leading); font-weight: 620; letter-spacing: -0.035em; }
+.glz1-type-title { font-size: var(--glz1-type-title-size); line-height: 1.08; font-weight: 650; letter-spacing: -0.022em; }
+.glz1-type-heading { font-size: var(--glz1-type-heading-size); line-height: 1.2; font-weight: 640; letter-spacing: -0.012em; }
+.glz1-type-body { font-size: var(--glz1-type-body-size); line-height: 1.55; }
+.glz1-type-ui { font-size: var(--glz1-type-ui-size); line-height: 1.35; font-weight: 590; }
+.glz1-type-caption { font-size: var(--glz1-type-caption-size); line-height: 1.4; color: var(--glz1-text-secondary); }
+.glz1-type-numeric { font-variant-numeric: tabular-nums lining-nums; }
+
+/* Density profiles affect space, never semantic meaning. */
+[data-glz-density="comfortable"] { --glz1-density-space-scale: 1.18; --glz1-density-control-scale: 1.08; --glz1-density-row-scale: 1.12; }
+[data-glz-density="standard"] { --glz1-density-space-scale: 1; --glz1-density-control-scale: 1; --glz1-density-row-scale: 1; }
+[data-glz-density="productive"] { --glz1-density-space-scale: 0.86; --glz1-density-control-scale: 0.94; --glz1-density-row-scale: 0.88; }
+[data-glz-density="immersive"] { --glz1-density-space-scale: 1.08; --glz1-density-control-scale: 1.02; --glz1-density-row-scale: 1; }
+
+/* Microphysics: tactile feedback remains bounded and interruptible. */
+.glz1-advanced-button,
+.glz1-shell-control,
+.glz1-search-result,
+.glz1-rail-item,
+.glz1-morph-card {
+  transition:
+    transform var(--glz1-motion-micro) var(--glz1-ease-snap),
+    box-shadow var(--glz1-motion-standard) var(--glz1-ease-glide),
+    border-color var(--glz1-motion-standard) var(--glz1-ease-glide),
+    background-color var(--glz1-motion-standard) var(--glz1-ease-glide);
+}
+@media (hover: hover) and (pointer: fine) {
+  .glz1-morph-card:hover,
+  .glz1-interactive-surface:hover { transform: translateY(var(--glz1-hover-lift)); }
+}
+.glz1-advanced-button:active,
+.glz1-shell-control:active,
+.glz1-search-result:active,
+.glz1-rail-item:active,
+.glz1-morph-card:active { transform: scale(var(--glz1-press-scale)); }
+
+/* Performance fallback removes costly atmosphere without losing hierarchy. */
+[data-glz-performance="constrained"] {
+  --glz1-environment-strength: 0%;
+  --glz1-overlay-blur: 0px;
+  --glz1-panel-blur: 0px;
+}
+[data-glz-performance="constrained"] .glz1-system-overlay,
+[data-glz-performance="constrained"] .glz1-system-panel,
+[data-glz-performance="constrained"] .glz1-capsule,
+[data-glz-performance="constrained"] .glz1-search-entry,
+[data-glz-performance="constrained"] .glz1-smart-rail {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+[data-glz-performance="constrained"] .glz1-aurora::before,
+[data-glz-performance="constrained"] .glz1-aura-field::before { display: none; }
+
+/* Accessibility always outranks atmosphere. */
+[data-glz-transparency="reduced"] {
+  --glz1-environment-strength: 0%;
+}
+[data-glz-transparency="reduced"] .glz1-aurora::before,
+[data-glz-transparency="reduced"] .glz1-aura-field::before { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --glz1-motion-micro: 80ms;
+    --glz1-motion-standard: 100ms;
+    --glz1-motion-connected: 120ms;
+    --glz1-hover-lift: 0px;
+    --glz1-press-scale: 1;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --glz1-environment-strength: 0%;
+  }
+  .glz1-aurora::before,
+  .glz1-aura-field::before { display: none; }
+}
+
+@media (forced-colors: active) {
+  :root {
+    --glz1-environment-strength: 0%;
+  }
+  .glz1-aurora::before,
+  .glz1-aura-field::before { display: none !important; }
+}
