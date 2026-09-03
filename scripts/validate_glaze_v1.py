@@ -8,6 +8,7 @@ EXPECTED = "1.0.0"
 ALLOWED_PRODUCT_LABELS = {"1.0", "1.0.0", "v1.0", "v1.0.0"}
 TRANSIENT_RESET_FILES = {
     "scripts/normalize_glaze_v1_reset.py",
+    "scripts/validate_glaze_v1.py",
     ".github/workflows/glaze-v1-normalize.yml",
 }
 TEXT_SUFFIXES = {
