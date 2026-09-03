@@ -14,5 +14,7 @@ jobs:
           python-version: '3.12'
       - name: Validate GLAZE UI V1.0 reset contract
         run: python scripts/validate_glaze_v1.py
+      - name: Validate V1 Design Center publication
+        run: python website/validate.py
       - name: Check V1 runtime syntax
         run: node --check js/glaze-v1.0.0.mjs
