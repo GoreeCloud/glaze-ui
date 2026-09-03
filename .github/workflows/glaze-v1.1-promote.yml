@@ -1,0 +1,82 @@
+name: Glaze V1.1 Stable Promotion
+
+on:
+  push:
+    branches:
+      - 'release/glaze-ui-v1.1.0'
+    paths:
+      - 'scripts/promote_glaze_v1_1_stable.py'
+      - 'scripts/promote_glaze_v1_1_bindings.py'
+      - 'scripts/validate_glaze_v1.py'
+      - 'scripts/validate_glaze_v1_1_stable.py'
+      - '.github/workflows/glaze-v1.1-promote.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  exact-rc-evidence:
+    uses: ./.github/workflows/glaze-v1.1-release-evidence.yml
+
+  promote-stable-source:
+    needs: exact-rc-evidence
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact successful RC revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Verify pre-promotion lifecycle boundary
+        shell: bash
+        run: |
+          test "$(cat VERSION)" = "1.0.0"
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+
+      - name: Prepare atomic Stable source authority
+        env:
+          GLAZE_RC_REVISION: ${{ github.sha }}
+          GLAZE_RC_WORKFLOW_RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 scripts/promote_glaze_v1_1_stable.py
+          python3 scripts/promote_glaze_v1_1_bindings.py
+
+      - name: Validate generated Stable source authority
+        run: |
+          python3 scripts/validate_glaze_v1_1_stable.py
+          python3 website/validate.py
+          python3 scripts/validate_design_center_responsive.py
+          python3 scripts/test_validate_conformance_evidence.py
+          python3 -m py_compile scripts/validate_glaze_v1.py scripts/validate_glaze_v1_1_stable.py scripts/validate_conformance_evidence.py
+          node --check js/glaze-v1.1.0.mjs
+
+      - name: Remove transient validation products and defer workflow synchronization
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf website/dist
+          find . -type d -name __pycache__ -prune -exec rm -rf {} +
+          find . -type f -name '*.pyc' -delete
+          git checkout "${GITHUB_SHA}" -- .github/workflows/ci.yml .github/workflows/glaze-ui-evidence-validity.yml
+          test -z "$(git status --porcelain -- website/dist)"
+          test -z "$(find . -type f -name '*.pyc' -print -quit)"
+          test -z "$(git diff --name-only -- .github/workflows)"
+          python3 scripts/validate_glaze_v1_1_stable.py
+
+      - name: Commit Stable promotion coherently
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          git config user.name "GoreeCloud Release Automation"
+          git config user.email "295260680+GoreeCloud@users.noreply.github.com"
+          git add -A
+          test -z "$(git diff --cached --name-only | grep -E '(^|/)__pycache__/|\.pyc$|^website/dist/' || true)"
+          test -z "$(git diff --cached --name-only -- .github/workflows)"
+          git diff --cached --quiet && { echo "No promotion changes generated"; exit 1; }
+          git commit -m "Promote GLAZE UI V1.1 to Stable source authority"
+          CURRENT_REMOTE="$(git ls-remote origin refs/heads/release/glaze-ui-v1.1.0 | cut -f1)"
+          test "$CURRENT_REMOTE" = "$GITHUB_SHA"
+          git push origin HEAD:release/glaze-ui-v1.1.0

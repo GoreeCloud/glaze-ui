@@ -1,6 +1,6 @@
-# GLAZE UI V1.0 — Benefits
+# GLAZE UI V1.1 — Benefits
 
-GLAZE UI V1.0 gives GoreeCloud one current design-system baseline and one machine-readable version target instead of multiple simultaneously active release identities.
+GLAZE UI V1.1 gives GoreeCloud one current design-system baseline and one machine-readable version target instead of multiple simultaneously active release identities.
 
 Its intended platform benefits are:
 

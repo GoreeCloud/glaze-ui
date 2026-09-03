@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.1",
+  "intendedReleaseVersion": "1.1.0",
+  "candidateVersion": "1.1.0-rc.1",
+  "releaseLifecycle": "Release Candidate",
+  "baseMergedCandidate": "75d007ee7bb17cd4d7aa8471df3fc2c9a1a256a0",
+  "currentOfficialDuringValidation": {
+    "product": "GLAZE UI V1.0",
+    "version": "1.0.0"
+  },
+  "humanOpticalApproval": {
+    "status": "approved",
+    "authority": "GoreeCloud project owner",
+    "date": "2026-09-03",
+    "approvedVisualSourceRevision": "8ea1f789bbabf943c3359514dc1506b24fa3c51b"
+  },
+  "requiredFreshEvidence": [
+    "exact-revision-v1-baseline-validation",
+    "exact-revision-v1.1-contract-validation",
+    "source-pinned-approved-web-visual-regression",
+    "fresh-android-handheld-framework-native-build",
+    "fresh-android-handheld-emulator-acceptance",
+    "android-light-48dp",
+    "android-dark-reduced-transparency-48dp",
+    "android-deep-dark-200-percent-text-touch-assistance-56dp"
+  ],
+  "stablePromotionRequires": [
+    "all-rc-evidence-passes",
+    "coherent-current-source-authority-1.1.0",
+    "exact-head-stable-promotion-validation",
+    "governed-merge",
+    "post-merge-main-validation",
+    "immutable-v1.1.0-tag",
+    "github-release-v1.1.0",
+    "canonical-goreecloud-documentation-synchronized"
+  ],
+  "boundaries": {
+    "rcIsStable": false,
+    "rcIsCurrentTarget": false,
+    "preResetEvidenceMayBeRelabeled": false,
+    "downstreamConsumersAutoUpgrade": false,
+    "androidReferenceEstablishesAllAndroidConsumerConformance": false
+  }
+}

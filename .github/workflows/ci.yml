@@ -1,4 +1,4 @@
-name: GLAZE UI V1.0 CI
+name: GLAZE UI V1.1 CI
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate GLAZE UI V1.0 reset contract
+      - name: Validate current GLAZE UI V1.1 Stable contract
         run: python scripts/validate_glaze_v1.py
       - name: Validate V1 Design Center publication
         run: python website/validate.py
@@ -28,4 +28,4 @@ jobs:
           path: artifacts/design-center-mobile-*.png
           if-no-files-found: warn
       - name: Check V1 runtime syntax
-        run: node --check js/glaze-v1.0.0.mjs
+        run: node --check js/glaze-v1.1.0.mjs

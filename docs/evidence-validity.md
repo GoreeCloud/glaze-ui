@@ -1,12 +1,12 @@
-# GLAZE UI V1.0 Evidence Validity
+# GLAZE UI V1.1 Evidence Validity
 
 Glaze UI conformance and production-UI-acceptance evidence is useful only while it remains current, attributable, application-specific, and bound to the exact source revision actually evaluated.
 
-The machine-readable contract in `contracts/glaze.conformance-evidence.schema.json` and the fail-closed validator in `scripts/validate_conformance_evidence.py` establish the repository-side evidence format for GLAZE UI V1.0 (`1.0.0`). Evidence schema version `2` is a record-format revision; it is not a Glaze UI product version.
+The machine-readable contract in `contracts/glaze.conformance-evidence.schema.json` and the fail-closed validator in `scripts/validate_conformance_evidence.py` establish the repository-side evidence format for GLAZE UI V1.1 (`1.1.0`). Evidence schema version `2` is a record-format revision; it is not a Glaze UI product version.
 
 ## Required evidence properties
 
-A record must identify an authoritative producer, consuming application, exact 40-character application source revision, exact current GLAZE UI V1.0 product version, supported form-factor roles, observation time, expiry time, claim kind, application-specific acceptance state, and bounded evidence references.
+A record must identify an authoritative producer, consuming application, exact 40-character application source revision, exact current GLAZE UI V1.1 product version, supported form-factor roles, observation time, expiry time, claim kind, application-specific acceptance state, and bounded evidence references.
 
 Producer-system and application identifiers are bounded to 160 characters. Top-level records may carry at most 50 evidence references, while each integral platform-system entry may carry at most 20; each reference is bounded to 500 characters.
 
@@ -28,7 +28,7 @@ A system may be marked `not_applicable` only when the consuming application's go
 
 ## V1 product and production boundary
 
-The validator is deliberately bound to repository `VERSION` **1.0.0** and the sole current product identity **GLAZE UI V1.0**. Evidence from another product-version namespace cannot satisfy a current V1 application claim. Required Git history and append-oriented changelog history remain audit records only and do not define current consumer targets.
+The validator is deliberately bound to repository `VERSION` **1.1.0** and the sole current product identity **GLAZE UI V1.1**. Evidence from another product-version namespace cannot satisfy a current V1 application claim. Required Git history and append-oriented changelog history remain audit records only and do not define current consumer targets.
 
 Passing this validator proves only that an evidence record satisfies repository-side validity rules. It does not itself create visual acceptance, native-device acceptance, accessibility acceptance, application conformance, production authorization, release approval, or acceptance of another GoreeCloud platform system.
 

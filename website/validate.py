@@ -49,6 +49,9 @@ required = (
     "assets/glaze.materials.css",
     "assets/glaze.layout.css",
     "assets/glaze.states.css",
+    "assets/glaze-v1.1.0.css",
+    "assets/glaze-v1.1.css",
+    "assets/glaze-v1.1-appearance.css",
     "assets/glaze-v1.0.0.css",
     "assets/glaze-v1.foundation.css",
     "assets/glaze-v1.components.css",
@@ -89,18 +92,19 @@ html = (DIST / "index.html").read_text(encoding="utf-8")
 not_found = (DIST / "404.html").read_text(encoding="utf-8")
 headers = (DIST / "_headers").read_text(encoding="utf-8")
 js = (DIST / "assets" / "site.js").read_text(encoding="utf-8")
-entrypoint = (DIST / "assets" / "glaze-v1.0.0.css").read_text(encoding="utf-8")
+entrypoint = (DIST / "assets" / "glaze-v1.1.0.css").read_text(encoding="utf-8")
+base_entrypoint = (DIST / "assets" / "glaze-v1.0.0.css").read_text(encoding="utf-8")
 
 for text in (
-    "GLAZE UI V1.0",
-    "Machine version <strong>1.0.0</strong>",
+    "GLAZE UI V1.1",
+    "Machine version <strong>1.1.0</strong>",
     "Solid where you read. Glazed where you interact.",
     "Workspace → Application → System Overlay → System Panel → Critical System",
     "one dominant Glaze panel plus one to three small floating Glaze controls",
     "32 bounded contracts across five tiers.",
     "Universal Search",
     "Control Center",
-    "Production revalidation",
+    "current Stable",
     "exact source revision",
     "GoreeCloud/goreecloud-glaze-ui",
     "Skip to content",
@@ -123,12 +127,20 @@ for surface_name, surface in (("index", html), ("404", not_found)):
         raise SystemExit(f"pre-reset V1-alias asset leaked into current {surface_name} surface")
 
 for text in (
-    "GLAZE UI V1.0",
-    "404 · GLAZE UI V1.0",
-    "/assets/glaze-v1.0.0.css",
+    "GLAZE UI V1.1",
+    "404 · GLAZE UI V1.1",
+    "/assets/glaze-v1.1.0.css",
 ):
     if text not in not_found:
         raise SystemExit(f"V1 404 surface missing: {text}")
+
+for marker in (
+    '@import url("./glaze-v1.0.0.css")',
+    '@import url("./glaze-v1.1.css")',
+    '@import url("./glaze-v1.1-appearance.css")',
+):
+    if marker not in entrypoint:
+        raise SystemExit(f"V1.1 Stable entrypoint missing required source layer: {marker}")
 
 for marker in (
     '@import url("./glaze-v1.foundation.css")',
@@ -141,8 +153,8 @@ for marker in (
     '@import url("./glaze-v1.visual-refinement.css")',
     '@import url("./glaze-v1.optical-reachability.css")',
 ):
-    if marker not in entrypoint:
-        raise SystemExit(f"V1 entrypoint missing required source layer: {marker}")
+    if marker not in base_entrypoint:
+        raise SystemExit(f"inherited V1 structural entrypoint missing required layer: {marker}")
 
 # Every local published asset referenced by the two HTML entry surfaces must exist.
 for surface_name, surface in (("index", html), ("404", not_found)):
@@ -170,7 +182,7 @@ if "localStorage" not in js or "data-theme-choice" not in html:
     raise SystemExit("local appearance preference contract missing")
 
 print(
-    "GLAZE UI V1.0 Design Center validation passed: isolated V1 publication, "
+    "GLAZE UI V1.1 Design Center validation passed: isolated Stable V1.1 publication, "
     "synchronized Facet identity, required security headers, and exact-reset "
     "production-revalidation disclosure"
 )
