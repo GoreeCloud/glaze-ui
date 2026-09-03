@@ -12,6 +12,7 @@ on:
       - 'scripts/validate_glaze_v1_1_implementation.py'
       - 'scripts/validate_glaze_v1_1_rendered.py'
       - 'acceptance/v1.1-specification-candidate.md'
+      - 'acceptance/v1.1-rendered-web-evidence.json'
       - '.github/workflows/glaze-v1.1-candidate.yml'
       - 'contracts/performance/glaze-v1-performance-budget.json'
       - 'contracts/accessibility/resolution-matrix.json'
