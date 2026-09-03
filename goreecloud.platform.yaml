@@ -1,0 +1,136 @@
+schema_version: "0.2"
+
+component:
+  type: library
+  id: goreecloud-glaze-ui
+  product_name: GLAZE UI V1.1
+  repository: GoreeCloud/goreecloud-glaze-ui
+
+lifecycle: stable
+version: 1.1.0
+
+supported_platforms:
+  - web
+  - android-handheld-reference
+
+api:
+  versions: []
+  endpoints: []
+
+platform_systems:
+  manager:
+    result: not-applicable-justified
+    version: null
+    evidence:
+      - GLAZE_UI_V1_1.md
+      - CONFORMANCE.md
+    notes: GLAZE UI is a presentation/design-system authority and does not own operational or administrative runtime state for GoreeCloud Manager to control. Consuming applications retain their own Manager integration obligations.
+  privacy_shield:
+    result: not-applicable-justified
+    version: null
+    evidence:
+      - GLAZE_UI_V1_1.md
+      - EVIDENCE_PRESENTATION.md
+    notes: GLAZE UI defines privacy-respecting presentation behavior but is not a data-processing runtime or privacy-policy authority. Consuming applications integrate Privacy Shield where their data responsibilities apply.
+  wardveil_security:
+    result: not-applicable-justified
+    version: null
+    evidence:
+      - GLAZE_UI_V1_1.md
+      - STATES.md
+      - EVIDENCE_PRESENTATION.md
+    notes: GLAZE UI can present evidence-backed security states but does not enforce security controls or inherit Wardveil authority. Consuming applications remain responsible for their Wardveil integration.
+  everkeep:
+    result: not-applicable-justified
+    version: null
+    evidence:
+      - STABILITY.md
+      - releases/1.1.0.md
+    notes: This shared design-system release has no user-owned durable application state requiring an Everkeep runtime integration. Source, release, contract, and acceptance artifacts remain independently versioned and reproducible; consumers retain their own Everkeep obligations.
+  glaze_ui:
+    result: not-applicable-justified
+    version: 1.1.0
+    evidence:
+      - VERSION
+      - GLAZE_UI_V1_1.md
+      - registry/lifecycle.json
+      - acceptance/v1.1-stable.md
+      - releases/1.1.0.md
+    notes: This repository implements the GLAZE UI authority itself; a separate GLAZE-UI-to-GLAZE-UI integration is not applicable.
+  mesh:
+    result: not-applicable-justified
+    version: null
+    evidence:
+      - GLAZE_UI_V1_1.md
+      - CONFORMANCE.md
+    notes: GLAZE UI is consumed as versioned design-system source and does not perform service discovery, event routing, capability discovery, or runtime coordination. Consumer products retain any applicable GoreeCloud Mesh obligations.
+    capabilities: []
+    dependencies: []
+    published_events: []
+    consumed_events: []
+  identity:
+    result: not-applicable-justified
+    version: null
+    evidence:
+      - GLAZE_UI_V1_1.md
+      - STATES.md
+    notes: GLAZE UI defines presentation primitives for identity and authorization surfaces but does not authenticate principals, issue credentials, or own authorization. Consuming applications retain their GoreeCloud Identity obligations.
+
+health:
+  health_endpoint: null
+  readiness_endpoint: null
+
+continuity:
+  backup:
+    required: true
+    requirements:
+      - Preserve authoritative contracts, tokens, schemas, visual baselines, reference implementations, acceptance evidence, tags, and release records through approved source-control and repository-continuity mechanisms.
+  restore:
+    required: true
+    requirements:
+      - Demonstrate that the Stable source, contracts, exact entrypoints, acceptance records, and release provenance can be reconstructed from immutable repository history and release identity without depending on a consuming application.
+  export:
+    required: true
+    requirements:
+      - Keep Stable CSS, JavaScript, JSON contracts/tokens, Markdown specifications, visual-baseline metadata, and release records independently retrievable in standard source formats.
+  portability:
+    required: true
+    requirements:
+      - Keep the design-system contract implementation-independent enough for web and approved native mappings without requiring a proprietary GoreeCloud runtime to interpret the Stable source specification.
+
+external_dependencies: []
+
+compatibility:
+  platform_contract: "0.2"
+  glaze_ui_required: "1.1.0"
+  requires:
+    - goreecloud-platform-contract==0.2
+  provides:
+    - glaze-ui==1.1.0
+
+evidence:
+  acceptance_tests:
+    - acceptance/v1.1-stable.md
+    - contracts/regression/visual-baselines-v1.json
+    - reference/v1.1/native/android
+  release:
+    - releases/1.1.0.md
+    - VERSION
+    - registry/lifecycle.json
+
+conformance:
+  status: conformant
+  validated_at: null
+  evidence:
+    - README.md
+    - VERSION
+    - GLAZE_UI_V1_1.md
+    - registry/lifecycle.json
+    - css/glaze-v1.1.0.css
+    - js/glaze-v1.1.0.mjs
+    - contracts/v1.1/optical-refinement.json
+    - tokens/glaze-v1.1-atmosphere.json
+    - contracts/regression/visual-baselines-v1.json
+    - acceptance/v1.1-stable.md
+    - releases/1.1.0.md
+  blockers: []
