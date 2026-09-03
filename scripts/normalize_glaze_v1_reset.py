@@ -4,7 +4,7 @@
 This script intentionally leaves CHANGELOG.md untouched because GoreeCloud
 revision-control policy requires the chronological audit trail to remain
 preserved. It removes obsolete pre-reset acceptance snapshots from the active
-tree and converts inherited 2.2 implementation namespaces into the V1
+tree and converts inherited implementation namespaces into the V1
 namespace without claiming production acceptance.
 """
 
@@ -28,8 +28,13 @@ TEXT_SUFFIXES = {
     ".properties", ".py", ".swift", ".xml", ".yaml", ".yml",
 }
 
-# Exact path/name references must be converted before the generic namespace
-# replacement so candidate suffixes do not survive as broken imports.
+SKIP_PATHS = {
+    "CHANGELOG.md",
+    ".github/workflows/glaze-v1-normalize.yml",
+    "scripts/normalize_glaze_v1_reset.py",
+    "scripts/validate_glaze_v1.py",
+}
+
 EXACT_REPLACEMENTS = {
     "glaze-2.2.foundation.candidate.css": "glaze-v1.foundation.css",
     "glaze-2.2.components.candidate.css": "glaze-v1.components.css",
@@ -92,7 +97,7 @@ def main() -> None:
         if not path.is_file() or ".git" in path.parts:
             continue
         rel = path.relative_to(ROOT).as_posix()
-        if rel == "CHANGELOG.md" or rel == ".github/workflows/glaze-v1-normalize.yml":
+        if rel in SKIP_PATHS:
             continue
         if path.suffix.lower() not in TEXT_SUFFIXES:
             continue
