@@ -18,7 +18,7 @@ NONCURRENT_V1_1_CANDIDATE_PREFIXES = (
     "contracts/v1.1/",
     "tokens/glaze-v1.1-",
     "acceptance/v1.1-",
-    "css/glaze-v1.1-",
+    "css/glaze-v1.1",
     "reference/v1.1/",
     "scripts/validate_glaze_v1_1_",
     ".github/workflows/glaze-v1.1-",
