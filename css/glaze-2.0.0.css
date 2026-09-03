@@ -1,6 +1,0 @@
-/* Glaze UI 2.0.0 Stable consumer entrypoint.
- * The imported file is the immutable Candidate implementation snapshot that
- * passed promotion. Its historical filename is preserved for provenance;
- * production consumers should depend on this Stable entrypoint instead.
- */
-@import url("./glaze-2.candidate.css");

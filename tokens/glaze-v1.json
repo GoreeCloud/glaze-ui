@@ -1,0 +1,7 @@
+{
+  "product": "GLAZE UI V1.0",
+  "version": "1.0.0",
+  "status": "official-reset-baseline",
+  "sources": ["glaze.tokens.json", "materials.json", "semantic-colors.json"],
+  "note": "V1 token namespace manifest. Detailed token acceptance must be regenerated against exact post-reset revisions."
+}
