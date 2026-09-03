@@ -16,6 +16,7 @@ on:
       - 'tokens/semantic-colors.json'
       - 'tokens/layout.json'
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
