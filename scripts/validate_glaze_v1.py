@@ -13,8 +13,6 @@ TRANSIENT_RESET_FILES = {
 }
 NONCURRENT_V1_1_CANDIDATE_PATHS = {
     "GLAZE_UI_V1_1_CANDIDATE.md",
-    "scripts/validate_glaze_v1_1_candidate.py",
-    "scripts/validate_glaze_v1_1_implementation.py",
 }
 NONCURRENT_V1_1_CANDIDATE_PREFIXES = (
     "contracts/v1.1/",
@@ -22,6 +20,7 @@ NONCURRENT_V1_1_CANDIDATE_PREFIXES = (
     "acceptance/v1.1-",
     "css/glaze-v1.1-",
     "reference/v1.1/",
+    "scripts/validate_glaze_v1_1_",
     ".github/workflows/glaze-v1.1-",
 )
 TEXT_SUFFIXES = {
