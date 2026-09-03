@@ -52,6 +52,19 @@ jobs:
           python3 -m py_compile scripts/validate_glaze_v1.py scripts/validate_glaze_v1_1_stable.py scripts/validate_conformance_evidence.py
           node --check js/glaze-v1.1.0.mjs
 
+      - name: Remove transient validation products and defer workflow synchronization
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf website/dist
+          find . -type d -name __pycache__ -prune -exec rm -rf {} +
+          find . -type f -name '*.pyc' -delete
+          git checkout "${GITHUB_SHA}" -- .github/workflows/ci.yml .github/workflows/glaze-ui-evidence-validity.yml
+          test -z "$(git status --porcelain -- website/dist)"
+          test -z "$(find . -type f -name '*.pyc' -print -quit)"
+          test -z "$(git diff --name-only -- .github/workflows)"
+          python3 scripts/validate_glaze_v1_1_stable.py
+
       - name: Commit Stable promotion coherently
         shell: bash
         run: |
@@ -60,6 +73,8 @@ jobs:
           git config user.name "GoreeCloud Release Automation"
           git config user.email "295260680+GoreeCloud@users.noreply.github.com"
           git add -A
+          test -z "$(git diff --cached --name-only | grep -E '(^|/)__pycache__/|\.pyc$|^website/dist/' || true)"
+          test -z "$(git diff --cached --name-only -- .github/workflows)"
           git diff --cached --quiet && { echo "No promotion changes generated"; exit 1; }
           git commit -m "Promote GLAZE UI V1.1 to Stable source authority"
           CURRENT_REMOTE="$(git ls-remote origin refs/heads/release/glaze-ui-v1.1.0 | cut -f1)"
