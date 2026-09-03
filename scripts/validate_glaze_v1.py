@@ -13,6 +13,8 @@ TRANSIENT_RESET_FILES = {
 }
 NONCURRENT_V1_1_CANDIDATE_PATHS = {
     "GLAZE_UI_V1_1_CANDIDATE.md",
+    "scripts/promote_glaze_v1_1_stable.py",
+    "scripts/promote_glaze_v1_1_bindings.py",
 }
 NONCURRENT_V1_1_CANDIDATE_PREFIXES = (
     "contracts/v1.1/",
