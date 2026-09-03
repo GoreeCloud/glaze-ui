@@ -1,51 +1,33 @@
-# GLAZE UI V1.0
+# GLAZE UI V1.1
 
-GLAZE UI V1.0 is GoreeCloud's official shared visual and interaction design system baseline. **Beauty is a requirement, not a regression risk.**
-
-The sole current product identity is **GLAZE UI V1.0** with machine version **1.0.0**.
+GLAZE UI V1.1 is GoreeCloud's current Stable shared visual and interaction design system. **Beauty is a requirement, not a regression risk.** Machine version: **1.1.0**.
 
 ## Core rule
 
 **Solid where users read or make explicit critical decisions. Glazed where users interact with transient navigation, command, search, control, or feedback chrome.**
 
-GLAZE UI combines ergonomic spatial hierarchy, Glaze Material, connected transformation, adaptive expression, accessibility-first interaction, privacy-aware presentation, and platform-native behavior.
+V1.1 preserves the V1 System Shell, 32-component catalog, semantic color, accessibility, material, performance, and native-mapping contracts while adding the approved Optical Refinement and **Deep Teal + Soft Amber** atmospheric system.
 
-## Material and interaction hierarchy
+The atmosphere is intentionally subordinate: neutral structure remains dominant; protected semantic meaning, focus, accessibility, and required boundaries always resolve first. Environmental Color Memory remains optional and is not required by the first Stable implementation.
 
-The canonical material hierarchy is **Canvas → Surface → Soft Glaze → Glaze → Deep Glaze → Live Glaze**. Durable readable content remains solid. Transient interaction uses bounded Glaze according to role, with restrained depth and no dependence on transparency or effects for basic usability.
+## Stable evidence
 
-V1.0 supports Light, Dark, Deep Dark, Calm, Balanced, Expressive, adaptive density, Reduced Motion, Reduced Transparency, Increased Contrast, Forced Colors, RTL, 200% text, keyboard, pointer, touch, and assistive input. Touch-oriented targets use a 48 px minimum reference floor and 56 px for Touch Assistance / far-view contexts where applicable.
+Project-owner optical approval was recorded on 2026-09-03. Exact release-candidate revision `b37538f6748d95680ca5f6fe4a5e412a38ef87a7` reproduced the five approved web reference PNG hashes and passed fresh Android handheld emulator acceptance for Light/48dp, Dark + Reduced Transparency/48dp, and Deep Dark + 200% text + Touch Assistance/56dp in release-evidence workflow `33750604928`.
 
-## V1.0 architecture
+Current source authority:
+- `VERSION` — `1.1.0`
+- `GLAZE_UI_V1_1.md` — official Stable contract
+- `registry/lifecycle.json` — lifecycle authority
+- `css/glaze-v1.1.0.css` — Stable web entrypoint
+- `js/glaze-v1.1.0.mjs` — Stable runtime entrypoint
+- `contracts/v1.1/optical-refinement.json` — Stable optical contract
+- `tokens/glaze-v1.1-atmosphere.json` — Stable atmosphere tokens
+- `contracts/regression/visual-baselines-v1.json` — approved visual baseline authority
+- `acceptance/v1.1-stable.md` — Stable acceptance boundary
 
-The V1.0 baseline includes a bounded System Shell and a 32-component catalog across Foundation, Structure, Overlay, Signature, and Intelligence tiers. Universal Search, Control Center, workspace navigation, semantic color, focus, material budgets, and platform-native mapping are part of the design contract where explicitly implemented and validated.
+The V1.0 contract and candidate/RC records remain historical audit evidence, not current consumer targets. No downstream GoreeCloud application auto-upgrades or gains production eligibility by declaration.
 
-## Reset verification state
-
-V1.0 is the official and only current Glaze UI version. Because the version namespace has been reset, production-readiness and conformance evidence must be regenerated against exact post-reset V1.0 revisions. Earlier release identities are not valid V1.0 evidence and are not current consumer targets.
-
-The active repository tree intentionally contains no pre-reset acceptance snapshots or prior current-release entrypoints; required Git and changelog history remain audit-only under GoreeCloud revision-control policy.
-
-No downstream GoreeCloud application is upgraded by declaration. Each product must independently adopt V1.0 and complete its required rendered, native, accessibility, platform, performance, and release acceptance.
-
-## Repository layout
-
-- `VERSION` — machine version `1.0.0`.
-- `GLAZE_UI_V1_0.md` — official V1.0 contract.
-- `registry/lifecycle.json` — current V1 lifecycle authority.
-- `contracts/components/v1/catalog.json` — canonical 32-component catalog.
-- `contracts/system-shell/glaze-system-shell-v1.json` — V1 System Shell contract.
-- `contracts/performance/glaze-v1-performance-budget.json` — V1 performance and Glaze budget.
-- `css/glaze-v1.0.0.css` — V1 web entrypoint.
-- `js/glaze-v1.0.0.mjs` — V1 runtime entrypoint.
-- `acceptance/v1.0-stable.md` — V1 acceptance boundary.
-- `scripts/validate_glaze_v1.py` — reset-consistency validator.
-
-## Governance
-
-Git history and the canonical project changelog remain the audit trail required by GoreeCloud revision-control policy. They do not define additional current Glaze UI product versions.
-
-Glaze Motion remains separately Experimental unless a future V1.x contract explicitly changes that status.
+Glaze Motion remains separately Experimental.
 
 ## License
 

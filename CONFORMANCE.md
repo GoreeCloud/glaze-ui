@@ -1,6 +1,6 @@
-# GLAZE UI V1.0 Conformance
+# GLAZE UI V1.1 Conformance
 
-GLAZE UI V1.0 (`1.0.0`) is the sole current Glaze UI conformance target.
+GLAZE UI V1.1 (`1.1.0`) is the sole current Glaze UI conformance target.
 
 A consumer is conformant only when its exact repository revision satisfies the applicable V1 design, accessibility, interaction, responsive/form-factor, platform, and production gates. Conformance must fail closed when required evidence is missing or stale.
 

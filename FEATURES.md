@@ -1,8 +1,8 @@
-# GLAZE UI V1.0 — Features
+# GLAZE UI V1.1 — Features
 
 ## Status convention
 
-This file describes capabilities present in the V1 reset source tree or required by its active contracts. Production-Stable status and downstream adoption remain subject to fresh V1 acceptance evidence.
+This file describes capabilities present in the current Stable V1.1 source tree or required by its active contracts. Downstream adoption and application production acceptance remain subject to fresh consumer-specific evidence.
 
 ## Design-system capabilities
 
@@ -23,4 +23,4 @@ This file describes capabilities present in the V1 reset source tree or required
 
 ## Validation capabilities
 
-The repository includes automated validation for the V1 reset contract, consumer registry, accessibility and form-factor requirements, layout, materials, motion, semantic colors, iconography, evidence presentation, workspace navigation, wearable references, rendered references, release state, and related contracts.
+The repository includes automated validation for the current V1.1 Stable contract, source-pinned optical regression, bounded Android release evidence, consumer registry, accessibility and form-factor requirements, layout, materials, motion, semantic colors, iconography, evidence presentation, workspace navigation, wearable references, rendered references, release state, and related contracts.

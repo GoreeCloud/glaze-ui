@@ -1,7 +1,12 @@
 {
-  "product": "GLAZE UI V1.0",
-  "version": "1.0.0",
-  "status": "official-reset-baseline",
-  "sources": ["glaze.tokens.json", "materials.json", "semantic-colors.json"],
-  "note": "V1 token namespace manifest. Detailed token acceptance must be regenerated against exact post-reset revisions."
+  "product": "GLAZE UI V1.1",
+  "version": "1.1.0",
+  "status": "stable",
+  "sources": [
+    "glaze.tokens.json",
+    "materials.json",
+    "semantic-colors.json",
+    "glaze-v1.1-atmosphere.json"
+  ],
+  "note": "Current Stable V1 token manifest. V1.1 adds the approved optical-atmosphere layer while preserving inherited V1 material, semantic, accessibility, component, and system-shell authority."
 }

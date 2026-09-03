@@ -20,7 +20,7 @@ for name in ("site.css", "identity.css", "site.js"):
     shutil.copy2(SOURCE / name, DIST / "assets" / name)
 
 # Publish only the generic foundations used by the public reference surface and the
-# official V1 entrypoint/layers. Former product-release and candidate assets are not
+# official V1.1 entrypoint/layers and inherited V1 structural layers. Former product-release and candidate assets are not
 # part of the current public artifact.
 for name in (
     "glaze.css",
@@ -33,6 +33,9 @@ for name in (
     "glaze.materials.css",
     "glaze.layout.css",
     "glaze.states.css",
+    "glaze-v1.1.0.css",
+    "glaze-v1.1.css",
+    "glaze-v1.1-appearance.css",
     "glaze-v1.0.0.css",
     "glaze-v1.foundation.css",
     "glaze-v1.components.css",
@@ -50,6 +53,6 @@ shutil.copy2(IDENTITY / "glaze-ui-mark.svg", DIST / "assets" / "glaze-ui-mark.sv
 shutil.copy2(REFERENCE / "v1-system-shell.html", DIST / "reference" / "v1-system-shell.html")
 
 print(
-    f"Built {DIST.relative_to(ROOT)} from the official GLAZE UI V1.0 source "
-    "with an isolated V1-only public publication boundary"
+    f"Built {DIST.relative_to(ROOT)} from the official GLAZE UI V1.1 Stable source "
+    "with an isolated current V1.1 public publication boundary"
 )

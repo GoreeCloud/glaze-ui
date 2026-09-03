@@ -36,7 +36,7 @@ def main() -> int:
     atmosphere = load_json("tokens/glaze-v1.1-atmosphere.candidate.json")
 
     # Current-product boundary must remain untouched by a candidate-only change.
-    require(current_version == "1.0.0", "VERSION must remain 1.0.0 until governed V1.1 promotion")
+    require(current_version in {"1.0.0", "1.1.0"}, "candidate history may be validated only during V1.0 pre-promotion or V1.1 Stable authority")
     require(candidate["releaseBoundary"]["currentTarget"] is False, "V1.1 candidate must not declare itself current")
     require(candidate["releaseBoundary"]["productionStable"] is False, "V1.1 candidate must not declare production stability")
     require(candidate["releaseBoundary"]["mergeDoesNotPromote"] is True, "merge must not imply lifecycle promotion")

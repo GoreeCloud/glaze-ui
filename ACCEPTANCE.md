@@ -1,9 +1,9 @@
-# GLAZE UI V1.0 Acceptance
+# GLAZE UI V1.1 Acceptance
 
-GLAZE UI V1.0 is the official and only current Glaze UI product identity. Machine version: `1.0.0`.
+GLAZE UI V1.1 / 1.1.0 is the current Stable design-system release after completion of the governed release-finalization sequence.
 
-The namespace reset is authoritative for naming and current-target selection. Production acceptance must be regenerated against an exact post-reset V1 revision; prior release evidence is not V1 evidence.
+Stable source acceptance includes deterministic V1.1 contracts, project-owner optical approval, exact source-pinned web visual regression, inherited V1 semantic/material/accessibility validation, and fresh framework-native Android handheld emulator evidence.
 
-Required acceptance families include repository contract validation, rendered references, accessibility and resilience, interaction behavior, responsive/form-factor behavior, performance and Glaze budgets, applicable native/platform evidence, exact-revision CI, and recorded human visual review where required.
+The Android evidence is intentionally bounded and does not claim OEM-wide, physical-device, TalkBack, signing/distribution, or downstream application acceptance.
 
-No downstream GoreeCloud application becomes V1-conformant by declaration. Each consumer must independently adopt V1.0 and satisfy its product-specific acceptance boundary.
+No downstream GoreeCloud application becomes V1.1-conformant or production-eligible automatically. Each consumer must explicitly target 1.1.0 and satisfy its own exact-revision acceptance boundary.

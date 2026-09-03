@@ -1,31 +1,31 @@
-# GLAZE UI V1.0 — Specifications
+# GLAZE UI V1.1 — Specifications
 
 ## Product identity
 
-- **Official product name:** GLAZE UI V1.0
-- **Machine version:** `1.0.0`
+- **Official product name:** GLAZE UI V1.1
+- **Machine version:** `1.1.0`
+- **Lifecycle:** Stable
 - **Repository:** `GoreeCloud/goreecloud-glaze-ui`
-- **Lifecycle state:** Official reset baseline; production acceptance pending
-- **Authoritative product contract:** `GLAZE_UI_V1_0.md`
+- **Authoritative product contract:** `GLAZE_UI_V1_1.md`
 
-GLAZE UI V1.0 is the sole current Glaze UI product version represented by the active repository tree. The reset does not inherit production-Stable or consumer-conformance evidence from any prior product namespace.
+## Runtime entrypoints
 
-## Runtime entry points
-
-- Web CSS: `css/glaze-v1.0.0.css`
-- Web JavaScript: `js/glaze-v1.0.0.mjs`
-- Design tokens: `tokens/glaze-v1.json`
+- Web CSS: `css/glaze-v1.1.0.css`
+- Web JavaScript: `js/glaze-v1.1.0.mjs`
+- Token manifest: `tokens/glaze-v1.json`
+- V1.1 atmosphere: `tokens/glaze-v1.1-atmosphere.json`
+- V1.1 optical contract: `contracts/v1.1/optical-refinement.json`
 - Component catalog: `contracts/components/v1/catalog.json`
-- System Shell contract: `contracts/system-shell/glaze-system-shell-v1.json`
+- System Shell: `contracts/system-shell/glaze-system-shell-v1.json`
 - Lifecycle registry: `registry/lifecycle.json`
 - Consumer registry: `consumers/registry.json`
 
-## Core requirements
+## Stable V1.1 requirements
 
-GLAZE UI V1.0 provides the GoreeCloud design-system baseline for interface structure, components, states, materials, color, typography, motion, responsive behavior, form factors, accessibility, iconography, workspace navigation, System Shell behavior, evidence presentation, and supported native-platform references.
+V1.1 preserves V1 structural materials, semantic/protected-state authority, accessibility precedence, the canonical 32-component catalog, System Shell semantics, and the governed Glaze-region performance budget. It adds deterministic optical lighting, Deep Teal + Soft Amber atmosphere, explicit Light/Dark/Deep Dark structural mapping, optical geometry and density refinements, and approved reference-scene acceptance.
 
-The active implementation must use the V1 namespace consistently. Former Glaze UI release namespaces must not appear in active filenames, runtime selectors, variables, imports, contracts, examples, tests, or current documentation, except where GoreeCloud revision-control requirements preserve chronological audit history in the canonical changelog or immutable Git history.
+Atmosphere is always lower priority than protected meaning, Forced Colors, Reduced Motion, Reduced Transparency, Increased Contrast, large text, touch assistance, platform capability, and material clarity. No feature may depend on atmosphere or color alone for meaning.
 
 ## Acceptance boundary
 
-The V1 product identity is authoritative, but production acceptance must be earned against the exact post-reset revision. Required validation includes applicable repository checks, rendered-reference review, accessibility checks, interaction checks, performance checks, native-platform checks, and human visual review. Downstream applications remain independently conformance-gated.
+Stable source qualification is backed by project-owner optical approval, source-pinned web regression, current V1 contract validation, and fresh Android handheld emulator evidence from exact release-candidate revision `b37538f6748d95680ca5f6fe4a5e412a38ef87a7` / workflow `33750604928`. Platform-native evidence remains bounded to what it actually tested. Downstream applications remain independently migration-, platform-, accessibility-, and production-acceptance-gated.

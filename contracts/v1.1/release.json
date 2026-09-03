@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.1",
+  "version": "1.1.0",
+  "lifecycle": "Stable source promotion",
+  "releaseCandidate": "1.1.0-rc.1",
+  "releaseCandidateRevision": "b37538f6748d95680ca5f6fe4a5e412a38ef87a7",
+  "releaseEvidenceWorkflowRun": 33750604928,
+  "humanOpticalApproval": {
+    "authority": "GoreeCloud project owner",
+    "date": "2026-09-03",
+    "approvedVisualSourceRevision": "8ea1f789bbabf943c3359514dc1506b24fa3c51b"
+  },
+  "webEvidence": {
+    "sourcePinnedBaseline": "contracts/regression/visual-baselines-v1.json",
+    "requiredCases": 5
+  },
+  "androidEvidence": {
+    "scope": "framework-native Android handheld emulator reference",
+    "requiredCases": [
+      "light-48dp",
+      "dark-reduced-transparency-48dp",
+      "deep-dark-200-percent-text-touch-assistance-56dp"
+    ],
+    "boundaries": [
+      "not OEM-wide qualification",
+      "not physical-device qualification",
+      "not TalkBack certification",
+      "not app signing/distribution acceptance",
+      "not downstream application conformance"
+    ]
+  },
+  "finalization": {
+    "governedMergeRequired": true,
+    "postMergeMainValidationRequired": true,
+    "immutableTagRequired": "v1.1.0",
+    "githubReleaseRequired": "v1.1.0",
+    "canonicalGoreecloudDocumentationSyncRequired": true
+  }
+}
