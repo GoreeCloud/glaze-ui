@@ -1,14 +1,30 @@
 {
-  "schemaVersion": 1,
-  "product": "GLAZE UI V1.0",
-  "version": "1.0.0",
-  "status": "revalidation-required",
+  "schemaVersion": 2,
+  "product": "GLAZE UI V1.1",
+  "version": "1.1.0",
+  "status": "release-candidate",
   "rules": {
     "readableContentRequiresTransparency": false,
     "nestedBackdropBlurAllowed": false,
     "dominantGlazePanelsMax": 1,
     "smallFloatingGlazeControlsMax": 3,
+    "concurrentAuraFieldsMax": 2,
+    "environmentalColorInfluencePercentMax": 12,
+    "overlayBackdropBlurPxMax": 22,
+    "panelBackdropBlurPxMax": 28,
+    "microInteractionDurationMsMax": 220,
+    "connectedTransitionDurationMsMax": 360,
+    "reducedMotionDurationMsMax": 120,
+    "constrainedModeBackdropBlurPx": 0,
+    "constrainedModeAuraFieldsMax": 0,
     "effectsMayBeRemovedBeforeSemantics": true
   },
-  "note": "Numeric runtime and platform budgets must be regenerated and accepted against exact V1 revisions before production-readiness claims."
+  "validation": {
+    "entrypoint": "css/glaze-v1.1.0.css",
+    "opticalLayer": "css/glaze-v1.1.optical.css",
+    "runtimeEntrypoint": "js/glaze-v1.1.0.mjs",
+    "requiresExactRevisionCI": true,
+    "requiresRenderedReference": true
+  },
+  "note": "V1.1 numeric presentation budgets are explicit release constraints. Platform implementations may use cheaper native equivalents but may not exceed semantic or accessibility boundaries merely to preserve effects."
 }
