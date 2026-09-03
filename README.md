@@ -24,6 +24,8 @@ The V1.0 baseline includes a bounded System Shell and a 32-component catalog acr
 
 V1.0 is the official and only current Glaze UI version. Because the version namespace has been reset, production-readiness and conformance evidence must be regenerated against exact post-reset V1.0 revisions. Earlier release identities are not valid V1.0 evidence and are not current consumer targets.
 
+The active repository tree intentionally contains no pre-reset acceptance snapshots or prior current-release entrypoints; required Git and changelog history remain audit-only under GoreeCloud revision-control policy.
+
 No downstream GoreeCloud application is upgraded by declaration. Each product must independently adopt V1.0 and complete its required rendered, native, accessibility, platform, performance, and release acceptance.
 
 ## Repository layout
