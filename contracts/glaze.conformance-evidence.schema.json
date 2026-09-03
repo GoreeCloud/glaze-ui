@@ -32,7 +32,7 @@
       "required": ["application", "glaze_version", "source_revision", "form_factors"],
       "properties": {
         "application": {"type": "string", "minLength": 1, "maxLength": 160},
-        "glaze_version": {"const": "2.2.0"},
+        "glaze_version": {"const": "1.0.0"},
         "source_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
         "form_factors": {
           "type": "array",
