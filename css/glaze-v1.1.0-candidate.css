@@ -1,0 +1,6 @@
+/*
+ * GLAZE UI V1.1.0 Candidate — non-current web entrypoint.
+ * Explicit opt-in only. GLAZE UI V1.0 remains the current official target.
+ */
+@import url("./glaze-v1.1-candidate.css");
+@import url("./glaze-v1.1-appearance.candidate.css");
