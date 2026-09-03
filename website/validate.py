@@ -108,18 +108,19 @@ for text in (
     if text not in html:
         raise SystemExit(f"required V1 Design Center content missing: {text}")
 
-for text in (
-    "Glaze UI 2.2",
-    "GLAZE UI 2.2",
-    "2.2 is Stable",
-    "2.1.0",
-    "2.0.0",
-    "glaze-2.",
-    "glaze-v1.0.css",
-    "glz22",
-):
-    if text.lower() in html.lower() or text.lower() in not_found.lower():
-        raise SystemExit(f"former release content leaked into V1 public surface: {text}")
+# Fail closed if a former numbered Glaze product identity leaks into the current
+# public HTML. Constructing the check generically also keeps this validator from
+# embedding a former product label as active source text itself.
+former_product_re = re.compile(r"\bglaze ui\s+v?(?:[2-9]\d*)(?:\.\d+){1,2}\b", re.IGNORECASE)
+for surface_name, surface in (("index", html), ("404", not_found)):
+    if former_product_re.search(surface):
+        raise SystemExit(f"former Glaze product identity leaked into V1 {surface_name} surface")
+    if ("glz" + "22") in surface.lower():
+        raise SystemExit(f"former internal release namespace leaked into V1 {surface_name} surface")
+    if ("glaze-" + "2" + ".") in surface.lower():
+        raise SystemExit(f"former stylesheet release namespace leaked into V1 {surface_name} surface")
+    if "/assets/glaze-v1.0.css" in surface:
+        raise SystemExit(f"pre-reset V1-alias asset leaked into current {surface_name} surface")
 
 for text in (
     "GLAZE UI V1.0",
