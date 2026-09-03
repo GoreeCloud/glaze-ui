@@ -1,9 +1,44 @@
 {
-  "schemaVersion": 1,
-  "product": "GLAZE UI V1.0",
-  "version": "1.0.0",
-  "status": "baseline-regeneration-required",
+  "schemaVersion": 2,
+  "product": "GLAZE UI V1.1",
+  "version": "1.1.0",
+  "status": "release-candidate",
   "baselineRevision": null,
-  "cases": [],
-  "note": "V1 visual baselines must be captured from an exact post-reset V1 revision and human-reviewed before they become acceptance authority."
+  "reviewState": "pending-exact-revision-review",
+  "cases": [
+    {
+      "id": "design-center-mobile-320-light",
+      "surface": "website",
+      "viewport": {"width": 320, "height": 844},
+      "appearance": "light",
+      "artifact": "artifacts/design-center-mobile-320-light.png",
+      "required": true
+    },
+    {
+      "id": "design-center-mobile-390-light",
+      "surface": "website",
+      "viewport": {"width": 390, "height": 844},
+      "appearance": "light",
+      "artifact": "artifacts/design-center-mobile-390-light.png",
+      "required": true
+    },
+    {
+      "id": "design-center-mobile-390-dark",
+      "surface": "website",
+      "viewport": {"width": 390, "height": 844},
+      "appearance": "dark",
+      "artifact": "artifacts/design-center-mobile-390-dark.png",
+      "required": true
+    }
+  ],
+  "invariants": [
+    "no-horizontal-overflow",
+    "mobile-touch-target-floor-48px",
+    "single-column-phone-content",
+    "semantic-color-independent-from-atmosphere",
+    "reduced-transparency-removes-atmosphere",
+    "forced-colors-removes-atmosphere",
+    "constrained-performance-removes-aura-and-blur"
+  ],
+  "note": "The listed cases are generated from the exact candidate revision by CI. Stable promotion requires a non-null reviewed baselineRevision and a final exact-release validation that makes no unreviewed visual changes."
 }
