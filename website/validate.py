@@ -23,10 +23,10 @@ required=(
     'assets/glaze-2.candidate.css','assets/glaze-2.foldable.candidate.css','assets/glaze-2.emerging.candidate.css',
     'assets/glaze-2.1.0.css','assets/glaze-2.1.reference.css','assets/glaze-2.1.visual-excellence.css',
     'assets/glaze-2.1.visual-excellence.core.css','assets/glaze-2.1.visual-excellence.review2.css','assets/glaze-2.1.visual-excellence.review3.css','assets/glaze-2.1.visual-excellence.review4.css',
-    'assets/glaze-2.2.0.css','assets/glaze-2.2.candidate.css','assets/glaze-2.2.components.candidate.css',
-    'assets/glaze-2.2.components.adaptive.candidate.css','assets/glaze-2.2.components.runtime.candidate.css',
-    'assets/glaze-2.2.structure.candidate.css','assets/glaze-2.2.overlay.candidate.css','assets/glaze-2.2.advanced.candidate.css',
-    'assets/glaze-2.2.visual-refinement.candidate.css','assets/glaze-2.2.optical-reachability.candidate.css',
+    'assets/glaze-v1.0.css','assets/glaze-v1.candidate.css','assets/glaze-v1.components.css',
+    'assets/glaze-v1.components.adaptive.css','assets/glaze-v1.components.runtime.css',
+    'assets/glaze-v1.structure.css','assets/glaze-v1.overlay.css','assets/glaze-v1.advanced.css',
+    'assets/glaze-v1.visual-refinement.css','assets/glaze-v1.optical-reachability.css',
     'assets/site.css','assets/identity.css','assets/site.js','assets/glaze-ui-mark.svg',
 )
 for n in required:
@@ -44,12 +44,12 @@ foldable20=(DIST/'assets/glaze-2.foldable.candidate.css').read_text(encoding='ut
 stable21=(DIST/'assets/glaze-2.1.0.css').read_text(encoding='utf-8')
 stable_ref21=(DIST/'assets/glaze-2.1.reference.css').read_text(encoding='utf-8')
 glass21=(DIST/'assets/glaze-2.1.visual-excellence.review4.css').read_text(encoding='utf-8')
-stable22=(DIST/'assets/glaze-2.2.0.css').read_text(encoding='utf-8')
-base22=(DIST/'assets/glaze-2.2.candidate.css').read_text(encoding='utf-8')
-optical22=(DIST/'assets/glaze-2.2.optical-reachability.candidate.css').read_text(encoding='utf-8')
+stable22=(DIST/'assets/glaze-v1.0.css').read_text(encoding='utf-8')
+base22=(DIST/'assets/glaze-v1.candidate.css').read_text(encoding='utf-8')
+optical22=(DIST/'assets/glaze-v1.optical-reachability.css').read_text(encoding='utf-8')
 
 for text in (
-    'Glaze UI 2.2 Stable',
+    'GLAZE UI V1.0 Stable',
     'Solid where you read. Glazed where you interact.',
     'Workspace → Application → System Overlay → System Panel → Critical System',
     'one dominant Glaze panel plus one to three small floating Glaze controls',
@@ -57,37 +57,37 @@ for text in (
     'Universal Search',
     'Control Center',
     '2.2 is Stable and is the production design-system target.',
-    'Glaze UI 2.1.0 is the immediately preceding historical Stable rollback baseline.',
+    'GLAZE UI V1.0 is the immediately preceding historical Stable rollback baseline.',
     'no downstream application becomes 2.2-conformant by declaration',
     'Facet','GoreeCloud/goreecloud-glaze-ui','Skip to content',
 ):
     if text not in html: raise SystemExit(f'required public-site 2.2 content missing: {text}')
 
 for asset in (
-    '/assets/glaze-ui-mark.svg','/assets/glaze-2.2.0.css','/assets/glaze-2.candidate.css','/assets/glaze-2.foldable.candidate.css','/assets/glaze-2.emerging.candidate.css'
+    '/assets/glaze-ui-mark.svg','/assets/glaze-v1.0.css','/assets/glaze-2.candidate.css','/assets/glaze-2.foldable.candidate.css','/assets/glaze-2.emerging.candidate.css'
 ):
     if asset not in html: raise SystemExit(f'required current/historical asset not published: {asset}')
 if '/assets/glaze-2.1.0.css' in html:
     raise SystemExit('public current page must not load 2.1.0 as an active Stable stylesheet')
-for text in ('Glaze UI 2.2','404 · Glaze UI 2.2 Stable','/assets/glaze-2.2.0.css'):
+for text in ('GLAZE UI V1.0','404 · GLAZE UI V1.0 Stable','/assets/glaze-v1.0.css'):
     if text not in not_found: raise SystemExit(f'2.2 404 surface missing: {text}')
 
 for marker in (
-    '@import url("./glaze-2.2.candidate.css")',
-    '@import url("./glaze-2.2.components.candidate.css")',
-    '@import url("./glaze-2.2.components.adaptive.candidate.css")',
-    '@import url("./glaze-2.2.components.runtime.candidate.css")',
-    '@import url("./glaze-2.2.structure.candidate.css")',
-    '@import url("./glaze-2.2.overlay.candidate.css")',
-    '@import url("./glaze-2.2.advanced.candidate.css")',
-    '@import url("./glaze-2.2.visual-refinement.candidate.css")',
-    '@import url("./glaze-2.2.optical-reachability.candidate.css")',
+    '@import url("./glaze-v1.candidate.css")',
+    '@import url("./glaze-v1.components.css")',
+    '@import url("./glaze-v1.components.adaptive.css")',
+    '@import url("./glaze-v1.components.runtime.css")',
+    '@import url("./glaze-v1.structure.css")',
+    '@import url("./glaze-v1.overlay.css")',
+    '@import url("./glaze-v1.advanced.css")',
+    '@import url("./glaze-v1.visual-refinement.css")',
+    '@import url("./glaze-v1.optical-reachability.css")',
 ):
     if marker not in stable22: raise SystemExit(f'2.2 Stable entrypoint missing promotion source: {marker}')
 
 for marker in (
-    '--glz22-target-shell: 48px','--glz22-target-assisted: 56px','.glz22-workspace','.glz22-application',
-    '.glz22-system-overlay','.glz22-system-panel','.glz22-critical-system','[data-glz-appearance="deep-dark"]',
+    '--glz1-target-shell: 48px','--glz1-target-assisted: 56px','.glz1-workspace','.glz1-application',
+    '.glz1-system-overlay','.glz1-system-panel','.glz1-critical-system','[data-glz-appearance="deep-dark"]',
     'prefers-reduced-motion','prefers-reduced-transparency','prefers-contrast: more','forced-colors: active',
 ):
     if marker not in base22: raise SystemExit(f'2.2 Stable foundation source missing: {marker}')
@@ -95,7 +95,7 @@ for marker in (
 # The approved Optical Reachability layer must remain published and preserve its
 # bounded presentation identity. Dedicated exact-head rendered/pixel workflows
 # prove visual equivalence; this public-site validator protects source presence.
-for marker in ('.glz22-', 'optical'):
+for marker in ('.glz1-', 'optical'):
     if marker.lower() not in optical22.lower(): raise SystemExit(f'2.2 Optical Reachability source missing marker: {marker}')
 
 # Retain the full 2.1 Stable rollback/public regression contract.

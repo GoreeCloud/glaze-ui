@@ -56,7 +56,7 @@ def validate_manifest() -> None:
     data = json.loads(MANIFEST.read_text(encoding="utf-8"))
     require(data.get("manifest_version") == 2, "theme manifest must use Manifest V2")
     require(data.get("version") == "0.2.0", "integration theme version must be 0.2.0")
-    require("Glaze UI 1.3" in data.get("description", ""), "theme description must pin Glaze UI 1.3")
+    require("GLAZE UI V1.0" in data.get("description", ""), "theme description must pin GLAZE UI V1.0")
 
     for variant_name in ("theme", "dark_theme"):
         variant = data.get(variant_name)
@@ -105,7 +105,7 @@ def validate_userchrome() -> None:
 def validate_documentation() -> None:
     text = README.read_text(encoding="utf-8")
     for marker in (
-        "Glaze UI 1.3.0",
+        "GLAZE UI V1.0",
         "Functional Glass",
         "GoreeCloud Browser",
         "Mozilla Firefox",

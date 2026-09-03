@@ -74,7 +74,7 @@ export function resolveSystemPreferences(input = {}) {
 
 export function resolveSystemSurface(surfaceClass, preferences = resolveSystemPreferences()) {
   const base = SYSTEM_SURFACES[surfaceClass];
-  if (!base) throw new TypeError(`Unknown Glaze UI 2.2 system surface: ${surfaceClass}`);
+  if (!base) throw new TypeError(`Unknown GLAZE UI V1.0 system surface: ${surfaceClass}`);
   const performance = PERFORMANCE[preferences.performanceProfile] || PERFORMANCE.balanced;
   const forceSolid = base.critical || preferences.forcedColors || preferences.reducedTransparency;
   const blurPx = forceSolid ? 0 : Math.min(base.blurPx, performance.maxBlurPx);
@@ -92,7 +92,7 @@ export function resolveSystemSurface(surfaceClass, preferences = resolveSystemPr
 }
 
 export function resolveSystemMotion(role, preferences = resolveSystemPreferences()) {
-  if (!(role in MOTION_MS)) throw new TypeError(`Unknown Glaze UI 2.2 motion role: ${role}`);
+  if (!(role in MOTION_MS)) throw new TypeError(`Unknown GLAZE UI V1.0 motion role: ${role}`);
   const table = preferences.reducedMotion ? REDUCED_MOTION_MS : MOTION_MS;
   return Object.freeze({
     role,
@@ -141,14 +141,14 @@ export function measureSystemGlazeBudget(root = document) {
   let dominantPanels = 0;
   let smallFloatingControls = 0;
 
-  for (const node of root.querySelectorAll('[data-glz22-dominant-glaze="true"]')) {
+  for (const node of root.querySelectorAll('[data-glz1-dominant-glaze="true"]')) {
     if (visible(node)) dominantPanels += 1;
   }
-  for (const node of root.querySelectorAll('[data-glz22-floating-glaze="true"]')) {
+  for (const node of root.querySelectorAll('[data-glz1-floating-glaze="true"]')) {
     if (visible(node)) smallFloatingControls += 1;
   }
 
-  const explicitException = root.documentElement?.dataset.glz22BudgetException === 'true';
+  const explicitException = root.documentElement?.dataset.glz1BudgetException === 'true';
   return evaluateSystemGlazeBudget({ dominantPanels, smallFloatingControls, explicitException });
 }
 
@@ -167,7 +167,7 @@ export function modeToSystemPreferences(mode, defaults = {}) {
 }
 
 export function applySystemShellRuntime({ root = document.documentElement, shell, input = {} } = {}) {
-  if (!shell) throw new TypeError('Glaze UI 2.2 system runtime requires a shell element');
+  if (!shell) throw new TypeError('GLAZE UI V1.0 system runtime requires a shell element');
   const prefs = resolveSystemPreferences(input);
 
   root.dataset.glzAppearance = prefs.appearance;
@@ -178,17 +178,17 @@ export function applySystemShellRuntime({ root = document.documentElement, shell
   root.dataset.glzTextScale = String(prefs.textScalePercent);
   root.dataset.glzPerformance = prefs.performanceProfile;
   if (prefs.appearance === 'deep-dark') root.setAttribute('data-glz-appearance', 'deep-dark');
-  if (prefs.reducedTransparency) root.classList.add('glz22-reduced-transparency');
+  if (prefs.reducedTransparency) root.classList.add('glz1-reduced-transparency');
 
   shell.dataset.effectiveTargetPx = String(prefs.touchHitAreaMinPx);
   shell.dataset.semanticColorMode = prefs.semanticColorMode;
   shell.dataset.boundaryStrength = prefs.boundaryStrength;
 
-  for (const node of shell.querySelectorAll('[data-glz22-surface]')) {
-    const resolved = resolveSystemSurface(node.dataset.glz22Surface, prefs);
+  for (const node of shell.querySelectorAll('[data-glz1-surface]')) {
+    const resolved = resolveSystemSurface(node.dataset.glz1Surface, prefs);
     node.dataset.effectiveBlur = String(resolved.blurPx);
     node.dataset.effectiveSolid = resolved.solid ? 'true' : 'false';
-    node.style.setProperty('--glz22-effective-blur', `${resolved.blurPx}px`);
+    node.style.setProperty('--glz1-effective-blur', `${resolved.blurPx}px`);
   }
 
   return prefs;

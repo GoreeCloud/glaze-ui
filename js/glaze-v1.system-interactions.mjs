@@ -141,7 +141,7 @@ function setHidden(node, hidden) {
 }
 
 function resultNodes(searchRoot) {
-  return [...searchRoot.querySelectorAll('[data-glz22-search-result]')];
+  return [...searchRoot.querySelectorAll('[data-glz1-search-result]')];
 }
 
 function syncSearchDom(searchRoot, input, state) {
@@ -218,7 +218,7 @@ export function bindUniversalSearch({
       apply({ type: 'move', direction: event.key === 'ArrowUp' ? 'previous' : 'next' });
       return;
     }
-    if (event.key === 'Enter' && doc.activeElement?.matches?.('[data-glz22-search-result]')) {
+    if (event.key === 'Enter' && doc.activeElement?.matches?.('[data-glz1-search-result]')) {
       event.preventDefault();
       const results = resultNodes(searchRoot);
       const index = results.indexOf(doc.activeElement);
@@ -242,7 +242,7 @@ export function bindUniversalSearch({
   };
 
   const onSearchClick = (event) => {
-    const node = event.target.closest?.('[data-glz22-search-result]');
+    const node = event.target.closest?.('[data-glz1-search-result]');
     if (!node || !searchRoot.contains(node)) return;
     const results = resultNodes(searchRoot);
     const index = results.indexOf(node);
@@ -274,13 +274,13 @@ export function bindUniversalSearch({
 function syncControlCenterDom(root, state) {
   setHidden(root, !state.open);
   for (const control of ['wifi', 'bluetooth', 'focus', 'mediaPlaying']) {
-    const node = root.querySelector(`[data-glz22-control-toggle="${control}"]`);
+    const node = root.querySelector(`[data-glz1-control-toggle="${control}"]`);
     if (!node) continue;
     node.setAttribute('aria-pressed', state[control] ? 'true' : 'false');
     node.dataset.state = state[control] ? 'on' : 'off';
   }
   for (const control of ['brightness', 'volume']) {
-    const node = root.querySelector(`[data-glz22-control-range="${control}"]`);
+    const node = root.querySelector(`[data-glz1-control-range="${control}"]`);
     if (!node) continue;
     node.value = String(state[control]);
     node.setAttribute('aria-valuenow', String(state[control]));
@@ -321,12 +321,12 @@ export function bindControlCenter({
   syncControlCenterDom(root, state);
 
   const onClick = (event) => {
-    const toggle = event.target.closest?.('[data-glz22-control-toggle]');
-    if (toggle && root.contains(toggle)) apply({ type: 'toggle', control: toggle.dataset.glz22ControlToggle });
+    const toggle = event.target.closest?.('[data-glz1-control-toggle]');
+    if (toggle && root.contains(toggle)) apply({ type: 'toggle', control: toggle.dataset.glz1ControlToggle });
   };
   const onInput = (event) => {
-    const range = event.target.closest?.('[data-glz22-control-range]');
-    if (range && root.contains(range)) apply({ type: 'set', control: range.dataset.glz22ControlRange, value: range.value });
+    const range = event.target.closest?.('[data-glz1-control-range]');
+    if (range && root.contains(range)) apply({ type: 'set', control: range.dataset.glz1ControlRange, value: range.value });
   };
   const onKeydown = (event) => {
     if (!state.open || event.key !== 'Escape') return;

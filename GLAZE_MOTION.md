@@ -1,10 +1,10 @@
 # Glaze Motion
 
 Status: **Experimental foundation (0.6.0)**  
-Extends: **Glaze UI 1.5.0 Stable**  
+Extends: **GLAZE UI V1.0 Stable**  
 Runtime implementation baseline: **Motion Core 0.4.0**
 
-Glaze Motion is GoreeCloud's formal motion, animation, transition, spatial-interaction, and interactive-graphics extension of Glaze UI. It does not replace the existing Glaze UI 1.5 Stable motion contract in `MOTION.md`; it builds a richer, separately governed capability layer on top of that Stable baseline.
+Glaze Motion is GoreeCloud's formal motion, animation, transition, spatial-interaction, and interactive-graphics extension of Glaze UI. It does not replace the existing GLAZE UI V1.0 Stable motion contract in `MOTION.md`; it builds a richer, separately governed capability layer on top of that Stable baseline.
 
 `Glaze UI -> Glaze Motion -> Motion Core / Motion Studio / Motion Spatial`
 
@@ -58,7 +58,7 @@ Glaze Motion 0.6 retains the merged **GoreeCloud Launcher** evaluation and adds 
 
 ### GoreeCloud Launcher
 
-Launcher PR **#22**, exact validated head `3095b9320b660f5e166465990d5d2bee061d7422`, was squash-merged as `23a389b3b24db726ceab5e328f9f8157fa7655ae` after Android CI #67 passed repository guards, Glaze UI 1.5 adoption validation, the Glaze Motion evaluation quarantine guard, lint, unit tests, debug assembly, Room checks, and the Android 16 emulator runtime suite.
+Launcher PR **#22**, exact validated head `3095b9320b660f5e166465990d5d2bee061d7422`, was squash-merged as `23a389b3b24db726ceab5e328f9f8157fa7655ae` after Android CI #67 passed repository guards, GLAZE UI V1.0 adoption validation, the Glaze Motion evaluation quarantine guard, lint, unit tests, debug assembly, Room checks, and the Android 16 emulator runtime suite.
 
 The evaluation maps Motion Core 0.4 reorder and settling semantics onto Launcher's real workspace ordering domain while remaining entirely under test source. A fail-closed repository guard rejects the `GlazeMotionExperimental` marker if it escapes into production Kotlin sources.
 
@@ -70,7 +70,7 @@ The evaluation maps Glaze Motion 0.5 timing, press-state, optional-settling, and
 
 The first Keyboard emulator run in Android CI #13 exposed a brittle test assumption: `ValueAnimator.areAnimatorsEnabled()` did not reliably represent the runner's already-applied global animation setting inside the instrumentation process. The gate was retained and corrected to read `Settings.Global.ANIMATOR_DURATION_SCALE` directly; the semantic and reduced-motion assertions were not weakened.
 
-Launcher and Keyboard both target Glaze UI 1.5.0 as **Adoption Candidates** and remain `productionEligible: false`. Their final native/rendered/accessibility/physical-device acceptance is incomplete. Therefore:
+Launcher and Keyboard both target GLAZE UI V1.0 as **Adoption Candidates** and remain `productionEligible: false`. Their final native/rendered/accessibility/physical-device acceptance is incomplete. Therefore:
 
 - both evaluations are valid first-party development evidence;
 - Experimental Glaze Motion is **not** a production dependency of either consumer;
@@ -129,6 +129,6 @@ Glaze Motion is presentation infrastructure. Privacy Shield supplies privacy tru
 
 ## Validation and promotion
 
-Glaze Motion 0.6.0 remains **Experimental** and outside Glaze UI 1.5.0 Stable. Source validation, runtime/interaction/accessibility/reference-consumer tests, native mapping documentation, local performance instrumentation, rendered acceptance, and two merged first-party test-only native Android evaluations provide stronger development evidence than 0.5, but they do not establish Candidate or Stable readiness.
+Glaze Motion 0.6.0 remains **Experimental** and outside GLAZE UI V1.0 Stable. Source validation, runtime/interaction/accessibility/reference-consumer tests, native mapping documentation, local performance instrumentation, rendered acceptance, and two merged first-party test-only native Android evaluations provide stronger development evidence than 0.5, but they do not establish Candidate or Stable readiness.
 
 Candidate or Stable promotion still requires additional representative consumer and physical-device evidence, applicable assistive-technology and performance acceptance, compatibility/migration review, dependency/security/licensing review, and normal Glaze UI promotion governance.

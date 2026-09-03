@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate mandatory Glaze UI 2.2 Stable consumer migration state and guidance."""
+"""Validate mandatory GLAZE UI V1.0 Stable consumer migration state and guidance."""
 from __future__ import annotations
 
 import json
@@ -95,7 +95,7 @@ def main() -> None:
     stable_release = [release for release in lifecycle.get("releases", []) if isinstance(release, dict) and release.get("version") == stable]
     req(len(stable_release) == 1 and stable_release[0].get("status") == "stable" and stable_release[0].get("consumerEligible") is True, "Stable release record")
     promoted = stable_release[0].get("promotedFromCandidate")
-    req(promoted == "2.2.0-candidate.1", "promotion source")
+    req(promoted == "1.0.0", "promotion source")
 
     assessment = data.get("candidateAssessment", {})
     req(assessment.get("version") == promoted and assessment.get("lifecycle") == "historical" and assessment.get("promotedTo") == stable, "preserved Candidate assessment")

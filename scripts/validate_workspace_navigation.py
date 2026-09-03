@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the retained Glaze UI 1.6 adaptive workspace contract under current 2.2 Stable."""
+"""Validate the retained GLAZE UI V1.0 adaptive workspace contract under current 2.2 Stable."""
 
 from __future__ import annotations
 
@@ -133,7 +133,7 @@ def main() -> None:
     require_text(
         doc,
         (
-            "Status: **Stable in Glaze UI 1.6.0** and retained in the current **Glaze UI 2.2.0** compatibility and production-conformance baseline.",
+            "Status: **Stable in GLAZE UI V1.0** and retained in the current **GLAZE UI V1.0** compatibility and production-conformance baseline.",
             "## Navigation transformation",
             "## Input-aware targets",
             "## Accessibility and resilience",
@@ -142,18 +142,18 @@ def main() -> None:
             "## Stable rendered acceptance matrix",
             "## Stable release boundary",
             "Evidence Presentation and Authority Surfaces contract is also Stable",
-            "downstream applications must adopt **Glaze UI 2.2.0**",
+            "downstream applications must adopt **GLAZE UI V1.0**",
         ),
         "workspace documentation",
     )
-    if "The separate Glaze UI 1.6 Evidence Presentation Candidate" in doc:
+    if "The separate GLAZE UI V1.0 Evidence Presentation Candidate" in doc:
         fail("workspace documentation still declares Evidence Presentation Candidate after Stable promotion")
 
     reference = REFERENCE.read_text(encoding="utf-8")
     require_text(
         reference,
         (
-            "Glaze UI 1.6 Candidate",
+            "GLAZE UI V1.0 Candidate",
             "data-glaze-candidate=\"1.6\"",
             "glaze.workspace.candidate.css",
             "glaze-workspace-candidate",
@@ -173,7 +173,7 @@ def main() -> None:
     require_text(
         acceptance,
         (
-            "Glaze UI 1.6 Candidate workspace acceptance",
+            "GLAZE UI V1.0 Candidate workspace acceptance",
             "Mobile overlay navigation and inspector sheet rendered",
             "Tablet adaptive navigation and contextual inspector rendered",
             "Desktop persistent navigation and inspector rendered",

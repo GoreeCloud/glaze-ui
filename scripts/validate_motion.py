@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Glaze UI 1.5 Stable motion and interaction contract."""
+"""Validate the GLAZE UI V1.0 Stable motion and interaction contract."""
 
 from __future__ import annotations
 
@@ -81,7 +81,7 @@ def main() -> None:
 
     doc = DOC.read_text(encoding="utf-8")
     for phrase in (
-        "Glaze UI 1.5 Stable",
+        "GLAZE UI V1.0 Stable",
         "Reduced-motion contract",
         "Privacy Shield",
         "Wardveil Security",

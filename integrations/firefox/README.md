@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation candidate for **Glaze UI 1.3.0**. Source validation and deterministic theme packaging are automated. Runtime visual and accessibility acceptance against representative supported Firefox desktop Release and ESR lines remains required before this integration is considered stable.
+Implementation candidate for **GLAZE UI V1.0**. Source validation and deterministic theme packaging are automated. Runtime visual and accessibility acceptance against representative supported Firefox desktop Release and ESR lines remains required before this integration is considered stable.
 
 ## Purpose
 
@@ -10,9 +10,9 @@ This integration defines how upstream Mozilla Firefox may use Glaze UI as a seco
 
 GoreeCloud Browser remains the first-class GoreeCloud browser product. Standard Firefox remains upstream Mozilla Firefox and retains Mozilla identity, Gecko, its normal update path, security model, profile format, and functionality.
 
-## Glaze UI 1.3 Mapping
+## GLAZE UI V1.0 Mapping
 
-Firefox browser chrome is treated as an appropriate **Functional Glass** consumer because navigation, controls, toolbars, tabs, menus, and transient browser chrome are exactly the interface categories Glaze UI 1.3 reserves for that material role.
+Firefox browser chrome is treated as an appropriate **Functional Glass** consumer because navigation, controls, toolbars, tabs, menus, and transient browser chrome are exactly the interface categories GLAZE UI V1.0 reserves for that material role.
 
 The mapping is deliberately restrained:
 
@@ -63,7 +63,7 @@ This integration must never:
 
 ## Accessibility and Resilience
 
-The integration preserves the Glaze UI 1.3 accessibility contract through visible keyboard focus, practical control sizing where Firefox permits it, reduced-motion behavior, increased-contrast and forced-colors fallbacks, readable solid fallbacks when translucency is unavailable, and system/light/dark appearance support.
+The integration preserves the GLAZE UI V1.0 accessibility contract through visible keyboard focus, practical control sizing where Firefox permits it, reduced-motion behavior, increased-contrast and forced-colors fallbacks, readable solid fallbacks when translucency is unavailable, and system/light/dark appearance support.
 
 Firefox-native behavior takes precedence when a cosmetic override would reduce accessibility, security, web compatibility, or release-to-release maintainability.
 

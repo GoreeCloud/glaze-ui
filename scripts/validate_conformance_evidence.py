@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Glaze UI 2.2 conformance evidence without external dependencies."""
+"""Validate GLAZE UI V1.0 conformance evidence without external dependencies."""
 
 from __future__ import annotations
 
@@ -118,7 +118,7 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
     data = require_object(record, "evidence")
     require_exact_keys(data, TOP_LEVEL, "evidence")
     if data["schema_version"] != 2:
-        raise EvidenceError("schema_version must be 2 for Glaze UI 2.2 evidence")
+        raise EvidenceError("schema_version must be 2 for GLAZE UI V1.0 evidence")
 
     producer = require_object(data["producer"], "producer")
     require_exact_keys(producer, {"system", "authoritative"}, "producer")
@@ -150,7 +150,7 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
     if not isinstance(factors, list) or not factors:
         raise EvidenceError("target.form_factors must be a non-empty array")
     if any(not isinstance(item, str) or item not in FORM_FACTORS for item in factors):
-        raise EvidenceError("target.form_factors contains an unsupported Glaze UI 2.2 role")
+        raise EvidenceError("target.form_factors contains an unsupported GLAZE UI V1.0 role")
     if len(factors) != len(set(factors)):
         raise EvidenceError("target.form_factors must not contain duplicates")
 
@@ -241,7 +241,7 @@ def load_record(path: Path) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("evidence", type=Path, help="Glaze UI 2.2 evidence JSON file")
+    parser.add_argument("evidence", type=Path, help="GLAZE UI V1.0 evidence JSON file")
     args = parser.parse_args()
     try:
         load_record(args.evidence)

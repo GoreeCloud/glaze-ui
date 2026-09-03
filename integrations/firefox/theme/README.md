@@ -1,4 +1,4 @@
-# Firefox Glaze UI 1.3 Theme
+# Firefox GLAZE UI V1.0 Theme
 
 This directory contains the supported static-theme layer for upstream Mozilla Firefox.
 
@@ -6,7 +6,7 @@ Firefox remains Mozilla Firefox. This package changes browser appearance only an
 
 ## Design Mapping
 
-The theme maps Glaze UI 1.3 semantics into Firefox-supported theme properties:
+The theme maps GLAZE UI V1.0 semantics into Firefox-supported theme properties:
 
 - Canvas → frame and new-tab backgrounds.
 - Solid/Raised → selected tab, toolbar field, cards, and readable popup surfaces.

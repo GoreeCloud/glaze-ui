@@ -46,7 +46,7 @@
     "Glaze UI may publish presentation and design-conformance evidence only.",
     "Glaze UI consumes Wardveil, Privacy Shield, Everkeep, and Mesh truth but does not author their domain state.",
     "A valid Mesh envelope or system icon never independently proves protection, privacy compliance, recoverability, or platform acceptance.",
-    "The Glaze UI 1.6 evidence-presentation contract is Stable; producer authority remains external to Glaze UI."
+    "The GLAZE UI V1.0 evidence-presentation contract is Stable; producer authority remains external to Glaze UI."
   ],
   "status": "stable-source-profile",
   "production_acceptance": false

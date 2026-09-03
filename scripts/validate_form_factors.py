@@ -20,9 +20,9 @@ def main():
     css=text('css/glaze.formfactors.css')
     for m in ('.glaze-mobile-shell','.glaze-tablet-shell','.glaze-desktop-shell','.glaze-tv-shell','.glaze-tv-focusable','--glaze-tv-safe-inline','--glaze-tv-safe-block','prefers-reduced-motion','forced-colors'): req(m in css,f'form-factor CSS missing {m}')
     contract=text('FORM_FACTORS.md')
-    for m in ('Mobile UI','Tablet UI','Desktop UI','TV UI','TV is defined primarily by far viewing distance','TV must never be treated as Wide Desktop','Glaze UI 1.4 Stable form-factor acceptance requires representative acceptance for every supported profile'):
+    for m in ('Mobile UI','Tablet UI','Desktop UI','TV UI','TV is defined primarily by far viewing distance','TV must never be treated as Wide Desktop','GLAZE UI V1.0 Stable form-factor acceptance requires representative acceptance for every supported profile'):
         req(m in contract,f'FORM_FACTORS.md missing retained Stable contract marker {m}')
-    req('A Glaze UI 1.4 candidate must include representative acceptance' not in contract,'FORM_FACTORS.md contains stale 1.4 Candidate acceptance wording')
+    req('A GLAZE UI V1.0 candidate must include representative acceptance' not in contract,'FORM_FACTORS.md contains stale 1.4 Candidate acceptance wording')
     ref=text('reference/formfactors.html')
     for m in ('data-profile="mobile"','data-profile="tablet"','data-profile="desktop"','data-profile="tv"','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'): req(m in ref,f'form-factor reference missing {m}')
     acceptance=text('ACCEPTANCE.md')
@@ -36,8 +36,8 @@ def main():
     for m in ('Mobile 390×844','Tablet 820×1180','Desktop 1280×900','Wide Desktop 1600×1000','TV 1920×1080'):
         req(m in readme,f'README Stable form-factor matrix missing {m}')
     lifecycle=text('COMPONENT_STATUS.md')
-    req('Glaze UI 1.4 Stable form-factor layer' in lifecycle,'retained 1.4 form-factor lifecycle record missing')
-    req('Glaze UI 1.5 Stable systems' in lifecycle,'retained 1.5 Stable lifecycle promotion missing')
+    req('GLAZE UI V1.0 Stable form-factor layer' in lifecycle,'retained 1.4 form-factor lifecycle record missing')
+    req('GLAZE UI V1.0 Stable systems' in lifecycle,'retained 1.5 Stable lifecycle promotion missing')
     req(f'Stable baseline:** Glaze UI **{version}' in text('STABILITY.md'),'current stability baseline missing')
     req(json.loads(text('consumers/registry.json'))['stableBaseline']==version,'current consumer baseline missing')
     req(f'Glaze UI {stable_family} Stable' in text('website/index.html'),'public site current Stable marker missing')

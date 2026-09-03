@@ -1,8 +1,8 @@
-# Glaze UI 2.2 Evidence Validity
+# GLAZE UI V1.0 Evidence Validity
 
 Glaze UI conformance and production-UI-acceptance evidence is useful only while it remains current, attributable, application-specific, and bound to the exact source revision that was actually evaluated.
 
-The machine-readable contract in `contracts/glaze.conformance-evidence.schema.json` and the fail-closed validator in `scripts/validate_conformance_evidence.py` establish the repository-side evidence format for current Stable Glaze UI 2.2.0.
+The machine-readable contract in `contracts/glaze.conformance-evidence.schema.json` and the fail-closed validator in `scripts/validate_conformance_evidence.py` establish the repository-side evidence format for current Stable GLAZE UI V1.0.
 
 ## Required evidence properties
 

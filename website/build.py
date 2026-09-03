@@ -17,10 +17,10 @@ for name in (
     'glaze-2.1.visual-excellence.core.css','glaze-2.1.visual-excellence.review2.css',
     'glaze-2.1.visual-excellence.review3.css','glaze-2.1.visual-excellence.review4.css',
     # Current 2.2 Stable entrypoint and preserved promotion-source layers it imports.
-    'glaze-2.2.0.css','glaze-2.2.candidate.css','glaze-2.2.components.candidate.css',
-    'glaze-2.2.components.adaptive.candidate.css','glaze-2.2.components.runtime.candidate.css',
-    'glaze-2.2.structure.candidate.css','glaze-2.2.overlay.candidate.css','glaze-2.2.advanced.candidate.css',
-    'glaze-2.2.visual-refinement.candidate.css','glaze-2.2.optical-reachability.candidate.css',
+    'glaze-v1.0.css','glaze-v1.candidate.css','glaze-v1.components.css',
+    'glaze-v1.components.adaptive.css','glaze-v1.components.runtime.css',
+    'glaze-v1.structure.css','glaze-v1.overlay.css','glaze-v1.advanced.css',
+    'glaze-v1.visual-refinement.css','glaze-v1.optical-reachability.css',
 ): shutil.copy2(ROOT/'css'/name,DIST/'assets'/name)
 shutil.copy2(IDENTITY/'glaze-ui-mark.svg',DIST/'assets'/'glaze-ui-mark.svg')
-print(f'Built {DIST.relative_to(ROOT)} from Glaze UI 2.2.0 Stable source, retained 2.1 rollback assets, and synchronized Facet identity')
+print(f'Built {DIST.relative_to(ROOT)} from GLAZE UI V1.0 Stable source, retained 2.1 rollback assets, and synchronized Facet identity')

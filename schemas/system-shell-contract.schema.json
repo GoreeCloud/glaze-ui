@@ -170,9 +170,9 @@
       "additionalProperties": false,
       "required": ["tokens", "css", "candidateContract"],
       "properties": {
-        "tokens": {"const": "tokens/glaze-2.2.candidate.json"},
-        "css": {"const": "css/glaze-2.2.candidate.css"},
-        "candidateContract": {"const": "GLAZE_UI_2_2_CANDIDATE.md"}
+        "tokens": {"const": "tokens/glaze-v1.candidate.json"},
+        "css": {"const": "css/glaze-v1.candidate.css"},
+        "candidateContract": {"const": "GLAZE_UI_V1_CANDIDATE.md"}
       }
     },
     "validation": {
@@ -180,8 +180,8 @@
       "additionalProperties": false,
       "required": ["validator", "workflow", "acceptance"],
       "properties": {
-        "validator": {"const": "scripts/validate_glaze_2_2_candidate.py"},
-        "workflow": {"const": ".github/workflows/glaze-2.2-candidate.yml"},
+        "validator": {"const": "scripts/validate_glaze_v1_candidate.py"},
+        "workflow": {"const": ".github/workflows/glaze-v1-candidate.yml"},
         "acceptance": {"const": "acceptance/2.2-candidate.md"}
       }
     }

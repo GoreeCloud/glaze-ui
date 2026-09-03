@@ -232,7 +232,7 @@ def main() -> None:
         run_case(browser, port, width=390, height=844, theme="light", mode="reduced-motion")
         run_case(browser, port, width=390, height=844, theme="light", mode="forced-colors")
 
-        # Glaze UI 1.4 purpose-built form-factor matrix.
+        # GLAZE UI V1.0 purpose-built form-factor matrix.
         form_factor_cases = (
             ("mobile", 390, 844),
             ("tablet", 820, 1180),
