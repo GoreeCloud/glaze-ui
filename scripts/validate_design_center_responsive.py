@@ -1,36 +1,56 @@
 #!/usr/bin/env python3
-"""Protect the public Design Center responsive integration from layout regressions."""
+"""Protect the Design Center's mobile-first responsive contract from source regressions."""
 
 from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 CSS = ROOT / "website" / "site.css"
+HTML = ROOT / "website" / "index.html"
 
 
 def main() -> int:
-    errors: list[str] = []
     css = CSS.read_text(encoding="utf-8")
+    html = HTML.read_text(encoding="utf-8")
+    errors: list[str] = []
 
-    required = {
-        "public header remains in normal document flow": ".site-header{position:relative;inset-block-start:auto}",
-        "tablet navigation becomes a two-column touch grid": "@media(max-width:820px){.nav-wrap{grid-template-columns:1fr auto}.nav-wrap nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))",
-        "phone navigation retains two touch columns": "@media(max-width:640px){html{scroll-padding-top:24px}.nav-wrap{padding-block:10px}.nav-wrap nav{margin-inline:0;padding:0;grid-template-columns:repeat(2,minmax(0,1fr))",
-        "narrow phone navigation becomes one column": "@media(max-width:440px){.nav-wrap{grid-template-columns:1fr}.theme-group{justify-self:start}.nav-wrap nav{grid-row:3;grid-template-columns:1fr}",
-        "material surfaces collapse to one column on phones": ".surface-grid,.principle-grid,.demo-grid,.gate-grid{grid-template-columns:1fr}",
-        "tablet material surfaces recompose instead of shrinking desktop": ".surface-grid{grid-template-columns:repeat(2,minmax(0,1fr))}",
-        "navigation links meet the 48px general interaction floor": ".nav-wrap nav a{width:100%;min-height:48px",
-        "phone actions become full width": ".actions .glaze-button{width:100%;justify-content:center}",
-        "public reference anchors do not reserve sticky-header space": "html{scroll-padding-top:24px}",
+    required_css = {
+        "normal-flow public header": ".site-header{position:relative;z-index:20",
+        "safe-area-aware mobile shell": "padding-inline:max(16px,env(safe-area-inset-left),env(safe-area-inset-right))",
+        "compact four-column mobile section navigation": "grid-template-columns:repeat(4,minmax(0,1fr))",
+        "48px mobile navigation floor": ".nav-wrap nav a{width:100%;min-width:0;min-height:48px",
+        "48px mobile appearance-control floor": ".theme-group button{min-height:48px",
+        "mobile hero overrides viewport-fill reach layout": "min-height:0!important;grid-template-columns:1fr!important;grid-template-rows:none!important",
+        "mobile hero type has an intentional bounded scale": "font-size:clamp(2.25rem,10.7vw,2.8rem)",
+        "hero actions remain a compact two-column mobile group": ".hero .actions{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))",
+        "buttons center labels instead of stretching text to an edge": ".glaze-button{min-height:48px;display:inline-flex;align-items:center;justify-content:center",
+        "System Shell cards remain compact on phones": ".surface-card{min-width:0;min-height:76px",
+        "content grids are deliberately single-column on mobile": ".demo-grid,.principle-grid,.gate-grid{display:grid;grid-template-columns:1fr",
+        "tablet recomposes rather than shrinking mobile": "@media(min-width:700px)",
+        "desktop restores five System Shell surfaces": ".surface-grid{grid-template-columns:repeat(5,minmax(0,1fr))}",
+        "reduced-motion support remains present": "@media(prefers-reduced-motion:reduce)",
     }
-    for label, marker in required.items():
+    for label, marker in required_css.items():
         if marker not in css:
             errors.append(f"Missing responsive contract: {label}")
 
-    sticky = css.rfind(".site-header{position:sticky")
-    normal_flow = css.rfind(".site-header{position:relative;inset-block-start:auto}")
-    if sticky >= 0 and normal_flow <= sticky:
-        errors.append("Final Design Center cascade does not override sticky public navigation with normal-flow navigation")
+    required_html = {
+        "compact phone brand": '<span class="brand-label-short" aria-hidden="true">GLAZE UI</span>',
+        "full desktop brand": '<span class="brand-label-long">GoreeCloud · Design Center · GLAZE UI</span>',
+        "viewport safe-area support": 'content="width=device-width,initial-scale=1,viewport-fit=cover"',
+    }
+    for label, marker in required_html.items():
+        if marker not in html:
+            errors.append(f"Missing responsive HTML contract: {label}")
+
+    forbidden = {
+        "narrow-phone one-column primary navigation": ".nav-wrap nav{grid-row:3;grid-template-columns:1fr}",
+        "viewport-filled phone hero inherited from the shared reach layout": "min-height:min(78svh,680px)",
+        "unbounded full-width phone action rule": ".actions .glaze-button{width:100%",
+    }
+    for label, marker in forbidden.items():
+        if marker in css:
+            errors.append(f"Forbidden mobile regression returned: {label}")
 
     if errors:
         print("Design Center responsive validation failed:")
@@ -38,7 +58,11 @@ def main() -> int:
             print(f"  - {error}")
         return 1
 
-    print("Design Center responsive layout validation passed: normal-flow navigation, 48px touch targets, deliberate tablet/phone grids, single-column material content, and full-width narrow actions are protected.")
+    print(
+        "Design Center mobile-first source validation passed: compact normal-flow navigation, "
+        "bounded hero scale, centered 48px controls, compact System Shell cards, safe areas, "
+        "and deliberate mobile/tablet/desktop recomposition are protected."
+    )
     return 0
 
 
