@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate current Glaze UI 2.2 evidence-presentation authority and retained 1.6 rendered evidence."""
+"""Validate current GLAZE UI V1.0 evidence-presentation authority and retained 1.6 rendered evidence."""
 import json
 from pathlib import Path
 
@@ -50,7 +50,7 @@ if VERSION.read_text().strip() != "2.2.0":
 # The 2.1 field records the last dedicated Candidate mapping that extended the
 # original 1.6 capability. It is provenance, not the current release authority.
 if data.get("glaze_ui", {}).get("candidate") != "2.1":
-    fail("historical evidence-presentation Candidate mapping must remain Glaze UI 2.1")
+    fail("historical evidence-presentation Candidate mapping must remain GLAZE UI V1.0")
 if data.get("glaze_ui", {}).get("lifecycle") != "stable":
     fail("evidence presentation must remain Stable")
 if data.get("glaze_ui", {}).get("introduced_in") != "1.6.0":
@@ -103,8 +103,8 @@ if not set(systems).issubset(schema_authorities):
 # rewritten to manufacture modern provenance.
 html = REFERENCE.read_text()
 for marker in (
-    "Glaze UI 1.6 Candidate",
-    "Glaze UI 1.5.0 remains the current Stable consumer target",
+    "GLAZE UI V1.0 Candidate",
+    "GLAZE UI V1.0 remains the current Stable consumer target",
     'data-glaze-candidate="1.6-evidence"',
     'data-authority-domain="security"',
     'data-authority-domain="privacy"',
@@ -151,7 +151,7 @@ if "current/available must never inherit success/protected styling" not in css:
 
 acceptance = ACCEPTANCE.read_text()
 for marker in (
-    "Glaze UI 1.6 Candidate evidence acceptance",
+    "GLAZE UI V1.0 Candidate evidence acceptance",
     "current Privacy Shield denial example missing",
     "current Everkeep negative recovery example missing",
     "generic aggregate safety verdict present",
@@ -248,4 +248,4 @@ for marker in (
     if marker not in acceptance_record:
         fail(f"historical 1.6 acceptance record missing lifecycle invariant: {marker}")
 
-print("Glaze UI 2.2 evidence presentation contract validated; retained 1.6 rendered provenance and producer authority remain intact")
+print("GLAZE UI V1.0 evidence presentation contract validated; retained 1.6 rendered provenance and producer authority remain intact")

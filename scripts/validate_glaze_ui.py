@@ -176,11 +176,11 @@ def main() -> None:
     require("persistent" in components.lower() and "label" in components.lower(), "component contract must require persistent field labels")
     require("Functional Glass" in components and "Clear Glass" in components, "component contract missing material boundaries")
 
-    for marker in ("### Stable", "### Candidate", "### Experimental", "### Planned", "Glaze UI 1.3 Stable foundations", "Candidate form-factor layer", "Experimental and roadmap boundary"):
+    for marker in ("### Stable", "### Candidate", "### Experimental", "### Planned", "GLAZE UI V1.0 Stable foundations", "Candidate form-factor layer", "Experimental and roadmap boundary"):
         require(marker in component_status, f"component lifecycle record missing {marker}")
     require("Glaze Intelligence Layer" in component_status and "Planned/roadmap concepts" in component_status, "roadmap concepts must remain non-shipping in lifecycle record")
 
-    for marker in ("Stable baseline", "Glaze UI 1.3.0", "Stable promotion gate", "If any applicable gate is incomplete, the release remains Candidate.", "Regression blockers", "Consumer compatibility"):
+    for marker in ("Stable baseline", "GLAZE UI V1.0", "Stable promotion gate", "If any applicable gate is incomplete, the release remains Candidate.", "Regression blockers", "Consumer compatibility"):
         require(marker in stability, f"stability contract missing {marker}")
     require("speculative intelligence" in stability.lower() and "roadmap concept" in stability.lower(), "stability contract must exclude speculative roadmap features from Stable")
 

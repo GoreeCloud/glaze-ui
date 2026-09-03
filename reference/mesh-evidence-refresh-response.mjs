@@ -27,7 +27,7 @@ function bounded(value, field, maximum, { required = false } = {}) {
 }
 
 /**
- * Normalize a canonical Mesh evidence refresh response for Glaze UI 1.6
+ * Normalize a canonical Mesh evidence refresh response for GLAZE UI V1.0
  * Candidate presentation. Handling completion and evidence availability are
  * presented separately from producer domain truth and evidence freshness.
  */

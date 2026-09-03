@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.0",
+  "version": "1.0.0",
+  "status": "baseline-regeneration-required",
+  "baselineRevision": null,
+  "cases": [],
+  "note": "V1 visual baselines must be captured from an exact post-reset V1 revision and human-reviewed before they become acceptance authority."
+}

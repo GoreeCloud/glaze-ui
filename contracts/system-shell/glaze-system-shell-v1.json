@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.0",
+  "version": "1.0.0",
+  "status": "official-baseline",
+  "principle": "Solid where users read or make explicit critical decisions. Glazed where users interact with transient navigation, command, search, control, or feedback chrome.",
+  "regions": ["workspace", "navigation", "universal-search", "control-center", "critical-system"],
+  "materialBudget": {"dominantGlazePanels": 1, "smallFloatingGlazeControlsMax": 3},
+  "accessibility": ["reduced-motion", "reduced-transparency", "increased-contrast", "forced-colors", "rtl", "200-percent-text", "keyboard", "pointer", "touch", "assistive-input"],
+  "targetFloorsPx": {"touch": 48, "touchAssistanceOrFarView": 56}
+}

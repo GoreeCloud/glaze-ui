@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://goreecloud.github.io/glaze-ui/schemas/material-contract.schema.json",
-  "title": "Glaze UI 2.1 Candidate Material Contract",
+  "title": "GLAZE UI V1.0 Candidate Material Contract",
   "type": "object",
   "additionalProperties": false,
   "required": [

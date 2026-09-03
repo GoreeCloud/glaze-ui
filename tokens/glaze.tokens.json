@@ -9,14 +9,14 @@
     "lineage": "One UI 8.5 ergonomics + Liquid Glass hierarchy and fluid material + Material 3 Expressive shape, motion, and adaptive expression + GoreeCloud privacy, identity, accessibility, resilience, and simplicity.",
     "governingSentence": "Solid where users read or make explicit critical decisions. Glazed where users interact with transient navigation, command, search, control, or feedback chrome.",
     "signature": "ergonomic spatial hierarchy + bounded Glaze Material + connected transformation + adaptive expression + Optical Reachability",
-    "currentContractSource": "tokens/glaze-2.2.candidate.json",
+    "currentContractSource": "tokens/glaze-v1.candidate.json",
     "currentSystemShellContract": "contracts/system-shell/glaze-system-shell-2.2.json",
     "currentComponentContracts": "contracts/components/2.2",
-    "currentWebLayer": "css/glaze-2.2.0.css",
-    "currentRuntime": "js/glaze-2.2.0.mjs",
-    "promotionSource": "2.2.0-candidate.1",
+    "currentWebLayer": "css/glaze-v1.0.css",
+    "currentRuntime": "js/glaze-v1.0.mjs",
+    "promotionSource": "1.0.0",
     "approvedVisualSource": "0411b0f6dd877aea30e2c5674e1acde0105fd97b",
-    "compatibilityFoundation": "Retained 1.x, Glaze UI 2.0, and Glaze UI 2.1 token fields remain compatibility semantics for controlled migration, rollback, and permanent regression validation; new and migrated consumers target Glaze UI 2.2.0 Stable."
+    "compatibilityFoundation": "Retained 1.x, GLAZE UI V1.0, and GLAZE UI V1.0 token fields remain compatibility semantics for controlled migration, rollback, and permanent regression validation; new and migrated consumers target GLAZE UI V1.0 Stable."
   },
   "currentContract": {
     "major": 2,
@@ -60,7 +60,7 @@
   "icon": {"sm":16,"md":20,"lg":24,"xl":32,"tv":36,"tvLarge":44},
   "density": {"compactControlPadding":12,"comfortableControlPadding":16,"compactGap":8,"comfortableGap":12,"tvGap":20},
   "material": {
-    "functionalGlass":{"blur":24,"saturation":145,"opacity":0.78,"usage":"legacy 1.x compatibility role for navigation, controls, toolbars, transient chrome; use Glaze UI 2.2 material levels and System Shell roles for current work"},
+    "functionalGlass":{"blur":24,"saturation":145,"opacity":0.78,"usage":"legacy 1.x compatibility role for navigation, controls, toolbars, transient chrome; use GLAZE UI V1.0 material levels and System Shell roles for current work"},
     "clearGlass":{"blur":12,"saturation":118,"opacity":0.34,"usage":"legacy 1.x compatibility role; current work uses 2.2 material hierarchy, accessibility resolution, and bounded System Glaze budgets"},
     "contentRule":"Compatibility rule: legacy 1.x content uses Solid or Raised; current 2.2 durable readable content uses Canvas/Surface while transient interaction uses Soft Glaze/Glaze/Deep Glaze/Live Glaze according to role and Critical System becomes certainty-first and solid.",
     "stableRule":"Solid where users read or make explicit critical decisions. Glazed where users interact with transient navigation, command, search, control, or feedback chrome.",

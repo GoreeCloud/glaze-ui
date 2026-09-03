@@ -77,7 +77,7 @@ for forbidden in ("*:focus { outline: none", "*:focus-visible { outline: none", 
 
 doc = DOC.read_text()
 for marker in (
-    "Glaze UI 1.5 Stable", "Glaze UI 1.5.0 remains Stable",
+    "GLAZE UI V1.0 Stable", "GLAZE UI V1.0 remains Stable",
     "hover may supplement but never replace", "TV remote/gamepad",
     "Disabled controls must expose native `disabled` or `aria-disabled=\"true\"`",
     "Read-only content must remain legible", "truthful busy semantics",
@@ -86,4 +86,4 @@ for marker in (
     if marker not in doc:
         fail(f"documentation invariant missing: {marker}")
 
-print("Glaze UI 1.5 interaction state/input modality Stable contract: OK")
+print("GLAZE UI V1.0 interaction state/input modality Stable contract: OK")

@@ -1,4 +1,4 @@
-# Firefox `userChrome.css` — Glaze UI 1.3
+# Firefox `userChrome.css` — GLAZE UI V1.0
 
 This directory contains the optional deeper Glaze UI styling layer for upstream Mozilla Firefox. It is cosmetic only and does not turn Firefox into GoreeCloud Browser.
 
@@ -17,7 +17,7 @@ The resulting path is normally:
 <firefox-profile>/chrome/userChrome.css
 ```
 
-## Glaze UI 1.3 Role
+## GLAZE UI V1.0 Role
 
 The stylesheet treats the browser navigation area as Functional Glass, keeps active tabs and fields on readable Raised/Solid surfaces, uses Compact/Standard/Pressed geometry for routine controls, reserves Expressive geometry for the focused URL bar and prominent transient panels, and deliberately does not use Clear Glass.
 

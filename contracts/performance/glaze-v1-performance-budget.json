@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.0",
+  "version": "1.0.0",
+  "status": "revalidation-required",
+  "rules": {
+    "readableContentRequiresTransparency": false,
+    "nestedBackdropBlurAllowed": false,
+    "dominantGlazePanelsMax": 1,
+    "smallFloatingGlazeControlsMax": 3,
+    "effectsMayBeRemovedBeforeSemantics": true
+  },
+  "note": "Numeric runtime and platform budgets must be regenerated and accepted against exact V1 revisions before production-readiness claims."
+}

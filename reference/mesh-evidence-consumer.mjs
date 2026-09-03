@@ -102,7 +102,7 @@ function freshness(envelope) {
 }
 
 /**
- * Convert an authenticated Mesh subject view into a Glaze UI 2.0 presentation
+ * Convert an authenticated Mesh subject view into a GLAZE UI V1.0 presentation
  * model. Producer outcomes are preserved verbatim and authority groups remain
  * separate. This function deliberately does not emit an overall verdict,
  * safety score, trust score, protection score, compliance score, or recovery

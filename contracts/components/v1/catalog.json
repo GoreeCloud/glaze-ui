@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.0",
+  "version": "1.0.0",
+  "status": "official-baseline",
+  "tiers": {
+    "foundation": ["GlzButton", "GlzIconButton", "GlzTextField", "GlzSelect", "GlzCheckbox", "GlzRadio", "GlzSwitch", "GlzSlider"],
+    "structure": ["GlzCard", "GlzList", "GlzTable", "GlzTabs", "GlzSidebar", "GlzNavigationRail", "GlzDock", "GlzToolbar"],
+    "overlay": ["GlzTooltip", "GlzPopover", "GlzMenu", "GlzDialog", "GlzSheet", "GlzToast"],
+    "signature": ["GlzCapsule", "GlzMorphCard", "GlzSmartRail", "GlzAuroraSurface", "GlzUniversalSearch"],
+    "intelligence": ["GlzAIAction", "GlzAISuggestion", "GlzAIAnswer", "GlzSmartSummary", "GlzSourceChip"]
+  },
+  "componentCount": 32,
+  "acceptanceState": "detailed V1 component contracts and exact-revision acceptance must be regenerated under the V1 namespace"
+}

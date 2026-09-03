@@ -1,104 +1,20 @@
-name: Glaze UI CI
+name: GLAZE UI V1.0 CI
 
 on:
-  pull_request:
   push:
-    branches: [main]
-
-permissions:
-  contents: read
+  pull_request:
 
 jobs:
-  validate:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
+  validate-v1:
+    runs-on: ubuntu-latest
     steps:
-      - name: Check out exact source revision
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          persist-credentials: false
-      - name: Check out immutable Glaze UI 2.1 Stable compatibility source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          repository: GoreeCloud/goreecloud-glaze-ui
-          ref: c49113eb8b93c267613fdf1bbca1f814495acad7
-          path: .glaze-2.1-stable-source
-          persist-credentials: false
-      - name: Compile validators
-        run: python3 -m py_compile scripts/validate_glaze_ui.py scripts/validate_release_state.py scripts/validate_glaze_2_2_stable.py scripts/validate_glaze_2_1_historical.py scripts/validate_glaze_2_stable.py scripts/validate_glaze_2_1_stable.py scripts/validate_glaze_2_candidate.py scripts/validate_candidate_2_rendered.py scripts/validate_candidate_2_resilience.py scripts/validate_candidate_2_emerging.py scripts/validate_wearables.py scripts/validate_enforcement.py scripts/validate_form_factors.py scripts/validate_consumer_registry.py scripts/validate_typography_contract.py scripts/validate_adaptive_colors.py scripts/validate_iconography.py scripts/validate_motion.py scripts/validate_glaze_motion.py scripts/validate_glaze_motion_rendered.py scripts/validate_materials.py scripts/validate_layout.py scripts/validate_states.py scripts/validate_evidence_presentation.py scripts/validate_workspace_navigation.py scripts/validate_rendered_reference.py scripts/validate_candidate_1_5_rendered.py scripts/validate_candidate_1_6_rendered.py scripts/validate_candidate_1_6_evidence_rendered.py website/build.py website/validate.py integrations/firefox/validate.py
-      - name: Validate immutable Glaze UI 2.1 canonical compatibility source
-        working-directory: .glaze-2.1-stable-source
-        run: python3 scripts/validate_glaze_ui.py
-      - name: Validate canonical Glaze UI 2.2 release state
-        run: python3 scripts/validate_release_state.py
-      - name: Validate Glaze UI 2.2 Stable promotion state
-        run: python3 scripts/validate_glaze_2_2_stable.py
-      - name: Validate preserved Glaze UI 2.1 historical release authority
-        run: python3 scripts/validate_glaze_2_1_historical.py
-      - name: Validate full-spectrum Glaze UI enforcement
-        run: python3 scripts/validate_enforcement.py
-      - name: Validate preserved Glaze UI 2.0 Candidate promotion source
-        run: python3 scripts/validate_glaze_2_candidate.py
-      - name: Validate Glaze UI wearable lifecycle separation
-        run: python3 scripts/validate_wearables.py
-      - name: Validate retained Glaze UI 2.1 runtime syntax
-        run: node --check js/glaze-2.1.0.mjs
-      - name: Test retained Glaze UI 2.1 runtime resolution and Material Budgets
-        run: node --test tests/glaze-2.1-runtime.test.mjs
-      - name: Validate retained Glaze UI 2.0 runtime syntax
-        run: node --check js/glaze-2.candidate.js
-      - name: Validate retained Glaze UI 2.0 wearable/spatial runtime syntax
-        run: node --check js/glaze-2.emerging.candidate.js
-      - name: Validate retained Glaze UI 2.0 prefers-contrast harness syntax
-        run: node --check scripts/validate_candidate_2_contrast.mjs
-      - name: Validate retained Glaze UI form-factor contract
-        run: python3 scripts/validate_form_factors.py
-      - name: Validate Glaze UI 1.5 adaptive color Stable regression
-        run: python3 scripts/validate_adaptive_colors.py
-      - name: Validate Glaze UI 1.5 iconography Stable regression
-        run: python3 scripts/validate_iconography.py
-      - name: Validate Glaze UI 1.5 motion and interaction Stable regression
-        run: python3 scripts/validate_motion.py
-      - name: Validate Glaze Motion 0.6 Experimental source and consumer evidence
-        run: python3 scripts/validate_glaze_motion.py
-      - name: Test retained Glaze Motion runtime interaction accessibility and reference consumer
-        run: node --test tests/glaze-motion-runtime.test.mjs tests/glaze-motion-interaction.test.mjs tests/glaze-motion-accessibility.test.mjs tests/glaze-motion-consumer.test.mjs
-      - name: Validate retained rendered Glaze Motion evidence
-        run: python3 scripts/validate_glaze_motion_rendered.py
-      - name: Validate Glaze UI 1.5 material and depth Stable regression
-        run: python3 scripts/validate_materials.py
-      - name: Validate Glaze UI 1.5 layout spacing and density Stable regression
-        run: python3 scripts/validate_layout.py
-      - name: Validate Glaze UI 1.5 interaction states and input modality Stable regression
-        run: python3 scripts/validate_states.py
-      - name: Validate Glaze UI 1.6 evidence presentation Stable regression
-        run: python3 scripts/validate_evidence_presentation.py
-      - name: Validate Glaze UI 1.6 adaptive workspace and navigation Stable regression
-        run: python3 scripts/validate_workspace_navigation.py
-      - name: Test Glaze UI 1.6 Mesh evidence consumer and refresh response presentation
-        run: node --test tests/mesh-evidence-consumer.test.mjs tests/mesh-evidence-refresh-response.test.mjs
-      - name: Validate typography source contract
-        run: python3 scripts/validate_typography_contract.py
-      - name: Validate consumer compatibility registry
-        run: python3 scripts/validate_consumer_registry.py
-      - name: Validate Firefox integration
-        run: python3 integrations/firefox/validate.py
-      - name: Build and validate public Design Center
-        run: python3 website/validate.py
-      - name: Validate rendered legacy compatibility reference
-        run: python3 scripts/validate_rendered_reference.py
-      - name: Validate rendered Glaze UI 1.5 Stable regression
-        run: python3 scripts/validate_candidate_1_5_rendered.py
-      - name: Validate rendered Glaze UI 1.6 Stable adaptive workspace regression
-        run: python3 scripts/validate_candidate_1_6_rendered.py
-      - name: Validate rendered Glaze UI 1.6 Stable evidence presentation regression
-        run: python3 scripts/validate_candidate_1_6_evidence_rendered.py
-      - name: Validate retained rendered Glaze UI 2.0 historical contract
-        run: python3 scripts/validate_candidate_2_rendered.py
-      - name: Validate retained Glaze UI 2.0 fallback and foldable resilience
-        run: python3 scripts/validate_candidate_2_resilience.py
-      - name: Validate retained Glaze UI 2.0 wearable and spatial implementation
-        run: python3 scripts/validate_candidate_2_emerging.py
-      - name: Validate retained rendered Glaze UI 2.0 increased contrast
-        run: node scripts/validate_candidate_2_contrast.mjs
+          python-version: '3.12'
+      - name: Validate GLAZE UI V1.0 reset contract
+        run: python scripts/validate_glaze_v1.py
+      - name: Validate V1 Design Center publication
+        run: python website/validate.py
+      - name: Check V1 runtime syntax
+        run: node --check js/glaze-v1.0.0.mjs

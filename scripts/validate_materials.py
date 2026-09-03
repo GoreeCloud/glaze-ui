@@ -90,7 +90,7 @@ def main() -> None:
     ):
         require(selector in css, f"material CSS missing required primitive/fallback: {selector}")
 
-    print("Glaze UI 1.5 material and depth Stable validation passed.")
+    print("GLAZE UI V1.0 material and depth Stable validation passed.")
 
 
 if __name__ == "__main__":

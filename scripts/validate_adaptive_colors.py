@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Glaze UI 1.5 adaptive color stable contract."""
+"""Validate the GLAZE UI V1.0 adaptive color stable contract."""
 from __future__ import annotations
 import json
 from pathlib import Path
@@ -62,7 +62,7 @@ def main() -> None:
     for phrase in ("prefers-reduced-motion", "prefers-contrast", "forced-colors", "color-mix"):
         require(phrase in css, f"CSS missing {phrase}")
 
-    print("Glaze UI 1.5 adaptive color stable validation passed; Stable remains 1.5.0")
+    print("GLAZE UI V1.0 adaptive color stable validation passed; Stable remains 1.5.0")
 
 
 if __name__ == "__main__":

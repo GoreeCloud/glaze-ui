@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Glaze UI 2.2 conformance evidence without external dependencies."""
+"""Validate GLAZE UI V1.0 conformance evidence without external dependencies."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION_FILE = ROOT / "VERSION"
-CURRENT_STABLE = "2.2.0"
+CURRENT_PRODUCT_VERSION = "1.0.0"
 FORM_FACTORS = {"mobile", "tablet", "desktop", "tv", "foldable", "wearable", "spatial"}
 INTEGRATIONS = {
     "identity",
@@ -70,7 +70,9 @@ def require_bool(value: Any, name: str) -> bool:
 
 def require_bounded_string(value: Any, name: str, *, max_length: int) -> str:
     if not isinstance(value, str) or not value.strip() or len(value) > max_length:
-        raise EvidenceError(f"{name} must be a bounded non-empty string of at most {max_length} characters")
+        raise EvidenceError(
+            f"{name} must be a bounded non-empty string of at most {max_length} characters"
+        )
     return value
 
 
@@ -118,7 +120,7 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
     data = require_object(record, "evidence")
     require_exact_keys(data, TOP_LEVEL, "evidence")
     if data["schema_version"] != 2:
-        raise EvidenceError("schema_version must be 2 for Glaze UI 2.2 evidence")
+        raise EvidenceError("schema_version must be 2 for GLAZE UI V1.0 evidence")
 
     producer = require_object(data["producer"], "producer")
     require_exact_keys(producer, {"system", "authoritative"}, "producer")
@@ -136,12 +138,15 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
         target["application"], "target.application", max_length=MAX_NAME_LENGTH
     )
     repository_version = VERSION_FILE.read_text(encoding="utf-8").strip()
-    if repository_version != CURRENT_STABLE:
+    if repository_version != CURRENT_PRODUCT_VERSION:
         raise EvidenceError(
-            f"validator is bound to Stable {CURRENT_STABLE}, repository reports {repository_version}"
+            f"validator is bound to GLAZE UI V1.0 product version {CURRENT_PRODUCT_VERSION}, "
+            f"repository reports {repository_version}"
         )
     if target["glaze_version"] != repository_version:
-        raise EvidenceError("target.glaze_version must match current Stable exactly")
+        raise EvidenceError(
+            "target.glaze_version must match the current GLAZE UI V1.0 product version exactly"
+        )
     if not isinstance(target["source_revision"], str) or not SHA_RE.fullmatch(
         target["source_revision"]
     ):
@@ -150,7 +155,7 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
     if not isinstance(factors, list) or not factors:
         raise EvidenceError("target.form_factors must be a non-empty array")
     if any(not isinstance(item, str) or item not in FORM_FACTORS for item in factors):
-        raise EvidenceError("target.form_factors contains an unsupported Glaze UI 2.2 role")
+        raise EvidenceError("target.form_factors contains an unsupported GLAZE UI V1.0 role")
     if len(factors) != len(set(factors)):
         raise EvidenceError("target.form_factors must not contain duplicates")
 
@@ -180,7 +185,7 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
         "acceptance",
     )
     if acceptance["current_stable_required"] is not True:
-        raise EvidenceError("current Stable Glaze UI must remain required")
+        raise EvidenceError("the current GLAZE UI V1.0 target must remain required")
     application_accepted = require_bool(
         acceptance["application_specific_acceptance_complete"],
         "acceptance.application_specific_acceptance_complete",
@@ -241,13 +246,13 @@ def load_record(path: Path) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("evidence", type=Path, help="Glaze UI 2.2 evidence JSON file")
+    parser.add_argument("evidence", type=Path, help="GLAZE UI V1.0 evidence JSON file")
     args = parser.parse_args()
     try:
         load_record(args.evidence)
     except EvidenceError as exc:
         parser.exit(1, f"Glaze UI evidence validation failed: {exc}\n")
-    print(f"Glaze UI {CURRENT_STABLE} evidence validation passed: {args.evidence}")
+    print(f"GLAZE UI V1.0 evidence validation passed: {args.evidence}")
     return 0
 
 

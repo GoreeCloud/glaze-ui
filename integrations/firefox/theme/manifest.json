@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Glaze UI for Firefox",
   "version": "0.2.0",
-  "description": "A removable Glaze UI 1.3 appearance layer for upstream Mozilla Firefox.",
+  "description": "A removable GLAZE UI V1.0 appearance layer for upstream Mozilla Firefox.",
   "theme": {
     "colors": {
       "frame": "#EEF3F9",
