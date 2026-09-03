@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "id": "glaze-ui-v1.1-optical-refinement-candidate",
+  "product": "GLAZE UI V1.1",
+  "version": "1.1.0-candidate.1",
+  "lifecycle": "specification-stable-candidate",
+  "releaseBoundary": {
+    "currentTarget": false,
+    "currentTargetRemains": "GLAZE UI V1.0 / 1.0.0",
+    "productionStable": false,
+    "mergeDoesNotPromote": true,
+    "requiresSeparateGovernedReleasePromotion": true
+  },
+  "normativeLanguage": {
+    "MUST": "required",
+    "MUST_NOT": "prohibited",
+    "SHOULD": "expected-default-with-documented-exception",
+    "MAY": "optional"
+  },
+  "authorityResolutionOrder": [
+    "producer-authoritative-protected-semantic-meaning",
+    "forced-colors",
+    "reduced-motion",
+    "reduced-transparency",
+    "increased-contrast-and-show-boundaries",
+    "large-text-200-percent-and-touch-assistance",
+    "material-clarity-and-platform-capability",
+    "v1.1-optical-atmosphere-application-identity-and-personalization"
+  ],
+  "frozenScope": {
+    "included": [
+      "unified-optical-light-direction-and-edge-light-behavior",
+      "bounded-deep-teal-soft-amber-atmosphere",
+      "optical-geometry-references-and-nested-curvature",
+      "depth-tonal-separation-occlusion-and-shadow-refinement",
+      "typography-role-refinement-with-local-fallbacks",
+      "optical-density-profile-mapping",
+      "optical-alignment-quiet-zones-controlled-asymmetry",
+      "state-loading-and-transitional-presentation-refinement",
+      "existing-v1-signature-component-optical-refinement",
+      "non-experimental-connected-transformations",
+      "reference-scenes-visual-regression-and-exact-revision-acceptance"
+    ],
+    "excluded": [
+      "glaze-motion-lifecycle-promotion",
+      "canonical-component-catalog-expansion",
+      "new-protected-system-semantics",
+      "default-nested-backdrop-blur",
+      "continuous-decorative-refraction",
+      "continuous-glow",
+      "required-environmental-content-sampling",
+      "muted-coral-as-canonical-v1.1-atmosphere"
+    ]
+  },
+  "materialCompatibility": {
+    "preserveV1StructuralMaterialContract": true,
+    "functionalGlassBaseline": {
+      "blurPx": 24,
+      "saturationPercent": 145,
+      "opacity": 0.78
+    },
+    "nestedBackdropBlurAllowed": false,
+    "dominantGlazePanelsMax": 1,
+    "smallFloatingGlazeControlsMax": 3,
+    "effectsMayBeRemovedBeforeSemantics": true,
+    "durableReadableContentRequiresTransparency": false
+  },
+  "opticalGeometryReferencesPx": {
+    "micro": 8,
+    "control": 16,
+    "container": 24,
+    "hero": 32,
+    "capsule": 999
+  },
+  "lighting": {
+    "primaryLightOrigin": "upper-left",
+    "primaryLightVector2D": [-0.6, -0.8],
+    "edgeCharacter": "cool-white-with-restrained-teal-bias",
+    "warmReflection": "optional-localized-secondary",
+    "continuousBrightColoredOutlinesAllowed": false,
+    "semanticAndFocusBoundariesAlwaysOverride": true
+  },
+  "densityProfiles": {
+    "Comfortable": {
+      "layoutDensityToken": "comfortable",
+      "minimumInteractiveTargetsPreserved": true
+    },
+    "Standard": {
+      "layoutDensityToken": "comfortable",
+      "minimumInteractiveTargetsPreserved": true,
+      "note": "Standard is the neutral V1.1 optical presentation over the current comfortable layout baseline."
+    },
+    "Productive": {
+      "layoutDensityToken": "compact",
+      "minimumInteractiveTargetsPreserved": true
+    },
+    "Immersive": {
+      "layoutDensityToken": "spacious",
+      "minimumInteractiveTargetsPreserved": true
+    }
+  },
+  "environmentalColorMemory": {
+    "requiredForConformance": false,
+    "noSamplingFallbackRequired": true,
+    "localRenderingOnlyByDefault": true,
+    "remoteTransmissionForColorDerivationAllowed": false,
+    "persistentSampleHistoryAllowedByThisContract": false,
+    "semanticInferenceAllowed": false,
+    "disabledBy": [
+      "forced-colors",
+      "reduced-transparency",
+      "platform-incompatibility",
+      "performance-constraint"
+    ]
+  },
+  "referenceScenes": {
+    "requiredFamilies": [
+      "desktop-workspace",
+      "mobile-application",
+      "tablet-dashboard"
+    ],
+    "requiredVariants": [
+      "light",
+      "dark",
+      "deep-dark",
+      "reduced-transparency",
+      "increased-contrast",
+      "forced-colors",
+      "reduced-motion",
+      "200-percent-text",
+      "rtl"
+    ],
+    "completeWorkflowRequired": true,
+    "humanOpticalReviewRequired": true,
+    "automatedRegressionDoesNotReplaceHumanReview": true
+  },
+  "releaseGates": [
+    "machine-contracts-validate",
+    "v1.1-entrypoints-implemented-with-v1.0-boundary-preserved",
+    "semantic-and-protected-state-invariants-pass",
+    "accessibility-resolution-matrix-passes",
+    "material-and-performance-budgets-pass",
+    "canonical-reference-scenes-rendered-and-reviewed",
+    "visual-regression-baselines-recorded",
+    "human-optical-review-accepted",
+    "platform-native-claims-have-platform-native-exact-revision-evidence",
+    "repository-and-goreecloud-documentation-synchronized",
+    "governed-release-decision-promotes-v1.1"
+  ]
+}

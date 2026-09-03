@@ -84,8 +84,8 @@ for marker in (
 
 doc = DOC.read_text()
 for marker in (
-    "GLAZE UI V1.0 Stable",
-    "GLAZE UI V1.0 remains Stable",
+    "GLAZE UI V1.0 remains the current official baseline",
+    "Production-readiness claims require exact-revision revalidation",
     "Density modifies inter-element spacing and padding only",
     "Horizontal scrolling is reserved",
     "Privacy Shield",
@@ -96,4 +96,4 @@ for marker in (
     if marker not in doc:
         fail(f"documentation invariant missing: {marker}")
 
-print("GLAZE UI V1.0 layout/spacing/density Stable contract: OK")
+print("GLAZE UI V1.0 layout/spacing/density contract: OK; product acceptance remains revalidation-gated.")

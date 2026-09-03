@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "id": "glaze-v1.1-atmosphere-candidate",
+  "product": "GLAZE UI V1.1",
+  "version": "1.1.0-candidate.1",
+  "lifecycle": "specification-stable-candidate",
+  "currentV1Token": false,
+  "primitives": {
+    "canvasBlack": "#081016",
+    "deepGraphite": "#101A20",
+    "slateGraphite": "#18252B",
+    "deepTeal": "#0F6B6F",
+    "mineralTeal": "#1C8A8D",
+    "softAqua": "#8FD6D2",
+    "softAmber": "#D9A35F",
+    "champagneGold": "#E7C78A",
+    "warmGlow": "#F2D7A6"
+  },
+  "compositingRoles": {
+    "tealMist": {
+      "source": "deepTeal",
+      "alpha": 0.08
+    },
+    "amberMist": {
+      "source": "softAmber",
+      "alpha": 0.05
+    }
+  },
+  "canonicalAtmosphericFamilies": [
+    "neutral-graphite",
+    "teal",
+    "amber"
+  ],
+  "excludedCanonicalColors": [
+    "muted-coral"
+  ],
+  "semanticPrecedence": {
+    "atmosphereIsLowestPriority": true,
+    "tealOrAmberMayRepresentProtectedSemanticState": false,
+    "brandingMayOverrideSemantics": false,
+    "colorOnlyCommunicationAllowed": false
+  },
+  "auraMaxCompositedAlpha": {
+    "light": {
+      "teal": 0.08,
+      "amber": 0.04
+    },
+    "dark": {
+      "teal": 0.12,
+      "amber": 0.06
+    },
+    "deepDark": {
+      "teal": 0.16,
+      "amber": 0.08
+    }
+  },
+  "regionRules": {
+    "defaultAuraFieldsMax": 2,
+    "defaultTealFieldsMax": 1,
+    "defaultAmberFieldsMax": 1,
+    "amberMustRemainSecondaryToTeal": true,
+    "additionalFieldsRequireGovernedException": true
+  },
+  "materialTintMaxContribution": {
+    "softGlaze": {
+      "teal": 0.03,
+      "amber": 0.01
+    },
+    "glaze": {
+      "teal": 0.05,
+      "amber": 0.015
+    },
+    "deepGlaze": {
+      "teal": 0.07,
+      "amber": 0.02
+    },
+    "liveGlaze": {
+      "teal": 0.08,
+      "amber": 0.025
+    }
+  },
+  "compositionGuidance": {
+    "neutralPercent": [70, 85],
+    "tealInfluencePercent": [10, 20],
+    "amberInfluencePercent": [2, 8],
+    "pixelCountConformanceTest": false,
+    "visualIntent": "primarily neutral at first glance; teal environmental depth; sparse amber counter-light"
+  },
+  "environmentalColorMemory": {
+    "requiredForConformance": false,
+    "derivedInfluenceMaxFractionOfAuraCap": 0.5,
+    "mayReplaceCanonicalTealDominance": false,
+    "remoteTransmissionForDerivationAllowed": false,
+    "persistentSampleHistoryAllowedByThisContract": false,
+    "semanticInferenceAllowed": false,
+    "disabledBy": [
+      "forced-colors",
+      "reduced-transparency"
+    ]
+  },
+  "accessibility": {
+    "forcedColors": {
+      "customAura": "off",
+      "environmentalTint": "off",
+      "customAtmosphericEdges": "off",
+      "contentSampling": "off",
+      "colorMapping": "platform"
+    },
+    "reducedTransparency": {
+      "backdropDependentAura": "off",
+      "contentSampling": "off",
+      "solidTonalIdentityMayRemain": true,
+      "contrastAndHierarchyMustRemainCompliant": true
+    },
+    "increasedContrast": {
+      "requiredBoundariesResolveBeforeAtmosphere": true
+    },
+    "reducedMotion": {
+      "atmosphericMovement": "off",
+      "accessibleStaticAtmosphereMayRemain": true
+    },
+    "grayscaleAndColorVision": {
+      "meaningMayDependOnAtmosphereAlone": false
+    }
+  },
+  "performanceDegradationOrder": [
+    "stop-live-or-animated-atmospheric-movement",
+    "disable-environmental-content-sampling",
+    "collapse-multiple-aura-fields-to-one-static-teal-field",
+    "remove-amber-aura",
+    "reduce-or-remove-atmospheric-gradients-and-large-area-tint",
+    "reduce-backdrop-effects-according-to-v1-material-contract",
+    "fall-back-to-solid-or-raised-surfaces-with-restrained-tint",
+    "remove-atmospheric-color-when-required-for-accessibility-platform-or-legibility"
+  ],
+  "protectedFromDegradation": [
+    "content",
+    "actions",
+    "focus",
+    "semantic-state",
+    "hierarchy"
+  ]
+}
