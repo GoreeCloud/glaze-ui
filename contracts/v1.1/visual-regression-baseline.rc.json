@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.1",
+  "candidateVersion": "1.1.0-rc.1",
+  "lifecycle": "Release Candidate",
+  "status": "human-approved-source-pinned-baseline",
+  "approvedVisualSourceRevision": "8ea1f789bbabf943c3359514dc1506b24fa3c51b",
+  "approvedBy": "GoreeCloud project owner",
+  "approvedOn": "2026-09-03",
+  "baselineRule": "V1.1 release-candidate rendering must reproduce the approved reference-scene PNG hashes exactly unless a new human visual review explicitly approves replacement baselines.",
+  "cases": {
+    "glaze-v1.1-desktop-workspace.png": "43da8546b8f17778fb650f43b9e6fa4657079e1d696c7292162c99051486f1c1",
+    "glaze-v1.1-tablet-dashboard.png": "bed6ce84598c6db8c2b8dad8ef26873b8b31f2ce824bb52d1dfa12c757b22667",
+    "glaze-v1.1-mobile-application.png": "d8001c4a3706145a78c6c9638288ba35339e777316b9b7e5ca4aec3aef2fe98f",
+    "glaze-v1.1-desktop-reduced-transparency.png": "a460159cf58a76da3862d723f54679bc8e060bda986d40cdecc8d64ad89ef438",
+    "glaze-v1.1-desktop-forced-colors.png": "3f452d6141c5d742e70495561a401b8a1f06e20586195072a13db5e9b4643c3d"
+  },
+  "releaseBoundary": {
+    "baselineApprovalAlonePromotesStable": false,
+    "newOpticalPixelsRequireNewHumanApproval": true,
+    "candidateIdentityTextIsPartOfApprovedReferencePixels": true,
+    "downstreamConsumerConformance": false
+  }
+}
