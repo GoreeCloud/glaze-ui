@@ -7,6 +7,7 @@ on:
     paths:
       - 'scripts/promote_glaze_v1_1_stable.py'
       - 'scripts/promote_glaze_v1_1_bindings.py'
+      - 'scripts/validate_glaze_v1.py'
       - 'scripts/validate_glaze_v1_1_stable.py'
       - '.github/workflows/glaze-v1.1-promote.yml'
 
