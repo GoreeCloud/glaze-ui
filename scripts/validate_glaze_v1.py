@@ -11,6 +11,16 @@ TRANSIENT_RESET_FILES = {
     "scripts/validate_glaze_v1.py",
     ".github/workflows/glaze-v1-normalize.yml",
 }
+NONCURRENT_V1_1_CANDIDATE_PATHS = {
+    "GLAZE_UI_V1_1_CANDIDATE.md",
+    "scripts/validate_glaze_v1_1_candidate.py",
+}
+NONCURRENT_V1_1_CANDIDATE_PREFIXES = (
+    "contracts/v1.1/",
+    "tokens/glaze-v1.1-",
+    "acceptance/v1.1-",
+    ".github/workflows/glaze-v1.1-",
+)
 TEXT_SUFFIXES = {
     ".css", ".html", ".js", ".json", ".kt", ".kts", ".md", ".mjs",
     ".properties", ".py", ".swift", ".xml", ".yaml", ".yml",
@@ -24,6 +34,10 @@ def fail(message: str) -> None:
 def load_json(path: str):
     with (ROOT / path).open(encoding="utf-8") as f:
         return json.load(f)
+
+
+def is_noncurrent_v1_1_candidate_path(rel: str) -> bool:
+    return rel in NONCURRENT_V1_1_CANDIDATE_PATHS or rel.startswith(NONCURRENT_V1_1_CANDIDATE_PREFIXES)
 
 
 if (ROOT / "VERSION").read_text(encoding="utf-8").strip() != EXPECTED:
@@ -117,6 +131,10 @@ product_version_re = re.compile(
     r"\bglaze ui\s+(v?\d+(?:\.\d+){1,2}(?:[-._a-z0-9]+)?)\b",
     re.IGNORECASE,
 )
+v1_1_candidate_label_re = re.compile(
+    r"^v?1\.1(?:\.0)?(?:-candidate(?:\.\d+)?)?$",
+    re.IGNORECASE,
+)
 
 for path in ROOT.rglob("*"):
     if not path.is_file() or ".git" in path.parts:
@@ -134,9 +152,13 @@ for path in ROOT.rglob("*"):
     for marker in content_forbidden:
         if marker in text_lower:
             fail(f"former release namespace remains in active content: {rel}: {marker}")
+    candidate_path = is_noncurrent_v1_1_candidate_path(rel)
     for match in product_version_re.finditer(text):
         token = match.group(1).lower()
-        if token not in ALLOWED_PRODUCT_LABELS:
-            fail(f"non-V1 Glaze UI product version remains in active content: {rel}: {match.group(0)}")
+        if token in ALLOWED_PRODUCT_LABELS:
+            continue
+        if candidate_path and v1_1_candidate_label_re.fullmatch(token):
+            continue
+        fail(f"non-V1 Glaze UI product version remains in active content: {rel}: {match.group(0)}")
 
 print("GLAZE UI V1.0 reset contract: OK")
