@@ -1,0 +1,139 @@
+name: Glaze V1.1 Release Finalization
+
+on:
+  push:
+    branches:
+      - 'release/glaze-ui-v1.1.0'
+    paths:
+      - '.github/workflows/glaze-v1.1-finalize.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-release:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_SHA: 15cc76d2bcd4065552dc31c77145b63f34d9e7b2
+      RELEASE_TREE: 52eb8207272498db227c984d2398e1242b659393
+      RELEASE_TAG: v1.1.0
+    steps:
+      - name: Check out verified merged release commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ env.RELEASE_SHA }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Verify exact merged release authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          test "$(git rev-parse HEAD^{tree})" = "$RELEASE_TREE"
+          test "$(cat VERSION)" = "1.1.0"
+          REMOTE_MAIN="$(git ls-remote origin refs/heads/main | cut -f1)"
+          test "$REMOTE_MAIN" = "$RELEASE_SHA"
+
+      - name: Verify post-merge main validation evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for RUN_ID in 33752164118 33752164186 33752164169 33752164129 33752164195; do
+            RUN_JSON="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}")"
+            test "$(jq -r .head_sha <<<"$RUN_JSON")" = "$RELEASE_SHA"
+            test "$(jq -r .event <<<"$RUN_JSON")" = "push"
+            test "$(jq -r .status <<<"$RUN_JSON")" = "completed"
+            test "$(jq -r .conclusion <<<"$RUN_JSON")" = "success"
+          done
+
+      - name: Verify release identity is not already published
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "$(git ls-remote --tags origin "refs/tags/${RELEASE_TAG}")"
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release ${RELEASE_TAG} already exists; refusing to replace release authority."
+            exit 1
+          fi
+
+      - name: Create immutable release tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GoreeCloud Release Automation"
+          git config user.email "295260680+GoreeCloud@users.noreply.github.com"
+          git tag -a "$RELEASE_TAG" "$RELEASE_SHA" -m "GLAZE UI V1.1.0 Stable"
+          git push origin "refs/tags/${RELEASE_TAG}"
+
+      - name: Publish GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/release-notes.md" <<'EOF'
+          # GLAZE UI V1.1.0 — Stable
+
+          GLAZE UI V1.1 is GoreeCloud's current Stable shared visual and interaction design-system release.
+
+          ## Release identity
+
+          - Product: GLAZE UI V1.1
+          - Machine version: 1.1.0
+          - Release commit: `15cc76d2bcd4065552dc31c77145b63f34d9e7b2`
+          - Release tree: `52eb8207272498db227c984d2398e1242b659393`
+          - Tag: `v1.1.0`
+          - Human optical approval: GoreeCloud project owner, 2026-09-03
+
+          ## V1.1 additions
+
+          V1.1 adds the approved Optical Refinement and Extended Atmospheric Color System, centered on Deep Teal + Soft Amber. It adds deterministic upper-left optical lighting, bounded Aura and material tinting, explicit Light/Dark/Deep Dark appearance mapping, refined optical geometry and density behavior, and Stable web/runtime entrypoints while preserving V1 structural, semantic, accessibility, component, System Shell, and performance authority.
+
+          V1.1 does not add protected semantic colors, nested backdrop blur, mandatory environmental sampling, Muted Coral canonicalization, or Glaze Motion lifecycle promotion.
+
+          ## Validation evidence
+
+          The release source was generated from the exact qualified release-candidate revision after source-pinned reproduction of all five project-owner-approved web reference scenes and fresh framework-native Android handheld emulator acceptance. The exact Stable PR head then passed V1.1 CI, semantic-color, evidence-validity, icon construction, icon identity, candidate-history compatibility, source-pinned web regression, and fresh Android evidence.
+
+          The merged `main` release commit was revalidated after merge. Required post-merge workflow runs all completed successfully:
+
+          - GLAZE UI V1.1 CI — `33752164118`
+          - Semantic Color Contract — `33752164186`
+          - Evidence Validity — `33752164169`
+          - Icon Construction Contract — `33752164129`
+          - Icon Identity Contract — `33752164195`
+
+          The squash-merged release commit has the same Git tree as the exact validated final PR head, preserving the validated release source byte-for-byte.
+
+          ## Consumer boundary
+
+          This is the Stable shared design-system release. No downstream GoreeCloud application becomes V1.1-conformant or production-eligible automatically. Each consumer must explicitly migrate to 1.1.0 and satisfy its own exact-revision platform, accessibility, conformance, and production-acceptance requirements.
+
+          Android evidence is bounded to the framework-native handheld reference. It is not OEM-wide qualification, physical-device qualification, TalkBack certification, app-signing/distribution acceptance, downstream application acceptance, or production deployment evidence.
+          EOF
+          gh release create "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --title "GLAZE UI V1.1.0 — Stable" \
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
+            --latest
+
+      - name: Verify immutable tag and published release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git fetch origin "refs/tags/${RELEASE_TAG}:refs/tags/${RELEASE_TAG}" --force
+          test "$(git rev-list -n 1 "$RELEASE_TAG")" = "$RELEASE_SHA"
+          RELEASE_JSON="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}")"
+          test "$(jq -r .tag_name <<<"$RELEASE_JSON")" = "$RELEASE_TAG"
+          test "$(jq -r .draft <<<"$RELEASE_JSON")" = "false"
+          test "$(jq -r .prerelease <<<"$RELEASE_JSON")" = "false"
+          test "$(jq -r .name <<<"$RELEASE_JSON")" = "GLAZE UI V1.1.0 — Stable"
+          echo "GLAZE UI V1.1.0 tag and GitHub Release verified at ${RELEASE_SHA}."
