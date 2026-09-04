@@ -1,0 +1,124 @@
+/* GLAZE UI V1.2 Frosted Neutral — GTK4 Linux native Candidate. */
+
+window.glaze-shell {
+  background: linear-gradient(145deg, rgb(237, 240, 244), rgb(248, 248, 249), rgb(241, 237, 233));
+  color: rgb(25, 25, 28);
+}
+window.glaze-shell.dark {
+  background: linear-gradient(145deg, rgb(18, 18, 18), rgb(24, 24, 24), rgb(21, 20, 20));
+  color: rgb(247, 247, 248);
+}
+window.glaze-shell.deep-dark {
+  background: linear-gradient(145deg, rgb(7, 7, 7), rgb(12, 12, 12), rgb(10, 10, 10));
+  color: rgb(247, 247, 248);
+}
+
+.glass-base, .glass-raised, .glass-overlay, .glass-panel,
+.critical-system, .search-entry, .setting-tile,
+.action-secondary, .status-pill {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.glass-base { background: rgba(255, 255, 255, 0.58); border-color: rgba(45, 45, 50, 0.10); }
+.glass-raised, .setting-tile, .action-secondary, .status-pill {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(45, 45, 50, 0.10);
+}
+.glass-overlay, .search-entry { background: rgba(252, 252, 252, 0.82); border-color: rgba(45, 45, 50, 0.10); }
+.glass-panel { background: rgba(250, 250, 250, 0.88); border-color: rgba(45, 45, 50, 0.12); }
+.critical-system { background: rgb(255, 255, 255); border-color: rgba(45, 45, 50, 0.13); }
+
+window.glaze-shell.dark .glass-base { background: rgba(31, 31, 31, 0.68); border-color: rgba(255, 255, 255, 0.12); }
+window.glaze-shell.dark .glass-raised,
+window.glaze-shell.dark .setting-tile,
+window.glaze-shell.dark .action-secondary,
+window.glaze-shell.dark .status-pill { background: rgba(41, 41, 41, 0.78); border-color: rgba(255, 255, 255, 0.12); }
+window.glaze-shell.dark .glass-overlay,
+window.glaze-shell.dark .search-entry { background: rgba(48, 48, 48, 0.84); border-color: rgba(255, 255, 255, 0.13); }
+window.glaze-shell.dark .glass-panel { background: rgba(54, 54, 54, 0.90); border-color: rgba(255, 255, 255, 0.13); }
+window.glaze-shell.dark .critical-system { background: rgb(30, 30, 30); border-color: rgba(255, 255, 255, 0.14); }
+
+window.glaze-shell.deep-dark .glass-base { background: rgba(24, 24, 24, 0.68); border-color: rgba(255, 255, 255, 0.12); }
+window.glaze-shell.deep-dark .glass-raised,
+window.glaze-shell.deep-dark .setting-tile,
+window.glaze-shell.deep-dark .action-secondary,
+window.glaze-shell.deep-dark .status-pill { background: rgba(34, 34, 34, 0.78); border-color: rgba(255, 255, 255, 0.12); }
+window.glaze-shell.deep-dark .glass-overlay,
+window.glaze-shell.deep-dark .search-entry { background: rgba(40, 40, 40, 0.84); border-color: rgba(255, 255, 255, 0.13); }
+window.glaze-shell.deep-dark .glass-panel { background: rgba(46, 46, 46, 0.90); border-color: rgba(255, 255, 255, 0.13); }
+window.glaze-shell.deep-dark .critical-system { background: rgb(25, 25, 25); border-color: rgba(255, 255, 255, 0.14); }
+
+window.glaze-shell.reduced-transparency .glass-base,
+window.glaze-shell.reduced-transparency .glass-raised,
+window.glaze-shell.reduced-transparency .glass-overlay,
+window.glaze-shell.reduced-transparency .glass-panel,
+window.glaze-shell.reduced-transparency .search-entry,
+window.glaze-shell.reduced-transparency .setting-tile,
+window.glaze-shell.reduced-transparency .action-secondary,
+window.glaze-shell.reduced-transparency .status-pill { background: rgb(255, 255, 255); }
+
+window.glaze-shell.dark.reduced-transparency .glass-base,
+window.glaze-shell.dark.reduced-transparency .glass-raised,
+window.glaze-shell.dark.reduced-transparency .glass-overlay,
+window.glaze-shell.dark.reduced-transparency .glass-panel,
+window.glaze-shell.dark.reduced-transparency .search-entry,
+window.glaze-shell.dark.reduced-transparency .setting-tile,
+window.glaze-shell.dark.reduced-transparency .action-secondary,
+window.glaze-shell.dark.reduced-transparency .status-pill { background: rgb(41, 41, 41); }
+
+window.glaze-shell.deep-dark.reduced-transparency .glass-base,
+window.glaze-shell.deep-dark.reduced-transparency .glass-raised,
+window.glaze-shell.deep-dark.reduced-transparency .glass-overlay,
+window.glaze-shell.deep-dark.reduced-transparency .glass-panel,
+window.glaze-shell.deep-dark.reduced-transparency .search-entry,
+window.glaze-shell.deep-dark.reduced-transparency .setting-tile,
+window.glaze-shell.deep-dark.reduced-transparency .action-secondary,
+window.glaze-shell.deep-dark.reduced-transparency .status-pill { background: rgb(30, 30, 30); }
+
+.material-card, .control-center, .critical-system { border-radius: 28px; padding: 20px; }
+.search-entry { border-radius: 999px; padding: 12px 16px; min-height: 48px; }
+.setting-tile { border-radius: 20px; padding: 12px 14px; min-height: 76px; }
+
+/* Active controls may use accent color; the surrounding substrate remains neutral. */
+.setting-tile.active { background: rgba(218, 230, 252, 0.94); border-color: rgba(47, 111, 237, 0.62); }
+window.glaze-shell.dark .setting-tile.active { background: rgba(45, 57, 82, 0.96); border-color: rgba(84, 137, 239, 0.72); }
+window.glaze-shell.deep-dark .setting-tile.active { background: rgba(39, 51, 76, 0.96); border-color: rgba(84, 137, 239, 0.72); }
+
+.setting-tile label.setting-name { font-weight: 700; }
+.setting-tile label.setting-state { opacity: 0.72; font-size: 12px; }
+
+button.action-primary, button.action-secondary, button.shell-button {
+  min-height: 48px;
+  border-radius: 999px;
+  padding: 8px 16px;
+}
+button.action-primary {
+  background: rgb(47, 111, 237);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  font-weight: 700;
+}
+button.action-secondary { color: inherit; }
+button.shell-button { background: transparent; color: inherit; border: 1px solid transparent; }
+
+button:focus, .setting-tile:focus, .search-entry:focus {
+  border-color: rgb(47, 111, 237);
+  box-shadow: 0 0 0 2px rgba(47, 111, 237, 0.55);
+}
+
+.kicker { color: rgb(47, 111, 237); font-size: 11px; font-weight: 800; }
+.title { font-size: 30px; font-weight: 800; }
+.section-title { font-size: 20px; font-weight: 800; }
+.secondary { opacity: 0.72; }
+.acceptance { color: rgb(38, 146, 92); font-weight: 700; }
+.boundary { opacity: 0.68; font-size: 12px; }
+
+.touch-assistance button.action-primary,
+.touch-assistance button.action-secondary,
+.touch-assistance button.shell-button,
+.touch-assistance .search-entry { min-height: 56px; }
+
+.large-text { font-size: 200%; }
+.large-text .title { font-size: 32px; }
+.large-text .setting-tile { min-height: 92px; }
