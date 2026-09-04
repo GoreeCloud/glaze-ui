@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "updated": "2026-09-03",
+  "updated": "2026-09-04",
   "officialProductLabel": "GLAZE UI V1.1",
   "currentOfficial": "1.1.0",
   "currentStable": "1.1.0",
-  "activeCandidate": null,
+  "activeCandidate": "1.1.1-rc.1",
   "resetState": "stable",
   "releases": [
     {
