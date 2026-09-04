@@ -71,24 +71,24 @@ public final class MainActivity extends Activity {
         warning = Color.rgb(184, 122, 42);
 
         if ("deep-dark".equals(appearance)) {
-            canvas = Color.rgb(7, 7, 8);
+            canvas = Color.rgb(7, 7, 7);
             canvasWarm = Color.rgb(14, 13, 13);
-            base = Color.argb(176, 24, 24, 26);
-            raised = Color.argb(208, 34, 34, 37);
-            overlay = Color.argb(224, 40, 40, 43);
-            panel = Color.argb(238, 46, 46, 49);
-            critical = Color.rgb(25, 25, 27);
+            base = Color.argb(176, 24, 24, 24);
+            raised = Color.argb(208, 34, 34, 34);
+            overlay = Color.argb(224, 40, 40, 40);
+            panel = Color.argb(238, 46, 46, 46);
+            critical = Color.rgb(25, 25, 25);
             text = Color.rgb(247, 247, 248);
             secondary = Color.rgb(184, 184, 190);
             line = Color.argb(52, 255, 255, 255);
         } else if ("dark".equals(appearance)) {
-            canvas = Color.rgb(18, 18, 20);
+            canvas = Color.rgb(18, 18, 18);
             canvasWarm = Color.rgb(24, 23, 22);
-            base = Color.argb(176, 31, 31, 34);
-            raised = Color.argb(208, 41, 41, 44);
-            overlay = Color.argb(224, 48, 48, 51);
-            panel = Color.argb(238, 54, 54, 57);
-            critical = Color.rgb(30, 30, 32);
+            base = Color.argb(176, 31, 31, 31);
+            raised = Color.argb(208, 41, 41, 41);
+            overlay = Color.argb(224, 48, 48, 48);
+            panel = Color.argb(238, 54, 54, 54);
+            critical = Color.rgb(30, 30, 30);
             text = Color.rgb(247, 247, 248);
             secondary = Color.rgb(188, 188, 194);
             line = Color.argb(48, 255, 255, 255);
@@ -118,9 +118,11 @@ public final class MainActivity extends Activity {
         window.setStatusBarColor(canvas);
         window.setNavigationBarColor(canvas);
         int flags = window.getDecorView().getSystemUiVisibility();
+        int lightFlags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
         if ("light".equals(appearance)) {
-            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            flags |= lightFlags;
+        } else {
+            flags &= ~lightFlags;
         }
         window.getDecorView().setSystemUiVisibility(flags);
     }
