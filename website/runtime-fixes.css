@@ -12,6 +12,25 @@ html[data-glaze-version="1.1"] .theme-group [data-theme-choice="deep-dark"]{disp
 @media(min-width:700px){
   html[data-glaze-version="1.1"] .theme-group [data-theme-choice="deep-dark"]{display:inline-flex}
 }
+/* The canonical V1.1 nav is a flex capsule by default. On the Design Center phone
+   header the four section destinations are intentionally a single equal-width row;
+   scope the adaptive composition strongly enough to win over the reusable V1.1
+   component selector while preserving the 48px interaction floor. */
+@media(max-width:699px){
+  html[data-glaze-version="1.1"] .nav-wrap .glz11-nav{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(48px,1fr));
+    gap:6px;
+    inline-size:100%;
+    min-inline-size:0;
+  }
+  html[data-glaze-version="1.1"] .nav-wrap .glz11-nav .glz11-nav-item{
+    inline-size:100%;
+    min-inline-size:48px;
+    padding-inline:4px;
+    white-space:normal;
+  }
+}
 /* At the narrowest supported phone widths, preserve 48px targets while adapting
    the System label to the equivalent compact Auto label. Semantics remain the
    system appearance through data-theme-choice and the accessible name. */
