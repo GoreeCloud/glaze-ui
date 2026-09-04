@@ -14,6 +14,8 @@ jobs:
           python-version: '3.12'
       - name: Validate current GLAZE UI V1.1 Stable contract
         run: python scripts/validate_glaze_v1.py
+      - name: Validate V1.2 Frosted Neutral Candidate track
+        run: python scripts/validate_glaze_v1_2_candidate.py
       - name: Validate V1 Design Center publication
         run: python website/validate.py
       - name: Validate Design Center mobile-first source contract

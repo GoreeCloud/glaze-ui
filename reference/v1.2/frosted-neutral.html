@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" data-glaze-version="1.1" data-glaze-upgrade="v1.2-frosted-neutral" data-glz-appearance="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GLAZE UI V1.2 — Frosted Neutral Candidate</title>
+  <link rel="stylesheet" href="../../css/glaze-v1.2.0-candidate.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; overflow-x: hidden; }
+    .preview-stage {
+      min-height: 100vh;
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: clamp(24px, 5vw, 72px);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(185, 211, 255, .62), transparent 32%),
+        radial-gradient(circle at 88% 18%, rgba(255, 225, 199, .54), transparent 30%),
+        radial-gradient(circle at 76% 88%, rgba(201, 224, 212, .44), transparent 34%),
+        linear-gradient(145deg, #edf0f5 0%, #fbfbfc 50%, #e7e9ee 100%);
+    }
+    .preview-stage::before,
+    .preview-stage::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(2px);
+      pointer-events: none;
+    }
+    .preview-stage::before {
+      width: min(52vw, 640px);
+      height: min(18vw, 220px);
+      left: -8vw;
+      bottom: 10vh;
+      background: linear-gradient(100deg, rgba(65, 120, 236, .32), rgba(255,255,255,.05));
+      transform: rotate(-11deg);
+    }
+    .preview-stage::after {
+      width: min(44vw, 520px);
+      height: min(15vw, 180px);
+      right: -7vw;
+      top: 15vh;
+      background: linear-gradient(100deg, rgba(233, 169, 98, .28), rgba(255,255,255,.03));
+      transform: rotate(-16deg);
+    }
+    .preview-shell {
+      width: min(1120px, 100%);
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 410px);
+      gap: clamp(18px, 3vw, 32px);
+      align-items: stretch;
+    }
+    .hero,
+    .control-center {
+      border: 1px solid var(--glz12-structural-border);
+    }
+    .hero {
+      min-height: 610px;
+      padding: clamp(28px, 5vw, 58px);
+      border-radius: 38px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: var(--glz12-glass-overlay);
+      backdrop-filter: blur(var(--glz12-blur-heavy)) saturate(var(--glz12-saturation-standard));
+      -webkit-backdrop-filter: blur(var(--glz12-blur-heavy)) saturate(var(--glz12-saturation-standard));
+      box-shadow: var(--glz12-inner-highlight), var(--glz12-shadow-float);
+    }
+    .eyebrow { margin: 0 0 18px; color: var(--glz1-text-secondary); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; }
+    h1 { max-width: 760px; margin: 0; font-size: clamp(42px, 6vw, 76px); line-height: .98; letter-spacing: -.045em; }
+    .lede { max-width: 660px; margin: 24px 0 0; color: var(--glz1-text-secondary); font-size: clamp(17px, 2vw, 21px); line-height: 1.55; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+    .chip { min-height: 42px; padding: 10px 15px; border: 1px solid var(--glz12-structural-border); border-radius: 999px; background: var(--glz12-glass-base); box-shadow: var(--glz12-inner-highlight); }
+    .hero-footer { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-top: 46px; }
+    .material-note { max-width: 430px; color: var(--glz1-text-secondary); font-size: 14px; line-height: 1.5; }
+    .candidate-badge { display: inline-flex; align-items: center; min-height: 42px; padding: 0 15px; border-radius: 999px; font-weight: 700; background: color-mix(in srgb, var(--glz1-focus) 12%, var(--glz12-glass-raised)); border: 1px solid color-mix(in srgb, var(--glz1-focus) 24%, var(--glz12-structural-border)); }
+    .control-center {
+      align-self: center;
+      min-height: 560px;
+      padding: 22px;
+      border-radius: 34px;
+      background-color: var(--glz12-glass-panel);
+      backdrop-filter: blur(var(--glz12-blur-heavy)) saturate(var(--glz12-saturation-standard));
+      -webkit-backdrop-filter: blur(var(--glz12-blur-heavy)) saturate(var(--glz12-saturation-standard));
+      box-shadow: var(--glz12-inner-highlight), var(--glz12-inner-edge), var(--glz12-shadow-float);
+    }
+    .control-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+    .control-title { margin: 0; font-size: 20px; letter-spacing: -.02em; }
+    .status-pill { min-height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; color: var(--glz1-text-secondary); background: var(--glz12-glass-base); border: 1px solid var(--glz12-structural-border); }
+    .slider-row { margin: 16px 0 20px; }
+    .slider-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 9px; font-size: 13px; color: var(--glz1-text-secondary); }
+    .slider-track { height: 10px; border-radius: 999px; background: color-mix(in srgb, var(--glz1-text-primary) 10%, transparent); overflow: hidden; }
+    .slider-fill { width: 64%; height: 100%; border-radius: inherit; background: var(--glz1-focus); }
+    .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 18px; }
+    .tile {
+      min-height: 78px;
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid var(--glz12-structural-border);
+      background: var(--glz12-glass-raised);
+      box-shadow: var(--glz12-inner-highlight);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+    }
+    .tile[aria-pressed="true"] { background: color-mix(in srgb, var(--glz1-focus) 24%, var(--glz12-glass-raised)); border-color: color-mix(in srgb, var(--glz1-focus) 42%, var(--glz12-structural-border)); }
+    .tile strong { font-size: 14px; }
+    .tile span { color: var(--glz1-text-secondary); font-size: 12px; }
+    .control-foot { margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--glz12-structural-border); color: var(--glz1-text-secondary); font-size: 13px; line-height: 1.5; }
+    @media (max-width: 860px) {
+      .preview-shell { grid-template-columns: 1fr; }
+      .hero { min-height: 500px; }
+      .control-center { width: min(100%, 520px); justify-self: center; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <main class="preview-stage" aria-labelledby="preview-title">
+    <div class="preview-shell">
+      <section class="hero" aria-label="Frosted Neutral design direction">
+        <div>
+          <p class="eyebrow">GLAZE UI V1.2 candidate</p>
+          <h1 id="preview-title">Neutral glass is the material.</h1>
+          <p class="lede">Frosty white and neutral translucent surfaces now carry the interface. Color remains purposeful—reserved for active controls, focus, selection, status, and GoreeCloud identity.</p>
+          <div class="chips" aria-label="Design properties">
+            <span class="chip">Frosted</span>
+            <span class="chip">White / neutral</span>
+            <span class="chip">Blurred</span>
+            <span class="chip">Translucent</span>
+            <span class="chip">Accent-led color</span>
+          </div>
+        </div>
+        <div class="hero-footer">
+          <p class="material-note">Backdrop color can diffuse through the glass, but teal, green, aqua, and amber no longer paint the default substrate.</p>
+          <span class="candidate-badge">Next upgrade track</span>
+        </div>
+      </section>
+
+      <aside class="control-center glz1-system-panel" aria-labelledby="controls-title">
+        <div class="control-top">
+          <h2 class="control-title" id="controls-title">Quick Settings</h2>
+          <span class="status-pill">72%</span>
+        </div>
+
+        <div class="slider-row" aria-label="Volume preview">
+          <div class="slider-label"><span>Volume</span><span>64%</span></div>
+          <div class="slider-track" aria-hidden="true"><div class="slider-fill"></div></div>
+        </div>
+        <div class="slider-row" aria-label="Brightness preview">
+          <div class="slider-label"><span>Brightness</span><span>78%</span></div>
+          <div class="slider-track" aria-hidden="true"><div class="slider-fill" style="width:78%"></div></div>
+        </div>
+
+        <div class="tiles" aria-label="Quick setting previews">
+          <button class="tile" type="button" aria-pressed="true"><strong>Wi-Fi</strong><span>Connected</span></button>
+          <button class="tile" type="button" aria-pressed="true"><strong>Bluetooth</strong><span>On</span></button>
+          <button class="tile" type="button" aria-pressed="false"><strong>Night Light</strong><span>Off</span></button>
+          <button class="tile" type="button" aria-pressed="true"><strong>Performance</strong><span>Balanced</span></button>
+          <button class="tile" type="button" aria-pressed="false"><strong>Airplane Mode</strong><span>Off</span></button>
+          <button class="tile" type="button" aria-pressed="false"><strong>Focus</strong><span>Available</span></button>
+        </div>
+
+        <p class="control-foot">The panel remains neutral glass. Accent color identifies active state instead of tinting the entire control surface.</p>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
