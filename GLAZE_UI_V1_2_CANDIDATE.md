@@ -90,6 +90,23 @@ The material should allow bounded background color and form to diffuse through t
 
 Environmental sampling remains local-only and optional. It must not infer protected semantics or transmit source imagery for derivation.
 
+## 32-component material expansion
+
+The Candidate now includes a machine-readable **component-material contract** for the complete inherited 32-component V1 catalog. The purpose is not to make every component translucent. It is to decide, component by component, where Frosted Neutral belongs and where Solid/Raised presentation remains authoritative.
+
+The mapping is governed by these rules:
+
+- **Reading surfaces remain Solid/Raised by default.** Cards, lists, tables, AI suggestions, AI answers, smart summaries, and similar content planes do not become glass simply because V1.2 introduces a new material style.
+- **Consequential decision surfaces remain high-opacity by default.** Dialogs retain non-backdrop-dependent presentation so the material cannot compete with the decision itself.
+- **Transient and floating chrome is the primary Frosted Neutral domain.** Popovers, menus, tooltips, sheets, toasts, docks, capsules, Smart Rail, Universal Search chrome, and explicitly floating navigation/toolbars may use Glaze or Deep Glaze.
+- **Foundation controls are variant-driven.** Buttons, icon buttons, text fields, and selects only use Frosted Neutral when the explicit `glaze` variant is requested.
+- **Persistent navigation remains Surface by default.** Sidebar and Navigation Rail gain Frosted Neutral only when rendered as detached/floating regions.
+- **Live Glaze remains explicit.** Aurora Surface remains a normal content surface unless `data-material="live-glaze"` is intentionally selected.
+- **Nested backdrop blur remains off by default.** Frosted controls nested inside an already glazed parent fall back to a neutral translucent fill without an additional backdrop-filter pass.
+- **Accent color remains state-local.** Selection, current navigation, switch/choice state, progress, focus, and semantics may use color without recoloring the surrounding glass.
+
+The Candidate component mapping is defined by `contracts/v1.2/component-materials.candidate.json`, implemented by `css/glaze-v1.2-components.candidate.css`, and exercised by `reference/v1.2/component-gallery.html`. The validator compares that mapping against `contracts/components/v1/catalog.json` and fails closed unless all 32 inherited components are represented exactly once.
+
 ## Accessibility and resilience
 
 Reduced Transparency removes backdrop-dependent effects and falls back toward solid neutral surfaces while preserving hierarchy, contrast, boundaries, and state.
@@ -102,18 +119,25 @@ Reduced Motion is independent of transparency and does not alter semantic state.
 
 Critical reading and consequential-decision surfaces remain eligible for Solid/Raised treatment under the inherited material contract.
 
+The component expansion follows the same fallbacks: explicit frosted variants collapse toward neutral Solid/Raised presentation, nested glass does not accumulate blur, and programmatic state remains intact when optical effects disappear.
+
 ## Performance
 
 V1 material budgets remain inherited: one dominant Glaze region plus up to three small floating Glaze controls by default, with no default nested backdrop blur.
 
 When performance degrades, reduce environmental effects and blur before degrading text, target size, state, focus, or semantic truth.
 
+The component material layer also disables a second backdrop-filter pass for Frosted Neutral children inside a glazed System Panel, System Overlay, Sheet, Popover, Menu, or Universal Search result panel.
+
 ## Candidate implementation
 
 - Candidate tokens: `tokens/glaze-v1.2-frosted-neutral.candidate.json`
-- Candidate web layer: `css/glaze-v1.2-frosted-neutral.candidate.css`
+- Candidate component-material contract: `contracts/v1.2/component-materials.candidate.json`
+- Candidate base web layer: `css/glaze-v1.2-frosted-neutral.candidate.css`
+- Candidate component layer: `css/glaze-v1.2-components.candidate.css`
 - Candidate preview entrypoint: `css/glaze-v1.2.0-candidate.css`
-- Candidate reference: `reference/v1.2/frosted-neutral.html`
+- Material reference: `reference/v1.2/frosted-neutral.html`
+- 32-component gallery: `reference/v1.2/component-gallery.html`
 - Candidate validator: `scripts/validate_glaze_v1_2_candidate.py`
 
 Until V1.2 is formally promoted, the preview layer is activated on the V1.1 Stable baseline with `data-glaze-upgrade="v1.2-frosted-neutral"`. This does not change `VERSION`, `currentStable`, or downstream consumer eligibility.
