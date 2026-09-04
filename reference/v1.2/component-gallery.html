@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-glaze-version="1.1" data-glaze-upgrade="v1.2-frosted-neutral" data-glz-appearance="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GLAZE UI V1.2 — Frosted Neutral Component Gallery</title>
+  <link rel="stylesheet" href="../../css/glaze-v1.2.0-candidate.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    .gallery-stage {
+      min-height: 100vh;
+      padding: clamp(20px, 4vw, 56px);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(126, 176, 255, .48), transparent 30%),
+        radial-gradient(circle at 92% 12%, rgba(255, 204, 153, .42), transparent 28%),
+        radial-gradient(circle at 82% 86%, rgba(180, 220, 195, .34), transparent 32%),
+        linear-gradient(145deg, #e9edf3, #fbfbfc 48%, #e3e6eb);
+    }
+    .gallery-shell { width: min(1480px, 100%); margin: 0 auto; display: grid; gap: 28px; }
+    .gallery-head {
+      position: sticky; top: 12px; z-index: 10;
+      padding: 18px 22px; border: 1px solid var(--glz12-structural-border); border-radius: 28px;
+      background: var(--glz12-glass-overlay); backdrop-filter: blur(var(--glz12-blur-standard));
+      -webkit-backdrop-filter: blur(var(--glz12-blur-standard));
+      box-shadow: var(--glz12-inner-highlight), var(--glz12-shadow-soft);
+      display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+    }
+    .gallery-head h1 { margin: 0; font-size: clamp(24px, 3vw, 40px); letter-spacing: -.035em; }
+    .gallery-head p { margin: 4px 0 0; color: var(--glz1-text-secondary); max-width: 760px; }
+    .candidate-pill { min-height: 40px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 999px; background: color-mix(in srgb, var(--glz1-focus) 14%, var(--glz12-glass-raised)); border: 1px solid color-mix(in srgb, var(--glz1-focus) 26%, var(--glz12-structural-border)); font-weight: 700; }
+    .tier { display: grid; gap: 14px; }
+    .tier-title { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--glz1-text-secondary); }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .sample {
+      min-width: 0; min-height: 178px; padding: 16px; border-radius: 24px;
+      border: 1px solid var(--glz12-structural-border); background: rgba(255,255,255,.64);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.58), 0 10px 28px rgba(0,0,0,.06);
+      display: grid; align-content: start; gap: 12px;
+    }
+    .sample > header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .sample h3 { margin: 0; font-size: 14px; }
+    .material-tag { font-size: 11px; color: var(--glz1-text-secondary); padding: 4px 8px; border-radius: 999px; background: rgba(255,255,255,.44); border: 1px solid var(--glz12-structural-border); }
+    .sample-body { min-width: 0; display: grid; gap: 9px; align-content: start; }
+    .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .mini-icon { inline-size: 24px; block-size: 24px; display: grid; place-items: center; border-radius: 8px; background: color-mix(in srgb, var(--glz1-focus) 12%, transparent); }
+    .demo-static { position: static !important; inset: auto !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; visibility: visible !important; max-inline-size: 100% !important; inline-size: 100% !important; }
+    .demo-sheet { position: static !important; transform: none !important; inline-size: 100% !important; max-block-size: none !important; }
+    .demo-toast { position: static !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; inline-size: 100% !important; }
+    .demo-search .glz1-search-panel { display: block !important; max-block-size: 180px; }
+    .demo-search .glz1-search-entry { border-radius: 18px; }
+    .demo-rail { block-size: 156px; }
+    .demo-sidebar { inline-size: 100%; min-inline-size: 0; max-inline-size: none; max-block-size: 150px; }
+    .demo-dock { min-block-size: 60px; }
+    .demo-table { font-size: 12px; }
+    .demo-table .glz1-table { min-inline-size: 0; }
+    .demo-table th, .demo-table td { padding: 6px; }
+    .demo-dialog { inline-size: 100%; }
+    .demo-morph { grid-template-columns: 48px minmax(0,1fr); min-block-size: 96px; }
+    .demo-morph .glz1-morph-media { inline-size: 48px; block-size: 48px; }
+    .glz1-slider input { width: 100%; }
+    @media (max-width: 1180px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gallery-head { position: static; } }
+    @media (max-width: 580px) { .grid { grid-template-columns: 1fr; } .sample { min-height: 0; } }
+    @media (forced-colors: active) { .sample, .gallery-head { background: Canvas; color: CanvasText; border-color: CanvasText; } }
+  </style>
+</head>
+<body>
+  <main class="gallery-stage">
+    <div class="gallery-shell">
+      <header class="gallery-head">
+        <div>
+          <h1>Frosted Neutral · component expansion</h1>
+          <p>All 32 inherited V1 components are represented here. Glass is applied only where the material contract permits it; reading and consequential-decision surfaces remain Solid or Raised by default.</p>
+        </div>
+        <span class="candidate-pill">V1.2 Candidate · 32 components</span>
+      </header>
+
+      <section class="tier" aria-labelledby="foundation-tier">
+        <h2 class="tier-title" id="foundation-tier">Foundation</h2>
+        <div class="grid">
+          <article class="sample" data-component="GlzButton"><header><h3>GlzButton</h3><span class="material-tag">Glaze variant</span></header><div class="sample-body row"><button class="glz1-button" data-variant="glaze">Neutral glass</button><button class="glz1-button" data-variant="primary">Primary</button></div></article>
+          <article class="sample" data-component="GlzIconButton"><header><h3>GlzIconButton</h3><span class="material-tag">Glaze variant</span></header><div class="sample-body row"><button class="glz1-icon-button" data-variant="glaze" aria-label="Favorite">☆</button><button class="glz1-icon-button" aria-label="More">•••</button></div></article>
+          <article class="sample" data-component="GlzTextField"><header><h3>GlzTextField</h3><span class="material-tag">Soft Glaze opt-in</span></header><label class="glz1-field"><span class="glz1-field-label">Search</span><span class="glz1-field-control" data-variant="glaze"><input value="GoreeCloud" aria-label="Search preview"></span></label></article>
+          <article class="sample" data-component="GlzSelect"><header><h3>GlzSelect</h3><span class="material-tag">Soft Glaze opt-in</span></header><select class="glz1-select" data-variant="glaze" aria-label="Appearance"><option>Light</option><option>Dark</option><option>Deep Dark</option></select></article>
+          <article class="sample" data-component="GlzCheckbox"><header><h3>GlzCheckbox</h3><span class="material-tag">Local control</span></header><label class="glz1-choice" data-kind="checkbox"><input type="checkbox" checked><span class="glz1-choice-control"></span><span>Sync enabled</span></label></article>
+          <article class="sample" data-component="GlzRadio"><header><h3>GlzRadio</h3><span class="material-tag">Local control</span></header><label class="glz1-choice" data-kind="radio"><input type="radio" checked name="mode"><span class="glz1-choice-control"></span><span>Balanced</span></label></article>
+          <article class="sample" data-component="GlzSwitch"><header><h3>GlzSwitch</h3><span class="material-tag">State color only</span></header><label class="glz1-switch"><input type="checkbox" checked><span class="glz1-switch-track"><span class="glz1-switch-thumb"></span></span><span>Wi-Fi</span></label></article>
+          <article class="sample" data-component="GlzSlider"><header><h3>GlzSlider</h3><span class="material-tag">State color only</span></header><label class="glz1-slider"><span>Brightness</span><input type="range" value="68" aria-label="Brightness"></label></article>
+        </div>
+      </section>
+
+      <section class="tier" aria-labelledby="structure-tier">
+        <h2 class="tier-title" id="structure-tier">Structure</h2>
+        <div class="grid">
+          <article class="sample" data-component="GlzCard"><header><h3>GlzCard</h3><span class="material-tag">Surface default</span></header><div class="glz1-card"><strong>Readable content</strong><p style="margin:6px 0 0;color:var(--glz1-text-secondary)">Cards remain Solid unless frosted is explicitly requested.</p></div></article>
+          <article class="sample" data-component="GlzList"><header><h3>GlzList</h3><span class="material-tag">Surface</span></header><ul class="glz1-list"><li class="glz1-list-item" data-selected="true"><span>✓</span><span>Inbox</span><span>12</span></li><li class="glz1-list-item"><span>○</span><span>Archive</span><span>3</span></li></ul></article>
+          <article class="sample" data-component="GlzTable"><header><h3>GlzTable</h3><span class="material-tag">Surface</span></header><div class="glz1-table-wrap demo-table"><table class="glz1-table"><thead><tr><th>Service</th><th>State</th></tr></thead><tbody><tr><td>Mesh</td><td>Online</td></tr><tr data-selected="true"><td>Sync</td><td>Active</td></tr></tbody></table></div></article>
+          <article class="sample" data-component="GlzTabs"><header><h3>GlzTabs</h3><span class="material-tag">Inherited</span></header><div class="glz1-tabs" role="tablist"><button class="glz1-tab" aria-selected="true">Overview</button><button class="glz1-tab" aria-selected="false">Activity</button></div></article>
+          <article class="sample" data-component="GlzSidebar"><header><h3>GlzSidebar</h3><span class="material-tag">Floating Glaze opt-in</span></header><nav class="glz1-sidebar demo-sidebar" data-variant="floating"><button class="glz1-sidebar-item" aria-current="page">Home</button><button class="glz1-sidebar-item">Files</button></nav></article>
+          <article class="sample" data-component="GlzNavigationRail"><header><h3>GlzNavigationRail</h3><span class="material-tag">Floating Glaze opt-in</span></header><nav class="glz1-navigation-rail demo-rail" data-variant="floating"><button class="glz1-rail-item" aria-current="page"><span class="glz1-rail-icon">⌂</span></button><button class="glz1-rail-item"><span class="glz1-rail-icon">◎</span></button></nav></article>
+          <article class="sample" data-component="GlzDock"><header><h3>GlzDock</h3><span class="material-tag">Glaze</span></header><nav class="glz1-dock demo-dock"><button class="glz1-dock-item" aria-current="page"><span class="glz1-dock-icon">⌂</span><span>Home</span></button><button class="glz1-dock-item"><span class="glz1-dock-icon">⌕</span><span>Search</span></button></nav></article>
+          <article class="sample" data-component="GlzToolbar"><header><h3>GlzToolbar</h3><span class="material-tag">Floating Glaze opt-in</span></header><div class="glz1-toolbar" data-variant="floating"><button class="glz1-icon-button" aria-label="Back">←</button><div class="glz1-toolbar-spacer"></div><button class="glz1-icon-button" aria-label="More">•••</button></div></article>
+        </div>
+      </section>
+
+      <section class="tier" aria-labelledby="overlay-tier">
+        <h2 class="tier-title" id="overlay-tier">Overlay</h2>
+        <div class="grid">
+          <article class="sample" data-component="GlzTooltip"><header><h3>GlzTooltip</h3><span class="material-tag">Glaze</span></header><div class="glz1-tooltip glz1-thick-overlay demo-static" data-open="true">Open settings</div></article>
+          <article class="sample" data-component="GlzPopover"><header><h3>GlzPopover</h3><span class="material-tag">Glaze</span></header><div class="glz1-popover glz1-thick-overlay demo-static" data-open="true"><h3>Share</h3><p style="margin:0;color:var(--glz1-text-secondary)">A compact anchored task surface.</p></div></article>
+          <article class="sample" data-component="GlzMenu"><header><h3>GlzMenu</h3><span class="material-tag">Glaze</span></header><div class="glz1-menu glz1-thick-overlay demo-static" data-open="true"><button class="glz1-menu-item"><span>↗</span><span>Open</span><span>⌘O</span></button><button class="glz1-menu-item"><span>☆</span><span>Favorite</span><span></span></button></div></article>
+          <article class="sample" data-component="GlzDialog"><header><h3>GlzDialog</h3><span class="material-tag">Raised · no blur</span></header><div class="glz1-dialog demo-dialog"><div class="glz1-dialog-inner"><h2>Confirm change</h2><p>Consequential decisions stay high-opacity.</p><div class="glz1-dialog-actions"><button class="glz1-overlay-button">Cancel</button><button class="glz1-overlay-button" data-primary="true">Continue</button></div></div></div></article>
+          <article class="sample" data-component="GlzSheet"><header><h3>GlzSheet</h3><span class="material-tag">Deep Glaze</span></header><div class="glz1-sheet glz1-thick-overlay demo-sheet"><div class="glz1-sheet-handle"></div><h2>Details</h2><p style="margin:0;color:var(--glz1-text-secondary)">Transient panel with stronger separation.</p></div></article>
+          <article class="sample" data-component="GlzToast"><header><h3>GlzToast</h3><span class="material-tag">Glaze</span></header><div class="glz1-toast demo-toast"><span>✓</span><span>Saved to GoreeCloud</span><button>Undo</button></div></article>
+        </div>
+      </section>
+
+      <section class="tier" aria-labelledby="signature-tier">
+        <h2 class="tier-title" id="signature-tier">Signature</h2>
+        <div class="grid">
+          <article class="sample" data-component="GlzCapsule"><header><h3>GlzCapsule</h3><span class="material-tag">Glaze</span></header><div class="glz1-capsule"><span class="glz1-capsule-symbol">⌕</span><div class="glz1-capsule-copy"><strong>Search GoreeCloud</strong><span>Apps, files, people</span></div></div></article>
+          <article class="sample" data-component="GlzMorphCard"><header><h3>GlzMorphCard</h3><span class="material-tag">Surface default</span></header><button class="glz1-morph-card demo-morph"><span class="glz1-morph-media">✦</span><span class="glz1-morph-copy"><h3>Workspace</h3><p>Readable content stays solid.</p></span></button></article>
+          <article class="sample" data-component="GlzSmartRail"><header><h3>GlzSmartRail</h3><span class="material-tag">Glaze</span></header><nav class="glz1-smart-rail demo-rail"><div class="glz1-rail-zone"><button class="glz1-rail-item" aria-current="page">⌂</button><button class="glz1-rail-item">⌕</button></div></nav></article>
+          <article class="sample" data-component="GlzAuroraSurface"><header><h3>GlzAuroraSurface</h3><span class="material-tag">Live Glaze opt-in</span></header><section class="glz1-aurora" data-material="live-glaze" data-intensity="standard"><h3>Environmental light</h3><p>Atmosphere may pass through without tinting the substrate.</p></section></article>
+          <article class="sample" data-component="GlzUniversalSearch"><header><h3>GlzUniversalSearch</h3><span class="material-tag">Composite</span></header><div class="glz1-universal-search demo-search" data-open="true"><div class="glz1-search-entry"><span>⌕</span><input value="Glaze UI" aria-label="Universal Search"><span class="glz1-search-shortcut">⌘K</span></div><div class="glz1-search-panel"><div class="glz1-search-group"><button class="glz1-search-result" aria-selected="true"><span>◇</span><span><strong>Glaze UI</strong><small>Design system</small></span><span></span></button></div></div></div></article>
+        </div>
+      </section>
+
+      <section class="tier" aria-labelledby="intelligence-tier">
+        <h2 class="tier-title" id="intelligence-tier">Intelligence</h2>
+        <div class="grid">
+          <article class="sample" data-component="GlzAIAction"><header><h3>GlzAIAction</h3><span class="material-tag">Local control</span></header><button class="glz1-ai-action">Summarize</button></article>
+          <article class="sample" data-component="GlzAISuggestion"><header><h3>GlzAISuggestion</h3><span class="material-tag">Surface</span></header><div class="glz1-ai-suggestion"><p>Consider grouping related settings into one section.</p><div class="glz1-ai-actions"><button class="glz1-advanced-button">Apply</button></div></div></article>
+          <article class="sample" data-component="GlzAIAnswer"><header><h3>GlzAIAnswer</h3><span class="material-tag">Surface</span></header><div class="glz1-ai-answer"><div class="glz1-generated-id">✦ Generated answer</div><p class="glz1-answer-body">Long-form answers remain readability-first rather than frosted by default.</p></div></article>
+          <article class="sample" data-component="GlzSmartSummary"><header><h3>GlzSmartSummary</h3><span class="material-tag">Surface</span></header><div class="glz1-smart-summary" data-expanded="true"><p>3 services updated successfully.</p><div class="glz1-summary-signals"><span class="glz1-summary-signal">Mesh</span><span class="glz1-summary-signal">Sync</span></div></div></article>
+          <article class="sample" data-component="GlzSourceChip"><header><h3>GlzSourceChip</h3><span class="material-tag">Soft Glaze opt-in</span></header><div class="row"><button class="glz1-source-chip" data-material="frosted">GoreeCloud Docs</button><button class="glz1-source-chip">GitHub</button></div></article>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

@@ -9,9 +9,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TOKEN_PATH = ROOT / "tokens/glaze-v1.2-frosted-neutral.candidate.json"
 CSS_PATH = ROOT / "css/glaze-v1.2-frosted-neutral.candidate.css"
+COMPONENT_CSS_PATH = ROOT / "css/glaze-v1.2-components.candidate.css"
 ENTRYPOINT_PATH = ROOT / "css/glaze-v1.2.0-candidate.css"
 REFERENCE_PATH = ROOT / "reference/v1.2/frosted-neutral.html"
+COMPONENT_REFERENCE_PATH = ROOT / "reference/v1.2/component-gallery.html"
 CONTRACT_PATH = ROOT / "GLAZE_UI_V1_2_CANDIDATE.md"
+COMPONENT_CONTRACT_PATH = ROOT / "contracts/v1.2/component-materials.candidate.json"
+COMPONENT_CATALOG_PATH = ROOT / "contracts/components/v1/catalog.json"
 LIFECYCLE_PATH = ROOT / "registry/lifecycle.json"
 
 
@@ -47,9 +51,13 @@ def near_neutral(value: str, tolerance: int = 4) -> bool:
 def main() -> None:
     tokens = json.loads(text(TOKEN_PATH))
     css = text(CSS_PATH)
+    component_css = text(COMPONENT_CSS_PATH)
     entrypoint = text(ENTRYPOINT_PATH)
     reference = text(REFERENCE_PATH)
+    component_reference = text(COMPONENT_REFERENCE_PATH)
     contract = text(CONTRACT_PATH)
+    component_contract = json.loads(text(COMPONENT_CONTRACT_PATH))
+    component_catalog = json.loads(text(COMPONENT_CATALOG_PATH))
     lifecycle = json.loads(text(LIFECYCLE_PATH))
 
     req(tokens.get("lifecycle") == "candidate", "token lifecycle must remain Candidate")
@@ -125,17 +133,101 @@ def main() -> None:
         '@import url("./glaze-v1.2-frosted-neutral.candidate.css")' in entrypoint,
         "Candidate entrypoint must import Frosted Neutral layer",
     )
+    req(
+        '@import url("./glaze-v1.2-components.candidate.css")' in entrypoint,
+        "Candidate entrypoint must import component material expansion",
+    )
+
+    # The component-material contract must cover the exact inherited 32-component catalog.
+    catalog_tiers = component_catalog.get("tiers", {})
+    req(isinstance(catalog_tiers, dict), "V1 component catalog tiers missing")
+    catalog_components: dict[str, str] = {}
+    for tier, names in catalog_tiers.items():
+        req(isinstance(names, list), f"catalog tier {tier!r} must be an array")
+        for name in names:
+            req(isinstance(name, str), f"catalog tier {tier!r} contains non-string component")
+            req(name not in catalog_components, f"duplicate catalog component {name}")
+            catalog_components[name] = tier
+    req(component_catalog.get("componentCount") == 32, "inherited component catalog count must remain 32")
+    req(len(catalog_components) == 32, "inherited component catalog must contain exactly 32 unique components")
+
+    req(component_contract.get("product") == "GLAZE UI V1.2", "component material contract product mismatch")
+    req(component_contract.get("version") == "1.2.0-candidate", "component material contract version mismatch")
+    req(component_contract.get("lifecycle") == "candidate", "component material contract lifecycle mismatch")
+    req(component_contract.get("stableBaseline") == "1.1.0", "component material contract baseline mismatch")
+    req(
+        component_contract.get("governingRule") == "Neutral glass is the material. Color is an accent.",
+        "component material governing rule drifted",
+    )
+    component_rules = component_contract.get("rules", {})
+    req(component_rules.get("readingSurfacesDefaultToGlass") is False, "reading surfaces must not default to glass")
+    req(component_rules.get("consequentialDecisionSurfacesDefaultToGlass") is False, "decision surfaces must not default to glass")
+    req(component_rules.get("nestedBackdropBlurDefaultAllowed") is False, "component contract must forbid default nested blur")
+    req(component_rules.get("depthBeforeHue") is True, "component contract must preserve depth-before-hue")
+
+    allowed_roles = set(component_contract.get("materialRoles", []))
+    req(
+        {"surface", "raised", "soft-glaze", "glaze", "deep-glaze", "live-glaze", "control-local", "inherited", "composite"}.issubset(allowed_roles),
+        "component material roles incomplete",
+    )
+    components = component_contract.get("components", {})
+    req(isinstance(components, dict), "component material mapping must be an object")
+    req(set(components) == set(catalog_components), "component material mapping must exactly cover the inherited 32-component catalog")
+    req(len(components) == 32, "component material mapping must contain exactly 32 components")
+
+    for name, mapping in components.items():
+        req(isinstance(mapping, dict), f"component material mapping for {name} must be an object")
+        assert isinstance(mapping, dict)
+        req(mapping.get("tier") == catalog_components[name], f"component tier drifted for {name}")
+        default_material = mapping.get("defaultMaterial")
+        req(default_material in allowed_roles, f"unknown default material role for {name}: {default_material}")
+        targets = mapping.get("frostedTargets", [])
+        req(isinstance(targets, list), f"frostedTargets for {name} must be an array")
+        for target in targets:
+            req(isinstance(target, dict), f"frosted target for {name} must be an object")
+            assert isinstance(target, dict)
+            req(isinstance(target.get("selector"), str) and target.get("selector"), f"frosted target selector missing for {name}")
+            req(target.get("role") in allowed_roles, f"unknown frosted role for {name}: {target.get('role')}")
+
+    for name in ("GlzCard", "GlzList", "GlzTable", "GlzDialog", "GlzAISuggestion", "GlzAIAnswer", "GlzSmartSummary"):
+        req(
+            components[name].get("defaultMaterial") not in {"soft-glaze", "glaze", "deep-glaze", "live-glaze"},
+            f"{name} must remain readability/decision-first by default",
+        )
+
+    req(activation in component_css, "component Candidate CSS activation selector missing")
+    for marker in (
+        '.glz1-dock',
+        '.glz1-sheet',
+        '.glz1-search-panel',
+        '.glz1-dialog',
+        'Reading surfaces remain Solid/Raised',
+        'must not add a second blur',
+        '@supports not ((backdrop-filter: blur(1px))',
+        '@media (forced-colors: active)',
+        'data-glz-transparency="reduced"',
+    ):
+        req(marker in component_css, f"component Candidate CSS missing required marker {marker!r}")
 
     req('data-glaze-upgrade="v1.2-frosted-neutral"' in reference, "reference does not activate Candidate")
     req("../../css/glaze-v1.2.0-candidate.css" in reference, "reference does not use Candidate entrypoint")
     req("Neutral glass is the material." in reference, "reference does not state the governing rule")
     req("Quick Settings" in reference, "reference must exercise a system-panel control surface")
 
+    req('data-glaze-upgrade="v1.2-frosted-neutral"' in component_reference, "component gallery does not activate Candidate")
+    req("../../css/glaze-v1.2.0-candidate.css" in component_reference, "component gallery does not use Candidate entrypoint")
+    represented = re.findall(r'data-component="([^"]+)"', component_reference)
+    req(len(represented) == 32, "component gallery must contain exactly 32 component samples")
+    req(len(set(represented)) == 32, "component gallery must not duplicate component samples")
+    req(set(represented) == set(catalog_components), "component gallery must represent every catalog component exactly once")
+
     req("Neutral glass is the material. Color is an accent." in contract, "Candidate contract governing rule missing")
     req("default material tint from teal, aqua, green, or amber is `0`" in contract, "Candidate contract substrate rule missing")
     req("V1.1 / 1.1.0" in contract, "Candidate contract Stable baseline missing")
+    req("component-material contract" in contract, "Candidate contract must document component-material expansion")
+    req("32-component" in contract, "Candidate contract must document exact catalog coverage")
 
-    print("GLAZE UI V1.2 Frosted Neutral Candidate validated; V1.1 remains current Stable")
+    print("GLAZE UI V1.2 Frosted Neutral Candidate validated; 32-component material expansion is complete; V1.1 remains current Stable")
 
 
 if __name__ == "__main__":
