@@ -3,8 +3,13 @@
 .not-found-main{padding-top:12vh;padding-bottom:12vh}
 .not-found-card h1{font-size:clamp(42px,8vw,74px);letter-spacing:-.05em;margin:8px 0 16px}
 .theme-group{white-space:nowrap;flex-wrap:nowrap;justify-content:flex-end}
-@media(max-width:699px){
-  .theme-group [data-theme-choice="deep-dark"]{display:none}
+/* Phones intentionally keep the compact three-control appearance group. Deep Dark
+   remains a supported V1.1 appearance and becomes an explicit control once the
+   layout has tablet-class width. Keeping the hidden state as the base prevents
+   mobile layout-viewport expansion before responsive media queries settle. */
+.theme-group [data-theme-choice="deep-dark"]{display:none}
+@media(min-width:700px){
+  .theme-group [data-theme-choice="deep-dark"]{display:inline-flex}
 }
 @media(prefers-reduced-transparency:reduce){
   .site-header{background:var(--glaze-surface-strong);-webkit-backdrop-filter:none;backdrop-filter:none}
