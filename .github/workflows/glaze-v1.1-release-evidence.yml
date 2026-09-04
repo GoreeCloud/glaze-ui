@@ -33,7 +33,7 @@ jobs:
           persist-credentials: false
 
       - name: Compile V1.1 release evidence validators
-        run: python3 -m py_compile scripts/validate_glaze_v1_1_rendered.py scripts/validate_glaze_v1_1_visual_baselines.py
+        run: python3 -m py_compile scripts/validate_glaze_v1_1_rendered.py scripts/validate_glaze_v1_1_visual_baselines.py scripts/validate_glaze_v1_1_web_source_manifest.py
 
       - name: Preserve current V1 baseline while V1.1 is a release candidate
         run: python3 scripts/validate_glaze_v1.py
@@ -42,6 +42,9 @@ jobs:
         run: |
           python3 scripts/validate_glaze_v1_1_candidate.py
           python3 scripts/validate_glaze_v1_1_implementation.py
+
+      - name: Validate immutable V1.1 Stable web source graph
+        run: python3 scripts/validate_glaze_v1_1_web_source_manifest.py
 
       - name: Render exact V1.1 reference scenes
         run: python3 scripts/validate_glaze_v1_1_rendered.py
