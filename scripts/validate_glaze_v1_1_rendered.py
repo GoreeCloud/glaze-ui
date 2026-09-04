@@ -325,6 +325,7 @@ def main() -> int:
             set_viewport(session_id, width, height, mobile)
             emulate_media(session_id, [])
             navigate(session_id, relative)
+            cdp(session_id, "Emulation.setScrollbarsHidden", {"hidden": mobile})
             validate_normal(read_state(session_id), scene, width, appearance, expected_canvas)
             validate_keyboard_focus(session_id, scene)
             screenshot(session_id, scene)
