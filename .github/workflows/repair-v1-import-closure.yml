@@ -1,0 +1,65 @@
+name: Repair GLAZE UI V1 import closure
+
+on:
+  push:
+    branches:
+      - fix/v1.1-import-closure-20260904
+    paths:
+      - '.github/workflows/repair-v1-import-closure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out repair branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: fix/v1.1-import-closure-20260904
+          fetch-depth: 0
+      - name: Remove exact stale Candidate dependency
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('css/glaze-v1.components.css')
+          text = path.read_text(encoding='utf-8')
+          old_header = '''/*
+           * GLAZE UI V1.0 Foundation Components — Candidate implementation source
+           * Lifecycle: Planned until exact-head rendered/component acceptance passes.
+           * Current Stable consumer target remains GLAZE UI V1.0.
+           */
+          '''
+          new_header = '''/*
+           * GLAZE UI V1 Foundation Components — inherited Stable component layer.
+           * Foundation tokens and structural surfaces are loaded explicitly by the
+           * official V1 web entrypoint before this file.
+           */
+          '''
+          stale_import = '@import url("./glaze-v1.candidate.css");\n\n'
+          if text.count(stale_import) != 1:
+              raise SystemExit('stale Candidate import did not match exactly once')
+          if text.startswith(old_header):
+              text = new_header + text[len(old_header):]
+          text = text.replace(stale_import, '', 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+      - name: Validate repaired Stable source graph
+        run: python3 scripts/validate_glaze_v1.py
+      - name: Commit repair and remove one-time workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/repair-v1-import-closure.yml
+          git diff --check
+          git config user.name 'GoreeCloud Release Maintenance'
+          git config user.email '295260680+GoreeCloud@users.noreply.github.com'
+          git add css/glaze-v1.components.css .github/workflows/repair-v1-import-closure.yml
+          git diff --cached --quiet && { echo 'No repair changes generated'; exit 1; }
+          git commit -m 'Close GLAZE UI V1 CSS import graph'
+          git push origin HEAD:fix/v1.1-import-closure-20260904
