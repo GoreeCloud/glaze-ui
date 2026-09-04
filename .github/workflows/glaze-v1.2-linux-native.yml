@@ -1,0 +1,78 @@
+name: Glaze V1.2 Linux GTK Native Candidate
+
+on:
+  pull_request:
+    paths:
+      - 'reference/v1.2/native/linux-gtk/**'
+      - 'scripts/validate_glaze_v1_2_linux_runtime.py'
+      - 'acceptance/v1.2-linux-native-candidate.md'
+      - '.github/workflows/glaze-v1.2-linux-native.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-gtk-native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact Candidate revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Compile Linux native Candidate sources
+        run: |
+          python3 -m py_compile reference/v1.2/native/linux-gtk/app.py
+          python3 -m py_compile scripts/validate_glaze_v1_2_linux_runtime.py
+          python3 -m json.tool reference/v1.2/native/linux-gtk/material-contract.json >/dev/null
+
+      - name: Preserve current Stable and V1.2 Candidate source contracts
+        run: |
+          python3 scripts/validate_glaze_v1.py
+          python3 scripts/validate_glaze_v1_2_candidate.py
+
+      - name: Install GTK4 headless evidence dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            python3-gi \
+            gir1.2-gtk-4.0 \
+            xvfb \
+            xauth \
+            dbus-x11 \
+            imagemagick
+          python3 - <<'PY'
+          import gi
+          gi.require_version('Gtk', '4.0')
+          from gi.repository import Gtk
+          print(f'GTK {Gtk.get_major_version()}.{Gtk.get_minor_version()}.{Gtk.get_micro_version()}')
+          PY
+          import -version | head -n 1
+
+      - name: Run V1.2 Linux GTK4 Frosted Neutral native acceptance
+        shell: bash
+        env:
+          GLAZE_SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+          NO_AT_BRIDGE: '1'
+          GDK_BACKEND: x11
+        run: |
+          set -euo pipefail
+          dbus-run-session -- xvfb-run -a --server-args='-screen 0 1280x900x24 -nolisten tcp' \
+            python3 scripts/validate_glaze_v1_2_linux_runtime.py
+
+      - name: Upload V1.2 Linux GTK native Candidate evidence
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: glaze-v1.2-linux-gtk-native-candidate-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            .artifacts/glaze-v1.2-linux-native/*.png
+            .artifacts/glaze-v1.2-linux-native/linux-native-evidence.json
+            .artifacts/glaze-v1.2-linux-native/*/runtime.json
+          if-no-files-found: error
+          retention-days: 30
