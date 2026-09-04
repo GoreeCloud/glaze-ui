@@ -181,6 +181,7 @@ def create_session() -> str:
                 }
             }
         },
+        timeout=60,
     )
     require(isinstance(value, dict), f"Unexpected Chrome session response: {value!r}")
     session_id = value.get("sessionId")
