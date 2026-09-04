@@ -5,11 +5,11 @@
 .theme-group{white-space:nowrap;flex-wrap:nowrap;justify-content:flex-end}
 /* Phones intentionally keep the compact three-control appearance group. Deep Dark
    remains a supported V1.1 appearance and becomes an explicit control once the
-   layout has tablet-class width. Keeping the hidden state as the base prevents
-   mobile layout-viewport expansion before responsive media queries settle. */
-.theme-group [data-theme-choice="deep-dark"]{display:none}
+   layout has tablet-class width. The fully scoped selector deliberately outranks
+   the canonical .glz11-button display rule without altering the component itself. */
+html[data-glaze-version="1.1"] .theme-group [data-theme-choice="deep-dark"]{display:none}
 @media(min-width:700px){
-  .theme-group [data-theme-choice="deep-dark"]{display:inline-flex}
+  html[data-glaze-version="1.1"] .theme-group [data-theme-choice="deep-dark"]{display:inline-flex}
 }
 @media(prefers-reduced-transparency:reduce){
   .site-header{background:var(--glaze-surface-strong);-webkit-backdrop-filter:none;backdrop-filter:none}
