@@ -1,0 +1,60 @@
+/* Design Center V1.1 runtime integration and CSP-safe page-specific rules. */
+.shell-reference-actions{margin-top:18px}
+.not-found-main{padding-top:12vh;padding-bottom:12vh}
+.not-found-card h1{font-size:clamp(42px,8vw,74px);letter-spacing:-.05em;margin:8px 0 16px}
+.theme-group{white-space:nowrap;flex-wrap:nowrap;justify-content:flex-end}
+.theme-label-compact{display:none}
+/* Phones intentionally keep the compact three-control appearance group. Deep Dark
+   remains a supported V1.1 appearance and becomes an explicit control once the
+   layout has tablet-class width. The fully scoped selector deliberately outranks
+   the canonical .glz11-button display rule without altering the component itself. */
+html[data-glaze-version="1.1"] .theme-group [data-theme-choice="deep-dark"]{display:none}
+@media(min-width:700px){
+  html[data-glaze-version="1.1"] .theme-group [data-theme-choice="deep-dark"]{display:inline-flex}
+}
+/* The canonical V1.1 nav is a flex capsule by default. On the Design Center phone
+   header the four section destinations are intentionally a single equal-width row;
+   scope the adaptive composition strongly enough to win over the reusable V1.1
+   component selector while preserving the 48px interaction floor. */
+@media(max-width:699px){
+  html[data-glaze-version="1.1"] .nav-wrap .glz11-nav{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(48px,1fr));
+    gap:6px;
+    inline-size:100%;
+    min-inline-size:0;
+  }
+  html[data-glaze-version="1.1"] .nav-wrap .glz11-nav .glz11-nav-item{
+    inline-size:100%;
+    min-inline-size:48px;
+    padding-inline:4px;
+    font-size:12px;
+    font-weight:750;
+    line-height:1.12;
+    text-align:center;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+}
+/* At the narrowest supported phone widths, preserve 48px targets while adapting
+   the System label to the equivalent compact Auto label. Semantics remain the
+   system appearance through data-theme-choice and the accessible name. */
+@media(max-width:360px){
+  html[data-glaze-version="1.1"] .theme-group{gap:2px;padding:2px}
+  html[data-glaze-version="1.1"] .theme-group .glz11-button{min-inline-size:48px;padding-inline:4px;font-size:11.5px}
+  html[data-glaze-version="1.1"] .nav-wrap .glz11-nav .glz11-nav-item{font-size:11.5px}
+  .theme-label-full{display:none}
+  .theme-label-compact{display:inline}
+}
+@media(prefers-reduced-transparency:reduce){
+  .site-header{background:var(--glaze-surface-strong);-webkit-backdrop-filter:none;backdrop-filter:none}
+  .glz11-atmosphere::before,.glz11-atmosphere::after{display:none}
+}
+@media(prefers-contrast:more){
+  .theme-group,.nav-wrap nav a,.glaze-button,.hero-identity,.surface-card,.demo,.adoption{border-width:2px}
+}
+@media print{
+  .site-header,.theme-group,.skip-link{display:none!important}
+  .shell{width:100%;max-width:none}
+  .hero,.surface-card,.demo,.adoption{box-shadow:none!important}
+}

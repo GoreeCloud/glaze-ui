@@ -16,6 +16,8 @@ jobs:
         run: python scripts/validate_glaze_v1.py
       - name: Validate V1 Design Center publication
         run: python website/validate.py
+      - name: Validate V1 Design Center runtime activation
+        run: python website/validate_runtime.py
       - name: Validate Design Center mobile-first source contract
         run: python scripts/validate_design_center_responsive.py
       - name: Validate rendered Design Center Mobile UI
@@ -29,3 +31,5 @@ jobs:
           if-no-files-found: warn
       - name: Check V1 runtime syntax
         run: node --check js/glaze-v1.1.0.mjs
+      - name: Check Design Center runtime syntax
+        run: node --check website/site.js
