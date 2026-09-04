@@ -38,11 +38,12 @@ jobs:
 
           workflow = Path('.github/workflows/glaze-v1.1-release-evidence.yml')
           text = workflow.read_text(encoding='utf-8')
-          anchor = '''      - name: Upload V1.1 source-pinned web evidence\n        if: success()\n        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4\n        with:\n          name: glaze-v1.1-web-release-evidence-${{ github.event.pull_request.head.sha || github.sha }}\n          path: artifacts/glaze-v1.1-*.png\n          if-no-files-found: error\n          retention-days: 30\n\n'''
-          replacement = anchor + '''      - name: Upload V1.1 web regression diagnostics\n        if: failure()\n        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4\n        with:\n          name: glaze-v1.1-web-regression-diagnostics-${{ github.event.pull_request.head.sha || github.sha }}\n          path: artifacts/glaze-v1.1-*.png\n          if-no-files-found: warn\n          retention-days: 7\n\n'''
+          expr = '${' + '{ github.event.pull_request.head.sha || github.sha }}'
+          anchor = f'''      - name: Upload V1.1 source-pinned web evidence\n        if: success()\n        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4\n        with:\n          name: glaze-v1.1-web-release-evidence-{expr}\n          path: artifacts/glaze-v1.1-*.png\n          if-no-files-found: error\n          retention-days: 30\n\n'''
+          diagnostics = f'''      - name: Upload V1.1 web regression diagnostics\n        if: failure()\n        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4\n        with:\n          name: glaze-v1.1-web-regression-diagnostics-{expr}\n          path: artifacts/glaze-v1.1-*.png\n          if-no-files-found: warn\n          retention-days: 7\n\n'''
           if anchor not in text:
               raise SystemExit('expected web evidence upload block not found')
-          workflow.write_text(text.replace(anchor, replacement, 1), encoding='utf-8')
+          workflow.write_text(text.replace(anchor, anchor + diagnostics, 1), encoding='utf-8')
           PY
 
       - name: Validate diagnostic changes
