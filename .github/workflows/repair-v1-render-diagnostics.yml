@@ -1,4 +1,4 @@
-name: Diagnose GLAZE UI V1 mobile evidence divergence
+name: Diagnose GLAZE UI V1 deterministic compositor capture
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  capture-mobile-divergence:
+  compositor-matrix:
     runs-on: ubuntu-latest
     steps:
       - name: Check out exact diagnostic revision
@@ -20,54 +20,81 @@ jobs:
           ref: ${{ github.sha }}
           persist-credentials: false
 
-      - name: Apply workspace-only mobile scrollbar control
+      - name: Build workspace-only renderer variants
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
 
-          renderer = Path('scripts/validate_glaze_v1_1_rendered.py')
-          text = renderer.read_text(encoding='utf-8')
-          old = '''def set_viewport(session_id: str, width: int, height: int, mobile: bool) -> None:\n    cdp(session_id, "Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": mobile, "screenWidth": width, "screenHeight": height})\n    cdp(session_id, "Emulation.setTouchEmulationEnabled", {"enabled": mobile, "maxTouchPoints": 5 if mobile else 1})\n'''
-          new = '''def set_viewport(session_id: str, width: int, height: int, mobile: bool) -> None:\n    cdp(session_id, "Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": mobile, "screenWidth": width, "screenHeight": height})\n    cdp(session_id, "Emulation.setScrollbarsHidden", {"hidden": mobile})\n    cdp(session_id, "Emulation.setTouchEmulationEnabled", {"enabled": mobile, "maxTouchPoints": 5 if mobile else 1})\n'''
-          if old not in text:
-              raise SystemExit('expected viewport anchor not found')
-          renderer.write_text(text.replace(old, new, 1), encoding='utf-8')
-          PY
-          python3 -m py_compile scripts/validate_glaze_v1_1_rendered.py
+          source = Path('scripts/validate_glaze_v1_1_rendered.py').read_text(encoding='utf-8')
+          nav_old = '''            navigate(session_id, relative)\n            validate_normal(read_state(session_id), scene, width, appearance, expected_canvas)\n'''
+          nav_new = '''            navigate(session_id, relative)\n            cdp(session_id, "Emulation.setScrollbarsHidden", {"hidden": mobile})\n            validate_normal(read_state(session_id), scene, width, appearance, expected_canvas)\n'''
+          if nav_old not in source:
+              raise SystemExit('navigation anchor not found')
+          base = source.replace(nav_old, nav_new, 1)
 
-      - name: Capture ten independent render attempts
+          variants = {
+              'postnav': [],
+              'pipeline': ['--run-all-compositor-stages-before-draw'],
+              'serialized': [
+                  '--run-all-compositor-stages-before-draw',
+                  '--disable-main-frame-before-draw',
+                  '--disable-threaded-animation',
+                  '--disable-threaded-scrolling',
+                  '--disable-checker-imaging',
+              ],
+              'deterministic': ['--deterministic-mode'],
+          }
+          chrome_anchor = '"--headless=new", "--no-sandbox"'
+          for name, flags in variants.items():
+              text = base
+              if flags:
+                  replacement = '"--headless=new", ' + ', '.join(repr(flag) for flag in flags) + ', "--no-sandbox"'
+                  if chrome_anchor not in text:
+                      raise SystemExit(f'Chrome argument anchor missing for {name}')
+                  text = text.replace(chrome_anchor, replacement, 1)
+              path = Path(f'scripts/validate_glaze_v1_1_rendered_{name}.py')
+              path.write_text(text, encoding='utf-8')
+          PY
+          python3 -m py_compile scripts/validate_glaze_v1_1_rendered_*.py
+
+      - name: Run exact-baseline compositor matrix
         shell: bash
         run: |
           set -uo pipefail
-          rm -rf divergence-evidence
-          mkdir -p divergence-evidence
-          : > divergence-evidence/results.txt
-          for i in 1 2 3 4 5 6 7 8 9 10; do
-            rm -rf artifacts
-            mkdir -p "divergence-evidence/run-$i"
-            if python3 scripts/validate_glaze_v1_1_rendered.py; then
-              cp artifacts/glaze-v1.1-*.png "divergence-evidence/run-$i/" 2>/dev/null || true
-              sha256sum "divergence-evidence/run-$i/"*.png >> divergence-evidence/results.txt 2>/dev/null || true
-              if python3 scripts/validate_glaze_v1_1_visual_baselines.py; then
-                echo "run-$i baseline=PASS" >> divergence-evidence/results.txt
+          rm -rf compositor-matrix
+          mkdir -p compositor-matrix
+          : > compositor-matrix/results.txt
+          for variant in postnav pipeline serialized deterministic; do
+            passes=0
+            failures=0
+            mkdir -p "compositor-matrix/$variant"
+            for i in 1 2 3 4 5 6 7 8 9 10; do
+              rm -rf artifacts
+              renderer="scripts/validate_glaze_v1_1_rendered_${variant}.py"
+              if python3 "$renderer" >/tmp/render.log 2>&1 && python3 scripts/validate_glaze_v1_1_visual_baselines.py >/tmp/baseline.log 2>&1; then
+                passes=$((passes + 1))
+                status=PASS
               else
-                echo "run-$i baseline=FAIL" >> divergence-evidence/results.txt
+                failures=$((failures + 1))
+                status=FAIL
               fi
-            else
-              cp artifacts/glaze-v1.1-*.png "divergence-evidence/run-$i/" 2>/dev/null || true
-              sha256sum "divergence-evidence/run-$i/"*.png >> divergence-evidence/results.txt 2>/dev/null || true
-              echo "run-$i renderer=FAIL" >> divergence-evidence/results.txt
-            fi
+              mobile_hash="missing"
+              if test -f artifacts/glaze-v1.1-mobile-application.png; then
+                mobile_hash="$(sha256sum artifacts/glaze-v1.1-mobile-application.png | cut -d' ' -f1)"
+                cp artifacts/glaze-v1.1-mobile-application.png "compositor-matrix/$variant/run-${i}-${status}-${mobile_hash}.png"
+              fi
+              printf '%s run=%s status=%s mobile=%s\n' "$variant" "$i" "$status" "$mobile_hash" >> compositor-matrix/results.txt
+            done
+            printf '%s passes=%s failures=%s\n' "$variant" "$passes" "$failures" >> compositor-matrix/results.txt
           done
-          test -n "$(find divergence-evidence -type f -name '*.png' -print -quit)"
-          cat divergence-evidence/results.txt
+          cat compositor-matrix/results.txt
 
-      - name: Upload mobile divergence diagnostics
+      - name: Upload compositor matrix diagnostics
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-v1.1-mobile-divergence-${{ github.sha }}
-          path: divergence-evidence
+          name: glaze-v1.1-compositor-matrix-${{ github.sha }}
+          path: compositor-matrix
           if-no-files-found: error
           retention-days: 7
