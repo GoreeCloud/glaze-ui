@@ -327,8 +327,8 @@ def main() -> int:
             navigate(session_id, relative)
             validate_normal(read_state(session_id), scene, width, appearance, expected_canvas)
             validate_keyboard_focus(session_id, scene)
-            validate_touch_assistance(session_id, scene)
             screenshot(session_id, scene)
+            validate_touch_assistance(session_id, scene)
             validate_reduced_transparency(session_id, scene)
             if scene == "desktop-workspace":
                 execute(session_id, "document.documentElement.setAttribute('data-glz-transparency','reduced');return true;")
