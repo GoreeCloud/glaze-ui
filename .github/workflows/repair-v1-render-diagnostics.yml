@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Suppress browser chrome scrollbars in evidence capture
+      - name: Suppress mobile-emulation browser scrollbars in evidence capture
         shell: bash
         run: |
           set -euo pipefail
@@ -30,12 +30,12 @@ jobs:
 
           renderer = Path('scripts/validate_glaze_v1_1_rendered.py')
           text = renderer.read_text(encoding='utf-8')
-          old = '"--headless=new", "--no-sandbox"'
-          new = '"--headless=new", "--hide-scrollbars", "--no-sandbox"'
+          old = '''def set_viewport(session_id: str, width: int, height: int, mobile: bool) -> None:\n    cdp(session_id, "Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": mobile, "screenWidth": width, "screenHeight": height})\n    cdp(session_id, "Emulation.setTouchEmulationEnabled", {"enabled": mobile, "maxTouchPoints": 5 if mobile else 1})\n'''
+          new = '''def set_viewport(session_id: str, width: int, height: int, mobile: bool) -> None:\n    cdp(session_id, "Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": mobile, "screenWidth": width, "screenHeight": height})\n    cdp(session_id, "Emulation.setScrollbarsHidden", {"hidden": mobile})\n    cdp(session_id, "Emulation.setTouchEmulationEnabled", {"enabled": mobile, "maxTouchPoints": 5 if mobile else 1})\n'''
           if old not in text:
-              raise SystemExit('expected Chrome argument anchor not found')
-          if '--hide-scrollbars' in text:
-              raise SystemExit('hide-scrollbars is already present unexpectedly')
+              raise SystemExit('expected viewport anchor not found')
+          if 'Emulation.setScrollbarsHidden' in text:
+              raise SystemExit('scrollbar emulation control is already present unexpectedly')
           renderer.write_text(text.replace(old, new, 1), encoding='utf-8')
           PY
           python3 -m py_compile scripts/validate_glaze_v1_1_rendered.py
@@ -58,7 +58,7 @@ jobs:
       - name: Upload bounded deterministic-capture diagnostics
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-v1.1-scrollbar-fix-diagnostics-${{ github.sha }}
+          name: glaze-v1.1-mobile-scrollbar-fix-diagnostics-${{ github.sha }}
           path: deterministic-evidence
           if-no-files-found: error
           retention-days: 7
