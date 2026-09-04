@@ -16,6 +16,8 @@ jobs:
         run: python scripts/validate_glaze_v1.py
       - name: Validate V1.2 Frosted Neutral Candidate track
         run: python scripts/validate_glaze_v1_2_candidate.py
+      - name: Validate V1.2 implementation and migration control plane
+        run: python scripts/validate_glaze_v1_2_migration.py
       - name: Validate rendered V1.2 Frosted Neutral Candidate
         run: python scripts/validate_glaze_v1_2_rendered.py
       - name: Upload V1.2 Frosted Neutral rendered evidence
