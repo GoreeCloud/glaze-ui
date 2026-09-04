@@ -263,6 +263,7 @@ def state(session_id: str) -> dict[str, Any]:
         const panelStyle=cs(panel);
         const readingStyle=cs(reading);
         const stageBefore=getComputedStyle(stage,'::before');
+        const localAura=getComputedStyle(q('[data-glz-optical-aura="ice"]'),'::after');
         const rootRect=document.documentElement.getBoundingClientRect();
         return {
           ready:document.readyState,
@@ -283,6 +284,7 @@ def state(session_id: str) -> dict[str, Any]:
           materialProfile:rs.getPropertyValue('--glz12-material-profile').trim(),
           auraOpacity:parseFloat(rs.getPropertyValue('--glz12-aura-opacity')) || 0,
           stageAuraOpacity:parseFloat(stageBefore.opacity) || 0,
+          localAuraOpacity:parseFloat(localAura.opacity) || 0,
           entryFilter:filter(entry),
           panelFilter:filter(panel),
           resultFilter:filter(result),
@@ -332,6 +334,7 @@ def validate_full(s: dict[str, Any]) -> tuple[float, float]:
     require(panel > entry, f"Search panel must be denser than entry in Full profile: {s}")
     require(float(s.get("auraOpacity", 0)) >= 0.99, f"Full Aura is unexpectedly attenuated: {s}")
     require(float(s.get("stageAuraOpacity", 0)) >= 0.99, f"Rendered Full Aura field is unexpectedly attenuated: {s}")
+    require(float(s.get("localAuraOpacity", 0)) >= 0.70, f"Full local Ice Aura is unexpectedly attenuated: {s}")
     return entry, panel
 
 
@@ -347,6 +350,7 @@ def validate_reduced(s: dict[str, Any], full_entry: float, full_panel: float) ->
     require(0 < entry < full_entry, f"Reduced profile did not lower Search entry blur: {s}")
     require(0 < panel < full_panel, f"Reduced profile did not lower Search panel blur: {s}")
     require(0.25 <= float(s.get("auraOpacity", 0)) <= 0.6, f"Reduced Aura attenuation drifted: {s}")
+    require(0.15 <= float(s.get("localAuraOpacity", 0)) <= 0.4, f"Reduced local Aura attenuation drifted: {s}")
 
 
 def validate_minimal(s: dict[str, Any]) -> None:
@@ -355,6 +359,7 @@ def validate_minimal(s: dict[str, Any]) -> None:
     require(s.get("panelFilter") == "none", f"Minimal profile must remove Search panel blur: {s}")
     require(float(s.get("auraOpacity", 1)) == 0, f"Minimal profile must disable Aura: {s}")
     require(float(s.get("stageAuraOpacity", 1)) == 0, f"Rendered Minimal Aura field must be hidden: {s}")
+    require(float(s.get("localAuraOpacity", 1)) == 0, f"Minimal local Aura must be hidden: {s}")
 
 
 def validate_reduced_transparency(session_id: str) -> None:
@@ -362,6 +367,7 @@ def validate_reduced_transparency(session_id: str) -> None:
     s = state(session_id)
     require(s.get("entryFilter") == "none" and s.get("panelFilter") == "none", f"Reduced Transparency must remove Search blur: {s}")
     require(float(s.get("auraOpacity", 1)) == 0, f"Reduced Transparency must disable Aura: {s}")
+    require(float(s.get("localAuraOpacity", 1)) == 0, f"Reduced Transparency must disable local Aura: {s}")
     screenshot(session_id, "reduced-transparency")
     execute(session_id, "document.documentElement.removeAttribute('data-glz-transparency');return true;")
 
@@ -371,6 +377,7 @@ def validate_forced_colors(session_id: str) -> None:
     s = state(session_id)
     require(s.get("entryFilter") == "none" and s.get("panelFilter") == "none", f"Forced Colors must remove Search blur: {s}")
     require(float(s.get("auraOpacity", 1)) == 0, f"Forced Colors must disable Aura: {s}")
+    require(float(s.get("localAuraOpacity", 1)) == 0, f"Forced Colors must disable local Aura: {s}")
     require(s.get("entryShadow") == "none" and s.get("panelShadow") == "none", f"Forced Colors must remove custom Search shadows: {s}")
     screenshot(session_id, "forced-colors")
     emulate_media(session_id, [])
