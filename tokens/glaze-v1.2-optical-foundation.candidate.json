@@ -7,8 +7,30 @@
   "lifecycle": "candidate",
   "stableBaseline": "1.1.0",
   "currentStableToken": false,
-  "implementationStatus": "candidate-contract-not-yet-fully-rendered",
+  "implementationStatus": "candidate-web-optical-layer",
   "extends": "tokens/glaze-v1.2-frosted-neutral.candidate.json",
+  "implementationBindings": {
+    "webLayer": "css/glaze-v1.2-optical.candidate.css",
+    "webEntrypoint": "css/glaze-v1.2.0-candidate.css",
+    "reference": "reference/v1.2/optical-foundation.html",
+    "renderedValidator": "scripts/validate_glaze_v1_2_optical_rendered.py"
+  },
+  "evidenceBoundary": {
+    "implemented": [
+      "web-optical-roles",
+      "web-frost-levels",
+      "web-aura-families",
+      "web-performance-profiles",
+      "universal-search-signature"
+    ],
+    "notEstablished": [
+      "rc",
+      "stable",
+      "native-optical-parity",
+      "downstream-consumer-conformance",
+      "production-acceptance"
+    ]
+  },
   "governingPrinciples": [
     "The material is the identity.",
     "White behaves as light.",
@@ -51,29 +73,60 @@
   "frostLevels": {
     "clear": {
       "intent": "minimal-diffusion",
-      "preferredUse": ["floating-controls", "compact-toolbars", "search-entry", "temporary-command-regions", "media-controls", "contextual-overlays"]
+      "preferredUse": [
+        "floating-controls",
+        "compact-toolbars",
+        "search-entry",
+        "temporary-command-regions",
+        "media-controls",
+        "contextual-overlays"
+      ]
     },
     "mist": {
       "intent": "light-visual-softening",
-      "preferredUse": ["low-priority-transient-chrome", "subtle-navigation-chrome"]
+      "preferredUse": [
+        "low-priority-transient-chrome",
+        "subtle-navigation-chrome"
+      ]
     },
     "frost": {
       "intent": "standard-glaze-treatment",
-      "preferredUse": ["glaze", "universal-search", "floating-navigation"]
+      "preferredUse": [
+        "glaze",
+        "universal-search",
+        "floating-navigation"
+      ]
     },
     "dense-frost": {
       "intent": "greater-environmental-abstraction",
-      "preferredUse": ["deep-glaze", "priority-floating-panels", "control-center"]
+      "preferredUse": [
+        "deep-glaze",
+        "priority-floating-panels",
+        "control-center"
+      ]
     },
     "opaque-frost": {
       "intent": "near-solid-accessibility-or-performance-fallback",
-      "preferredUse": ["reduced-transparency", "minimal-performance", "readability-protection"]
+      "preferredUse": [
+        "reduced-transparency",
+        "minimal-performance",
+        "readability-protection"
+      ]
     }
   },
   "visualDistribution": {
-    "neutralPercent": {"min": 65, "max": 80},
-    "frostedTranslucentPercent": {"min": 15, "max": 25},
-    "iceBlueAtmospherePercent": {"min": 3, "max": 10},
+    "neutralPercent": {
+      "min": 65,
+      "max": 80
+    },
+    "frostedTranslucentPercent": {
+      "min": 15,
+      "max": 25
+    },
+    "iceBlueAtmospherePercent": {
+      "min": 3,
+      "max": 10
+    },
     "strongerAccent": "minimal"
   },
   "auraFamilies": {
@@ -88,7 +141,7 @@
     "tealDefaultAtmosphereAllowed": false,
     "purpleDefaultAtmosphereAllowed": false,
     "highSaturationGlowAllowed": false,
-    "legacyV11TealAmberAuraFields": "compatibility-only-during-candidate-preview",
+    "legacyV11TealAmberAuraFields": "retired-in-v1.2-web-optical-layer",
     "legacyAuraPromotionRequirement": "retire-or-map-to-frost-ice-before-rc"
   },
   "appearanceDirection": {
