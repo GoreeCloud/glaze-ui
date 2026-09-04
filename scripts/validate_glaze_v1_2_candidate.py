@@ -12,6 +12,7 @@ CSS_PATH = ROOT / "css/glaze-v1.2-frosted-neutral.candidate.css"
 ENTRYPOINT_PATH = ROOT / "css/glaze-v1.2.0-candidate.css"
 REFERENCE_PATH = ROOT / "reference/v1.2/frosted-neutral.html"
 CONTRACT_PATH = ROOT / "GLAZE_UI_V1_2_CANDIDATE.md"
+LIFECYCLE_PATH = ROOT / "registry/lifecycle.json"
 
 
 def req(condition: bool, message: str) -> None:
@@ -49,6 +50,7 @@ def main() -> None:
     entrypoint = text(ENTRYPOINT_PATH)
     reference = text(REFERENCE_PATH)
     contract = text(CONTRACT_PATH)
+    lifecycle = json.loads(text(LIFECYCLE_PATH))
 
     req(tokens.get("lifecycle") == "candidate", "token lifecycle must remain Candidate")
     req(tokens.get("stableBaseline") == "1.1.0", "Candidate must remain based on V1.1 Stable")
@@ -57,6 +59,24 @@ def main() -> None:
         tokens.get("governingRule") == "Neutral glass is the material. Color is an accent.",
         "governing visual rule drifted",
     )
+
+    req(lifecycle.get("currentStable") == "1.1.0", "V1.2 Candidate must not replace V1.1 Stable authority")
+    req(lifecycle.get("currentOfficial") == "1.1.0", "V1.2 Candidate must not replace current official version")
+    req(lifecycle.get("activeCandidate") == "1.2.0-candidate", "V1.2 must be registered as the active Candidate")
+    candidate_release = next(
+        (
+            item
+            for item in lifecycle.get("releases", [])
+            if isinstance(item, dict) and item.get("version") == "1.2.0-candidate"
+        ),
+        None,
+    )
+    req(candidate_release is not None, "V1.2 Candidate lifecycle record missing")
+    assert candidate_release is not None
+    req(candidate_release.get("status") == "candidate", "V1.2 lifecycle status must remain Candidate")
+    req(candidate_release.get("consumerEligible") is False, "Candidate must not be consumer eligible")
+    req(candidate_release.get("stableBaseline") == "1.1.0", "Candidate lifecycle Stable baseline drifted")
+    req(candidate_release.get("contract") == "GLAZE_UI_V1_2_CANDIDATE.md", "Candidate lifecycle contract binding drifted")
 
     materials = tokens.get("materials", {})
     for appearance in ("light", "dark", "deepDark"):
