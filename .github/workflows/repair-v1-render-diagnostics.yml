@@ -1,4 +1,4 @@
-name: Repair GLAZE UI V1 render diagnostics
+name: Diagnose GLAZE UI V1 render nondeterminism
 
 on:
   push:
@@ -8,20 +8,19 @@ on:
       - '.github/workflows/repair-v1-render-diagnostics.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  repair-diagnostics:
+  capture-diagnostics:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out exact maintenance revision
+      - name: Check out exact diagnostic revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: false
 
-      - name: Preserve nondeterministic capture diagnostics
+      - name: Add workspace-only mismatch capture
         shell: bash
         run: |
           set -euo pipefail
@@ -35,34 +34,37 @@ jobs:
           if old not in text:
               raise SystemExit('expected renderer repeatability block not found')
           renderer.write_text(text.replace(old, new, 1), encoding='utf-8')
-
-          workflow = Path('.github/workflows/glaze-v1.1-release-evidence.yml')
-          text = workflow.read_text(encoding='utf-8')
-          expr = '${' + '{ github.event.pull_request.head.sha || github.sha }}'
-          anchor = f'''      - name: Upload V1.1 source-pinned web evidence\n        if: success()\n        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4\n        with:\n          name: glaze-v1.1-web-release-evidence-{expr}\n          path: artifacts/glaze-v1.1-*.png\n          if-no-files-found: error\n          retention-days: 30\n\n'''
-          diagnostics = f'''      - name: Upload V1.1 web regression diagnostics\n        if: failure()\n        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4\n        with:\n          name: glaze-v1.1-web-regression-diagnostics-{expr}\n          path: artifacts/glaze-v1.1-*.png\n          if-no-files-found: warn\n          retention-days: 7\n\n'''
-          if anchor not in text:
-              raise SystemExit('expected web evidence upload block not found')
-          workflow.write_text(text.replace(anchor, anchor + diagnostics, 1), encoding='utf-8')
           PY
-
-      - name: Validate diagnostic changes
-        run: |
           python3 -m py_compile scripts/validate_glaze_v1_1_rendered.py
-          grep -F 'web-regression-diagnostics' .github/workflows/glaze-v1.1-release-evidence.yml
-          grep -F 'capture-a.png' scripts/validate_glaze_v1_1_rendered.py
 
-      - name: Commit diagnostics and remove maintenance workflow
+      - name: Repeat exact renderer and preserve any mismatch pair
         shell: bash
         run: |
-          set -euo pipefail
-          rm .github/workflows/repair-v1-render-diagnostics.yml
-          git diff --check
-          git config user.name "GoreeCloud Release Maintenance"
-          git config user.email "295260680+GoreeCloud@users.noreply.github.com"
-          git add scripts/validate_glaze_v1_1_rendered.py .github/workflows/glaze-v1.1-release-evidence.yml .github/workflows/repair-v1-render-diagnostics.yml
-          git diff --cached --quiet && { echo 'No diagnostic repair generated'; exit 1; }
-          git commit -m "Preserve GLAZE UI visual regression diagnostics"
-          CURRENT_REMOTE="$(git ls-remote origin refs/heads/fix/v1.1-import-closure-20260904 | cut -f1)"
-          test "$CURRENT_REMOTE" = "$GITHUB_SHA"
-          git push origin HEAD:fix/v1.1-import-closure-20260904
+          set -uo pipefail
+          rm -rf diagnostic-artifacts
+          mkdir -p diagnostic-artifacts
+          failures=0
+          for i in 1 2 3 4 5; do
+            rm -rf artifacts
+            if python3 scripts/validate_glaze_v1_1_rendered.py; then
+              mkdir -p "diagnostic-artifacts/run-$i-pass"
+              cp artifacts/glaze-v1.1-*.png "diagnostic-artifacts/run-$i-pass/" 2>/dev/null || true
+            else
+              failures=$((failures + 1))
+              mkdir -p "diagnostic-artifacts/run-$i-fail"
+              cp artifacts/glaze-v1.1-*.png "diagnostic-artifacts/run-$i-fail/" 2>/dev/null || true
+            fi
+          done
+          echo "diagnostic_failures=$failures" >> "$GITHUB_ENV"
+          test -n "$(find diagnostic-artifacts -type f -name '*.png' -print -quit)"
+
+      - name: Upload diagnostic captures
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: glaze-v1.1-render-diagnostics-${{ github.sha }}
+          path: diagnostic-artifacts
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Report diagnostic outcome
+        run: echo "Diagnostic renderer mismatches observed in ${diagnostic_failures} of 5 repetitions."
