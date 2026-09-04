@@ -48,6 +48,28 @@ jobs:
       - name: Compare with human-approved source-pinned baseline
         run: python3 scripts/validate_glaze_v1_1_visual_baselines.py
 
+      - name: Upload exact V1.1 Stable web source graph
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: glaze-v1.1-stable-web-source-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            css/glaze-v1.1.0.css
+            css/glaze-v1.0.0.css
+            css/glaze-v1.1.css
+            css/glaze-v1.1-appearance.css
+            css/glaze-v1.foundation.css
+            css/glaze-v1.components.css
+            css/glaze-v1.components.adaptive.css
+            css/glaze-v1.components.runtime.css
+            css/glaze-v1.structure.css
+            css/glaze-v1.overlay.css
+            css/glaze-v1.advanced.css
+            css/glaze-v1.visual-refinement.css
+            css/glaze-v1.optical-reachability.css
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Upload V1.1 source-pinned web evidence
         if: success()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
