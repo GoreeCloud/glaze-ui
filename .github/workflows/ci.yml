@@ -16,6 +16,15 @@ jobs:
         run: python scripts/validate_glaze_v1.py
       - name: Validate V1.2 Frosted Neutral Candidate track
         run: python scripts/validate_glaze_v1_2_candidate.py
+      - name: Validate rendered V1.2 Frosted Neutral Candidate
+        run: python scripts/validate_glaze_v1_2_rendered.py
+      - name: Upload V1.2 Frosted Neutral rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: glaze-v1.2-frosted-neutral-rendered
+          path: artifacts/glaze-v1.2-*.png
+          if-no-files-found: warn
       - name: Validate V1 Design Center publication
         run: python website/validate.py
       - name: Validate Design Center mobile-first source contract
