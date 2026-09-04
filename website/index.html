@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en" data-glaze-clarity="balanced" data-glaze-expression="balanced">
+<html lang="en" data-glaze-version="1.1" data-glaze-density-profile="standard" data-glaze-performance="balanced" data-glaze-clarity="balanced" data-glaze-expression="balanced">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="GoreeCloud Design Center documents the current Stable GLAZE UI V1.1 release, including System Shell hierarchy, components, adaptive interaction, accessibility, and exact-revision conformance boundaries.">
+  <meta name="goreecloud-glaze-ui" content="1.1.0">
   <title>GoreeCloud Design Center — GLAZE UI V1.1</title>
   <link rel="icon" href="/assets/glaze-ui-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/glaze.css">
@@ -17,35 +18,36 @@
   <link rel="stylesheet" href="/assets/glaze.materials.css">
   <link rel="stylesheet" href="/assets/glaze.layout.css">
   <link rel="stylesheet" href="/assets/glaze.states.css">
-  <link rel="stylesheet" href="/assets/glaze-v1.1.0.css">
+  <link rel="stylesheet" href="/assets/glaze-v1.1.0.css" data-glaze-ui="1.1.0">
   <link rel="stylesheet" href="/assets/site.css">
   <link rel="stylesheet" href="/assets/identity.css">
 </head>
-<body class="glaze-canvas">
+<body class="glaze-canvas glz11-atmosphere">
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header glaze-material-soft">
+  <header class="site-header glaze-material-soft glz11-soft-glaze">
     <div class="shell nav-wrap">
       <a class="brand glaze-focusable" href="#top" aria-label="GoreeCloud Design Center home">
         <img class="brand-mark" src="/assets/glaze-ui-mark.svg" alt="" width="34" height="34">
         <span class="brand-label-long">GoreeCloud · Design Center · GLAZE UI</span>
         <span class="brand-label-short" aria-hidden="true">GLAZE UI</span>
       </a>
-      <nav aria-label="Primary">
-        <a href="#shell">System Shell</a>
-        <a href="#components">Components</a>
-        <a href="#accessibility">Accessibility</a>
-        <a href="#conformance">Conformance</a>
+      <nav class="glz11-nav" aria-label="Primary">
+        <a class="glz11-nav-item" href="#shell">System Shell</a>
+        <a class="glz11-nav-item" href="#components">Components</a>
+        <a class="glz11-nav-item" href="#accessibility">Accessibility</a>
+        <a class="glz11-nav-item" href="#conformance">Conformance</a>
       </nav>
       <div class="theme-group" role="group" aria-label="Appearance">
-        <button type="button" data-theme-choice="system" aria-pressed="true">System</button>
-        <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
-        <button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+        <button class="glz11-button" type="button" data-theme-choice="system" aria-pressed="true">System</button>
+        <button class="glz11-button" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button class="glz11-button" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+        <button class="glz11-button" type="button" data-theme-choice="deep-dark" aria-pressed="false">Deep Dark</button>
       </div>
     </div>
   </header>
 
   <main id="main" class="shell" tabindex="-1">
-    <section id="top" class="hero glaze-surface-raised glaze-reach-layout">
+    <section id="top" class="hero glaze-surface-raised glaze-reach-layout glz11-radius-hero">
       <div class="hero-copy-block">
         <span class="eyebrow">Current Stable · GLAZE UI V1.1</span>
         <h1 class="glaze-hero-type">Solid where you read. Glazed where you interact.</h1>
@@ -56,8 +58,8 @@
         <div><strong>Facet</strong><span>Official GLAZE UI identity</span></div>
       </div>
       <div class="actions glaze-reach-actions glaze-button-group">
-        <a class="glaze-button" data-variant="emphasis" href="#shell">Explore V1.1</a>
-        <a class="glaze-button" data-variant="soft" href="https://github.com/GoreeCloud/goreecloud-glaze-ui">View source</a>
+        <a class="glaze-button glz11-button" data-variant="emphasis" href="#shell">Explore V1.1</a>
+        <a class="glaze-button glz11-button" data-variant="soft" href="https://github.com/GoreeCloud/goreecloud-glaze-ui">View source</a>
       </div>
     </section>
 
@@ -70,12 +72,12 @@
       <div class="surface-grid">
         <article class="surface-card canvas"><strong>Workspace</strong></article>
         <article class="surface-card solid"><strong>Application</strong></article>
-        <article class="surface-card glaze glaze-material-soft"><strong>System Overlay</strong></article>
-        <article class="surface-card overlay glaze-material-deep"><strong>System Panel</strong></article>
+        <article class="surface-card glaze glaze-material-soft glz11-soft-glaze"><strong>System Overlay</strong></article>
+        <article class="surface-card overlay glaze-material-deep glz11-deep-glaze"><strong>System Panel</strong></article>
         <article class="surface-card solid"><strong>Critical System</strong></article>
       </div>
-      <div class="actions" style="margin-top:18px">
-        <a class="glaze-button" data-variant="soft" href="/reference/v1-system-shell.html">Open V1 System Shell reference</a>
+      <div class="actions shell-reference-actions">
+        <a class="glaze-button glz11-button" data-variant="soft" href="/reference/v1-system-shell.html">Open V1 System Shell reference</a>
       </div>
     </section>
 
@@ -88,7 +90,7 @@
       <div class="demo-grid">
         <article class="glaze-surface glaze-card demo"><h3>Foundation</h3><p>Controls, fields, and selection semantics.</p></article>
         <article class="glaze-surface-raised glaze-card demo"><h3>Structure</h3><p>Cards, lists, tables, tabs, and navigation structures.</p></article>
-        <article class="glaze-material-soft glaze-card demo"><h3>Overlay</h3><p>Tooltips, menus, dialogs, sheets, and transient feedback.</p></article>
+        <article class="glaze-material-soft glaze-card demo glz11-soft-glaze"><h3>Overlay</h3><p>Tooltips, menus, dialogs, sheets, and transient feedback.</p></article>
         <article class="glaze-surface glaze-card demo"><h3>Signature</h3><p>Capsule, Morph Card, Smart Rail, Aurora Surface, and Universal Search.</p></article>
         <article class="glaze-surface-raised glaze-card demo"><h3>Intelligence</h3><p>Generated-content presentation with identity, provenance, and authority boundaries.</p></article>
       </div>
@@ -103,7 +105,7 @@
       <div class="demo-grid">
         <article class="glaze-surface glaze-card demo"><h3>Mobile</h3><p>Reachability, safe areas, and a 48px touch-oriented floor.</p></article>
         <article class="glaze-surface-raised glaze-card demo"><h3>Tablet</h3><p>Rail and pane patterns with posture-aware task continuity.</p></article>
-        <article class="glaze-material-soft glaze-card demo"><h3>Desktop</h3><p>Persistent tools, pointer and keyboard support, and resizable workspaces.</p></article>
+        <article class="glaze-material-soft glaze-card demo glz11-soft-glaze"><h3>Desktop</h3><p>Persistent tools, pointer and keyboard support, and resizable workspaces.</p></article>
         <article class="glaze-surface glaze-card demo"><h3>TV</h3><p>Far-view treatment, a 56px floor where applicable, and directional focus.</p></article>
         <article class="glaze-surface glaze-card demo"><h3>Wearable</h3><p>Compact rotational navigation rather than a shrunken phone interface.</p></article>
         <article class="glaze-surface-raised glaze-card demo"><h3>Spatial</h3><p>Depth is supplemental; a fully flat fallback remains operable.</p></article>
@@ -123,8 +125,8 @@
         <p>Downstream applications must target GLAZE UI V1.1 / 1.1.0 explicitly and generate fresh application-specific evidence for the exact source revision they evaluate. The Stable design-system release does not auto-upgrade consumers or inherit application production acceptance.</p>
       </div>
       <div class="actions">
-        <a class="glaze-button" data-variant="emphasis" href="https://github.com/GoreeCloud/goreecloud-glaze-ui/blob/main/ADOPTION.md">Adoption guide</a>
-        <a class="glaze-button" data-variant="soft" href="https://github.com/GoreeCloud/goreecloud-glaze-ui/blob/main/CONFORMANCE.md">Conformance contract</a>
+        <a class="glaze-button glz11-button" data-variant="emphasis" href="https://github.com/GoreeCloud/goreecloud-glaze-ui/blob/main/ADOPTION.md">Adoption guide</a>
+        <a class="glaze-button glz11-button" data-variant="soft" href="https://github.com/GoreeCloud/goreecloud-glaze-ui/blob/main/CONFORMANCE.md">Conformance contract</a>
       </div>
     </section>
   </main>
