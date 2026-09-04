@@ -3,6 +3,9 @@
 .not-found-main{padding-top:12vh;padding-bottom:12vh}
 .not-found-card h1{font-size:clamp(42px,8vw,74px);letter-spacing:-.05em;margin:8px 0 16px}
 .theme-group{white-space:nowrap;flex-wrap:nowrap;justify-content:flex-end}
+@media(max-width:699px){
+  .theme-group button{padding-inline:5px;font-size:11.5px}
+}
 @media(max-width:360px){
   .brand-label-short{display:none}
 }
