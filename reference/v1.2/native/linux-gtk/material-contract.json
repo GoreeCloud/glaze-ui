@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.2 Frosted Neutral",
+  "lifecycle": "Candidate",
+  "platform": "Linux GTK4",
+  "accent": [47, 111, 237],
+  "appearances": {
+    "light": {
+      "base": {"rgb": [255, 255, 255], "alpha": 0.58},
+      "raised": {"rgb": [255, 255, 255], "alpha": 0.72},
+      "overlay": {"rgb": [252, 252, 252], "alpha": 0.82},
+      "panel": {"rgb": [250, 250, 250], "alpha": 0.88},
+      "critical": {"rgb": [255, 255, 255], "alpha": 1.0}
+    },
+    "dark": {
+      "base": {"rgb": [31, 31, 31], "alpha": 0.68},
+      "raised": {"rgb": [41, 41, 41], "alpha": 0.78},
+      "overlay": {"rgb": [48, 48, 48], "alpha": 0.84},
+      "panel": {"rgb": [54, 54, 54], "alpha": 0.90},
+      "critical": {"rgb": [30, 30, 30], "alpha": 1.0}
+    },
+    "deep-dark": {
+      "base": {"rgb": [24, 24, 24], "alpha": 0.68},
+      "raised": {"rgb": [34, 34, 34], "alpha": 0.78},
+      "overlay": {"rgb": [40, 40, 40], "alpha": 0.84},
+      "panel": {"rgb": [46, 46, 46], "alpha": 0.90},
+      "critical": {"rgb": [25, 25, 25], "alpha": 1.0}
+    }
+  },
+  "reducedTransparency": {
+    "light": [255, 255, 255],
+    "dark": [41, 41, 41],
+    "deep-dark": [30, 30, 30]
+  },
+  "targets": {"minimumPx": 48, "touchAssistancePx": 56, "quickSettingPx": 76},
+  "boundaries": [
+    "not compositor-wide Wayland backdrop blur fidelity",
+    "not production shell integration",
+    "not V1.2 Stable promotion"
+  ]
+}
