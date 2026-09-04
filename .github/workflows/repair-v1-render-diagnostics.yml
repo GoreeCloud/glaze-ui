@@ -1,4 +1,4 @@
-name: Diagnose GLAZE UI V1 deterministic compositor capture
+name: Diagnose GLAZE UI V1 focus capture ordering
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  compositor-matrix:
+  focus-order-matrix:
     runs-on: ubuntu-latest
     steps:
       - name: Check out exact diagnostic revision
@@ -20,7 +20,7 @@ jobs:
           ref: ${{ github.sha }}
           persist-credentials: false
 
-      - name: Build workspace-only renderer variants
+      - name: Build workspace-only validation-order variants
         shell: bash
         run: |
           set -euo pipefail
@@ -34,43 +34,33 @@ jobs:
               raise SystemExit('navigation anchor not found')
           base = source.replace(nav_old, nav_new, 1)
 
+          order_old = '''            validate_keyboard_focus(session_id, scene)\n            validate_touch_assistance(session_id, scene)\n            screenshot(session_id, scene)\n'''
           variants = {
-              'postnav': [],
-              'pipeline': ['--run-all-compositor-stages-before-draw'],
-              'serialized': [
-                  '--run-all-compositor-stages-before-draw',
-                  '--disable-main-frame-before-draw',
-                  '--disable-threaded-animation',
-                  '--disable-threaded-scrolling',
-                  '--disable-checker-imaging',
-              ],
-              'deterministic': ['--deterministic-mode'],
+              'current': order_old,
+              'touch-then-focus': '''            validate_touch_assistance(session_id, scene)\n            validate_keyboard_focus(session_id, scene)\n            screenshot(session_id, scene)\n''',
+              'capture-before-touch': '''            validate_keyboard_focus(session_id, scene)\n            screenshot(session_id, scene)\n            validate_touch_assistance(session_id, scene)\n''',
+              'refocus-after-touch': '''            validate_keyboard_focus(session_id, scene)\n            validate_touch_assistance(session_id, scene)\n            validate_keyboard_focus(session_id, scene)\n            screenshot(session_id, scene)\n''',
           }
-          chrome_anchor = '"--headless=new", "--no-sandbox"'
-          for name, flags in variants.items():
-              text = base
-              if flags:
-                  replacement = '"--headless=new", ' + ', '.join(repr(flag) for flag in flags) + ', "--no-sandbox"'
-                  if chrome_anchor not in text:
-                      raise SystemExit(f'Chrome argument anchor missing for {name}')
-                  text = text.replace(chrome_anchor, replacement, 1)
-              path = Path(f'scripts/validate_glaze_v1_1_rendered_{name}.py')
-              path.write_text(text, encoding='utf-8')
+          if order_old not in base:
+              raise SystemExit('validation order anchor not found')
+          for name, order in variants.items():
+              text = base if name == 'current' else base.replace(order_old, order, 1)
+              Path(f'scripts/validate_glaze_v1_1_rendered_{name}.py').write_text(text, encoding='utf-8')
           PY
           python3 -m py_compile scripts/validate_glaze_v1_1_rendered_*.py
 
-      - name: Run exact-baseline compositor matrix
+      - name: Run exact-baseline focus-order matrix
         shell: bash
         run: |
           set -uo pipefail
-          rm -rf compositor-matrix
-          mkdir -p compositor-matrix
-          : > compositor-matrix/results.txt
-          for variant in postnav pipeline serialized deterministic; do
+          rm -rf focus-order-matrix
+          mkdir -p focus-order-matrix
+          : > focus-order-matrix/results.txt
+          for variant in current touch-then-focus capture-before-touch refocus-after-touch; do
             passes=0
             failures=0
-            mkdir -p "compositor-matrix/$variant"
-            for i in 1 2 3 4 5 6 7 8 9 10; do
+            mkdir -p "focus-order-matrix/$variant"
+            for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
               rm -rf artifacts
               renderer="scripts/validate_glaze_v1_1_rendered_${variant}.py"
               if python3 "$renderer" >/tmp/render.log 2>&1 && python3 scripts/validate_glaze_v1_1_visual_baselines.py >/tmp/baseline.log 2>&1; then
@@ -83,18 +73,18 @@ jobs:
               mobile_hash="missing"
               if test -f artifacts/glaze-v1.1-mobile-application.png; then
                 mobile_hash="$(sha256sum artifacts/glaze-v1.1-mobile-application.png | cut -d' ' -f1)"
-                cp artifacts/glaze-v1.1-mobile-application.png "compositor-matrix/$variant/run-${i}-${status}-${mobile_hash}.png"
+                cp artifacts/glaze-v1.1-mobile-application.png "focus-order-matrix/$variant/run-${i}-${status}-${mobile_hash}.png"
               fi
-              printf '%s run=%s status=%s mobile=%s\n' "$variant" "$i" "$status" "$mobile_hash" >> compositor-matrix/results.txt
+              printf '%s run=%s status=%s mobile=%s\n' "$variant" "$i" "$status" "$mobile_hash" >> focus-order-matrix/results.txt
             done
-            printf '%s passes=%s failures=%s\n' "$variant" "$passes" "$failures" >> compositor-matrix/results.txt
+            printf '%s passes=%s failures=%s\n' "$variant" "$passes" "$failures" >> focus-order-matrix/results.txt
           done
-          cat compositor-matrix/results.txt
+          cat focus-order-matrix/results.txt
 
-      - name: Upload compositor matrix diagnostics
+      - name: Upload focus-order diagnostics
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-v1.1-compositor-matrix-${{ github.sha }}
-          path: compositor-matrix
+          name: glaze-v1.1-focus-order-matrix-${{ github.sha }}
+          path: focus-order-matrix
           if-no-files-found: error
           retention-days: 7
