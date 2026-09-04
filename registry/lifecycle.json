@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "updated": "2026-09-03",
+  "updated": "2026-09-04",
   "officialProductLabel": "GLAZE UI V1.1",
   "currentOfficial": "1.1.0",
   "currentStable": "1.1.0",
-  "activeCandidate": null,
+  "activeCandidate": "1.2.0-candidate",
   "resetState": "stable",
   "releases": [
     {
@@ -25,6 +25,18 @@
       "contract": "GLAZE_UI_V1_1.md",
       "acceptance": "acceptance/v1.1-stable.md",
       "note": "Current Stable shared design-system release. Consumer applications remain independently migration- and acceptance-gated."
+    },
+    {
+      "version": "1.2.0-candidate",
+      "label": "GLAZE UI V1.2 — Frosted Neutral",
+      "status": "candidate",
+      "consumerEligible": false,
+      "stableBaseline": "1.1.0",
+      "contract": "GLAZE_UI_V1_2_CANDIDATE.md",
+      "tokens": "tokens/glaze-v1.2-frosted-neutral.candidate.json",
+      "webEntrypoint": "css/glaze-v1.2.0-candidate.css",
+      "reference": "reference/v1.2/frosted-neutral.html",
+      "note": "Next-upgrade material candidate. Neutral frosted glass is the default substrate; chromatic color is reserved for intentional accents, semantics, focus, selection, progress, and product identity. Stable authority remains V1.1 until governed promotion."
     }
   ],
   "capabilities": {
@@ -62,6 +74,12 @@
       "status": "bounded-release-evidence",
       "since": "1.1.0",
       "implementation": "reference/v1.1/native/android"
+    },
+    "frosted-neutral-material": {
+      "status": "candidate",
+      "since": "1.2.0-candidate",
+      "implementation": "tokens/glaze-v1.2-frosted-neutral.candidate.json",
+      "webPreview": "css/glaze-v1.2.0-candidate.css"
     }
   }
 }
