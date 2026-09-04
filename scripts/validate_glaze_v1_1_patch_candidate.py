@@ -27,14 +27,24 @@ def main() -> int:
         if not condition:
             errors.append(message)
 
-    require(contract.get("candidateVersion") == "1.1.1-rc.1", "patch candidate must be 1.1.1-rc.1")
+    candidate_version = contract.get("candidateVersion")
+    require(candidate_version == "1.1.1-rc.1", "patch candidate must be 1.1.1-rc.1")
+    require(contract.get("lifecycle") == "release-candidate", "patch lifecycle must be release-candidate")
     require(contract.get("intendedStableVersion") == "1.1.1", "intended patch Stable version must be 1.1.1")
     require(contract.get("baseStableVersion") == "1.1.0", "patch must remain based on Stable 1.1.0")
     require(contract.get("baseStableRevision") == "15cc76d2bcd4065552dc31c77145b63f34d9e7b2", "base Stable revision drifted")
-    require(contract.get("currentAuthorityUnchanged") is True, "patch preparation must not claim current authority changed")
-    require(lifecycle.get("currentStable") == "1.1.0", "current Stable must remain 1.1.0 during patch preparation")
-    require(lifecycle.get("currentOfficial") == "1.1.0", "current official version must remain 1.1.0 during patch preparation")
+    require(contract.get("currentAuthorityUnchanged") is True, "patch candidate must not claim current Stable authority changed")
+    require(lifecycle.get("activeCandidate") == candidate_version, "lifecycle activeCandidate must match the patch candidate")
+    require(lifecycle.get("currentStable") == "1.1.0", "current Stable must remain 1.1.0 while the patch is a Release Candidate")
+    require(lifecycle.get("currentOfficial") == "1.1.0", "current official version must remain 1.1.0 while the patch is a Release Candidate")
     require('@import url("./glaze-v1.candidate.css")' not in components, "stale Candidate dependency remains")
+
+    checkpoint = contract.get("qualificationCheckpoint", {})
+    require(checkpoint.get("revision") == "874f8542ba60d37d2b847fd547a0b976e788bbab", "qualification checkpoint revision drifted")
+    require(checkpoint.get("result") == "passed", "qualification checkpoint must record a passed source checkpoint")
+    require(checkpoint.get("releaseEvidenceRun") == 33887608407, "release-evidence checkpoint run drifted")
+    require(checkpoint.get("webArtifact", {}).get("digest") == "sha256:3bd135b77cce0379e58b5b3c3eb80b0c0ff63d0ab786edd056f46039fb66a12e", "web evidence checkpoint digest drifted")
+    require(checkpoint.get("androidArtifact", {}).get("digest") == "sha256:a4e73879871369340c881f4694a503c28f32ec063d1f03549c64cdef9fff019c", "Android evidence checkpoint digest drifted")
 
     foundation = '@import url("./glaze-v1.foundation.css");'
     component = '@import url("./glaze-v1.components.css");'
@@ -53,7 +63,7 @@ def main() -> int:
         return 1
 
     print("GLAZE UI V1.1.1 patch candidate: PASS")
-    print("Boundary: current Stable authority remains immutable 1.1.0 until separate patch release finalization.")
+    print("Boundary: active Release Candidate is 1.1.1-rc.1; current Stable/current official authority remain immutable 1.1.0 until separate patch release finalization.")
     return 0
 
 
