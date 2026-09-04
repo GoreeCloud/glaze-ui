@@ -16,12 +16,16 @@ if DIST.exists():
 for name in ("index.html", "404.html", "_headers"):
     shutil.copy2(SOURCE / name, DIST / name)
 
-for name in ("site.css", "identity.css", "site.js"):
+# Product CSS is emitted as one same-origin asset so the strict public CSP can
+# remain style-src 'self' without inline declarations.
+site_css = (SOURCE / "site.css").read_bytes() + b"\n" + (SOURCE / "runtime-fixes.css").read_bytes()
+(DIST / "assets" / "site.css").write_bytes(site_css)
+for name in ("identity.css", "site.js"):
     shutil.copy2(SOURCE / name, DIST / "assets" / name)
 
 # Publish only the generic foundations used by the public reference surface and the
-# official V1.1 entrypoint/layers and inherited V1 structural layers. Former product-release and candidate assets are not
-# part of the current public artifact.
+# official V1.1 entrypoint/layers and inherited V1 structural layers. Former product-release
+# and candidate assets are not part of the current public artifact.
 for name in (
     "glaze.css",
     "glaze.controls.css",
