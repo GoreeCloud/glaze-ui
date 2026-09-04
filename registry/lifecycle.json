@@ -80,6 +80,18 @@
       "since": "1.2.0-candidate",
       "implementation": "tokens/glaze-v1.2-frosted-neutral.candidate.json",
       "webPreview": "css/glaze-v1.2.0-candidate.css"
+    },
+    "frosted-neutral-component-materials": {
+      "status": "candidate",
+      "since": "1.2.0-candidate",
+      "implementation": "contracts/v1.2/component-materials.candidate.json",
+      "webPreview": "reference/v1.2/component-gallery.html"
+    },
+    "frosted-neutral-system-shell": {
+      "status": "candidate",
+      "since": "1.2.0-candidate",
+      "implementation": "contracts/v1.2/system-shell-materials.candidate.json",
+      "webPreview": "reference/v1.2/system-shell.html"
     }
   }
 }
