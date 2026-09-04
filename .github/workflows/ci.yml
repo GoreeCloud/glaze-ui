@@ -50,6 +50,8 @@ jobs:
     steps:
       - name: Check out exact Candidate revision
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Compile Linux native Candidate sources
         run: |
           python3 -m py_compile reference/v1.2/native/linux-gtk/app.py
