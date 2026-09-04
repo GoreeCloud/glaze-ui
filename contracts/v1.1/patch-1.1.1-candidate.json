@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.1",
+  "candidateVersion": "1.1.1-rc.1",
+  "intendedStableVersion": "1.1.1",
+  "lifecycle": "Release Candidate preparation",
+  "baseStableVersion": "1.1.0",
+  "baseStableRevision": "15cc76d2bcd4065552dc31c77145b63f34d9e7b2",
+  "baseStableTag": "v1.1.0",
+  "currentAuthorityUnchanged": true,
+  "defect": {
+    "path": "css/glaze-v1.components.css",
+    "missingImport": "./glaze-v1.candidate.css",
+    "rootCause": "A stale pre-reset Candidate import survived namespace normalization even though the inherited foundation was carried forward as css/glaze-v1.foundation.css and the official V1 entrypoint loads that foundation before the component layer."
+  },
+  "repair": {
+    "removeStaleImport": true,
+    "restoreCandidateFile": false,
+    "changeVisualSemanticsIntentionally": false,
+    "addTransitiveCssImportClosureValidation": true
+  },
+  "requiredFinalization": [
+    "fresh exact-head source and rendered validation",
+    "reviewed Release Candidate identity",
+    "governed merge only after release metadata is coherently advanced",
+    "post-merge main validation",
+    "new immutable v1.1.1 tag and GitHub Release",
+    "canonical GoreeCloud release documentation synchronization",
+    "downstream consumers re-pinned to the corrected immutable release",
+    "consumer-specific acceptance repeated where the dependency change is material"
+  ],
+  "boundaries": [
+    "This candidate does not modify or move v1.1.0.",
+    "This candidate does not itself make 1.1.1 Stable.",
+    "This candidate does not automatically establish downstream consumer conformance or production eligibility."
+  ]
+}
