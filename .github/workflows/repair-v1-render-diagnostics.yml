@@ -1,4 +1,4 @@
-name: Verify GLAZE UI V1 mobile evidence determinism
+name: Diagnose GLAZE UI V1 mobile evidence divergence
 
 on:
   push:
@@ -8,20 +8,19 @@ on:
       - '.github/workflows/repair-v1-render-diagnostics.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  verify-scrollbar-fix:
+  capture-mobile-divergence:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out exact maintenance revision
+      - name: Check out exact diagnostic revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: false
 
-      - name: Suppress mobile-emulation browser scrollbars in evidence capture
+      - name: Apply workspace-only mobile scrollbar control
         shell: bash
         run: |
           set -euo pipefail
@@ -34,45 +33,41 @@ jobs:
           new = '''def set_viewport(session_id: str, width: int, height: int, mobile: bool) -> None:\n    cdp(session_id, "Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": mobile, "screenWidth": width, "screenHeight": height})\n    cdp(session_id, "Emulation.setScrollbarsHidden", {"hidden": mobile})\n    cdp(session_id, "Emulation.setTouchEmulationEnabled", {"enabled": mobile, "maxTouchPoints": 5 if mobile else 1})\n'''
           if old not in text:
               raise SystemExit('expected viewport anchor not found')
-          if 'Emulation.setScrollbarsHidden' in text:
-              raise SystemExit('scrollbar emulation control is already present unexpectedly')
           renderer.write_text(text.replace(old, new, 1), encoding='utf-8')
           PY
           python3 -m py_compile scripts/validate_glaze_v1_1_rendered.py
-          git diff --check
 
-      - name: Reproduce approved web baselines ten times
+      - name: Capture ten independent render attempts
         shell: bash
         run: |
-          set -euo pipefail
-          rm -rf deterministic-evidence
-          mkdir -p deterministic-evidence
+          set -uo pipefail
+          rm -rf divergence-evidence
+          mkdir -p divergence-evidence
+          : > divergence-evidence/results.txt
           for i in 1 2 3 4 5 6 7 8 9 10; do
             rm -rf artifacts
-            python3 scripts/validate_glaze_v1_1_rendered.py
-            python3 scripts/validate_glaze_v1_1_visual_baselines.py
-            mkdir -p "deterministic-evidence/run-$i"
-            cp artifacts/glaze-v1.1-*.png "deterministic-evidence/run-$i/"
+            mkdir -p "divergence-evidence/run-$i"
+            if python3 scripts/validate_glaze_v1_1_rendered.py; then
+              cp artifacts/glaze-v1.1-*.png "divergence-evidence/run-$i/" 2>/dev/null || true
+              sha256sum "divergence-evidence/run-$i/"*.png >> divergence-evidence/results.txt 2>/dev/null || true
+              if python3 scripts/validate_glaze_v1_1_visual_baselines.py; then
+                echo "run-$i baseline=PASS" >> divergence-evidence/results.txt
+              else
+                echo "run-$i baseline=FAIL" >> divergence-evidence/results.txt
+              fi
+            else
+              cp artifacts/glaze-v1.1-*.png "divergence-evidence/run-$i/" 2>/dev/null || true
+              sha256sum "divergence-evidence/run-$i/"*.png >> divergence-evidence/results.txt 2>/dev/null || true
+              echo "run-$i renderer=FAIL" >> divergence-evidence/results.txt
+            fi
           done
+          test -n "$(find divergence-evidence -type f -name '*.png' -print -quit)"
+          cat divergence-evidence/results.txt
 
-      - name: Upload bounded deterministic-capture diagnostics
+      - name: Upload mobile divergence diagnostics
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-v1.1-mobile-scrollbar-fix-diagnostics-${{ github.sha }}
-          path: deterministic-evidence
+          name: glaze-v1.1-mobile-divergence-${{ github.sha }}
+          path: divergence-evidence
           if-no-files-found: error
           retention-days: 7
-
-      - name: Commit renderer fix after bounded proof
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "GoreeCloud Release Maintenance"
-          git config user.email "295260680+GoreeCloud@users.noreply.github.com"
-          git add scripts/validate_glaze_v1_1_rendered.py
-          git diff --cached --check
-          git diff --cached --quiet && { echo 'No renderer repair generated'; exit 1; }
-          git commit -m "Stabilize GLAZE UI mobile evidence capture"
-          CURRENT_REMOTE="$(git ls-remote origin refs/heads/fix/v1.1-import-closure-20260904 | cut -f1)"
-          test "$CURRENT_REMOTE" = "$GITHUB_SHA"
-          git push origin HEAD:fix/v1.1-import-closure-20260904
