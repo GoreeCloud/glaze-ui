@@ -1,0 +1,27 @@
+/* Design Center V1.1 runtime integration and CSP-safe page-specific rules. */
+.shell-reference-actions{margin-top:18px}
+.not-found-main{padding-top:12vh;padding-bottom:12vh}
+.not-found-card h1{font-size:clamp(42px,8vw,74px);letter-spacing:-.05em;margin:8px 0 16px}
+.theme-group{white-space:normal;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:699px){
+  .nav-wrap{grid-template-columns:1fr}
+  .brand{grid-column:1;grid-row:1}
+  .theme-group{grid-column:1;grid-row:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;padding:4px}
+  .theme-group button{width:100%;min-width:0;min-height:48px}
+  .nav-wrap nav{grid-column:1;grid-row:3}
+}
+@media(max-width:360px){
+  .theme-group{grid-template-columns:1fr}
+}
+@media(prefers-reduced-transparency:reduce){
+  .site-header{background:var(--glaze-surface-strong);-webkit-backdrop-filter:none;backdrop-filter:none}
+  .glz11-atmosphere::before,.glz11-atmosphere::after{display:none}
+}
+@media(prefers-contrast:more){
+  .theme-group,.nav-wrap nav a,.glaze-button,.hero-identity,.surface-card,.demo,.adoption{border-width:2px}
+}
+@media print{
+  .site-header,.theme-group,.skip-link{display:none!important}
+  .shell{width:100%;max-width:none}
+  .hero,.surface-card,.demo,.adoption{box-shadow:none!important}
+}
