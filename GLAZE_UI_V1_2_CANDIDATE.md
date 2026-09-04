@@ -92,7 +92,7 @@ Environmental sampling remains local-only and optional. It must not infer protec
 
 ## 32-component material expansion
 
-The Candidate now includes a machine-readable **component-material contract** for the complete inherited 32-component V1 catalog. The purpose is not to make every component translucent. It is to decide, component by component, where Frosted Neutral belongs and where Solid/Raised presentation remains authoritative.
+The Candidate includes a machine-readable **component-material contract** for the complete inherited 32-component V1 catalog. The purpose is not to make every component translucent. It is to decide, component by component, where Frosted Neutral belongs and where Solid/Raised presentation remains authoritative.
 
 The mapping is governed by these rules:
 
@@ -107,6 +107,24 @@ The mapping is governed by these rules:
 
 The Candidate component mapping is defined by `contracts/v1.2/component-materials.candidate.json`, implemented by `css/glaze-v1.2-components.candidate.css`, and exercised by `reference/v1.2/component-gallery.html`. The validator compares that mapping against `contracts/components/v1/catalog.json` and fails closed unless all 32 inherited components are represented exactly once.
 
+## System Shell material expansion
+
+V1.2 now specializes the inherited five-region System Shell contract without replacing it. The exact inherited regions remain **workspace, navigation, universal-search, control-center, and critical-system**.
+
+The shell mapping is governed as follows:
+
+- **Workspace → Surface.** The workspace remains the primary content and reading plane and is not backdrop-blurred by default.
+- **Navigation → Surface when persistent, Glaze when detached/floating.** A persistent rail or sidebar remains structural. Floating shell navigation may use regular Frosted Neutral Glaze.
+- **Universal Search → Glaze entry + Deep Glaze results panel.** Search is transient command chrome; individual result rows do not add their own blur.
+- **Control Center → one dominant Deep Glaze panel.** Quick-setting tiles, sliders, and local controls sit inside the parent panel as Raised/local surfaces and must not introduce nested backdrop blur.
+- **Critical System → Raised, no backdrop blur.** Security, privacy, destructive, recovery, authentication, permission, and other consequential system decisions remain high-opacity and producer-authoritative.
+
+The inherited shell budget is unchanged: one dominant Glaze panel plus up to three small floating Glaze controls. V1.2 cannot claim an extra material budget merely because the new glass is visually lighter.
+
+Control Center active states use accent color mixed into a neutral Raised tile. Inactive tiles remain neutral. Semantic status colors remain authoritative to the system that owns the underlying truth and may replace the ordinary accent treatment only when backed by producer-authoritative state.
+
+The System Shell Candidate is defined by `contracts/v1.2/system-shell-materials.candidate.json`, implemented by `css/glaze-v1.2-system-shell.candidate.css`, and exercised by `reference/v1.2/system-shell.html`. Its region keys and material budgets are validated against `contracts/system-shell/glaze-system-shell-v1.json` so the Candidate cannot silently add or drop inherited shell regions.
+
 ## Accessibility and resilience
 
 Reduced Transparency removes backdrop-dependent effects and falls back toward solid neutral surfaces while preserving hierarchy, contrast, boundaries, and state.
@@ -119,7 +137,7 @@ Reduced Motion is independent of transparency and does not alter semantic state.
 
 Critical reading and consequential-decision surfaces remain eligible for Solid/Raised treatment under the inherited material contract.
 
-The component expansion follows the same fallbacks: explicit frosted variants collapse toward neutral Solid/Raised presentation, nested glass does not accumulate blur, and programmatic state remains intact when optical effects disappear.
+The component and System Shell expansions follow the same fallbacks: explicit frosted variants collapse toward neutral Solid/Raised presentation, nested glass does not accumulate blur, programmatic state remains intact when optical effects disappear, and 200% text reflows Control Center rather than shrinking targets.
 
 ## Performance
 
@@ -127,17 +145,20 @@ V1 material budgets remain inherited: one dominant Glaze region plus up to three
 
 When performance degrades, reduce environmental effects and blur before degrading text, target size, state, focus, or semantic truth.
 
-The component material layer also disables a second backdrop-filter pass for Frosted Neutral children inside a glazed System Panel, System Overlay, Sheet, Popover, Menu, or Universal Search result panel.
+The component material layer disables a second backdrop-filter pass for Frosted Neutral children inside a glazed System Panel, System Overlay, Sheet, Popover, Menu, or Universal Search result panel. The System Shell layer applies the same rule to Control Center children and can fall back from heavy blur to standard blur, then to solid neutral shell surfaces.
 
 ## Candidate implementation
 
 - Candidate tokens: `tokens/glaze-v1.2-frosted-neutral.candidate.json`
 - Candidate component-material contract: `contracts/v1.2/component-materials.candidate.json`
+- Candidate System Shell contract: `contracts/v1.2/system-shell-materials.candidate.json`
 - Candidate base web layer: `css/glaze-v1.2-frosted-neutral.candidate.css`
 - Candidate component layer: `css/glaze-v1.2-components.candidate.css`
+- Candidate System Shell layer: `css/glaze-v1.2-system-shell.candidate.css`
 - Candidate preview entrypoint: `css/glaze-v1.2.0-candidate.css`
 - Material reference: `reference/v1.2/frosted-neutral.html`
 - 32-component gallery: `reference/v1.2/component-gallery.html`
+- System Shell reference: `reference/v1.2/system-shell.html`
 - Candidate validator: `scripts/validate_glaze_v1_2_candidate.py`
 
 Until V1.2 is formally promoted, the preview layer is activated on the V1.1 Stable baseline with `data-glaze-upgrade="v1.2-frosted-neutral"`. This does not change `VERSION`, `currentStable`, or downstream consumer eligibility.

@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "product": "GLAZE UI V1.2",
+  "version": "1.2.0-candidate",
+  "lifecycle": "candidate",
+  "stableBaseline": "1.1.0",
+  "inherits": "contracts/system-shell/glaze-system-shell-v1.json",
+  "governingRule": "Neutral glass is the material. Color is an accent.",
+  "materialBudget": {
+    "dominantGlazePanels": 1,
+    "smallFloatingGlazeControlsMax": 3,
+    "nestedBackdropBlurDefaultAllowed": false
+  },
+  "regions": {
+    "workspace": {
+      "defaultMaterial": "surface",
+      "backdropBlur": false,
+      "purpose": "Primary reading and application content plane remains readability-first."
+    },
+    "navigation": {
+      "persistentMaterial": "surface",
+      "floatingMaterial": "glaze",
+      "activeStateColor": "accent",
+      "backdropBlurWhenPersistent": false,
+      "purpose": "Persistent navigation stays structural; detached navigation may use neutral Frosted Glaze."
+    },
+    "universal-search": {
+      "entryMaterial": "glaze",
+      "panelMaterial": "deep-glaze",
+      "resultMaterial": "inherited",
+      "selectedResultColor": "accent",
+      "nestedBackdropBlurDefaultAllowed": false,
+      "purpose": "Search chrome is transient command UI; results remain readable inside the parent panel."
+    },
+    "control-center": {
+      "containerMaterial": "deep-glaze",
+      "tileMaterial": "raised",
+      "activeTileColor": "accent",
+      "sliderTrackMaterial": "local-control",
+      "semanticStatusColorAuthority": "producer-authoritative",
+      "nestedBackdropBlurDefaultAllowed": false,
+      "purpose": "One dominant neutral frosted control panel with non-blurred local controls and color reserved for state."
+    },
+    "critical-system": {
+      "defaultMaterial": "raised",
+      "backdropBlur": false,
+      "semanticStatusColorAuthority": "producer-authoritative",
+      "purpose": "Security, privacy, destructive, recovery, authentication, and other consequential system decisions remain high-opacity and non-backdrop-dependent."
+    }
+  },
+  "controlCenter": {
+    "minimumTargetPx": 48,
+    "touchAssistanceTargetPx": 56,
+    "tileColumns": {
+      "compact": 2,
+      "regular": 2,
+      "wide": 3
+    },
+    "tileState": {
+      "inactiveSubstrate": "raised-neutral",
+      "activeSubstrate": "accent-mixed-with-raised-neutral",
+      "semanticStateMayReplaceAccent": true,
+      "colorOnlyCommunicationAllowed": false
+    },
+    "sliders": {
+      "track": "neutral",
+      "fill": "accent-or-authoritative-semantic",
+      "thumb": "high-contrast-local-control"
+    }
+  },
+  "accessibility": {
+    "reducedTransparency": {
+      "shellGlass": "solid-neutral",
+      "controlCenter": "solid-raised",
+      "nestedBackdropEffects": "off"
+    },
+    "forcedColors": {
+      "customGlass": "off",
+      "customAccentSubstrates": "off",
+      "mapping": "platform"
+    },
+    "increasedContrast": {
+      "strengthenBoundariesBeforeChroma": true
+    },
+    "reducedMotion": {
+      "independentFromMaterial": true
+    },
+    "textScale200": {
+      "controlCenterMustReflow": true,
+      "targetsMustNotShrink": true
+    }
+  },
+  "performanceDegradationOrder": [
+    "remove-optional-environmental-aura",
+    "reduce-control-center-heavy-blur-to-standard",
+    "reduce-floating-navigation-blur-to-soft",
+    "disable-backdrop-blur",
+    "fall-back-to-solid-neutral-shell-surfaces"
+  ],
+  "protectedFromDegradation": [
+    "content",
+    "actions",
+    "focus",
+    "semantic-state",
+    "target-size",
+    "critical-system-separation"
+  ]
+}
