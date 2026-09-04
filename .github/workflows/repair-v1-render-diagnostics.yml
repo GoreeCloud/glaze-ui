@@ -1,4 +1,4 @@
-name: Diagnose GLAZE UI V1 render nondeterminism
+name: Verify GLAZE UI V1 mobile evidence determinism
 
 on:
   push:
@@ -8,19 +8,20 @@ on:
       - '.github/workflows/repair-v1-render-diagnostics.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  capture-diagnostics:
+  verify-scrollbar-fix:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out exact diagnostic revision
+      - name: Check out exact maintenance revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ github.sha }}
-          persist-credentials: false
+          fetch-depth: 0
+          persist-credentials: true
 
-      - name: Add workspace-only mismatch capture
+      - name: Suppress browser chrome scrollbars in evidence capture
         shell: bash
         run: |
           set -euo pipefail
@@ -29,42 +30,49 @@ jobs:
 
           renderer = Path('scripts/validate_glaze_v1_1_rendered.py')
           text = renderer.read_text(encoding='utf-8')
-          old = '''    first_hash = hashlib.sha256(first).hexdigest()\n    second_hash = hashlib.sha256(second).hexdigest()\n    require(\n        first == second,\n        f"Screenshot capture is nondeterministic for {name}: first={first_hash}, second={second_hash}",\n    )\n    ARTIFACTS.mkdir(exist_ok=True)\n    path = ARTIFACTS / f"glaze-v1.1-{name}.png"\n    path.write_bytes(second)\n    return path\n'''
-          new = '''    first_hash = hashlib.sha256(first).hexdigest()\n    second_hash = hashlib.sha256(second).hexdigest()\n    ARTIFACTS.mkdir(exist_ok=True)\n    if first != second:\n        first_path = ARTIFACTS / f"glaze-v1.1-{name}-capture-a.png"\n        second_path = ARTIFACTS / f"glaze-v1.1-{name}-capture-b.png"\n        first_path.write_bytes(first)\n        second_path.write_bytes(second)\n        raise RenderedAcceptanceError(\n            f"Screenshot capture is nondeterministic for {name}: first={first_hash}, second={second_hash}; "\n            f"diagnostics={first_path.name},{second_path.name}"\n        )\n    path = ARTIFACTS / f"glaze-v1.1-{name}.png"\n    path.write_bytes(second)\n    return path\n'''
+          old = '"--headless=new", "--no-sandbox"'
+          new = '"--headless=new", "--hide-scrollbars", "--no-sandbox"'
           if old not in text:
-              raise SystemExit('expected renderer repeatability block not found')
+              raise SystemExit('expected Chrome argument anchor not found')
+          if '--hide-scrollbars' in text:
+              raise SystemExit('hide-scrollbars is already present unexpectedly')
           renderer.write_text(text.replace(old, new, 1), encoding='utf-8')
           PY
           python3 -m py_compile scripts/validate_glaze_v1_1_rendered.py
+          git diff --check
 
-      - name: Repeat exact renderer and preserve any mismatch pair
+      - name: Reproduce approved web baselines ten times
         shell: bash
         run: |
-          set -uo pipefail
-          rm -rf diagnostic-artifacts
-          mkdir -p diagnostic-artifacts
-          failures=0
-          for i in 1 2 3 4 5; do
+          set -euo pipefail
+          rm -rf deterministic-evidence
+          mkdir -p deterministic-evidence
+          for i in 1 2 3 4 5 6 7 8 9 10; do
             rm -rf artifacts
-            if python3 scripts/validate_glaze_v1_1_rendered.py; then
-              mkdir -p "diagnostic-artifacts/run-$i-pass"
-              cp artifacts/glaze-v1.1-*.png "diagnostic-artifacts/run-$i-pass/" 2>/dev/null || true
-            else
-              failures=$((failures + 1))
-              mkdir -p "diagnostic-artifacts/run-$i-fail"
-              cp artifacts/glaze-v1.1-*.png "diagnostic-artifacts/run-$i-fail/" 2>/dev/null || true
-            fi
+            python3 scripts/validate_glaze_v1_1_rendered.py
+            python3 scripts/validate_glaze_v1_1_visual_baselines.py
+            mkdir -p "deterministic-evidence/run-$i"
+            cp artifacts/glaze-v1.1-*.png "deterministic-evidence/run-$i/"
           done
-          echo "diagnostic_failures=$failures" >> "$GITHUB_ENV"
-          test -n "$(find diagnostic-artifacts -type f -name '*.png' -print -quit)"
 
-      - name: Upload diagnostic captures
+      - name: Upload bounded deterministic-capture diagnostics
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: glaze-v1.1-render-diagnostics-${{ github.sha }}
-          path: diagnostic-artifacts
+          name: glaze-v1.1-scrollbar-fix-diagnostics-${{ github.sha }}
+          path: deterministic-evidence
           if-no-files-found: error
           retention-days: 7
 
-      - name: Report diagnostic outcome
-        run: echo "Diagnostic renderer mismatches observed in ${diagnostic_failures} of 5 repetitions."
+      - name: Commit renderer fix after bounded proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GoreeCloud Release Maintenance"
+          git config user.email "295260680+GoreeCloud@users.noreply.github.com"
+          git add scripts/validate_glaze_v1_1_rendered.py
+          git diff --cached --check
+          git diff --cached --quiet && { echo 'No renderer repair generated'; exit 1; }
+          git commit -m "Stabilize GLAZE UI mobile evidence capture"
+          CURRENT_REMOTE="$(git ls-remote origin refs/heads/fix/v1.1-import-closure-20260904 | cut -f1)"
+          test "$CURRENT_REMOTE" = "$GITHUB_SHA"
+          git push origin HEAD:fix/v1.1-import-closure-20260904
