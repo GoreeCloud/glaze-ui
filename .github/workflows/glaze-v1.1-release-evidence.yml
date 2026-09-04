@@ -9,6 +9,7 @@ on:
       - 'reference/v1.1/**'
       - 'scripts/validate_glaze_v1_1_*.py'
       - 'acceptance/v1.1-*.md'
+      - 'releases/1.1.0-web-source.json'
       - '.github/workflows/glaze-v1.1-release-evidence.yml'
       - 'contracts/performance/glaze-v1-performance-budget.json'
       - 'contracts/accessibility/resolution-matrix.json'
@@ -54,6 +55,7 @@ jobs:
         with:
           name: glaze-v1.1-stable-web-source-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
+            releases/1.1.0-web-source.json
             css/glaze-v1.1.0.css
             css/glaze-v1.0.0.css
             css/glaze-v1.1.css
