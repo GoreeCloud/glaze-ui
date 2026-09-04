@@ -10,12 +10,16 @@ ROOT = Path(__file__).resolve().parents[1]
 TOKEN_PATH = ROOT / "tokens/glaze-v1.2-frosted-neutral.candidate.json"
 CSS_PATH = ROOT / "css/glaze-v1.2-frosted-neutral.candidate.css"
 COMPONENT_CSS_PATH = ROOT / "css/glaze-v1.2-components.candidate.css"
+SYSTEM_SHELL_CSS_PATH = ROOT / "css/glaze-v1.2-system-shell.candidate.css"
 ENTRYPOINT_PATH = ROOT / "css/glaze-v1.2.0-candidate.css"
 REFERENCE_PATH = ROOT / "reference/v1.2/frosted-neutral.html"
 COMPONENT_REFERENCE_PATH = ROOT / "reference/v1.2/component-gallery.html"
+SYSTEM_SHELL_REFERENCE_PATH = ROOT / "reference/v1.2/system-shell.html"
 CONTRACT_PATH = ROOT / "GLAZE_UI_V1_2_CANDIDATE.md"
 COMPONENT_CONTRACT_PATH = ROOT / "contracts/v1.2/component-materials.candidate.json"
 COMPONENT_CATALOG_PATH = ROOT / "contracts/components/v1/catalog.json"
+SYSTEM_SHELL_CONTRACT_PATH = ROOT / "contracts/v1.2/system-shell-materials.candidate.json"
+INHERITED_SYSTEM_SHELL_PATH = ROOT / "contracts/system-shell/glaze-system-shell-v1.json"
 LIFECYCLE_PATH = ROOT / "registry/lifecycle.json"
 
 
@@ -52,12 +56,16 @@ def main() -> None:
     tokens = json.loads(text(TOKEN_PATH))
     css = text(CSS_PATH)
     component_css = text(COMPONENT_CSS_PATH)
+    system_shell_css = text(SYSTEM_SHELL_CSS_PATH)
     entrypoint = text(ENTRYPOINT_PATH)
     reference = text(REFERENCE_PATH)
     component_reference = text(COMPONENT_REFERENCE_PATH)
+    system_shell_reference = text(SYSTEM_SHELL_REFERENCE_PATH)
     contract = text(CONTRACT_PATH)
     component_contract = json.loads(text(COMPONENT_CONTRACT_PATH))
     component_catalog = json.loads(text(COMPONENT_CATALOG_PATH))
+    system_shell_contract = json.loads(text(SYSTEM_SHELL_CONTRACT_PATH))
+    inherited_system_shell = json.loads(text(INHERITED_SYSTEM_SHELL_PATH))
     lifecycle = json.loads(text(LIFECYCLE_PATH))
 
     req(tokens.get("lifecycle") == "candidate", "token lifecycle must remain Candidate")
@@ -85,6 +93,19 @@ def main() -> None:
     req(candidate_release.get("consumerEligible") is False, "Candidate must not be consumer eligible")
     req(candidate_release.get("stableBaseline") == "1.1.0", "Candidate lifecycle Stable baseline drifted")
     req(candidate_release.get("contract") == "GLAZE_UI_V1_2_CANDIDATE.md", "Candidate lifecycle contract binding drifted")
+
+    capabilities = lifecycle.get("capabilities", {})
+    shell_capability = capabilities.get("frosted-neutral-system-shell", {})
+    req(shell_capability.get("status") == "candidate", "System Shell Candidate capability must be registered")
+    req(shell_capability.get("since") == "1.2.0-candidate", "System Shell capability version drifted")
+    req(
+        shell_capability.get("implementation") == "contracts/v1.2/system-shell-materials.candidate.json",
+        "System Shell capability contract binding drifted",
+    )
+    req(
+        shell_capability.get("webPreview") == "reference/v1.2/system-shell.html",
+        "System Shell capability preview binding drifted",
+    )
 
     materials = tokens.get("materials", {})
     for appearance in ("light", "dark", "deepDark"):
@@ -136,6 +157,10 @@ def main() -> None:
     req(
         '@import url("./glaze-v1.2-components.candidate.css")' in entrypoint,
         "Candidate entrypoint must import component material expansion",
+    )
+    req(
+        '@import url("./glaze-v1.2-system-shell.candidate.css")' in entrypoint,
+        "Candidate entrypoint must import System Shell material expansion",
     )
 
     # The component-material contract must cover the exact inherited 32-component catalog.
@@ -209,6 +234,79 @@ def main() -> None:
     ):
         req(marker in component_css, f"component Candidate CSS missing required marker {marker!r}")
 
+    # System Shell specialization must preserve the exact inherited region set and budget.
+    inherited_regions = inherited_system_shell.get("regions", [])
+    req(isinstance(inherited_regions, list), "inherited System Shell regions must be an array")
+    req(len(inherited_regions) == 5 and len(set(inherited_regions)) == 5, "inherited System Shell must retain five unique regions")
+    shell_regions = system_shell_contract.get("regions", {})
+    req(isinstance(shell_regions, dict), "V1.2 System Shell region mapping must be an object")
+    req(set(shell_regions) == set(inherited_regions), "V1.2 System Shell mapping must exactly preserve inherited region keys")
+
+    req(system_shell_contract.get("product") == "GLAZE UI V1.2", "System Shell Candidate product mismatch")
+    req(system_shell_contract.get("version") == "1.2.0-candidate", "System Shell Candidate version mismatch")
+    req(system_shell_contract.get("lifecycle") == "candidate", "System Shell Candidate lifecycle mismatch")
+    req(system_shell_contract.get("stableBaseline") == "1.1.0", "System Shell Candidate baseline mismatch")
+    req(
+        system_shell_contract.get("inherits") == "contracts/system-shell/glaze-system-shell-v1.json",
+        "System Shell Candidate inheritance binding drifted",
+    )
+    req(
+        system_shell_contract.get("governingRule") == "Neutral glass is the material. Color is an accent.",
+        "System Shell Candidate governing rule drifted",
+    )
+
+    inherited_budget = inherited_system_shell.get("materialBudget", {})
+    shell_budget = system_shell_contract.get("materialBudget", {})
+    req(
+        shell_budget.get("dominantGlazePanels") == inherited_budget.get("dominantGlazePanels") == 1,
+        "System Shell dominant Glaze budget must remain one",
+    )
+    req(
+        shell_budget.get("smallFloatingGlazeControlsMax") == inherited_budget.get("smallFloatingGlazeControlsMax") == 3,
+        "System Shell floating Glaze budget must remain three",
+    )
+    req(shell_budget.get("nestedBackdropBlurDefaultAllowed") is False, "System Shell Candidate must forbid default nested blur")
+
+    workspace = shell_regions["workspace"]
+    navigation = shell_regions["navigation"]
+    search = shell_regions["universal-search"]
+    control_center = shell_regions["control-center"]
+    critical = shell_regions["critical-system"]
+    req(workspace.get("defaultMaterial") == "surface" and workspace.get("backdropBlur") is False, "workspace must remain non-blurred Surface")
+    req(navigation.get("persistentMaterial") == "surface", "persistent navigation must remain Surface")
+    req(navigation.get("floatingMaterial") == "glaze", "floating navigation must use Glaze")
+    req(search.get("entryMaterial") == "glaze" and search.get("panelMaterial") == "deep-glaze", "Universal Search material mapping drifted")
+    req(search.get("nestedBackdropBlurDefaultAllowed") is False, "Universal Search nested blur must remain disabled")
+    req(control_center.get("containerMaterial") == "deep-glaze", "Control Center must be Deep Glaze")
+    req(control_center.get("tileMaterial") == "raised", "Control Center tiles must remain local Raised surfaces")
+    req(control_center.get("nestedBackdropBlurDefaultAllowed") is False, "Control Center nested blur must remain disabled")
+    req(critical.get("defaultMaterial") == "raised" and critical.get("backdropBlur") is False, "Critical System must remain non-blurred Raised")
+
+    target_floors = inherited_system_shell.get("targetFloorsPx", {})
+    control_center_contract = system_shell_contract.get("controlCenter", {})
+    req(control_center_contract.get("minimumTargetPx") == target_floors.get("touch") == 48, "Control Center touch target floor drifted")
+    req(
+        control_center_contract.get("touchAssistanceTargetPx") == target_floors.get("touchAssistanceOrFarView") == 56,
+        "Control Center assisted/far-view target floor drifted",
+    )
+    req(control_center_contract.get("tileState", {}).get("colorOnlyCommunicationAllowed") is False, "Control Center state must not depend on color alone")
+
+    req(activation in system_shell_css, "System Shell Candidate CSS activation selector missing")
+    for marker in (
+        'data-glz-shell-region="workspace"',
+        'data-glz-shell-region="navigation"',
+        'data-glz-shell-region="control-center"',
+        'data-glz-shell-region="universal-search"',
+        'data-glz-shell-region="critical-system"',
+        '.glz12-control-tile',
+        'Critical System remains high-opacity',
+        '200% text reflows controls',
+        '@supports not ((backdrop-filter: blur(1px))',
+        '@media (forced-colors: active)',
+        'data-glz-transparency="reduced"',
+    ):
+        req(marker in system_shell_css, f"System Shell Candidate CSS missing required marker {marker!r}")
+
     req('data-glaze-upgrade="v1.2-frosted-neutral"' in reference, "reference does not activate Candidate")
     req("../../css/glaze-v1.2.0-candidate.css" in reference, "reference does not use Candidate entrypoint")
     req("Neutral glass is the material." in reference, "reference does not state the governing rule")
@@ -221,13 +319,24 @@ def main() -> None:
     req(len(set(represented)) == 32, "component gallery must not duplicate component samples")
     req(set(represented) == set(catalog_components), "component gallery must represent every catalog component exactly once")
 
+    req('data-glaze-upgrade="v1.2-frosted-neutral"' in system_shell_reference, "System Shell reference does not activate Candidate")
+    req("../../css/glaze-v1.2.0-candidate.css" in system_shell_reference, "System Shell reference does not use Candidate entrypoint")
+    represented_shell_regions = re.findall(r'data-glz-shell-region="([^"]+)"', system_shell_reference)
+    req(len(represented_shell_regions) == 5, "System Shell reference must represent exactly five shell regions")
+    req(len(set(represented_shell_regions)) == 5, "System Shell reference must not duplicate shell region markers")
+    req(set(represented_shell_regions) == set(inherited_regions), "System Shell reference must represent every inherited region exactly once")
+    req("Control Center" in system_shell_reference, "System Shell reference must exercise Control Center")
+    req("Critical System" in system_shell_reference, "System Shell reference must exercise Critical System separation")
+
     req("Neutral glass is the material. Color is an accent." in contract, "Candidate contract governing rule missing")
     req("default material tint from teal, aqua, green, or amber is `0`" in contract, "Candidate contract substrate rule missing")
     req("V1.1 / 1.1.0" in contract, "Candidate contract Stable baseline missing")
     req("component-material contract" in contract, "Candidate contract must document component-material expansion")
     req("32-component" in contract, "Candidate contract must document exact catalog coverage")
+    req("System Shell material expansion" in contract, "Candidate contract must document System Shell material expansion")
+    req("five-region System Shell contract" in contract, "Candidate contract must preserve five-region System Shell authority")
 
-    print("GLAZE UI V1.2 Frosted Neutral Candidate validated; 32-component material expansion is complete; V1.1 remains current Stable")
+    print("GLAZE UI V1.2 Frosted Neutral Candidate validated; 32-component and five-region System Shell material expansions are complete; V1.1 remains current Stable")
 
 
 if __name__ == "__main__":
