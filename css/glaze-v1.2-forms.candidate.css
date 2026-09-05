@@ -57,8 +57,13 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12
   max-inline-size: 100%;
 }
 
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"][data-glz-touch-assistance="true"] .glz12-form-native-target {
-  min-block-size: var(--glz12-shell-target-assisted);
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"][data-glz-touch-assistance="true"] :is(
+  .glz12-form-native-target,
+  .glz12-form-action,
+  .glz12-form-actions .glz1-button,
+  .glz1-switch
+) {
+  min-block-size: var(--glz12-shell-target-assisted, 56px);
 }
 
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-form-status {
