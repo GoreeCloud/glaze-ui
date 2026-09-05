@@ -1,0 +1,8 @@
+/* GLAZE UI V1.2 Candidate — Depth fallback atomicity.
+ * Performance/accessibility fallbacks remove optical depth immediately rather than
+ * interpolating a previous box-shadow after the fallback state becomes active.
+ */
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"][data-glz-material-performance="minimal"]:root [data-glz-depth-change] {
+  transition: none;
+  transform: none;
+}
