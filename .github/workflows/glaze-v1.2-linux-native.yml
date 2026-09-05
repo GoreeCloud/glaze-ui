@@ -59,6 +59,7 @@ jobs:
         env:
           GLAZE_SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
           NO_AT_BRIDGE: '1'
+          GTK_A11Y: 'none'
           GDK_BACKEND: x11
         run: |
           set -euo pipefail
