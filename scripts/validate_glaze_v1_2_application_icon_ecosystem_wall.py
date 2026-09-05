@@ -167,12 +167,12 @@ def validate_reference(products: list[dict[str, Any]]) -> None:
         "size:96",
         "size:56",
         "size:32",
-        "human collision review remains final",
         "raw.githubusercontent.com",
         "catalog.json",
         "no fallback artwork is substituted",
     ):
         require(marker in text, f"Ecosystem Wall reference marker missing: {marker}")
+    require("human collision review remains final" in text.lower(), "Ecosystem Wall reference lost human collision-review authority")
     require("/main/" not in text, "Ecosystem Wall must not fetch mutable branding main")
     require("<svg" not in text.lower(), "Ecosystem Wall must not invent local replacement product artwork")
     require("data:image" not in text.lower(), "Ecosystem Wall must not hide ungoverned embedded product artwork")
