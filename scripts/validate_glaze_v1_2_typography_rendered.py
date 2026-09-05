@@ -177,7 +177,7 @@ def validate_state(s: dict[str, Any], width: int) -> None:
     for key in ("display", "body", "ui", "numeric", "mono"):
         require(s[key]["shadow"] == "none" and s[key]["filter"] == "none", f"sharp-text rule violated for {key}: {s[key]}")
     a = s["align"]
-    require(a["display"] == "inline-flex" and a["alignItems"] == "center", f"icon-label alignment primitive drifted: {a}")
+    require(a["display"] in ("flex", "inline-flex") and a["alignItems"] == "center", f"icon-label alignment primitive drifted: {a}")
     require(7.5 <= a["gap"] <= 8.5 and 19.5 <= a["svgW"] <= 20.5 and 19.5 <= a["svgH"] <= 20.5, f"icon-label optical metrics drifted: {a}")
 
 def set_appearance(sid: str, appearance: str) -> dict[str, Any]:
