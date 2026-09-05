@@ -1,6 +1,7 @@
 /* GLAZE UI V1.2 Candidate — responsive adaptation reference only. Form-factor tokens remain the authority. */
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-adapt-library { display:grid; gap:var(--glz12-space-major-region); min-inline-size:0; }
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-adapt-scene { min-inline-size:0; display:grid; gap:var(--glz12-space-standard-cluster); padding:var(--glz12-space-content); border:1px solid var(--glz12-structural-border); border-radius:var(--glz12-radius-surface); background:var(--glz1-base); color:var(--glz1-text-primary); -webkit-backdrop-filter:none; backdrop-filter:none; }
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(.glz12-adapt-scene,.intro)[hidden] { display:none !important; }
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-adapt-scene > :is(h2,p) { margin-block:0; }
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-adapt-shell { display:grid; min-inline-size:0; max-inline-size:100%; gap:var(--glz12-space-standard-cluster); align-items:start; }
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-adapt-region { min-inline-size:0; max-inline-size:100%; box-sizing:border-box; padding:var(--glz12-space-standard-cluster); border:1px solid var(--glz12-structural-border); border-radius:var(--glz12-radius-control); background:var(--glz1-raised); -webkit-backdrop-filter:none; backdrop-filter:none; }
