@@ -58,12 +58,32 @@ def reachable(s,*,desc=None,text=None,tries=12):
         if n is not None:return n
         adb(s,"shell","input","swipe","520","1750","520","650","220");time.sleep(.2)
     raise SystemExit(f"unreachable UI element desc={desc} text={text}")
-def hdp(n,dpi):
+def bounds(n):
     m=BOUNDS.fullmatch(n.attrib.get("bounds",""))
     if not m:raise SystemExit("invalid bounds")
-    _,y1,_,y2=map(int,m.groups());return (y2-y1)*160/dpi
+    return tuple(map(int,m.groups()))
+def hdp(n,dpi):
+    _,y1,_,y2=bounds(n);return (y2-y1)*160/dpi
+def full_target(s,dpi,*,desc,floor,tries=6):
+    """Reacquire a target after scrolling until its accessibility bounds are fully visible.
+
+    UIAutomator clips bounds for controls that first enter at a viewport edge. The target
+    floor remains unchanged: scrolling only removes viewport clipping and cannot make an
+    actually undersized control pass.
+    """
+    last=0.0
+    for _ in range(tries):
+        n=find(dump(s),desc=desc)
+        if n is None:n=reachable(s,desc=desc)
+        last=hdp(n,dpi)
+        if last>=floor-1:return n
+        _,y1,_,y2=bounds(n);mid=(y1+y2)//2
+        if mid>=1200:adb(s,"shell","input","swipe","520","1750","520","950","220")
+        else:adb(s,"shell","input","swipe","520","650","520","1450","220")
+        time.sleep(.25)
+    raise SystemExit(f"{desc} target below floor after viewport re-centering: measured={last:.1f}dp required={floor}dp")
 def tap(s,n):
-    x1,y1,x2,y2=map(int,BOUNDS.fullmatch(n.attrib["bounds"]).groups())
+    x1,y1,x2,y2=bounds(n)
     adb(s,"shell","input","tap",str((x1+x2)//2),str((y1+y2)//2));time.sleep(.25)
 def launch(s,a,p,reduced=False,touch=False,font=1.0):
     adb(s,"shell","settings","put","system","font_scale",str(font));adb(s,"shell","am","force-stop",PACKAGE)
@@ -81,15 +101,14 @@ def case(s,dpi,cid,a,p,reduced=False,touch=False,font=1.0):
     for marker in ("Frost White is the material.","Primary material: Frost White","Primary atmosphere: Ice Blue",f"Performance · {p.title()}"):
         reachable(s,text=marker)
     if reduced or p=="minimal":reachable(s,text="Material · Opaque Frost")
-    search=reachable(s,desc="Universal Search Clear Frost"); floor=56 if touch else 48
-    if hdp(search,dpi)<floor-1:raise SystemExit("search target below floor")
-    wifi=reachable(s,desc="Wi-Fi active Ice atmosphere")
-    if hdp(wifi,dpi)<75:raise SystemExit("Quick Settings tile below 76dp floor")
-    action=reachable(s,desc="Primary action")
-    if hdp(action,dpi)<floor-1:raise SystemExit("action target below floor")
+    floor=56 if touch else 48
+    search=full_target(s,dpi,desc="Universal Search Clear Frost",floor=floor)
+    wifi=full_target(s,dpi,desc="Wi-Fi active Ice atmosphere",floor=76)
+    action=full_target(s,dpi,desc="Primary action",floor=floor)
     tap(s,action);reachable(s,desc="Action state Complete")
     name,digest=shot(s,f"android-v1.2-{cid}.png")
-    return {"id":cid,"appearance":a,"performanceProfile":p,"reducedTransparency":reduced,"touchAssistance":touch,"fontScale":font,"screenshot":name,"sha256":digest}
+    return {"id":cid,"appearance":a,"performanceProfile":p,"reducedTransparency":reduced,"touchAssistance":touch,"fontScale":font,"screenshot":name,"sha256":digest,
+      "targetFloorsDp":{"search":floor,"quickSetting":76,"primaryAction":floor}}
 def main():
     OUT.mkdir(parents=True,exist_ok=True);contract=source_contract();rev=revision();s=serial();dpi=density(s)
     try:
