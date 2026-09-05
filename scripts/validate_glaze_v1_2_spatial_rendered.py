@@ -44,43 +44,41 @@ def require(ok: bool, message: str) -> None:
 def validate_source() -> None:
     for path in (CONTRACT, TOKENS, CSS, ENTRYPOINT, ROOT / REFERENCE):
         require(path.is_file(), f"missing {path.relative_to(ROOT)}")
-    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    tokens = json.loads(TOKENS.read_text(encoding="utf-8"))
-    require(contract.get("version") == "1.2.0-candidate", "spatial contract version drifted")
-    require(contract.get("lifecycle") == "candidate" and contract.get("consumerEligible") is False, "spatial Candidate lifecycle boundary drifted")
-    require(contract.get("stableBaseline") == "1.1.0", "spatial Stable baseline drifted")
-    require(contract.get("spacingScalePx") == SPACING, "canonical spatial spacing scale drifted")
-    roles = contract.get("spacingRoles", {})
-    require(list(roles.values()) == SPACING, "semantic spacing role map drifted")
-    classes = contract.get("layoutCapabilityClasses", {})
+    c = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    t = json.loads(TOKENS.read_text(encoding="utf-8"))
+    require(c.get("version") == "1.2.0-candidate", "spatial contract version drifted")
+    require(c.get("lifecycle") == "candidate" and c.get("consumerEligible") is False, "spatial Candidate lifecycle boundary drifted")
+    require(c.get("stableBaseline") == "1.1.0", "spatial Stable baseline drifted")
+    require(c.get("spacingScalePx") == SPACING, "canonical spatial spacing scale drifted")
+    require(list(c.get("spacingRoles", {}).values()) == SPACING, "semantic spacing role map drifted")
+    classes = c.get("layoutCapabilityClasses", {})
     require({k: (v.get("gutterPx"), v.get("gridColumns")) for k, v in classes.items()} == {
         "compact": (16, 4), "medium": (24, 8), "expanded": (32, 12), "large": (48, 12)
     }, "layout capability contract drifted")
-    rule = contract.get("capabilityClassRule", {})
+    rule = c.get("capabilityClassRule", {})
     require(rule.get("deviceBrandBreakpointsAreCanonical") is False and rule.get("platformAdapterSelectsCapabilityClass") is True, "capability-class authority boundary drifted")
-    require(contract.get("quietZones", {}).get("defaultBlockSpacePx") == 48, "Quiet Zone default drifted")
-    require(contract.get("densityRules", {}).get("densityIsNotScale") is True, "density-is-not-scale rule drifted")
-    require(contract.get("densityRules", {}).get("minimumInteractiveTargetPx") == 48, "interactive target floor drifted")
-    require(contract.get("surfaceRelationship", {}).get("spatialLayerIntroducesNewBackdropBlur") is False, "spatial layer blur boundary drifted")
-    impl = contract.get("implementation", {})
+    require(c.get("quietZones", {}).get("defaultBlockSpacePx") == 48, "Quiet Zone default drifted")
+    require(c.get("densityRules", {}).get("densityIsNotScale") is True, "density-is-not-scale rule drifted")
+    require(c.get("densityRules", {}).get("minimumInteractiveTargetPx") == 48, "interactive target floor drifted")
+    require(c.get("surfaceRelationship", {}).get("spatialLayerIntroducesNewBackdropBlur") is False, "spatial blur boundary drifted")
+    impl = c.get("implementation", {})
     require(impl.get("tokens") == "tokens/glaze-v1.2-spatial-foundation.candidate.json", "spatial token binding drifted")
     require(impl.get("webLayer") == "css/glaze-v1.2-spatial-foundation.candidate.css", "spatial CSS binding drifted")
     require(impl.get("reference") == REFERENCE, "spatial reference binding drifted")
     require(impl.get("renderedValidator") == "scripts/validate_glaze_v1_2_spatial_rendered.py", "spatial validator binding drifted")
-    require(tokens.get("version") == "1.2.0-candidate" and tokens.get("consumerEligible") is False, "spatial token lifecycle drifted")
-    require(list(tokens.get("spacePx", {}).values()) == SPACING, "spatial token scale drifted")
-    require(tokens.get("guttersPx") == {"compact": 16, "medium": 24, "expanded": 32, "large": 48}, "gutter tokens drifted")
-    require(tokens.get("gridColumns") == {"compact": 4, "medium": 8, "expanded": 12, "large": 12}, "grid tokens drifted")
-    require(tokens.get("targets", {}).get("minimumInteractivePx") == 48, "target token drifted")
-    css = CSS.read_text(encoding="utf-8")
-    reference = (ROOT / REFERENCE).read_text(encoding="utf-8")
+    require(t.get("version") == "1.2.0-candidate" and t.get("consumerEligible") is False, "spatial token lifecycle drifted")
+    require(list(t.get("spacePx", {}).values()) == SPACING, "spatial token scale drifted")
+    require(t.get("guttersPx") == {"compact": 16, "medium": 24, "expanded": 32, "large": 48}, "gutter tokens drifted")
+    require(t.get("gridColumns") == {"compact": 4, "medium": 8, "expanded": 12, "large": 12}, "grid tokens drifted")
+    require(t.get("targets", {}).get("minimumInteractivePx") == 48, "target token drifted")
+    text = CSS.read_text(encoding="utf-8") + "\n" + (ROOT / REFERENCE).read_text(encoding="utf-8")
     for marker in (
-        "--glz12-space-micro: 2px", "--glz12-space-page-hero: 96px", "data-glz-layout-class=\"compact\"",
+        "--glz12-space-micro: 2px", "--glz12-space-page-hero: 96px", 'data-glz-layout-class="compact"',
         "--glz12-grid-columns: 12", ".glz12-quiet-zone", ".glz12-durable-reading-zone",
-        "data-glaze-density-profile=\"productive\"", "@media (forced-colors: active)"
+        'data-glaze-density-profile="productive"', "@media (forced-colors: active)"
     ):
-        require(marker in (css + "\n" + reference), f"spatial implementation marker missing: {marker}")
-    require("blur(" not in css.lower(), "spatial layer must not introduce blur")
+        require(marker in text, f"spatial implementation marker missing: {marker}")
+    require("blur(" not in CSS.read_text(encoding="utf-8").lower(), "spatial layer must not introduce blur")
     entry = ENTRYPOINT.read_text(encoding="utf-8")
     chain = [
         '@import url("./glaze-v1.2-crystal-icons.candidate.css")',
@@ -88,8 +86,8 @@ def validate_source() -> None:
         '@import url("./glaze-v1.2-spatial-foundation.candidate.css")',
         '@import url("./glaze-v1.2-accessibility.candidate.css")',
     ]
-    require(all(item in entry for item in chain), "Candidate entrypoint missing spatial import chain")
-    require([entry.index(item) for item in chain] == sorted(entry.index(item) for item in chain), "spatial/accessibility import order drifted")
+    require(all(x in entry for x in chain), "Candidate entrypoint missing spatial import chain")
+    require([entry.index(x) for x in chain] == sorted(entry.index(x) for x in chain), "spatial/accessibility import order drifted")
 
 def request(method: str, path: str, payload: dict[str, Any] | None = None, timeout: int = 30) -> Any:
     req = Request(f"{DRIVER}{path}", data=None if payload is None else json.dumps(payload).encode(), method=method, headers={"Content-Type": "application/json; charset=utf-8"})
@@ -131,8 +129,8 @@ def wait_driver() -> None:
     last: Exception | None = None
     while time.monotonic() < end:
         try:
-            status = request("GET", "/status")
-            if isinstance(status, dict) and status.get("ready"):
+            s = request("GET", "/status")
+            if isinstance(s, dict) and s.get("ready"):
                 return
         except Exception as error:
             last = error
@@ -154,8 +152,9 @@ def execute(sid: str, script: str) -> Any:
 def cdp(sid: str, cmd: str, params: dict[str, Any] | None = None) -> Any:
     return request("POST", f"/session/{sid}/goog/cdp/execute", {"cmd": cmd, "params": params or {}})
 
-def viewport(sid: str, width: int, height: int, mobile: bool = False) -> None:
-    cdp(sid, "Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": mobile, "screenWidth": width, "screenHeight": height})
+def viewport(sid: str, width: int, height: int) -> None:
+    # Capability-class acceptance uses an exact CSS viewport, not device/UA emulation.
+    cdp(sid, "Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": False, "screenWidth": width, "screenHeight": height})
 
 def media(sid: str, features: list[dict[str, str]]) -> None:
     cdp(sid, "Emulation.setEmulatedMedia", {"media": "screen", "features": features})
@@ -199,10 +198,10 @@ def identity(s: dict[str, Any], width: int) -> None:
     require(int(s.get("scrollWidth", width + 2)) <= width + 1, f"horizontal overflow: {s}")
     require(s.get("version") == "1.1" and s.get("upgrade") == "v1.2-frosted-neutral", "Candidate activation boundary missing")
     require(s.get("durableFilter") == "none", f"durable reading surface became backdrop-dependent: {s}")
-    require(all(float(t.get("w", 0)) >= 48 and float(t.get("h", 0)) >= 48 for t in s.get("targets", [])), f"48 px target floor drifted: {s.get('targets')}")
+    require(all(float(x.get("w", 0)) >= 48 and float(x.get("h", 0)) >= 48 for x in s.get("targets", [])), f"48 px target floor drifted: {s.get('targets')}")
 
 def set_layout(sid: str, name: str, width: int) -> dict[str, Any]:
-    viewport(sid, width, 960, name == "compact")
+    viewport(sid, width, 960)
     execute(sid, f"document.querySelector('#layout-frame').setAttribute('data-glz-layout-class','{name}');return true;")
     return state(sid)
 
@@ -241,16 +240,15 @@ def main() -> int:
 
         viewport(sid, 1280, 960)
         execute(sid, "document.querySelector('#layout-frame').setAttribute('data-glz-layout-class','expanded');return true;")
-        baseline_body = None
+        body_size = None
         for name, (cluster_gap, section_gap) in DENSITIES.items():
             execute(sid, f"document.documentElement.setAttribute('data-glaze-density-profile','{name}');return true;")
             s = state(sid)
             identity(s, 1280)
             require(abs(float(s["clusterGap"]) - cluster_gap) < .2, f"{name} cluster spacing drifted: {s}")
             require(abs(float(s["stackGap"]) - section_gap) < .2, f"{name} section spacing drifted: {s}")
-            if baseline_body is None:
-                baseline_body = float(s["bodySize"])
-            require(abs(float(s["bodySize"]) - baseline_body) < .2, f"density improperly scaled typography: {s}")
+            body_size = float(s["bodySize"]) if body_size is None else body_size
+            require(abs(float(s["bodySize"]) - body_size) < .2, f"density improperly scaled typography: {s}")
             if name == "productive":
                 screenshot(sid, "expanded-productive")
 
@@ -265,7 +263,7 @@ def main() -> int:
         screenshot(sid, "forced-colors")
 
         media(sid, [])
-        viewport(sid, 390, 844, True)
+        viewport(sid, 390, 844)
         execute(sid, "document.querySelector('#layout-frame').setAttribute('data-glz-layout-class','compact');document.documentElement.style.fontSize='200%';return true;")
         large = state(sid)
         identity(large, 390)
