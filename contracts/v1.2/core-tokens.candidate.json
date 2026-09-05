@@ -34,7 +34,7 @@
     "stroke": {"status": "candidate-owned", "owner": "tokens/glaze-v1.2-crystal-icons.candidate.json", "pointer": "/strokeViewBox"},
     "motion": {"status": "candidate-owned", "owner": "tokens/glaze-v1.2-motion.candidate.json", "pointer": "/durationsMs"},
     "semanticColor": {"status": "inherited-semantic-contract", "owner": "tokens/semantic-colors.json", "pointer": "/roles", "scope": "semantic meanings only; V1.2 appearance pigment remains separately governed"},
-    "state": {"status": "unestablished-v1.2-owner", "owner": null, "pointer": null, "consumerClaimBlocked": true, "reason": "V1.2 component/state token ownership is not yet consolidated; do not import unrelated lifecycle state tokens as V1.2 authority."},
+    "state": {"status": "candidate-owned", "owner": "tokens/glaze-v1.2-states.candidate.json", "pointer": "/states", "scope": "interaction, focus, loading, semantic-state composition, offline, and recovery state authority"},
     "formFactor": {"status": "adapter-delegated-unestablished-token-owner", "owner": null, "pointer": null, "consumerClaimBlocked": true, "reason": "Capability-class selection remains platform-adapter owned; complete V1.2 form-factor token authority is not established."}
   },
   "implementation": {
@@ -44,21 +44,7 @@
     "documentation": "tokens/README.md"
   },
   "evidenceBoundary": {
-    "implemented": [
-      "single-owner-map-for-existing-v1.2-token-families",
-      "machine-readable-alias-pointers",
-      "lifecycle-and-source-drift-validation",
-      "explicit-unestablished-state-and-form-factor-ownership"
-    ],
-    "notEstablished": [
-      "complete-v1.2-state-token-system",
-      "complete-v1.2-form-factor-token-system",
-      "complete-hard-coded-value-elimination",
-      "native-token-parity",
-      "rc",
-      "stable",
-      "consumer-conformance",
-      "production-acceptance"
-    ]
+    "implemented": ["single-owner-map-for-existing-v1.2-token-families","machine-readable-alias-pointers","lifecycle-and-source-drift-validation","v1.2-state-token-authority","explicit-unestablished-form-factor-ownership"],
+    "notEstablished": ["complete-v1.2-form-factor-token-system","complete-hard-coded-value-elimination","native-token-parity","rc","stable","consumer-conformance","production-acceptance"]
   }
 }

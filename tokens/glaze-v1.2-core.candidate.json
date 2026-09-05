@@ -24,10 +24,10 @@
     "icon.sizes": {"source": "tokens/glaze-v1.2-crystal-icons.candidate.json", "pointer": "/sizes"},
     "icon.strokes": {"source": "tokens/glaze-v1.2-crystal-icons.candidate.json", "pointer": "/strokeViewBox"},
     "motion.durations": {"source": "tokens/glaze-v1.2-motion.candidate.json", "pointer": "/durationsMs"},
-    "semanticColor.roles": {"source": "tokens/semantic-colors.json", "pointer": "/roles"}
+    "semanticColor.roles": {"source": "tokens/semantic-colors.json", "pointer": "/roles"},
+    "state.interaction": {"source": "tokens/glaze-v1.2-states.candidate.json", "pointer": "/states"}
   },
   "unestablished": {
-    "state": {"consumerClaimBlocked": true, "reason": "No V1.2-specific consolidated state token owner has completed bounded acceptance."},
     "formFactor": {"consumerClaimBlocked": true, "reason": "Platform adapters own capability selection while complete V1.2 form-factor token authority remains open."}
   },
   "rules": {
