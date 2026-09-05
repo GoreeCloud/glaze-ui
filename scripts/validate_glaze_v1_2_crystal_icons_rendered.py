@@ -154,7 +154,7 @@ def screenshot(sid: str, name: str) -> None:
     path.write_bytes(base64.b64decode(encoded))
     require(path.stat().st_size > 7000, f"invalid screenshot {path}")
 
-STATE_JS = r'''
+STATE_JS = r"""
 const root=document.documentElement;
 const ladder=[...document.querySelectorAll('#size-ladder .glz12-crystal-icon')].map(svg=>{const c=getComputedStyle(svg),g=getComputedStyle(svg.children[0]);return {size:parseFloat(c.width),height:parseFloat(c.height),stroke:parseFloat(g.strokeWidth),fill:g.fill,strokeColor:g.stroke}});
 const fam=[...document.querySelectorAll('.family-card .glz12-crystal-icon')].map(svg=>{const c=getComputedStyle(svg),g=getComputedStyle(svg.children[0]),b=svg.getBBox();return {family:svg.dataset.glzIconFamily,size:parseFloat(c.width),fill:g.fill,stroke:g.stroke,filter:c.filter,bbox:{x:b.x,y:b.y,w:b.width,h:b.height}}});
@@ -162,7 +162,8 @@ const buttons=[...document.querySelectorAll('.glz12-icon-control')];
 const def=buttons.find(x=>x.dataset.state==='default'), sel=buttons.find(x=>x.dataset.state==='selected');
 const dsvg=def.querySelector('.glz12-crystal-icon'), ssvg=sel.querySelector('.glz12-crystal-icon'), dc=getComputedStyle(def), sc=getComputedStyle(sel), dg=getComputedStyle(dsvg.children[0]), sg=getComputedStyle(ssvg.children[0]), after=getComputedStyle(sel,'::after');
 const sync=document.querySelector('[data-icon-name="sync"]'), syncStyle=getComputedStyle(sync);
-return {ready:document.readyState,width:innerWidth,scrollWidth:document.documentElement.scrollWidth,version:root.dataset.glazeVersion,upgrade:root.dataset.glazeUpgrade,appearance:root.dataset.glzAppearance,mode:root.dataset.glzIconMode||'',ladder,fam,state:{defaultBorder:parseFloat(dc.borderTopWidth),selectedBorder:parseFloat(sc.borderTopWidth),defaultFill:dg.fill,defaultStroke:dg.stroke,selectedFill:sg.fill,selectedStroke:sg.stroke,selectedAfterContent:after.content,selectedAfterHeight:parseFloat(after.height),selectedBackground:sc.backgroundColor},sync:{animationName:syncStyle.animationName,animationDuration:syncStyle.animationDuration},names:buttons.map(b=>b.getAttribute('aria-label')),targets:buttons.map(b=>({w:b.getBoundingClientRect().width,h:b.getBoundingClientRect().height}))};'''
+return {ready:document.readyState,width:innerWidth,scrollWidth:document.documentElement.scrollWidth,version:root.dataset.glazeVersion,upgrade:root.dataset.glazeUpgrade,appearance:root.dataset.glzAppearance,mode:root.dataset.glzIconMode||'',ladder,fam,state:{defaultBorder:parseFloat(dc.borderTopWidth),selectedBorder:parseFloat(sc.borderTopWidth),defaultFill:dg.fill,defaultStroke:dg.stroke,selectedFill:sg.fill,selectedStroke:sg.stroke,selectedAfterContent:after.content,selectedAfterHeight:parseFloat(after.height),selectedAfterWidth:parseFloat(after.width),selectedAfterBackground:after.backgroundColor,selectedBackground:sc.backgroundColor},sync:{animationName:syncStyle.animationName,animationDuration:syncStyle.animationDuration},names:buttons.map(b=>b.getAttribute('aria-label')),targets:buttons.map(b=>({w:b.getBoundingClientRect().width,h:b.getBoundingClientRect().height}))};
+"""
 
 def state(sid: str) -> dict[str, Any]:
     value = execute(sid, STATE_JS)
@@ -189,8 +190,10 @@ def validate_state(s: dict[str, Any], width: int) -> None:
     require(abs(float(st.get("defaultBorder", 0))-1) < .1 and abs(float(st.get("selectedBorder", 0))-2) < .1, f"structural selected border drifted: {st}")
     require(st.get("defaultFill") == "none" and st.get("defaultStroke") != "none", f"default outline state drifted: {st}")
     require(st.get("selectedFill") != "none" and st.get("selectedStroke") == "none", f"selected filled geometry drifted: {st}")
-    require(st.get("selectedAfterContent") not in (None, "none", "normal", "\"\""), f"selected physical indicator missing: {st}")
+    require(st.get("selectedAfterContent") not in (None, "none", "normal"), f"selected physical indicator missing: {st}")
     require(1.5 <= float(st.get("selectedAfterHeight", 0)) <= 2.5, f"selected indicator thickness drifted: {st}")
+    require(float(st.get("selectedAfterWidth", 0)) >= 8, f"selected indicator width drifted: {st}")
+    require(st.get("selectedAfterBackground") not in (None, "", "transparent", "rgba(0, 0, 0, 0)"), f"selected indicator lost visible paint: {st}")
     require(all(isinstance(name, str) and name.strip() for name in s.get("names", [])), f"interactive Crystal icons missing accessible names: {s.get('names')}")
     require(all(float(t.get("w", 0)) >= 48 and float(t.get("h", 0)) >= 48 for t in s.get("targets", [])), f"Crystal icon controls violate 48 px target floor: {s.get('targets')}")
 
