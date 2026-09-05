@@ -34,7 +34,7 @@
     "stroke": {"status": "candidate-owned", "owner": "tokens/glaze-v1.2-crystal-icons.candidate.json", "pointer": "/strokeViewBox"},
     "motion": {"status": "candidate-owned", "owner": "tokens/glaze-v1.2-motion.candidate.json", "pointer": "/durationsMs"},
     "semanticColor": {"status": "inherited-semantic-contract", "owner": "tokens/semantic-colors.json", "pointer": "/roles", "scope": "semantic meanings only; V1.2 appearance pigment remains separately governed"},
-    "state": {"status": "candidate-owned", "owner": "tokens/glaze-v1.2-states.candidate.json", "pointer": "/states", "scope": "interaction, focus, loading, semantic-state composition, offline, and recovery state authority"},
+    "state": {"status": "candidate-owned", "owner": "tokens/glaze-v1.2-states.candidate.json", "pointer": "/states", "scope": "interaction, focus, loading, semantic-state composition, offline, and recovery state authority", "consumerClaimBlocked": true},
     "formFactor": {"status": "adapter-delegated-unestablished-token-owner", "owner": null, "pointer": null, "consumerClaimBlocked": true, "reason": "Capability-class selection remains platform-adapter owned; complete V1.2 form-factor token authority is not established."}
   },
   "implementation": {
