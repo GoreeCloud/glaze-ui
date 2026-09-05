@@ -14,6 +14,7 @@
     "inheritedShell": "contracts/system-shell/glaze-system-shell-v1.json",
     "materialContract": "contracts/v1.2/system-shell-materials.candidate.json",
     "formFactorContract": "contracts/v1.2/form-factor-tokens.candidate.json",
+    "formFactorTokenOwner": "tokens/glaze-v1.2-form-factor.candidate.json",
     "signatureContract": "contracts/v1.2/signature-components.candidate.json",
     "principle": "The shell should always help users understand where they are, what is happening, and where they can go next."
   },
@@ -83,6 +84,15 @@
       "navigationOrderStable": true
     }
   },
+  "renderedLayoutClassMapping": {
+    "source": "tokens/glaze-v1.2-form-factor.candidate.json#/compositionStates",
+    "semanticToRendered": {
+      "expanded": "expanded",
+      "medium": "medium",
+      "compact": "compact",
+      "largeFarView": "large"
+    }
+  },
   "systemCommunication": {
     "notificationRequiredFields": ["source", "event", "time", "priority", "available-action-when-applicable"],
     "priorityChangesPersistenceBeforeDrama": true,
@@ -93,6 +103,8 @@
   },
   "acceptance": {
     "layoutClasses": ["expanded", "medium", "compact", "largeFarView"],
+    "layoutClassesAreSemanticCompositionStates": true,
+    "renderedLayoutClassValues": ["expanded", "medium", "compact", "large"],
     "minimumInteractiveTargetPx": 48,
     "farViewMinimumInteractiveTargetPx": 56,
     "textScalePercent": 200,
@@ -115,12 +127,14 @@
     "legacyViewportMediaFallbackRemainsPresent": true,
     "legacyViewportMediaFallbackIsCanonicalCompositionAuthority": false,
     "canonicalBehaviorLayerUsesExplicitLayoutClasses": true,
+    "renderedLayoutClassMappingConsumesFormFactorTokenOwner": true,
     "legacyFallbackRemovalRequiredBeforeStable": true
   },
   "evidenceBoundary": {
     "implemented": [
       "five-region-shell-behavior-contract",
       "expanded-medium-compact-large-far-view-reference-composition",
+      "form-factor-semantic-to-rendered-layout-class-mapping",
       "stable-primary-navigation-order",
       "structural-current-location-cue",
       "compact-safe-area-aware-bottom-navigation-reference",

@@ -29,10 +29,13 @@ WORKFLOW = ROOT / ".github/workflows/glaze-v1.2-system-shell-navigation.yml"
 INHERITED = ROOT / "contracts/system-shell/glaze-system-shell-v1.json"
 MATERIAL = ROOT / "contracts/v1.2/system-shell-materials.candidate.json"
 FORM_FACTOR = ROOT / "contracts/v1.2/form-factor-tokens.candidate.json"
+FORM_FACTOR_OWNER = ROOT / "tokens/glaze-v1.2-form-factor.candidate.json"
 SIGNATURE = ROOT / "contracts/v1.2/signature-components.candidate.json"
 EXPECTED_REGIONS = ["workspace", "navigation", "universal-search", "control-center", "critical-system"]
 EXPECTED_DESTINATIONS = ["home", "search", "files", "apps"]
-EXPECTED_LAYOUTS = ["expanded", "medium", "compact", "largeFarView"]
+SEMANTIC_LAYOUTS = ["expanded", "medium", "compact", "largeFarView"]
+RENDERED_LAYOUTS = ["expanded", "medium", "compact", "large"]
+EXPECTED_MAPPING = dict(zip(SEMANTIC_LAYOUTS, RENDERED_LAYOUTS))
 
 
 class AcceptanceError(RuntimeError):
@@ -52,13 +55,17 @@ def load(path: Path) -> dict[str, Any]:
 
 
 def validate_source() -> None:
-    for path in (CONTRACT, CSS, ENTRYPOINT, WORKFLOW, ROOT / REFERENCE, INHERITED, MATERIAL, FORM_FACTOR, SIGNATURE):
+    paths = (CONTRACT, CSS, ENTRYPOINT, WORKFLOW, ROOT / REFERENCE, INHERITED, MATERIAL, FORM_FACTOR, FORM_FACTOR_OWNER, SIGNATURE)
+    for path in paths:
         require(path.is_file(), f"missing {path.relative_to(ROOT)}")
+
     contract = load(CONTRACT)
     inherited = load(INHERITED)
     material = load(MATERIAL)
     form_factor = load(FORM_FACTOR)
+    owner = load(FORM_FACTOR_OWNER)
     signature = load(SIGNATURE)
+
     require(contract.get("version") == "1.2.0-candidate", "shell behavior contract version drifted")
     require(contract.get("lifecycle") == "candidate" and contract.get("consumerEligible") is False, "shell behavior Candidate boundary drifted")
     require(contract.get("stableBaseline") == "1.1.0", "shell behavior Stable baseline drifted")
@@ -67,6 +74,7 @@ def validate_source() -> None:
     require(inherited.get("regions") == EXPECTED_REGIONS, "inherited shell region authority drifted")
     require(set(material.get("regions", {})) == set(EXPECTED_REGIONS), "material shell region authority drifted")
     require(form_factor.get("rules", {}).get("consumerClaimBlocked") is True, "form-factor Candidate consumer boundary drifted")
+    require(owner.get("rules", {}).get("consumerClaimBlockedUntilGovernedPromotion") is True, "form-factor token-owner consumer boundary drifted")
     require(signature.get("runtimeBoundary", {}).get("pointerDestructiveConfirmationMustNotResetBetweenConsecutiveActivations") is True, "destructive search confirmation authority drifted")
 
     rules = contract.get("rules", {})
@@ -93,10 +101,17 @@ def validate_source() -> None:
     require(rules.get("denseNotificationHistoryBackdropDependent") is False, "notification history may not depend on backdrop")
 
     composition = contract.get("composition", {})
-    require(list(composition) == EXPECTED_LAYOUTS, "shell composition class set/order drifted")
+    require(list(composition) == SEMANTIC_LAYOUTS, "shell semantic composition state set/order drifted")
     require(composition["compact"].get("majorDestinationCount") == {"minimum": 3, "maximum": 5}, "compact destination-count boundary drifted")
     require(composition["compact"].get("safeAreaAware") is True, "compact safe-area rule missing")
     require(composition["largeFarView"].get("minimumInteractiveTargetPx") == 56, "far-view target floor drifted")
+
+    mapping = contract.get("renderedLayoutClassMapping", {})
+    require(mapping.get("source") == "tokens/glaze-v1.2-form-factor.candidate.json#/compositionStates", "shell rendered-layout mapping authority drifted")
+    require(mapping.get("semanticToRendered") == EXPECTED_MAPPING, "shell semantic-to-rendered mapping drifted")
+    owner_states = owner.get("compositionStates", {})
+    owner_mapping = {key: owner_states.get(key, {}).get("layoutClass") for key in SEMANTIC_LAYOUTS}
+    require(owner_mapping == EXPECTED_MAPPING, f"form-factor token-owner mapping drifted: {owner_mapping}")
 
     communication = contract.get("systemCommunication", {})
     require(communication.get("notificationRequiredFields") == ["source", "event", "time", "priority", "available-action-when-applicable"], "notification field contract drifted")
@@ -104,7 +119,9 @@ def validate_source() -> None:
     require(communication.get("routineStatusCannotFlashOrPulseContinuously") is True, "routine status animation prohibition missing")
 
     acceptance = contract.get("acceptance", {})
-    require(acceptance.get("layoutClasses") == EXPECTED_LAYOUTS, "shell acceptance layout classes drifted")
+    require(acceptance.get("layoutClasses") == SEMANTIC_LAYOUTS, "shell semantic acceptance states drifted")
+    require(acceptance.get("layoutClassesAreSemanticCompositionStates") is True, "shell semantic/rendered distinction missing")
+    require(acceptance.get("renderedLayoutClassValues") == RENDERED_LAYOUTS, "shell rendered acceptance values drifted")
     require(acceptance.get("minimumInteractiveTargetPx") == 48 and acceptance.get("farViewMinimumInteractiveTargetPx") == 56, "shell target acceptance drifted")
     require(acceptance.get("textScalePercent") == 200, "shell text-scale acceptance drifted")
     require(acceptance.get("canonicalLayerMayContainViewportBreakpoints") is False, "canonical shell behavior permits viewport breakpoints")
@@ -113,16 +130,19 @@ def validate_source() -> None:
     require(compatibility.get("legacyViewportMediaFallbackRemainsPresent") is True, "legacy shell fallback boundary drifted")
     require(compatibility.get("legacyViewportMediaFallbackIsCanonicalCompositionAuthority") is False, "legacy viewport fallback became canonical")
     require(compatibility.get("canonicalBehaviorLayerUsesExplicitLayoutClasses") is True, "explicit layout-class authority missing")
+    require(compatibility.get("renderedLayoutClassMappingConsumesFormFactorTokenOwner") is True, "shell does not consume form-factor mapping authority")
     require(compatibility.get("legacyFallbackRemovalRequiredBeforeStable") is True, "Stable cleanup requirement missing")
 
     css = CSS.read_text(encoding="utf-8")
-    require("@media (max-width" not in css.lower() and "@media (min-width" not in css.lower(), "canonical shell layer contains viewport breakpoint authority")
-    require("blur(" not in css.lower(), "shell behavior layer introduced material blur calibration")
+    lowered = css.lower()
+    require("@media (max-width" not in lowered and "@media (min-width" not in lowered, "canonical shell layer contains viewport breakpoint authority")
+    require("blur(" not in lowered, "shell behavior layer introduced material blur calibration")
+    require('[data-glz-layout-class="largeFarView"]' not in css, "semantic far-view state leaked into rendered CSS class authority")
     for marker in (
         '[data-glz-layout-class="expanded"]',
         '[data-glz-layout-class="medium"]',
         '[data-glz-layout-class="compact"]',
-        '[data-glz-layout-class="largeFarView"]',
+        '[data-glz-layout-class="large"]',
         'env(safe-area-inset-bottom)',
         '.glz12-shell-destination[aria-current="page"]::before',
         '.glz12-shell-notification-history',
@@ -137,16 +157,9 @@ def validate_source() -> None:
     destinations = re.findall(r'data-destination="([^"]+)"', reference)
     require(destinations == EXPECTED_DESTINATIONS, f"shell primary destination order drifted: {destinations}")
     for marker in (
-        'Application: Files',
-        'Account: Alex',
-        'id="search-scope"',
-        'System truth · Files',
-        'Generated suggestion · review before use',
-        'id="notifications"',
-        'Source: GoreeCloud Sync',
-        'Priority: Routine',
-        'Authoritative source: Wardveil Security',
-        'Review required action',
+        'Application: Files', 'Account: Alex', 'id="search-scope"', 'System truth · Files',
+        'Generated suggestion · review before use', 'id="notifications"', 'Source: GoreeCloud Sync',
+        'Priority: Routine', 'Authoritative source: Wardveil Security', 'Review required action',
     ):
         require(marker in reference, f"shell behavior reference marker missing: {marker}")
 
@@ -271,22 +284,14 @@ const workspace=document.querySelector('.glz12-shell-behavior-workspace').getBou
 const side=document.querySelector('.glz12-shell-behavior-side').getBoundingClientRect();
 const navRect=nav.getBoundingClientRect();
 return {
-  ready:document.readyState,
-  width:innerWidth,
-  scrollWidth:document.documentElement.scrollWidth,
-  layout:root.dataset.glzLayoutClass,
-  navigation,
-  regions,
-  navDirection:getComputedStyle(nav).flexDirection,
-  cue:{width:parseFloat(cue.width)||0,height:parseFloat(cue.height)||0,display:cue.display},
-  interactive,
+  ready:document.readyState,width:innerWidth,scrollWidth:document.documentElement.scrollWidth,
+  layout:root.dataset.glzLayoutClass,navigation,regions,navDirection:getComputedStyle(nav).flexDirection,
+  cue:{width:parseFloat(cue.width)||0,height:parseFloat(cue.height)||0,display:cue.display},interactive,
   notificationBackdrop:notification.backdropFilter||notification.webkitBackdropFilter||'none',
   criticalBackdrop:critical.backdropFilter||critical.webkitBackdropFilter||'none',
   searchScope:{width:searchScope.width,height:searchScope.height},
   positions:{workspaceTop:workspace.top,workspaceBottom:workspace.bottom,sideTop:side.top,sideBottom:side.bottom,navTop:navRect.top,navBottom:navRect.bottom},
-  textScale:document.documentElement.dataset.glzTextScale||'',
-  transparency:document.documentElement.dataset.glzTransparency||'',
-  dir:document.documentElement.dir||'ltr'
+  textScale:document.documentElement.dataset.glzTextScale||'',transparency:document.documentElement.dataset.glzTransparency||'',dir:document.documentElement.dir||'ltr'
 };
 """
 
@@ -307,7 +312,7 @@ def identity(value: dict[str, Any], width: int, minimum_target: int) -> None:
     require(float(value["searchScope"]["width"]) > 0 and float(value["searchScope"]["height"]) > 0, f"search scope is not visibly discoverable: {value}")
     require(value.get("notificationBackdrop") == "none", f"notification history became backdrop-dependent: {value}")
     require(value.get("criticalBackdrop") == "none", f"critical state became backdrop-dependent: {value}")
-    small=[item for item in value.get("interactive",[]) if float(item.get("w",0)) < minimum_target or float(item.get("h",0)) < minimum_target]
+    small = [item for item in value.get("interactive", []) if float(item.get("w", 0)) < minimum_target or float(item.get("h", 0)) < minimum_target]
     require(not small, f"interactive target floor {minimum_target}px drifted: {small}")
 
 
@@ -338,22 +343,23 @@ def main() -> int:
         set_layout(sid, "medium")
         medium = state(sid)
         identity(medium, 1280, 48)
-        require(medium.get("navDirection") == "column", f"medium navigation rail drifted: {medium}")
+        require(medium.get("layout") == "medium" and medium.get("navDirection") == "column", f"medium navigation rail drifted: {medium}")
         require(float(medium["positions"]["sideTop"]) >= float(medium["positions"]["workspaceBottom"]) - 1, f"medium control region did not transform after workspace: {medium}")
 
         viewport(sid, 390, 1100)
         execute(sid, "document.documentElement.dataset.glzTextScale='200';document.getElementById('shell-reference').dataset.glzLayoutClass='compact';return true;")
         compact = state(sid)
         identity(compact, 390, 48)
-        require(compact.get("navDirection") == "row", f"compact bottom navigation drifted: {compact}")
+        require(compact.get("layout") == "compact" and compact.get("navDirection") == "row", f"compact bottom navigation drifted: {compact}")
         require(compact.get("textScale") == "200", f"compact 200% text state missing: {compact}")
         require(float(compact["positions"]["navTop"]) >= float(compact["positions"]["sideBottom"]) - 1, f"compact navigation is not after task/control content: {compact}")
         screenshot(sid, "compact-200")
 
         viewport(sid, 1280, 1100)
-        execute(sid, "document.documentElement.dataset.glzTextScale='';document.getElementById('shell-reference').dataset.glzLayoutClass='largeFarView';return true;")
+        execute(sid, "document.documentElement.dataset.glzTextScale='';document.getElementById('shell-reference').dataset.glzLayoutClass='large';return true;")
         far_view = state(sid)
         identity(far_view, 1280, 56)
+        require(far_view.get("layout") == "large" and far_view.get("navDirection") == "column", f"far-view rendered layout mapping drifted: {far_view}")
         screenshot(sid, "large-far-view")
 
         viewport(sid, 390, 1100)
@@ -366,7 +372,7 @@ def main() -> int:
         identity(forced, 390, 48)
         screenshot(sid, "forced-colors-rtl")
 
-        print("GLAZE UI V1.2 System Shell and Navigation behavior validated: stable navigation, explicit layout classes, search scope, notifications, critical state, and accessibility gates PASS")
+        print("GLAZE UI V1.2 System Shell and Navigation behavior validated: semantic-to-rendered form-factor mapping, stable navigation, search scope, notifications, critical state, and accessibility gates PASS")
         return 0
     finally:
         if sid:
