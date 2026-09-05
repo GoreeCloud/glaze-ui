@@ -29,7 +29,7 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] [data-
   filter: none;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] [data-glz-type="display"] {
