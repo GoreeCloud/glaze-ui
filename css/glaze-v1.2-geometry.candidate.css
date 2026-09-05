@@ -61,18 +61,21 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :
   border-radius: var(--glz12-radius-floating-control);
 }
 
-/* Fields use slightly softer geometry than ordinary action controls. */
+/* Fields use slightly softer geometry than ordinary action controls.
+ * V1 Optical Reachability locks field radii with !important, so V1.2 must use
+ * the same cascade tier narrowly here to establish the successor semantic role.
+ */
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-field-control,
   .glz1-select
 ) {
-  border-radius: var(--glz12-radius-field);
+  border-radius: var(--glz12-radius-field) !important;
 }
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-field-control[data-size="sm"],
   .glz1-select[data-size="sm"]
 ) {
-  border-radius: var(--glz12-radius-control);
+  border-radius: var(--glz12-radius-control) !important;
 }
 
 /* Floating controls and compact floating containers. */
