@@ -163,6 +163,15 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] [data-
   align-items: start;
 }
 
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] [data-glz-layout-class="largeFarView"] .glz12-shell-behavior-nav {
+  flex-direction: column;
+}
+
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] [data-glz-layout-class="largeFarView"] .glz12-shell-behavior-side {
+  grid-column: 1 / -1;
+  inline-size: 100%;
+}
+
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] [data-glz-layout-class="largeFarView"] :is(
   .glz12-shell-destination,
   .glz12-shell-behavior-action,
