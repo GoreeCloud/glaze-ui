@@ -1,11 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "updated": "2026-09-04",
+  "updated": "2026-09-05",
   "officialProductLabel": "GLAZE UI V1.1",
   "currentOfficial": "1.1.0",
   "currentStable": "1.1.0",
-  "activeCandidate": "1.1.1-rc.1",
+  "activeCandidate": "1.2.0-candidate",
+  "activePatchReleaseCandidate": "1.1.1-rc.1",
   "resetState": "stable",
   "releases": [
     {
@@ -24,7 +25,29 @@
       "consumerEligible": true,
       "contract": "GLAZE_UI_V1_1.md",
       "acceptance": "acceptance/v1.1-stable.md",
-      "note": "Current Stable shared design-system release. Consumer applications remain independently migration- and acceptance-gated."
+      "note": "Current immutable Stable shared design-system release. Its known CSS import-closure defect is handled by the separate 1.1.1 patch Release Candidate; downstream consumers remain independently migration- and acceptance-gated."
+    },
+    {
+      "version": "1.1.1-rc.1",
+      "label": "GLAZE UI V1.1.1 — Import Closure Patch",
+      "status": "release-candidate",
+      "consumerEligible": false,
+      "stableBaseline": "1.1.0",
+      "contract": "contracts/v1.1/patch-1.1.1-candidate.json",
+      "acceptance": "acceptance/v1.1.1-patch-candidate.md",
+      "note": "Corrective Stable-line Release Candidate. It does not replace current Stable/current official authority until separate post-merge qualification and immutable 1.1.1 promotion complete."
+    },
+    {
+      "version": "1.2.0-candidate",
+      "label": "GLAZE UI V1.2 — Frosted Neutral",
+      "status": "candidate",
+      "consumerEligible": false,
+      "stableBaseline": "1.1.0",
+      "contract": "GLAZE_UI_V1_2_CANDIDATE.md",
+      "tokens": "tokens/glaze-v1.2-frosted-neutral.candidate.json",
+      "webEntrypoint": "css/glaze-v1.2.0-candidate.css",
+      "reference": "reference/v1.2/frosted-neutral.html",
+      "note": "Next-upgrade material candidate. Neutral frosted glass is the default substrate; chromatic color is reserved for intentional accents, semantics, focus, selection, progress, and product identity. Stable authority remains V1.1 until governed promotion."
     }
   ],
   "capabilities": {
@@ -62,6 +85,24 @@
       "status": "bounded-release-evidence",
       "since": "1.1.0",
       "implementation": "reference/v1.1/native/android"
+    },
+    "frosted-neutral-material": {
+      "status": "candidate",
+      "since": "1.2.0-candidate",
+      "implementation": "tokens/glaze-v1.2-frosted-neutral.candidate.json",
+      "webPreview": "css/glaze-v1.2.0-candidate.css"
+    },
+    "frosted-neutral-component-materials": {
+      "status": "candidate",
+      "since": "1.2.0-candidate",
+      "implementation": "contracts/v1.2/component-materials.candidate.json",
+      "webPreview": "reference/v1.2/component-gallery.html"
+    },
+    "frosted-neutral-system-shell": {
+      "status": "candidate",
+      "since": "1.2.0-candidate",
+      "implementation": "contracts/v1.2/system-shell-materials.candidate.json",
+      "webPreview": "reference/v1.2/system-shell.html"
     }
   }
 }

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-glaze-version="1.1" data-glaze-upgrade="v1.2-frosted-neutral" data-glz-appearance="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GLAZE UI V1.2 — Frosted Neutral System Shell</title>
+  <link rel="stylesheet" href="../../css/glaze-v1.2.0-candidate.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; overflow-x: hidden; }
+    .shell-stage {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(113, 164, 255, .46), transparent 30%),
+        radial-gradient(circle at 88% 12%, rgba(255, 205, 157, .42), transparent 28%),
+        radial-gradient(circle at 72% 90%, rgba(158, 217, 190, .34), transparent 34%),
+        linear-gradient(145deg, #e5eaf1 0%, #f8f9fb 48%, #dfe3e9 100%) !important;
+    }
+    .shell-stage::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 0 46%, rgba(255,255,255,.28) 46% 47%, transparent 47%),
+        radial-gradient(circle at 50% 55%, rgba(255,255,255,.26), transparent 28%);
+    }
+    .shell-frame { position: relative; z-index: 1; width: min(1480px, 100%); min-height: calc(100vh - 36px); margin: 0 auto; display: grid; grid-template-rows: auto 1fr; gap: 16px; }
+    .brand { font-weight: 760; letter-spacing: -.02em; }
+    .workspace-grid { min-height: 0; display: grid; grid-template-columns: 84px minmax(0,1fr) minmax(330px, 390px); gap: 16px; align-items: start; }
+    .shell-navigation { display: grid; gap: 8px; padding: 10px; border: 1px solid var(--glz12-structural-border); border-radius: 28px !important; }
+    .nav-button { min-width: var(--glz12-shell-target); min-height: var(--glz12-shell-target); border: 0; border-radius: 16px; background: transparent; color: inherit; font: inherit; display: grid; place-items: center; cursor: pointer; }
+    .nav-button[aria-current="page"] { background: color-mix(in srgb, var(--glz1-focus) 14%, transparent); color: var(--glz1-focus); }
+    .workspace-main { min-width: 0; display: grid; gap: 18px; }
+    .hero-card { min-height: 330px; padding: clamp(28px, 5vw, 64px); border-radius: 36px; background: rgba(255,255,255,.72); border: 1px solid rgba(80,80,80,.09); box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 18px 52px rgba(0,0,0,.08); display: flex; flex-direction: column; justify-content: space-between; }
+    .hero-card h1 { margin: 0; max-width: 760px; font-size: clamp(38px, 5vw, 70px); line-height: .98; letter-spacing: -.045em; }
+    .hero-card p { margin: 20px 0 0; max-width: 700px; color: var(--glz1-text-secondary); font-size: clamp(16px, 2vw, 20px); line-height: 1.55; }
+    .workspace-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .workspace-card { min-height: 132px; padding: 18px; border-radius: 24px; background: rgba(255,255,255,.76); border: 1px solid rgba(80,80,80,.09); box-shadow: inset 0 1px 0 rgba(255,255,255,.7); }
+    .workspace-card strong { display:block; margin-bottom:8px; }
+    .workspace-card span { color: var(--glz1-text-secondary); font-size: 13px; line-height: 1.45; }
+    .search-wrap { width: min(720px, 100%); margin-inline: auto; }
+    .search-wrap .glz1-search-panel { display: block; max-height: 190px; }
+    .search-wrap .glz1-search-entry { border-radius: 22px; }
+    .critical-card { margin-top: 16px; padding: 16px; border-radius: 24px; }
+    .critical-card h3 { margin: 0 0 6px; font-size: 16px; }
+    .critical-card p { margin: 0; color: var(--glz1-text-secondary); font-size: 13px; line-height: 1.45; }
+    .critical-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+    .critical-actions button { min-height:48px; padding:0 14px; border-radius:14px; border:1px solid var(--glz12-structural-border); background:var(--glz1-base); color:inherit; font:inherit; }
+    .shell-note { color: var(--glz1-text-secondary); font-size: 12px; }
+    @media (max-width: 1100px) { .workspace-grid { grid-template-columns: 72px minmax(0,1fr); } .side-panel { grid-column: 1 / -1; width: min(100%, 560px); justify-self: end; } }
+    @media (max-width: 720px) { .shell-stage { padding: 10px; } .shell-frame { min-height: calc(100vh - 20px); } .workspace-grid { grid-template-columns: 1fr; } .shell-navigation { grid-template-columns: repeat(4, 1fr); } .workspace-cards { grid-template-columns: 1fr; } .side-panel { width: 100%; } .hero-card { min-height: 280px; padding: 28px; } }
+    @media (forced-colors: active) { .hero-card, .workspace-card { background: Canvas; color: CanvasText; border-color: CanvasText; } }
+  </style>
+</head>
+<body>
+  <main class="shell-stage glz12-system-shell" data-glz-shell-region="workspace" aria-label="GLAZE UI V1.2 System Shell reference">
+    <div class="shell-frame">
+      <header class="glz12-shell-bar">
+        <span class="brand">GoreeCloud</span>
+        <span class="shell-note">Frosted Neutral System Shell Candidate</span>
+        <span class="glz12-shell-bar-spacer"></span>
+        <span class="glz12-shell-status" data-semantic="online"><span class="glz12-shell-status-dot"></span>Online</span>
+        <button class="glz12-shell-button" aria-pressed="false" type="button">Focus</button>
+        <button class="glz12-shell-button" aria-pressed="true" type="button">Settings</button>
+      </header>
+
+      <div class="workspace-grid">
+        <nav class="shell-navigation glz12-shell-navigation" data-glz-shell-region="navigation" data-variant="floating" aria-label="Shell navigation">
+          <button class="nav-button" aria-current="page" aria-label="Home">⌂</button>
+          <button class="nav-button" aria-label="Search">⌕</button>
+          <button class="nav-button" aria-label="Files">▣</button>
+          <button class="nav-button" aria-label="Apps">◇</button>
+        </nav>
+
+        <section class="workspace-main" aria-label="Workspace content">
+          <section class="glz1-universal-search search-wrap" data-glz-shell-region="universal-search" data-open="true" aria-label="Universal Search">
+            <div class="glz1-search-entry">
+              <span aria-hidden="true">⌕</span>
+              <input value="Frosted Neutral" aria-label="Search GoreeCloud">
+              <span class="glz1-search-shortcut">⌘K</span>
+            </div>
+            <div class="glz1-search-panel">
+              <div class="glz1-search-group">
+                <h4>Best match</h4>
+                <button class="glz1-search-result" aria-selected="true" type="button"><span>◇</span><span><strong>GLAZE UI V1.2</strong><small>Frosted Neutral Candidate</small></span><span></span></button>
+                <button class="glz1-search-result" aria-selected="false" type="button"><span>▣</span><span><strong>Design Center</strong><small>Component and shell references</small></span><span></span></button>
+              </div>
+            </div>
+          </section>
+
+          <section class="hero-card">
+            <div>
+              <h1>Neutral glass frames the system. Content stays clear.</h1>
+              <p>The shell uses frosted material for transient navigation, search, control, and feedback chrome while the workspace remains a readable Surface.</p>
+            </div>
+            <span class="shell-note">One dominant Glaze panel · up to three small floating Glaze controls · no default nested blur</span>
+          </section>
+
+          <div class="workspace-cards" aria-label="Workspace examples">
+            <article class="workspace-card"><strong>Files</strong><span>Reading and task content remains Solid/Raised rather than receiving backdrop blur.</span></article>
+            <article class="workspace-card"><strong>Identity</strong><span>Brand and semantic colors remain distinct from the neutral material substrate.</span></article>
+            <article class="workspace-card"><strong>Sync</strong><span>State can use accent or authoritative semantic color without tinting the entire panel.</span></article>
+          </div>
+        </section>
+
+        <aside class="side-panel">
+          <section class="glz12-control-center glz1-system-panel" data-glz-shell-region="control-center" data-glz-parent-material="glaze" aria-labelledby="control-title">
+            <header class="glz12-control-header">
+              <h2 id="control-title">Control Center</h2>
+              <span class="glz12-shell-status">72%</span>
+            </header>
+
+            <label class="glz12-control-slider">
+              <span class="glz12-control-slider-label"><span>Volume</span><span>64%</span></span>
+              <input class="glz12-control-range" type="range" value="64" aria-label="Volume">
+            </label>
+            <label class="glz12-control-slider">
+              <span class="glz12-control-slider-label"><span>Brightness</span><span>78%</span></span>
+              <input class="glz12-control-range" type="range" value="78" aria-label="Brightness">
+            </label>
+
+            <div class="glz12-control-grid">
+              <button class="glz12-control-tile" aria-pressed="true" type="button"><strong>Wi-Fi</strong><small>Connected</small></button>
+              <button class="glz12-control-tile" aria-pressed="true" type="button"><strong>Bluetooth</strong><small>On</small></button>
+              <button class="glz12-control-tile" aria-pressed="false" type="button"><strong>Night Light</strong><small>Off</small></button>
+              <button class="glz12-control-tile" aria-pressed="true" type="button"><strong>Performance</strong><small>Balanced</small></button>
+              <button class="glz12-control-tile" aria-pressed="false" type="button"><strong>Airplane Mode</strong><small>Off</small></button>
+              <button class="glz12-control-tile" aria-pressed="false" type="button"><strong>Focus</strong><small>Available</small></button>
+            </div>
+          </section>
+
+          <section class="critical-card glz12-critical-system glz1-critical-system" data-glz-shell-region="critical-system" aria-labelledby="critical-title">
+            <h3 id="critical-title">Critical System</h3>
+            <p>Consequential system decisions remain high-opacity and non-backdrop-dependent even when the rest of the shell is frosted.</p>
+            <div class="critical-actions"><button type="button">Cancel</button><button type="button">Review</button></div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

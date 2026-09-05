@@ -1,0 +1,24 @@
+/*
+ * GLAZE UI V1.2 — Frosted Neutral accessibility hardening Candidate
+ * Loaded after the material, component, and System Shell Candidate layers so
+ * platform accessibility modes deterministically win the cascade.
+ */
+
+@media (forced-colors: active) {
+  html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-shell-navigation[data-variant="floating"],
+  html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] [data-glz-shell-region="navigation"][data-variant="floating"] {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-shell-button[aria-pressed="true"],
+  html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz12-control-tile[aria-pressed="true"] {
+    background: Highlight;
+    color: HighlightText;
+    border-color: Highlight;
+  }
+}

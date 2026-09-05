@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the bounded GLAZE UI V1.1.1 import-closure patch candidate."""
+"""Validate the bounded GLAZE UI V1.1.1 import-closure patch Release Candidate."""
 from __future__ import annotations
 
 import json
@@ -34,9 +34,29 @@ def main() -> int:
     require(contract.get("baseStableVersion") == "1.1.0", "patch must remain based on Stable 1.1.0")
     require(contract.get("baseStableRevision") == "15cc76d2bcd4065552dc31c77145b63f34d9e7b2", "base Stable revision drifted")
     require(contract.get("currentAuthorityUnchanged") is True, "patch candidate must not claim current Stable authority changed")
-    require(lifecycle.get("activeCandidate") == candidate_version, "lifecycle activeCandidate must match the patch candidate")
+
+    # The next-version Candidate and the Stable-line patch RC are independent lifecycle tracks.
+    require(lifecycle.get("activeCandidate") == "1.2.0-candidate", "next-version activeCandidate must remain V1.2 Candidate")
+    require(lifecycle.get("activePatchReleaseCandidate") == candidate_version, "activePatchReleaseCandidate must match the V1.1.1 patch RC")
     require(lifecycle.get("currentStable") == "1.1.0", "current Stable must remain 1.1.0 while the patch is a Release Candidate")
     require(lifecycle.get("currentOfficial") == "1.1.0", "current official version must remain 1.1.0 while the patch is a Release Candidate")
+
+    patch_release = next(
+        (
+            item
+            for item in lifecycle.get("releases", [])
+            if isinstance(item, dict) and item.get("version") == candidate_version
+        ),
+        None,
+    )
+    require(patch_release is not None, "patch Release Candidate lifecycle record missing")
+    if isinstance(patch_release, dict):
+        require(patch_release.get("status") == "release-candidate", "patch lifecycle record must remain release-candidate")
+        require(patch_release.get("consumerEligible") is False, "patch Release Candidate must not be consumer eligible")
+        require(patch_release.get("stableBaseline") == "1.1.0", "patch lifecycle Stable baseline drifted")
+        require(patch_release.get("contract") == "contracts/v1.1/patch-1.1.1-candidate.json", "patch lifecycle contract binding drifted")
+        require(patch_release.get("acceptance") == "acceptance/v1.1.1-patch-candidate.md", "patch lifecycle acceptance binding drifted")
+
     require('@import url("./glaze-v1.candidate.css")' not in components, "stale Candidate dependency remains")
 
     checkpoint = contract.get("qualificationCheckpoint", {})
@@ -62,8 +82,8 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print("GLAZE UI V1.1.1 patch candidate: PASS")
-    print("Boundary: active Release Candidate is 1.1.1-rc.1; current Stable/current official authority remain immutable 1.1.0 until separate patch release finalization.")
+    print("GLAZE UI V1.1.1 patch Release Candidate: PASS")
+    print("Boundary: V1.1.1-rc.1 is the active Stable-line patch RC; V1.2 remains the separate next-version Candidate; current Stable/current official authority remain immutable 1.1.0 until separate patch release finalization.")
     return 0
 
 
