@@ -1,8 +1,10 @@
 /* GLAZE UI V1.2 Candidate — bounded geometry and curvature calibration.
  * Numeric radii are Candidate implementation calibration derived from current repository geometry.
  * Proposal authority remains semantic: purpose-specific curvature, coordinated nesting, and no uniform rounding.
+ * :root adds one Candidate-scope specificity level so these semantic bindings outrank inherited V1/V1.1
+ * presentation radii while the final accessibility layer remains later and platform-authoritative.
  */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] {
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root {
   --glz12-radius-checkbox: 7px;
   --glz12-radius-compact: 10px;
   --glz12-radius-control: 12px;
@@ -16,13 +18,13 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] {
 }
 
 /* Small state geometry remains recognizable without requiring atmospheric color. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root
   .glz1-choice[data-kind="checkbox"] .glz1-choice-control {
   border-radius: var(--glz12-radius-checkbox);
 }
 
 /* Compact explanatory/action geometry. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-tooltip,
   .glz1-menu-item
 ) {
@@ -30,7 +32,7 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 }
 
 /* Standard controls. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-button,
   .glz1-icon-button,
   .glz1-overlay-button,
@@ -38,7 +40,7 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 ) {
   border-radius: var(--glz12-radius-control);
 }
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-button[data-size="xs"],
   .glz1-icon-button[data-size="xs"],
   .glz1-button[data-size="sm"],
@@ -46,13 +48,13 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 ) {
   border-radius: var(--glz12-radius-compact);
 }
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-button[data-size="lg"],
   .glz1-icon-button[data-size="lg"]
 ) {
   border-radius: var(--glz12-radius-field);
 }
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-button[data-size="xl"],
   .glz1-icon-button[data-size="xl"]
 ) {
@@ -60,13 +62,13 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 }
 
 /* Fields use slightly softer geometry than ordinary action controls. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-field-control,
   .glz1-select
 ) {
   border-radius: var(--glz12-radius-field);
 }
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-field-control[data-size="sm"],
   .glz1-select[data-size="sm"]
 ) {
@@ -74,7 +76,7 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 }
 
 /* Floating controls and compact floating containers. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-toolbar,
   .glz1-menu,
   .glz1-dock-item,
@@ -84,7 +86,7 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 }
 
 /* Durable and anchored surfaces. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-card,
   .glz1-list,
   .glz1-table-wrap,
@@ -97,20 +99,20 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 }
 
 /* Elevated panels and expanded signature states. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-dialog,
   .glz1-morph-card
 ) {
   border-radius: var(--glz12-radius-panel);
 }
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] .glz1-capsule[data-expanded="true"],
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root .glz1-capsule[data-expanded="true"],
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root
   .glz1-universal-search[data-open="true"] .glz1-search-entry {
   border-radius: var(--glz12-radius-panel);
 }
 
 /* Signature curvature carries more apparent depth than ordinary panels. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-smart-rail,
   .glz1-aurora,
   .glz1-search-panel
@@ -119,19 +121,19 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 }
 
 /* High-depth sheet/dock geometry. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-sheet,
   .glz1-dock
 ) {
   border-radius: var(--glz12-radius-sheet);
 }
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root
   .glz1-morph-card[aria-expanded="true"] {
   border-radius: var(--glz12-radius-sheet);
 }
 
 /* Full pills are reserved for explicitly pill-like semantics. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
   .glz1-capsule:not([data-expanded="true"]),
   .glz1-search-entry,
   .glz1-source-chip,
@@ -141,18 +143,18 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
 }
 
 /* Large-text reflow may convert long capsules/search entries into panel geometry. */
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"][data-glz-text-scale="200"] :is(
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root[data-glz-text-scale="200"] :is(
   .glz1-capsule,
   .glz1-search-entry
 ),
-html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]
+html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root
   [data-glz-text-scale="200"] :is(.glz1-capsule, .glz1-search-entry) {
   border-radius: var(--glz12-radius-panel);
 }
 
 /* Geometry is structural: accessibility/material fallback modes preserve the radius hierarchy. */
 @media (forced-colors: active) {
-  html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+  html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :is(
     .glz1-button,
     .glz1-icon-button,
     .glz1-field-control,
