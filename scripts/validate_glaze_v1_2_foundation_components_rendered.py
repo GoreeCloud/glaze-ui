@@ -40,7 +40,7 @@ TARGET_IDS = [
     "field-normal-control", "field-error-control", "field-readonly-control", "field-disabled-control",
     "select-normal", "select-error", "checkbox-label", "checkbox-indeterminate-label",
     "checkbox-disabled-label", "radio-group", "switch-on-label", "switch-off-label",
-    "switch-disabled-label", "slider-sample",
+    "switch-disabled-label", "slider",
 ]
 
 class AcceptanceError(RuntimeError):
@@ -94,10 +94,10 @@ def validate_source() -> None:
     for marker in (
         '[data-variant="primary"]', '[data-variant="subtle"]', '[data-variant="destructive"]',
         '[aria-pressed="true"]', '.glz12-control-status', '.glz12-field-status-mark',
-        ':has(input[aria-invalid="true"])', ':has(input:checked)', 'role',
+        ':has(input[aria-invalid="true"])', ':has(input:checked)',
         'data-mode="increased-contrast"', '@media (forced-colors: active)',
     ):
-        require(marker in css or marker == "role", f"foundation CSS marker missing: {marker}")
+        require(marker in css, f"foundation CSS marker missing: {marker}")
     require("animation: infinite" not in css.lower(), "foundation controls may not add autonomous infinite animation")
 
     reference = (ROOT / REFERENCE).read_text(encoding="utf-8")
@@ -256,7 +256,6 @@ const icon = document.getElementById('icon-button');
 const iconStyle = getComputedStyle(icon);
 const primaryStyle = getComputedStyle(document.getElementById('button-primary'));
 const disabledStyle = getComputedStyle(document.getElementById('button-disabled'));
-const fieldErrorStyle = getComputedStyle(document.getElementById('field-error-control'));
 return {
   ready: document.readyState,
   width: innerWidth,
@@ -274,7 +273,7 @@ return {
   switchState: {on:document.getElementById('switch-on').checked, off:document.getElementById('switch-off').checked, onTransform:onThumb.transform, offTransform:offThumb.transform, role:document.getElementById('switch-on').getAttribute('role')},
   slider: {value:document.getElementById('slider').value, output:document.getElementById('slider-value').textContent.trim(), describedBy:document.getElementById('slider').getAttribute('aria-describedby')},
   loading: {busy:document.getElementById('button-loading').getAttribute('aria-busy'), text:document.getElementById('button-loading').textContent.replace(/\s+/g,' ').trim()},
-  fieldError: {invalid:errorInput.getAttribute('aria-invalid'), describedBy:errorInput.getAttribute('aria-describedby'), message:document.getElementById('field-error-message').textContent.replace(/\s+/g,' ').trim(), markW:errorMark.width, markH:errorMark.height, borderStyle:fieldErrorStyle.borderStyle},
+  fieldError: {invalid:errorInput.getAttribute('aria-invalid'), describedBy:errorInput.getAttribute('aria-describedby'), message:document.getElementById('field-error-message').textContent.replace(/\s+/g,' ').trim(), markW:errorMark.width, markH:errorMark.height},
   selectError: {invalid:selectError.getAttribute('aria-invalid'), describedBy:selectError.getAttribute('aria-describedby')},
   readonly: document.querySelector('#field-readonly input').readOnly,
   fieldDisabled: document.querySelector('#field-disabled input').disabled,
@@ -419,14 +418,20 @@ def main() -> int:
         media(sid, [])
 
         execute(sid, "document.documentElement.dir='rtl'; return true;")
+        time.sleep(.25)
         rtl = state(sid)
         validate_targets(rtl)
         validate_semantics(rtl)
         require_no_overflow(rtl)
-        ltr_transform = execute(sid, "document.documentElement.dir='ltr'; return getComputedStyle(document.getElementById('switch-on-thumb')).transform")
-        rtl_transform = execute(sid, "document.documentElement.dir='rtl'; return getComputedStyle(document.getElementById('switch-on-thumb')).transform")
-        require(ltr_transform != rtl_transform, f"Switch position did not adapt in RTL: {ltr_transform} / {rtl_transform}")
+        execute(sid, "document.documentElement.dir='ltr'; return true;")
+        time.sleep(.25)
+        ltr_transform = execute(sid, "return getComputedStyle(document.getElementById('switch-on-thumb')).transform")
+        execute(sid, "document.documentElement.dir='rtl'; return true;")
+        time.sleep(.25)
+        rtl_transform = execute(sid, "return getComputedStyle(document.getElementById('switch-on-thumb')).transform")
+        require(ltr_transform != rtl_transform, f"Switch position did not adapt in settled RTL: {ltr_transform} / {rtl_transform}")
         execute(sid, "document.documentElement.dir=''; return true;")
+        time.sleep(.25)
 
         media(sid, [{"name": "forced-colors", "value": "active"}])
         forced = state(sid)
