@@ -145,7 +145,10 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root :
   border-radius: var(--glz12-radius-pill);
 }
 
-/* Large-text reflow may convert long capsules/search entries into panel geometry. */
+/* Large-text reflow converts long capsules/search entries into panel geometry.
+ * The inherited Capsule animates border-radius; accessibility recomposition must
+ * be atomic so the surface cannot remain pill-shaped while text has already grown.
+ */
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root[data-glz-text-scale="200"] :is(
   .glz1-capsule,
   .glz1-search-entry
@@ -153,6 +156,7 @@ html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root[d
 html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"]:root
   [data-glz-text-scale="200"] :is(.glz1-capsule, .glz1-search-entry) {
   border-radius: var(--glz12-radius-panel);
+  transition: none;
 }
 
 /* Geometry is structural: accessibility/material fallback modes preserve the radius hierarchy. */
