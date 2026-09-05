@@ -1,7 +1,7 @@
 /*
  * GLAZE UI V1.2 — Frosted Neutral accessibility hardening Candidate
- * Loaded after the material, component, and System Shell Candidate layers so
- * platform accessibility modes deterministically win the cascade.
+ * Loaded after the material, component, System Shell, and optical chrome Candidate
+ * layers so platform accessibility modes deterministically win the cascade.
  */
 
 @media (forced-colors: active) {
@@ -20,5 +20,35 @@
     background: Highlight;
     color: HighlightText;
     border-color: Highlight;
+  }
+
+  /*
+   * Forced Colors is platform-authoritative and must not interpolate through a
+   * decorative shadow/blur state. Disable transitions/animations on every V1.2
+   * chrome target so the accessibility mode takes effect atomically.
+   */
+  html[data-glaze-version="1.1"][data-glaze-upgrade="v1.2-frosted-neutral"] :is(
+    .glz1-button[data-variant="glaze"],
+    .glz1-icon-button[data-variant="glaze"],
+    .glz1-field-control[data-variant="glaze"],
+    .glz1-select[data-variant="glaze"],
+    .glz1-source-chip[data-material="frosted"],
+    .glz1-sidebar[data-variant="floating"],
+    .glz1-navigation-rail[data-variant="floating"],
+    .glz1-dock,
+    .glz1-toolbar[data-variant="floating"],
+    .glz1-tooltip,
+    .glz1-popover,
+    .glz1-menu,
+    .glz1-sheet,
+    .glz1-toast,
+    .glz1-capsule,
+    .glz1-smart-rail
+  ) {
+    transition: none !important;
+    animation: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
   }
 }
