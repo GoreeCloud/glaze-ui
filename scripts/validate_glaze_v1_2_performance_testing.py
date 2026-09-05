@@ -258,7 +258,7 @@ def measure_interaction(sid: str) -> dict[str, Any]:
     click_element(sid, "#search-toggle")
     immediate = execute(sid, "return {open:document.getElementById('motion-search').dataset.open,expanded:document.getElementById('search-toggle').getAttribute('aria-expanded'),active:document.activeElement?.id||''};")
     require(immediate == {"open": "true", "expanded": "true", "active": "search-query"}, f"interaction semantics did not update immediately: {immediate}")
-    next_frame = execute_async(sid, "const done=arguments[arguments.length-1];requestAnimationFrame(t=>done({eventToNextFrameMs:t-window.__glzPerfClick,state:document.getElementById('motion-search').dataset.open}));")
+    next_frame = execute_async(sid, "const done=arguments[arguments.length-1];requestAnimationFrame(()=>done({eventToNextFrameMs:performance.now()-window.__glzPerfClick,state:document.getElementById('motion-search').dataset.open}));")
     require(isinstance(next_frame, dict) and next_frame.get("state") == "true", f"interaction next-frame state drifted: {next_frame}")
     finite_number(next_frame.get("eventToNextFrameMs"), "interaction-to-next-frame")
     return {"immediateState": immediate, **next_frame}
@@ -285,7 +285,7 @@ def measure_profiles(sid: str) -> dict[str, Any]:
         before = performance_metrics(sid)
         value = execute_async(sid, f"""
 const done=arguments[arguments.length-1],start=performance.now();window.setPerformanceProfile({json.dumps(profile)});const target=document.getElementById('performance-primary'),semantic=document.getElementById('performance-semantic');target.focus();semantic.getBoundingClientRect();
-requestAnimationFrame(t=>{{const tr=target.getBoundingClientRect(),sr=semantic.getBoundingClientRect(),cs=getComputedStyle(semantic),root=getComputedStyle(document.documentElement);done({{switchToFrameMs:t-start,profile:root.getPropertyValue('--glz12-material-profile').trim(),targetW:tr.width,targetH:tr.height,focus:document.activeElement?.id||'',semanticVisible:sr.width>0&&sr.height>0,semanticText:semantic.innerText,semanticBorder:cs.borderInlineStartWidth,overflow:Math.max(document.documentElement.scrollWidth,document.body.scrollWidth)-document.documentElement.clientWidth}});}});
+requestAnimationFrame(()=>{{const tr=target.getBoundingClientRect(),sr=semantic.getBoundingClientRect(),cs=getComputedStyle(semantic),root=getComputedStyle(document.documentElement);done({{switchToFrameMs:performance.now()-start,profile:root.getPropertyValue('--glz12-material-profile').trim(),targetW:tr.width,targetH:tr.height,focus:document.activeElement?.id||'',semanticVisible:sr.width>0&&sr.height>0,semanticText:semantic.innerText,semanticBorder:cs.borderInlineStartWidth,overflow:Math.max(document.documentElement.scrollWidth,document.body.scrollWidth)-document.documentElement.clientWidth}});}});
 """)
         after = performance_metrics(sid)
         require(isinstance(value, dict), f"invalid {profile} profile observation")
@@ -301,7 +301,7 @@ def measure_visualization(sid: str) -> dict[str, Any]:
     navigate(sid, REFERENCES["visualization"], "document.readyState==='complete' && !!window.GlazeV12DataVisualization")
     value = execute_async(sid, r"""
 const done=arguments[arguments.length-1],root=document.querySelector('#viz-time-series'),points=[...root.querySelectorAll('[data-viz-point]')],range=[...root.querySelectorAll('[data-viz-range]')].find(x=>x.dataset.vizRange==='24h');
-const start=performance.now();points[1].click();range.click();requestAnimationFrame(t=>done({updateToFrameMs:t-start,selectedPoint:root.dataset.selectedPoint,range:root.dataset.range,pressed:points.map(p=>p.getAttribute('aria-pressed')),status:root.querySelector('[data-viz-range-status]').textContent}));
+const start=performance.now();points[1].click();range.click();requestAnimationFrame(()=>done({updateToFrameMs:performance.now()-start,selectedPoint:root.dataset.selectedPoint,range:root.dataset.range,pressed:points.map(p=>p.getAttribute('aria-pressed')),status:root.querySelector('[data-viz-range-status]').textContent}));
 """)
     require(isinstance(value, dict) and value.get("range") == "24h", f"visualization fixture update drifted: {value}")
     require(isinstance(value.get("selectedPoint"), str) and bool(value.get("selectedPoint")), f"visualization selection did not update: {value}")
@@ -328,7 +328,7 @@ function step(t){frames.push(t);n+=1;log.scrollTop=max*(n/60);if(n>=60){const in
 
 def measure_large_table(sid: str) -> dict[str, Any]:
     prep = execute(sid, r"""
-const root=document.getElementById('scene-filtering'),body=root.querySelector('[data-record-body]'),seed=body.querySelector('[data-record-row]');const desired=600;for(let i=body.querySelectorAll('[data-record-row]').length;i<desired;i++){const c=seed.cloneNode(true);c.removeAttribute('id');for(const e of c.querySelectorAll('[id]'))e.removeAttribute('id');c.dataset.name=`Synthetic Record ${String(i).padStart(4,'0')}`;c.dataset.searchText=`synthetic record ${i} fixture`;c.dataset.state=i%3===0?'unknown':i%3===1?'healthy':'offline';c.dataset.selected='false';const cells=c.querySelectorAll('td');if(cells.length>1)cells[1].textContent=c.dataset.name;body.append(c);}return {rows:body.querySelectorAll('[data-record-row]').length};
+const root=document.getElementById('scene-filtering'),body=root.querySelector('[data-record-body]'),seed=body.querySelector('[data-record-row]');const desired=600;for(let i=body.querySelectorAll('[data-record-row]').length;i<desired;i++){const c=seed.cloneNode(true);c.removeAttribute('id');for(const e of c.querySelectorAll('[id]'))e.removeAttribute('id');c.dataset.name=`Synthetic Record ${String(i).padStart(4,'0')}`;c.dataset.searchText=`synthetic record ${i} fixture`;c.dataset.selected='false';const cells=c.querySelectorAll('td');if(cells.length>0)cells[0].textContent=c.dataset.name;body.append(c);}return {rows:body.querySelectorAll('[data-record-row]').length};
 """)
     require(isinstance(prep, dict) and int(prep.get("rows", 0)) == 600, f"expanded table fixture count drifted: {prep}")
     value = execute(sid, r"""
