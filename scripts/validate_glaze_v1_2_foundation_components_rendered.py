@@ -361,8 +361,9 @@ def keyboard_acceptance(sid: str) -> None:
     execute(sid, "document.getElementById('switch-off').focus(); return true;")
     before = state(sid)["switchState"]["offTransform"]
     press_key(sid, "\ue00d")
+    time.sleep(.25)
     switched = state(sid)["switchState"]
-    require(switched["off"] is True and switched["offTransform"] != before, f"Space did not continuously move Switch thumb: {switched}")
+    require(switched["off"] is True and switched["offTransform"] != before, f"Space did not continuously move settled Switch thumb: {switched}")
 
     execute(sid, "document.getElementById('slider').focus(); return true;")
     press_key(sid, "\ue014")
