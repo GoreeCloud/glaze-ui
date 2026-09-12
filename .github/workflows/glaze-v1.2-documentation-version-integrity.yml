@@ -2,6 +2,11 @@ name: Glaze V1.2 Lifecycle and Documentation Version Integrity Candidate
 
 on:
   pull_request:
+    paths:
+      - '**/*v1.2*'
+      - '**/*v1_2*'
+      - '**/v1.2/**'
+      - '!.github/workflows/**'
   workflow_dispatch:
 
 permissions:

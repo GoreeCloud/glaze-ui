@@ -1,7 +1,17 @@
 name: Glaze V1.2 Living Glaze Candidate
 on:
   push:
+    paths:
+      - '**/*v1.2*'
+      - '**/*v1_2*'
+      - '**/v1.2/**'
+      - '!.github/workflows/**'
   pull_request:
+    paths:
+      - '**/*v1.2*'
+      - '**/*v1_2*'
+      - '**/v1.2/**'
+      - '!.github/workflows/**'
 jobs:
   living-glaze:
     runs-on: ubuntu-latest

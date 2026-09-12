@@ -3,17 +3,12 @@ name: Glaze V1.2 Provisional Visual Regression Candidate
 on:
   pull_request:
     paths:
-      - "css/**"
-      - "js/**"
-      - "tokens/**"
-      - "reference/v1.2/**"
-      - "contracts/v1.2/**"
-      - "contracts/regression/visual-baselines-v1.json"
-      - "contracts/regression/reference-invariants.json"
-      - "scripts/glaze_v1_2_visual_regression.py"
-      - "scripts/glaze_v1_2_visual_regression_pair.py"
-      - "scripts/validate_glaze_v1_2_visual_regression.py"
-      - ".github/workflows/glaze-v1.2-visual-regression.yml"
+      - '**/*v1.2*'
+      - '**/*v1_2*'
+      - '**/v1.2/**'
+      - 'contracts/regression/visual-baselines-v1.json'
+      - 'contracts/regression/reference-invariants.json'
+      - '!.github/workflows/**'
   workflow_dispatch:
 
 permissions:
