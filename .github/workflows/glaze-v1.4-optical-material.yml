@@ -95,6 +95,7 @@ jobs:
               'glaze-v1.2-data-visualization.yml',
               'glaze-v1.2-depth.yml',
               'glaze-v1.2-documentation-version-integrity.yml',
+              'glaze-v1.2-file-naming.yml',
               'glaze-v1.2-form-factor-tokens.yml',
               'glaze-v1.2-forms.yml',
               'glaze-v1.2-foundation-components.yml',
@@ -125,9 +126,10 @@ jobs:
           for overly_broad in ('- "css/**"', '- "js/**"', '- "tokens/**"'):
               assert overly_broad not in visual, f'visual regression remains over-broad: {overly_broad}'
 
-          source_inventory = (workflow_dir / 'glaze-v1.2-source-inventory.yml').read_text(encoding='utf-8')
-          for shared_current_source in ('"VERSION"', '"registry/lifecycle.json"', '".github/workflows/glaze-v1.2-*"'):
-              assert shared_current_source not in source_inventory, f'source inventory remains coupled to current lifecycle/workflow state: {shared_current_source}'
+          for historical_inventory_workflow in ('glaze-v1.2-source-inventory.yml', 'glaze-v1.2-file-naming.yml'):
+              text = (workflow_dir / historical_inventory_workflow).read_text(encoding='utf-8')
+              for shared_current_source in ('"VERSION"', '"registry/lifecycle.json"', '".github/workflows/glaze-v1.2-*"'):
+                  assert shared_current_source not in text, f'{historical_inventory_workflow} remains coupled to current lifecycle/workflow state: {shared_current_source}'
 
           print(f'Historical workflow applicability boundaries: PASS ({len(bounded)} workflows)')
           PY
