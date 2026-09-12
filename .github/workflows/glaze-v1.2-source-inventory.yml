@@ -10,12 +10,10 @@ on:
       - "reference/v1.2/**"
       - "scripts/validate_glaze_v1_2_*"
       - "scripts/glaze_v1_2_visual_regression.py"
-      - ".github/workflows/glaze-v1.2-*"
       - "acceptance/v1.2-*"
-      - "VERSION"
-      - "registry/lifecycle.json"
       - "GLAZE_UI_V1_2_CANDIDATE.md"
       - "MIGRATION_V1_1_TO_V1_2.md"
+      - '!.github/workflows/**'
   workflow_dispatch:
 
 permissions:

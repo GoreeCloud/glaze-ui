@@ -107,6 +107,7 @@ jobs:
               'glaze-v1.2-productive-interfaces.yml',
               'glaze-v1.2-responsive-adaptation.yml',
               'glaze-v1.2-signature-components.yml',
+              'glaze-v1.2-source-inventory.yml',
               'glaze-v1.2-states-feedback-recovery.yml',
               'glaze-v1.2-structure-components.yml',
               'glaze-v1.2-system-shell-navigation.yml',
@@ -117,12 +118,16 @@ jobs:
               path = workflow_dir / name
               text = path.read_text(encoding='utf-8')
               assert 'paths:' in text, f'{name}: missing changed-path applicability boundary'
-              assert "'!.github/workflows/**'" in text, f'{name}: workflow-only changes must not self-qualify historical lifecycle state'
-              assert ('**/*v1.2*' in text or '**/*v1.1*' in text), f'{name}: missing historical source selector'
+              assert '.github/workflows/**' in text, f'{name}: missing workflow-change exclusion'
+              assert ('**/*v1.2*' in text or '**/*v1.1*' in text or 'contracts/v1.2/**' in text), f'{name}: missing historical source selector'
 
           visual = (workflow_dir / 'glaze-v1.2-visual-regression.yml').read_text(encoding='utf-8')
           for overly_broad in ('- "css/**"', '- "js/**"', '- "tokens/**"'):
               assert overly_broad not in visual, f'visual regression remains over-broad: {overly_broad}'
+
+          source_inventory = (workflow_dir / 'glaze-v1.2-source-inventory.yml').read_text(encoding='utf-8')
+          for shared_current_source in ('"VERSION"', '"registry/lifecycle.json"', '".github/workflows/glaze-v1.2-*"'):
+              assert shared_current_source not in source_inventory, f'source inventory remains coupled to current lifecycle/workflow state: {shared_current_source}'
 
           print(f'Historical workflow applicability boundaries: PASS ({len(bounded)} workflows)')
           PY
