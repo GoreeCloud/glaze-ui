@@ -23,6 +23,8 @@ on:
       - 'tests/test_glaze_v1_4_accessibility_qualification.py'
       - 'tests/test_glaze_v1_4_accessibility_qualification_packet.py'
       - 'tests/glaze-v1.4-*.test.mjs'
+      - '.github/workflows/ci.yml'
+      - '.github/workflows/glaze-v1.2-*.yml'
       - '.github/workflows/glaze-v1.4-optical-material.yml'
       - 'VERSION'
       - 'tokens/glaze-v1.3-material.candidate.json'
@@ -51,6 +53,8 @@ on:
       - 'tests/test_glaze_v1_4_accessibility_qualification.py'
       - 'tests/test_glaze_v1_4_accessibility_qualification_packet.py'
       - 'tests/glaze-v1.4-*.test.mjs'
+      - '.github/workflows/ci.yml'
+      - '.github/workflows/glaze-v1.2-*.yml'
       - '.github/workflows/glaze-v1.4-optical-material.yml'
       - 'VERSION'
       - 'tokens/glaze-v1.3-material.candidate.json'
@@ -76,6 +80,52 @@ jobs:
 
       - name: Verify exact checked-out revision
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
+
+      - name: Validate historical workflow applicability boundaries
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          workflow_dir = Path('.github/workflows')
+          bounded = [
+              'ci.yml',
+              'glaze-v1.2-application-icon-ecosystem-wall.yml',
+              'glaze-v1.2-composition-reference.yml',
+              'glaze-v1.2-core-tokens.yml',
+              'glaze-v1.2-data-visualization.yml',
+              'glaze-v1.2-depth.yml',
+              'glaze-v1.2-documentation-version-integrity.yml',
+              'glaze-v1.2-form-factor-tokens.yml',
+              'glaze-v1.2-forms.yml',
+              'glaze-v1.2-foundation-components.yml',
+              'glaze-v1.2-geometry.yml',
+              'glaze-v1.2-intelligence-components.yml',
+              'glaze-v1.2-interaction-states.yml',
+              'glaze-v1.2-living-glaze.yml',
+              'glaze-v1.2-motion.yml',
+              'glaze-v1.2-overlay-components.yml',
+              'glaze-v1.2-productive-interfaces.yml',
+              'glaze-v1.2-responsive-adaptation.yml',
+              'glaze-v1.2-signature-components.yml',
+              'glaze-v1.2-states-feedback-recovery.yml',
+              'glaze-v1.2-structure-components.yml',
+              'glaze-v1.2-system-shell-navigation.yml',
+              'glaze-v1.2-visual-regression.yml',
+          ]
+
+          for name in bounded:
+              path = workflow_dir / name
+              text = path.read_text(encoding='utf-8')
+              assert 'paths:' in text, f'{name}: missing changed-path applicability boundary'
+              assert "'!.github/workflows/**'" in text, f'{name}: workflow-only changes must not self-qualify historical lifecycle state'
+              assert ('**/*v1.2*' in text or '**/*v1.1*' in text), f'{name}: missing historical source selector'
+
+          visual = (workflow_dir / 'glaze-v1.2-visual-regression.yml').read_text(encoding='utf-8')
+          for overly_broad in ('- "css/**"', '- "js/**"', '- "tokens/**"'):
+              assert overly_broad not in visual, f'visual regression remains over-broad: {overly_broad}'
+
+          print(f'Historical workflow applicability boundaries: PASS ({len(bounded)} workflows)')
+          PY
 
       - name: Validate V1.4 optical-material candidate
         run: python scripts/validate_glaze_v1.4_optical_material.py
