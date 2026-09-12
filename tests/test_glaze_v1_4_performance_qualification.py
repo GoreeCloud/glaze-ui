@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from datetime import datetime, timezone
 from pathlib import Path
 import sys
 
@@ -14,6 +15,7 @@ from evaluate_glaze_v1_4_performance_qualification import evaluate
 
 SOURCE = "1" * 40
 TREE = "2" * 40
+EVALUATED_AT = datetime(2026, 9, 12, 23, 31, tzinfo=timezone.utc)
 
 
 def record() -> dict:
@@ -58,6 +60,15 @@ def record() -> dict:
     }
 
 
+def evaluate_bound(payload: dict, *, source: str = SOURCE, tree: str = TREE) -> dict:
+    return evaluate(
+        payload,
+        expected_source_revision=source,
+        expected_source_tree_revision=tree,
+        evaluated_at=EVALUATED_AT,
+    )
+
+
 def check_raises(fn, message: str) -> None:
     try:
         fn()
@@ -67,58 +78,70 @@ def check_raises(fn, message: str) -> None:
 
 
 def main() -> None:
-    accepted = evaluate(record(), expected_source_revision=SOURCE, expected_source_tree_revision=TREE)
+    accepted = evaluate_bound(record())
     assert accepted["acceptedForPerformanceQualification"] is True, "passing measured evidence can qualify performance without granting lifecycle acceptance"
     assert accepted["acceptedForLifecycleGate"] is False, "performance evidence must never self-promote the lifecycle gate"
     assert accepted["evaluatorDisposition"] == "accepted"
+
+    unbound = evaluate(record(), evaluated_at=EVALUATED_AT)
+    assert unbound["acceptedForPerformanceQualification"] is False, "performance qualification must require exact source and tree expectations"
+    assert "source_revision_expectation_missing" in unbound["reasonCodes"]
+    assert "source_tree_revision_expectation_missing" in unbound["reasonCodes"]
 
     over_budget = record()
     over_budget["metrics"][0]["measured"] = 11.0
     over_budget["metrics"][0]["accepted"] = False
     over_budget["result"] = "failed"
-    result = evaluate(over_budget, expected_source_revision=SOURCE, expected_source_tree_revision=TREE)
+    result = evaluate_bound(over_budget)
     assert result["acceptedForPerformanceQualification"] is False
     assert "metric_budget_exceeded" in result["reasonCodes"]
 
     contradictory = record()
     contradictory["metrics"][0]["measured"] = 11.0
     check_raises(
-        lambda: evaluate(contradictory),
+        lambda: evaluate_bound(contradictory),
         "accepted flag cannot contradict the measured value and budget",
     )
 
     duplicate = record()
     duplicate["metrics"].append(deepcopy(duplicate["metrics"][0]))
-    check_raises(lambda: evaluate(duplicate), "duplicate metrics fail closed")
+    check_raises(lambda: evaluate_bound(duplicate), "duplicate metrics fail closed")
 
-    source_mismatch = evaluate(
-        record(),
-        expected_source_revision="3" * 40,
-        expected_source_tree_revision=TREE,
-    )
+    source_mismatch = evaluate_bound(record(), source="3" * 40)
     assert source_mismatch["acceptedForPerformanceQualification"] is False, "exact source mismatch blocks otherwise passing evidence"
     assert "source_revision_mismatch" in source_mismatch["reasonCodes"]
+
+    tree_mismatch = evaluate_bound(record(), tree="4" * 40)
+    assert tree_mismatch["acceptedForPerformanceQualification"] is False, "exact source-tree mismatch blocks otherwise passing evidence"
+    assert "source_tree_revision_mismatch" in tree_mismatch["reasonCodes"]
+
+    future_measurement = record()
+    future_measurement["measuredAt"] = "2026-09-12T23:31:00.001Z"
+    check_raises(
+        lambda: evaluate_bound(future_measurement),
+        "future-dated performance measurements must fail closed",
+    )
 
     pending_review = record()
     pending_review["reviewer"]["disposition"] = "pending"
     pending_review["result"] = "blocked"
-    result = evaluate(pending_review, expected_source_revision=SOURCE, expected_source_tree_revision=TREE)
+    result = evaluate_bound(pending_review)
     assert result["acceptedForPerformanceQualification"] is False
     assert "review_not_accepted" in result["reasonCodes"]
 
     missing_evidence = record()
     missing_evidence["evidenceRefs"] = []
-    result = evaluate(missing_evidence)
+    result = evaluate_bound(missing_evidence)
     assert result["acceptedForPerformanceQualification"] is False
     assert "measurement_evidence_missing" in result["reasonCodes"]
 
     extra = record()
     extra["stable"] = True
-    check_raises(lambda: evaluate(extra), "unknown root fields must fail closed")
+    check_raises(lambda: evaluate_bound(extra), "unknown root fields must fail closed")
 
     promotion = record()
     promotion["lifecycleAcceptance"] = True
-    check_raises(lambda: evaluate(promotion), "performance evidence cannot grant lifecycle acceptance")
+    check_raises(lambda: evaluate_bound(promotion), "performance evidence cannot grant lifecycle acceptance")
 
     print("Glaze V1.4 performance qualification regression tests passed.")
 
