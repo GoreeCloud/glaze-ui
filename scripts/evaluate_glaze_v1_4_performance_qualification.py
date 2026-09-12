@@ -8,7 +8,7 @@ cannot promote the V1.4 candidate into the repository lifecycle gate.
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import math
 from pathlib import Path
@@ -102,7 +102,13 @@ def _number(value, name: str, *, positive: bool) -> float:
     return numeric
 
 
-def evaluate(record: dict, *, expected_source_revision: str | None = None, expected_source_tree_revision: str | None = None) -> dict:
+def evaluate(
+    record: dict,
+    *,
+    expected_source_revision: str | None = None,
+    expected_source_tree_revision: str | None = None,
+    evaluated_at: datetime | None = None,
+) -> dict:
     record = _object(record, "performance qualification record")
     _closed(record, ROOT_FIELDS, "performance qualification record")
     missing = sorted(ROOT_FIELDS - set(record))
@@ -125,7 +131,13 @@ def evaluate(record: dict, *, expected_source_revision: str | None = None, expec
     for key in ("runtime", "renderer", "deviceClass"):
         _text(environment[key], f"environment.{key}", 160)
 
-    _timestamp(record["measuredAt"], "measuredAt")
+    measured_at = _timestamp(record["measuredAt"], "measuredAt")
+    assessment_time = evaluated_at or datetime.now(timezone.utc)
+    if assessment_time.tzinfo is None or assessment_time.utcoffset() is None:
+        raise ValueError("evaluated_at must be timezone-aware")
+    measured_time = datetime.fromisoformat(measured_at[:-1] + "+00:00")
+    if measured_time > assessment_time.astimezone(timezone.utc):
+        raise ValueError("measuredAt cannot be future-dated")
 
     metrics = record["metrics"]
     if not isinstance(metrics, list) or not 1 <= len(metrics) <= 32:
@@ -180,12 +192,16 @@ def evaluate(record: dict, *, expected_source_revision: str | None = None, expec
         raise ValueError("performance qualification evidence cannot grant lifecycle acceptance")
 
     reasons: list[str] = []
-    if expected_source_revision is not None:
-        _revision(expected_source_revision, "expected source revision")
+    if expected_source_revision is None:
+        reasons.append("source_revision_expectation_missing")
+    else:
+        expected_source_revision = _revision(expected_source_revision, "expected source revision")
         if source_revision != expected_source_revision:
             reasons.append("source_revision_mismatch")
-    if expected_source_tree_revision is not None:
-        _revision(expected_source_tree_revision, "expected source tree revision")
+    if expected_source_tree_revision is None:
+        reasons.append("source_tree_revision_expectation_missing")
+    else:
+        expected_source_tree_revision = _revision(expected_source_tree_revision, "expected source tree revision")
         if source_tree_revision != expected_source_tree_revision:
             reasons.append("source_tree_revision_mismatch")
     if not all(item["accepted"] for item in metric_results):
