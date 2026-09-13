@@ -18,6 +18,8 @@ TREE = "2" * 40
 EVALUATED_AT = datetime(2026, 9, 12, 23, 31, tzinfo=timezone.utc)
 MAX_MEASUREMENT_AGE_MS = 5 * 60 * 1000
 EVIDENCE_REF = f"evidence+sha256:{'a' * 64}:performance-run-example"
+AUTHORITY_EVIDENCE_REF = f"evidence+sha256:{'b' * 64}:performance-review-authority"
+REVIEW_EVIDENCE_REF = f"evidence+sha256:{'c' * 64}:performance-review-attestation"
 
 
 def record() -> dict:
@@ -54,6 +56,9 @@ def record() -> dict:
         "evidenceRefs": [EVIDENCE_REF],
         "reviewer": {
             "authority": "Glaze performance qualification reviewer",
+            "authorityEvidence": AUTHORITY_EVIDENCE_REF,
+            "reviewEvidence": REVIEW_EVIDENCE_REF,
+            "reviewedAt": "2026-09-12T23:30:30.000Z",
             "disposition": "accepted",
             "rationale": "Bounded test fixture demonstrating evaluator semantics.",
         },
@@ -88,9 +93,10 @@ def check_raises(fn, message: str) -> None:
 
 def main() -> None:
     accepted = evaluate_bound(record())
-    assert accepted["acceptedForPerformanceQualification"] is True, "passing measured evidence can qualify performance without granting lifecycle acceptance"
+    assert accepted["acceptedForPerformanceQualification"] is True, "passing measured evidence with immutable review provenance can qualify performance without granting lifecycle acceptance"
     assert accepted["acceptedForLifecycleGate"] is False, "performance evidence must never self-promote the lifecycle gate"
     assert accepted["evaluatorDisposition"] == "accepted"
+    assert accepted["reviewedAt"] == "2026-09-12T23:30:30.000Z"
 
     unbound = evaluate(record(), evaluated_at=EVALUATED_AT)
     assert unbound["acceptedForPerformanceQualification"] is False, "performance qualification must require exact source, tree, and measurement-age expectations"
@@ -134,6 +140,7 @@ def main() -> None:
 
     stale_measurement = record()
     stale_measurement["measuredAt"] = "2026-09-12T23:20:00.000Z"
+    stale_measurement["reviewer"]["reviewedAt"] = "2026-09-12T23:20:30.000Z"
     result = evaluate_bound(stale_measurement)
     assert result["acceptedForPerformanceQualification"] is False, "caller-selected measurement freshness must block stale performance evidence"
     assert "measurement_evidence_stale" in result["reasonCodes"]
@@ -147,14 +154,56 @@ def main() -> None:
     mutable_evidence["evidenceRefs"] = ["artifact:latest"]
     check_raises(
         lambda: evaluate_bound(mutable_evidence),
-        "performance qualification must reject mutable or non-content-addressed evidence references",
+        "performance qualification must reject mutable or non-content-addressed measurement evidence references",
     )
 
     malformed_evidence = record()
     malformed_evidence["evidenceRefs"] = [f"evidence+sha256:{'g' * 64}:invalid-digest"]
     check_raises(
         lambda: evaluate_bound(malformed_evidence),
-        "performance qualification must reject malformed content-addressed evidence references",
+        "performance qualification must reject malformed content-addressed measurement evidence references",
+    )
+
+    mutable_authority = record()
+    mutable_authority["reviewer"]["authorityEvidence"] = "artifact:latest"
+    check_raises(
+        lambda: evaluate_bound(mutable_authority),
+        "performance qualification must reject mutable reviewer authority evidence",
+    )
+
+    mutable_review = record()
+    mutable_review["reviewer"]["reviewEvidence"] = "review:latest"
+    check_raises(
+        lambda: evaluate_bound(mutable_review),
+        "performance qualification must reject mutable review attestation evidence",
+    )
+
+    same_review_refs = record()
+    same_review_refs["reviewer"]["reviewEvidence"] = AUTHORITY_EVIDENCE_REF
+    check_raises(
+        lambda: evaluate_bound(same_review_refs),
+        "review authority and review attestation evidence must be distinct",
+    )
+
+    review_reuses_measurement = record()
+    review_reuses_measurement["reviewer"]["reviewEvidence"] = EVIDENCE_REF
+    check_raises(
+        lambda: evaluate_bound(review_reuses_measurement),
+        "review provenance must be distinct from measurement evidence",
+    )
+
+    review_before_measurement = record()
+    review_before_measurement["reviewer"]["reviewedAt"] = "2026-09-12T23:29:59.999Z"
+    check_raises(
+        lambda: evaluate_bound(review_before_measurement),
+        "performance review cannot predate the measurements it accepts",
+    )
+
+    future_review = record()
+    future_review["reviewer"]["reviewedAt"] = "2026-09-12T23:31:00.001Z"
+    check_raises(
+        lambda: evaluate_bound(future_review),
+        "future-dated performance review must fail closed",
     )
 
     pending_review = record()
