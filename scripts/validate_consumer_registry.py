@@ -1,13 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the current GLAZE UI Stable consumer registry and guidance.
-
-Schema 7 preserves a narrow historical-provenance bridge for consumers whose
-prior Stable acceptance was superseded by the current Stable target. An
-unresolved consumer may otherwise carry no target/revision/evidence. Current
-accepted-v1 status always requires the exact current Stable target, exact source
-revision, and evidence. The registry never grants overall product production
-eligibility.
-"""
+"""Validate the current GLAZE UI Stable consumer registry and guidance."""
 from __future__ import annotations
 
 from datetime import date
@@ -20,7 +12,7 @@ SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 REPOSITORY = re.compile(r"^GoreeCloud/.+$")
 STATUSES = {"adoption-required", "unverified", "accepted-v1"}
-SCHEMA_VERSION = 7
+SCHEMA_VERSION = 8
 
 
 def req(condition: bool, message: str) -> None:
@@ -47,18 +39,14 @@ def validate_guidance(stable: str, label: str) -> None:
     req("consumer registry" in guidance.lower(), "CONSUMERS.md must identify the registry authority")
 
 
-def validate_schema_contract() -> None:
+def validate_schema_contract(stable: str) -> None:
     schema = load_json("schemas/consumer-registry.schema.json")
     properties = schema.get("properties")
     req(isinstance(properties, dict), "consumer registry schema properties")
     schema_version = properties.get("schemaVersion")
-    req(
-        isinstance(schema_version, dict) and schema_version.get("const") == SCHEMA_VERSION,
-        f"schema must describe registry schemaVersion {SCHEMA_VERSION}",
-    )
-    req("V1.3" in str(schema.get("title", "")), "schema title must identify the V1.3 consumer registry")
-    consumers = properties.get("consumers")
-    req(isinstance(consumers, dict), "schema consumers declaration")
+    req(isinstance(schema_version, dict) and schema_version.get("const") == SCHEMA_VERSION, f"schema must describe registry schemaVersion {SCHEMA_VERSION}")
+    family = ".".join(stable.split(".")[:2])
+    req(f"V{family}" in str(schema.get("title", "")), "schema title must identify the current Stable family")
     serialized = json.dumps(schema, sort_keys=True)
     for status in sorted(STATUSES):
         req(status in serialized, f"schema must recognize status {status}")
@@ -72,7 +60,6 @@ def main() -> None:
 
     data = load_json("consumers/registry.json")
     lifecycle = load_json("registry/lifecycle.json")
-
     req(data.get("schemaVersion") == SCHEMA_VERSION, f"registry schemaVersion must be {SCHEMA_VERSION}")
     req(data.get("officialBaseline") == stable, "officialBaseline must match VERSION")
     req(data.get("requiredConsumerVersion") == stable, "requiredConsumerVersion must match VERSION")
@@ -86,33 +73,26 @@ def main() -> None:
 
     releases = lifecycle.get("releases")
     req(isinstance(releases, list), "lifecycle releases list")
-    stable_releases = [
-        release
-        for release in releases
-        if isinstance(release, dict) and release.get("version") == stable
-    ]
+    stable_releases = [r for r in releases if isinstance(r, dict) and r.get("version") == stable]
     req(len(stable_releases) == 1, "exactly one lifecycle record must match current Stable")
-    stable_release = stable_releases[0]
-    req(stable_release.get("status") == "stable", "current Stable lifecycle status")
-    req(stable_release.get("consumerEligible") is True, "current Stable must be consumer-eligible")
-    anchor = stable_release.get("sourceQualificationAnchor") or stable_release.get("sourceIntegrationAnchor")
+    release = stable_releases[0]
+    req(release.get("status") == "stable", "current Stable lifecycle status")
+    req(release.get("consumerEligible") is True, "current Stable must be consumer-eligible")
+    anchor = release.get("sourceQualificationAnchor") or release.get("sourceIntegrationAnchor")
     req(isinstance(anchor, str) and SHA40.fullmatch(anchor) is not None, "current Stable exact source anchor")
 
     vocabulary = data.get("statusVocabulary")
-    req(
-        isinstance(vocabulary, list) and set(vocabulary) == STATUSES and len(vocabulary) == len(STATUSES),
-        f"statusVocabulary must exactly match the schema {SCHEMA_VERSION} vocabulary",
-    )
+    req(isinstance(vocabulary, list) and set(vocabulary) == STATUSES and len(vocabulary) == len(STATUSES), "statusVocabulary must exactly match the current schema vocabulary")
 
     enforcement = data.get("enforcement")
     req(isinstance(enforcement, dict), "enforcement object")
     req(enforcement.get("officialCurrentRequired") is True, "officialCurrentRequired must be true")
     req(enforcement.get("productionExceptionsAllowed") is False, "productionExceptionsAllowed must be false")
-    platform_scope = enforcement.get("platformScope")
-    req(isinstance(platform_scope, list) and platform_scope and len(platform_scope) == len(set(platform_scope)), "platformScope must be a non-empty unique list")
+    scope = enforcement.get("platformScope")
+    req(isinstance(scope, list) and scope and len(scope) == len(set(scope)), "platformScope must be a non-empty unique list")
     rule = enforcement.get("unsupportedPlatformRule")
-    req(isinstance(rule, str) and rule.strip(), "unsupportedPlatformRule")
-    req(f"V{'.'.join(stable.split('.')[:2])}" in rule, "unsupportedPlatformRule must identify the current Stable family")
+    family = ".".join(stable.split(".")[:2])
+    req(isinstance(rule, str) and f"V{family}" in rule, "unsupportedPlatformRule must identify the current Stable family")
 
     audited_at = data.get("auditedAt")
     req(isinstance(audited_at, str), "auditedAt")
@@ -123,70 +103,43 @@ def main() -> None:
 
     consumers = data.get("consumers")
     req(isinstance(consumers, list) and consumers, "consumers must be a non-empty list")
-    seen_repositories: set[str] = set()
     seen_names: set[str] = set()
+    seen_repositories: set[str] = set()
     accepted = 0
     historical = 0
+    required_keys = {"name", "repository", "status", "targetVersion", "requiredTargetVersion", "referenceRevision", "evidence", "productionEligible", "notes"}
 
     for index, consumer in enumerate(consumers):
         req(isinstance(consumer, dict), f"consumers[{index}] must be an object")
-        required_keys = {
-            "name",
-            "repository",
-            "status",
-            "targetVersion",
-            "requiredTargetVersion",
-            "referenceRevision",
-            "evidence",
-            "productionEligible",
-            "notes",
-        }
         req(set(consumer) == required_keys, f"consumers[{index}] field drift")
-
-        name = consumer.get("name")
-        repo = consumer.get("repository")
-        status = consumer.get("status")
+        name, repo, status = consumer.get("name"), consumer.get("repository"), consumer.get("status")
         req(isinstance(name, str) and name.strip(), f"consumers[{index}].name")
         req(isinstance(repo, str) and REPOSITORY.fullmatch(repo) is not None, f"consumers[{index}].repository")
-        req(repo not in seen_repositories, f"duplicate consumer repository {repo}")
-        req(name not in seen_names, f"duplicate consumer name {name}")
-        seen_repositories.add(repo)
-        seen_names.add(name)
-
+        req(name not in seen_names and repo not in seen_repositories, f"duplicate consumer identity {name}/{repo}")
+        seen_names.add(name); seen_repositories.add(repo)
         req(status in STATUSES, f"{repo} status")
         req(consumer.get("requiredTargetVersion") == stable, f"{repo} required target must be current Stable")
         req(consumer.get("productionEligible") is False, f"{repo} must not become production-eligible from Glaze registry state alone")
-        notes = consumer.get("notes")
-        req(isinstance(notes, str) and notes.strip(), f"{repo} notes")
+        req(isinstance(consumer.get("notes"), str) and consumer.get("notes").strip(), f"{repo} notes")
 
-        target = consumer.get("targetVersion")
-        revision = consumer.get("referenceRevision")
-        evidence = consumer.get("evidence")
+        target, revision, evidence = consumer.get("targetVersion"), consumer.get("referenceRevision"), consumer.get("evidence")
         if status in {"adoption-required", "unverified"}:
-            provenance = (target, revision, evidence)
-            if all(value is None for value in provenance):
-                pass
-            else:
-                historical += 1
-                req(all(value is not None for value in provenance), f"{repo} historical provenance must be a complete target/revision/evidence triple")
-                req(isinstance(target, str) and SEMVER.fullmatch(target) is not None, f"{repo} historical target must be semantic")
-                req(target != stable, f"{repo} unresolved status may not carry current-Stable acceptance provenance")
-                req(isinstance(revision, str) and SHA40.fullmatch(revision) is not None, f"{repo} historical revision")
-                req(isinstance(evidence, str) and evidence.strip(), f"{repo} historical evidence")
+            if all(value is None for value in (target, revision, evidence)):
+                continue
+            historical += 1
+            req(all(value is not None for value in (target, revision, evidence)), f"{repo} historical provenance must be complete")
+            req(isinstance(target, str) and SEMVER.fullmatch(target) is not None and target != stable, f"{repo} historical target")
+            req(isinstance(revision, str) and SHA40.fullmatch(revision) is not None, f"{repo} historical revision")
+            req(isinstance(evidence, str) and evidence.strip(), f"{repo} historical evidence")
         else:
             accepted += 1
             req(target == stable, f"{repo} accepted target must equal current Stable")
             req(isinstance(revision, str) and SHA40.fullmatch(revision) is not None, f"{repo} accepted revision")
             req(isinstance(evidence, str) and evidence.strip(), f"{repo} accepted evidence")
 
-    validate_schema_contract()
+    validate_schema_contract(stable)
     validate_guidance(stable, label)
-    print(
-        "Glaze UI consumer registry validated: "
-        f"{len(consumers)} consumers, {accepted} accepted for {label} / {stable}, "
-        f"{historical} unresolved consumer(s) retaining superseded historical provenance; "
-        "product production eligibility remains independently gated"
-    )
+    print(f"Glaze UI consumer registry validated: {len(consumers)} consumers, {accepted} accepted for {label} / {stable}, {historical} unresolved consumer(s) retaining historical provenance; product production eligibility remains independently gated")
 
 
 if __name__ == "__main__":
