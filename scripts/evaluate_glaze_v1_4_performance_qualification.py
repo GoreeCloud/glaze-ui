@@ -18,6 +18,7 @@ import sys
 SCHEMA_VERSION = "glaze.v1.4.performance-qualification-evidence.candidate.v1"
 CANDIDATE_VERSION = "1.4.0-candidate"
 SHA = re.compile(r"^[0-9a-f]{40}$")
+EVIDENCE_REFERENCE = re.compile(r"^evidence\+sha256:[0-9a-f]{64}:\S{1,175}$")
 CONTROL = re.compile(r"[\x00-\x1f\x7f-\x9f]")
 PLATFORMS = {"web", "android", "ios", "linux", "windows", "macos", "chromeos", "other"}
 METRIC_UNITS = {
@@ -74,6 +75,13 @@ def _revision(value, name: str) -> str:
     value = _text(value, name, 40)
     if SHA.fullmatch(value) is None:
         raise ValueError(f"{name} must be an immutable 40-character lowercase commit revision")
+    return value
+
+
+def _evidence_reference(value, name: str) -> str:
+    value = _text(value, name, 256)
+    if EVIDENCE_REFERENCE.fullmatch(value) is None:
+        raise ValueError(f"{name} must be a content-addressed evidence+sha256 reference")
     return value
 
 
@@ -181,7 +189,10 @@ def evaluate(
     refs = record["evidenceRefs"]
     if not isinstance(refs, list) or len(refs) > 50:
         raise ValueError("evidenceRefs must contain at most 50 references")
-    normalized_refs = [_text(value, f"evidenceRefs[{index}]", 256) for index, value in enumerate(refs)]
+    normalized_refs = [
+        _evidence_reference(value, f"evidenceRefs[{index}]")
+        for index, value in enumerate(refs)
+    ]
     if len(set(normalized_refs)) != len(normalized_refs):
         raise ValueError("evidenceRefs must be unique")
 
