@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "glaze.v1.4.native-renderer-parity-evidence.candidate.v1",
+  "candidateVersion": "1.4.0-candidate",
+  "sourceRevision": "0000000000000000000000000000000000000000",
+  "sourceTreeRevision": "0000000000000000000000000000000000000000",
+  "platformFamily": "android",
+  "environment": {
+    "runtime": "replace-with-qualified-runtime",
+    "nativeRenderer": "replace-with-native-renderer",
+    "referenceRenderer": "replace-with-reference-renderer",
+    "deviceClass": "replace-with-device-class",
+    "osVersion": "replace-with-os-version"
+  },
+  "capturedAt": "2026-09-12T00:00:00.000Z",
+  "comparisonContract": {
+    "authority": "qualification owner must replace",
+    "method": "qualification owner must define the native/reference capture and comparison method",
+    "acceptanceCriteria": "qualification owner must define target-specific parity criteria; this template defines no universal visual threshold"
+  },
+  "scenes": [
+    {
+      "id": "replace-with-scene-id",
+      "referenceEvidence": "evidence+sha256:0000000000000000000000000000000000000000000000000000000000000000:replace-reference",
+      "nativeEvidence": "evidence+sha256:1111111111111111111111111111111111111111111111111111111111111111:replace-native",
+      "disposition": "pending",
+      "rationale": "qualification review pending"
+    }
+  ],
+  "reviewer": {
+    "authority": "qualification reviewer must replace",
+    "disposition": "pending",
+    "rationale": "native renderer parity has not been accepted"
+  },
+  "result": "blocked",
+  "lifecycleAcceptance": false
+}

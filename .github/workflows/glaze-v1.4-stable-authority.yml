@@ -1,0 +1,113 @@
+name: GLAZE UI V1.4 Stable Authority
+
+on:
+  push:
+    branches:
+      - main
+      - release/glaze-ui-v1.4.0-stable-20260913
+    paths:
+      - VERSION
+      - GLAZE_UI_V1_4.md
+      - GLAZE_UI_V1_4_1_HARDENING.md
+      - README.md
+      - ACCEPTANCE.md
+      - STABILITY.md
+      - COMPONENT_STATUS.md
+      - registry/lifecycle.json
+      - acceptance/1.4.0.md
+      - acceptance/v1.4-deferred-qualification.md
+      - css/glaze-v1.4.0.css
+      - css/glaze-v1.4-optical-runtime.candidate.css
+      - js/glaze-v1.4.0.mjs
+      - js/glaze-v1.4-optical-runtime.candidate.mjs
+      - js/glaze-v1.4-accessibility-runtime.candidate.mjs
+      - js/glaze-v1.4-browser-capabilities.candidate.mjs
+      - js/glaze-v1.4-optical-web.candidate.mjs
+      - contracts/v1.4/**
+      - tokens/glaze-v1.4-optical-material.candidate.json
+      - scripts/validate_glaze_v1_4_stable_authority.py
+      - .github/workflows/glaze-v1.4-stable-authority.yml
+  pull_request:
+    paths:
+      - VERSION
+      - GLAZE_UI_V1_4.md
+      - GLAZE_UI_V1_4_1_HARDENING.md
+      - README.md
+      - ACCEPTANCE.md
+      - STABILITY.md
+      - COMPONENT_STATUS.md
+      - registry/lifecycle.json
+      - acceptance/1.4.0.md
+      - acceptance/v1.4-deferred-qualification.md
+      - css/glaze-v1.4.0.css
+      - css/glaze-v1.4-optical-runtime.candidate.css
+      - js/glaze-v1.4.0.mjs
+      - js/glaze-v1.4-optical-runtime.candidate.mjs
+      - js/glaze-v1.4-accessibility-runtime.candidate.mjs
+      - js/glaze-v1.4-browser-capabilities.candidate.mjs
+      - js/glaze-v1.4-optical-web.candidate.mjs
+      - contracts/v1.4/**
+      - tokens/glaze-v1.4-optical-material.candidate.json
+      - scripts/validate_glaze_v1_4_stable_authority.py
+      - .github/workflows/glaze-v1.4-stable-authority.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  stable-authority:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate V1.4 Stable lifecycle authority
+        run: python scripts/validate_glaze_v1_4_stable_authority.py
+
+      - name: Parse V1.4 release authority JSON
+        run: |
+          python -m json.tool registry/lifecycle.json >/dev/null
+          python -m json.tool tokens/glaze-v1.4-optical-material.candidate.json >/dev/null
+          python -m json.tool contracts/v1.4/semantic-optical-runtime.candidate.json >/dev/null
+          python -m json.tool contracts/v1.4/accessibility-composition.candidate.json >/dev/null
+          python -m json.tool contracts/v1.4/browser-capabilities.candidate.json >/dev/null
+
+      - name: Check Stable runtime syntax
+        run: node --check js/glaze-v1.4.0.mjs
+
+      - name: Resolve Stable runtime module graph
+        run: node -e "import('./js/glaze-v1.4.0.mjs').then((m) => { if (m.glazeV14Stable?.version !== '1.4.0' || m.glazeV14Stable?.deferredHumanEvidenceIsPassed !== false) process.exit(1); console.log('GLAZE UI V1.4 Stable runtime graph: PASS'); })"
+
+      - name: Verify Stable CSS source boundary
+        run: |
+          grep -F 'official Stable web entrypoint' css/glaze-v1.4.0.css
+          grep -F '@import url("./glaze-v1.3.0.css");' css/glaze-v1.4.0.css
+          grep -F '@import url("./glaze-v1.4-optical-runtime.candidate.css");' css/glaze-v1.4.0.css
+
+      - name: Run V1.4 deterministic contract validators
+        run: |
+          python scripts/validate_glaze_v1.4_optical_material.py
+          python scripts/validate_glaze_v1_4_semantic_optical_runtime.py
+          python scripts/validate_glaze_v1_4_accessibility_composition.py
+          python scripts/validate_glaze_v1_4_browser_capabilities.py
+
+      - name: Run V1.4 runtime regressions
+        run: |
+          node --test tests/glaze-v1.4-optical-runtime.test.mjs
+          node --test tests/glaze-v1.4-accessibility-composition.test.mjs
+          node --test tests/glaze-v1.4-browser-capabilities.test.mjs
+          node --test tests/glaze-v1.4-optical-web.test.mjs
+
+      - name: Verify deferred human evidence boundary
+        run: |
+          grep -F 'Deferral is not acceptance' acceptance/v1.4-deferred-qualification.md
+          grep -F 'None are represented as passed by V1.4.0' acceptance/1.4.0.md
+          grep -F 'deferredHumanEvidenceIsPassed: false' js/glaze-v1.4.0.mjs
+
+      - name: Report owner-directed Stable boundary
+        run: |
+          echo 'GLAZE UI V1.4 / 1.4.0 is the automated/code-complete Stable target.'
+          echo 'Human/manual/subjective/assistive-technology/physical-device qualification remains V1.4.1 follow-up and is not represented as passed.'

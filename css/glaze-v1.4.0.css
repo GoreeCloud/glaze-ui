@@ -1,0 +1,13 @@
+/*
+ * GLAZE UI V1.4.0 — official Stable web entrypoint.
+ *
+ * V1.4 inherits the V1.3 Stable rendering foundation and promotes the bounded
+ * V1.4 optical Web implementation. Historical .candidate source filenames
+ * preserve implementation-stage provenance; lifecycle authority is VERSION,
+ * GLAZE_UI_V1_4.md, registry/lifecycle.json, and this Stable wrapper.
+ *
+ * Human/manual/physical-device qualification deferred by the project owner is
+ * tracked in V1.4.1 and is not represented as passed V1.4.0 evidence.
+ */
+@import url("./glaze-v1.3.0.css");
+@import url("./glaze-v1.4-optical-runtime.candidate.css");
