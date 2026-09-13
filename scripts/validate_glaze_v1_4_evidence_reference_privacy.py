@@ -11,6 +11,9 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
+WORKFLOWS = ROOT / ".github" / "workflows"
+DOCUMENTATION = ROOT / "docs" / "GLAZE_UI_V1_4_EVIDENCE_REFERENCE_PRIVACY.md"
+SELF_PATH = "scripts/validate_glaze_v1_4_evidence_reference_privacy.py"
 
 EXPECTED_PATTERN = (
     r"^evidence\+sha256:[0-9a-f]{64}:"
@@ -30,6 +33,14 @@ SCHEMAS = {
     "native_renderer_parity": ROOT / "contracts" / "v1.4" / "native-renderer-parity-evidence.schema.candidate.json",
     "accessibility": ROOT / "contracts" / "v1.4" / "accessibility-qualification-evidence.schema.candidate.json",
 }
+APPLICABLE_WORKFLOWS = (
+    "glaze-v1.4-performance-qualification.yml",
+    "glaze-v1.4-native-renderer-parity.yml",
+    "glaze-v1.4-optical-material.yml",
+    "glaze-v1.4-v1.3-compatibility.yml",
+    "glaze-v1.3-stable-authority.yml",
+    "glaze-v1.4-evidence-reference-privacy.yml",
+)
 
 SAFE_LOCATORS = (
     "run-1",
@@ -80,6 +91,22 @@ def assert_schema_patterns() -> None:
     assert accessibility["$defs"]["evidenceReference"]["pattern"] == EXPECTED_PATTERN
 
 
+def assert_workflow_applicability() -> None:
+    for workflow_name in APPLICABLE_WORKFLOWS:
+        text = (WORKFLOWS / workflow_name).read_text(encoding="utf-8")
+        assert SELF_PATH in text, f"{workflow_name} is not triggered by shared evidence-reference privacy changes"
+
+
+def assert_documented_boundary() -> None:
+    text = DOCUMENTATION.read_text(encoding="utf-8")
+    for phrase in (
+        "A SHA-256 digest proves which evidence bytes a record names. It does **not** make the remaining locator safe to retain.",
+        "Retrieval credentials, signed URLs, bearer material, cookies, provider tokens, temporary access grants, and equivalent secrets belong outside the retained qualification record.",
+        "Stable V1.3 / `1.3.0` remains the consumer target",
+    ):
+        assert phrase in text, f"evidence-reference privacy documentation missing governing boundary: {phrase}"
+
+
 def main() -> None:
     compiled = re.compile(EXPECTED_PATTERN)
     digest = "a" * 64
@@ -99,7 +126,9 @@ def main() -> None:
         assert compiled.fullmatch(reference) is None, f"unsafe credential-bearing locator was accepted: {locator}"
 
     assert_schema_patterns()
-    print("Glaze V1.4 evidence-reference privacy boundary validated across performance, parity, and accessibility.")
+    assert_workflow_applicability()
+    assert_documented_boundary()
+    print("Glaze V1.4 evidence-reference privacy boundary validated across performance, parity, accessibility, compatibility, and Stable authority workflows.")
 
 
 if __name__ == "__main__":
