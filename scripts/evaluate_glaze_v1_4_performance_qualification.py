@@ -102,11 +102,18 @@ def _number(value, name: str, *, positive: bool) -> float:
     return numeric
 
 
+def _positive_int(value, name: str) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+        raise ValueError(f"{name} must be a positive integer")
+    return value
+
+
 def evaluate(
     record: dict,
     *,
     expected_source_revision: str | None = None,
     expected_source_tree_revision: str | None = None,
+    max_measurement_age_ms: int | None = None,
     evaluated_at: datetime | None = None,
 ) -> dict:
     record = _object(record, "performance qualification record")
@@ -135,8 +142,9 @@ def evaluate(
     assessment_time = evaluated_at or datetime.now(timezone.utc)
     if assessment_time.tzinfo is None or assessment_time.utcoffset() is None:
         raise ValueError("evaluated_at must be timezone-aware")
+    assessment_time_utc = assessment_time.astimezone(timezone.utc)
     measured_time = datetime.fromisoformat(measured_at[:-1] + "+00:00")
-    if measured_time > assessment_time.astimezone(timezone.utc):
+    if measured_time > assessment_time_utc:
         raise ValueError("measuredAt cannot be future-dated")
 
     metrics = record["metrics"]
@@ -204,6 +212,13 @@ def evaluate(
         expected_source_tree_revision = _revision(expected_source_tree_revision, "expected source tree revision")
         if source_tree_revision != expected_source_tree_revision:
             reasons.append("source_tree_revision_mismatch")
+    if max_measurement_age_ms is None:
+        reasons.append("measurement_age_expectation_missing")
+    else:
+        max_measurement_age_ms = _positive_int(max_measurement_age_ms, "max_measurement_age_ms")
+        measurement_age_ms = (assessment_time_utc - measured_time).total_seconds() * 1000
+        if measurement_age_ms > max_measurement_age_ms:
+            reasons.append("measurement_evidence_stale")
     if not all(item["accepted"] for item in metric_results):
         reasons.append("metric_budget_exceeded")
     if not normalized_refs:
@@ -232,6 +247,7 @@ def main() -> int:
     parser.add_argument("record", type=Path)
     parser.add_argument("--expected-source-revision")
     parser.add_argument("--expected-source-tree-revision")
+    parser.add_argument("--max-measurement-age-ms", type=int)
     args = parser.parse_args()
     try:
         payload = json.loads(args.record.read_text(encoding="utf-8"))
@@ -239,6 +255,7 @@ def main() -> int:
             payload,
             expected_source_revision=args.expected_source_revision,
             expected_source_tree_revision=args.expected_source_tree_revision,
+            max_measurement_age_ms=args.max_measurement_age_ms,
         )
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(json.dumps({"evaluatorDisposition": "blocked", "acceptedForPerformanceQualification": False, "acceptedForLifecycleGate": False, "error": str(exc)}, indent=2))
