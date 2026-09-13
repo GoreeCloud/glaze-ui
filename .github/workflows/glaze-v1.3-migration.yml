@@ -1,9 +1,8 @@
-name: GLAZE UI V1.3 Migration and Consumer Boundary
+name: GLAZE UI Migration and Consumer Boundary
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - 'consumers/registry.json'
       - 'schemas/consumer-registry.schema.json'
@@ -36,7 +35,7 @@ permissions:
   contents: read
 
 jobs:
-  validate-v1-3-migration:
+  validate-migration-boundary:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -44,27 +43,22 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Verify exact source revision
         shell: bash
         run: |
           set -euo pipefail
           expected='${{ github.event.pull_request.head.sha || github.sha }}'
           actual="$(git rev-parse HEAD)"
-          printf 'Expected source revision: %s\nActual source revision:   %s\n' "$expected" "$actual"
           test "$actual" = "$expected"
-
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
-
       - name: Compile current consumer validators
         run: |
           python -m py_compile scripts/validate_consumer_registry.py
           python -m py_compile scripts/validate_consumer_summary.py
-
-      - name: Validate current V1.3 Stable lifecycle and V1.2 rollback authority
+      - name: Validate current Stable lifecycle and retained rollback records
         run: |
           python - <<'PY'
           import json
@@ -72,28 +66,25 @@ jobs:
           root = Path('.')
           version = (root / 'VERSION').read_text(encoding='utf-8').strip()
           lifecycle = json.loads((root / 'registry/lifecycle.json').read_text(encoding='utf-8'))
-          assert version == '1.3.0', f'current VERSION must be 1.3.0, got {version}'
           assert lifecycle.get('currentStable') == version
           assert lifecycle.get('currentOfficial') == version
           assert lifecycle.get('activeCandidate') is None
           current = [r for r in lifecycle.get('releases', []) if r.get('version') == version]
           assert len(current) == 1 and current[0].get('status') == 'stable' and current[0].get('consumerEligible') is True
-          prior = [r for r in lifecycle.get('releases', []) if r.get('version') == '1.2.0']
-          assert len(prior) == 1 and prior[0].get('status') == 'stable' and prior[0].get('consumerEligible') is True
-          print('V1.3 current Stable authority and V1.2 historical rollback authority: PASS')
+          for historical in ('1.3.0', '1.2.0'):
+              records = [r for r in lifecycle.get('releases', []) if r.get('version') == historical]
+              assert len(records) == 1 and records[0].get('status') == 'stable' and records[0].get('consumerEligible') is True
+          print(f'Current Stable authority {version} and retained V1.3/V1.2 rollback records: PASS')
           PY
-
       - name: Validate current consumer migration boundary
         run: |
           python scripts/validate_consumer_registry.py
           python scripts/validate_consumer_summary.py
-
-      - name: Parse retained migration authorities
+      - name: Parse retained V1.3 migration authorities
         run: |
           python -m json.tool contracts/v1.3/migration.candidate.json >/dev/null
           python -m json.tool contracts/v1.3/consumer-adoption-record.schema.json >/dev/null
           python -m json.tool consumers/registry.json >/dev/null
           python -m json.tool registry/lifecycle.json >/dev/null
-
-      - name: Check retained migration evaluator syntax
+      - name: Check retained V1.3 migration evaluator syntax
         run: node --check js/glaze-v1.3-migration.candidate.mjs
