@@ -8,7 +8,7 @@ on:
       - 'consumers/registry.json'
       - 'scripts/validate_goreecloud_care_v1_2_final_acceptance.py'
       - 'scripts/validate_consumer_registry.py'
-      - 'scripts/run_goreecloud_care_v1_2_historical_validation.py'
+      - 'scripts/run_care_historical_acceptance_compatibility.py'
       - '.github/workflows/glaze-v1.2-care-consumer-acceptance.yml'
   push:
     branches:
@@ -20,7 +20,7 @@ on:
       - 'consumers/registry.json'
       - 'scripts/validate_goreecloud_care_v1_2_final_acceptance.py'
       - 'scripts/validate_consumer_registry.py'
-      - 'scripts/run_goreecloud_care_v1_2_historical_validation.py'
+      - 'scripts/run_care_historical_acceptance_compatibility.py'
       - '.github/workflows/glaze-v1.2-care-consumer-acceptance.yml'
 
 permissions:
@@ -37,4 +37,4 @@ jobs:
         run: python3 scripts/validate_consumer_registry.py
 
       - name: Validate historical GoreeCloud Care V1.2 final acceptance lineage
-        run: python3 scripts/run_goreecloud_care_v1_2_historical_validation.py final-acceptance
+        run: python3 scripts/run_care_historical_acceptance_compatibility.py final-acceptance
