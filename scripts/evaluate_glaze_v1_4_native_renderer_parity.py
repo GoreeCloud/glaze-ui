@@ -18,7 +18,13 @@ SCHEMA_VERSION = "glaze.v1.4.native-renderer-parity-evidence.candidate.v1"
 CANDIDATE_VERSION = "1.4.0-candidate"
 SHA = re.compile(r"^[0-9a-f]{40}$")
 SCENE_ID = re.compile(r"^[a-z0-9][a-z0-9._-]{0,79}$")
-EVIDENCE_REFERENCE = re.compile(r"^evidence\+sha256:[0-9a-f]{64}:\S{1,175}$")
+EVIDENCE_REFERENCE = re.compile(
+    r"^evidence\+sha256:[0-9a-f]{64}:"
+    r"[A-Za-z0-9][A-Za-z0-9._+-]*"
+    r"(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*"
+    r"(?:/[A-Za-z0-9][A-Za-z0-9._+-]*"
+    r"(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$"
+)
 CONTROL = re.compile(r"[\x00-\x1f\x7f-\x9f]")
 PLATFORMS = {"android", "ios", "linux", "windows", "macos", "chromeos", "other"}
 ROOT_FIELDS = {
@@ -71,7 +77,9 @@ def _revision(value, name: str) -> str:
 def _evidence_reference(value, name: str) -> str:
     value = _text(value, name, 256)
     if EVIDENCE_REFERENCE.fullmatch(value) is None:
-        raise ValueError(f"{name} must be a content-addressed evidence+sha256 reference")
+        raise ValueError(
+            f"{name} must be a content-addressed evidence+sha256 reference with a credential-safe logical locator"
+        )
     return value
 
 
