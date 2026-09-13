@@ -6,8 +6,10 @@ on:
       - 'contracts/v1.4/performance-qualification-evidence.schema.candidate.json'
       - 'scripts/evaluate_glaze_v1_4_performance_qualification.py'
       - 'scripts/validate_glaze_v1_4_performance_qualification.py'
+      - 'scripts/validate_glaze_v1_4_evidence_reference_privacy.py'
       - 'tests/test_glaze_v1_4_performance_qualification.py'
       - 'docs/GLAZE_UI_V1_4_PERFORMANCE_QUALIFICATION.md'
+      - 'docs/GLAZE_UI_V1_4_EVIDENCE_REFERENCE_PRIVACY.md'
       - '.github/workflows/glaze-v1.4-performance-qualification.yml'
   push:
     branches:
@@ -17,8 +19,10 @@ on:
       - 'contracts/v1.4/performance-qualification-evidence.schema.candidate.json'
       - 'scripts/evaluate_glaze_v1_4_performance_qualification.py'
       - 'scripts/validate_glaze_v1_4_performance_qualification.py'
+      - 'scripts/validate_glaze_v1_4_evidence_reference_privacy.py'
       - 'tests/test_glaze_v1_4_performance_qualification.py'
       - 'docs/GLAZE_UI_V1_4_PERFORMANCE_QUALIFICATION.md'
+      - 'docs/GLAZE_UI_V1_4_EVIDENCE_REFERENCE_PRIVACY.md'
       - '.github/workflows/glaze-v1.4-performance-qualification.yml'
 
 permissions:
@@ -46,6 +50,9 @@ jobs:
       - name: Validate performance qualification contract
         run: python scripts/validate_glaze_v1_4_performance_qualification.py
 
+      - name: Validate shared evidence reference privacy
+        run: python scripts/validate_glaze_v1_4_evidence_reference_privacy.py
+
       - name: Run performance qualification regressions
         run: python tests/test_glaze_v1_4_performance_qualification.py
 
@@ -56,6 +63,7 @@ jobs:
         run: |
           python -m py_compile scripts/evaluate_glaze_v1_4_performance_qualification.py
           python -m py_compile scripts/validate_glaze_v1_4_performance_qualification.py
+          python -m py_compile scripts/validate_glaze_v1_4_evidence_reference_privacy.py
           python -m py_compile tests/test_glaze_v1_4_performance_qualification.py
 
       - name: Verify validation did not mutate tracked source
