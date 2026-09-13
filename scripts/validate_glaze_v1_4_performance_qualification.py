@@ -22,12 +22,16 @@ def main() -> None:
     assert schema["properties"]["metrics"]["minItems"] == 1
     assert schema["properties"]["metrics"]["maxItems"] == 32
     assert schema["properties"]["evidenceRefs"]["maxItems"] == 50
+    assert schema["properties"]["evidenceRefs"]["uniqueItems"] is True
+    assert schema["properties"]["evidenceRefs"]["items"]["pattern"] == r"^evidence\+sha256:[0-9a-f]{64}:[^\s]{1,175}$"
     assert set(schema["properties"]["reviewer"]["properties"]["disposition"]["enum"]) == {"pending", "accepted", "rejected"}
 
     evaluator = EVALUATOR.read_text(encoding="utf-8")
     for token in (
         "acceptedForPerformanceQualification",
         '"acceptedForLifecycleGate": False',
+        "EVIDENCE_REFERENCE",
+        "must be a content-addressed evidence+sha256 reference",
         "metric_budget_exceeded",
         "source_revision_mismatch",
         "source_tree_revision_mismatch",
@@ -53,6 +57,8 @@ def main() -> None:
         "future-dated performance measurements must fail closed",
         "caller-selected measurement freshness must block stale performance evidence",
         "measurement freshness policy must be a positive integer",
+        "performance qualification must reject mutable or non-content-addressed evidence references",
+        "performance qualification must reject malformed content-addressed evidence references",
     ):
         assert token in test_text, f"performance tests missing invariant: {token}"
 
