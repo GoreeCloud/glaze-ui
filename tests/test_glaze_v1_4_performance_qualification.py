@@ -17,6 +17,7 @@ SOURCE = "1" * 40
 TREE = "2" * 40
 EVALUATED_AT = datetime(2026, 9, 12, 23, 31, tzinfo=timezone.utc)
 MAX_MEASUREMENT_AGE_MS = 5 * 60 * 1000
+EVIDENCE_REF = f"evidence+sha256:{'a' * 64}:performance-run-example"
 
 
 def record() -> dict:
@@ -50,7 +51,7 @@ def record() -> dict:
                 "accepted": True,
             },
         ],
-        "evidenceRefs": ["artifact:performance-run:example"],
+        "evidenceRefs": [EVIDENCE_REF],
         "reviewer": {
             "authority": "Glaze performance qualification reviewer",
             "disposition": "accepted",
@@ -140,6 +141,20 @@ def main() -> None:
     check_raises(
         lambda: evaluate_bound(record(), max_age_ms=0),
         "measurement freshness policy must be a positive integer",
+    )
+
+    mutable_evidence = record()
+    mutable_evidence["evidenceRefs"] = ["artifact:latest"]
+    check_raises(
+        lambda: evaluate_bound(mutable_evidence),
+        "performance qualification must reject mutable or non-content-addressed evidence references",
+    )
+
+    malformed_evidence = record()
+    malformed_evidence["evidenceRefs"] = [f"evidence+sha256:{'g' * 64}:invalid-digest"]
+    check_raises(
+        lambda: evaluate_bound(malformed_evidence),
+        "performance qualification must reject malformed content-addressed evidence references",
     )
 
     pending_review = record()
