@@ -39,6 +39,14 @@ APPROVED_EXTERNAL_ACTIONS = {
     },
 }
 
+APPROVED_EXTERNAL_REUSABLE_WORKFLOWS = {
+    "GoreeCloud/GoreeCloud/.github/workflows/reusable-platform-manifest.yml": {
+        "sha": "908701c6795ffcd608bd3d8a1e787395a04f1d62",
+        "contract": "0.3",
+        "purpose": "GoreeCloud Platform Contract manifest validation",
+    },
+}
+
 # Workflow steps may spell an action either as an indented `uses:` key after a
 # step name or in YAML's compact list-item form (`- uses:`). Both are security
 # relevant and must be covered by the same immutable-pin policy.
@@ -63,27 +71,40 @@ def workflow_paths() -> list[Path]:
     return paths
 
 
-def parse_external(ref: str) -> tuple[str, str] | None:
+def parse_external(ref: str) -> tuple[str, str, str] | None:
     if ref.startswith("./"):
         return None
-    require("@" in ref, f"external action reference has no immutable ref separator: {ref}")
-    action, revision = ref.rsplit("@", 1)
-    require(action in APPROVED_EXTERNAL_ACTIONS, f"unapproved external action family: {action}")
-    require(SHA.fullmatch(revision) is not None, f"external action is not pinned to a 40-char lowercase SHA: {ref}")
-    return action, revision
+    require("@" in ref, f"external action/workflow reference has no immutable ref separator: {ref}")
+    target, revision = ref.rsplit("@", 1)
+    require(
+        SHA.fullmatch(revision) is not None,
+        f"external action/workflow is not pinned to a 40-char lowercase SHA: {ref}",
+    )
+    if target in APPROVED_EXTERNAL_ACTIONS:
+        return "action", target, revision
+    if target in APPROVED_EXTERNAL_REUSABLE_WORKFLOWS:
+        return "reusable-workflow", target, revision
+    raise IntegrityError(f"unapproved external action/workflow family: {target}")
 
 
 def validate() -> dict[str, object]:
     paths = workflow_paths()
     observed: dict[str, dict[str, object]] = {}
+    observed_reusable: dict[str, dict[str, object]] = {}
     local_reusable: set[str] = set()
     files_without_uses: list[str] = []
 
     for path in paths:
         text = path.read_text(encoding="utf-8")
         relative = str(path.relative_to(ROOT))
-        require(NODE20_OVERRIDE not in text, f"deprecated/unsafe Node runtime override present in {relative}: {NODE20_OVERRIDE}")
-        require(LEGACY_NODE20_OVERRIDE not in text, f"Node 20 opt-out override present in {relative}: {LEGACY_NODE20_OVERRIDE}")
+        require(
+            NODE20_OVERRIDE not in text,
+            f"deprecated/unsafe Node runtime override present in {relative}: {NODE20_OVERRIDE}",
+        )
+        require(
+            LEGACY_NODE20_OVERRIDE not in text,
+            f"Node 20 opt-out override present in {relative}: {LEGACY_NODE20_OVERRIDE}",
+        )
         refs = USES.findall(text)
         if not refs:
             files_without_uses.append(relative)
@@ -96,13 +117,25 @@ def validate() -> dict[str, object]:
             if parsed is None:
                 local_reusable.add(ref)
                 continue
-            action, revision = parsed
-            expected = APPROVED_EXTERNAL_ACTIONS[action]
-            require(
-                revision == expected["sha"],
-                f"{relative} pins {action} to {revision}, expected approved {expected['release']} SHA {expected['sha']}",
-            )
-            entry = observed.setdefault(action, {"count": 0, "workflows": []})
+
+            kind, target, revision = parsed
+            if kind == "action":
+                expected = APPROVED_EXTERNAL_ACTIONS[target]
+                require(
+                    revision == expected["sha"],
+                    f"{relative} pins {target} to {revision}, expected approved "
+                    f"{expected['release']} SHA {expected['sha']}",
+                )
+                entry = observed.setdefault(target, {"count": 0, "workflows": []})
+            else:
+                expected = APPROVED_EXTERNAL_REUSABLE_WORKFLOWS[target]
+                require(
+                    revision == expected["sha"],
+                    f"{relative} pins {target} to {revision}, expected approved Platform Contract "
+                    f"{expected['contract']} SHA {expected['sha']}",
+                )
+                entry = observed_reusable.setdefault(target, {"count": 0, "workflows": []})
+
             entry["count"] = int(entry["count"]) + 1
             workflows = entry["workflows"]
             assert isinstance(workflows, list)
@@ -115,17 +148,31 @@ def validate() -> dict[str, object]:
         observed[action]["runtime"] = expected["runtime"]
         observed[action]["workflows"] = sorted(set(observed[action]["workflows"]))
 
+    for workflow, expected in APPROVED_EXTERNAL_REUSABLE_WORKFLOWS.items():
+        require(
+            workflow in observed_reusable,
+            f"approved reusable workflow is not exercised by any workflow: {workflow}",
+        )
+        observed_reusable[workflow]["approvedSha"] = expected["sha"]
+        observed_reusable[workflow]["contract"] = expected["contract"]
+        observed_reusable[workflow]["purpose"] = expected["purpose"]
+        observed_reusable[workflow]["workflows"] = sorted(
+            set(observed_reusable[workflow]["workflows"])
+        )
+
     return {
         "schemaVersion": 1,
         "kind": "goreecloud-glaze-github-actions-runtime-integrity",
         "workflowCount": len(paths),
         "externalActionFamilies": observed,
+        "approvedExternalReusableWorkflows": observed_reusable,
         "localReusableWorkflows": sorted(local_reusable),
         "workflowFilesWithoutUses": files_without_uses,
         "immutableExternalPinsRequired": True,
         "node24GenerationRequired": True,
         "node20OverrideAllowed": False,
         "unapprovedExternalActionFamiliesAllowed": False,
+        "unapprovedExternalReusableWorkflowsAllowed": False,
         "lifecyclePromotionImplied": False,
         "releaseCandidateImplied": False,
         "stableImplied": False,
@@ -139,7 +186,7 @@ def main() -> int:
         OUT.parent.mkdir(parents=True, exist_ok=True)
         OUT.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(
-            f"PASS: {report['workflowCount']} workflows use only approved immutable Node 24-generation action pins; "
+            f"PASS: {report['workflowCount']} workflows use only approved immutable action/workflow pins; "
             "no lifecycle or product acceptance is implied."
         )
         return 0
