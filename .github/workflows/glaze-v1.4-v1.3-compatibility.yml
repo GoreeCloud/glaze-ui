@@ -42,7 +42,6 @@ on:
       - 'js/glaze-v1.4-*'
       - 'reference/glaze-v1.4-*'
       - 'evidence/v1.4/**'
-      - 'scripts/validate_glaze-v1.4_optical_material.py'
       - 'scripts/validate_glaze_v1.4_optical_material.py'
       - 'scripts/validate_glaze_v1_4_semantic_optical_runtime.py'
       - 'scripts/validate_glaze_v1_4_browser_capabilities.py'
