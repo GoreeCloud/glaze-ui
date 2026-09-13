@@ -12,7 +12,7 @@ from typing import Any
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_PLAN=ROOT/'contracts'/'v1.4'/'accessibility-qualification.candidate.json'
 HEX40=re.compile(r'^[0-9a-f]{40}$'); ZERO='0'*40
-EVIDENCE_REFERENCE=re.compile(r'^evidence\+sha256:[0-9a-f]{64}:\S{1,175}$')
+EVIDENCE_REFERENCE=re.compile(r'^evidence\+sha256:[0-9a-f]{64}:[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*(?:/[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$')
 EXPECTED_PRODUCT='Glaze UI V1.4 — Optical Material and Chromatic Depth'; EXPECTED_VERSION='1.4.0-candidate'
 EXPECTED_RECORD_KIND='glaze-v1.4-accessibility-qualification-evidence-candidate'
 STATUSES={'in-progress','review-ready','passed','failed','superseded'}; REVIEW_MODES={'human','combined','automated'}
