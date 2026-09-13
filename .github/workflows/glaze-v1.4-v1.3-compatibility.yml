@@ -20,6 +20,13 @@ on:
       - 'acceptance/v1.3-stable.md'
       - 'acceptance/v1.3-deferred-qualification.md'
       - 'releases/1.3.0.md'
+      - 'contracts/v1.3/deferred-qualification.plan.json'
+      - 'contracts/v1.3/qualification-matrix.json'
+      - 'scripts/validate_glaze_v1_3_phase0.py'
+      - 'scripts/validate_glaze_v1_3_planned.py'
+      - 'scripts/validate_glaze_v1_3_qualification.py'
+      - 'scripts/validate_glaze_v1_3_stable_readiness.py'
+      - 'scripts/validate_glaze_v1_3_runtime_module_graph.py'
       - 'consumers/registry.json'
       - 'schemas/consumer-registry.schema.json'
       - 'scripts/validate_consumer_registry.py'
@@ -53,6 +60,13 @@ on:
       - 'acceptance/v1.3-stable.md'
       - 'acceptance/v1.3-deferred-qualification.md'
       - 'releases/1.3.0.md'
+      - 'contracts/v1.3/deferred-qualification.plan.json'
+      - 'contracts/v1.3/qualification-matrix.json'
+      - 'scripts/validate_glaze_v1_3_phase0.py'
+      - 'scripts/validate_glaze_v1_3_planned.py'
+      - 'scripts/validate_glaze_v1_3_qualification.py'
+      - 'scripts/validate_glaze_v1_3_stable_readiness.py'
+      - 'scripts/validate_glaze_v1_3_runtime_module_graph.py'
       - 'consumers/registry.json'
       - 'schemas/consumer-registry.schema.json'
       - 'scripts/validate_consumer_registry.py'
@@ -98,6 +112,7 @@ jobs:
           python -m py_compile scripts/validate_consumer_registry.py
           python -m py_compile scripts/validate_consumer_summary.py
           python -m py_compile scripts/validate_glaze_v1.4_optical_material.py
+          python -m py_compile scripts/validate_glaze_v1_3_runtime_module_graph.py
 
       - name: Validate Stable V1.3 lifecycle authority
         run: |
@@ -119,6 +134,14 @@ jobs:
           print('Stable V1.3 lifecycle authority preserved: PASS')
           PY
 
+      - name: Validate full V1.3 Stable authority evidence boundary
+        run: |
+          python scripts/validate_glaze_v1_3_phase0.py
+          python scripts/validate_glaze_v1_3_planned.py
+          python scripts/validate_glaze_v1_3_qualification.py
+          python scripts/validate_glaze_v1_3_stable_readiness.py
+          python scripts/validate_glaze_v1_3_runtime_module_graph.py
+
       - name: Validate current V1.3 consumer boundary
         run: |
           python scripts/validate_consumer_registry.py
@@ -131,6 +154,8 @@ jobs:
         run: |
           python -m json.tool consumers/registry.json >/dev/null
           python -m json.tool registry/lifecycle.json >/dev/null
+          python -m json.tool contracts/v1.3/deferred-qualification.plan.json >/dev/null
+          python -m json.tool contracts/v1.3/qualification-matrix.json >/dev/null
           python -m json.tool tokens/glaze-v1.3-material.candidate.json >/dev/null
           python -m json.tool tokens/glaze-v1.4-optical-material.candidate.json >/dev/null
 
