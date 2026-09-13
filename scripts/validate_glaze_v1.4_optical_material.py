@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed source validation for the Glaze UI V1.4 optical-material candidate."""
+"""Fail-closed source validation for the preserved Glaze UI V1.4 optical-material source artifact."""
 from __future__ import annotations
 
 import json
@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CANDIDATE = ROOT / "tokens" / "glaze-v1.4-optical-material.candidate.json"
 VERSION = ROOT / "VERSION"
+LIFECYCLE = ROOT / "registry" / "lifecycle.json"
 V13_MATERIAL = ROOT / "tokens" / "glaze-v1.3-material.candidate.json"
 
 EXPECTED_RANGES = {
@@ -72,15 +73,15 @@ def validate_candidate(candidate: dict) -> None:
     if candidate.get("targetVersion") != "1.4.0-candidate":
         fail("targetVersion must remain 1.4.0-candidate")
     if candidate.get("releaseLifecycle") != "proposed":
-        fail("candidate cannot claim a stable lifecycle")
+        fail("preserved candidate artifact must retain its original proposed lifecycle metadata")
     if candidate.get("artifactLifecycle") != "implementation-candidate-artifact":
         fail("candidate artifact lifecycle drifted")
     if candidate.get("lifecycleAuthority") is not False:
-        fail("candidate cannot grant lifecycle authority")
+        fail("candidate artifact cannot grant lifecycle authority")
     if candidate.get("consumerEligible") is not False:
-        fail("candidate cannot grant consumer eligibility")
+        fail("candidate artifact cannot grant consumer eligibility")
     if candidate.get("sourceStable") != "1.3.0":
-        fail("V1.4 candidate must build from stable 1.3.0")
+        fail("V1.4 source artifact must preserve its V1.3 source baseline")
 
     compatibility = candidate.get("compatibility")
     if not isinstance(compatibility, dict):
@@ -177,9 +178,9 @@ def validate_candidate(candidate: dict) -> None:
 
     not_established = candidate.get("notEstablished")
     if not isinstance(not_established, list) or "stable-v1.4-release" not in not_established:
-        fail("candidate must explicitly deny stable V1.4 release status")
+        fail("preserved candidate artifact must retain its original non-authoritative lifecycle boundary")
     if "consumer-v1.4-conformance" not in not_established:
-        fail("candidate must explicitly deny consumer V1.4 conformance")
+        fail("candidate artifact must explicitly deny consumer V1.4 conformance")
 
 
 def validate_repository_boundary() -> None:
@@ -187,8 +188,27 @@ def validate_repository_boundary() -> None:
         version = VERSION.read_text(encoding="utf-8").strip()
     except OSError as exc:
         fail(f"VERSION is unreadable: {exc}")
-    if version != "1.3.0":
-        fail("stable VERSION must remain 1.3.0 while V1.4 is only a candidate")
+    if version != "1.4.0":
+        fail(f"current Stable VERSION must be 1.4.0, got {version!r}")
+
+    lifecycle = load_json(LIFECYCLE)
+    if lifecycle.get("currentStable") != "1.4.0" or lifecycle.get("currentOfficial") != "1.4.0":
+        fail("lifecycle must identify V1.4.0 as current Official Stable")
+    if lifecycle.get("activeCandidate") is not None:
+        fail("current Stable lifecycle must not retain an active candidate")
+    releases = {item.get("version"): item for item in lifecycle.get("releases", []) if isinstance(item, dict)}
+    v14 = releases.get("1.4.0")
+    if not isinstance(v14, dict) or v14.get("status") != "stable" or v14.get("consumerEligible") is not True:
+        fail("V1.4.0 Stable lifecycle record is missing or not consumer-eligible")
+    if v14.get("stableBaseline") != "1.3.0":
+        fail("V1.4.0 must retain V1.3.0 as its Stable rollback baseline")
+    if v14.get("opticalFoundation") != "tokens/glaze-v1.4-optical-material.candidate.json":
+        fail("V1.4.0 lifecycle must bind the preserved optical source artifact")
+
+    v13_release = releases.get("1.3.0")
+    if not isinstance(v13_release, dict) or v13_release.get("status") != "stable":
+        fail("V1.3.0 must remain a historical Stable rollback target")
+
     v13 = load_json(V13_MATERIAL)
     if v13.get("id") != "goreecloud.glaze-ui.v1.3.material.tokens.candidate":
         fail("V1.3 material predecessor identity drifted")
@@ -199,7 +219,7 @@ def validate_repository_boundary() -> None:
 def main() -> None:
     validate_repository_boundary()
     validate_candidate(load_json(CANDIDATE))
-    print("Glaze UI V1.4 optical-material candidate validation passed")
+    print("Glaze UI V1.4 optical-material promoted-source validation passed")
 
 
 if __name__ == "__main__":
