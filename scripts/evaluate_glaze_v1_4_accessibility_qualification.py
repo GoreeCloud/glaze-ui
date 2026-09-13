@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Fail-closed Glaze UI V1.4 accessibility qualification evaluator."""
+"""Fail-closed Glaze UI V1.4 accessibility qualification evaluator.
+
+Governed output invariant: "acceptedForLifecycleGate": False
+"""
 from __future__ import annotations
 import argparse, copy, json, re, unicodedata
 from datetime import datetime, timezone
