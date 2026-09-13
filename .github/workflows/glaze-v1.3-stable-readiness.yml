@@ -1,4 +1,4 @@
-name: GLAZE UI V1.3 Stable Readiness Control Plane
+name: GLAZE UI V1.3 Historical Readiness Provenance
 
 on:
   pull_request:
@@ -10,10 +10,9 @@ on:
       - "scripts/validate_glaze_v1_3_stable_readiness.py"
       - "tests/glaze-v1.3-stable-readiness.test.mjs"
       - "registry/lifecycle.json"
-      - "VERSION"
       - ".github/workflows/glaze-v1.3-stable-readiness.yml"
   push:
-    branches: [main, feat/glaze-ui-v1.3-adaptive-resonance]
+    branches: [main]
     paths:
       - "contracts/v1.3/**"
       - "js/glaze-v1.3-qualification.candidate.mjs"
@@ -22,7 +21,6 @@ on:
       - "scripts/validate_glaze_v1_3_stable_readiness.py"
       - "tests/glaze-v1.3-stable-readiness.test.mjs"
       - "registry/lifecycle.json"
-      - "VERSION"
       - ".github/workflows/glaze-v1.3-stable-readiness.yml"
   workflow_dispatch:
 
@@ -30,7 +28,7 @@ permissions:
   contents: read
 
 jobs:
-  stable-readiness-control-plane:
+  historical-readiness-provenance:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -43,17 +41,17 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
-      - name: Compile and validate Stable-readiness mechanism
+      - name: Validate preserved V1.3 readiness mechanism
         run: |
           python -m py_compile scripts/validate_glaze_v1_3_stable_readiness.py
           python scripts/validate_glaze_v1_3_stable_readiness.py
-      - name: Check Stable evaluator and CLI syntax
+      - name: Check historical evaluator and CLI syntax
         run: |
           node --check js/glaze-v1.3-stable-readiness.candidate.mjs
           node --check scripts/evaluate_glaze_v1_3_stable_readiness.mjs
-      - name: Test staged Stable readiness
+      - name: Test V1.3 readiness mechanism
         run: node --test tests/glaze-v1.3-stable-readiness.test.mjs
-      - name: Prove current repository cannot claim Stable readiness
+      - name: Prove empty historical evidence remains fail-closed
         env:
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
@@ -72,10 +70,9 @@ jobs:
           import json
           result=json.load(open('/tmp/glaze-v1.3-stable-readiness.json',encoding='utf-8'))['result']
           assert result['state']=='blocked'
-          assert result['candidateActive'] is False
           assert result['stableGateSatisfied'] is False
           assert result['lifecyclePromotionGranted'] is False
           assert result['stablePromoted'] is False
           assert result['consumerConformanceGranted'] is False
-          print('Current Proposed repository remains fail-closed against Stable readiness.')
+          print('Historical V1.3 readiness evaluator remains fail-closed without evidence.')
           PY
