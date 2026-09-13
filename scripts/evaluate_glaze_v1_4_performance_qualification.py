@@ -195,12 +195,34 @@ def evaluate(
     ]
     if len(set(normalized_refs)) != len(normalized_refs):
         raise ValueError("evidenceRefs must be unique")
+    evidence_ref_set = set(normalized_refs)
 
     reviewer = _object(record["reviewer"], "reviewer")
-    _closed(reviewer, {"authority", "disposition", "rationale"}, "reviewer")
-    if set(reviewer) != {"authority", "disposition", "rationale"}:
+    reviewer_fields = {
+        "authority",
+        "authorityEvidence",
+        "reviewEvidence",
+        "reviewedAt",
+        "disposition",
+        "rationale",
+    }
+    _closed(reviewer, reviewer_fields, "reviewer")
+    if set(reviewer) != reviewer_fields:
         raise ValueError("reviewer is incomplete")
     _text(reviewer["authority"], "reviewer.authority", 200)
+    authority_evidence = _evidence_reference(reviewer["authorityEvidence"], "reviewer.authorityEvidence")
+    review_evidence = _evidence_reference(reviewer["reviewEvidence"], "reviewer.reviewEvidence")
+    if authority_evidence == review_evidence:
+        raise ValueError("reviewer authority and review evidence references must be distinct")
+    if authority_evidence in evidence_ref_set or review_evidence in evidence_ref_set:
+        raise ValueError("reviewer evidence references must be distinct from measurement evidence")
+
+    reviewed_at = _timestamp(reviewer["reviewedAt"], "reviewer.reviewedAt")
+    reviewed_time = datetime.fromisoformat(reviewed_at[:-1] + "+00:00")
+    if reviewed_time < measured_time:
+        raise ValueError("reviewer.reviewedAt cannot precede measuredAt")
+    if reviewed_time > assessment_time_utc:
+        raise ValueError("reviewer.reviewedAt cannot be future-dated")
     if reviewer["disposition"] not in {"pending", "accepted", "rejected"}:
         raise ValueError("reviewer.disposition is unsupported")
     _text(reviewer["rationale"], "reviewer.rationale", 500)
@@ -245,6 +267,7 @@ def evaluate(
         "candidateVersion": CANDIDATE_VERSION,
         "sourceRevision": source_revision,
         "sourceTreeRevision": source_tree_revision,
+        "reviewedAt": reviewed_at,
         "evaluatorDisposition": "accepted" if accepted else "blocked",
         "acceptedForPerformanceQualification": accepted,
         "acceptedForLifecycleGate": False,
