@@ -86,7 +86,7 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[^\\s]{1,175}$",
+        "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*(?:/[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$",
         "minLength": 82,
         "maxLength": 256
       }
@@ -99,13 +99,13 @@
         "authority": {"type": "string", "minLength": 1, "maxLength": 200},
         "authorityEvidence": {
           "type": "string",
-          "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[^\\s]{1,175}$",
+          "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*(?:/[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$",
           "minLength": 82,
           "maxLength": 256
         },
         "reviewEvidence": {
           "type": "string",
-          "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[^\\s]{1,175}$",
+          "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*(?:/[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$",
           "minLength": 82,
           "maxLength": 256
         },
