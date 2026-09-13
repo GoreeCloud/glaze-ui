@@ -12,7 +12,7 @@ Any non-empty environment, preference, or scenario evidence reference used by th
 
 A record represented as passed and human-accepted must also include a separate `reviewProvenance` object containing immutable `authorityEvidence`, distinct immutable `reviewEvidence`, and a timezone-qualified `reviewedAt` timestamp. The authority and review evidence references must be distinct from one another and from all environment, preference, and scenario evidence. Review time cannot precede `observedAt` and cannot be future-dated relative to evaluation.
 
-These controls make reviewer provenance reproducible; they do **not** prove that the named reviewer is genuinely authorized by GoreeCloud governance. Genuine reviewer authorization remains an external governance determination.
+This provenance binding does **not** prove that the named reviewer is genuinely authorized by GoreeCloud governance. Genuine reviewer authorization remains an external governance determination.
 
 ## Human-review boundary
 
