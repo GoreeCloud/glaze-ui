@@ -11,7 +11,13 @@ SCHEMA = ROOT / "contracts" / "v1.4" / "performance-qualification-evidence.schem
 EVALUATOR = ROOT / "scripts" / "evaluate_glaze_v1_4_performance_qualification.py"
 TEST = ROOT / "tests" / "test_glaze_v1_4_performance_qualification.py"
 DOC = ROOT / "docs" / "GLAZE_UI_V1_4_PERFORMANCE_QUALIFICATION.md"
-EVIDENCE_PATTERN = r"^evidence\+sha256:[0-9a-f]{64}:[^\s]{1,175}$"
+EVIDENCE_PATTERN = (
+    r"^evidence\+sha256:[0-9a-f]{64}:"
+    r"[A-Za-z0-9][A-Za-z0-9._+-]*"
+    r"(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*"
+    r"(?:/[A-Za-z0-9][A-Za-z0-9._+-]*"
+    r"(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$"
+)
 
 
 def main() -> None:
@@ -42,7 +48,7 @@ def main() -> None:
         "acceptedForPerformanceQualification",
         '"acceptedForLifecycleGate": False',
         "EVIDENCE_REFERENCE",
-        "must be a content-addressed evidence+sha256 reference",
+        "content-addressed evidence+sha256 reference with a credential-safe logical locator",
         "metric_budget_exceeded",
         "source_revision_mismatch",
         "source_tree_revision_mismatch",
