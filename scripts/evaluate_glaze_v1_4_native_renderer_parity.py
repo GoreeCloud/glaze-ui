@@ -173,11 +173,33 @@ def evaluate(
         scene_results.append({"id": scene_id, "accepted": scene["disposition"] == "accepted"})
 
     reviewer = _object(record["reviewer"], "reviewer")
-    reviewer_fields = {"authority", "disposition", "rationale"}
+    reviewer_fields = {
+        "authority",
+        "authorityEvidence",
+        "reviewEvidence",
+        "reviewedAt",
+        "disposition",
+        "rationale",
+    }
     _closed(reviewer, reviewer_fields, "reviewer")
     if set(reviewer) != reviewer_fields:
         raise ValueError("reviewer is incomplete")
     _text(reviewer["authority"], "reviewer.authority", 200)
+    authority_evidence = _evidence_reference(reviewer["authorityEvidence"], "reviewer.authorityEvidence")
+    review_evidence = _evidence_reference(reviewer["reviewEvidence"], "reviewer.reviewEvidence")
+    if authority_evidence == review_evidence:
+        raise ValueError("reviewer authority and review evidence references must be distinct")
+    if authority_evidence in evidence_refs or review_evidence in evidence_refs:
+        raise ValueError("reviewer evidence references must be distinct from scene evidence")
+    evidence_refs.add(authority_evidence)
+    evidence_refs.add(review_evidence)
+
+    reviewed_at = _timestamp(reviewer["reviewedAt"], "reviewer.reviewedAt")
+    reviewed_time = datetime.fromisoformat(reviewed_at[:-1] + "+00:00")
+    if reviewed_time < captured_time:
+        raise ValueError("reviewer.reviewedAt cannot precede capturedAt")
+    if reviewed_time > assessment_time_utc:
+        raise ValueError("reviewer.reviewedAt cannot be future-dated")
     if reviewer["disposition"] not in {"pending", "accepted", "rejected"}:
         raise ValueError("reviewer.disposition is unsupported")
     _text(reviewer["rationale"], "reviewer.rationale", 500)
@@ -220,6 +242,7 @@ def evaluate(
         "candidateVersion": CANDIDATE_VERSION,
         "sourceRevision": source_revision,
         "sourceTreeRevision": source_tree_revision,
+        "reviewedAt": reviewed_at,
         "evaluatorDisposition": "accepted" if accepted else "blocked",
         "acceptedForNativeRendererParityQualification": accepted,
         "acceptedForLifecycleGate": False,
