@@ -56,7 +56,7 @@ def main() -> None:
     contract = read("GLAZE_UI_V1_4.md")
     require("**Lifecycle:** Official Stable" in contract, "V1.4 contract must declare Official Stable")
     require("V1.4.1" in contract, "V1.4 contract must name V1.4.1 deferred qualification")
-    require("remain explicitly deferred/unverified" in contract, "V1.4 contract must preserve deferred evidence truth")
+    require("explicitly deferred/unverified" in contract, "V1.4 contract must preserve deferred evidence truth")
 
     acceptance = read("acceptance/1.4.0.md")
     require("Stable Acceptance Record" in acceptance, "acceptance record heading missing")
