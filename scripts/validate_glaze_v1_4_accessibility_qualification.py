@@ -17,10 +17,11 @@ TEMPLATE=ROOT/"evidence"/"v1.4"/"templates"/"accessibility-qualification-record.
 REGRESSION=ROOT/"tests"/"test_glaze_v1_4_accessibility_qualification.py"
 PACKET_REGRESSION=ROOT/"tests"/"test_glaze_v1_4_accessibility_qualification_packet.py"
 OBSERVATION_REGRESSION=ROOT/"tests"/"glaze-v1.4-accessibility-observation-capture.test.mjs"
+DOCUMENTATION=ROOT/"docs"/"GLAZE_UI_V1_4_ACCESSIBILITY_QUALIFICATION.md"
 VERSION=ROOT/"VERSION"
 REQUIRED_SCENARIOS=["source-and-runtime-identity","multi-preference-composition","reduced-transparency-solid-fallback","increased-contrast-separation","reduced-motion-motion-suppression","forced-colors-system-color-path","large-text-zoom-reflow","keyboard-focus-order","color-independent-semantic-state"]
 CONDITIONAL={"screenReaderClaimed":"screen-reader-semantics-and-announcements","voiceControlClaimed":"voice-control-purpose-and-operation","switchControlClaimed":"switch-control-operability"}
-SOURCE_ARTIFACTS={"accessibilityComposition":"contracts/v1.4/accessibility-composition.candidate.json","evidenceSchema":"contracts/v1.4/accessibility-qualification-evidence.schema.candidate.json","evaluator":"scripts/evaluate_glaze_v1_4_accessibility_qualification.py","packetGenerator":"scripts/prepare_glaze_v1_4_accessibility_qualification_packet.py","observationCaptureRuntime":"js/glaze-v1.4-accessibility-observation-capture.candidate.mjs","observationCaptureReference":"reference/glaze-v1.4-accessibility-observation-capture.candidate.html","observationCaptureReferenceRuntime":"reference/glaze-v1.4-accessibility-observation-capture.candidate.mjs","validator":"scripts/validate_glaze_v1_4_accessibility_qualification.py","recordTemplate":"evidence/v1.4/templates/accessibility-qualification-record.candidate.json","regression":"tests/test_glaze_v1_4_accessibility_qualification.py","packetRegression":"tests/test_glaze_v1_4_accessibility_qualification_packet.py","observationCaptureRegression":"tests/glaze-v1.4-accessibility-observation-capture.test.mjs"}
+SOURCE_ARTIFACTS={"accessibilityComposition":"contracts/v1.4/accessibility-composition.candidate.json","evidenceSchema":"contracts/v1.4/accessibility-qualification-evidence.schema.candidate.json","evaluator":"scripts/evaluate_glaze_v1_4_accessibility_qualification.py","packetGenerator":"scripts/prepare_glaze_v1_4_accessibility_qualification_packet.py","observationCaptureRuntime":"js/glaze-v1.4-accessibility-observation-capture.candidate.mjs","observationCaptureReference":"reference/glaze-v1.4-accessibility-observation-capture.candidate.html","observationCaptureReferenceRuntime":"reference/glaze-v1.4-accessibility-observation-capture.candidate.mjs","validator":"scripts/validate_glaze_v1_4_accessibility_qualification.py","recordTemplate":"evidence/v1.4/templates/accessibility-qualification-record.candidate.json","regression":"tests/test_glaze_v1_4_accessibility_qualification.py","packetRegression":"tests/test_glaze_v1_4_accessibility_qualification_packet.py","observationCaptureRegression":"tests/glaze-v1.4-accessibility-observation-capture.test.mjs","documentation":"docs/GLAZE_UI_V1_4_ACCESSIBILITY_QUALIFICATION.md"}
 EVIDENCE_PATTERN=r"^evidence\+sha256:[0-9a-f]{64}:[^\s]{1,175}$"
 
 def fail(m): raise SystemExit(f"Glaze UI V1.4 accessibility qualification validation failed: {m}")
@@ -95,7 +96,7 @@ def validate_schema(s):
     if not passed:fail("passed evidence conditional boundary missing")
 
 def validate_sources(plan):
-    for path in (PLAN,SCHEMA,COMPOSITION,EVALUATOR,PACKET_GENERATOR,OBSERVATION_CAPTURE,OBSERVATION_REFERENCE,OBSERVATION_REFERENCE_RUNTIME,TEMPLATE,REGRESSION,PACKET_REGRESSION,OBSERVATION_REGRESSION,VERSION):
+    for path in (PLAN,SCHEMA,COMPOSITION,EVALUATOR,PACKET_GENERATOR,OBSERVATION_CAPTURE,OBSERVATION_REFERENCE,OBSERVATION_REFERENCE_RUNTIME,TEMPLATE,REGRESSION,PACKET_REGRESSION,OBSERVATION_REGRESSION,DOCUMENTATION,VERSION):
         if not path.is_file():fail(f"governed artifact missing: {path.relative_to(ROOT)}")
     if VERSION.read_text(encoding="utf-8").strip()!="1.3.0":fail("Stable VERSION must remain 1.3.0 while V1.4 qualification support is a candidate")
     q=load(COMPOSITION).get("qualificationBoundary",{})
@@ -117,6 +118,9 @@ def validate_sources(plan):
         if token not in rt:fail(f"observation capture reference runtime missing local/manual boundary: {token}")
     for token in ("Local capture aid only.","does not auto-pass scenarios","export happens only when you choose the export action"):
         if token not in ht:fail(f"observation capture reference HTML missing disclosure: {token}")
+    dt=DOCUMENTATION.read_text(encoding="utf-8")
+    for token in ("Development / qualification infrastructure only","evidence+sha256:","reviewProvenance","authorityEvidence","reviewEvidence","reviewedAt","Automated-only review cannot grant acceptance","acceptedForLifecycleGate: false","does **not** prove that the named reviewer is genuinely authorized","Real evidence still required"):
+        if token not in dt:fail(f"accessibility qualification documentation missing governed boundary: {token}")
     template=load(TEMPLATE)
     if template.get("status")!="in-progress":fail("qualification template must remain in-progress")
     false(template.get("disposition",{}),"acceptedForAccessibilityQualification","template.disposition")
