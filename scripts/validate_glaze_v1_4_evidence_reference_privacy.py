@@ -14,6 +14,8 @@ SCRIPTS = ROOT / "scripts"
 WORKFLOWS = ROOT / ".github" / "workflows"
 DOCUMENTATION = ROOT / "docs" / "GLAZE_UI_V1_4_EVIDENCE_REFERENCE_PRIVACY.md"
 SELF_PATH = "scripts/validate_glaze_v1_4_evidence_reference_privacy.py"
+CANONICAL_OPTICAL_VALIDATOR = "scripts/validate_glaze_v1_4_optical_material.py"
+OBSOLETE_OPTICAL_VALIDATOR = "scripts/validate_glaze-v1.4_optical_material.py"
 
 EXPECTED_PATTERN = (
     r"^evidence\+sha256:[0-9a-f]{64}:"
@@ -40,6 +42,10 @@ APPLICABLE_WORKFLOWS = (
     "glaze-v1.4-v1.3-compatibility.yml",
     "glaze-v1.3-stable-authority.yml",
     "glaze-v1.4-evidence-reference-privacy.yml",
+)
+OPTICAL_VALIDATOR_WORKFLOWS = (
+    "glaze-v1.4-optical-material.yml",
+    "glaze-v1.4-v1.3-compatibility.yml",
 )
 
 SAFE_LOCATORS = (
@@ -97,6 +103,16 @@ def assert_workflow_applicability() -> None:
         assert SELF_PATH in text, f"{workflow_name} is not triggered by shared evidence-reference privacy changes"
 
 
+def assert_optical_validator_path_integrity() -> None:
+    canonical_path = ROOT / CANONICAL_OPTICAL_VALIDATOR
+    assert canonical_path.is_file(), f"canonical optical validator is missing: {CANONICAL_OPTICAL_VALIDATOR}"
+    assert not (ROOT / OBSOLETE_OPTICAL_VALIDATOR).exists(), "obsolete hyphenated optical validator path unexpectedly exists"
+    for workflow_name in OPTICAL_VALIDATOR_WORKFLOWS:
+        text = (WORKFLOWS / workflow_name).read_text(encoding="utf-8")
+        assert CANONICAL_OPTICAL_VALIDATOR in text, f"{workflow_name} does not reference the canonical optical validator path"
+        assert OBSOLETE_OPTICAL_VALIDATOR not in text, f"{workflow_name} still references the obsolete optical validator path"
+
+
 def assert_documented_boundary() -> None:
     text = DOCUMENTATION.read_text(encoding="utf-8")
     for phrase in (
@@ -127,8 +143,9 @@ def main() -> None:
 
     assert_schema_patterns()
     assert_workflow_applicability()
+    assert_optical_validator_path_integrity()
     assert_documented_boundary()
-    print("Glaze V1.4 evidence-reference privacy boundary validated across performance, parity, accessibility, compatibility, and Stable authority workflows.")
+    print("Glaze V1.4 evidence-reference privacy boundary validated across performance, parity, accessibility, compatibility, Stable authority, and optical-validator workflow integrity.")
 
 
 if __name__ == "__main__":
