@@ -78,7 +78,7 @@ def main() -> None:
     release = stable_releases[0]
     req(release.get("status") == "stable", "current Stable lifecycle status")
     req(release.get("consumerEligible") is True, "current Stable must be consumer-eligible")
-    anchor = release.get("sourceQualificationAnchor") or release.get("sourceIntegrationAnchor")
+    anchor = release.get("sourcePromotionAnchor") or release.get("sourceQualificationAnchor") or release.get("sourceIntegrationAnchor")
     req(isinstance(anchor, str) and SHA40.fullmatch(anchor) is not None, "current Stable exact source anchor")
 
     vocabulary = data.get("statusVocabulary")
