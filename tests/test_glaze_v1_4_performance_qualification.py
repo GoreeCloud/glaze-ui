@@ -16,6 +16,7 @@ from evaluate_glaze_v1_4_performance_qualification import evaluate
 SOURCE = "1" * 40
 TREE = "2" * 40
 EVALUATED_AT = datetime(2026, 9, 12, 23, 31, tzinfo=timezone.utc)
+MAX_MEASUREMENT_AGE_MS = 5 * 60 * 1000
 
 
 def record() -> dict:
@@ -60,11 +61,18 @@ def record() -> dict:
     }
 
 
-def evaluate_bound(payload: dict, *, source: str = SOURCE, tree: str = TREE) -> dict:
+def evaluate_bound(
+    payload: dict,
+    *,
+    source: str = SOURCE,
+    tree: str = TREE,
+    max_age_ms: int = MAX_MEASUREMENT_AGE_MS,
+) -> dict:
     return evaluate(
         payload,
         expected_source_revision=source,
         expected_source_tree_revision=tree,
+        max_measurement_age_ms=max_age_ms,
         evaluated_at=EVALUATED_AT,
     )
 
@@ -84,9 +92,10 @@ def main() -> None:
     assert accepted["evaluatorDisposition"] == "accepted"
 
     unbound = evaluate(record(), evaluated_at=EVALUATED_AT)
-    assert unbound["acceptedForPerformanceQualification"] is False, "performance qualification must require exact source and tree expectations"
+    assert unbound["acceptedForPerformanceQualification"] is False, "performance qualification must require exact source, tree, and measurement-age expectations"
     assert "source_revision_expectation_missing" in unbound["reasonCodes"]
     assert "source_tree_revision_expectation_missing" in unbound["reasonCodes"]
+    assert "measurement_age_expectation_missing" in unbound["reasonCodes"]
 
     over_budget = record()
     over_budget["metrics"][0]["measured"] = 11.0
@@ -120,6 +129,17 @@ def main() -> None:
     check_raises(
         lambda: evaluate_bound(future_measurement),
         "future-dated performance measurements must fail closed",
+    )
+
+    stale_measurement = record()
+    stale_measurement["measuredAt"] = "2026-09-12T23:20:00.000Z"
+    result = evaluate_bound(stale_measurement)
+    assert result["acceptedForPerformanceQualification"] is False, "caller-selected measurement freshness must block stale performance evidence"
+    assert "measurement_evidence_stale" in result["reasonCodes"]
+
+    check_raises(
+        lambda: evaluate_bound(record(), max_age_ms=0),
+        "measurement freshness policy must be a positive integer",
     )
 
     pending_review = record()
