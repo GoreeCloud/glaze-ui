@@ -33,6 +33,9 @@ def main() -> None:
         "source_tree_revision_mismatch",
         "source_revision_expectation_missing",
         "source_tree_revision_expectation_missing",
+        "measurement_age_expectation_missing",
+        "measurement_evidence_stale",
+        "max_measurement_age_ms",
         "measuredAt cannot be future-dated",
         "measurement_evidence_missing",
         "review_not_accepted",
@@ -42,12 +45,14 @@ def main() -> None:
     test_text = TEST.read_text(encoding="utf-8")
     for token in (
         "passing measured evidence can qualify performance without granting lifecycle acceptance",
-        "performance qualification must require exact source and tree expectations",
+        "performance qualification must require exact source, tree, and measurement-age expectations",
         "accepted flag cannot contradict the measured value and budget",
         "duplicate metrics fail closed",
         "exact source mismatch blocks otherwise passing evidence",
         "exact source-tree mismatch blocks otherwise passing evidence",
         "future-dated performance measurements must fail closed",
+        "caller-selected measurement freshness must block stale performance evidence",
+        "measurement freshness policy must be a positive integer",
     ):
         assert token in test_text, f"performance tests missing invariant: {token}"
 
