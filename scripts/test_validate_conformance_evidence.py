@@ -5,7 +5,7 @@ import copy
 import unittest
 from datetime import UTC, datetime, timedelta
 
-from validate_conformance_evidence import EvidenceError, validate_record
+from validate_conformance_evidence import EvidenceError, current_product_version, validate_record
 
 NOW = datetime(2026, 9, 1, 23, 55, tzinfo=UTC)
 REVISION = "a" * 40
@@ -13,16 +13,8 @@ REVISION = "a" * 40
 
 def integration(applicable: bool = True, valid: bool = True) -> dict[str, object]:
     if not applicable:
-        return {
-            "applicability": "not_applicable",
-            "current_evidence_valid": False,
-            "evidence_references": [],
-        }
-    return {
-        "applicability": "applicable",
-        "current_evidence_valid": valid,
-        "evidence_references": ["evidence://integration/current"],
-    }
+        return {"applicability": "not_applicable", "current_evidence_valid": False, "evidence_references": []}
+    return {"applicability": "applicable", "current_evidence_valid": valid, "evidence_references": ["evidence://integration/current"]}
 
 
 def valid_record() -> dict[str, object]:
@@ -31,17 +23,14 @@ def valid_record() -> dict[str, object]:
         "producer": {"system": "goreecloud-acceptance", "authoritative": True},
         "target": {
             "application": "example-app",
-            "glaze_version": "1.2.0",
+            "glaze_version": current_product_version(),
             "source_revision": REVISION,
             "form_factors": ["mobile", "desktop"],
         },
         "observed_at": NOW.isoformat(),
         "valid_until": (NOW + timedelta(days=7)).isoformat(),
         "claim": {"kind": "conformance", "accepted": True},
-        "acceptance": {
-            "current_stable_required": True,
-            "application_specific_acceptance_complete": True,
-        },
+        "acceptance": {"current_stable_required": True, "application_specific_acceptance_complete": True},
         "integral_platform_integrations": {
             "identity": integration(),
             "privacy_shield": integration(),
@@ -60,8 +49,8 @@ class EvidenceValidityTests(unittest.TestCase):
 
     def test_rejects_wrong_glaze_product_version(self) -> None:
         record = valid_record()
-        record["target"]["glaze_version"] = "1.0.1"  # type: ignore[index]
-        with self.assertRaisesRegex(EvidenceError, "current GLAZE UI V1.2 product version"):
+        record["target"]["glaze_version"] = "0.0.0"  # type: ignore[index]
+        with self.assertRaisesRegex(EvidenceError, "current GLAZE UI product version"):
             validate_record(record, now=NOW)
 
     def test_rejects_expired_evidence(self) -> None:
@@ -97,9 +86,7 @@ class EvidenceValidityTests(unittest.TestCase):
 
     def test_rejects_accepted_claim_with_stale_integral_system_evidence(self) -> None:
         record = valid_record()
-        record["integral_platform_integrations"]["wardveil_security"][  # type: ignore[index]
-            "current_evidence_valid"
-        ] = False
+        record["integral_platform_integrations"]["wardveil_security"]["current_evidence_valid"] = False  # type: ignore[index]
         with self.assertRaisesRegex(EvidenceError, "wardveil_security"):
             validate_record(record, now=NOW)
 
@@ -108,9 +95,7 @@ class EvidenceValidityTests(unittest.TestCase):
         record["integral_platform_integrations"]["everkeep"] = integration(False)  # type: ignore[index]
         validate_record(record, now=NOW)
         invalid = copy.deepcopy(record)
-        invalid["integral_platform_integrations"]["everkeep"][  # type: ignore[index]
-            "current_evidence_valid"
-        ] = True
+        invalid["integral_platform_integrations"]["everkeep"]["current_evidence_valid"] = True  # type: ignore[index]
         with self.assertRaisesRegex(EvidenceError, "not_applicable"):
             validate_record(invalid, now=NOW)
 
@@ -119,7 +104,6 @@ class EvidenceValidityTests(unittest.TestCase):
         record["unexpected"] = True
         with self.assertRaisesRegex(EvidenceError, "unknown field"):
             validate_record(record, now=NOW)
-
         record = valid_record()
         record["target"]["source_revision"] = "abc"  # type: ignore[index]
         with self.assertRaisesRegex(EvidenceError, "40-character SHA"):
@@ -130,7 +114,6 @@ class EvidenceValidityTests(unittest.TestCase):
         record["producer"]["system"] = "a" * 161  # type: ignore[index]
         with self.assertRaisesRegex(EvidenceError, "at most 160 characters"):
             validate_record(record, now=NOW)
-
         record = valid_record()
         record["target"]["application"] = "a" * 161  # type: ignore[index]
         with self.assertRaisesRegex(EvidenceError, "at most 160 characters"):
@@ -138,12 +121,9 @@ class EvidenceValidityTests(unittest.TestCase):
 
     def test_enforces_schema_reference_limits(self) -> None:
         record = valid_record()
-        record["integral_platform_integrations"]["identity"][  # type: ignore[index]
-            "evidence_references"
-        ] = [f"evidence://identity/{index}" for index in range(21)]
+        record["integral_platform_integrations"]["identity"]["evidence_references"] = [f"evidence://identity/{index}" for index in range(21)]  # type: ignore[index]
         with self.assertRaisesRegex(EvidenceError, "20-item evidence-reference limit"):
             validate_record(record, now=NOW)
-
         record = valid_record()
         record["evidence_references"] = [f"evidence://glaze/{index}" for index in range(51)]
         with self.assertRaisesRegex(EvidenceError, "50-item evidence-reference limit"):
