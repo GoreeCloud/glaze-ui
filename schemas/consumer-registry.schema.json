@@ -1,21 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://goreecloud.dev/schemas/glaze-ui/consumer-registry.schema.json",
-  "title": "Glaze UI V1.3 Consumer Registry",
+  "title": "Glaze UI V1.4 Consumer Registry",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schemaVersion",
-    "officialBaseline",
-    "officialProductLabel",
-    "requiredConsumerVersion",
-    "auditedAt",
-    "statusVocabulary",
-    "enforcement",
-    "consumers"
-  ],
+  "required": ["schemaVersion", "officialBaseline", "officialProductLabel", "requiredConsumerVersion", "auditedAt", "statusVocabulary", "enforcement", "consumers"],
   "properties": {
-    "schemaVersion": {"const": 7},
+    "schemaVersion": {"const": 8},
     "officialBaseline": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
     "officialProductLabel": {"type": "string", "minLength": 1},
     "requiredConsumerVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
@@ -29,21 +20,11 @@
     "enforcement": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "officialCurrentRequired",
-        "productionExceptionsAllowed",
-        "platformScope",
-        "unsupportedPlatformRule"
-      ],
+      "required": ["officialCurrentRequired", "productionExceptionsAllowed", "platformScope", "unsupportedPlatformRule"],
       "properties": {
         "officialCurrentRequired": {"const": true},
         "productionExceptionsAllowed": {"const": false},
-        "platformScope": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": {"type": "string", "minLength": 1}
-        },
+        "platformScope": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "unsupportedPlatformRule": {"type": "string", "minLength": 1}
       }
     },
@@ -53,40 +34,15 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "name",
-          "repository",
-          "status",
-          "targetVersion",
-          "requiredTargetVersion",
-          "referenceRevision",
-          "evidence",
-          "productionEligible",
-          "notes"
-        ],
+        "required": ["name", "repository", "status", "targetVersion", "requiredTargetVersion", "referenceRevision", "evidence", "productionEligible", "notes"],
         "properties": {
           "name": {"type": "string", "minLength": 1},
           "repository": {"type": "string", "pattern": "^GoreeCloud/.+$"},
           "status": {"enum": ["adoption-required", "unverified", "accepted-v1"]},
-          "targetVersion": {
-            "anyOf": [
-              {"type": "null"},
-              {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"}
-            ]
-          },
+          "targetVersion": {"anyOf": [{"type": "null"}, {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"}]},
           "requiredTargetVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
-          "referenceRevision": {
-            "anyOf": [
-              {"type": "null"},
-              {"type": "string", "pattern": "^[0-9a-f]{40}$"}
-            ]
-          },
-          "evidence": {
-            "anyOf": [
-              {"type": "null"},
-              {"type": "string", "minLength": 1}
-            ]
-          },
+          "referenceRevision": {"anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{40}$"}]},
+          "evidence": {"anyOf": [{"type": "null"}, {"type": "string", "minLength": 1}]},
           "productionEligible": {"const": false},
           "notes": {"type": "string", "minLength": 1}
         },
@@ -95,32 +51,14 @@
             "if": {"properties": {"status": {"enum": ["adoption-required", "unverified"]}}, "required": ["status"]},
             "then": {
               "oneOf": [
-                {
-                  "properties": {
-                    "targetVersion": {"type": "null"},
-                    "referenceRevision": {"type": "null"},
-                    "evidence": {"type": "null"}
-                  }
-                },
-                {
-                  "properties": {
-                    "targetVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
-                    "referenceRevision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-                    "evidence": {"type": "string", "minLength": 1}
-                  }
-                }
+                {"properties": {"targetVersion": {"type": "null"}, "referenceRevision": {"type": "null"}, "evidence": {"type": "null"}}},
+                {"properties": {"targetVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"}, "referenceRevision": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "evidence": {"type": "string", "minLength": 1}}}
               ]
             }
           },
           {
             "if": {"properties": {"status": {"const": "accepted-v1"}}, "required": ["status"]},
-            "then": {
-              "properties": {
-                "targetVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
-                "referenceRevision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-                "evidence": {"type": "string", "minLength": 1}
-              }
-            }
+            "then": {"properties": {"targetVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"}, "referenceRevision": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "evidence": {"type": "string", "minLength": 1}}}
           }
         ]
       }

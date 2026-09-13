@@ -1,9 +1,6 @@
-name: GLAZE UI V1.3 Phase 0
+name: GLAZE UI V1.3 Historical Integrity
 
 on:
-  push:
-    branches:
-      - feat/glaze-ui-v1.3-adaptive-resonance
   pull_request:
     paths:
       - 'GLAZE_UI_V1_3.md'
@@ -11,15 +8,26 @@ on:
       - 'acceptance/v1.3-**'
       - 'scripts/validate_glaze_v1_3_phase0.py'
       - 'registry/lifecycle.json'
-      - 'VERSION'
+      - '.github/workflows/glaze-v1.3-phase0.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'GLAZE_UI_V1_3.md'
+      - 'contracts/v1.3/**'
+      - 'acceptance/v1.3-**'
+      - 'scripts/validate_glaze_v1_3_phase0.py'
+      - 'registry/lifecycle.json'
       - '.github/workflows/glaze-v1.3-phase0.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref || github.ref_name }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
-  validate-v1-3-phase0:
+  validate-v1-3-history:
     runs-on: ubuntu-latest
     steps:
       - name: Check out exact revision
@@ -28,12 +36,19 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
-      - name: Compile V1.3 Phase 0 validator
+      - name: Compile V1.3 historical validator
         run: python -m py_compile scripts/validate_glaze_v1_3_phase0.py
-      - name: Validate V1.2 Stable source authority
-        run: python scripts/validate_glaze_v1_2_stable.py
-      - name: Validate V1.3 Adaptive Resonance Phase 0 boundary
+      - name: Validate preserved V1.3 Stable boundary
         run: python scripts/validate_glaze_v1_3_phase0.py
+      - name: Validate V1.2 rollback record exists
+        run: |
+          python - <<'PY'
+          import json
+          lifecycle=json.load(open('registry/lifecycle.json',encoding='utf-8'))
+          record=next((r for r in lifecycle.get('releases',[]) if r.get('version')=='1.2.0'),None)
+          assert record and record.get('status')=='stable' and record.get('consumerEligible') is True
+          print('Historical V1.2 rollback record: PASS')
+          PY
       - name: Parse V1.3 planning contracts
         run: |
           python -m json.tool contracts/v1.3/adaptive-resonance.plan.json >/dev/null

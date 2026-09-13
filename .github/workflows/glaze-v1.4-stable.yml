@@ -1,0 +1,56 @@
+name: Glaze UI v1.4 Stable
+
+on:
+  pull_request:
+    paths:
+      - 'VERSION'
+      - 'GLAZE_UI_V1_4.md'
+      - 'GLAZE_UI_V1_4_1_HARDENING.md'
+      - 'acceptance/v1.4-stable.md'
+      - 'css/glaze-v1.4.0.css'
+      - 'js/glaze-v1.4.0.mjs'
+      - 'js/glaze-v1.4-optical-engine.mjs'
+      - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
+      - 'scripts/verify_glaze_v1_4_stable.mjs'
+      - '.github/workflows/glaze-v1.4-stable.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'VERSION'
+      - 'GLAZE_UI_V1_4.md'
+      - 'GLAZE_UI_V1_4_1_HARDENING.md'
+      - 'acceptance/v1.4-stable.md'
+      - 'css/glaze-v1.4.0.css'
+      - 'js/glaze-v1.4.0.mjs'
+      - 'js/glaze-v1.4-optical-engine.mjs'
+      - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
+      - 'scripts/verify_glaze_v1_4_stable.mjs'
+      - '.github/workflows/glaze-v1.4-stable.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stable-machine-gate:
+    name: v1.4.0 machine-verifiable Stable gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check v1.4 runtime
+        run: |
+          node --check js/glaze-v1.4-optical-engine.mjs
+          node --check js/glaze-v1.4.0.mjs
+          node --check scripts/verify_glaze_v1_4_stable.mjs
+      - name: Verify v1.4 Stable authority and optical invariants
+        run: node scripts/verify_glaze_v1_4_stable.mjs
+      - name: Human validation boundary
+        run: |
+          echo 'Human/manual/physical-device validation is intentionally assigned to GLAZE UI V1.4.1.'
+          echo 'This workflow does not fabricate human verification evidence.'

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate V1.3.0 Stable authority and preserve the historical Stable-readiness mechanism as V1.3.1 follow-up provenance."""
+"""Validate preserved V1.3 Stable/readiness provenance without claiming it is current."""
 from __future__ import annotations
 import json
 from pathlib import Path
@@ -28,29 +28,25 @@ def main():
         "acceptance/v1.3-deferred-qualification.md",
         "GLAZE_UI_V1_3_1_HARDENING.md",
         "registry/lifecycle.json",
-        "VERSION",
         "css/glaze-v1.3.0.css",
         "js/glaze-v1.3.0.mjs",
     ]
     for path in required:
-        req((ROOT / path).is_file(), f"missing Stable/readiness artifact: {path}")
+        req((ROOT / path).is_file(), f"missing V1.3 Stable/readiness artifact: {path}")
 
     if errors:
-        print("GLAZE UI V1.3 Stable authority validation FAILED:")
+        print("GLAZE UI V1.3 historical Stable/readiness validation FAILED:")
         for e in errors:
             print(f"- {e}")
         return 1
 
     lifecycle = load("registry/lifecycle.json")
-    req((ROOT / "VERSION").read_text().strip() == STABLE, "VERSION must be 1.3.0")
-    req(lifecycle.get("currentStable") == STABLE, "currentStable must be 1.3.0")
-    req(lifecycle.get("currentOfficial") == STABLE, "currentOfficial must be 1.3.0")
-    req(lifecycle.get("activeCandidate") is None, "no Candidate may remain active after V1.3.0 Stable release")
-
     release = next((x for x in lifecycle.get("releases", []) if x.get("version") == STABLE), None)
-    req(bool(release) and release.get("status") == "stable", "1.3.0 release record must be Stable")
-    req(bool(release) and release.get("consumerEligible") is True, "1.3.0 must be consumer-eligible")
-    req(bool(release) and release.get("acceptance") == "acceptance/v1.3-stable.md", "Stable acceptance authority mismatch")
+    req(bool(release) and release.get("status") == "stable", "1.3.0 release record must remain Stable")
+    req(bool(release) and release.get("consumerEligible") is True, "1.3.0 historical record must preserve consumer eligibility")
+    req(bool(release) and release.get("acceptance") == "acceptance/v1.3-stable.md", "V1.3 Stable acceptance authority mismatch")
+    req(bool(release) and release.get("webEntrypoint") == "css/glaze-v1.3.0.css", "V1.3 web entrypoint drift")
+    req(bool(release) and release.get("runtimeEntrypoint") == "js/glaze-v1.3.0.mjs", "V1.3 runtime entrypoint drift")
 
     runtime = (ROOT / "js/glaze-v1.3-stable-readiness.candidate.mjs").read_text()
     for symbol in ["evaluateStableReadiness", "STABLE_CLEANUP_WORKSTREAM", "stableReadinessCandidate"]:
@@ -61,19 +57,18 @@ def main():
     acceptance = (ROOT / "acceptance/v1.3-stable.md").read_text()
     deferred = (ROOT / "acceptance/v1.3-deferred-qualification.md").read_text()
     hardening = (ROOT / "GLAZE_UI_V1_3_1_HARDENING.md").read_text()
-    req("Official Stable release" in acceptance, "Stable acceptance must be active")
-    req("V1.3.1" in acceptance and "V1.3.1" in deferred and "V1.3.1" in hardening,
-        "former Stable-readiness blockers must be visibly transferred to V1.3.1")
-    req("not represented as passed" in acceptance, "Stable release must not fabricate readiness evidence")
+    req("Official Stable release" in acceptance, "V1.3 Stable acceptance must remain recorded")
+    req("V1.3.1" in acceptance and "V1.3.1" in deferred and "V1.3.1" in hardening, "V1.3.1 follow-up provenance must remain visible")
+    req("not represented as passed" in acceptance, "V1.3 evidence boundary must reject fabricated readiness")
 
     if errors:
-        print("GLAZE UI V1.3 Stable authority validation FAILED:")
+        print("GLAZE UI V1.3 historical Stable/readiness validation FAILED:")
         for e in errors:
             print(f"- {e}")
         return 1
 
-    print("GLAZE UI V1.3 Stable authority: PASS")
-    print("1.3.0 is Official/Stable/consumer-eligible; the historical readiness mechanism remains audit provenance and unresolved cleanup is V1.3.1 follow-up.")
+    print("GLAZE UI V1.3 historical Stable/readiness provenance: PASS")
+    print("1.3.0 remains a preserved Stable rollback record; this validator does not claim it is the current release.")
     return 0
 
 

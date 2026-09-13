@@ -48,16 +48,23 @@ jobs:
           PYTHONPATH: scripts
         run: python3 -m unittest -v scripts/test_validate_conformance_evidence.py
 
-      - name: Verify current V1 binding
+      - name: Verify current Stable binding
+        env:
+          PYTHONPATH: scripts
         run: |
           python3 - <<'PY'
           import json
+          import re
           from pathlib import Path
+          from validate_conformance_evidence import current_product_version
 
           version = Path("VERSION").read_text(encoding="utf-8").strip()
           schema = json.loads(Path("contracts/glaze.conformance-evidence.schema.json").read_text(encoding="utf-8"))
           target = schema["properties"]["target"]["properties"]
-          assert version == "1.2.0"
-          assert target["glaze_version"]["const"] == version
+          assert re.fullmatch(r"\d+\.\d+\.\d+", version)
+          assert current_product_version() == version
+          assert target["glaze_version"]["type"] == "string"
+          assert target["glaze_version"]["pattern"] == r"^\d+\.\d+\.\d+$"
           assert schema["properties"]["schema_version"]["const"] == 2
+          print(f"Conformance evidence is bound fail-closed to current Stable GLAZE UI {version} by the validator.")
           PY

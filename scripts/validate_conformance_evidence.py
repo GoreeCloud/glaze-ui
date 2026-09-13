@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate GLAZE UI V1.2 conformance evidence without external dependencies."""
+"""Validate current GLAZE UI conformance evidence without external dependencies."""
 
 from __future__ import annotations
 
@@ -12,38 +12,27 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION_FILE = ROOT / "VERSION"
-CURRENT_PRODUCT_VERSION = "1.2.0"
 FORM_FACTORS = {"mobile", "tablet", "desktop", "tv", "foldable", "wearable", "spatial"}
-INTEGRATIONS = {
-    "identity",
-    "privacy_shield",
-    "wardveil_security",
-    "everkeep",
-    "goreecloud_mesh",
-}
-TOP_LEVEL = {
-    "schema_version",
-    "producer",
-    "target",
-    "observed_at",
-    "valid_until",
-    "claim",
-    "acceptance",
-    "integral_platform_integrations",
-    "evidence_references",
-}
+INTEGRATIONS = {"identity", "privacy_shield", "wardveil_security", "everkeep", "goreecloud_mesh"}
+TOP_LEVEL = {"schema_version", "producer", "target", "observed_at", "valid_until", "claim", "acceptance", "integral_platform_integrations", "evidence_references"}
 MAX_NAME_LENGTH = 160
 MAX_REFERENCE_LENGTH = 500
 MAX_EVIDENCE_REFERENCES = 50
 MAX_INTEGRATION_REFERENCES = 20
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
-RFC3339_RE = re.compile(
-    r"^\d{4}-\d{2}-\d{2}[Tt]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[Zz]|[+-]\d{2}:\d{2})$"
-)
+SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
+RFC3339_RE = re.compile(r"^\d{4}-\d{2}-\d{2}[Tt]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[Zz]|[+-]\d{2}:\d{2})$")
 
 
 class EvidenceError(ValueError):
     """Evidence is structurally invalid or cannot support its stated claim."""
+
+
+def current_product_version() -> str:
+    value = VERSION_FILE.read_text(encoding="utf-8").strip()
+    if not SEMVER_RE.fullmatch(value):
+        raise EvidenceError("repository VERSION must be a stable semantic version")
+    return value
 
 
 def require_object(value: Any, name: str) -> dict[str, Any]:
@@ -70,19 +59,11 @@ def require_bool(value: Any, name: str) -> bool:
 
 def require_bounded_string(value: Any, name: str, *, max_length: int) -> str:
     if not isinstance(value, str) or not value.strip() or len(value) > max_length:
-        raise EvidenceError(
-            f"{name} must be a bounded non-empty string of at most {max_length} characters"
-        )
+        raise EvidenceError(f"{name} must be a bounded non-empty string of at most {max_length} characters")
     return value
 
 
-def require_references(
-    value: Any,
-    name: str,
-    *,
-    required: bool,
-    max_items: int,
-) -> list[str]:
+def require_references(value: Any, name: str, *, required: bool, max_items: int) -> list[str]:
     if not isinstance(value, list):
         raise EvidenceError(f"{name} must be an array")
     if required and not value:
@@ -120,7 +101,7 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
     data = require_object(record, "evidence")
     require_exact_keys(data, TOP_LEVEL, "evidence")
     if data["schema_version"] != 2:
-        raise EvidenceError("schema_version must be 2 for GLAZE UI V1.2 evidence")
+        raise EvidenceError("schema_version must be 2 for current GLAZE UI evidence")
 
     producer = require_object(data["producer"], "producer")
     require_exact_keys(producer, {"system", "authoritative"}, "producer")
@@ -129,33 +110,18 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
         raise EvidenceError("evidence producer must be authoritative")
 
     target = require_object(data["target"], "target")
-    require_exact_keys(
-        target,
-        {"application", "glaze_version", "source_revision", "form_factors"},
-        "target",
-    )
-    require_bounded_string(
-        target["application"], "target.application", max_length=MAX_NAME_LENGTH
-    )
-    repository_version = VERSION_FILE.read_text(encoding="utf-8").strip()
-    if repository_version != CURRENT_PRODUCT_VERSION:
-        raise EvidenceError(
-            f"validator is bound to GLAZE UI V1.2 product version {CURRENT_PRODUCT_VERSION}, "
-            f"repository reports {repository_version}"
-        )
+    require_exact_keys(target, {"application", "glaze_version", "source_revision", "form_factors"}, "target")
+    require_bounded_string(target["application"], "target.application", max_length=MAX_NAME_LENGTH)
+    repository_version = current_product_version()
     if target["glaze_version"] != repository_version:
-        raise EvidenceError(
-            "target.glaze_version must match the current GLAZE UI V1.2 product version exactly"
-        )
-    if not isinstance(target["source_revision"], str) or not SHA_RE.fullmatch(
-        target["source_revision"]
-    ):
+        raise EvidenceError("target.glaze_version must match the current GLAZE UI product version exactly")
+    if not isinstance(target["source_revision"], str) or not SHA_RE.fullmatch(target["source_revision"]):
         raise EvidenceError("target.source_revision must be an exact lowercase 40-character SHA")
     factors = target["form_factors"]
     if not isinstance(factors, list) or not factors:
         raise EvidenceError("target.form_factors must be a non-empty array")
     if any(not isinstance(item, str) or item not in FORM_FACTORS for item in factors):
-        raise EvidenceError("target.form_factors contains an unsupported GLAZE UI V1.2 role")
+        raise EvidenceError("target.form_factors contains an unsupported GLAZE UI role")
     if len(factors) != len(set(factors)):
         raise EvidenceError("target.form_factors must not contain duplicates")
 
@@ -179,60 +145,29 @@ def validate_record(record: Any, *, now: datetime | None = None) -> dict[str, An
     accepted = require_bool(claim["accepted"], "claim.accepted")
 
     acceptance = require_object(data["acceptance"], "acceptance")
-    require_exact_keys(
-        acceptance,
-        {"current_stable_required", "application_specific_acceptance_complete"},
-        "acceptance",
-    )
+    require_exact_keys(acceptance, {"current_stable_required", "application_specific_acceptance_complete"}, "acceptance")
     if acceptance["current_stable_required"] is not True:
-        raise EvidenceError("the current GLAZE UI V1.2 target must remain required")
-    application_accepted = require_bool(
-        acceptance["application_specific_acceptance_complete"],
-        "acceptance.application_specific_acceptance_complete",
-    )
+        raise EvidenceError("the current GLAZE UI target must remain required")
+    application_accepted = require_bool(acceptance["application_specific_acceptance_complete"], "acceptance.application_specific_acceptance_complete")
 
-    integrations = require_object(
-        data["integral_platform_integrations"], "integral_platform_integrations"
-    )
+    integrations = require_object(data["integral_platform_integrations"], "integral_platform_integrations")
     require_exact_keys(integrations, INTEGRATIONS, "integral_platform_integrations")
     for system in sorted(INTEGRATIONS):
         item = require_object(integrations[system], f"integral_platform_integrations.{system}")
-        require_exact_keys(
-            item,
-            {"applicability", "current_evidence_valid", "evidence_references"},
-            f"integral_platform_integrations.{system}",
-        )
+        require_exact_keys(item, {"applicability", "current_evidence_valid", "evidence_references"}, f"integral_platform_integrations.{system}")
         applicability = item["applicability"]
         if applicability not in {"applicable", "not_applicable"}:
             raise EvidenceError(f"{system} applicability is invalid")
-        evidence_valid = require_bool(
-            item["current_evidence_valid"], f"{system}.current_evidence_valid"
-        )
-        references = require_references(
-            item["evidence_references"],
-            f"{system}.evidence_references",
-            required=applicability == "applicable",
-            max_items=MAX_INTEGRATION_REFERENCES,
-        )
+        evidence_valid = require_bool(item["current_evidence_valid"], f"{system}.current_evidence_valid")
+        references = require_references(item["evidence_references"], f"{system}.evidence_references", required=applicability == "applicable", max_items=MAX_INTEGRATION_REFERENCES)
         if applicability == "not_applicable" and (evidence_valid or references):
-            raise EvidenceError(
-                f"{system} marked not_applicable must not claim current integration evidence"
-            )
+            raise EvidenceError(f"{system} marked not_applicable must not claim current integration evidence")
         if accepted and applicability == "applicable" and not evidence_valid:
-            raise EvidenceError(
-                f"accepted Glaze claim requires current valid {system} integration evidence"
-            )
+            raise EvidenceError(f"accepted Glaze claim requires current valid {system} integration evidence")
 
-    require_references(
-        data["evidence_references"],
-        "evidence_references",
-        required=True,
-        max_items=MAX_EVIDENCE_REFERENCES,
-    )
+    require_references(data["evidence_references"], "evidence_references", required=True, max_items=MAX_EVIDENCE_REFERENCES)
     if accepted and not application_accepted:
-        raise EvidenceError(
-            "accepted Glaze claim requires application-specific acceptance to be complete"
-        )
+        raise EvidenceError("accepted Glaze claim requires application-specific acceptance to be complete")
     return data
 
 
@@ -246,13 +181,13 @@ def load_record(path: Path) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("evidence", type=Path, help="GLAZE UI V1.2 evidence JSON file")
+    parser.add_argument("evidence", type=Path, help="current GLAZE UI evidence JSON file")
     args = parser.parse_args()
     try:
         load_record(args.evidence)
     except EvidenceError as exc:
         parser.exit(1, f"Glaze UI evidence validation failed: {exc}\n")
-    print(f"GLAZE UI V1.2 evidence validation passed: {args.evidence}")
+    print(f"GLAZE UI {current_product_version()} evidence validation passed: {args.evidence}")
     return 0
 
 
