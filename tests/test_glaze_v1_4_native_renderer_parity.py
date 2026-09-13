@@ -19,6 +19,10 @@ REV = "a" * 40
 TREE = "b" * 40
 
 
+def evidence_ref(seed: str, locator: str) -> str:
+    return "evidence+sha256:" + seed * 64 + ":" + locator
+
+
 def record() -> dict:
     return {
         "schemaVersion": module.SCHEMA_VERSION,
@@ -41,13 +45,16 @@ def record() -> dict:
         },
         "scenes": [{
             "id": "settings.material-card",
-            "referenceEvidence": "evidence+sha256:" + "1" * 64 + ":reference.png",
-            "nativeEvidence": "evidence+sha256:" + "2" * 64 + ":native.png",
+            "referenceEvidence": evidence_ref("1", "reference.png"),
+            "nativeEvidence": evidence_ref("2", "native.png"),
             "disposition": "accepted",
             "rationale": "Reviewed against the owner-selected target criteria.",
         }],
         "reviewer": {
             "authority": "Glaze qualification reviewer",
+            "authorityEvidence": evidence_ref("3", "review-authority.json"),
+            "reviewEvidence": evidence_ref("4", "review-attestation.json"),
+            "reviewedAt": "2026-09-12T11:30:00.000Z",
             "disposition": "accepted",
             "rationale": "Scene evidence accepted for parity qualification.",
         },
@@ -71,6 +78,7 @@ def main() -> None:
     assert accepted["acceptedForNativeRendererParityQualification"] is True
     assert accepted["acceptedForLifecycleGate"] is False
     assert accepted["reasonCodes"] == []
+    assert accepted["reviewedAt"] == "2026-09-12T11:30:00.000Z"
 
     missing_expectations = module.evaluate(record(), evaluated_at=NOW)
     assert missing_expectations["acceptedForNativeRendererParityQualification"] is False
@@ -100,7 +108,52 @@ def main() -> None:
     except ValueError as exc:
         assert "content-addressed" in str(exc)
     else:
-        raise AssertionError("mutable evidence reference was accepted")
+        raise AssertionError("mutable scene evidence reference was accepted")
+
+    mutable_review = record()
+    mutable_review["reviewer"]["reviewEvidence"] = "review:latest"
+    try:
+        evaluate(mutable_review)
+    except ValueError as exc:
+        assert "content-addressed" in str(exc)
+    else:
+        raise AssertionError("mutable reviewer evidence reference was accepted")
+
+    duplicate_review_evidence = record()
+    duplicate_review_evidence["reviewer"]["reviewEvidence"] = duplicate_review_evidence["reviewer"]["authorityEvidence"]
+    try:
+        evaluate(duplicate_review_evidence)
+    except ValueError as exc:
+        assert "must be distinct" in str(exc)
+    else:
+        raise AssertionError("review authority and review event reused the same evidence reference")
+
+    scene_review_collision = record()
+    scene_review_collision["reviewer"]["reviewEvidence"] = scene_review_collision["scenes"][0]["nativeEvidence"]
+    try:
+        evaluate(scene_review_collision)
+    except ValueError as exc:
+        assert "distinct from scene evidence" in str(exc)
+    else:
+        raise AssertionError("review evidence was allowed to reuse scene evidence")
+
+    review_before_capture = record()
+    review_before_capture["reviewer"]["reviewedAt"] = "2026-09-12T10:59:59.000Z"
+    try:
+        evaluate(review_before_capture)
+    except ValueError as exc:
+        assert "cannot precede capturedAt" in str(exc)
+    else:
+        raise AssertionError("review predating evidence capture was accepted")
+
+    future_review = record()
+    future_review["reviewer"]["reviewedAt"] = "2026-09-12T12:00:00.001Z"
+    try:
+        evaluate(future_review)
+    except ValueError as exc:
+        assert "future-dated" in str(exc)
+    else:
+        raise AssertionError("future-dated review was accepted")
 
     duplicate = record()
     duplicate["scenes"].append(copy.deepcopy(duplicate["scenes"][0]))
