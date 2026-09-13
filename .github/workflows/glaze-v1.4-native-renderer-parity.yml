@@ -6,8 +6,10 @@ on:
       - 'contracts/v1.4/native-renderer-parity-evidence.schema.candidate.json'
       - 'evidence/v1.4/templates/native-renderer-parity-record.candidate.json'
       - 'scripts/evaluate_glaze_v1_4_native_renderer_parity.py'
+      - 'scripts/validate_glaze_v1_4_evidence_reference_privacy.py'
       - 'tests/test_glaze_v1_4_native_renderer_parity.py'
       - 'docs/GLAZE_UI_V1_4_NATIVE_RENDERER_PARITY.md'
+      - 'docs/GLAZE_UI_V1_4_EVIDENCE_REFERENCE_PRIVACY.md'
       - '.github/workflows/glaze-v1.4-native-renderer-parity.yml'
   push:
     branches:
@@ -17,8 +19,10 @@ on:
       - 'contracts/v1.4/native-renderer-parity-evidence.schema.candidate.json'
       - 'evidence/v1.4/templates/native-renderer-parity-record.candidate.json'
       - 'scripts/evaluate_glaze_v1_4_native_renderer_parity.py'
+      - 'scripts/validate_glaze_v1_4_evidence_reference_privacy.py'
       - 'tests/test_glaze_v1_4_native_renderer_parity.py'
       - 'docs/GLAZE_UI_V1_4_NATIVE_RENDERER_PARITY.md'
+      - 'docs/GLAZE_UI_V1_4_EVIDENCE_REFERENCE_PRIVACY.md'
       - '.github/workflows/glaze-v1.4-native-renderer-parity.yml'
 
 permissions:
@@ -48,6 +52,9 @@ jobs:
           python -m json.tool contracts/v1.4/native-renderer-parity-evidence.schema.candidate.json >/dev/null
           python -m json.tool evidence/v1.4/templates/native-renderer-parity-record.candidate.json >/dev/null
 
+      - name: Validate shared evidence reference privacy
+        run: python scripts/validate_glaze_v1_4_evidence_reference_privacy.py
+
       - name: Run native renderer parity qualification regressions
         run: python tests/test_glaze_v1_4_native_renderer_parity.py
 
@@ -68,6 +75,7 @@ jobs:
       - name: Compile evaluator and tests
         run: |
           python -m py_compile scripts/evaluate_glaze_v1_4_native_renderer_parity.py
+          python -m py_compile scripts/validate_glaze_v1_4_evidence_reference_privacy.py
           python -m py_compile tests/test_glaze_v1_4_native_renderer_parity.py
 
       - name: Verify validation did not mutate tracked source
