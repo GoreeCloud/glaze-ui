@@ -8,6 +8,7 @@ on:
     paths:
       - '.github/workflows/glaze-v1.3-stable-authority.yml'
       - '.github/workflows/glaze-v1.4-v1.3-compatibility.yml'
+      - 'scripts/validate_glaze_v1_4_evidence_reference_privacy.py'
       - 'VERSION'
       - 'GLAZE_UI_V1_3.md'
       - 'GLAZE_UI_V1_3_1_HARDENING.md'
