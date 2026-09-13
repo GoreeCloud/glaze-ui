@@ -1,41 +1,46 @@
-# GLAZE UI V1.3 — Adaptive Resonance
+# GLAZE UI V1.4 — Optical Intelligence
 
-GLAZE UI V1.3 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, not a regression risk.** Machine version: **1.3.0**.
+GLAZE UI V1.4 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, not a regression risk.** Machine version: **1.4.0**.
 
 ## Core rules
 
-**Neutral glass is the material foundation. Adaptive expression is contextual, bounded, and subordinate to meaning, accessibility, and task completion.**
+**Neutral glass remains the material foundation. Optical adaptation is contextual, bounded, and subordinate to meaning, accessibility, privacy, security, and task completion.**
 
 **Solid where users read or make explicit critical decisions. Glazed where users interact with transient navigation, command, search, control, or feedback chrome.**
 
-V1.3 Adaptive Resonance builds on the V1.2 Living Frosted foundation with adaptive/dynamic color, expressive shape, responsive typography, Living Material 2.0 behavior, human reachability, adaptive navigation, multi-pane/foldable/desktop composition, System Shell evolution, contextual intelligence, motion/continuity, accessibility/resilience, Personalization, and signature component/reference coverage.
+V1.4 builds on V1.3 Adaptive Resonance with the Glaze Optical Engine: Content-Aware Frost, Semantic Blur Protection, bounded environment tinting/light warmth, chromatic depth layers, and bounded environmental color memory. The upgrade is additive and preserves the established token system and component API.
 
 ## Stable source authority
 
-- `VERSION` — `1.3.0`
-- `GLAZE_UI_V1_3.md` — official Stable contract
+- `VERSION` — `1.4.0`
+- `GLAZE_UI_V1_4.md` — official Stable contract
 - `registry/lifecycle.json` — lifecycle authority
-- `css/glaze-v1.3.0.css` — Stable web entrypoint
-- `js/glaze-v1.3.0.mjs` — Stable runtime entrypoint
-- `acceptance/v1.3-stable.md` — V1.3 Stable acceptance/scope record
-- `MIGRATION_V1_2_TO_V1_3.md` — current migration control plane
+- `css/glaze-v1.4.0.css` — Stable web entrypoint
+- `js/glaze-v1.4.0.mjs` — Stable runtime entrypoint
+- `js/glaze-v1.4-optical-engine.mjs` — deterministic Optical Engine
+- `acceptance/v1.4-stable.md` — V1.4 Stable acceptance/scope record
 - `consumers/registry.json` — current consumer target and adoption state
+- `scripts/verify_glaze_v1_4_stable.mjs` — fail-closed machine-verifiable Stable gate
 
-The promoted V1.3 source retains historical `.candidate` filenames internally where they identify implementation-stage provenance. Those filenames do not make the current lifecycle Candidate; the aggregate Stable entrypoints and lifecycle registry are authoritative.
+V1.4 inherits the V1.3 Stable surface and runtime before adding the new optical layer, preserving V1.3 as the immediate rollback baseline.
 
-## V1.3.1 follow-up
+## Accessibility and context boundary
 
-On 2026-09-08 the GoreeCloud project owner directed that V1.3 become Official, Stable, and consumer-eligible on `main` and that unresolved release-quality work move to V1.3.1 instead of holding back V1.3.0.
+Forced Colors and Reduced Transparency collapse V1.4 optical behavior to a solid accessible mode. Increased Contrast suppresses decorative memory tinting and warmth while increasing optical protection. Environmental memory tint is decorative, optional, and capped at 8% influence.
 
-The carry-forward work includes human optical/icon review, manual assistive-technology qualification, physical-device/native-platform qualification, physical-device production-performance qualification, native Personalization adapter qualification, and source-namespace/migration/rollback cleanup. None of that unfinished work is relabeled as passed V1.3.0 evidence.
+The Glaze Optical Engine is local and deterministic. It does not require telemetry, analytics, camera access, or remote context. Consumer applications remain responsible for obtaining any contextual signals through adapters accepted by their own Wardveil Security and Privacy Shield boundaries.
 
-See `GLAZE_UI_V1_3_1_HARDENING.md` and `acceptance/v1.3-deferred-qualification.md`.
+## V1.4.1 follow-up
+
+By GoreeCloud owner direction dated 2026-09-13, human validation and human verification are assigned to V1.4.1 instead of blocking V1.4.0 Stable activation. This includes subjective optical/polish review, manual assistive-technology validation, physical-device/native-platform qualification, representative real-device performance validation, and qualitative interaction/visual assessment.
+
+Those checks are **not** represented as passed V1.4.0 evidence. See `GLAZE_UI_V1_4_1_HARDENING.md`.
 
 ## Consumer boundary
 
-V1.3.0 is eligible for downstream adoption and is the required shared target. No downstream GoreeCloud application auto-becomes conformant or production-ready because V1.3 is Stable. Every applicable consumer must explicitly migrate to `1.3.0` and produce repository-local evidence for its actual platform, accessibility, performance, workflow, rollback, and release acceptance boundary.
+V1.4.0 is eligible for downstream adoption and is the required shared target. No downstream GoreeCloud application becomes conformant or production-ready merely because Glaze UI V1.4 is Stable. Every user-facing consumer must migrate to the latest Stable Glaze UI release and maintain repository-local implementation and acceptance evidence appropriate to its supported platforms.
 
-GLAZE UI V1.2 / `1.2.0` remains preserved as the immediately preceding known-good Stable rollback anchor. Glaze Motion remains separately governed unless explicitly incorporated by a Stable contract.
+GLAZE UI V1.3 / `1.3.0` remains preserved as the immediately preceding known-good Stable rollback anchor. Glaze Motion remains separately governed unless explicitly incorporated by a Stable contract.
 
 ## License
 
