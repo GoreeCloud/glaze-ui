@@ -9,11 +9,12 @@ on:
       - 'js/glaze-v1.4-*'
       - 'reference/glaze-v1.4-*'
       - 'evidence/v1.4/**'
-      - 'scripts/validate_glaze_v1.4_optical_material.py'
+      - 'scripts/validate_glaze-v1.4_optical_material.py'
       - 'scripts/validate_glaze_v1_4_semantic_optical_runtime.py'
       - 'scripts/validate_glaze_v1_4_browser_capabilities.py'
       - 'scripts/validate_glaze_v1_4_accessibility_composition.py'
       - 'scripts/validate_glaze_v1_4_accessibility_qualification.py'
+      - 'scripts/validate_glaze_v1_4_evidence_reference_privacy.py'
       - 'tokens/glaze-v1.3-material.candidate.json'
       - 'GLAZE_UI_V1_3.md'
       - 'GLAZE_UI_V1_3_1_HARDENING.md'
@@ -49,11 +50,12 @@ on:
       - 'js/glaze-v1.4-*'
       - 'reference/glaze-v1.4-*'
       - 'evidence/v1.4/**'
-      - 'scripts/validate_glaze_v1.4_optical_material.py'
+      - 'scripts/validate_glaze-v1.4_optical_material.py'
       - 'scripts/validate_glaze_v1_4_semantic_optical_runtime.py'
       - 'scripts/validate_glaze_v1_4_browser_capabilities.py'
       - 'scripts/validate_glaze_v1_4_accessibility_composition.py'
       - 'scripts/validate_glaze_v1_4_accessibility_qualification.py'
+      - 'scripts/validate_glaze_v1_4_evidence_reference_privacy.py'
       - 'tokens/glaze-v1.3-material.candidate.json'
       - 'GLAZE_UI_V1_3.md'
       - 'GLAZE_UI_V1_3_1_HARDENING.md'
@@ -111,8 +113,9 @@ jobs:
         run: |
           python -m py_compile scripts/validate_consumer_registry.py
           python -m py_compile scripts/validate_consumer_summary.py
-          python -m py_compile scripts/validate_glaze_v1.4_optical_material.py
+          python -m py_compile scripts/validate_glaze-v1.4_optical_material.py
           python -m py_compile scripts/validate_glaze_v1_3_runtime_module_graph.py
+          python -m py_compile scripts/validate_glaze_v1_4_evidence_reference_privacy.py
 
       - name: Validate Stable V1.3 lifecycle authority
         run: |
@@ -134,6 +137,9 @@ jobs:
           print('Stable V1.3 lifecycle authority preserved: PASS')
           PY
 
+      - name: Validate V1.4 evidence reference privacy
+        run: python scripts/validate_glaze_v1_4_evidence_reference_privacy.py
+
       - name: Validate full V1.3 Stable authority evidence boundary
         run: |
           python scripts/validate_glaze_v1_3_phase0.py
@@ -148,7 +154,7 @@ jobs:
           python scripts/validate_consumer_summary.py
 
       - name: Validate V1.4 candidate preserves V1.3 contract boundary
-        run: python scripts/validate_glaze_v1.4_optical_material.py
+        run: python scripts/validate_glaze-v1.4_optical_material.py
 
       - name: Parse governed lifecycle and consumer sources
         run: |
