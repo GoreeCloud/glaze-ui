@@ -4,6 +4,10 @@ const DEPTH = new Set(['base', 'raised', 'overlay', 'modal']);
 const DAYPART = new Set(['dawn', 'day', 'dusk', 'night', 'unknown']);
 const APPEARANCE = new Set(['light', 'dark', 'deep-dark']);
 
+function asObject(value) {
+  return value && typeof value === 'object' ? value : {};
+}
+
 function clamp(value, min = 0, max = 1) {
   const number = Number(value);
   if (!Number.isFinite(number)) return min;
@@ -15,7 +19,7 @@ function bounded(value, allowed, fallback) {
 }
 
 function normalizeAccessibility(value = {}) {
-  const input = value && typeof value === 'object' ? value : {};
+  const input = asObject(value);
   return Object.freeze({
     forcedColors: Boolean(input.forcedColors),
     reducedTransparency: Boolean(input.reducedTransparency),
@@ -69,12 +73,13 @@ function normalizeMemoryTint(value) {
  * privacy/security-approved adapters.
  */
 export function resolveGlazeOptics(options = {}) {
-  const complexity = bounded(options.backgroundComplexity, COMPLEXITY, 'unknown');
-  const luminance = bounded(options.backgroundLuminance, LUMINANCE, 'unknown');
-  const depth = bounded(options.depth, DEPTH, 'base');
-  const daypart = bounded(options.daypart, DAYPART, 'unknown');
-  const appearance = bounded(options.appearance, APPEARANCE, 'light');
-  const accessibility = normalizeAccessibility(options.accessibility);
+  const input = asObject(options);
+  const complexity = bounded(input.backgroundComplexity, COMPLEXITY, 'unknown');
+  const luminance = bounded(input.backgroundLuminance, LUMINANCE, 'unknown');
+  const depth = bounded(input.depth, DEPTH, 'base');
+  const daypart = bounded(input.daypart, DAYPART, 'unknown');
+  const appearance = bounded(input.appearance, APPEARANCE, 'light');
+  const accessibility = normalizeAccessibility(input.accessibility);
 
   if (accessibility.forcedColors || accessibility.reducedTransparency) {
     return Object.freeze({
@@ -90,16 +95,16 @@ export function resolveGlazeOptics(options = {}) {
     });
   }
 
-  const baseFrost = clamp(options.baseFrost ?? 0.34, 0.20, 0.72);
-  const sensitivity = clamp(options.sensitivityFactor ?? 0.38, 0, 0.55);
+  const baseFrost = clamp(input.baseFrost ?? 0.34, 0.20, 0.72);
+  const sensitivity = clamp(input.sensitivityFactor ?? 0.38, 0, 0.55);
   const variance = clamp(complexityVariance(complexity) + luminanceVariance(luminance), 0, 1);
   let frostStrength = clamp(baseFrost + variance * sensitivity, 0.20, 0.88);
   if (accessibility.increasedContrast) frostStrength = clamp(frostStrength + 0.10, 0.20, 0.92);
 
-  const semanticImportance = clamp(options.semanticImportance ?? 0.65, 0, 1);
+  const semanticImportance = clamp(input.semanticImportance ?? 0.65, 0, 1);
   const semanticProtection = clamp(0.50 + semanticImportance * 0.46 + (accessibility.increasedContrast ? 0.04 : 0), 0.50, 1);
   const blurScale = clamp(1 - semanticProtection * 0.42, 0.50, 0.80);
-  const memoryTint = accessibility.increasedContrast ? null : normalizeMemoryTint(options.memoryTint);
+  const memoryTint = accessibility.increasedContrast ? null : normalizeMemoryTint(input.memoryTint);
   const warmth = accessibility.increasedContrast ? 0 : warmthForDaypart(daypart);
 
   return Object.freeze({
@@ -143,18 +148,23 @@ export function applyGlazeOptics(target, options = {}) {
   return resolved;
 }
 
-export function createGlazeOpticalEngine({signalAdapter = null} = {}) {
+export function createGlazeOpticalEngine(options = {}) {
+  const {signalAdapter = null} = asObject(options);
+
+  function adapterSignals() {
+    if (typeof signalAdapter?.resolve !== 'function') return {};
+    return asObject(signalAdapter.resolve());
+  }
+
   return Object.freeze({
     kind: 'glaze-optical-engine-v1.4',
     telemetryRequired: false,
     remoteContextRequired: false,
     resolve(overrides = {}) {
-      const adapterSignals = typeof signalAdapter?.resolve === 'function' ? signalAdapter.resolve() : {};
-      return resolveGlazeOptics({...adapterSignals, ...overrides});
+      return resolveGlazeOptics({...adapterSignals(), ...asObject(overrides)});
     },
     apply(target, overrides = {}) {
-      const adapterSignals = typeof signalAdapter?.resolve === 'function' ? signalAdapter.resolve() : {};
-      return applyGlazeOptics(target, {...adapterSignals, ...overrides});
+      return applyGlazeOptics(target, {...adapterSignals(), ...asObject(overrides)});
     }
   });
 }

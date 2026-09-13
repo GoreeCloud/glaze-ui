@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {resolveGlazeOptics, glazeOpticalEngineV14} from '../js/glaze-v1.4-optical-engine.mjs';
+import {createGlazeOpticalEngine, resolveGlazeOptics, glazeOpticalEngineV14} from '../js/glaze-v1.4-optical-engine.mjs';
 
 function read(path) {
   return readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -79,6 +79,23 @@ const contrast = resolveGlazeOptics({
 assert.equal(contrast.memoryTint, null);
 assert.equal(contrast.warmth, 0);
 assert.equal(contrast.decorativeTintAllowed, false);
+
+for (const malformed of [null, 'invalid', 42, false]) {
+  const result = resolveGlazeOptics(malformed);
+  assert.equal(result.mode, 'adaptive-optical', 'malformed resolver inputs must fail safely to bounded defaults');
+  assert.ok(result.frostStrength >= 0.20 && result.frostStrength <= 0.88);
+  assert.ok(result.semanticProtection >= 0.50 && result.semanticProtection <= 1);
+}
+
+const nullConfiguredEngine = createGlazeOpticalEngine(null);
+assert.equal(nullConfiguredEngine.resolve().mode, 'adaptive-optical', 'null engine configuration must fall back safely');
+
+for (const adapterValue of [null, 'invalid', 42, false]) {
+  const engine = createGlazeOpticalEngine({signalAdapter: {resolve: () => adapterValue}});
+  const result = engine.resolve(null);
+  assert.equal(result.mode, 'adaptive-optical', 'malformed adapter and override values must fail safely');
+  assert.ok(result.frostStrength >= 0.20 && result.frostStrength <= 0.88);
+}
 
 const stableCss = read('css/glaze-v1.4.0.css');
 assert.match(stableCss, /glaze-v1\.3\.0\.css/);
