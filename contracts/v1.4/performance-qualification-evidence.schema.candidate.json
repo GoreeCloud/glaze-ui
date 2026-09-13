@@ -84,7 +84,12 @@
       "type": "array",
       "maxItems": 50,
       "uniqueItems": true,
-      "items": {"type": "string", "minLength": 1, "maxLength": 256}
+      "items": {
+        "type": "string",
+        "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[^\\s]{1,175}$",
+        "minLength": 82,
+        "maxLength": 256
+      }
     },
     "reviewer": {
       "type": "object",
