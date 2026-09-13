@@ -28,6 +28,9 @@
   ],
   "reviewer": {
     "authority": "qualification reviewer must replace",
+    "authorityEvidence": "evidence+sha256:2222222222222222222222222222222222222222222222222222222222222222:replace-review-authority",
+    "reviewEvidence": "evidence+sha256:3333333333333333333333333333333333333333333333333333333333333333:replace-review-attestation",
+    "reviewedAt": "2026-09-12T00:00:00.000Z",
     "disposition": "pending",
     "rationale": "native renderer parity has not been accepted"
   },
