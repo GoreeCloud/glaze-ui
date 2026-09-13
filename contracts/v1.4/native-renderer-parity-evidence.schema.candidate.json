@@ -43,8 +43,8 @@
         "required": ["id", "referenceEvidence", "nativeEvidence", "disposition", "rationale"],
         "properties": {
           "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,79}$"},
-          "referenceEvidence": {"type": "string", "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[^\\s]{1,175}$", "minLength": 82, "maxLength": 256},
-          "nativeEvidence": {"type": "string", "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[^\\s]{1,175}$", "minLength": 82, "maxLength": 256},
+          "referenceEvidence": {"type": "string", "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*(?:/[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$", "minLength": 82, "maxLength": 256},
+          "nativeEvidence": {"type": "string", "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*(?:/[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$", "minLength": 82, "maxLength": 256},
           "disposition": {"enum": ["pending", "accepted", "rejected"]},
           "rationale": {"type": "string", "minLength": 1, "maxLength": 500}
         }
@@ -55,8 +55,8 @@
       "required": ["authority", "authorityEvidence", "reviewEvidence", "reviewedAt", "disposition", "rationale"],
       "properties": {
         "authority": {"type": "string", "minLength": 1, "maxLength": 200},
-        "authorityEvidence": {"type": "string", "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[^\\s]{1,175}$", "minLength": 82, "maxLength": 256},
-        "reviewEvidence": {"type": "string", "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[^\\s]{1,175}$", "minLength": 82, "maxLength": 256},
+        "authorityEvidence": {"type": "string", "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*(?:/[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$", "minLength": 82, "maxLength": 256},
+        "reviewEvidence": {"type": "string", "pattern": "^evidence\\+sha256:[0-9a-f]{64}:[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*(?:/[A-Za-z0-9][A-Za-z0-9._+-]*(?::[A-Za-z0-9][A-Za-z0-9._+-]*)*)*$", "minLength": 82, "maxLength": 256},
         "reviewedAt": {"type": "string", "format": "date-time", "maxLength": 40},
         "disposition": {"enum": ["pending", "accepted", "rejected"]},
         "rationale": {"type": "string", "minLength": 1, "maxLength": 500}
