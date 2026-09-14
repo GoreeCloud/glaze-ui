@@ -3,8 +3,9 @@
 
 This gate is deliberately narrow: it proves that a consumer is targeting the current
 central Stable release and that any claimed Glaze acceptance is backed by repository-local,
-hash-bound evidence for every enumerated user-facing platform. It does not replace product,
-security, privacy, accessibility, native-platform, performance, rollback, or release authority.
+hash-bound, exact-source-revision evidence for every enumerated user-facing platform.
+It does not replace product, security, privacy, accessibility, native-platform,
+performance, rollback, or release authority.
 """
 from __future__ import annotations
 
@@ -31,6 +32,7 @@ EXPECTED_KEYS = {
     "schemaVersion", "recordType", "consumerName", "repository", "targetVersion",
     "status", "stableClaim", "coverage", "platforms", "notes",
 }
+EVIDENCE_KEYS = {"path", "sha256", "sourceRevision"}
 
 
 class GateError(RuntimeError):
@@ -69,17 +71,22 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def within(root: Path, path: Path, label: str) -> Path:
+    resolved_root = root.resolve()
+    resolved = path.resolve()
+    try:
+        resolved.relative_to(resolved_root)
+    except ValueError as exc:
+        raise GateError(f"{label} resolves outside the consumer repository") from exc
+    return resolved
+
+
 def safe_repo_file(root: Path, relative: Any, label: str) -> Path:
     text = meaningful(relative, label)
     raw = Path(text)
     req(not raw.is_absolute(), f"{label} must be repository-relative")
     req(".." not in raw.parts, f"{label} may not traverse outside the repository")
-    resolved_root = root.resolve()
-    resolved = (resolved_root / raw).resolve()
-    try:
-        resolved.relative_to(resolved_root)
-    except ValueError as exc:
-        raise GateError(f"{label} resolves outside the repository") from exc
+    resolved = within(root, root / raw, label)
     req(resolved.is_file(), f"{label} does not exist as a file: {text}")
     return resolved
 
@@ -119,6 +126,43 @@ def validate_schema_parity() -> None:
     req(set(platform_enum) == PLATFORMS, "downstream platform vocabulary drifted")
     platform_status = schema.get("$defs", {}).get("platform", {}).get("properties", {}).get("status", {}).get("enum", [])
     req(set(platform_status) == PLATFORM_STATUSES, "downstream platform-status vocabulary drifted")
+    evidence = schema.get("$defs", {}).get("evidence", {})
+    req(set(evidence.get("required", [])) == EVIDENCE_KEYS, "downstream evidence required-field set drifted")
+    evidence_props = evidence.get("properties", {})
+    req(evidence_props.get("sourceRevision", {}).get("pattern") == "^[0-9a-f]{40}$", "downstream evidence sourceRevision schema drifted")
+
+
+def validate_template(stable: str) -> None:
+    template = read_json(ROOT / "templates/downstream-current-stable-conformance.template.json")
+    req(set(template) == EXPECTED_KEYS, "downstream template field set drifted")
+    req(template.get("schemaVersion") == 1, "downstream template schemaVersion must be 1")
+    req(template.get("recordType") == "goreecloud-glaze-ui-current-stable-conformance", "downstream template recordType drifted")
+    consumer_name = template.get("consumerName")
+    repository = template.get("repository")
+    req(isinstance(consumer_name, str) and "REPLACE_WITH_" in consumer_name, "downstream template must retain an obvious consumerName placeholder")
+    req(isinstance(repository, str) and "REPLACE_WITH_" in repository, "downstream template must retain an obvious repository placeholder")
+    req(template.get("targetVersion") == stable, f"downstream template targetVersion must track current Stable {stable}")
+    req(template.get("status") == "adoption-required", "downstream template must fail closed with adoption-required status")
+    req(template.get("stableClaim") is False, "downstream template must never claim Stable")
+    coverage = template.get("coverage")
+    req(isinstance(coverage, dict), "downstream template coverage must be an object")
+    req(coverage.get("allUserFacingPlatformsEnumerated") is False, "downstream template must default platform enumeration to incomplete")
+    meaningful(coverage.get("statement"), "template coverage.statement")
+    platforms = template.get("platforms")
+    req(isinstance(platforms, list) and platforms, "downstream template must include at least one explicit platform placeholder")
+    for index, platform in enumerate(platforms):
+        req(isinstance(platform, dict), f"template platforms[{index}] must be an object")
+        req(platform.get("id") in PLATFORMS, f"template platforms[{index}].id is invalid")
+        req(platform.get("status") in {"pending", "unverified", "blocked"}, f"template platforms[{index}] must remain non-accepted")
+        req(platform.get("evidence") is None, f"template platforms[{index}] may not manufacture acceptance evidence")
+    meaningful(template.get("notes"), "template notes")
+
+
+def validate_source() -> tuple[str, dict[str, Any], dict[str, Any]]:
+    stable, lifecycle, registry = central_authority()
+    validate_schema_parity()
+    validate_template(stable)
+    return stable, lifecycle, registry
 
 
 def validate_manifest(
@@ -127,10 +171,15 @@ def validate_manifest(
     consumer_root: Path,
     expected_repository: str | None,
     current_revision: str | None,
+    policy_revision: str | None,
     force_stable_claim: bool,
 ) -> dict[str, Any]:
-    stable, lifecycle, registry = central_authority()
-    validate_schema_parity()
+    stable, lifecycle, registry = validate_source()
+
+    if current_revision is not None:
+        req(SHA40.fullmatch(current_revision) is not None, "workflow source revision must be 40 lowercase hex characters")
+    if policy_revision is not None:
+        req(SHA40.fullmatch(policy_revision) is not None, "Glaze policy revision must be 40 lowercase hex characters")
 
     req(set(manifest) == EXPECTED_KEYS, "manifest field set drifted")
     req(manifest.get("schemaVersion") == 1, "manifest schemaVersion must be 1")
@@ -152,6 +201,9 @@ def validate_manifest(
     strict_stable = force_stable_claim or stable_claim
     if force_stable_claim:
         req(stable_claim is True, "Stable-claim workflow mode requires manifest stableClaim=true")
+    if strict_stable:
+        req(current_revision is not None, "Stable claim requires the exact consumer source revision")
+        req(policy_revision is not None, "Stable claim requires the exact Glaze UI policy revision")
 
     coverage = manifest.get("coverage")
     req(isinstance(coverage, dict), "coverage must be an object")
@@ -179,13 +231,21 @@ def validate_manifest(
         evidence_report = None
         if evidence is not None:
             req(isinstance(evidence, dict), f"{label}.evidence must be object or null")
-            req(set(evidence) == {"path", "sha256"}, f"{label}.evidence field set drifted")
+            req(set(evidence) == EVIDENCE_KEYS, f"{label}.evidence field set drifted")
             expected_hash = meaningful(evidence.get("sha256"), f"{label}.evidence.sha256")
             req(SHA256.fullmatch(expected_hash) is not None, f"{label}.evidence.sha256 must be 64 lowercase hex characters")
+            evidence_revision = meaningful(evidence.get("sourceRevision"), f"{label}.evidence.sourceRevision")
+            req(SHA40.fullmatch(evidence_revision) is not None, f"{label}.evidence.sourceRevision must be 40 lowercase hex characters")
+            if current_revision is not None:
+                req(evidence_revision == current_revision, f"{platform} evidence is bound to {evidence_revision}; current consumer revision is {current_revision}")
             evidence_path = safe_repo_file(consumer_root, evidence.get("path"), f"{label}.evidence.path")
             actual_hash = sha256_file(evidence_path)
             req(actual_hash == expected_hash, f"{platform} evidence hash mismatch: expected {expected_hash}, got {actual_hash}")
-            evidence_report = {"path": str(evidence.get("path")), "sha256": actual_hash}
+            evidence_report = {
+                "path": str(evidence.get("path")),
+                "sha256": actual_hash,
+                "sourceRevision": evidence_revision,
+            }
         if platform_status == "accepted":
             accepted_count += 1
             req(evidence_report is not None, f"accepted platform {platform} requires repository-local hash-bound evidence")
@@ -203,8 +263,6 @@ def validate_manifest(
         req(accepted_count == len(platforms), "Stable claim requires every user-facing platform to have accepted current-Stable Glaze evidence")
 
     meaningful(manifest.get("notes"), "notes")
-    if current_revision is not None:
-        req(SHA40.fullmatch(current_revision) is not None, "workflow source revision must be 40 lowercase hex characters")
 
     return {
         "schemaVersion": 1,
@@ -218,6 +276,7 @@ def validate_manifest(
             "currentOfficial": lifecycle.get("currentOfficial"),
             "requiredConsumerVersion": registry.get("requiredConsumerVersion"),
             "targetVersion": target,
+            "policyRevision": policy_revision,
         },
         "stableClaimRequested": strict_stable,
         "coverage": {
@@ -231,7 +290,7 @@ def validate_manifest(
     }
 
 
-def sample_manifest(root: Path, stable: str) -> dict[str, Any]:
+def sample_manifest(root: Path, stable: str, revision: str) -> dict[str, Any]:
     evidence_path = root / "acceptance" / "glaze.json"
     evidence_path.parent.mkdir(parents=True, exist_ok=True)
     evidence_path.write_text('{"synthetic":true,"acceptance":false}\n', encoding="utf-8")
@@ -252,20 +311,34 @@ def sample_manifest(root: Path, stable: str) -> dict[str, Any]:
             {
                 "id": "web",
                 "status": "accepted",
-                "evidence": {"path": "acceptance/glaze.json", "sha256": digest},
+                "evidence": {
+                    "path": "acceptance/glaze.json",
+                    "sha256": digest,
+                    "sourceRevision": revision,
+                },
             }
         ],
         "notes": "Synthetic validator self-test only; never downstream acceptance evidence.",
     }
 
 
-def expect_reject(manifest: dict[str, Any], root: Path, label: str, *, force_stable: bool = False, repository: str = "GoreeCloud/synthetic-consumer") -> None:
+def expect_reject(
+    manifest: dict[str, Any],
+    root: Path,
+    label: str,
+    *,
+    force_stable: bool = False,
+    repository: str = "GoreeCloud/synthetic-consumer",
+    revision: str = "a" * 40,
+    policy_revision: str = "b" * 40,
+) -> None:
     try:
         validate_manifest(
             manifest,
             consumer_root=root,
             expected_repository=repository,
-            current_revision="a" * 40,
+            current_revision=revision,
+            policy_revision=policy_revision,
             force_stable_claim=force_stable,
         )
     except GateError:
@@ -274,15 +347,28 @@ def expect_reject(manifest: dict[str, Any], root: Path, label: str, *, force_sta
 
 
 def self_test() -> None:
-    stable, _, _ = central_authority()
+    stable, _, _ = validate_source()
+    revision = "a" * 40
+    policy_revision = "b" * 40
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
-        valid = sample_manifest(root, stable)
-        validate_manifest(valid, consumer_root=root, expected_repository=valid["repository"], current_revision="a" * 40, force_stable_claim=True)
+        valid = sample_manifest(root, stable, revision)
+        validate_manifest(
+            valid,
+            consumer_root=root,
+            expected_repository=valid["repository"],
+            current_revision=revision,
+            policy_revision=policy_revision,
+            force_stable_claim=True,
+        )
 
         stale = copy.deepcopy(valid)
         stale["targetVersion"] = "0.0.0" if stable != "0.0.0" else "9.9.9"
         expect_reject(stale, root, "stale target", force_stable=True)
+
+        stale_evidence = copy.deepcopy(valid)
+        stale_evidence["platforms"][0]["evidence"]["sourceRevision"] = "c" * 40
+        expect_reject(stale_evidence, root, "stale evidence source revision", force_stable=True)
 
         pending = copy.deepcopy(valid)
         pending["status"] = "adoption-required"
@@ -314,6 +400,15 @@ def self_test() -> None:
         wrong_repo = copy.deepcopy(valid)
         expect_reject(wrong_repo, root, "repository mismatch", force_stable=True, repository="GoreeCloud/other")
 
+        missing_policy_revision = copy.deepcopy(valid)
+        expect_reject(
+            missing_policy_revision,
+            root,
+            "Stable claim without policy revision",
+            force_stable=True,
+            policy_revision=None,
+        )
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -321,6 +416,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--consumer-root", type=Path)
     parser.add_argument("--repository")
     parser.add_argument("--revision")
+    parser.add_argument("--policy-revision")
     parser.add_argument("--stable-claim", action="store_true")
     parser.add_argument("--report", type=Path)
     parser.add_argument("--self-test", action="store_true")
@@ -330,8 +426,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    stable, _, _ = central_authority()
-    validate_schema_parity()
+    stable, _, _ = validate_source()
     print(f"Current Glaze UI consumer authority validated: {stable}")
 
     if args.self_test:
@@ -341,12 +436,14 @@ def main() -> None:
     if args.manifest:
         consumer_root = (args.consumer_root or args.manifest.parent).expanduser().resolve()
         manifest_path = args.manifest.expanduser().resolve()
+        within(consumer_root, manifest_path, "manifest path")
         manifest = read_json(manifest_path, str(manifest_path))
         report = validate_manifest(
             manifest,
             consumer_root=consumer_root,
             expected_repository=args.repository,
             current_revision=args.revision,
+            policy_revision=args.policy_revision,
             force_stable_claim=args.stable_claim,
         )
         report["manifestSha256"] = sha256_file(manifest_path)
