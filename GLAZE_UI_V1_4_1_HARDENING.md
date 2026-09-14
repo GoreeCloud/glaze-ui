@@ -27,8 +27,10 @@ V1.4.1 uses a structured multi-session evidence protocol so one record can combi
 The protocol authority is:
 
 - `contracts/v1.4.1/human-validation.contract.json` — canonical required-check matrix and fail-closed rules.
+- `schemas/v1.4.1-human-validation-record.schema.json` — Draft 2020-12 structural schema for editor/tool validation; schema validity alone is never human acceptance.
 - `acceptance/v1.4.1-human-validation.template.json` — deliberately pending template; never acceptance evidence by itself.
-- `scripts/verify_glaze_v1_4_1_human_validation.mjs` — machine validation of evidence structure, authority, coverage, revision binding, and promotion eligibility.
+- `scripts/verify_glaze_v1_4_1_human_validation_schema.mjs` — contract/schema/template parity verifier.
+- `scripts/verify_glaze_v1_4_1_human_validation.mjs` — machine validation of evidence authority, coverage, revision binding, and promotion eligibility.
 
 Each human review session must identify the exact tested source revision, build/artifact identity, timestamp with timezone, named reviewer and role, platform, OS version, device/environment, form factor, display context, relevant input modalities, assistive technologies, findings, limitations, and evidence references.
 
@@ -36,9 +38,10 @@ A check may be marked `not_applicable` only with an explicit rationale. `pending
 
 ### Verification
 
-Validate the protocol and synthetic negative tests without claiming human acceptance:
+Validate the schema/contract parity, protocol, and synthetic negative tests without claiming human acceptance:
 
 ```sh
+node scripts/verify_glaze_v1_4_1_human_validation_schema.mjs
 node scripts/verify_glaze_v1_4_1_human_validation.mjs --source-only
 node scripts/verify_glaze_v1_4_1_human_validation.mjs --self-test
 ```
@@ -58,7 +61,7 @@ node scripts/verify_glaze_v1_4_1_human_validation.mjs \
   --expected-revision <40-character-reviewed-revision>
 ```
 
-The verifier's synthetic self-test is protocol testing only. It is never human evidence, never physical-device evidence, and never V1.4.1 acceptance.
+The schema validator and verifier's synthetic self-test are protocol testing only. They are never human evidence, never physical-device evidence, and never V1.4.1 acceptance.
 
 ## Patch acceptance
 
