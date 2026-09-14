@@ -57,11 +57,13 @@ jobs:
               exit 1
             fi
           done
+          POLICY_REVISION="$(git -C glaze-ui-policy rev-parse HEAD)"
           args=(
             --manifest "consumer/${CONSUMER_MANIFEST}"
             --consumer-root consumer
             --repository "${EXPECTED_REPOSITORY}"
             --revision "${EXPECTED_REVISION}"
+            --policy-revision "${POLICY_REVISION}"
             --report glaze-ui-current-stable-gate-report.json
           )
           if [[ "${STABLE_CLAIM}" == "true" ]]; then
