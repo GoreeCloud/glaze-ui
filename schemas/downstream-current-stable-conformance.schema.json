@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GoreeCloud Glaze UI Current Stable Consumer Conformance",
+  "description": "Repository-local declaration used by the central Glaze UI current-Stable gate. Schema validity alone is not acceptance evidence and does not authorize a product Stable claim.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "recordType",
+    "consumerName",
+    "repository",
+    "targetVersion",
+    "status",
+    "stableClaim",
+    "coverage",
+    "platforms",
+    "notes"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "recordType": {"const": "goreecloud-glaze-ui-current-stable-conformance"},
+    "consumerName": {"type": "string", "minLength": 1},
+    "repository": {"type": "string", "pattern": "^GoreeCloud/.+$"},
+    "targetVersion": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "status": {"enum": ["adoption-required", "unverified", "accepted-v1"]},
+    "stableClaim": {"type": "boolean"},
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allUserFacingPlatformsEnumerated", "statement"],
+      "properties": {
+        "allUserFacingPlatformsEnumerated": {"type": "boolean"},
+        "statement": {"type": "string", "minLength": 1}
+      }
+    },
+    "platforms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/platform"}
+    },
+    "notes": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "evidence"],
+      "properties": {
+        "id": {
+          "enum": ["web", "desktop", "mobile", "tablet", "tv", "smartwatch", "other-user-facing"]
+        },
+        "status": {"enum": ["accepted", "pending", "unverified", "blocked"]},
+        "evidence": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/evidence"}
+          ]
+        }
+      }
+    }
+  }
+}
