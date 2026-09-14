@@ -14,7 +14,11 @@ jobs:
       - name: Check out exact revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Check verifier syntax
-        run: node --check scripts/verify_glaze_v1_4_1_human_validation.mjs
+        run: |
+          node --check scripts/verify_glaze_v1_4_1_human_validation.mjs
+          node --check scripts/verify_glaze_v1_4_1_human_validation_schema.mjs
+      - name: Validate V1.4.1 evidence schema parity
+        run: node scripts/verify_glaze_v1_4_1_human_validation_schema.mjs
       - name: Validate V1.4.1 protocol authority
         run: node scripts/verify_glaze_v1_4_1_human_validation.mjs --source-only
       - name: Exercise fail-closed synthetic protocol tests
