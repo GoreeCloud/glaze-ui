@@ -22,6 +22,46 @@ V1.4.1 is the explicit home for human-dependent validation deferred from the V1.
 
 Every completed item must identify the tested build/revision, device or environment, reviewer, scope, result, and any accepted limitation. Automated evidence may support a review but must not be relabeled as human evidence.
 
+V1.4.1 uses a structured multi-session evidence protocol so one record can combine review sessions across Android, Linux, desktop, mobile, tablet, TV, watch, foldable, accessibility, and performance environments without flattening them into one misleading global pass state.
+
+The protocol authority is:
+
+- `contracts/v1.4.1/human-validation.contract.json` — canonical required-check matrix and fail-closed rules.
+- `acceptance/v1.4.1-human-validation.template.json` — deliberately pending template; never acceptance evidence by itself.
+- `scripts/verify_glaze_v1_4_1_human_validation.mjs` — machine validation of evidence structure, authority, coverage, revision binding, and promotion eligibility.
+
+Each human review session must identify the exact tested source revision, build/artifact identity, timestamp with timezone, named reviewer and role, platform, OS version, device/environment, form factor, display context, relevant input modalities, assistive technologies, findings, limitations, and evidence references.
+
+A check may be marked `not_applicable` only with an explicit rationale. `pending`, `blocked`, or `fail` cannot satisfy promotion. A claimed `pass` or `fail` requires at least one evidence reference. Machine-generated supporting artifacts can be referenced, but the record itself must remain human-authorized.
+
+### Verification
+
+Validate the protocol and synthetic negative tests without claiming human acceptance:
+
+```sh
+node scripts/verify_glaze_v1_4_1_human_validation.mjs --source-only
+node scripts/verify_glaze_v1_4_1_human_validation.mjs --self-test
+```
+
+Validate a real record without asserting patch promotion:
+
+```sh
+node scripts/verify_glaze_v1_4_1_human_validation.mjs --record path/to/human-record.json
+```
+
+Run the fail-closed promotion gate only when a real record exists and the exact reviewed implementation revision is known:
+
+```sh
+node scripts/verify_glaze_v1_4_1_human_validation.mjs \
+  --record path/to/human-record.json \
+  --promotion \
+  --expected-revision <40-character-reviewed-revision>
+```
+
+The verifier's synthetic self-test is protocol testing only. It is never human evidence, never physical-device evidence, and never V1.4.1 acceptance.
+
 ## Patch acceptance
 
 V1.4.1 may be promoted only after its claimed human/manual/physical-device evidence is actually recorded and any release-blocking findings are resolved or explicitly scoped out of the supported claim. V1.4.1 must not retroactively rewrite V1.4.0 evidence.
+
+Promotion additionally requires the structured record to cover every canonical required check, contain no unresolved exceptions, contain no `pending`, `blocked`, or `fail` results, explicitly declare an accepted decision, explicitly declare promotion eligibility, and bind every contributing review session to the exact revision supplied to the promotion gate.
