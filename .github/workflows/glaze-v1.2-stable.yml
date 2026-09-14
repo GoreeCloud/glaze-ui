@@ -8,11 +8,19 @@ on:
       - "GLAZE_UI_V1_2_CANDIDATE.md"
       - "css/glaze-v1.2.0.css"
       - "css/glaze-v1.2.0-candidate.css"
+      - "css/glaze-v1.2-frosted-neutral.candidate.css"
+      - "css/glaze-v1.2-components.candidate.css"
+      - "css/glaze-v1.2-system-shell.candidate.css"
       - "js/glaze-v1.2.0.mjs"
       - "acceptance/v1.2-stable.md"
+      - "contracts/v1.2/**"
+      - "tokens/glaze-v1.2-frosted-neutral.candidate.json"
+      - "reference/v1.2/**"
       - "GLAZE_UI_V1_1.md"
       - "acceptance/v1.1-stable.md"
       - "scripts/validate_glaze_v1_2_stable.py"
+      - "scripts/validate_glaze_v1_2_candidate.py"
+      - "scripts/validate_glaze_v1_2_candidate_legacy.py"
       - ".github/workflows/glaze-v1.2-stable.yml"
   push:
     branches: [main]
@@ -22,11 +30,19 @@ on:
       - "GLAZE_UI_V1_2_CANDIDATE.md"
       - "css/glaze-v1.2.0.css"
       - "css/glaze-v1.2.0-candidate.css"
+      - "css/glaze-v1.2-frosted-neutral.candidate.css"
+      - "css/glaze-v1.2-components.candidate.css"
+      - "css/glaze-v1.2-system-shell.candidate.css"
       - "js/glaze-v1.2.0.mjs"
       - "acceptance/v1.2-stable.md"
+      - "contracts/v1.2/**"
+      - "tokens/glaze-v1.2-frosted-neutral.candidate.json"
+      - "reference/v1.2/**"
       - "GLAZE_UI_V1_1.md"
       - "acceptance/v1.1-stable.md"
       - "scripts/validate_glaze_v1_2_stable.py"
+      - "scripts/validate_glaze_v1_2_candidate.py"
+      - "scripts/validate_glaze_v1_2_candidate_legacy.py"
       - ".github/workflows/glaze-v1.2-stable.yml"
   workflow_dispatch:
 
@@ -45,6 +61,11 @@ jobs:
         with:
           python-version: "3.12"
       - name: Check historical validator syntax
-        run: python -m py_compile scripts/validate_glaze_v1_2_stable.py
+        run: |
+          python -m py_compile scripts/validate_glaze_v1_2_stable.py
+          python -m py_compile scripts/validate_glaze_v1_2_candidate.py
+          python -m py_compile scripts/validate_glaze_v1_2_candidate_legacy.py
       - name: Verify preserved V1.2 Stable provenance
         run: python scripts/validate_glaze_v1_2_stable.py
+      - name: Verify preserved V1.2 promoted Candidate source
+        run: python scripts/validate_glaze_v1_2_candidate.py
