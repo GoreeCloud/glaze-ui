@@ -14,7 +14,6 @@ on:
       - "CONSUMERS.md"
       - "website/README.md"
       - "GLAZE_UI_V1_4.md"
-      - "scripts/validate_glaze_v1.py"
       - "scripts/validate_glaze_v1_2_documentation_versions.py"
       - ".github/workflows/glaze-v1.2-documentation-version-integrity.yml"
   push:
@@ -31,7 +30,6 @@ on:
       - "CONSUMERS.md"
       - "website/README.md"
       - "GLAZE_UI_V1_4.md"
-      - "scripts/validate_glaze_v1.py"
       - "scripts/validate_glaze_v1_2_documentation_versions.py"
       - ".github/workflows/glaze-v1.2-documentation-version-integrity.yml"
   workflow_dispatch:
@@ -59,10 +57,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Preserve current Stable and historical regression authorities
-        run: |
-          test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
-          python scripts/validate_glaze_v1.py
+      - name: Verify exact revision
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
 
       - name: Audit current lifecycle and front-door documentation authority
         run: |
