@@ -1,0 +1,568 @@
+#!/usr/bin/env python3
+"""Validate a downstream GoreeCloud consumer against current Glaze UI Stable authority.
+
+The gate proves current-Stable targeting and repository-local acceptance evidence for each
+claimed platform. Human/product acceptance may be committed after the exact implementation
+revision it reviewed; only the conformance manifest and declared evidence files may differ
+after that reviewed revision. Any other source change invalidates that review.
+"""
+from __future__ import annotations
+
+import argparse
+import copy
+from datetime import datetime, timezone
+import hashlib
+import json
+from pathlib import Path
+import re
+import subprocess
+import tempfile
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[1]
+SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
+SHA40 = re.compile(r"^[0-9a-f]{40}$")
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
+REPOSITORY = re.compile(r"^GoreeCloud/.+$")
+PLACEHOLDERS = {"", "todo", "tbd", "unknown", "n/a", "na", "placeholder", "example", "none", "null"}
+STATUSES = {"adoption-required", "unverified", "accepted-v1"}
+PLATFORMS = {"web", "desktop", "mobile", "tablet", "tv", "smartwatch", "other-user-facing"}
+PLATFORM_STATUSES = {"accepted", "pending", "unverified", "blocked"}
+EXPECTED_KEYS = {
+    "schemaVersion", "recordType", "consumerName", "repository", "targetVersion",
+    "status", "stableClaim", "coverage", "platforms", "notes",
+}
+EVIDENCE_KEYS = {"path", "sha256", "sourceRevision"}
+
+
+class GateError(RuntimeError):
+    pass
+
+
+def req(condition: bool, message: str) -> None:
+    if not condition:
+        raise GateError(message)
+
+
+def read_json(path: Path, label: str | None = None) -> dict[str, Any]:
+    shown = label or str(path)
+    req(path.is_file(), f"missing JSON file: {shown}")
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise GateError(f"invalid JSON {shown}: {exc}") from exc
+    req(isinstance(value, dict), f"{shown} must contain a JSON object")
+    return value
+
+
+def meaningful(value: Any, label: str) -> str:
+    req(isinstance(value, str), f"{label} must be a string")
+    text = value.strip()
+    req(text.lower() not in PLACEHOLDERS, f"{label} contains a placeholder value")
+    req("REPLACE_WITH_" not in text, f"{label} contains an unresolved template placeholder")
+    return text
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def within(root: Path, path: Path, label: str) -> Path:
+    resolved_root = root.resolve()
+    resolved = path.resolve()
+    try:
+        resolved.relative_to(resolved_root)
+    except ValueError as exc:
+        raise GateError(f"{label} resolves outside the consumer repository") from exc
+    return resolved
+
+
+def safe_repo_file(root: Path, relative: Any, label: str) -> tuple[Path, str]:
+    text = meaningful(relative, label)
+    raw = Path(text)
+    req(not raw.is_absolute(), f"{label} must be repository-relative")
+    req(".." not in raw.parts, f"{label} may not traverse outside the repository")
+    normalized = raw.as_posix()
+    resolved = within(root, root / raw, label)
+    req(resolved.is_file(), f"{label} does not exist as a file: {text}")
+    return resolved, normalized
+
+
+def git(root: Path, *args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), *args],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    except OSError as exc:
+        raise GateError(f"unable to execute git for exact-revision validation: {exc}") from exc
+    if check and result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip() or f"exit {result.returncode}"
+        raise GateError(f"git {' '.join(args)} failed: {detail}")
+    return result
+
+
+def git_commit_exists(root: Path, revision: str, label: str) -> None:
+    result = git(root, "cat-file", "-e", f"{revision}^{{commit}}", check=False)
+    req(result.returncode == 0, f"{label} commit is unavailable in the consumer checkout: {revision}")
+
+
+def verify_review_continuity(
+    root: Path,
+    *,
+    reviewed_revision: str,
+    current_revision: str,
+    allowed_governance_paths: set[str],
+    label: str,
+) -> list[str]:
+    """Allow a post-review commit only when it changes declared governance evidence."""
+    git_commit_exists(root, reviewed_revision, f"{label} reviewed revision")
+    git_commit_exists(root, current_revision, "current consumer revision")
+    if reviewed_revision == current_revision:
+        return []
+
+    ancestry = git(root, "merge-base", "--is-ancestor", reviewed_revision, current_revision, check=False)
+    req(ancestry.returncode == 0, f"{label} reviewed revision {reviewed_revision} is not an ancestor of current revision {current_revision}")
+
+    diff = git(
+        root,
+        "diff",
+        "--no-renames",
+        "--name-only",
+        "--diff-filter=ACDMRTUXB",
+        reviewed_revision,
+        current_revision,
+        "--",
+    )
+    changed = [line.strip() for line in diff.stdout.splitlines() if line.strip()]
+    unauthorized = sorted(path for path in changed if path not in allowed_governance_paths)
+    req(
+        not unauthorized,
+        f"{label} evidence is stale because product/source files changed after review: {', '.join(unauthorized)}",
+    )
+    return sorted(changed)
+
+
+def central_authority() -> tuple[str, dict[str, Any], dict[str, Any]]:
+    stable = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    req(SEMVER.fullmatch(stable) is not None, "central VERSION must be semantic Stable version")
+    lifecycle = read_json(ROOT / "registry/lifecycle.json", "registry/lifecycle.json")
+    registry = read_json(ROOT / "consumers/registry.json", "consumers/registry.json")
+    req(lifecycle.get("currentStable") == stable, "central lifecycle currentStable must match VERSION")
+    req(lifecycle.get("currentOfficial") == stable, "central lifecycle currentOfficial must match VERSION")
+    req(registry.get("officialBaseline") == stable, "consumer registry officialBaseline must match VERSION")
+    req(registry.get("requiredConsumerVersion") == stable, "consumer registry requiredConsumerVersion must match VERSION")
+    enforcement = registry.get("enforcement")
+    req(isinstance(enforcement, dict), "consumer registry enforcement object is required")
+    req(enforcement.get("officialCurrentRequired") is True, "central officialCurrentRequired must be true")
+    req(enforcement.get("productionExceptionsAllowed") is False, "central productionExceptionsAllowed must be false")
+    releases = lifecycle.get("releases")
+    req(isinstance(releases, list), "central lifecycle releases must be an array")
+    matches = [item for item in releases if isinstance(item, dict) and item.get("version") == stable]
+    req(len(matches) == 1, "central lifecycle must contain exactly one current Stable release record")
+    req(matches[0].get("status") == "stable", "current central release must have Stable status")
+    req(matches[0].get("consumerEligible") is True, "current central Stable must be consumer-eligible")
+    return stable, lifecycle, registry
+
+
+def validate_schema_parity() -> None:
+    schema = read_json(ROOT / "schemas/downstream-current-stable-conformance.schema.json")
+    req(schema.get("$schema") == "https://json-schema.org/draft/2020-12/schema", "downstream schema must use Draft 2020-12")
+    properties = schema.get("properties")
+    req(isinstance(properties, dict), "downstream schema properties are required")
+    req(set(schema.get("required", [])) == EXPECTED_KEYS, "downstream schema required-field set drifted")
+    req(properties.get("schemaVersion", {}).get("const") == 1, "downstream schemaVersion must remain 1")
+    req(properties.get("recordType", {}).get("const") == "goreecloud-glaze-ui-current-stable-conformance", "downstream recordType schema drifted")
+    req(set(properties.get("status", {}).get("enum", [])) == STATUSES, "downstream status vocabulary drifted")
+    platform_enum = schema.get("$defs", {}).get("platform", {}).get("properties", {}).get("id", {}).get("enum", [])
+    req(set(platform_enum) == PLATFORMS, "downstream platform vocabulary drifted")
+    platform_status = schema.get("$defs", {}).get("platform", {}).get("properties", {}).get("status", {}).get("enum", [])
+    req(set(platform_status) == PLATFORM_STATUSES, "downstream platform-status vocabulary drifted")
+    evidence = schema.get("$defs", {}).get("evidence", {})
+    req(set(evidence.get("required", [])) == EVIDENCE_KEYS, "downstream evidence required-field set drifted")
+    evidence_props = evidence.get("properties", {})
+    req(evidence_props.get("sourceRevision", {}).get("pattern") == "^[0-9a-f]{40}$", "downstream evidence sourceRevision schema drifted")
+
+
+def validate_template(stable: str) -> None:
+    template = read_json(ROOT / "templates/downstream-current-stable-conformance.template.json")
+    req(set(template) == EXPECTED_KEYS, "downstream template field set drifted")
+    req(template.get("schemaVersion") == 1, "downstream template schemaVersion must be 1")
+    req(template.get("recordType") == "goreecloud-glaze-ui-current-stable-conformance", "downstream template recordType drifted")
+    consumer_name = template.get("consumerName")
+    repository = template.get("repository")
+    req(isinstance(consumer_name, str) and "REPLACE_WITH_" in consumer_name, "downstream template must retain an obvious consumerName placeholder")
+    req(isinstance(repository, str) and "REPLACE_WITH_" in repository, "downstream template must retain an obvious repository placeholder")
+    req(template.get("targetVersion") == stable, f"downstream template targetVersion must track current Stable {stable}")
+    req(template.get("status") == "adoption-required", "downstream template must fail closed with adoption-required status")
+    req(template.get("stableClaim") is False, "downstream template must never claim Stable")
+    coverage = template.get("coverage")
+    req(isinstance(coverage, dict), "downstream template coverage must be an object")
+    req(coverage.get("allUserFacingPlatformsEnumerated") is False, "downstream template must default platform enumeration to incomplete")
+    meaningful(coverage.get("statement"), "template coverage.statement")
+    platforms = template.get("platforms")
+    req(isinstance(platforms, list) and platforms, "downstream template must include at least one explicit platform placeholder")
+    for index, platform in enumerate(platforms):
+        req(isinstance(platform, dict), f"template platforms[{index}] must be an object")
+        req(platform.get("id") in PLATFORMS, f"template platforms[{index}].id is invalid")
+        req(platform.get("status") in {"pending", "unverified", "blocked"}, f"template platforms[{index}] must remain non-accepted")
+        req(platform.get("evidence") is None, f"template platforms[{index}] may not manufacture acceptance evidence")
+    meaningful(template.get("notes"), "template notes")
+
+
+def validate_source() -> tuple[str, dict[str, Any], dict[str, Any]]:
+    stable, lifecycle, registry = central_authority()
+    validate_schema_parity()
+    validate_template(stable)
+    return stable, lifecycle, registry
+
+
+def validate_manifest(
+    manifest: dict[str, Any],
+    *,
+    consumer_root: Path,
+    manifest_relative_path: str | None,
+    expected_repository: str | None,
+    current_revision: str | None,
+    policy_revision: str | None,
+    force_stable_claim: bool,
+) -> dict[str, Any]:
+    stable, lifecycle, registry = validate_source()
+
+    if current_revision is not None:
+        req(SHA40.fullmatch(current_revision) is not None, "workflow source revision must be 40 lowercase hex characters")
+    if policy_revision is not None:
+        req(SHA40.fullmatch(policy_revision) is not None, "Glaze policy revision must be 40 lowercase hex characters")
+
+    req(set(manifest) == EXPECTED_KEYS, "manifest field set drifted")
+    req(manifest.get("schemaVersion") == 1, "manifest schemaVersion must be 1")
+    req(manifest.get("recordType") == "goreecloud-glaze-ui-current-stable-conformance", "manifest recordType mismatch")
+    meaningful(manifest.get("consumerName"), "consumerName")
+    repository = meaningful(manifest.get("repository"), "repository")
+    req(REPOSITORY.fullmatch(repository) is not None, "repository must be a GoreeCloud owner/name identifier")
+    if expected_repository is not None:
+        req(repository == expected_repository, f"manifest repository {repository} does not match workflow repository {expected_repository}")
+
+    target = manifest.get("targetVersion")
+    req(isinstance(target, str) and SEMVER.fullmatch(target) is not None, "targetVersion must be semantic version")
+    req(target == stable, f"consumer targets Glaze UI {target}; current required Stable is {stable}")
+
+    status = manifest.get("status")
+    req(status in STATUSES, "manifest status is invalid")
+    stable_claim = manifest.get("stableClaim")
+    req(isinstance(stable_claim, bool), "stableClaim must be boolean")
+    strict_stable = force_stable_claim or stable_claim
+    if force_stable_claim:
+        req(stable_claim is True, "Stable-claim workflow mode requires manifest stableClaim=true")
+    if strict_stable:
+        req(current_revision is not None, "Stable claim requires the exact consumer source revision")
+        req(policy_revision is not None, "Stable claim requires the exact Glaze UI policy revision")
+        req(manifest_relative_path is not None, "Stable claim requires the repository-relative conformance manifest path")
+
+    coverage = manifest.get("coverage")
+    req(isinstance(coverage, dict), "coverage must be an object")
+    req(set(coverage) == {"allUserFacingPlatformsEnumerated", "statement"}, "coverage field set drifted")
+    all_enumerated = coverage.get("allUserFacingPlatformsEnumerated")
+    req(isinstance(all_enumerated, bool), "coverage.allUserFacingPlatformsEnumerated must be boolean")
+    meaningful(coverage.get("statement"), "coverage.statement")
+
+    platforms = manifest.get("platforms")
+    req(isinstance(platforms, list) and platforms, "platforms must be a non-empty array")
+    seen: set[str] = set()
+    normalized: list[dict[str, Any]] = []
+    accepted_count = 0
+    accepted_revisions: list[tuple[str, str]] = []
+    evidence_paths: set[str] = set()
+
+    for index, item in enumerate(platforms):
+        label = f"platforms[{index}]"
+        req(isinstance(item, dict), f"{label} must be an object")
+        req(set(item) == {"id", "status", "evidence"}, f"{label} field set drifted")
+        platform = item.get("id")
+        req(platform in PLATFORMS, f"{label}.id is invalid")
+        req(platform not in seen, f"duplicate platform declaration: {platform}")
+        seen.add(platform)
+        platform_status = item.get("status")
+        req(platform_status in PLATFORM_STATUSES, f"{label}.status is invalid")
+        evidence = item.get("evidence")
+        evidence_report = None
+        if evidence is not None:
+            req(isinstance(evidence, dict), f"{label}.evidence must be object or null")
+            req(set(evidence) == EVIDENCE_KEYS, f"{label}.evidence field set drifted")
+            expected_hash = meaningful(evidence.get("sha256"), f"{label}.evidence.sha256")
+            req(SHA256.fullmatch(expected_hash) is not None, f"{label}.evidence.sha256 must be 64 lowercase hex characters")
+            evidence_revision = meaningful(evidence.get("sourceRevision"), f"{label}.evidence.sourceRevision")
+            req(SHA40.fullmatch(evidence_revision) is not None, f"{label}.evidence.sourceRevision must be 40 lowercase hex characters")
+            evidence_path, evidence_relative = safe_repo_file(consumer_root, evidence.get("path"), f"{label}.evidence.path")
+            actual_hash = sha256_file(evidence_path)
+            req(actual_hash == expected_hash, f"{platform} evidence hash mismatch: expected {expected_hash}, got {actual_hash}")
+            evidence_paths.add(evidence_relative)
+            evidence_report = {
+                "path": evidence_relative,
+                "sha256": actual_hash,
+                "sourceRevision": evidence_revision,
+            }
+        if platform_status == "accepted":
+            accepted_count += 1
+            req(evidence_report is not None, f"accepted platform {platform} requires repository-local hash-bound evidence")
+            accepted_revisions.append((str(platform), str(evidence_report["sourceRevision"])))
+        normalized.append({"id": platform, "status": platform_status, "evidence": evidence_report})
+
+    if status == "accepted-v1":
+        req(all_enumerated is True, "accepted-v1 requires an explicit assertion that all user-facing platforms are enumerated")
+        req(accepted_count == len(platforms), "accepted-v1 requires every enumerated user-facing platform to be accepted")
+    else:
+        req(stable_claim is False, f"status {status} cannot carry stableClaim=true")
+
+    if strict_stable:
+        req(status == "accepted-v1", "Stable claim requires status=accepted-v1")
+        req(all_enumerated is True, "Stable claim requires complete user-facing platform enumeration")
+        req(accepted_count == len(platforms), "Stable claim requires every user-facing platform to have accepted current-Stable Glaze evidence")
+
+    meaningful(manifest.get("notes"), "notes")
+
+    continuity: dict[str, list[str]] = {}
+    if current_revision is not None and accepted_revisions:
+        req(manifest_relative_path is not None, "accepted evidence continuity requires a repository-relative manifest path")
+        allowed_governance_paths = {manifest_relative_path, *evidence_paths}
+        for platform, reviewed_revision in accepted_revisions:
+            changed = verify_review_continuity(
+                consumer_root,
+                reviewed_revision=reviewed_revision,
+                current_revision=current_revision,
+                allowed_governance_paths=allowed_governance_paths,
+                label=platform,
+            )
+            continuity[platform] = changed
+
+    return {
+        "schemaVersion": 1,
+        "recordType": "goreecloud-glaze-ui-current-stable-gate-report",
+        "verifiedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "repository": repository,
+        "sourceRevision": current_revision,
+        "consumerName": manifest["consumerName"],
+        "glazeUi": {
+            "currentStable": stable,
+            "currentOfficial": lifecycle.get("currentOfficial"),
+            "requiredConsumerVersion": registry.get("requiredConsumerVersion"),
+            "targetVersion": target,
+            "policyRevision": policy_revision,
+        },
+        "stableClaimRequested": strict_stable,
+        "coverage": {
+            "allUserFacingPlatformsEnumerated": all_enumerated,
+            "platformCount": len(platforms),
+            "acceptedPlatformCount": accepted_count,
+        },
+        "platforms": normalized,
+        "reviewContinuity": continuity,
+        "decision": "pass",
+        "authorityBoundary": "This report proves current-Stable Glaze targeting and declared evidence continuity only. Product Stable/production authority remains independent.",
+    }
+
+
+def git_init_fixture(root: Path) -> str:
+    git(root, "init", "-q")
+    git(root, "config", "user.email", "synthetic@example.invalid")
+    git(root, "config", "user.name", "Synthetic Gate Self-Test")
+    source = root / "src" / "app.txt"
+    source.parent.mkdir(parents=True, exist_ok=True)
+    source.write_text("synthetic implementation\n", encoding="utf-8")
+    git(root, "add", "src/app.txt")
+    git(root, "commit", "-q", "-m", "synthetic reviewed implementation")
+    return git(root, "rev-parse", "HEAD").stdout.strip()
+
+
+def sample_manifest(root: Path, stable: str, reviewed_revision: str) -> tuple[dict[str, Any], Path]:
+    evidence_path = root / "acceptance" / "glaze.json"
+    evidence_path.parent.mkdir(parents=True, exist_ok=True)
+    evidence_path.write_text('{"synthetic":true,"acceptance":false}\n', encoding="utf-8")
+    digest = sha256_file(evidence_path)
+    manifest = {
+        "schemaVersion": 1,
+        "recordType": "goreecloud-glaze-ui-current-stable-conformance",
+        "consumerName": "Synthetic Consumer",
+        "repository": "GoreeCloud/synthetic-consumer",
+        "targetVersion": stable,
+        "status": "accepted-v1",
+        "stableClaim": True,
+        "coverage": {
+            "allUserFacingPlatformsEnumerated": True,
+            "statement": "Synthetic self-test declares one synthetic web surface; this is not product evidence.",
+        },
+        "platforms": [
+            {
+                "id": "web",
+                "status": "accepted",
+                "evidence": {
+                    "path": "acceptance/glaze.json",
+                    "sha256": digest,
+                    "sourceRevision": reviewed_revision,
+                },
+            }
+        ],
+        "notes": "Synthetic validator self-test only; never downstream acceptance evidence.",
+    }
+    manifest_path = root / ".goreecloud" / "glaze-ui-conformance.json"
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    git(root, "add", "acceptance/glaze.json", ".goreecloud/glaze-ui-conformance.json")
+    git(root, "commit", "-q", "-m", "synthetic review evidence transition")
+    return manifest, manifest_path
+
+
+def expect_reject(
+    manifest: dict[str, Any],
+    root: Path,
+    label: str,
+    *,
+    force_stable: bool,
+    current_revision: str,
+    manifest_relative_path: str = ".goreecloud/glaze-ui-conformance.json",
+    repository: str = "GoreeCloud/synthetic-consumer",
+    policy_revision: str | None = "b" * 40,
+) -> None:
+    try:
+        validate_manifest(
+            manifest,
+            consumer_root=root,
+            manifest_relative_path=manifest_relative_path,
+            expected_repository=repository,
+            current_revision=current_revision,
+            policy_revision=policy_revision,
+            force_stable_claim=force_stable,
+        )
+    except GateError:
+        return
+    raise GateError(f"self-test expected rejection but accepted {label}")
+
+
+def self_test() -> None:
+    stable, _, _ = validate_source()
+    policy_revision = "b" * 40
+    with tempfile.TemporaryDirectory() as temp:
+        root = Path(temp)
+        reviewed_revision = git_init_fixture(root)
+        valid, _ = sample_manifest(root, stable, reviewed_revision)
+        current_revision = git(root, "rev-parse", "HEAD").stdout.strip()
+
+        validate_manifest(
+            valid,
+            consumer_root=root,
+            manifest_relative_path=".goreecloud/glaze-ui-conformance.json",
+            expected_repository=valid["repository"],
+            current_revision=current_revision,
+            policy_revision=policy_revision,
+            force_stable_claim=True,
+        )
+
+        stale = copy.deepcopy(valid)
+        stale["targetVersion"] = "0.0.0" if stable != "0.0.0" else "9.9.9"
+        expect_reject(stale, root, "stale target", force_stable=True, current_revision=current_revision)
+
+        nonexistent_review = copy.deepcopy(valid)
+        nonexistent_review["platforms"][0]["evidence"]["sourceRevision"] = "c" * 40
+        expect_reject(nonexistent_review, root, "unavailable reviewed source revision", force_stable=True, current_revision=current_revision)
+
+        pending = copy.deepcopy(valid)
+        pending["status"] = "adoption-required"
+        pending["stableClaim"] = False
+        pending["platforms"][0]["status"] = "pending"
+        pending["platforms"][0]["evidence"] = None
+        expect_reject(pending, root, "forced Stable claim against pending adoption", force_stable=True, current_revision=current_revision)
+
+        missing_coverage = copy.deepcopy(valid)
+        missing_coverage["coverage"]["allUserFacingPlatformsEnumerated"] = False
+        expect_reject(missing_coverage, root, "incomplete Stable platform coverage", force_stable=True, current_revision=current_revision)
+
+        no_evidence = copy.deepcopy(valid)
+        no_evidence["platforms"][0]["evidence"] = None
+        expect_reject(no_evidence, root, "accepted platform without evidence", force_stable=True, current_revision=current_revision)
+
+        bad_hash = copy.deepcopy(valid)
+        bad_hash["platforms"][0]["evidence"]["sha256"] = "0" * 64
+        expect_reject(bad_hash, root, "evidence hash mismatch", force_stable=True, current_revision=current_revision)
+
+        duplicate = copy.deepcopy(valid)
+        duplicate["platforms"].append(copy.deepcopy(duplicate["platforms"][0]))
+        expect_reject(duplicate, root, "duplicate platform", force_stable=True, current_revision=current_revision)
+
+        traversal = copy.deepcopy(valid)
+        traversal["platforms"][0]["evidence"]["path"] = "../outside.json"
+        expect_reject(traversal, root, "evidence path traversal", force_stable=True, current_revision=current_revision)
+
+        expect_reject(valid, root, "repository mismatch", force_stable=True, current_revision=current_revision, repository="GoreeCloud/other")
+        expect_reject(valid, root, "Stable claim without policy revision", force_stable=True, current_revision=current_revision, policy_revision=None)
+
+        source = root / "src" / "app.txt"
+        source.write_text("synthetic implementation changed after review\n", encoding="utf-8")
+        git(root, "add", "src/app.txt")
+        git(root, "commit", "-q", "-m", "synthetic unauthorized product change")
+        changed_revision = git(root, "rev-parse", "HEAD").stdout.strip()
+        expect_reject(valid, root, "product source changed after review", force_stable=True, current_revision=changed_revision)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--manifest", type=Path)
+    parser.add_argument("--consumer-root", type=Path)
+    parser.add_argument("--repository")
+    parser.add_argument("--revision")
+    parser.add_argument("--policy-revision")
+    parser.add_argument("--stable-claim", action="store_true")
+    parser.add_argument("--report", type=Path)
+    parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--source-only", action="store_true")
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    stable, _, _ = validate_source()
+    print(f"Current Glaze UI consumer authority validated: {stable}")
+
+    if args.self_test:
+        self_test()
+        print("Downstream current-Stable gate synthetic self-test passed. Synthetic data is not consumer acceptance evidence.")
+
+    if args.manifest:
+        consumer_root = (args.consumer_root or args.manifest.parent).expanduser().resolve()
+        manifest_path = args.manifest.expanduser().resolve()
+        within(consumer_root, manifest_path, "manifest path")
+        manifest_relative_path = manifest_path.relative_to(consumer_root).as_posix()
+        manifest = read_json(manifest_path, str(manifest_path))
+        report = validate_manifest(
+            manifest,
+            consumer_root=consumer_root,
+            manifest_relative_path=manifest_relative_path,
+            expected_repository=args.repository,
+            current_revision=args.revision,
+            policy_revision=args.policy_revision,
+            force_stable_claim=args.stable_claim,
+        )
+        report["manifestSha256"] = sha256_file(manifest_path)
+        if args.report:
+            report_path = args.report.expanduser().resolve()
+            report_path.parent.mkdir(parents=True, exist_ok=True)
+            report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            print(f"Wrote Glaze UI current-Stable gate report: {report_path}")
+        mode = "Stable-claim" if report["stableClaimRequested"] else "current-target"
+        print(f"{mode} Glaze UI gate passed for {report['repository']} at target {stable}")
+        print("Product Stable/production eligibility remains independently governed.")
+    elif not args.self_test and not args.source_only:
+        print("No downstream manifest supplied; source protocol only was validated.")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except GateError as exc:
+        raise SystemExit(f"Glaze UI downstream current-Stable gate failed: {exc}")
