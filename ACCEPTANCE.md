@@ -1,9 +1,11 @@
-# GLAZE UI V1.2 Acceptance
+# GLAZE UI V1.4 Acceptance
 
-GLAZE UI V1.2 / 1.2.0 is the current Stable design-system release under the explicit GoreeCloud project-owner lifecycle decision of 2026-09-06.
+GLAZE UI V1.4 — Optical Intelligence / `1.4.0` is the current Official Stable design-system release under the GoreeCloud lifecycle decision of 2026-09-13.
 
-Stable source authority includes the implemented Frosted Neutral + Living Frosted contracts, Stable wrapper entrypoints, current lifecycle and token manifests, inherited V1 semantic/material/accessibility authority, bounded browser/native-reference evidence, and preserved V1.1 rollback authority.
+Current Stable source authority is defined by `VERSION`, `registry/lifecycle.json`, `GLAZE_UI_V1_4.md`, `css/glaze-v1.4.0.css`, `js/glaze-v1.4.0.mjs`, `js/glaze-v1.4-optical-engine.mjs`, and `acceptance/v1.4-stable.md`. GLAZE UI V1.3 / `1.3.0` remains the direct known-good rollback baseline and historical acceptance source.
 
-The remaining human optical, manual assistive-technology, physical-device/OEM/compositor, production-performance, native Personalization-adapter, and compatibility-namespace qualification work is postponed to V1.3. Those items are not represented as passed V1.2 evidence.
+V1.4.0 Stable acceptance covers the bounded machine-verifiable Optical Intelligence contract and inherited V1.3 behavior. It does not represent human optical review, manual assistive-technology verification, representative physical-device/native-platform qualification, real-device performance validation, or subjective optical polish as completed. Those human-dependent checks are explicitly assigned to the V1.4.1 hardening track.
 
-No downstream GoreeCloud application becomes V1.2-conformant or production-eligible automatically. Each consumer must explicitly target 1.2.0 and satisfy its own exact-revision acceptance boundary.
+No downstream GoreeCloud application becomes V1.4-conformant, Stable, or production-eligible automatically. Each consumer must explicitly target the current Stable release and satisfy its own exact-scope, repository-local, platform-specific acceptance boundary.
+
+Acceptance is scoped rather than global: a successful shared-design-system check never upgrades unreviewed applications, platforms, adapters, or product lifecycle states by implication.
