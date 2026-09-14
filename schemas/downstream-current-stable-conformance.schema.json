@@ -44,6 +44,7 @@
     "evidence": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Repository-local evidence for an accepted platform. sourceRevision is the exact implementation commit that was reviewed. The Stable gate may permit later commits only when their diff is limited to the conformance manifest and declared evidence files; any other source change invalidates continuity.",
       "required": ["path", "sha256", "sourceRevision"],
       "properties": {
         "path": {"type": "string", "minLength": 1},
