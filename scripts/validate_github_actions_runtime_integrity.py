@@ -63,13 +63,17 @@ def workflow_paths() -> list[Path]:
     return paths
 
 
-def parse_external(ref: str) -> tuple[str, str] | None:
+def parse_external(ref: str, relative: str, line_number: int) -> tuple[str, str] | None:
+    location = f"{relative}:{line_number}"
     if ref.startswith("./"):
         return None
-    require("@" in ref, f"external action reference has no immutable ref separator: {ref}")
+    require("@" in ref, f"{location}: external action reference has no immutable ref separator: {ref}")
     action, revision = ref.rsplit("@", 1)
-    require(action in APPROVED_EXTERNAL_ACTIONS, f"unapproved external action family: {action}")
-    require(SHA.fullmatch(revision) is not None, f"external action is not pinned to a 40-char lowercase SHA: {ref}")
+    require(action in APPROVED_EXTERNAL_ACTIONS, f"{location}: unapproved external action family: {action}")
+    require(
+        SHA.fullmatch(revision) is not None,
+        f"{location}: external action is not pinned to a 40-char lowercase SHA: {ref}",
+    )
     return action, revision
 
 
@@ -84,18 +88,23 @@ def validate() -> dict[str, object]:
         relative = str(path.relative_to(ROOT))
         require(NODE20_OVERRIDE not in text, f"deprecated/unsafe Node runtime override present in {relative}: {NODE20_OVERRIDE}")
         require(LEGACY_NODE20_OVERRIDE not in text, f"Node 20 opt-out override present in {relative}: {LEGACY_NODE20_OVERRIDE}")
-        refs = USES.findall(text)
-        if not refs:
+        matches = list(USES.finditer(text))
+        if not matches:
             files_without_uses.append(relative)
             continue
-        for ref in refs:
-            parsed = parse_external(ref)
+        for match in matches:
+            ref = match.group(1)
+            line_number = text.count("\n", 0, match.start()) + 1
+            parsed = parse_external(ref, relative, line_number)
             if parsed is None:
                 local_reusable.add(ref)
                 continue
             action, revision = parsed
             expected = APPROVED_EXTERNAL_ACTIONS[action]
-            require(revision == expected["sha"], f"{relative} pins {action} to {revision}, expected approved {expected['release']} SHA {expected['sha']}")
+            require(
+                revision == expected["sha"],
+                f"{relative}:{line_number} pins {action} to {revision}, expected approved {expected['release']} SHA {expected['sha']}",
+            )
             entry = observed.setdefault(action, {"count": 0, "workflows": []})
             entry["count"] = int(entry["count"]) + 1
             workflows = entry["workflows"]
@@ -110,7 +119,7 @@ def validate() -> dict[str, object]:
         observed[action]["workflows"] = sorted(set(observed[action]["workflows"]))
 
     return {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "kind": "goreecloud-glaze-github-actions-runtime-integrity",
         "workflowCount": len(paths),
         "externalActionFamilies": observed,
@@ -120,6 +129,7 @@ def validate() -> dict[str, object]:
         "node24GenerationRequired": True,
         "node20OverrideAllowed": False,
         "unapprovedExternalActionFamiliesAllowed": False,
+        "diagnosticsIncludeWorkflowAndLine": True,
         "lifecyclePromotionImplied": False,
         "releaseCandidateImplied": False,
         "stableImplied": False,
