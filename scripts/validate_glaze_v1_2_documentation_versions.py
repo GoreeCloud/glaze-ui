@@ -25,6 +25,8 @@ CURRENT_AUTHORITY_DOCS = {
     "ADOPTION.md": ("current Glaze UI adoption target",),
     "ENFORCEMENT.md": ("current Glaze UI enforcement",),
     "CONSUMERS.md": ("required target",),
+    "ICON_CONSTRUCTION.md": ("Current Stable product authority",),
+    "ICON_IDENTITY.md": ("Current Stable product authority",),
     "website/README.md": ("current Official Stable",),
     "GLAZE_UI_V1_4.md": ("Official Stable",),
 }
