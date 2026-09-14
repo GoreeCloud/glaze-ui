@@ -14,8 +14,11 @@ SCRIPTS = ROOT / "scripts"
 WORKFLOWS = ROOT / ".github" / "workflows"
 DOCUMENTATION = ROOT / "docs" / "GLAZE_UI_V1_4_EVIDENCE_REFERENCE_PRIVACY.md"
 SELF_PATH = "scripts/validate_glaze_v1_4_evidence_reference_privacy.py"
-CANONICAL_OPTICAL_VALIDATOR = "scripts/validate_glaze_v1_4_optical_material.py"
-OBSOLETE_OPTICAL_VALIDATOR = "scripts/validate_glaze-v1.4_optical_material.py"
+CANONICAL_OPTICAL_VALIDATOR = "scripts/validate_glaze_v1.4_optical_material.py"
+OBSOLETE_OPTICAL_VALIDATORS = (
+    "scripts/validate_glaze_v1_4_optical_material.py",
+    "scripts/validate_glaze-v1.4_optical_material.py",
+)
 
 EXPECTED_PATTERN = (
     r"^evidence\+sha256:[0-9a-f]{64}:"
@@ -106,11 +109,13 @@ def assert_workflow_applicability() -> None:
 def assert_optical_validator_path_integrity() -> None:
     canonical_path = ROOT / CANONICAL_OPTICAL_VALIDATOR
     assert canonical_path.is_file(), f"canonical optical validator is missing: {CANONICAL_OPTICAL_VALIDATOR}"
-    assert not (ROOT / OBSOLETE_OPTICAL_VALIDATOR).exists(), "obsolete hyphenated optical validator path unexpectedly exists"
+    for obsolete_path in OBSOLETE_OPTICAL_VALIDATORS:
+        assert not (ROOT / obsolete_path).exists(), f"obsolete optical validator path unexpectedly exists: {obsolete_path}"
     for workflow_name in OPTICAL_VALIDATOR_WORKFLOWS:
         text = (WORKFLOWS / workflow_name).read_text(encoding="utf-8")
         assert CANONICAL_OPTICAL_VALIDATOR in text, f"{workflow_name} does not reference the canonical optical validator path"
-        assert OBSOLETE_OPTICAL_VALIDATOR not in text, f"{workflow_name} still references the obsolete optical validator path"
+        for obsolete_path in OBSOLETE_OPTICAL_VALIDATORS:
+            assert obsolete_path not in text, f"{workflow_name} still references obsolete optical validator path: {obsolete_path}"
 
 
 def assert_documented_boundary() -> None:
