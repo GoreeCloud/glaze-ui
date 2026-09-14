@@ -1,0 +1,57 @@
+name: Glaze UI Current Stable Consumer Gate Self-Test
+
+on:
+  pull_request:
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
+      - 'schemas/downstream-current-stable-conformance.schema.json'
+      - 'templates/downstream-current-stable-conformance.template.json'
+      - 'scripts/validate_downstream_current_stable.py'
+      - '.github/workflows/current-stable-consumer-gate.yml'
+      - '.github/workflows/current-stable-consumer-gate-self-test.yml'
+      - 'CURRENT_STABLE_ENFORCEMENT.md'
+      - 'CONSUMERS.md'
+  push:
+    branches:
+      - main
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
+      - 'schemas/downstream-current-stable-conformance.schema.json'
+      - 'templates/downstream-current-stable-conformance.template.json'
+      - 'scripts/validate_downstream_current_stable.py'
+      - '.github/workflows/current-stable-consumer-gate.yml'
+      - '.github/workflows/current-stable-consumer-gate-self-test.yml'
+      - 'CURRENT_STABLE_ENFORCEMENT.md'
+      - 'CONSUMERS.md'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-current-stable-consumer-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Validate source syntax and JSON
+        run: |
+          python3 -m py_compile scripts/validate_downstream_current_stable.py
+          python3 -m json.tool schemas/downstream-current-stable-conformance.schema.json >/dev/null
+          python3 -m json.tool templates/downstream-current-stable-conformance.template.json >/dev/null
+
+      - name: Validate central authority and schema parity
+        run: python3 scripts/validate_downstream_current_stable.py --source-only
+
+      - name: Exercise fail-closed downstream gate tests
+        run: python3 scripts/validate_downstream_current_stable.py --self-test
+
+      - name: Preserve central consumer registry semantics
+        run: python3 scripts/validate_consumer_registry.py
