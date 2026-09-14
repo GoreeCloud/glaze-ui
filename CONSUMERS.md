@@ -23,6 +23,18 @@ V1.4 is additive over V1.3. Consumers may opt into the Glaze Optical Engine, but
 
 An accepted current consumer must target exactly the current Stable version and identify the exact accepted source revision and evidence record.
 
+## Mandatory current-Stable gate
+
+GoreeCloud consumer repositories should adopt the reusable current-Stable gate defined by `.github/workflows/current-stable-consumer-gate.yml` and keep a repository-local `.goreecloud/glaze-ui-conformance.json` manifest based on `templates/downstream-current-stable-conformance.template.json`.
+
+The complete contract is documented in `CURRENT_STABLE_ENFORCEMENT.md`.
+
+Development validation requires the manifest to target the central current Stable Glaze UI version. Stable-claim validation is stricter: the consumer must explicitly request a Stable claim, enumerate its complete user-facing platform scope, mark every enumerated platform accepted, and bind every accepted platform to repository-local evidence by SHA-256.
+
+A product must not be considered or marked Stable when this current-Stable Glaze gate fails. Passing the gate is necessary for a Stable claim but remains insufficient by itself for overall production or product lifecycle promotion.
+
+When a newer Glaze UI release becomes Official Stable, older consumer acceptance becomes migration provenance. The next consumer gate run must target the newly current Stable version before a new Stable claim can pass.
+
 ## V1.4.1 relationship
 
 Human optical review, subjective polish assessment, manual assistive-technology verification, representative physical-device/native-platform qualification, and representative real-device performance qualification are assigned to V1.4.1 by owner direction. Those checks are not represented as passed V1.4.0 evidence.
