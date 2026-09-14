@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
@@ -17,6 +18,13 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 async function json(relative) {
   return JSON.parse(await readFile(path.join(ROOT, relative), 'utf8'));
+}
+
+function gitBlobSha(relative) {
+  return execFileSync('git', ['hash-object', relative], {
+    cwd: ROOT,
+    encoding: 'utf8'
+  }).trim();
 }
 
 function fakeTarget() {
@@ -67,6 +75,9 @@ async function main() {
   assert.equal(contract.rules.remoteContextRequired, false);
   assert.equal(contract.rules.humanAcceptanceAutomatic, false);
   assert.equal(contract.rules.patchPromotionAutomatic, false);
+
+  assert.equal(gitBlobSha(contract.stableEngine), contract.stableEngineBlobSha);
+  assert.equal(gitBlobSha(contract.stableEntrypoint), contract.stableEntrypointBlobSha);
 
   assert.equal(glazeOpticalEngineV141Candidate.version, '1.4.1-candidate');
   assert.equal(glazeOpticalEngineV141Candidate.lifecycle, 'candidate-hardening');
@@ -165,7 +176,7 @@ async function main() {
   assert.equal('adapterStatus' in stable, false);
 
   console.log('GLAZE UI V1.4.1 optical runtime hardening: PASS');
-  console.log('Boundary: adapter faults fail safe to solid-accessible; V1.4.0 Stable remains independent; human V1.4.1 acceptance is not implied.');
+  console.log('Boundary: adapter faults fail safe to solid-accessible; V1.4.0 Stable blobs remain immutable; human V1.4.1 acceptance is not implied.');
 }
 
 main().catch((error) => {
