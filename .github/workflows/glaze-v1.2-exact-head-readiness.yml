@@ -1,20 +1,12 @@
-name: Glaze V1.2 Exact-Head Stable Readiness
+name: Glaze V1.2 Exact-Head Historical Regression
 
 on:
   push:
-    branches:
-      - main
-      - fix/v1.2-stable-validation-boundary
-  pull_request:
+    branches: [main]
     paths:
-      - "VERSION"
       - "registry/lifecycle.json"
       - "GLAZE_UI_V1_2.md"
       - "GLAZE_UI_V1_2_CANDIDATE.md"
-      - "CONFORMANCE.md"
-      - "ACCEPTANCE.md"
-      - "ADOPTION.md"
-      - "ENFORCEMENT.md"
       - "contracts/v1.2/**"
       - "contracts/v1.3/deferred-qualification.plan.json"
       - "contracts/v1.3/stable-readiness.plan.json"
@@ -22,8 +14,6 @@ on:
       - "css/glaze-v1.2-**"
       - "js/glaze-v1.2-**"
       - "reference/v1.2/**"
-      - "contracts/performance/glaze-v1-performance-budget.json"
-      - "contracts/glaze.conformance-evidence.schema.json"
       - "acceptance/v1.2-**"
       - "acceptance/v1.3-deferred-qualification.md"
       - "scripts/validate_glaze_v1.py"
@@ -32,7 +22,28 @@ on:
       - "scripts/validate_glaze_v1_2_stable.py"
       - "scripts/validate_glaze_v1_2_living_glaze.py"
       - "scripts/validate_glaze_v1_2_living_glaze_legacy.py"
-      - "scripts/validate_glaze_v1_2_documentation_versions.py"
+      - "scripts/glaze_v1_2_promoted_source_runner.py"
+      - ".github/workflows/glaze-v1.2-exact-head-readiness.yml"
+  pull_request:
+    paths:
+      - "registry/lifecycle.json"
+      - "GLAZE_UI_V1_2.md"
+      - "GLAZE_UI_V1_2_CANDIDATE.md"
+      - "contracts/v1.2/**"
+      - "contracts/v1.3/deferred-qualification.plan.json"
+      - "contracts/v1.3/stable-readiness.plan.json"
+      - "tokens/glaze-v1.2-**"
+      - "css/glaze-v1.2-**"
+      - "js/glaze-v1.2-**"
+      - "reference/v1.2/**"
+      - "acceptance/v1.2-**"
+      - "acceptance/v1.3-deferred-qualification.md"
+      - "scripts/validate_glaze_v1.py"
+      - "scripts/validate_glaze_v1_2_candidate.py"
+      - "scripts/validate_glaze_v1_2_candidate_legacy.py"
+      - "scripts/validate_glaze_v1_2_stable.py"
+      - "scripts/validate_glaze_v1_2_living_glaze.py"
+      - "scripts/validate_glaze_v1_2_living_glaze_legacy.py"
       - "scripts/glaze_v1_2_promoted_source_runner.py"
       - ".github/workflows/glaze-v1.2-exact-head-readiness.yml"
   workflow_dispatch:
@@ -41,10 +52,11 @@ permissions:
   contents: read
 
 jobs:
-  exact-head-readiness:
+  exact-head-historical-regression:
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
-      - name: Check out exact Stable revision
+      - name: Check out exact revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -56,12 +68,11 @@ jobs:
           python-version: "3.12"
           check-latest: false
 
-      - name: Validate exact V1.2 Stable authority
+      - name: Verify exact revision and current lifecycle consistency
         shell: bash
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
-          test "$(cat VERSION)" = "1.2.0"
           python scripts/validate_glaze_v1_2_stable.py
           python scripts/validate_glaze_v1.py
 
@@ -70,12 +81,7 @@ jobs:
           python scripts/validate_glaze_v1_2_candidate.py
           python scripts/validate_glaze_v1_2_living_glaze.py
 
-      - name: Audit current lifecycle and documentation authority
-        run: |
-          python scripts/validate_glaze_v1_2_documentation_versions.py \
-            --output artifacts/glaze-v1.2-lifecycle-version-integrity.json
-
-      - name: Verify staged V1.3 qualification boundary without manufacturing V1.2 evidence
+      - name: Verify preserved V1.3 deferred-plan provenance without manufacturing evidence
         env:
           GLAZE_SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
@@ -86,20 +92,24 @@ jobs:
 
           root = Path('.')
           lifecycle = json.loads((root / 'registry/lifecycle.json').read_text(encoding='utf-8'))
+          version = (root / 'VERSION').read_text(encoding='utf-8').strip()
           qualification = json.loads((root / 'contracts/v1.3/deferred-qualification.plan.json').read_text(encoding='utf-8'))
           stable_plan = json.loads((root / 'contracts/v1.3/stable-readiness.plan.json').read_text(encoding='utf-8'))
           acceptance = (root / 'acceptance/v1.2-stable.md').read_text(encoding='utf-8')
 
-          assert lifecycle.get('currentStable') == '1.2.0'
-          assert lifecycle.get('currentOfficial') == '1.2.0'
-          assert lifecycle.get('activeCandidate') is None
-          assert lifecycle.get('plannedNext') == '1.3.0-candidate'
+          assert lifecycle.get('currentStable') == version
+          assert lifecycle.get('currentOfficial') == version
+
+          v12 = next(item for item in lifecycle.get('releases', []) if item.get('version') == '1.2.0')
+          assert v12.get('status') == 'stable'
+          assert v12.get('consumerEligible') is True
+          assert v12.get('stableBaseline') == '1.1.0'
+          assert v12.get('contract') == 'GLAZE_UI_V1_2.md'
 
           assert qualification.get('schemaVersion') == 4
           assert qualification.get('sourceStable') == '1.2.0'
           assert qualification.get('targetVersion') == '1.3.0-candidate'
-          assert qualification.get('lifecycle') == 'qualification-active'
-          assert qualification.get('controlPlane', {}).get('status') == 'qualification-active'
+          assert qualification.get('lifecycle') in {'planned', 'qualification-active'}
           assert len(qualification.get('candidateStageItems', [])) == 5
           assert qualification.get('stableStageItems') == ['stable-activation-and-source-namespace-cleanup']
           assert len(qualification.get('allStablePromotionItems', [])) == 6
@@ -123,42 +133,50 @@ jobs:
           assert 'V1.3' in acceptance
 
           report = {
-              'schemaVersion': 3,
+              'schemaVersion': 4,
               'status': 'pass',
               'repository': 'GoreeCloud/goreecloud-glaze-ui',
               'revision': os.environ['GLAZE_SOURCE_REVISION'],
-              'currentStable': '1.2.0',
-              'currentOfficial': '1.2.0',
-              'activeCandidate': None,
-              'plannedNext': '1.3.0-candidate',
-              'v1.3Qualification': {
-                  'lifecycle': 'qualification-active',
-                  'targetVersion': '1.3.0-candidate',
+              'currentLifecycle': {
+                  'version': version,
+                  'currentStable': lifecycle.get('currentStable'),
+                  'currentOfficial': lifecycle.get('currentOfficial'),
+              },
+              'historicalV1.2': {
+                  'version': '1.2.0',
+                  'status': v12.get('status'),
+                  'consumerEligibleAtRelease': v12.get('consumerEligible'),
+                  'rollbackBaseline': v12.get('stableBaseline'),
+                  'representedAsCurrent': False,
+              },
+              'historicalV1.3QualificationPlan': {
+                  'targetVersion': qualification.get('targetVersion'),
+                  'recordedLifecycle': qualification.get('lifecycle'),
                   'representedAsPassedV1.2Evidence': False,
                   'freshExactRevisionEvidenceRequired': True,
                   'candidateBlockingWorkstreamCount': 5,
-                  'candidateStageSameExactRevisionRequired': True,
                   'stableBlockingWorkstreamCountAcrossStages': 6,
-                  'stableCleanupPostCandidate': True,
-                  'candidateActivationImplied': False,
-                  'stablePromotionImplied': False,
+                  'candidateActivationImpliedNow': False,
+                  'stablePromotionImpliedNow': False,
               },
               'downstreamConsumerAcceptanceImplied': False,
+              'authorityBoundary': 'Historical V1.2/V1.3 plans are regression provenance only; live lifecycle authority remains VERSION + registry/lifecycle.json.',
           }
-          out = root / 'artifacts/glaze-v1.2-stable-boundary.json'
+          out = root / 'artifacts/glaze-v1.2-exact-head-historical-regression.json'
           out.parent.mkdir(parents=True, exist_ok=True)
           out.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n', encoding='utf-8')
-          print('GLAZE UI V1.2 exact-head Stable boundary: PASS')
-          print('V1.3 staged qualification remains separate from V1.2 Stable evidence and lifecycle authority.')
+          print('GLAZE UI V1.2 exact-head historical regression: PASS')
+          print(f'Current lifecycle remains {version}; V1.2/V1.3 historical provenance is preserved without reactivation.')
           PY
 
-      - name: Upload exact-head Stable boundary evidence
+      - name: Verify regression did not mutate tracked source
+        run: git diff --exit-code
+
+      - name: Upload exact-head historical regression evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: glaze-v1.2-stable-boundary-${{ github.event.pull_request.head.sha || github.sha }}
-          path: |
-            artifacts/glaze-v1.2-stable-boundary.json
-            artifacts/glaze-v1.2-lifecycle-version-integrity.json
+          name: glaze-v1.2-exact-head-historical-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/glaze-v1.2-exact-head-historical-regression.json
           if-no-files-found: error
           retention-days: 14
           compression-level: 6
