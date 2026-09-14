@@ -81,7 +81,7 @@ jobs:
           python scripts/validate_glaze_v1_2_candidate.py
           python scripts/validate_glaze_v1_2_living_glaze.py
 
-      - name: Verify preserved V1.3 deferred-plan provenance without manufacturing evidence
+      - name: Verify preserved V1.3/V1.3.1 qualification provenance without manufacturing evidence
         env:
           GLAZE_SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
@@ -93,47 +93,54 @@ jobs:
           root = Path('.')
           lifecycle = json.loads((root / 'registry/lifecycle.json').read_text(encoding='utf-8'))
           version = (root / 'VERSION').read_text(encoding='utf-8').strip()
-          qualification = json.loads((root / 'contracts/v1.3/deferred-qualification.plan.json').read_text(encoding='utf-8'))
-          stable_plan = json.loads((root / 'contracts/v1.3/stable-readiness.plan.json').read_text(encoding='utf-8'))
-          acceptance = (root / 'acceptance/v1.2-stable.md').read_text(encoding='utf-8')
+          follow_up = json.loads((root / 'contracts/v1.3/deferred-qualification.plan.json').read_text(encoding='utf-8'))
+          historical_stable_plan = json.loads((root / 'contracts/v1.3/stable-readiness.plan.json').read_text(encoding='utf-8'))
 
           assert lifecycle.get('currentStable') == version
           assert lifecycle.get('currentOfficial') == version
 
           v12 = next(item for item in lifecycle.get('releases', []) if item.get('version') == '1.2.0')
+          v13 = next(item for item in lifecycle.get('releases', []) if item.get('version') == '1.3.0')
           assert v12.get('status') == 'stable'
           assert v12.get('consumerEligible') is True
           assert v12.get('stableBaseline') == '1.1.0'
           assert v12.get('contract') == 'GLAZE_UI_V1_2.md'
+          assert v13.get('status') == 'stable'
+          assert v13.get('consumerEligible') is True
 
-          assert qualification.get('schemaVersion') == 4
-          assert qualification.get('sourceStable') == '1.2.0'
-          assert qualification.get('targetVersion') == '1.3.0-candidate'
-          assert qualification.get('lifecycle') in {'planned', 'qualification-active'}
-          assert len(qualification.get('candidateStageItems', [])) == 5
-          assert qualification.get('stableStageItems') == ['stable-activation-and-source-namespace-cleanup']
-          assert len(qualification.get('allStablePromotionItems', [])) == 6
+          assert follow_up.get('schemaVersion') == 5
+          assert follow_up.get('sourceStable') == '1.3.0'
+          assert follow_up.get('targetVersion') == '1.3.1-candidate'
+          assert follow_up.get('lifecycle') == 'follow-up-active'
+          assert follow_up.get('controlPlane', {}).get('status') == 'v1.3.1-follow-up-active'
+          assert len(follow_up.get('followUpItems', [])) == 6
+          assert len(follow_up.get('legacyCandidateStageItems', [])) == 5
+          assert follow_up.get('legacyStableStageItems') == ['stable-activation-and-source-namespace-cleanup']
 
-          rules = qualification.get('rules', {})
-          assert rules.get('v1.2StableImpliesThesePassed') is False
-          assert rules.get('freshExactRevisionEvidenceRequired') is True
-          assert rules.get('candidateStageMustPassSameExactRevision') is True
-          assert rules.get('stableCleanupOccursAfterCandidateActivation') is True
-          assert rules.get('stableCleanupMayTargetLaterExactRevision') is True
-          assert rules.get('stableCleanupMustReferenceQualifiedCandidateRevision') is True
-          assert rules.get('allSixRequiredBeforeStablePromotion') is True
-          assert rules.get('qualificationReadinessDoesNotPromoteLifecycle') is True
+          rules = follow_up.get('rules', {})
+          assert rules.get('v1.3.0StableAuthorityActive') is True
+          assert rules.get('v1.3.0ConsumerEligible') is True
+          assert rules.get('theseItemsBlockV1.3.0StableAuthority') is False
+          assert rules.get('theseItemsMayBeRepresentedAsPassedWithoutEvidence') is False
+          assert rules.get('freshExactRevisionEvidenceRequiredForFuturePassClaims') is True
+          assert rules.get('automatedValidationMayReplaceHumanOpticalReview') is False
+          assert rules.get('automatedValidationMayReplacePhysicalDeviceReview') is False
           assert rules.get('consumerConformanceAutomatic') is False
-          assert rules.get('v1.3LifecyclePromotionAutomatic') is False
+          assert rules.get('v1.3.1LifecyclePromotionAutomatic') is False
+          assert rules.get('allSixRemainV1.3.1FollowUpObligations') is True
 
-          assert stable_plan.get('stage') == 'post-candidate-pre-stable'
-          assert stable_plan.get('prerequisites', {}).get('activeCandidateRequired') is True
-          assert stable_plan.get('stablePromotion', {}).get('allSixQualificationRequirementsMandatoryAcrossStages') is True
-          assert stable_plan.get('stablePromotion', {}).get('automatic') is False
-          assert 'V1.3' in acceptance
+          # Preserve the historical V1.3.0 promotion plan as provenance. It is
+          # no longer live lifecycle authority after V1.3.0 Stable promotion.
+          assert historical_stable_plan.get('schemaVersion') == 2
+          assert historical_stable_plan.get('sourceStable') == '1.2.0'
+          assert historical_stable_plan.get('candidateVersion') == '1.3.0-candidate'
+          assert historical_stable_plan.get('stableVersion') == '1.3.0'
+          assert historical_stable_plan.get('lifecycleAuthority') is False
+          assert historical_stable_plan.get('stablePromotion', {}).get('automatic') is False
+          assert historical_stable_plan.get('stablePromotion', {}).get('consumerConformanceAutomatic') is False
 
           report = {
-              'schemaVersion': 4,
+              'schemaVersion': 5,
               'status': 'pass',
               'repository': 'GoreeCloud/goreecloud-glaze-ui',
               'revision': os.environ['GLAZE_SOURCE_REVISION'],
@@ -149,24 +156,28 @@ jobs:
                   'rollbackBaseline': v12.get('stableBaseline'),
                   'representedAsCurrent': False,
               },
-              'historicalV1.3QualificationPlan': {
-                  'targetVersion': qualification.get('targetVersion'),
-                  'recordedLifecycle': qualification.get('lifecycle'),
-                  'representedAsPassedV1.2Evidence': False,
+              'historicalV1.3': {
+                  'version': '1.3.0',
+                  'status': v13.get('status'),
+                  'consumerEligibleAtRelease': v13.get('consumerEligible'),
+                  'representedAsCurrent': False,
+              },
+              'v1.3.1FollowUp': {
+                  'targetVersion': follow_up.get('targetVersion'),
+                  'recordedLifecycle': follow_up.get('lifecycle'),
+                  'followUpObligationCount': len(follow_up.get('followUpItems', [])),
+                  'representedAsPassedWithoutEvidence': False,
                   'freshExactRevisionEvidenceRequired': True,
-                  'candidateBlockingWorkstreamCount': 5,
-                  'stableBlockingWorkstreamCountAcrossStages': 6,
-                  'candidateActivationImpliedNow': False,
-                  'stablePromotionImpliedNow': False,
+                  'lifecyclePromotionImpliedNow': False,
               },
               'downstreamConsumerAcceptanceImplied': False,
-              'authorityBoundary': 'Historical V1.2/V1.3 plans are regression provenance only; live lifecycle authority remains VERSION + registry/lifecycle.json.',
+              'authorityBoundary': 'Historical V1.2/V1.3 records and the V1.3.1 follow-up remain provenance/obligations only; live lifecycle authority remains VERSION + registry/lifecycle.json.',
           }
           out = root / 'artifacts/glaze-v1.2-exact-head-historical-regression.json'
           out.parent.mkdir(parents=True, exist_ok=True)
           out.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print('GLAZE UI V1.2 exact-head historical regression: PASS')
-          print(f'Current lifecycle remains {version}; V1.2/V1.3 historical provenance is preserved without reactivation.')
+          print(f'Current lifecycle remains {version}; V1.2/V1.3 provenance and V1.3.1 unresolved obligations remain explicit without reactivation or manufactured evidence.')
           PY
 
       - name: Verify regression did not mutate tracked source
