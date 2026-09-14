@@ -29,7 +29,9 @@ The canonical structure is defined by:
 
 The manifest identifies the consumer, repository, Glaze UI target, adoption state, Stable-claim intent, complete user-facing platform coverage assertion, and per-platform acceptance state.
 
-An `accepted` platform must reference repository-local evidence by both path and SHA-256 digest. The gate recomputes the digest. Replacing or mutating evidence without updating and re-reviewing the declaration causes validation to fail.
+An `accepted` platform must reference repository-local evidence by path, SHA-256 digest, and exact 40-character consumer `sourceRevision`. The gate recomputes the digest and compares the evidence revision to the consumer revision under test. Replacing or mutating evidence, or attempting to reuse evidence from an older consumer revision, causes validation to fail.
+
+The fail-closed template is itself tied to the current central Stable version. Central source validation fails if Glaze UI promotes a new Stable release without updating the downstream template target.
 
 ## Development mode
 
@@ -48,8 +50,10 @@ Stable-claim mode is fail-closed. It requires all of the following:
 - Every enumerated user-facing platform is `accepted`.
 - Every accepted platform has repository-local evidence.
 - Every evidence SHA-256 digest matches the exact referenced file.
+- Every accepted evidence record is bound to the exact consumer source revision under test.
 - The manifest repository identity matches the repository executing the workflow.
-- The current workflow source revision is recorded in the generated gate report.
+- The exact Glaze UI policy revision used to evaluate the consumer is recorded.
+- The current consumer source revision is recorded in the generated gate report.
 
 A single accepted platform never implies acceptance of another platform.
 
@@ -73,7 +77,7 @@ jobs:
       stable-claim: false
 ```
 
-The reusable workflow always checks out the current `main` policy authority from `GoreeCloud/goreecloud-glaze-ui`. This is intentional: consumer validation must follow the latest Official Stable Glaze UI authority instead of silently remaining pinned to an obsolete design-system release.
+The reusable workflow always checks out the current `main` policy authority from `GoreeCloud/goreecloud-glaze-ui`. This is intentional: consumer validation must follow the latest Official Stable Glaze UI authority instead of silently remaining pinned to an obsolete design-system release. The exact policy commit checked out at runtime is captured in the generated gate report.
 
 A release or Stable-promotion workflow must invoke the same reusable workflow with:
 
@@ -89,23 +93,25 @@ The Stable-claim invocation should be a required release check wherever reposito
 
 Each successful reusable-workflow run writes and uploads `glaze-ui-current-stable-gate-report.json`.
 
-The report binds the validation result to the workflow repository and current source revision and records:
+The report binds the validation result to both sides of the authorization decision and records:
 
+- exact consumer source revision,
+- exact Glaze UI policy revision,
 - current central Stable version,
 - consumer target version,
 - Stable-claim mode,
 - platform coverage counts,
 - accepted platform state,
-- verified evidence paths and SHA-256 values,
+- verified evidence paths, SHA-256 values, and evidence source revisions,
 - the authority boundary stating that overall product Stable/production eligibility remains independently governed.
 
-The report is CI evidence for the exact workflow revision. It does not replace the underlying repository-local acceptance records.
+The report is CI evidence for the exact workflow decision. It does not replace the underlying repository-local acceptance records.
 
 ## Release transition behavior
 
-Glaze UI release promotion should update `VERSION`, lifecycle authority, and consumer registry authority atomically. Because downstream validation reads those central authorities at runtime, a newly promoted Stable release immediately becomes the required target for subsequent consumer gate runs.
+Glaze UI release promotion should update `VERSION`, lifecycle authority, consumer registry authority, and the fail-closed downstream template target atomically. Because downstream validation reads those central authorities at runtime, a newly promoted Stable release immediately becomes the required target for subsequent consumer gate runs.
 
-Existing historical acceptance remains useful as migration provenance but does not satisfy a new current-Stable claim.
+Existing historical acceptance remains useful as migration provenance but does not satisfy a new current-Stable claim. Evidence from an older source revision also cannot be replayed against a changed consumer revision.
 
 ## No global visual pass
 
