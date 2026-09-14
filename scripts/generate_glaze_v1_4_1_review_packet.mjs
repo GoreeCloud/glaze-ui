@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import {readFileSync, writeFileSync} from 'node:fs';
+import {mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
-import {resolve} from 'node:path';
+import {dirname, resolve} from 'node:path';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const CONTRACT = resolve(ROOT, 'contracts/v1.4.1/human-validation.contract.json');
@@ -151,6 +151,7 @@ function main() {
 
   if (args.output) {
     const output = resolve(process.cwd(), args.output);
+    mkdirSync(dirname(output), {recursive: true});
     writeFileSync(output, rendered, {encoding: 'utf8', flag: args.force ? 'w' : 'wx'});
     console.log(`Created pending V1.4.1 human review packet: ${output}`);
     console.log('This planning packet is not human evidence and is not promotion eligible.');
