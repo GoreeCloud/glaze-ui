@@ -143,6 +143,26 @@
       .status-grid { grid-template-columns: 1fr; }
       .check-list ul { columns: 1; }
     }
+    @media (max-width: 600px) {
+      html, body { max-width: 100%; overflow-x: hidden; }
+      .shell { width: 100%; padding: 8px; }
+      .layout, .review-column, .viewport-stage, .device-frame, .scene, .scene-content, .review-card, .review-card > *, .status-grid, .status-card {
+        min-width: 0;
+        max-width: 100%;
+      }
+      .viewport-stage { width: 100%; padding: 6px; overflow-x: hidden; border-radius: 22px; }
+      .device-frame { width: 100%; }
+      .scene-content { width: 100%; padding: 16px; align-content: start; }
+      .topline { flex-wrap: wrap; justify-content: flex-start; align-items: flex-start; }
+      .topline > * { min-width: 0; max-width: 100%; }
+      .topline > span:last-child { overflow-wrap: anywhere; }
+      .review-card { width: 100%; padding: 18px; }
+      .review-card h2 { max-width: none; font-size: clamp(2rem,11vw,3.25rem); }
+      .review-card p, .status-card span, .microcopy, .state-readout { overflow-wrap: anywhere; }
+      .actions { display: grid; grid-template-columns: minmax(0,1fr); width: 100%; }
+      .actions button { width: 100%; max-width: 100%; white-space: normal; }
+      .actions button[aria-label="More review actions"] { width: auto; min-width: 52px; justify-self: start; }
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
     }
