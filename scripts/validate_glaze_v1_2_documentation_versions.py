@@ -3,8 +3,9 @@
 
 This validator originated while V1.2 was globally current. It now serves as a
 retained-release integrity check: live current authority is derived from
-`registry/lifecycle.json`/`VERSION`, while V1.2 documentation and source remain
-historical Stable provenance. It must never move global authority back to V1.2.
+`registry/lifecycle.json`/`VERSION`, while prior release documentation and
+source remain historical Stable provenance. It must never move global authority
+back to an older release.
 """
 from __future__ import annotations
 
@@ -38,8 +39,19 @@ RETAINED_V12_DOCS = (
     "acceptance/v1.2-stable.md",
 )
 
+# These are release snapshots, migration records, acceptance records, or
+# explicitly retained validators. Their "current" wording describes the
+# authority at the time of the recorded release and must not be reinterpreted as
+# live authority after later governed promotions.
 HISTORICAL_SOURCE_PATHS = {
+    "GLAZE_UI_V1_1.md",
+    "GLAZE_UI_V1_3.md",
+    "GLAZE_UI_V1_3_1_HARDENING.md",
+    "MIGRATION_V1_2_TO_V1_3.md",
     "acceptance/v1.1-rendered-web-evidence.json",
+    "acceptance/v1.1-stable.md",
+    "acceptance/v1.3-deferred-qualification.md",
+    "acceptance/v1.3-stable.md",
     "scripts/glaze_v1_2_promoted_source_runner.py",
     "scripts/promote_glaze_v1_1_stable.py",
     "scripts/validate_evidence_presentation.py",
@@ -129,10 +141,9 @@ def historical_record(relative: str, text: str, current_version: str) -> bool:
     if "candidate" in name or ".candidate." in lowered_path or "release-candidate" in lowered_path:
         return True
     if relative.startswith("acceptance/v1.") or relative.startswith("releases/1."):
-        marker = version_tuple(relative.replace("v", ""))
-        current = version_tuple(current_version)
-        if marker and current and marker < current:
-            return True
+        # Versioned acceptance/release records are provenance. Live authority is
+        # checked independently through current front-door documents.
+        return True
     if relative.startswith(("contracts/v1.0/", "contracts/v1.1/", "contracts/v1.2/", "contracts/v1.3/")):
         return True
     if relative.startswith(("reference/v1.0/", "reference/v1.1/", "reference/v1.2/", "reference/v1.3/")):
@@ -216,7 +227,7 @@ def main() -> int:
         fail(f"obsolete current-authority language found: {preview}")
 
     report = {
-        "schemaVersion": 7,
+        "schemaVersion": 8,
         "status": "pass",
         "currentOfficial": current_official,
         "currentStable": current_stable,
@@ -228,8 +239,9 @@ def main() -> int:
         "auditedTrackedUtf8TextFiles": len(sources),
         "currentAuthorityDocuments": sorted(CURRENT_AUTHORITY_DOCS),
         "retainedV12Documents": list(RETAINED_V12_DOCS),
+        "historicalSourcePaths": sorted(HISTORICAL_SOURCE_PATHS),
         "obsoleteLifecycleAuthorityFindings": 0,
-        "scopeRule": "Live authority is derived from current lifecycle/VERSION state. Retained V1.2 Stable records are provenance and may not override the current Stable release.",
+        "scopeRule": "Live authority is derived from current lifecycle/VERSION state. Retained earlier Stable/release records are provenance and may not override the current Stable release.",
         "promotionRule": "This retained-release documentation audit does not promote V1.2, V1.4.1, or any other lifecycle state.",
     }
     rendered = json.dumps(report, indent=2, sort_keys=True) + "\n"
