@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Validate a downstream GoreeCloud consumer against the current Glaze UI Stable authority.
+"""Validate a downstream GoreeCloud consumer against current Glaze UI Stable authority.
 
-This gate is deliberately narrow: it proves that a consumer is targeting the current
-central Stable release and that any claimed Glaze acceptance is backed by repository-local,
-hash-bound, exact-source-revision evidence for every enumerated user-facing platform.
-It does not replace product, security, privacy, accessibility, native-platform,
-performance, rollback, or release authority.
+The gate proves current-Stable targeting and repository-local acceptance evidence for each
+claimed platform. Human/product acceptance may be committed after the exact implementation
+revision it reviewed; only the conformance manifest and declared evidence files may differ
+after that reviewed revision. Any other source change invalidates that review.
 """
 from __future__ import annotations
 
@@ -16,6 +15,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 import tempfile
 from typing import Any
 
@@ -81,14 +81,73 @@ def within(root: Path, path: Path, label: str) -> Path:
     return resolved
 
 
-def safe_repo_file(root: Path, relative: Any, label: str) -> Path:
+def safe_repo_file(root: Path, relative: Any, label: str) -> tuple[Path, str]:
     text = meaningful(relative, label)
     raw = Path(text)
     req(not raw.is_absolute(), f"{label} must be repository-relative")
     req(".." not in raw.parts, f"{label} may not traverse outside the repository")
+    normalized = raw.as_posix()
     resolved = within(root, root / raw, label)
     req(resolved.is_file(), f"{label} does not exist as a file: {text}")
-    return resolved
+    return resolved, normalized
+
+
+def git(root: Path, *args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), *args],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    except OSError as exc:
+        raise GateError(f"unable to execute git for exact-revision validation: {exc}") from exc
+    if check and result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip() or f"exit {result.returncode}"
+        raise GateError(f"git {' '.join(args)} failed: {detail}")
+    return result
+
+
+def git_commit_exists(root: Path, revision: str, label: str) -> None:
+    result = git(root, "cat-file", "-e", f"{revision}^{{commit}}", check=False)
+    req(result.returncode == 0, f"{label} commit is unavailable in the consumer checkout: {revision}")
+
+
+def verify_review_continuity(
+    root: Path,
+    *,
+    reviewed_revision: str,
+    current_revision: str,
+    allowed_governance_paths: set[str],
+    label: str,
+) -> list[str]:
+    """Allow a post-review commit only when it changes declared governance evidence."""
+    git_commit_exists(root, reviewed_revision, f"{label} reviewed revision")
+    git_commit_exists(root, current_revision, "current consumer revision")
+    if reviewed_revision == current_revision:
+        return []
+
+    ancestry = git(root, "merge-base", "--is-ancestor", reviewed_revision, current_revision, check=False)
+    req(ancestry.returncode == 0, f"{label} reviewed revision {reviewed_revision} is not an ancestor of current revision {current_revision}")
+
+    diff = git(
+        root,
+        "diff",
+        "--no-renames",
+        "--name-only",
+        "--diff-filter=ACDMRTUXB",
+        reviewed_revision,
+        current_revision,
+        "--",
+    )
+    changed = [line.strip() for line in diff.stdout.splitlines() if line.strip()]
+    unauthorized = sorted(path for path in changed if path not in allowed_governance_paths)
+    req(
+        not unauthorized,
+        f"{label} evidence is stale because product/source files changed after review: {', '.join(unauthorized)}",
+    )
+    return sorted(changed)
 
 
 def central_authority() -> tuple[str, dict[str, Any], dict[str, Any]]:
@@ -169,6 +228,7 @@ def validate_manifest(
     manifest: dict[str, Any],
     *,
     consumer_root: Path,
+    manifest_relative_path: str | None,
     expected_repository: str | None,
     current_revision: str | None,
     policy_revision: str | None,
@@ -204,6 +264,7 @@ def validate_manifest(
     if strict_stable:
         req(current_revision is not None, "Stable claim requires the exact consumer source revision")
         req(policy_revision is not None, "Stable claim requires the exact Glaze UI policy revision")
+        req(manifest_relative_path is not None, "Stable claim requires the repository-relative conformance manifest path")
 
     coverage = manifest.get("coverage")
     req(isinstance(coverage, dict), "coverage must be an object")
@@ -217,6 +278,9 @@ def validate_manifest(
     seen: set[str] = set()
     normalized: list[dict[str, Any]] = []
     accepted_count = 0
+    accepted_revisions: list[tuple[str, str]] = []
+    evidence_paths: set[str] = set()
+
     for index, item in enumerate(platforms):
         label = f"platforms[{index}]"
         req(isinstance(item, dict), f"{label} must be an object")
@@ -236,19 +300,19 @@ def validate_manifest(
             req(SHA256.fullmatch(expected_hash) is not None, f"{label}.evidence.sha256 must be 64 lowercase hex characters")
             evidence_revision = meaningful(evidence.get("sourceRevision"), f"{label}.evidence.sourceRevision")
             req(SHA40.fullmatch(evidence_revision) is not None, f"{label}.evidence.sourceRevision must be 40 lowercase hex characters")
-            if current_revision is not None:
-                req(evidence_revision == current_revision, f"{platform} evidence is bound to {evidence_revision}; current consumer revision is {current_revision}")
-            evidence_path = safe_repo_file(consumer_root, evidence.get("path"), f"{label}.evidence.path")
+            evidence_path, evidence_relative = safe_repo_file(consumer_root, evidence.get("path"), f"{label}.evidence.path")
             actual_hash = sha256_file(evidence_path)
             req(actual_hash == expected_hash, f"{platform} evidence hash mismatch: expected {expected_hash}, got {actual_hash}")
+            evidence_paths.add(evidence_relative)
             evidence_report = {
-                "path": str(evidence.get("path")),
+                "path": evidence_relative,
                 "sha256": actual_hash,
                 "sourceRevision": evidence_revision,
             }
         if platform_status == "accepted":
             accepted_count += 1
             req(evidence_report is not None, f"accepted platform {platform} requires repository-local hash-bound evidence")
+            accepted_revisions.append((str(platform), str(evidence_report["sourceRevision"])))
         normalized.append({"id": platform, "status": platform_status, "evidence": evidence_report})
 
     if status == "accepted-v1":
@@ -263,6 +327,20 @@ def validate_manifest(
         req(accepted_count == len(platforms), "Stable claim requires every user-facing platform to have accepted current-Stable Glaze evidence")
 
     meaningful(manifest.get("notes"), "notes")
+
+    continuity: dict[str, list[str]] = {}
+    if current_revision is not None and accepted_revisions:
+        req(manifest_relative_path is not None, "accepted evidence continuity requires a repository-relative manifest path")
+        allowed_governance_paths = {manifest_relative_path, *evidence_paths}
+        for platform, reviewed_revision in accepted_revisions:
+            changed = verify_review_continuity(
+                consumer_root,
+                reviewed_revision=reviewed_revision,
+                current_revision=current_revision,
+                allowed_governance_paths=allowed_governance_paths,
+                label=platform,
+            )
+            continuity[platform] = changed
 
     return {
         "schemaVersion": 1,
@@ -285,17 +363,30 @@ def validate_manifest(
             "acceptedPlatformCount": accepted_count,
         },
         "platforms": normalized,
+        "reviewContinuity": continuity,
         "decision": "pass",
-        "authorityBoundary": "This report proves only current-Stable Glaze UI targeting and declared repository-local Glaze evidence integrity. Product Stable/production authority remains independent.",
+        "authorityBoundary": "This report proves current-Stable Glaze targeting and declared evidence continuity only. Product Stable/production authority remains independent.",
     }
 
 
-def sample_manifest(root: Path, stable: str, revision: str) -> dict[str, Any]:
+def git_init_fixture(root: Path) -> str:
+    git(root, "init", "-q")
+    git(root, "config", "user.email", "synthetic@example.invalid")
+    git(root, "config", "user.name", "Synthetic Gate Self-Test")
+    source = root / "src" / "app.txt"
+    source.parent.mkdir(parents=True, exist_ok=True)
+    source.write_text("synthetic implementation\n", encoding="utf-8")
+    git(root, "add", "src/app.txt")
+    git(root, "commit", "-q", "-m", "synthetic reviewed implementation")
+    return git(root, "rev-parse", "HEAD").stdout.strip()
+
+
+def sample_manifest(root: Path, stable: str, reviewed_revision: str) -> tuple[dict[str, Any], Path]:
     evidence_path = root / "acceptance" / "glaze.json"
     evidence_path.parent.mkdir(parents=True, exist_ok=True)
     evidence_path.write_text('{"synthetic":true,"acceptance":false}\n', encoding="utf-8")
     digest = sha256_file(evidence_path)
-    return {
+    manifest = {
         "schemaVersion": 1,
         "recordType": "goreecloud-glaze-ui-current-stable-conformance",
         "consumerName": "Synthetic Consumer",
@@ -314,12 +405,18 @@ def sample_manifest(root: Path, stable: str, revision: str) -> dict[str, Any]:
                 "evidence": {
                     "path": "acceptance/glaze.json",
                     "sha256": digest,
-                    "sourceRevision": revision,
+                    "sourceRevision": reviewed_revision,
                 },
             }
         ],
         "notes": "Synthetic validator self-test only; never downstream acceptance evidence.",
     }
+    manifest_path = root / ".goreecloud" / "glaze-ui-conformance.json"
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    git(root, "add", "acceptance/glaze.json", ".goreecloud/glaze-ui-conformance.json")
+    git(root, "commit", "-q", "-m", "synthetic review evidence transition")
+    return manifest, manifest_path
 
 
 def expect_reject(
@@ -327,17 +424,19 @@ def expect_reject(
     root: Path,
     label: str,
     *,
-    force_stable: bool = False,
+    force_stable: bool,
+    current_revision: str,
+    manifest_relative_path: str = ".goreecloud/glaze-ui-conformance.json",
     repository: str = "GoreeCloud/synthetic-consumer",
-    revision: str = "a" * 40,
-    policy_revision: str = "b" * 40,
+    policy_revision: str | None = "b" * 40,
 ) -> None:
     try:
         validate_manifest(
             manifest,
             consumer_root=root,
+            manifest_relative_path=manifest_relative_path,
             expected_repository=repository,
-            current_revision=revision,
+            current_revision=current_revision,
             policy_revision=policy_revision,
             force_stable_claim=force_stable,
         )
@@ -348,66 +447,67 @@ def expect_reject(
 
 def self_test() -> None:
     stable, _, _ = validate_source()
-    revision = "a" * 40
     policy_revision = "b" * 40
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
-        valid = sample_manifest(root, stable, revision)
+        reviewed_revision = git_init_fixture(root)
+        valid, _ = sample_manifest(root, stable, reviewed_revision)
+        current_revision = git(root, "rev-parse", "HEAD").stdout.strip()
+
         validate_manifest(
             valid,
             consumer_root=root,
+            manifest_relative_path=".goreecloud/glaze-ui-conformance.json",
             expected_repository=valid["repository"],
-            current_revision=revision,
+            current_revision=current_revision,
             policy_revision=policy_revision,
             force_stable_claim=True,
         )
 
         stale = copy.deepcopy(valid)
         stale["targetVersion"] = "0.0.0" if stable != "0.0.0" else "9.9.9"
-        expect_reject(stale, root, "stale target", force_stable=True)
+        expect_reject(stale, root, "stale target", force_stable=True, current_revision=current_revision)
 
-        stale_evidence = copy.deepcopy(valid)
-        stale_evidence["platforms"][0]["evidence"]["sourceRevision"] = "c" * 40
-        expect_reject(stale_evidence, root, "stale evidence source revision", force_stable=True)
+        nonexistent_review = copy.deepcopy(valid)
+        nonexistent_review["platforms"][0]["evidence"]["sourceRevision"] = "c" * 40
+        expect_reject(nonexistent_review, root, "unavailable reviewed source revision", force_stable=True, current_revision=current_revision)
 
         pending = copy.deepcopy(valid)
         pending["status"] = "adoption-required"
         pending["stableClaim"] = False
         pending["platforms"][0]["status"] = "pending"
         pending["platforms"][0]["evidence"] = None
-        expect_reject(pending, root, "forced Stable claim against pending adoption", force_stable=True)
+        expect_reject(pending, root, "forced Stable claim against pending adoption", force_stable=True, current_revision=current_revision)
 
         missing_coverage = copy.deepcopy(valid)
         missing_coverage["coverage"]["allUserFacingPlatformsEnumerated"] = False
-        expect_reject(missing_coverage, root, "incomplete Stable platform coverage", force_stable=True)
+        expect_reject(missing_coverage, root, "incomplete Stable platform coverage", force_stable=True, current_revision=current_revision)
 
         no_evidence = copy.deepcopy(valid)
         no_evidence["platforms"][0]["evidence"] = None
-        expect_reject(no_evidence, root, "accepted platform without evidence", force_stable=True)
+        expect_reject(no_evidence, root, "accepted platform without evidence", force_stable=True, current_revision=current_revision)
 
         bad_hash = copy.deepcopy(valid)
         bad_hash["platforms"][0]["evidence"]["sha256"] = "0" * 64
-        expect_reject(bad_hash, root, "evidence hash mismatch", force_stable=True)
+        expect_reject(bad_hash, root, "evidence hash mismatch", force_stable=True, current_revision=current_revision)
 
         duplicate = copy.deepcopy(valid)
         duplicate["platforms"].append(copy.deepcopy(duplicate["platforms"][0]))
-        expect_reject(duplicate, root, "duplicate platform", force_stable=True)
+        expect_reject(duplicate, root, "duplicate platform", force_stable=True, current_revision=current_revision)
 
         traversal = copy.deepcopy(valid)
         traversal["platforms"][0]["evidence"]["path"] = "../outside.json"
-        expect_reject(traversal, root, "evidence path traversal", force_stable=True)
+        expect_reject(traversal, root, "evidence path traversal", force_stable=True, current_revision=current_revision)
 
-        wrong_repo = copy.deepcopy(valid)
-        expect_reject(wrong_repo, root, "repository mismatch", force_stable=True, repository="GoreeCloud/other")
+        expect_reject(valid, root, "repository mismatch", force_stable=True, current_revision=current_revision, repository="GoreeCloud/other")
+        expect_reject(valid, root, "Stable claim without policy revision", force_stable=True, current_revision=current_revision, policy_revision=None)
 
-        missing_policy_revision = copy.deepcopy(valid)
-        expect_reject(
-            missing_policy_revision,
-            root,
-            "Stable claim without policy revision",
-            force_stable=True,
-            policy_revision=None,
-        )
+        source = root / "src" / "app.txt"
+        source.write_text("synthetic implementation changed after review\n", encoding="utf-8")
+        git(root, "add", "src/app.txt")
+        git(root, "commit", "-q", "-m", "synthetic unauthorized product change")
+        changed_revision = git(root, "rev-parse", "HEAD").stdout.strip()
+        expect_reject(valid, root, "product source changed after review", force_stable=True, current_revision=changed_revision)
 
 
 def parse_args() -> argparse.Namespace:
@@ -437,10 +537,12 @@ def main() -> None:
         consumer_root = (args.consumer_root or args.manifest.parent).expanduser().resolve()
         manifest_path = args.manifest.expanduser().resolve()
         within(consumer_root, manifest_path, "manifest path")
+        manifest_relative_path = manifest_path.relative_to(consumer_root).as_posix()
         manifest = read_json(manifest_path, str(manifest_path))
         report = validate_manifest(
             manifest,
             consumer_root=consumer_root,
+            manifest_relative_path=manifest_relative_path,
             expected_repository=args.repository,
             current_revision=args.revision,
             policy_revision=args.policy_revision,
