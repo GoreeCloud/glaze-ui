@@ -1,52 +1,125 @@
-name: GLAZE UI V1.2 Stable
+name: GLAZE UI V1.2 Historical Stable Regression
 
 on:
   pull_request:
     paths:
-      - "VERSION"
       - "registry/lifecycle.json"
       - "GLAZE_UI_V1_2.md"
+      - "GLAZE_UI_V1_2_CANDIDATE.md"
       - "css/glaze-v1.2.0.css"
+      - "css/glaze-v1.2.0-candidate.css"
+      - "css/glaze-v1.2-frosted-neutral.candidate.css"
+      - "css/glaze-v1.2-components.candidate.css"
+      - "css/glaze-v1.2-system-shell.candidate.css"
       - "js/glaze-v1.2.0.mjs"
       - "acceptance/v1.2-stable.md"
-      - "acceptance/v1.3-deferred-qualification.md"
-      - "contracts/v1.3/**"
-      - "tokens/glaze-v1.json"
-      - "consumers/**"
-      - "CONSUMERS.md"
-      - "scripts/validate_glaze_v1.py"
+      - "contracts/v1.2/**"
+      - "tokens/glaze-v1.2-frosted-neutral.candidate.json"
+      - "reference/v1.2/**"
+      - "GLAZE_UI_V1_1.md"
+      - "acceptance/v1.1-stable.md"
+      - "scripts/glaze_v1_2_promoted_source_runner.py"
       - "scripts/validate_glaze_v1_2_stable.py"
+      - "scripts/validate_glaze_v1_2_candidate.py"
+      - "scripts/validate_glaze_v1_2_candidate_legacy.py"
+      - "scripts/validate_glaze_v1_2_core_tokens.py"
+      - "scripts/validate_glaze_v1_2_core_tokens_legacy.py"
+      - "scripts/validate_glaze_v1_2_contract_namespace.py"
+      - "scripts/validate_glaze_v1_2_contract_namespace_legacy.py"
+      - "scripts/validate_glaze_v1_2_file_naming.py"
+      - "scripts/validate_glaze_v1_2_file_naming_legacy.py"
+      - "scripts/validate_glaze_v1_2_form_factor_tokens.py"
+      - "scripts/validate_glaze_v1_2_form_factor_tokens_legacy.py"
+      - "scripts/validate_glaze_v1_2_living_glaze.py"
+      - "scripts/validate_glaze_v1_2_living_glaze_legacy.py"
+      - "scripts/validate_glaze_v1_2_migration.py"
+      - "scripts/validate_glaze_v1_2_migration_legacy.py"
+      - "scripts/validate_glaze_v1_2_source_inventory.py"
+      - "scripts/validate_glaze_v1_2_source_inventory_legacy.py"
+      - ".github/workflows/glaze-v1.2-stable.yml"
   push:
     branches: [main]
     paths:
-      - "VERSION"
       - "registry/lifecycle.json"
       - "GLAZE_UI_V1_2.md"
+      - "GLAZE_UI_V1_2_CANDIDATE.md"
       - "css/glaze-v1.2.0.css"
+      - "css/glaze-v1.2.0-candidate.css"
+      - "css/glaze-v1.2-frosted-neutral.candidate.css"
+      - "css/glaze-v1.2-components.candidate.css"
+      - "css/glaze-v1.2-system-shell.candidate.css"
       - "js/glaze-v1.2.0.mjs"
       - "acceptance/v1.2-stable.md"
-      - "acceptance/v1.3-deferred-qualification.md"
-      - "contracts/v1.3/**"
-      - "tokens/glaze-v1.json"
-      - "consumers/**"
-      - "CONSUMERS.md"
-      - "scripts/validate_glaze_v1.py"
+      - "contracts/v1.2/**"
+      - "tokens/glaze-v1.2-frosted-neutral.candidate.json"
+      - "reference/v1.2/**"
+      - "GLAZE_UI_V1_1.md"
+      - "acceptance/v1.1-stable.md"
+      - "scripts/glaze_v1_2_promoted_source_runner.py"
       - "scripts/validate_glaze_v1_2_stable.py"
+      - "scripts/validate_glaze_v1_2_candidate.py"
+      - "scripts/validate_glaze_v1_2_candidate_legacy.py"
+      - "scripts/validate_glaze_v1_2_core_tokens.py"
+      - "scripts/validate_glaze_v1_2_core_tokens_legacy.py"
+      - "scripts/validate_glaze_v1_2_contract_namespace.py"
+      - "scripts/validate_glaze_v1_2_contract_namespace_legacy.py"
+      - "scripts/validate_glaze_v1_2_file_naming.py"
+      - "scripts/validate_glaze_v1_2_file_naming_legacy.py"
+      - "scripts/validate_glaze_v1_2_form_factor_tokens.py"
+      - "scripts/validate_glaze_v1_2_form_factor_tokens_legacy.py"
+      - "scripts/validate_glaze_v1_2_living_glaze.py"
+      - "scripts/validate_glaze_v1_2_living_glaze_legacy.py"
+      - "scripts/validate_glaze_v1_2_migration.py"
+      - "scripts/validate_glaze_v1_2_migration_legacy.py"
+      - "scripts/validate_glaze_v1_2_source_inventory.py"
+      - "scripts/validate_glaze_v1_2_source_inventory_legacy.py"
+      - ".github/workflows/glaze-v1.2-stable.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  stable-source:
+  historical-stable-regression:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - name: Check out exact revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
-      - run: python scripts/validate_glaze_v1.py
-      - run: |
-          test "$(cat VERSION)" = "1.2.0"
-          echo "V1.2 Stable is a bounded design-system release; V1.3 deferred qualifications are not represented as passed."
+      - name: Verify exact revision
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
+      - name: Check historical validator syntax
+        run: |
+          python -m py_compile scripts/validate_glaze_v1_2_stable.py
+          python -m py_compile scripts/validate_glaze_v1_2_candidate.py
+          python -m py_compile scripts/validate_glaze_v1_2_candidate_legacy.py
+          python -m py_compile scripts/glaze_v1_2_promoted_source_runner.py
+          python -m py_compile scripts/validate_glaze_v1_2_core_tokens.py
+          python -m py_compile scripts/validate_glaze_v1_2_contract_namespace.py
+          python -m py_compile scripts/validate_glaze_v1_2_file_naming.py
+          python -m py_compile scripts/validate_glaze_v1_2_form_factor_tokens.py
+          python -m py_compile scripts/validate_glaze_v1_2_living_glaze.py
+          python -m py_compile scripts/validate_glaze_v1_2_migration.py
+          python -m py_compile scripts/validate_glaze_v1_2_source_inventory.py
+      - name: Verify preserved V1.2 Stable provenance
+        run: python scripts/validate_glaze_v1_2_stable.py
+      - name: Verify preserved V1.2 promoted Candidate source
+        run: python scripts/validate_glaze_v1_2_candidate.py
+      - name: Verify promoted-source compatibility matrix
+        run: |
+          python scripts/validate_glaze_v1_2_core_tokens.py
+          python scripts/validate_glaze_v1_2_contract_namespace.py
+          python scripts/validate_glaze_v1_2_file_naming.py
+          python scripts/validate_glaze_v1_2_form_factor_tokens.py
+          python scripts/validate_glaze_v1_2_living_glaze.py
+          python scripts/validate_glaze_v1_2_migration.py
+          python scripts/validate_glaze_v1_2_source_inventory.py
+      - name: Verify historical regression did not mutate tracked source
+        run: git diff --exit-code

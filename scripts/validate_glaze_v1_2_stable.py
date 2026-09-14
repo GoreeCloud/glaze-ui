@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
-"""Validate the bounded GLAZE UI V1.2 Stable source authority."""
+"""Validate preserved GLAZE UI V1.2 Stable historical regression authority.
+
+V1.2 remains a real historical Stable release, but it is no longer the repository's
+current lifecycle authority. This validator protects V1.2 release provenance and
+entrypoints without asserting that VERSION, currentOfficial, currentStable, consumer
+targets, or later qualification plans still equal their V1.2-era values.
+"""
 from __future__ import annotations
+
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "1.2.0"
-PRODUCT = "GLAZE UI V1.2"
+PRODUCT = "GLAZE UI V1.2 — Living Frosted"
 
 
 def load(path: str):
@@ -15,20 +22,23 @@ def load(path: str):
 
 def main() -> int:
     errors: list[str] = []
+
     def req(ok: bool, message: str) -> None:
         if not ok:
             errors.append(message)
 
-    req((ROOT / "VERSION").read_text(encoding="utf-8").strip() == VERSION, "VERSION must be 1.2.0")
     lifecycle = load("registry/lifecycle.json")
-    req(lifecycle.get("officialProductLabel") == PRODUCT, "official product label must be GLAZE UI V1.2")
-    req(lifecycle.get("currentOfficial") == VERSION, "currentOfficial must be 1.2.0")
-    req(lifecycle.get("currentStable") == VERSION, "currentStable must be 1.2.0")
-    req(lifecycle.get("activeCandidate") is None, "V1.2 Stable validation requires no active V1.3 Candidate before governed promotion")
-    release = next((item for item in lifecycle.get("releases", []) if item.get("version") == VERSION), None)
-    req(bool(release) and release.get("status") == "stable", "lifecycle must contain Stable 1.2.0")
-    req(bool(release) and release.get("consumerEligible") is True, "Stable V1.2 must be consumer-adoptable")
-    req(lifecycle.get("plannedNext") == "1.3.0-candidate", "V1.3 must be the planned follow-up target")
+    releases = lifecycle.get("releases", [])
+    release = next((item for item in releases if isinstance(item, dict) and item.get("version") == VERSION), None)
+    req(isinstance(release, dict), "lifecycle must preserve a V1.2 / 1.2.0 release record")
+    if isinstance(release, dict):
+        req(release.get("label") == PRODUCT, "historical V1.2 product label drifted")
+        req(release.get("status") == "stable", "historical V1.2 release must remain recorded as Stable")
+        req(release.get("consumerEligible") is True, "historical V1.2 release must preserve its original consumer-eligible status")
+        req(release.get("contract") == "GLAZE_UI_V1_2.md", "historical V1.2 contract pointer drifted")
+        req(release.get("acceptance") == "acceptance/v1.2-stable.md", "historical V1.2 acceptance pointer drifted")
+        req(release.get("webEntrypoint") == "css/glaze-v1.2.0.css", "historical V1.2 web entrypoint drifted")
+        req(release.get("runtimeEntrypoint") == "js/glaze-v1.2.0.mjs", "historical V1.2 runtime entrypoint drifted")
 
     required = (
         "GLAZE_UI_V1_2.md",
@@ -37,70 +47,45 @@ def main() -> int:
         "css/glaze-v1.2.0-candidate.css",
         "js/glaze-v1.2.0.mjs",
         "acceptance/v1.2-stable.md",
-        "acceptance/v1.3-deferred-qualification.md",
-        "contracts/v1.3/deferred-qualification.plan.json",
-        "contracts/v1.3/stable-readiness.plan.json",
-        "tokens/glaze-v1.json",
         "GLAZE_UI_V1_1.md",
-        "acceptance/v1.1-stable.md"
+        "acceptance/v1.1-stable.md",
     )
     for path in required:
-        req((ROOT / path).is_file(), f"missing Stable authority/audit file: {path}")
+        req((ROOT / path).is_file(), f"missing preserved V1.2 authority/audit file: {path}")
 
-    css = (ROOT / "css/glaze-v1.2.0.css").read_text(encoding="utf-8")
-    req('@import url("./glaze-v1.2.0-candidate.css")' in css, "Stable CSS wrapper must freeze the promoted V1.2 rendering source")
-    runtime = (ROOT / "js/glaze-v1.2.0.mjs").read_text(encoding="utf-8")
-    req('export * from "./glaze-v1.1.0.mjs"' in runtime, "Stable runtime must preserve inherited V1 runtime")
-    req("glaze-v1.2-living-glaze.candidate.mjs" in runtime, "Stable runtime must export Living Glaze")
-    req("glaze-v1.2-personalization.candidate.mjs" in runtime, "Stable runtime must export Personalization")
+    if (ROOT / "css/glaze-v1.2.0.css").is_file():
+        css = (ROOT / "css/glaze-v1.2.0.css").read_text(encoding="utf-8")
+        req('@import url("./glaze-v1.2.0-candidate.css")' in css, "historical V1.2 Stable CSS wrapper must preserve the promoted Candidate rendering source")
 
-    manifest = load("tokens/glaze-v1.json")
-    req(manifest.get("product") == PRODUCT and manifest.get("version") == VERSION and manifest.get("status") == "stable", "current token manifest mismatch")
+    if (ROOT / "js/glaze-v1.2.0.mjs").is_file():
+        runtime = (ROOT / "js/glaze-v1.2.0.mjs").read_text(encoding="utf-8")
+        req('export * from "./glaze-v1.1.0.mjs"' in runtime, "historical V1.2 runtime must preserve inherited V1.1 runtime")
+        req("glaze-v1.2-living-glaze.candidate.mjs" in runtime, "historical V1.2 runtime must preserve Living Glaze export")
+        req("glaze-v1.2-personalization.candidate.mjs" in runtime, "historical V1.2 runtime must preserve Personalization export")
 
-    consumers = load("consumers/registry.json")
-    req(consumers.get("officialBaseline") == VERSION, "consumer baseline must be 1.2.0")
-    req(consumers.get("requiredConsumerVersion") == VERSION, "consumer required version must be 1.2.0")
-    req(consumers.get("officialProductLabel") == PRODUCT, "consumer product label mismatch")
-    req(all(item.get("requiredTargetVersion") == VERSION for item in consumers.get("consumers", [])), "all consumers must require 1.2.0")
-    req(not any(item.get("productionEligible") is True for item in consumers.get("consumers", [])), "Stable design-system promotion must not auto-accept consumers")
+    if (ROOT / "GLAZE_UI_V1_2.md").is_file():
+        contract = (ROOT / "GLAZE_UI_V1_2.md").read_text(encoding="utf-8")
+        req("V1.2" in contract and "Stable" in contract, "historical V1.2 contract must remain identifiable as V1.2 Stable authority")
 
-    deferred = load("contracts/v1.3/deferred-qualification.plan.json")
-    deferred_lifecycle = deferred.get("lifecycle")
-    req(deferred_lifecycle in {"planned", "qualification-active"}, "V1.3 deferred work must remain planned or qualification-active before Candidate promotion")
-    deferred_rules = deferred.get("rules", {})
-    req(deferred_rules.get("v1.2StableImpliesThesePassed") is False, "V1.2 Stable must not manufacture deferred evidence")
-    req(deferred_rules.get("freshExactRevisionEvidenceRequired") is True, "V1.3 deferred qualification must require fresh exact-revision evidence")
-    req(deferred_rules.get("consumerConformanceAutomatic") is False, "V1.3 deferred qualification must not auto-accept consumers")
-    req(deferred_rules.get("v1.3LifecyclePromotionAutomatic") is False, "V1.3 deferred qualification must not auto-promote lifecycle")
-    if deferred_lifecycle == "qualification-active":
-        req(deferred.get("schemaVersion") == 4, "qualification-active V1.3 must use staged deferred schema 4")
-        req(len(deferred.get("candidateStageItems", [])) == 5, "V1.3 Candidate qualification must contain five pre-Candidate workstreams")
-        req(deferred.get("stableStageItems") == ["stable-activation-and-source-namespace-cleanup"], "V1.3 Stable cleanup must be the sole post-Candidate qualification workstream")
-        req(len(deferred.get("allStablePromotionItems", [])) == 6, "all six qualification requirements must remain mandatory before V1.3 Stable")
-        req(deferred_rules.get("candidateStageMustPassSameExactRevision") is True, "the five pre-Candidate workstreams must pass on one exact revision")
-        req(deferred_rules.get("stableCleanupOccursAfterCandidateActivation") is True, "Stable cleanup must occur after Candidate activation")
-        req(deferred_rules.get("stableCleanupMayTargetLaterExactRevision") is True, "Stable cleanup must be allowed to observe the later exact Stable-promotion revision")
-        req(deferred_rules.get("stableCleanupMustReferenceQualifiedCandidateRevision") is True, "Stable cleanup must preserve qualified Candidate revision provenance")
-        req(deferred_rules.get("allSixRequiredBeforeStablePromotion") is True, "all six staged requirements must pass before Stable promotion")
-        req(deferred_rules.get("passedEvidenceAllowedDuringQualificationActive") is True, "qualification-active V1.3 must explicitly govern fresh passed evidence")
-        req(deferred_rules.get("qualificationReadinessDoesNotPromoteLifecycle") is True, "qualification readiness must not imply lifecycle promotion")
+    if (ROOT / "acceptance/v1.2-stable.md").is_file():
+        acceptance = (ROOT / "acceptance/v1.2-stable.md").read_text(encoding="utf-8")
+        req("V1.2" in acceptance and "Stable" in acceptance, "historical V1.2 acceptance record must remain identifiable")
+        req("does not" in acceptance.lower() and "V1.3" in acceptance, "historical V1.2 acceptance must preserve the V1.3 deferred-evidence boundary")
 
-        stable_plan = load("contracts/v1.3/stable-readiness.plan.json")
-        req(stable_plan.get("stage") == "post-candidate-pre-stable", "Stable readiness must remain post-Candidate/pre-Stable")
-        req(stable_plan.get("prerequisites", {}).get("activeCandidateRequired") is True, "Stable readiness must require an active Candidate")
-        req(stable_plan.get("stablePromotion", {}).get("allSixQualificationRequirementsMandatoryAcrossStages") is True, "Stable readiness must preserve all six staged requirements")
-        req(stable_plan.get("stablePromotion", {}).get("automatic") is False, "Stable readiness must never auto-promote lifecycle")
-
-    acceptance = (ROOT / "acceptance/v1.2-stable.md").read_text(encoding="utf-8")
-    req("does not" in acceptance.lower() and "V1.3" in acceptance, "Stable acceptance must preserve the deferred-evidence boundary")
+    current_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    req(bool(current_version), "current VERSION authority must remain present")
+    req(lifecycle.get("currentStable") == current_version, "current lifecycle Stable authority must remain internally consistent while V1.2 is checked historically")
+    req(lifecycle.get("currentOfficial") == current_version, "current lifecycle Official authority must remain internally consistent while V1.2 is checked historically")
 
     if errors:
-        print("GLAZE UI V1.2 Stable source validation FAILED:")
+        print("GLAZE UI V1.2 historical Stable regression validation FAILED:")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("GLAZE UI V1.2 Stable source authority: PASS")
-    print("Boundary: V1.3 staged qualification and downstream consumer acceptance remain separate from V1.2 Stable authority.")
+
+    print("GLAZE UI V1.2 historical Stable regression authority: PASS")
+    print(f"Preserved historical release: {VERSION}; current lifecycle authority remains {current_version}.")
+    print("Boundary: this validator protects V1.2 provenance and does not make V1.2 current again.")
     return 0
 
 
