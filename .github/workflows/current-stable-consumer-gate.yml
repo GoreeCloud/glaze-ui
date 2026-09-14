@@ -46,6 +46,17 @@ jobs:
           STABLE_CLAIM: ${{ inputs.stable-claim }}
         run: |
           set -euo pipefail
+          if [[ -z "${CONSUMER_MANIFEST}" || "${CONSUMER_MANIFEST}" == /* ]]; then
+            echo 'manifest-path must be a non-empty repository-relative path' >&2
+            exit 1
+          fi
+          IFS='/' read -r -a manifest_parts <<< "${CONSUMER_MANIFEST}"
+          for part in "${manifest_parts[@]}"; do
+            if [[ "${part}" == '..' ]]; then
+              echo 'manifest-path may not traverse outside the consumer repository' >&2
+              exit 1
+            fi
+          done
           args=(
             --manifest "consumer/${CONSUMER_MANIFEST}"
             --consumer-root consumer
