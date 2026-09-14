@@ -122,6 +122,9 @@
     .primary { background: currentColor; color: color-mix(in srgb, currentColor 0%, #10141e); border: 0; font-weight: 750; }
     .scene[data-appearance="light"] .primary { color: white; background: #18213a; }
     .scene[data-appearance="dark"] .primary, .scene[data-appearance="deep-dark"] .primary { color: #10141e; background: #f3f6ff; }
+    .scene[data-appearance="light"] .actions button:not(.primary) { color: #18213a; background: rgba(255,255,255,.74); border-color: rgba(24,33,58,.24); }
+    .scene[data-appearance="light"] .actions button:not(.primary):hover { color: #101827; background: rgba(255,255,255,.92); border-color: rgba(24,33,58,.34); }
+    .scene[data-appearance="light"] .actions button:not(.primary):active { color: #0b1220; background: rgba(221,230,246,.96); border-color: rgba(24,33,58,.42); }
     .status-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-top: 14px; }
     .status-card { min-height: 84px; border: 1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius: 17px; padding: 13px; background: color-mix(in srgb,currentColor 6%,transparent); }
     .status-card strong { display: block; font-size: .78rem; margin-bottom: 6px; }
