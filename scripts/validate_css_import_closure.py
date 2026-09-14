@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Fail closed when the current GLAZE UI web entrypoint has an unsafe or incomplete CSS import graph."""
+"""Fail closed when the current GLAZE UI Stable web entrypoint has an unsafe or incomplete CSS import graph."""
 from __future__ import annotations
 
+import json
 import re
 import sys
 import tempfile
@@ -9,12 +10,49 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CSS_ROOT = ROOT / "css"
-ENTRYPOINT = CSS_ROOT / "glaze-v1.1.0.css"
+LIFECYCLE = ROOT / "registry/lifecycle.json"
+VERSION = ROOT / "VERSION"
 IMPORT_RE = re.compile(
     r"@import\s+(?:url\(\s*)?(?P<quote>[\"'])(?P<target>[^\"']+)(?P=quote)\s*\)?",
     flags=re.IGNORECASE,
 )
 COMMENT_RE = re.compile(r"/\*.*?\*/", flags=re.DOTALL)
+
+
+def current_stable_entrypoint() -> tuple[Path, str]:
+    lifecycle = json.loads(LIFECYCLE.read_text(encoding="utf-8"))
+    version = VERSION.read_text(encoding="utf-8").strip()
+    current_stable = lifecycle.get("currentStable")
+    current_official = lifecycle.get("currentOfficial")
+    if not version or current_stable != version or current_official != version:
+        raise ValueError("VERSION, currentStable, and currentOfficial must identify the same current Stable release")
+
+    release = next(
+        (
+            item
+            for item in lifecycle.get("releases", [])
+            if isinstance(item, dict) and item.get("version") == version
+        ),
+        None,
+    )
+    if release is None:
+        raise ValueError(f"current Stable lifecycle record is missing for {version}")
+    if release.get("status") != "stable" or release.get("consumerEligible") is not True:
+        raise ValueError("current Stable lifecycle record must be Stable and consumer-eligible")
+
+    web_entrypoint = release.get("webEntrypoint")
+    if not isinstance(web_entrypoint, str) or not web_entrypoint:
+        raise ValueError("current Stable lifecycle record must declare webEntrypoint")
+
+    path = (ROOT / web_entrypoint).resolve()
+    css_root = CSS_ROOT.resolve()
+    try:
+        path.relative_to(css_root)
+    except ValueError as error:
+        raise ValueError(f"current Stable webEntrypoint escapes css/: {web_entrypoint}") from error
+    if path.suffix.lower() != ".css":
+        raise ValueError(f"current Stable webEntrypoint must be a CSS file: {web_entrypoint}")
+    return path, version
 
 
 def validate_import_closure(entrypoint: Path, css_root: Path) -> tuple[list[str], set[Path]]:
@@ -110,14 +148,30 @@ def self_test() -> list[str]:
 
 def main() -> int:
     failures = self_test()
-    errors, visited = validate_import_closure(ENTRYPOINT, CSS_ROOT)
-    failures.extend(errors)
+    try:
+        entrypoint, version = current_stable_entrypoint()
+    except (OSError, ValueError, json.JSONDecodeError) as error:
+        failures.append(str(error))
+        entrypoint = CSS_ROOT / "__invalid_current_stable_entrypoint__.css"
+        version = "unknown"
+
+    if not failures:
+        errors, visited = validate_import_closure(entrypoint, CSS_ROOT)
+        failures.extend(errors)
+    else:
+        visited = set()
+
     if failures:
         print("GLAZE UI CSS import-closure validation FAILED:")
         for failure in failures:
             print(f"- {failure}")
         return 1
-    print(f"GLAZE UI CSS import closure: PASS ({len(visited)} repository-local CSS files)")
+
+    relative = entrypoint.relative_to(ROOT)
+    print(
+        f"GLAZE UI CSS import closure: PASS ({len(visited)} repository-local CSS files; "
+        f"current Stable {version} entrypoint {relative})"
+    )
     return 0
 
 

@@ -1,86 +1,100 @@
-name: GLAZE UI V1.1 CI
+name: Glaze UI Current Stable CI
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-current-stable-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  validate-v1:
-    runs-on: ubuntu-latest
+  validate-current-stable:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - name: Check out exact revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Verify exact revision
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
       - name: Validate GitHub Actions runtime and immutable pin integrity
         run: |
           python -m py_compile scripts/validate_github_actions_runtime_integrity.py
           python scripts/validate_github_actions_runtime_integrity.py
-      - name: Validate current GLAZE UI V1.1 Stable contract
-        run: python scripts/validate_glaze_v1.py
-      - name: Validate V1.2 Frosted Neutral Candidate track
-        run: python scripts/validate_glaze_v1_2_candidate.py
-      - name: Validate V1.2 implementation and migration control plane
-        run: python scripts/validate_glaze_v1_2_migration.py
-      - name: Validate V1.2 legacy Aura token retirement
-        run: python scripts/validate_glaze_v1_2_legacy_aura_retirement.py
-      - name: Validate rendered V1.2 Frosted Optical foundation
-        run: python scripts/validate_glaze_v1_2_optical_rendered.py
-      - name: Validate rendered V1.2 Frosted Optical chrome
-        run: python scripts/validate_glaze_v1_2_chrome_rendered.py
-      - name: Validate rendered V1.2 Crystal Icon System
-        run: python scripts/validate_glaze_v1_2_crystal_icons_rendered.py
-      - name: Validate rendered V1.2 Glaze Sans Optical typography
-        run: python scripts/validate_glaze_v1_2_typography_rendered.py
-      - name: Validate rendered V1.2 spatial foundation
-        run: python scripts/validate_glaze_v1_2_spatial_rendered.py
-      - name: Validate rendered V1.2 Frosted Neutral Candidate
-        run: python scripts/validate_glaze_v1_2_rendered.py
-      - name: Upload V1.2 Frosted Neutral rendered evidence
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: glaze-v1.2-frosted-neutral-rendered
-          path: artifacts/glaze-v1.2-*.png
-          if-no-files-found: warn
-      - name: Validate V1 Design Center publication
-        run: python website/validate.py
-      - name: Validate Design Center mobile-first source contract
-        run: python scripts/validate_design_center_responsive.py
-      - name: Validate rendered Design Center Mobile UI
-        run: python scripts/validate_design_center_mobile.py
-      - name: Upload Design Center Mobile UI review evidence
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: design-center-mobile-ui
-          path: artifacts/design-center-mobile-*.png
-          if-no-files-found: warn
-      - name: Check V1 runtime syntax
-        run: node --check js/glaze-v1.1.0.mjs
 
-  validate-v1-2-linux-gtk-candidate:
+      - name: Validate current Stable lifecycle and optical authority
+        run: |
+          node --check js/glaze-v1.4-optical-engine.mjs
+          node --check js/glaze-v1.4.0.mjs
+          node --check scripts/verify_glaze_v1_4_stable.mjs
+          node scripts/verify_glaze_v1_4_stable.mjs
+
+      - name: Validate current consumer authority
+        run: |
+          python -m py_compile scripts/validate_consumer_summary.py
+          python scripts/validate_consumer_summary.py
+
+      - name: Validate current Stable CSS import closure
+        run: |
+          python -m py_compile scripts/validate_css_import_closure.py
+          python scripts/validate_css_import_closure.py
+
+      - name: Parse current machine authorities
+        run: |
+          python -m json.tool registry/lifecycle.json >/dev/null
+          python -m json.tool consumers/registry.json >/dev/null
+
+      - name: Verify validation did not mutate tracked source
+        run: git diff --exit-code
+
+      - name: Report authority boundary
+        run: |
+          echo 'Current Stable CI verifies shared Glaze UI machine authority only.'
+          echo 'Historical releases remain covered by their dedicated regression workflows.'
+          echo 'Human/manual/physical-device V1.4.1 qualification is not represented as passed by this workflow.'
+
+  validate-v1-2-linux-gtk-historical-branch:
     if: >-
       (github.event_name == 'pull_request' && github.head_ref == 'feat/glaze-v1.2-linux-native') ||
       (github.event_name == 'push' && github.ref == 'refs/heads/feat/glaze-v1.2-linux-native')
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - name: Check out exact Candidate revision
+      - name: Check out exact historical branch revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      - name: Compile Linux native Candidate sources
+          persist-credentials: false
+      - name: Compile Linux native V1.2 sources
         run: |
           python3 -m py_compile reference/v1.2/native/linux-gtk/app.py
           python3 -m py_compile scripts/validate_glaze_v1_2_linux_runtime.py
           python3 -m json.tool reference/v1.2/native/linux-gtk/material-contract.json >/dev/null
-      - name: Preserve current Stable and V1.2 Candidate source contracts
-        run: |
-          python3 scripts/validate_glaze_v1.py
-          python3 scripts/validate_glaze_v1_2_candidate.py
-      - name: Install GTK4 headless evidence dependencies
+      - name: Run V1.2 Linux GTK4 Frosted Neutral native regression
         shell: bash
+        env:
+          GLAZE_SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+          NO_AT_BRIDGE: '1'
+          GDK_BACKEND: x11
         run: |
           set -euo pipefail
           sudo apt-get update
@@ -91,28 +105,13 @@ jobs:
             xauth \
             dbus-x11 \
             imagemagick
-          python3 - <<'PY'
-          import gi
-          gi.require_version('Gtk', '4.0')
-          from gi.repository import Gtk
-          print(f'GTK {Gtk.get_major_version()}.{Gtk.get_minor_version()}.{Gtk.get_micro_version()}')
-          PY
-          import -version | head -n 1
-      - name: Run V1.2 Linux GTK4 Frosted Neutral native acceptance
-        shell: bash
-        env:
-          GLAZE_SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
-          NO_AT_BRIDGE: '1'
-          GDK_BACKEND: x11
-        run: |
-          set -euo pipefail
           dbus-run-session -- xvfb-run -a --server-args='-screen 0 1280x900x24 -nolisten tcp' \
             python3 scripts/validate_glaze_v1_2_linux_runtime.py
-      - name: Upload V1.2 Linux GTK native Candidate evidence
+      - name: Upload V1.2 Linux GTK historical evidence
         if: success()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: glaze-v1.2-linux-gtk-native-candidate-${{ github.event.pull_request.head.sha || github.sha }}
+          name: glaze-v1.2-linux-gtk-historical-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             .artifacts/glaze-v1.2-linux-native/*.png
             .artifacts/glaze-v1.2-linux-native/linux-native-evidence.json
