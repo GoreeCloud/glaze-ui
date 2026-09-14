@@ -19,6 +19,11 @@ OBSOLETE_OPTICAL_VALIDATORS = (
     "scripts/validate_glaze_v1_4_optical_material.py",
     "scripts/validate_glaze-v1.4_optical_material.py",
 )
+CANONICAL_OPTICAL_TEST = "tests/test_glaze_v1.4_optical_material.py"
+OBSOLETE_OPTICAL_TESTS = (
+    "tests/test_glaze_v1_4_optical_material.py",
+    "tests/test_glaze-v1.4_optical_material.py",
+)
 
 EXPECTED_PATTERN = (
     r"^evidence\+sha256:[0-9a-f]{64}:"
@@ -49,6 +54,9 @@ APPLICABLE_WORKFLOWS = (
 OPTICAL_VALIDATOR_WORKFLOWS = (
     "glaze-v1.4-optical-material.yml",
     "glaze-v1.4-v1.3-compatibility.yml",
+)
+OPTICAL_TEST_WORKFLOWS = (
+    "glaze-v1.4-optical-material.yml",
 )
 
 SAFE_LOCATORS = (
@@ -118,6 +126,18 @@ def assert_optical_validator_path_integrity() -> None:
             assert obsolete_path not in text, f"{workflow_name} still references obsolete optical validator path: {obsolete_path}"
 
 
+def assert_optical_test_path_integrity() -> None:
+    canonical_path = ROOT / CANONICAL_OPTICAL_TEST
+    assert canonical_path.is_file(), f"canonical optical regression test is missing: {CANONICAL_OPTICAL_TEST}"
+    for obsolete_path in OBSOLETE_OPTICAL_TESTS:
+        assert not (ROOT / obsolete_path).exists(), f"obsolete optical regression-test path unexpectedly exists: {obsolete_path}"
+    for workflow_name in OPTICAL_TEST_WORKFLOWS:
+        text = (WORKFLOWS / workflow_name).read_text(encoding="utf-8")
+        assert CANONICAL_OPTICAL_TEST in text, f"{workflow_name} does not reference the canonical optical regression-test path"
+        for obsolete_path in OBSOLETE_OPTICAL_TESTS:
+            assert obsolete_path not in text, f"{workflow_name} still references obsolete optical regression-test path: {obsolete_path}"
+
+
 def assert_documented_boundary() -> None:
     text = DOCUMENTATION.read_text(encoding="utf-8")
     for phrase in (
@@ -149,8 +169,9 @@ def main() -> None:
     assert_schema_patterns()
     assert_workflow_applicability()
     assert_optical_validator_path_integrity()
+    assert_optical_test_path_integrity()
     assert_documented_boundary()
-    print("Glaze V1.4 evidence-reference privacy boundary validated across performance, parity, accessibility, compatibility, Stable authority, and optical-validator workflow integrity.")
+    print("Glaze V1.4 evidence-reference privacy boundary validated across performance, parity, accessibility, compatibility, Stable authority, and optical validator/test workflow integrity.")
 
 
 if __name__ == "__main__":
