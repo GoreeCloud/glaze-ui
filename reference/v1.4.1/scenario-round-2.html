@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" data-review-surface="glaze-v1.4.1-round-2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>GLAZE UI V1.4.1 — Human Review Round 2</title>
+  <link rel="stylesheet" href="../../css/glaze-v1.4.1.candidate.css">
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#070a10;color:#eef2ff;--line:rgba(255,255,255,.15);--muted:#aeb8ca;--warn:#ffd889}
+    *{box-sizing:border-box} body{margin:0;background:#070a10;color:#eef2ff} button{font:inherit}
+    .shell{width:min(980px,100%);margin:auto;padding:16px}.notice{border:1px solid rgba(255,191,71,.48);background:#2c1b07;border-radius:20px;padding:16px;margin-bottom:16px;line-height:1.5}.notice strong{color:var(--warn)}.notice code{overflow-wrap:anywhere}
+    .controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}.controls button{min-height:52px;border-radius:15px;border:1px solid var(--line);background:#111827;color:#eef2ff;padding:10px}.controls button[aria-pressed="true"]{outline:2px solid #8ab4ff;background:#21345a}
+    .meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}.pill{border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:var(--muted)}
+    .stage{border:1px solid var(--line);border-radius:28px;padding:14px;background:#04060a;overflow:hidden}.scene{position:relative;min-height:720px;border-radius:34px;overflow:hidden;color:#111827;background:linear-gradient(145deg,#dfe9fb,#f9f2ee 48%,#d7e9f3);isolation:isolate}.scene::before,.scene::after{content:"";position:absolute;border-radius:50%;z-index:-2}.scene::before{width:430px;height:430px;left:-100px;top:-80px;background:radial-gradient(circle at 35% 35%,#79a8ff 0 12%,#6638cb 42%,transparent 73%)}.scene::after{width:520px;height:520px;right:-160px;bottom:-170px;background:radial-gradient(circle at 35% 35%,#ffb05c 0 10%,#b63770 40%,transparent 72%)}
+    .texture{position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(circle at 12% 78%,rgba(255,255,255,.34) 0 1px,transparent 2px),repeating-linear-gradient(115deg,transparent 0 27px,rgba(255,255,255,.08) 28px 29px);background-size:29px 31px,auto}.motion{position:absolute;width:170px;height:170px;border-radius:50%;left:10%;bottom:10%;background:linear-gradient(135deg,#72f0d4,#5b5ee8);opacity:.55;animation:drift 5s ease-in-out infinite alternate;z-index:-1}@keyframes drift{to{transform:translate(250px,-150px) scale(1.2);filter:hue-rotate(50deg)}}
+    .content{padding:24px;min-height:720px;display:grid;align-content:center;gap:16px}.top{display:flex;justify-content:space-between;gap:10px;font-size:.84rem;font-weight:700}.card{border:1px solid color-mix(in srgb,currentColor 16%,transparent);border-radius:28px;padding:24px;backdrop-filter:blur(var(--glz14-optical-blur,8px));-webkit-backdrop-filter:blur(var(--glz14-optical-blur,8px));box-shadow:0 24px 80px rgba(0,0,0,.2)}
+    .eyebrow{font-size:.76rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}.card h1{font-size:clamp(2.4rem,11vw,4.5rem);line-height:.92;letter-spacing:-.055em;margin:8px 0 14px}.card p{font-size:1.08rem;line-height:1.55;margin:0 0 16px}.actions{display:flex;flex-wrap:wrap;gap:10px}.actions button{min-height:48px;border-radius:14px;padding:0 16px;border:1px solid color-mix(in srgb,currentColor 18%,transparent);font-weight:750}.primary{background:#18213a;color:#fff}.status{display:grid;gap:10px;margin-top:14px}.status>div{border:1px solid color-mix(in srgb,currentColor 16%,transparent);border-radius:16px;padding:13px}.status strong{display:block;margin-bottom:4px}.micro{font-size:.82rem!important}.readout{margin-top:14px;padding:12px;border-radius:14px;background:#222936;color:#f8fafc;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
+    .scene[data-appearance="dark"]{background:linear-gradient(145deg,#11172a,#20172d 48%,#172a31)}.scene[data-appearance="deep-dark"]{background:linear-gradient(145deg,#04060b,#090710 55%,#061012)}.scene[data-complexity="complex"] .texture{opacity:.78}.scene[data-complexity="moderate"] .texture{opacity:.36}.scene[data-luminance="bright"]{filter:brightness(1.12)}.scene[data-luminance="dark"]{filter:brightness(.8)}.scene[data-reduced-motion="true"] .motion{animation:none}
+    @media(max-width:600px){.shell{padding:10px}.content{padding:14px}.card{padding:20px}.controls{grid-template-columns:1fr 1fr}.scene{min-height:680px}.content{min-height:680px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <section class="notice">
+    <strong>Human review round 2 — not acceptance evidence.</strong><br>
+    Review target: <code id="revision">UNBOUND</code><br>
+    Review these four scenarios separately. A positive result for one does not pass the others.
+  </section>
+  <div class="controls" aria-label="Review scenarios">
+    <button data-scenario="noisy" aria-pressed="true">Noisy / bright</button>
+    <button data-scenario="night" aria-pressed="false">Deep night</button>
+    <button data-scenario="accessible" aria-pressed="false">Accessible solid</button>
+    <button data-scenario="reduced" aria-pressed="false">Reduced motion</button>
+  </div>
+  <div class="meta"><span class="pill">Runtime: V1.4.1 Candidate</span><span class="pill">Semantic surface: protected</span><span class="pill">Human result: PENDING</span></div>
+  <section class="stage">
+    <div class="scene" id="scene" data-appearance="light" data-complexity="complex" data-luminance="bright" data-reduced-motion="false">
+      <div class="texture" aria-hidden="true"></div><div class="motion" aria-hidden="true"></div>
+      <div class="content">
+        <div class="top"><span>◆ GoreeCloud</span><span id="scenarioLabel">Noisy / bright</span></div>
+        <article class="card" id="surface" data-glaze-semantic-surface="protected">
+          <div class="eyebrow">Optical Intelligence / Human Review</div>
+          <h1>Clarity should survive every state.</h1>
+          <p data-glaze-semantic="muted">Judge readability, optical depth, material quality, hierarchy, and whether the result still feels recognizably Glaze UI rather than merely opaque or decorative.</p>
+          <div class="actions"><button class="primary">Primary action</button><button data-glaze-action="secondary">Secondary action</button></div>
+          <div class="status"><div><strong>Readable label</strong>Supporting text should remain easy to read.</div><div><strong>Critical status</strong>Important state should stay visually protected.</div><div><strong>Icon + text</strong>◆ Hierarchy should remain balanced.</div></div>
+          <p class="micro" data-glaze-semantic="muted">Microcopy stress test — inspect edge clarity, contrast, tint intrusion, and whether protection becomes visually heavy.</p>
+          <div class="readout" id="readout">Runtime pending…</div>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+<script type="module">
+import {createGlazeOpticalEngineV141Candidate} from '../../js/glaze-v1.4.1.candidate.mjs';
+const $=id=>document.getElementById(id); const HEX40=/^[0-9a-f]{40}$/; const revision=new URLSearchParams(location.search).get('revision')||''; $('revision').textContent=HEX40.test(revision)?revision:'UNBOUND — add ?revision=<40-hex-sha>';
+const scenarios={
+ noisy:{label:'Noisy / bright',appearance:'light',backgroundComplexity:'complex',backgroundLuminance:'bright',daypart:'dusk',depth:'overlay',memoryTint:{css:'rgb(112 124 238)',influence:.06},accessibility:{reducedTransparency:false,increasedContrast:false,forcedColors:false,reducedMotion:false}},
+ night:{label:'Deep night',appearance:'deep-dark',backgroundComplexity:'moderate',backgroundLuminance:'dark',daypart:'night',depth:'modal',memoryTint:{css:'rgb(112 124 238)',influence:.06},accessibility:{reducedTransparency:false,increasedContrast:false,forcedColors:false,reducedMotion:false}},
+ accessible:{label:'Accessible solid',appearance:'dark',backgroundComplexity:'complex',backgroundLuminance:'bright',daypart:'day',depth:'raised',memoryTint:null,accessibility:{reducedTransparency:true,increasedContrast:true,forcedColors:false,reducedMotion:true}},
+ reduced:{label:'Reduced motion',appearance:'dark',backgroundComplexity:'moderate',backgroundLuminance:'mid',daypart:'day',depth:'raised',memoryTint:{css:'rgb(112 124 238)',influence:.06},accessibility:{reducedTransparency:false,increasedContrast:false,forcedColors:false,reducedMotion:true}}
+};
+const engine=createGlazeOpticalEngineV141Candidate();
+function apply(name){const v=scenarios[name];const scene=$('scene');scene.dataset.appearance=v.appearance;scene.dataset.complexity=v.backgroundComplexity;scene.dataset.luminance=v.backgroundLuminance;scene.dataset.reducedMotion=String(v.accessibility.reducedMotion);$('scenarioLabel').textContent=v.label;const resolved=engine.apply($('surface'),{...v,semanticImportance:.88});$('readout').textContent=[`scenario=${v.label}`,`mode=${resolved.mode}`,`adapter=${resolved.adapterStatus}`,`appearance=${resolved.appearance}`,`semanticProtection=${resolved.semanticProtection}`,`surfaceStrength=${resolved.semanticSurfaceStrength}`,`frost=${resolved.frostStrength}`,`blurScale=${resolved.blurScale}`,`warmth=${resolved.warmth}`,`memoryTint=${resolved.memoryTint?resolved.memoryTint.influence:0}`,`reducedMotion=${resolved.accessibility.reducedMotion}`].join(' · ');document.querySelectorAll('[data-scenario]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scenario===name)));}
+document.querySelectorAll('[data-scenario]').forEach(b=>b.addEventListener('click',()=>apply(b.dataset.scenario))); apply('noisy');
+</script>
+</body>
+</html>
