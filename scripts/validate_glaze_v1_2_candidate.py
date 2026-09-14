@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-"""Validate the frozen V1.2 Candidate source layer under V1.2 Stable authority.
+"""Validate the frozen V1.2 Candidate source layer as historical promoted-source provenance.
 
-V1.2 Stable intentionally freezes the implementation that was developed under
-Candidate-suffixed source paths. The legacy validator contains the deep source
-assertions for that implementation, but it also encoded the old global release
-state (V1.1 current Stable / V1.2 active Candidate). After promotion those
-release-state assertions are historical, not current authority.
+V1.2 Stable froze implementation that had been developed under Candidate-suffixed source
+paths. The legacy validator contains useful deep assertions for those frozen sources, but it
+also encoded Candidate-era global lifecycle state. Later Glaze releases must not make those
+source regressions fail merely because current lifecycle authority has advanced.
 
-This harness therefore validates the real Stable lifecycle first, then runs the
-legacy source validator against an in-memory historical lifecycle projection.
-The projection exists only so the legacy validator can exercise its unchanged
-source assertions; it is never written as repository evidence.
+This harness therefore validates the preserved V1.2 Stable release record, then runs the
+legacy source validator against an in-memory historical Candidate lifecycle projection. The
+projection exists only to exercise the unchanged deep V1.2 source assertions; it is never
+written as repository evidence and never becomes current lifecycle authority.
 """
 from __future__ import annotations
 
@@ -37,12 +36,12 @@ def load_json(path: Path) -> dict:
     return data
 
 
-def validate_live_stable_lifecycle(lifecycle: dict) -> None:
-    req(lifecycle.get("officialProductLabel") == "GLAZE UI V1.2", "official product label must remain GLAZE UI V1.2")
-    req(lifecycle.get("currentStable") == "1.2.0", "currentStable must remain 1.2.0")
-    req(lifecycle.get("currentOfficial") == "1.2.0", "currentOfficial must remain 1.2.0")
-    req(lifecycle.get("activeCandidate") is None, "V1.2 Stable must not remain registered as an active Candidate")
-    req(lifecycle.get("plannedNext") == "1.3.0-candidate", "plannedNext must remain the V1.3 Candidate track")
+def validate_preserved_v1_2_release(lifecycle: dict) -> None:
+    """Protect V1.2 release provenance without claiming that V1.2 is still current."""
+    current_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    req(bool(current_version), "current VERSION authority must remain present")
+    req(lifecycle.get("currentStable") == current_version, "currentStable must remain internally consistent with VERSION")
+    req(lifecycle.get("currentOfficial") == current_version, "currentOfficial must remain internally consistent with VERSION")
 
     release = next(
         (
@@ -52,24 +51,15 @@ def validate_live_stable_lifecycle(lifecycle: dict) -> None:
         ),
         None,
     )
-    req(release is not None, "Stable V1.2 lifecycle record missing")
+    req(release is not None, "historical Stable V1.2 lifecycle record missing")
     assert release is not None
-    req(release.get("status") == "stable", "V1.2 lifecycle status must remain Stable")
-    req(release.get("consumerEligible") is True, "V1.2 Stable must remain consumer-adoptable")
-    req(release.get("stableBaseline") == "1.1.0", "V1.2 Stable baseline must remain V1.1")
-    req(release.get("contract") == "GLAZE_UI_V1_2.md", "V1.2 Stable contract binding drifted")
-
-    capability = lifecycle.get("capabilities", {}).get("frosted-neutral-system-shell", {})
-    req(capability.get("status") == "stable-promoted-source", "System Shell promoted-source status drifted")
-    req(capability.get("since") == "1.2.0", "System Shell Stable capability version drifted")
-    req(
-        capability.get("implementation") == "contracts/v1.2/system-shell-materials.candidate.json",
-        "System Shell promoted-source implementation binding drifted",
-    )
-    req(
-        capability.get("webPreview") == "reference/v1.2/system-shell.html",
-        "System Shell promoted-source preview binding drifted",
-    )
+    req(release.get("label") == "GLAZE UI V1.2 — Living Frosted", "historical V1.2 product label drifted")
+    req(release.get("status") == "stable", "historical V1.2 lifecycle status must remain Stable")
+    req(release.get("consumerEligible") is True, "historical V1.2 release must preserve original consumer eligibility")
+    req(release.get("stableBaseline") == "1.1.0", "historical V1.2 Stable baseline must remain V1.1")
+    req(release.get("contract") == "GLAZE_UI_V1_2.md", "historical V1.2 Stable contract binding drifted")
+    req(release.get("webEntrypoint") == "css/glaze-v1.2.0.css", "historical V1.2 web entrypoint drifted")
+    req(release.get("runtimeEntrypoint") == "js/glaze-v1.2.0.mjs", "historical V1.2 runtime entrypoint drifted")
 
 
 def historical_candidate_projection(lifecycle: dict) -> dict:
@@ -115,9 +105,8 @@ def run_legacy_source_validation(projected_lifecycle: dict) -> None:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
-    # The legacy helper deliberately rejects paths outside ROOT. Place the
-    # ephemeral lifecycle fixture inside the checkout, then let
-    # NamedTemporaryFile remove it immediately after validation.
+    # The legacy helper deliberately rejects paths outside ROOT. Place the ephemeral
+    # lifecycle fixture inside the checkout, then remove it automatically after validation.
     with tempfile.NamedTemporaryFile(
         "w",
         encoding="utf-8",
@@ -133,10 +122,11 @@ def run_legacy_source_validation(projected_lifecycle: dict) -> None:
 
 def main() -> int:
     lifecycle = load_json(LIFECYCLE_PATH)
-    validate_live_stable_lifecycle(lifecycle)
+    validate_preserved_v1_2_release(lifecycle)
     run_legacy_source_validation(historical_candidate_projection(lifecycle))
-    print("GLAZE UI V1.2 promoted Candidate source validation: PASS")
-    print("Authority: live lifecycle is Stable 1.2.0; Candidate-era lifecycle fields are historical test-fixture data only.")
+    current_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    print("GLAZE UI V1.2 promoted Candidate source regression: PASS")
+    print(f"Authority: V1.2 Candidate-era lifecycle is historical fixture data; current lifecycle remains {current_version}.")
     return 0
 
 
