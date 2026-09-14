@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "recordType": "goreecloud-glaze-ui-current-stable-conformance",
+  "consumerName": "REPLACE_WITH_CONSUMER_NAME",
+  "repository": "GoreeCloud/REPLACE_WITH_REPOSITORY",
+  "targetVersion": "1.4.0",
+  "status": "adoption-required",
+  "stableClaim": false,
+  "coverage": {
+    "allUserFacingPlatformsEnumerated": false,
+    "statement": "Replace this statement with the complete user-facing platform scope before any Stable claim."
+  },
+  "platforms": [
+    {
+      "id": "web",
+      "status": "pending",
+      "evidence": null
+    }
+  ],
+  "notes": "Fail-closed template. A consumer may not claim Stable until every listed user-facing platform is accepted against the current Glaze UI Stable release and the central gate passes in Stable-claim mode."
+}
