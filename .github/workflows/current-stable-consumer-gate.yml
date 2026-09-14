@@ -23,11 +23,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check out exact consumer source revision
+      - name: Check out exact consumer source revision with review history
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: ${{ github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
           path: consumer
 
       - name: Check out current Glaze UI policy authority
@@ -71,7 +72,7 @@ jobs:
           fi
           python3 glaze-ui-policy/scripts/validate_downstream_current_stable.py "${args[@]}"
 
-      - name: Upload exact-revision Glaze UI gate report
+      - name: Upload exact-decision Glaze UI gate report
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
