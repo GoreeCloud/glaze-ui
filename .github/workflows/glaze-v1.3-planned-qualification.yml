@@ -99,7 +99,9 @@ jobs:
           assert release['stableBaseline'] == '1.2.0'
           plan = json.load(open('contracts/v1.3/deferred-qualification.plan.json', encoding='utf-8'))
           quality = json.load(open('contracts/v1.3/quality-rules.candidate.json', encoding='utf-8'))
-          assert plan['lifecycle'] in {'planned', 'qualification-active'}
+          assert plan['lifecycle'] == 'follow-up-active'
+          assert plan['targetVersion'] == '1.3.1-candidate'
+          assert plan['sourceStable'] == '1.3.0'
           assert plan['qualityContract'] == 'contracts/v1.3/quality-rules.candidate.json'
           assert len(quality['rules']) == 55
           assert quality['humanReviewRequired'] is True
