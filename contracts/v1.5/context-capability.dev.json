@@ -95,6 +95,27 @@
     "remoteAnalysisRequired": false,
     "operationalAuthorityGranted": false
   },
+  "resolution": {
+    "runtime": "js/glaze-v1.5-resolution.dev.mjs",
+    "developerFacingUnifiedResolver": true,
+    "authoritativeProviderSnapshotRequired": true,
+    "providerConflictsFailClosed": true,
+    "applicationIntentCombinedWithContextAndCapabilities": true,
+    "compositionResolved": true,
+    "navigationResolved": true,
+    "actionPrioritizationResolved": true,
+    "controlPresentationResolved": true,
+    "opticalPresentationResolved": true,
+    "privacySafeDiagnosticsResolved": true,
+    "providerPrecedenceInferred": false,
+    "authorizationInferred": false,
+    "permissionRequestAutomatic": false,
+    "consequentialExecutionAutomatic": false,
+    "fallbackExecutionAutomatic": false,
+    "taskStateResetOnCapabilityChange": false,
+    "telemetryRequired": false,
+    "remoteAnalysisRequired": false
+  },
   "compatibility": {
     "inheritsStableRuntime": "1.4.1",
     "v141OpticalCapabilityBridge": true,
@@ -106,11 +127,13 @@
     "machineDevelopmentGates": [
       "scripts/verify_glaze_v1_5_development.mjs",
       "scripts/verify_glaze_v1_5_actions_development.mjs",
-      "scripts/verify_glaze_v1_5_diagnostics_development.mjs"
+      "scripts/verify_glaze_v1_5_diagnostics_development.mjs",
+      "scripts/verify_glaze_v1_5_resolution_development.mjs"
     ],
     "coreConformanceMatrix": "conformance/v1.5-development-matrix.json",
     "actionConformanceMatrix": "conformance/v1.5-action-development-matrix.json",
     "diagnosticsConformanceMatrix": "conformance/v1.5-diagnostics-development-matrix.json",
+    "resolutionConformanceMatrix": "conformance/v1.5-resolution-development-matrix.json",
     "humanAcceptanceEstablished": false,
     "targetRuntimeAcceptanceEstablished": false,
     "releaseCandidateAccepted": false,
