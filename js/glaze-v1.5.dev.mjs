@@ -14,6 +14,7 @@ export const glazeV15Development = Object.freeze({
   consumerEligible: false,
   authorityBoundary: 'presentation-only',
   providerAuthorityOwnershipEnforced: true,
+  privacyAuthorityMayOwnAuthorizationTruth: true,
   providerPrecedenceInferred: false,
   accessibilityHasPresentationPrecedence: true,
   runtimePressureMayReducePresentationCost: true,
@@ -28,10 +29,14 @@ export const glazeV15Development = Object.freeze({
   diagnosticsRawContextIncluded: false,
   developerFacingUnifiedResolver: true,
   unifiedResolutionProviderConflictsFailClosed: true,
+  representativeConsumerProfiles: 5,
+  representativeConsumerIntegrationChangesStableTarget: false,
+  representativeConsumerAcceptanceEstablished: false,
   developmentConformanceScenarios: 39,
   actionConformanceScenarios: 8,
   diagnosticsConformanceScenarios: 7,
   resolutionConformanceScenarios: 10,
-  totalDevelopmentConformanceScenarios: 64,
+  consumerIntegrationConformanceScenarios: 14,
+  totalDevelopmentConformanceScenarios: 78,
   stablePromotionAutomatic: false
 });
