@@ -33,9 +33,12 @@ The current `1.5.0-dev.1` source introduces:
 - a provider aggregation boundary that rejects provenance impersonation and fails closed on duplicate context/capability ownership instead of inventing precedence;
 - explicit provider-authority ownership rules so a provider may contribute only context/capability domains its authority class is permitted to own;
 - semantic composition decisions for compact touch, desktop pointer/keyboard, remote/focus, unfolded multi-pane, reading, media, and critical-configuration contexts;
+- accessibility-priority composition for Large Text, Touch Assistance, Reduced Motion, Reduced Transparency, Increased Contrast, and Forced Colors;
+- runtime-pressure cost reduction that selects durable presentation without modifying capability truth;
+- connectivity and constrained-window continuity behavior that avoids task-state resets and page reloads during offline/reconnecting or picture-in-picture/background-like transitions;
 - capability-aware navigation that can omit truly unsupported destinations while preserving restricted/offline destinations and broader task continuity;
 - capability-aware control presentation with explicit unavailable/degraded states and user-initiated recovery semantics; and
-- a 33-scenario Development conformance matrix spanning capability states, provider conflicts, authority ownership, composition, navigation, accessibility, privacy, anti-jitter, runtime downgrade, input transitions, and fold/posture transitions.
+- a 39-scenario Development conformance matrix spanning capability states, provider conflicts, authority ownership, composition, navigation, accessibility, runtime pressure, connectivity/window continuity, privacy, anti-jitter, runtime downgrade, input transitions, and fold/posture transitions.
 
 ## Provider authority boundary
 
@@ -48,6 +51,8 @@ Provider diagnostics expose counts and semantic domains/states rather than raw p
 ## Composition and continuity boundary
 
 Composition consumes semantic context rather than inferring sensitive meaning from raw dimensions or activity. The Development resolver may select single- versus multi-pane presentation, control density, command-surface style, focus navigation, material preference, motion preference, and label explicitness.
+
+Accessibility has final presentation precedence over richer device/input choices: Large Text or Touch Assistance prevents dense control presentation, Reduced Motion suppresses motion preference, and clarity-oriented accessibility states force high-clarity material and explicit labeling. Runtime pressure may lower presentation cost to a durable mode but cannot change the truth of a capability. Connectivity loss or reconnection does not itself collapse an otherwise valid composition, and constrained window modes may reduce to single-pane without resetting the user’s task.
 
 Primary action ordering remains author-defined. Navigation does not automatically execute a destination. When a selected destination becomes truly unsupported and is governed to be omitted, the resolver may select an explicit or deterministic visible fallback while preserving task state and reporting the continuity transition. Restricted, offline, degraded, permission-gated, and temporarily unavailable destinations remain semantically representable instead of being silently treated as nonexistent.
 
@@ -65,4 +70,4 @@ Ordinary adaptation is local-first, bounded, ephemeral by default, and does not 
 
 This development revision is eligible only for machine development validation. The conformance matrix is a Development gate and explicitly does **not** establish human acceptance, target-device/runtime acceptance, consumer conformance, Release Candidate status, Stable status, deployment, or production acceptance.
 
-Before Release Candidate/Stable qualification, the same matrix items marked for external acceptance still require exact-revision human usability, accessibility/assistive-technology, representative target-device/runtime, privacy, anti-jitter/performance, and platform/posture/input validation. Consumer-specific composition/navigation integration also remains separate from the shared design-system machine gate.
+Before Release Candidate/Stable qualification, the same matrix items marked for external acceptance still require exact-revision human usability, accessibility/assistive-technology, representative target-device/runtime, privacy, anti-jitter/performance, and platform/posture/input/window validation. Consumer-specific composition/navigation integration also remains separate from the shared design-system machine gate.
