@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "id": "glaze-ui-v1.5-context-capability-development",
+  "version": "1.5.0-dev.1",
+  "lifecycle": "development",
+  "stableBaseline": "1.4.1",
+  "consumerEligible": false,
+  "designProvenance": "Glaze UI V1.4.1 Extended Upgrade — Contextual Awareness and Capability Awareness",
+  "runtime": "js/glaze-v1.5-context-capability.dev.mjs",
+  "entrypoint": "js/glaze-v1.5.dev.mjs",
+  "contextDomains": [
+    "layout",
+    "device-posture",
+    "input",
+    "interaction",
+    "task",
+    "content",
+    "environment",
+    "accessibility",
+    "runtime",
+    "connectivity",
+    "window-state"
+  ],
+  "capabilityDomains": [
+    "rendering",
+    "platform",
+    "device",
+    "application",
+    "service",
+    "authorization",
+    "connectivity",
+    "intelligence"
+  ],
+  "capabilityStates": [
+    "supported",
+    "available",
+    "degraded",
+    "temporarily-unavailable",
+    "offline",
+    "permission-required",
+    "restricted",
+    "unsupported",
+    "disabled",
+    "unknown"
+  ],
+  "authority": {
+    "glazeMayPresentAuthoritativeState": true,
+    "glazeMayManufactureAuthorization": false,
+    "glazeMayInferPermissionFromMissingData": false,
+    "requestedCapabilityEqualsAcceptedCapability": false,
+    "displayedAffordanceEqualsAuthorization": false
+  },
+  "privacy": {
+    "localFirst": true,
+    "boundedContext": true,
+    "ephemeralByDefault": true,
+    "rawPrivateActivityAllowed": false,
+    "rawContentRetentionAllowed": false,
+    "telemetryRequired": false,
+    "remoteAnalysisRequired": false
+  },
+  "stability": {
+    "antiJitterRequired": true,
+    "stablePrimaryActionOrdering": true,
+    "navigationContinuityRequired": true,
+    "accessibilityOverridesDecorativeOptics": true,
+    "unknownFailsClosed": true
+  },
+  "compatibility": {
+    "inheritsStableRuntime": "1.4.1",
+    "v141OpticalCapabilityBridge": true,
+    "requiresConsumerMigration": false,
+    "stable141IdentityMutated": false
+  },
+  "acceptance": {
+    "machineDevelopmentGate": "scripts/verify_glaze_v1_5_development.mjs",
+    "humanAcceptanceEstablished": false,
+    "targetRuntimeAcceptanceEstablished": false,
+    "releaseCandidateAccepted": false,
+    "stableAccepted": false
+  }
+}

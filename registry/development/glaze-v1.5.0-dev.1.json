@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "version": "1.5.0-dev.1",
+  "label": "GLAZE UI V1.5 — Contextual + Capability Awareness",
+  "lifecycle": "development",
+  "consumerEligible": false,
+  "stableBaseline": "1.4.1",
+  "designProvenance": "Glaze UI V1.4.1 Extended Upgrade — Contextual Awareness and Capability Awareness",
+  "contract": "contracts/v1.5/context-capability.dev.json",
+  "runtimeEntrypoint": "js/glaze-v1.5.dev.mjs",
+  "implementation": "js/glaze-v1.5-context-capability.dev.mjs",
+  "verification": "scripts/verify_glaze_v1_5_development.mjs",
+  "authorityBoundary": "presentation-only",
+  "stable141Preserved": true,
+  "releaseCandidate": false,
+  "stable": false,
+  "knownOpenAcceptance": [
+    "composition and navigation integration across representative surfaces",
+    "permission-required and restricted-state human usability review",
+    "offline and degraded service target-runtime acceptance",
+    "accessibility and assistive-technology validation",
+    "fold/posture and input-method target-device validation",
+    "anti-jitter and performance validation on representative runtimes",
+    "privacy review for diagnostic and context-provider integrations",
+    "Release Candidate exact-revision acceptance",
+    "Stable promotion evidence and approval"
+  ]
+}
