@@ -4,7 +4,7 @@
   "version": "1.5.0-dev.1",
   "lifecycle": "Development",
   "stableBaseline": "1.4.1",
-  "harness": "reference/v1.5/human-review.html",
+  "harness": "reference/v1.5/human-review-v2.html",
   "candidateRuntime": "js/glaze-v1.5-resolution.dev.mjs",
   "authority": "human-review-surface-only",
   "networkPolicy": "repository-local-only",
