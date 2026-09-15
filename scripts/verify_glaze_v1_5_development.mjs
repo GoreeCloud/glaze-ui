@@ -49,13 +49,21 @@ assert.equal(glazeV15Development.lifecycle, 'development');
 assert.equal(glazeV15Development.consumerEligible, false);
 assert.equal(glazeV15Development.providerAuthorityOwnershipEnforced, true);
 assert.equal(glazeV15Development.providerPrecedenceInferred, false);
-assert.equal(glazeV15Development.developmentConformanceScenarios, 33);
+assert.equal(glazeV15Development.accessibilityHasPresentationPrecedence, true);
+assert.equal(glazeV15Development.runtimePressureMayReducePresentationCost, true);
+assert.equal(glazeV15Development.runtimePressureMayModifyCapabilityTruth, false);
+assert.equal(glazeV15Development.developmentConformanceScenarios, 39);
 assert.equal(glazeContextCapabilityDevelopment.consumerEligible, false);
 assert.equal(glazeContextCapabilityDevelopment.glazeIsAuthorizationAuthority, false);
 assert.equal(glazeProviderDevelopmentContract.providerPrecedenceInferred, false);
 assert.equal(glazeProviderDevelopmentContract.authorityOwnershipEnforced, true);
 assert.equal(glazeProviderDevelopmentContract.unknownAuthorityMayOwnSemanticTruth, false);
 assert.equal(glazeCompositionDevelopmentContract.automaticNavigationAllowed, false);
+assert.equal(glazeCompositionDevelopmentContract.accessibilityHasPresentationPrecedence, true);
+assert.equal(glazeCompositionDevelopmentContract.runtimePressureMayReducePresentationCost, true);
+assert.equal(glazeCompositionDevelopmentContract.runtimePressureMayModifyCapabilityTruth, false);
+assert.equal(glazeCompositionDevelopmentContract.connectivityChangesPreserveCompositionContinuity, true);
+assert.equal(glazeCompositionDevelopmentContract.constrainedWindowPreservesTaskState, true);
 
 assert.deepEqual([...GLAZE_CONTEXT_DOMAINS], contract.contextDomains);
 assert.deepEqual([...GLAZE_CAPABILITY_DOMAINS], contract.capabilityDomains);
@@ -232,6 +240,64 @@ const unfolded = resolveGlazeComposition({context: {'device-posture': {posture: 
 assert.equal(unfolded.paneMode, 'multi-pane');
 assert.equal(unfolded.taskStateReset, false);
 
+const largeTextDesktop = resolveGlazeComposition({
+  context: {layout: {category: 'expanded'}, input: {primary: 'pointer'}, accessibility: {largeText: true}},
+  intent: {supportsMultiPane: true}
+});
+assert.equal(largeTextDesktop.paneMode, 'multi-pane');
+assert.equal(largeTextDesktop.controlDensity, 'spacious');
+assert.equal(largeTextDesktop.labelMode, 'explicit');
+assert.equal(largeTextDesktop.accessibilityPriorityApplied, true);
+assert.ok(largeTextDesktop.reasonCodes.includes('large-text-spacing-authority'));
+
+const touchAssistance = resolveGlazeComposition({
+  context: {input: {primary: 'touch'}, accessibility: {touchAssistance: true}}
+});
+assert.equal(touchAssistance.controlDensity, 'spacious');
+assert.equal(touchAssistance.labelMode, 'explicit');
+assert.ok(touchAssistance.reasonCodes.includes('touch-assistance-spacing-authority'));
+
+const reducedMotionMedia = resolveGlazeComposition({
+  context: {task: {kind: 'viewing-media'}, accessibility: {reducedMotion: true}}
+});
+assert.equal(reducedMotionMedia.materialPreference, 'atmospheric');
+assert.equal(reducedMotionMedia.motionPreference, 'reduced');
+assert.ok(reducedMotionMedia.reasonCodes.includes('reduced-motion-authority'));
+
+const forcedColorsComposition = resolveGlazeComposition({
+  context: {task: {kind: 'viewing-media'}, accessibility: {forcedColors: true}}
+});
+assert.equal(forcedColorsComposition.materialPreference, 'high-clarity');
+assert.equal(forcedColorsComposition.labelMode, 'explicit');
+assert.equal(forcedColorsComposition.accessibilityPriorityApplied, true);
+
+const runtimePressure = resolveGlazeComposition({
+  context: {task: {kind: 'viewing-media'}, runtime: {resourcePressure: 'critical'}}
+});
+assert.equal(runtimePressure.materialPreference, 'durable');
+assert.equal(runtimePressure.motionPreference, 'reduced');
+assert.equal(runtimePressure.runtimeCostProfile, 'reduced');
+assert.equal(runtimePressure.capabilityTruthModified, false);
+assert.ok(runtimePressure.reasonCodes.includes('runtime-pressure-durable-presentation'));
+
+const offlineComposition = resolveGlazeComposition({
+  context: {layout: {category: 'expanded'}, connectivity: {class: 'offline'}},
+  intent: {supportsMultiPane: true}
+});
+assert.equal(offlineComposition.paneMode, 'multi-pane');
+assert.equal(offlineComposition.connectivityPresentation, 'offline');
+assert.equal(offlineComposition.taskStateReset, false);
+assert.ok(offlineComposition.reasonCodes.includes('connectivity-offline-preserve-composition'));
+
+const constrainedWindow = resolveGlazeComposition({
+  context: {layout: {category: 'expanded'}, 'window-state': {state: 'picture-in-picture'}},
+  intent: {supportsMultiPane: true}
+});
+assert.equal(constrainedWindow.paneMode, 'single-pane');
+assert.equal(constrainedWindow.windowPresentation, 'constrained');
+assert.equal(constrainedWindow.taskStateReset, false);
+assert.equal(constrainedWindow.pageReloadRequired, false);
+
 const navigation = resolveGlazeNavigation({
   currentId: 'cast',
   capabilities,
@@ -318,7 +384,7 @@ assert.equal(accepted.signature, 'b');
 assert.equal(conformance.version, '1.5.0-dev.1');
 assert.equal(conformance.lifecycle, 'development');
 assert.equal(conformance.humanOrTargetRuntimeAcceptanceEstablished, false);
-assert.equal(conformance.scenarios.length, 33);
+assert.equal(conformance.scenarios.length, 39);
 assert.equal(conformance.promotionBoundary.machineCoverageAloneQualifiesReleaseCandidate, false);
 assert.equal(conformance.promotionBoundary.machineCoverageAloneQualifiesStable, false);
 const scenarioIds = new Set(conformance.scenarios.map(scenario => scenario.id));
@@ -335,6 +401,12 @@ const requiredScenarioIds = [
   'composition.desktop-pointer-keyboard',
   'composition.remote-focus',
   'composition.unfolded-multipane',
+  'composition.large-text-spacing',
+  'composition.touch-assistance-spacing',
+  'composition.reduced-motion-authority',
+  'composition.runtime-pressure-downgrade',
+  'composition.offline-continuity',
+  'composition.constrained-window-continuity',
   'navigation.unsupported-omit',
   'navigation.restricted-visible',
   'navigation.offline-visible',
@@ -368,5 +440,7 @@ console.log(`Capability states: ${GLAZE_CAPABILITY_STATES.length}`);
 console.log(`Development conformance scenarios: ${conformance.scenarios.length}`);
 console.log('Provider collisions: fail closed');
 console.log('Provider authority ownership: enforced');
+console.log('Accessibility composition precedence: enforced');
+console.log('Runtime/connectivity/window continuity: verified');
 console.log('Composition/navigation continuity: verified');
 console.log('Stable baseline preserved: 1.4.1');
