@@ -42,6 +42,8 @@ assert.equal(contract.acceptance.stableAccepted, false);
 assert.equal(glazeContextCapabilityDevelopment.consumerEligible, false);
 assert.equal(glazeContextCapabilityDevelopment.glazeIsAuthorizationAuthority, false);
 assert.equal(glazeProviderDevelopmentContract.providerPrecedenceInferred, false);
+assert.equal(glazeProviderDevelopmentContract.authorityOwnershipEnforced, true);
+assert.equal(glazeProviderDevelopmentContract.unknownAuthorityMayOwnSemanticTruth, false);
 assert.equal(glazeCompositionDevelopmentContract.automaticNavigationAllowed, false);
 
 assert.deepEqual([...GLAZE_CONTEXT_DOMAINS], contract.contextDomains);
@@ -138,15 +140,21 @@ const providerSnapshot = createGlazeProviderSnapshot([
   {
     id: 'search-service',
     authority: 'service',
-    context: {connectivity: {class: 'online'}},
     capabilities: [{id: 'service.search', domain: 'service', state: 'available'}]
+  },
+  {
+    id: 'network-runtime',
+    authority: 'runtime',
+    context: {connectivity: {class: 'online'}}
   }
 ]);
 assert.deepEqual([...providerSnapshot.context.availableDomains].sort(), ['connectivity', 'device-posture', 'input']);
 assert.equal(providerSnapshot.capabilities.byId['service.search'].state, 'available');
 assert.equal(providerSnapshot.providerPrecedenceInferred, false);
+assert.equal(providerSnapshot.authorityOwnershipEnforced, true);
 const providerSummary = providerSnapshotSummary(providerSnapshot);
 assert.equal(providerSummary.providerIdsIncluded, false);
+assert.equal(providerSummary.authorityOwnershipEnforced, true);
 assert.equal(JSON.stringify(providerSummary).includes('search-service'), false);
 
 assert.throws(() => createGlazeProviderSnapshot([{
@@ -154,6 +162,31 @@ assert.throws(() => createGlazeProviderSnapshot([{
   authority: 'application',
   capabilities: [{id: 'application.edit', domain: 'application', state: 'available', provenance: {provider: 'other'}}]
 }]), /cannot impersonate/);
+
+assert.throws(() => createGlazeProviderSnapshot([{
+  id: 'service-claims-input',
+  authority: 'service',
+  context: {input: {primary: 'touch'}}
+}]), /cannot own context domain input/);
+
+assert.throws(() => createGlazeProviderSnapshot([{
+  id: 'service-claims-authorization',
+  authority: 'service',
+  capabilities: [{id: 'authorization.delete', domain: 'authorization', state: 'available'}]
+}]), /cannot own capability domain authorization/);
+
+assert.throws(() => createGlazeProviderSnapshot([{
+  id: 'unknown-provider',
+  authority: 'unknown',
+  capabilities: [{id: 'service.unverified', domain: 'service', state: 'unknown'}]
+}]), /cannot own capability domain service/);
+
+const policyAuthorization = createGlazeProviderSnapshot([{
+  id: 'policy-engine',
+  authority: 'policy',
+  capabilities: [{id: 'authorization.admin', domain: 'authorization', state: 'restricted'}]
+}]);
+assert.equal(policyAuthorization.capabilities.byId['authorization.admin'].state, 'restricted');
 
 const contextConflict = createGlazeProviderSnapshot([
   {id: 'one', authority: 'application', context: {task: {kind: 'reading'}}},
@@ -283,6 +316,9 @@ const requiredScenarioIds = [
   'provenance.impersonation-rejected',
   'provider.duplicate-capability-fails-closed',
   'provider.duplicate-context-fails-closed',
+  'authority.context-domain-mismatch-rejected',
+  'authority.capability-domain-mismatch-rejected',
+  'authority.unknown-semantic-truth-rejected',
   'composition.compact-touch',
   'composition.desktop-pointer-keyboard',
   'composition.remote-focus',
@@ -319,5 +355,6 @@ console.log(`Capability domains: ${GLAZE_CAPABILITY_DOMAINS.length}`);
 console.log(`Capability states: ${GLAZE_CAPABILITY_STATES.length}`);
 console.log(`Development conformance scenarios: ${conformance.scenarios.length}`);
 console.log('Provider collisions: fail closed');
+console.log('Provider authority ownership: enforced');
 console.log('Composition/navigation continuity: verified');
 console.log('Stable baseline preserved: 1.4.1');
