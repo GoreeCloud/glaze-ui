@@ -80,5 +80,8 @@ jobs:
       - name: Verify V1.5 unified context and capability resolution layer
         run: node scripts/verify_glaze_v1_5_resolution_development.mjs
 
+      - name: Verify V1.5 representative GoreeCloud consumer integration profiles
+        run: node scripts/verify_glaze_v1_5_consumer_integration_development.mjs
+
       - name: Verify validation did not mutate tracked source
         run: git diff --exit-code -- .
