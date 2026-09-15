@@ -46,10 +46,23 @@ async function main() {
     'accessibility-semantic-announcement'
   ]);
 
-  for (const scenario of contract.requiredScenarios) {
-    const [domain, value] = scenario.split(/-(.+)/);
-    assert.ok(domain && value, `invalid review scenario identifier: ${scenario}`);
-    assert.ok(html.toLowerCase().includes(value.replaceAll('-', ' ')) || html.toLowerCase().includes(value), `review harness appears to omit scenario ${scenario}`);
+  const scenarioMarkers = new Map([
+    ['connectivity-online', '<option value="online">Online</option>'],
+    ['connectivity-offline', '<option value="offline">Offline</option>'],
+    ['authorization-permission-required', '<option value="permission-required">Permission required</option>'],
+    ['authorization-available', '<option value="available">Available</option>'],
+    ['policy-restricted', '<option value="restricted">Restricted</option>'],
+    ['policy-available', "$('policy-state').value"],
+    ['service-degraded', '<option value="degraded">Degraded</option>'],
+    ['service-available', "$('search-state').value"],
+    ['layout-compact', '<option value="compact">Compact</option>'],
+    ['layout-expanded', '<option value="expanded">Expanded</option>'],
+    ['reduced-motion-on', '<option value="true">On</option>'],
+    ['reduced-motion-off', '<option value="false">Off</option>']
+  ]);
+  assert.deepEqual([...scenarioMarkers.keys()], contract.requiredScenarios, 'review scenario contract and verifier markers must stay aligned');
+  for (const [scenario, marker] of scenarioMarkers) {
+    assert.ok(html.includes(marker), `review harness appears to omit scenario ${scenario}`);
   }
 
   assert.match(html, /Human review surface only — not acceptance evidence\./i);
