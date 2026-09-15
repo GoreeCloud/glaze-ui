@@ -8,7 +8,7 @@
 
 ## Purpose
 
-GLAZE UI V1.4.1 promotes the completed V1.4.1 human-validation, optical-hardening, semantic-readability, capability-aware performance, and fail-safe runtime work into the current Stable V1.4 patch line without rewriting V1.4.0 evidence.
+GLAZE UI V1.4.1 promotes the completed V1.4.1 human-validation, optical-hardening, semantic-readability, capability-aware performance, and fail-safe runtime work into the V1.4 Stable patch line. V1.4.0 evidence remains preserved as historical baseline evidence and is not rewritten by this promotion.
 
 The pre-promotion qualification contract remains preserved in `GLAZE_UI_V1_4_1_HARDENING.md`. Its Candidate and review language is historical provenance for the qualification phase and does not override this Stable contract.
 
