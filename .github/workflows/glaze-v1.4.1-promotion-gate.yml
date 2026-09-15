@@ -54,11 +54,13 @@ jobs:
 
       - name: Extract exactly one governed evidence record
         env:
-          EVIDENCE_MARKER: GLAZE-V1.4.1-PROMOTION-EVIDENCE-V2
+          EVIDENCE_MARKER: GLAZE-V1.4.1-PROMOTION-EVIDENCE-V3-GZIP-BASE64
         run: |
           node <<'NODE'
+          const crypto = require('node:crypto');
           const fs = require('node:fs');
           const path = require('node:path');
+          const zlib = require('node:zlib');
           const commentsPath = path.join(process.env.RUNNER_TEMP, 'v1.4.1-promotion-comments.json');
           const recordPath = path.join(process.env.RUNNER_TEMP, 'v1.4.1-human-evidence.json');
           const comments = JSON.parse(fs.readFileSync(commentsPath, 'utf8'));
@@ -70,13 +72,17 @@ jobs:
             throw new Error(`Expected exactly one ${marker} comment; found ${matches.length}.`);
           }
           const remainder = matches[0].body.slice(marker.length).trim();
-          const fenced = remainder.match(/^```json\s*\n([\s\S]+)\n```$/);
+          const fenced = remainder.match(/^```text\s*\n([A-Za-z0-9+/=\r\n]+)\n```$/);
           if (!fenced) {
-            throw new Error('Promotion evidence comment must contain exactly one fenced json payload after the marker.');
+            throw new Error('Promotion evidence comment must contain exactly one fenced base64 payload after the marker.');
           }
-          const record = JSON.parse(fenced[1]);
+          const compressed = Buffer.from(fenced[1].replace(/\s+/g, ''), 'base64');
+          const jsonText = zlib.gunzipSync(compressed).toString('utf8');
+          const record = JSON.parse(jsonText);
           fs.writeFileSync(recordPath, `${JSON.stringify(record, null, 2)}\n`, {flag: 'wx'});
+          const digest = crypto.createHash('sha256').update(jsonText).digest('hex');
           console.log(`Loaded governed promotion evidence from ${matches[0].html_url}`);
+          console.log(`Uncompressed evidence sha256:${digest}`);
           NODE
 
       - name: Run canonical fail-closed V1.4.1 promotion gate
@@ -94,7 +100,7 @@ jobs:
             echo '- Canonical human-validation promotion verifier: **PASS**'
             echo '- Exact promotion revision: `${{ github.event.pull_request.head.sha }}`'
             echo '- V1.4.0 Stable-preservation verifier: **PASS**'
-            echo '- Evidence source: governed PR comment marked `GLAZE-V1.4.1-PROMOTION-EVIDENCE-V2`'
+            echo '- Evidence source: governed PR comment marked `GLAZE-V1.4.1-PROMOTION-EVIDENCE-V3-GZIP-BASE64`'
             echo
             echo 'This gate establishes evidence eligibility for this exact source revision only. Merge, release creation, and Stable lifecycle promotion remain separate governed transitions.'
           } >> "${GITHUB_STEP_SUMMARY}"
