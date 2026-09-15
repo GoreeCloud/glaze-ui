@@ -142,7 +142,7 @@ const providerSnapshot = createGlazeProviderSnapshot([
     capabilities: [{id: 'service.search', domain: 'service', state: 'available'}]
   }
 ]);
-assert.deepEqual(providerSnapshot.context.availableDomains.sort(), ['connectivity', 'device-posture', 'input']);
+assert.deepEqual([...providerSnapshot.context.availableDomains].sort(), ['connectivity', 'device-posture', 'input']);
 assert.equal(providerSnapshot.capabilities.byId['service.search'].state, 'available');
 assert.equal(providerSnapshot.providerPrecedenceInferred, false);
 const providerSummary = providerSnapshotSummary(providerSnapshot);
