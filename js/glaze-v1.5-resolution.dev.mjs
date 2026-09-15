@@ -45,7 +45,7 @@ export function resolveGlazeInterface(options = {}) {
     capabilities: snapshot.capabilities
   });
   const actions = resolveGlazeActionPrioritization({
-    context: snapshot.context,
+    context: snapshot.context.domains,
     capabilities: snapshot.capabilities,
     actions: actionsInput
   });
