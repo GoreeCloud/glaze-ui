@@ -1,9 +1,9 @@
-# GLAZE UI V1.2 Acceptance
+# GLAZE UI V1.4 Acceptance
 
-GLAZE UI V1.2 / 1.2.0 is the current Stable design-system release under the explicit GoreeCloud project-owner lifecycle decision of 2026-09-06.
+GLAZE UI V1.4 / `1.4.1` is the current Official, Stable design-system release. `VERSION`, `registry/lifecycle.json`, `GLAZE_UI_V1_4_1.md`, and `acceptance/v1.4.1-stable.md` are the controlling repository authorities for that lifecycle state.
 
-Stable source authority includes the implemented Frosted Neutral + Living Frosted contracts, Stable wrapper entrypoints, current lifecycle and token manifests, inherited V1 semantic/material/accessibility authority, bounded browser/native-reference evidence, and preserved V1.1 rollback authority.
+Stable source authority includes the V1.4 Optical Intelligence contract family, the promoted V1.4.1 Stable CSS/runtime/optical-engine entrypoints, inherited V1.4.0 and V1.3 semantic/accessibility/platform foundations, current lifecycle and consumer manifests, and the preserved V1.4.0 rollback boundary.
 
-The remaining human optical, manual assistive-technology, physical-device/OEM/compositor, production-performance, native Personalization-adapter, and compatibility-namespace qualification work is postponed to V1.3. Those items are not represented as passed V1.2 evidence.
+The human validation and verification assigned to V1.4.1—including subjective optical/polish review, manual assistive-technology validation, physical-device/native-platform qualification, representative real-device performance validation, and qualitative interaction/visual assessment—are accepted for the supported shared design-system claim through the governed V1.4.1 evidence and continuity protocol. Historical outcomes remain bound to their actual reviewed revisions; missing provenance is not fabricated.
 
-No downstream GoreeCloud application becomes V1.2-conformant or production-eligible automatically. Each consumer must explicitly target 1.2.0 and satisfy its own exact-revision acceptance boundary.
+No downstream GoreeCloud application becomes V1.4.1-conformant or production-eligible automatically. Each consumer must explicitly target the current Stable release and satisfy its own repository-local exact-revision acceptance boundary for supported platforms.

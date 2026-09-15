@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "updated": "2026-09-13",
+  "updated": "2026-09-14",
   "officialProductLabel": "GLAZE UI V1.4 — Optical Intelligence",
-  "currentOfficial": "1.4.0",
-  "currentStable": "1.4.0",
+  "currentOfficial": "1.4.1",
+  "currentStable": "1.4.1",
   "activeCandidate": null,
-  "plannedNext": "1.4.1-candidate",
+  "plannedNext": null,
   "activePatchReleaseCandidate": null,
   "resetState": "stable",
   "releases": [
@@ -69,7 +69,7 @@
       "reference": "reference/v1.3/signature-components-and-compositions.html",
       "sourceIntegrationAnchor": "fc7cc91d2eace8da2371371c2855c24cbcb326a1",
       "deferredFollowUp": "GLAZE_UI_V1_3_1_HARDENING.md",
-      "note": "Prior Official Stable release retained as the direct rollback baseline for V1.4.0."
+      "note": "Prior Official Stable release retained as historical rollback provenance."
     },
     {
       "version": "1.4.0",
@@ -85,14 +85,29 @@
       "opticalEngine": "js/glaze-v1.4-optical-engine.mjs",
       "sourceIntegrationAnchor": "a20374734dae6a119b28448f5e6b3232253b6da7",
       "deferredFollowUp": "GLAZE_UI_V1_4_1_HARDENING.md",
-      "note": "Current Official Stable and consumer-eligible shared design-system release by owner direction dated 2026-09-13. Human/manual/physical-device/subjective optical qualification is transferred to V1.4.1 and is not represented as passed V1.4.0 evidence."
+      "note": "Immediately preceding known-good Stable rollback baseline for V1.4.1. Its deferred human/manual/physical qualification was completed in the separately governed V1.4.1 patch track and is not rewritten as V1.4.0 evidence."
+    },
+    {
+      "version": "1.4.1",
+      "label": "GLAZE UI V1.4 — Optical Intelligence",
+      "status": "stable",
+      "consumerEligible": true,
+      "stableBaseline": "1.4.0",
+      "contract": "GLAZE_UI_V1_4_1.md",
+      "qualification": "GLAZE_UI_V1_4_1_HARDENING.md",
+      "acceptance": "acceptance/v1.4.1-stable.md",
+      "webEntrypoint": "css/glaze-v1.4.1.css",
+      "runtimeEntrypoint": "js/glaze-v1.4.1.mjs",
+      "opticalEngine": "js/glaze-v1.4.1-optical-engine.mjs",
+      "sourceQualificationAnchor": "66478aed461b83c49b2ed027c3e4afc26520e98c",
+      "note": "Current Official Stable and consumer-eligible V1.4 patch release. Human/manual/physical-device qualification is accepted through the governed V1.4.1 evidence protocol and exact-revision continuity mechanism; missing historical provenance is preserved as explicit gaps rather than fabricated."
     }
   ],
   "capabilities": {
     "system-shell": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/system-shell.candidate.json"},
     "component-catalog": {"status":"stable-inherited","since":"1.0.0","implementation":"contracts/components/v1/catalog.json"},
-    "web-entrypoint": {"status":"stable","since":"1.4.0","implementation":"css/glaze-v1.4.0.css"},
-    "runtime-entrypoint": {"status":"stable","since":"1.4.0","implementation":"js/glaze-v1.4.0.mjs"},
+    "web-entrypoint": {"status":"stable","since":"1.4.1","implementation":"css/glaze-v1.4.1.css"},
+    "runtime-entrypoint": {"status":"stable","since":"1.4.1","implementation":"js/glaze-v1.4.1.mjs"},
     "adaptive-dynamic-color": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/dynamic-color.candidate.json","runtime":"js/glaze-v1.3-dynamic-color.candidate.mjs"},
     "expressive-shape": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/expressive-shape.candidate.json","runtime":"js/glaze-v1.3-shape.candidate.mjs"},
     "responsive-typography": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/typography.candidate.json","runtime":"js/glaze-v1.3-typography.candidate.mjs"},
@@ -102,19 +117,20 @@
     "multi-pane": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/multi-pane.candidate.json","runtime":"js/glaze-v1.3-multi-pane.candidate.mjs"},
     "contextual-intelligence": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/contextual-intelligence.candidate.json","runtime":"js/glaze-v1.3-contextual-intelligence.candidate.mjs"},
     "motion-continuity": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/motion-semantics.candidate.json","runtime":"js/glaze-v1.3-motion.candidate.mjs"},
-    "accessibility-resilience": {"status":"stable-bounded","since":"1.4.0","implementation":"js/glaze-v1.4-optical-engine.mjs","note":"Machine-verifiable optical accessibility fallback is Stable. Manual assistive-technology qualification is assigned to V1.4.1."},
+    "accessibility-resilience": {"status":"stable","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs","note":"V1.4.1 retains machine-verifiable fallbacks and the governed human accessibility/assistive-technology qualification for the supported shared claim."},
     "personalization": {"status":"stable-inherited-bounded","since":"1.3.0","implementation":"contracts/v1.3/personalization.candidate.json","runtime":"js/glaze-v1.3-personalization.candidate.mjs"},
     "signature-components": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/component-experience.candidate.json","runtime":"js/glaze-v1.3-component-experience.candidate.mjs","reference":"reference/v1.3/signature-components-and-compositions.html"},
-    "glaze-optical-engine": {"status":"stable","since":"1.4.0","implementation":"js/glaze-v1.4-optical-engine.mjs","telemetryRequired":false,"remoteContextRequired":false},
-    "content-aware-frost": {"status":"stable-bounded","since":"1.4.0","implementation":"js/glaze-v1.4-optical-engine.mjs"},
-    "semantic-blur-protection": {"status":"stable-bounded","since":"1.4.0","implementation":"js/glaze-v1.4-optical-engine.mjs"},
-    "environment-tinting": {"status":"stable-bounded","since":"1.4.0","implementation":"js/glaze-v1.4-optical-engine.mjs","note":"Consumer supplies approved context signals; Glaze UI grants no data-collection authority."},
-    "chromatic-depth-layers": {"status":"stable-bounded","since":"1.4.0","implementation":"js/glaze-v1.4-optical-engine.mjs"},
-    "environmental-color-memory": {"status":"stable-bounded","since":"1.4.0","implementation":"js/glaze-v1.4-optical-engine.mjs","maxInfluence":0.08},
-    "performance-budget": {"status":"stable-inherited-bounded","since":"1.0.0","implementation":"contracts/performance/glaze-v1-performance-budget.json","note":"Representative physical-device V1.4 optical performance qualification is V1.4.1 follow-up."},
-    "visual-regression": {"status":"stable-bounded","since":"1.4.0","implementation":"css/glaze-v1.4.0.css","note":"Machine-verifiable contract and fallback behavior is Stable; human optical validation is V1.4.1 follow-up."},
+    "glaze-optical-engine": {"status":"stable","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs","telemetryRequired":false,"remoteContextRequired":false},
+    "content-aware-frost": {"status":"stable","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs"},
+    "semantic-blur-protection": {"status":"stable","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs"},
+    "environment-tinting": {"status":"stable","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs","note":"Consumer supplies approved context signals; Glaze UI grants no data-collection authority."},
+    "chromatic-depth-layers": {"status":"stable","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs"},
+    "environmental-color-memory": {"status":"stable","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs","maxInfluence":0.08},
+    "performance-budget": {"status":"stable","since":"1.4.1","implementation":"contracts/performance/glaze-v1-performance-budget.json","note":"Representative real-device performance, smoothness, degradation, and thermal/power qualification are accepted within the governed V1.4.1 evidence boundary."},
+    "visual-regression": {"status":"stable","since":"1.4.1","implementation":"css/glaze-v1.4.1.css","note":"V1.4.1 combines machine-verifiable fallback contracts with completed governed human optical/polish validation."},
     "native-reference": {"status":"bounded-release-evidence","since":"1.3.0","implementation":"reference/v1.3"},
     "v1.3-migration-control-plane": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/migration.candidate.json","plan":"MIGRATION_V1_2_TO_V1_3.md","acceptance":"acceptance/v1.3-stable.md"},
-    "v1.4-release-control-plane": {"status":"stable","since":"1.4.0","contract":"GLAZE_UI_V1_4.md","migration":"MIGRATION_V1_3_TO_V1_4.md","acceptance":"acceptance/v1.4-stable.md","verification":"scripts/verify_glaze_v1_4_stable.mjs","followUp":"GLAZE_UI_V1_4_1_HARDENING.md"}
+    "v1.4-release-control-plane": {"status":"stable-inherited","since":"1.4.0","contract":"GLAZE_UI_V1_4.md","migration":"MIGRATION_V1_3_TO_V1_4.md","acceptance":"acceptance/v1.4-stable.md","verification":"scripts/verify_glaze_v1_4_stable.mjs","followUp":"GLAZE_UI_V1_4_1_HARDENING.md"},
+    "v1.4.1-release-control-plane": {"status":"stable","since":"1.4.1","contract":"GLAZE_UI_V1_4_1.md","qualification":"GLAZE_UI_V1_4_1_HARDENING.md","acceptance":"acceptance/v1.4.1-stable.md","verification":"scripts/verify_glaze_v1_4_1_stable.mjs","humanEvidenceVerification":"scripts/verify_glaze_v1_4_1_human_validation.mjs","sourceQualificationAnchor":"66478aed461b83c49b2ed027c3e4afc26520e98c"}
   }
 }
