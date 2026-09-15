@@ -12,7 +12,10 @@ export const glazeV15Development = Object.freeze({
   authorityBoundary: 'presentation-only',
   providerAuthorityOwnershipEnforced: true,
   providerPrecedenceInferred: false,
+  accessibilityHasPresentationPrecedence: true,
+  runtimePressureMayReducePresentationCost: true,
+  runtimePressureMayModifyCapabilityTruth: false,
   navigationContinuityRequired: true,
-  developmentConformanceScenarios: 33,
+  developmentConformanceScenarios: 39,
   stablePromotionAutomatic: false
 });
