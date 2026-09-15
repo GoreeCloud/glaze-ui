@@ -17,6 +17,31 @@ const PROVIDER_AUTHORITIES = new Set([
   'unknown'
 ]);
 
+const CONTEXT_AUTHORITY_RULES = Object.freeze({
+  layout: Object.freeze(['application', 'platform', 'runtime']),
+  'device-posture': Object.freeze(['platform', 'runtime']),
+  input: Object.freeze(['platform', 'runtime', 'accessibility']),
+  interaction: Object.freeze(['application', 'runtime', 'accessibility']),
+  task: Object.freeze(['application']),
+  content: Object.freeze(['application']),
+  environment: Object.freeze(['platform', 'runtime', 'accessibility']),
+  accessibility: Object.freeze(['accessibility', 'platform', 'application']),
+  runtime: Object.freeze(['runtime', 'platform']),
+  connectivity: Object.freeze(['platform', 'runtime']),
+  'window-state': Object.freeze(['platform', 'runtime', 'application'])
+});
+
+const CAPABILITY_AUTHORITY_RULES = Object.freeze({
+  rendering: Object.freeze(['runtime', 'platform', 'accessibility']),
+  platform: Object.freeze(['platform', 'runtime']),
+  device: Object.freeze(['platform', 'runtime']),
+  application: Object.freeze(['application']),
+  service: Object.freeze(['service']),
+  authorization: Object.freeze(['policy', 'identity', 'platform', 'application', 'security']),
+  connectivity: Object.freeze(['platform', 'runtime', 'service']),
+  intelligence: Object.freeze(['application', 'service', 'runtime'])
+});
+
 function plainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value) && Object.getPrototypeOf(value) === Object.prototype;
 }
@@ -27,6 +52,20 @@ function requiredString(value, label) {
   return result;
 }
 
+function assertContextAuthority(authority, domain, providerId) {
+  const allowed = CONTEXT_AUTHORITY_RULES[domain] || [];
+  if (!allowed.includes(authority)) {
+    throw new RangeError(`Provider ${providerId} with authority ${authority} cannot own context domain ${domain}`);
+  }
+}
+
+function assertCapabilityAuthority(authority, domain, providerId) {
+  const allowed = CAPABILITY_AUTHORITY_RULES[domain] || [];
+  if (!allowed.includes(authority)) {
+    throw new RangeError(`Provider ${providerId} with authority ${authority} cannot own capability domain ${domain}`);
+  }
+}
+
 function normalizeProvider(provider, index) {
   if (!plainObject(provider)) throw new TypeError(`Provider at index ${index} must be a plain object`);
   const id = requiredString(provider.id, `Provider id at index ${index}`);
@@ -35,6 +74,8 @@ function normalizeProvider(provider, index) {
   const scope = String(provider.scope ?? 'current-runtime').trim() || 'current-runtime';
   const context = normalizeGlazeContext(provider.context || {});
   const capabilities = [];
+
+  for (const domain of context.availableDomains) assertContextAuthority(authority, domain, id);
 
   if (provider.capabilities != null && !Array.isArray(provider.capabilities)) {
     throw new TypeError(`Capabilities for provider ${id} must be an array`);
@@ -48,7 +89,7 @@ function normalizeProvider(provider, index) {
     if (declaredProvider !== id || declaredAuthority !== authority) {
       throw new RangeError(`Capability provenance cannot impersonate another provider or authority: ${candidate.id ?? '(unknown id)'}`);
     }
-    capabilities.push(normalizeGlazeCapability({
+    const normalizedCapability = normalizeGlazeCapability({
       ...candidate,
       provenance: {
         provider: id,
@@ -56,7 +97,9 @@ function normalizeProvider(provider, index) {
         scope: declaredProvenance.scope ?? scope,
         observedAt: declaredProvenance.observedAt ?? null
       }
-    }));
+    });
+    assertCapabilityAuthority(authority, normalizedCapability.domain, id);
+    capabilities.push(normalizedCapability);
   }
 
   return Object.freeze({
@@ -123,6 +166,7 @@ export function createGlazeProviderSnapshot(providers = []) {
       capabilityIds: Object.freeze([...capabilityConflicts].sort())
     }),
     conflictPolicy: 'fail-closed-by-omission',
+    authorityOwnershipEnforced: true,
     authorizationInferred: false,
     providerPrecedenceInferred: false,
     remoteAnalysisRequired: false,
@@ -145,6 +189,7 @@ export function providerSnapshotSummary(snapshot) {
       contextDomains: snapshot.conflicts?.contextDomains?.length || 0,
       capabilityIds: snapshot.conflicts?.capabilityIds?.length || 0
     }),
+    authorityOwnershipEnforced: Boolean(snapshot.authorityOwnershipEnforced),
     providerIdsIncluded: false,
     rawContextIncluded: false,
     telemetryRequired: false
@@ -157,6 +202,8 @@ export const glazeProviderDevelopmentContract = Object.freeze({
   duplicateContextPolicy: 'fail-closed-by-omission',
   duplicateCapabilityPolicy: 'fail-closed-by-omission',
   provenanceImpersonationAllowed: false,
+  authorityOwnershipEnforced: true,
+  unknownAuthorityMayOwnSemanticTruth: false,
   providerPrecedenceInferred: false,
   authorizationInferred: false,
   remoteAnalysisRequired: false,
