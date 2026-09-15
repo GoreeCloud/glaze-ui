@@ -8,8 +8,8 @@ This directory contains the deterministic review surface for real V1.4.1 human o
 
 The harness uses only repository-local resources:
 
-- `css/glaze-v1.4.0.css` — current Stable visual baseline.
-- `js/glaze-v1.4.1.candidate.mjs` — additive V1.4.1 Candidate runtime under review.
+- `css/glaze-v1.4.0.css` — retained V1.4.0 visual baseline used by the historical V1.4.1 review surface.
+- `js/glaze-v1.4.1.candidate.mjs` — additive V1.4.1 Candidate runtime reviewed during qualification.
 
 It performs no telemetry, analytics, camera access, remote context lookup, or external asset loading.
 
@@ -43,7 +43,7 @@ The first review surface supports human observation of:
 - Visual balance.
 - GoreeCloud identity recognition.
 
-Every result remains pending until a named human reviewer records a finding separately under the V1.4.1 human-validation evidence protocol.
+Every result remains governed by the separate V1.4.1 human-validation evidence protocol; this harness itself never manufactures acceptance.
 
 ## Form-factor simulations
 
@@ -65,4 +65,4 @@ Do not convert this page, screenshots, or a planning packet directly into an acc
 6. Author those observations in the separate `glaze-v1.4.1-human-validation` record format.
 7. Leave anything not actually reviewed as `pending`.
 
-If implementation changes after review, promotion-critical findings must be repeated on the final frozen release-candidate revision.
+If implementation changes after review, promotion-critical findings may only carry forward through the governed continuity mechanism when source-impact analysis proves the applicable reviewed behavior unaffected; otherwise affected evidence must be repeated.
