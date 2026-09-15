@@ -54,10 +54,21 @@ async function main() {
   const lifecycle = await json('registry/lifecycle.json');
   const contract = await json('contracts/v1.4.1/optical-runtime-hardening.contract.json');
 
-  assert.equal(lifecycle.currentStable, '1.4.0');
-  assert.equal(lifecycle.currentOfficial, '1.4.0');
-  assert.equal(lifecycle.plannedNext, '1.4.1-candidate');
-  assert.equal(lifecycle.activeCandidate, null);
+  if (lifecycle.currentStable === '1.4.1') {
+    assert.equal(lifecycle.currentOfficial, '1.4.1');
+    assert.equal(lifecycle.plannedNext, null);
+    assert.equal(lifecycle.activeCandidate, null);
+    assert.equal(lifecycle.activePatchReleaseCandidate, null);
+    const promoted = lifecycle.releases.find(item => item.version === '1.4.1');
+    assert.ok(promoted, 'Stable lifecycle must contain the 1.4.1 release record');
+    assert.equal(promoted.status, 'stable');
+    assert.equal(promoted.stableBaseline, '1.4.0');
+  } else {
+    assert.equal(lifecycle.currentStable, '1.4.0');
+    assert.equal(lifecycle.currentOfficial, '1.4.0');
+    assert.equal(lifecycle.plannedNext, '1.4.1-candidate');
+    assert.equal(lifecycle.activeCandidate, null);
+  }
 
   assert.equal(glazeOpticalEngineV14.version, '1.4.0');
   assert.equal(glazeOpticalEngineV14.lifecycle, 'stable');
