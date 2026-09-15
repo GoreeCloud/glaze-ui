@@ -33,6 +33,16 @@ function semanticValue(domain, keys, fallback = null) {
   return fallback;
 }
 
+function semanticBoolean(domain, keys) {
+  if (!plainObject(domain)) return false;
+  for (const key of keys) {
+    const value = domain[key];
+    if (value === true || value === 1 || value === '1') return true;
+    if (typeof value === 'string' && ['true', 'yes', 'enabled', 'on'].includes(value.trim().toLowerCase())) return true;
+  }
+  return false;
+}
+
 export function resolveGlazeComposition(options = {}) {
   if (!plainObject(options)) throw new TypeError('Composition options must be a plain object');
   const context = normalizeContextInput(options.context || {});
@@ -42,22 +52,44 @@ export function resolveGlazeComposition(options = {}) {
   const input = context.domains.input || {};
   const task = context.domains.task || {};
   const content = context.domains.content || {};
+  const accessibility = context.domains.accessibility || {};
+  const runtime = context.domains.runtime || {};
+  const connectivity = context.domains.connectivity || {};
+  const windowState = context.domains['window-state'] || {};
 
   const layoutClass = semanticValue(layout, ['category', 'sizeClass', 'density'], 'medium');
   const postureClass = semanticValue(posture, ['posture', 'mode'], 'unknown');
   const primaryInput = semanticValue(input, ['primary', 'method'], 'unknown');
   const taskKind = semanticValue(task, ['kind', 'mode'], 'unknown');
   const contentKind = semanticValue(content, ['kind', 'density'], 'unknown');
+  const performanceClass = semanticValue(runtime, ['performanceLevel', 'performance', 'tier'], 'normal');
+  const pressureClass = semanticValue(runtime, ['resourcePressure', 'pressure'], 'normal');
+  const connectivityClass = semanticValue(connectivity, ['class', 'state'], 'unknown');
+  const windowClass = semanticValue(windowState, ['state', 'mode'], 'foreground');
   const supportsMultiPane = Boolean(intent.supportsMultiPane);
+
+  const reducedMotion = semanticBoolean(accessibility, ['reducedMotion']);
+  const reducedTransparency = semanticBoolean(accessibility, ['reducedTransparency']);
+  const increasedContrast = semanticBoolean(accessibility, ['increasedContrast']);
+  const forcedColors = semanticBoolean(accessibility, ['forcedColors']);
+  const largeText = semanticBoolean(accessibility, ['largeText']);
+  const touchAssistance = semanticBoolean(accessibility, ['touchAssistance']);
+  const constrainedRuntime = ['low', 'minimal', 'constrained', 'durable'].includes(performanceClass)
+    || ['high', 'critical', 'severe'].includes(pressureClass);
+  const constrainedConnectivity = ['offline', 'constrained', 'reconnecting'].includes(connectivityClass);
+  const constrainedWindow = ['picture-in-picture', 'pip', 'background'].includes(windowClass);
 
   let paneMode = 'single-pane';
   const reasonCodes = [];
-  if (supportsMultiPane && ['expanded', 'multi-pane', 'unfolded'].includes(layoutClass)) {
+  if (!constrainedWindow && supportsMultiPane && ['expanded', 'multi-pane', 'unfolded'].includes(layoutClass)) {
     paneMode = 'multi-pane';
     reasonCodes.push('expanded-layout-multi-pane');
-  } else if (supportsMultiPane && ['unfolded', 'book-style'].includes(postureClass)) {
+  } else if (!constrainedWindow && supportsMultiPane && ['unfolded', 'book-style'].includes(postureClass)) {
     paneMode = 'multi-pane';
     reasonCodes.push('posture-multi-pane');
+  } else if (constrainedWindow) {
+    paneMode = 'single-pane';
+    reasonCodes.push('window-state-single-pane-continuity');
   } else if (['compact', 'folded'].includes(layoutClass) || postureClass === 'folded') {
     paneMode = 'single-pane';
     reasonCodes.push('compact-continuity');
@@ -99,6 +131,32 @@ export function resolveGlazeComposition(options = {}) {
     reasonCodes.push('media-atmosphere');
   }
 
+  // Runtime constraints may reduce presentation cost, but never manufacture capability state.
+  if (constrainedRuntime) {
+    materialPreference = 'durable';
+    motionPreference = 'reduced';
+    reasonCodes.push('runtime-pressure-durable-presentation');
+  }
+
+  // Accessibility has final presentation precedence over device/input richness.
+  if (reducedMotion) {
+    motionPreference = 'reduced';
+    reasonCodes.push('reduced-motion-authority');
+  }
+  if (reducedTransparency || increasedContrast || forcedColors) {
+    materialPreference = 'high-clarity';
+    labelMode = 'explicit';
+    reasonCodes.push('accessibility-clarity-authority');
+  }
+  if (largeText || touchAssistance) {
+    controlDensity = 'spacious';
+    labelMode = 'explicit';
+    reasonCodes.push(largeText ? 'large-text-spacing-authority' : 'touch-assistance-spacing-authority');
+    if (largeText && touchAssistance) reasonCodes.push('touch-assistance-spacing-authority');
+  }
+
+  if (constrainedConnectivity) reasonCodes.push(`connectivity-${connectivityClass}-preserve-composition`);
+
   return Object.freeze({
     version: '1.5.0-dev.1',
     lifecycle: 'development',
@@ -109,11 +167,16 @@ export function resolveGlazeComposition(options = {}) {
     materialPreference,
     motionPreference,
     labelMode,
+    runtimeCostProfile: constrainedRuntime ? 'reduced' : 'normal',
+    connectivityPresentation: constrainedConnectivity ? connectivityClass : 'normal',
+    windowPresentation: constrainedWindow ? 'constrained' : 'normal',
+    accessibilityPriorityApplied: Boolean(reducedMotion || reducedTransparency || increasedContrast || forcedColors || largeText || touchAssistance),
     actionOrderingPolicy: 'preserve-author-order',
     navigationContinuityPolicy: 'preserve-destination-identity',
     pageReloadRequired: false,
     taskStateReset: false,
     automaticNavigationAllowed: false,
+    capabilityTruthModified: false,
     reasonCodes: Object.freeze(reasonCodes)
   });
 }
@@ -212,6 +275,11 @@ export const glazeCompositionDevelopmentContract = Object.freeze({
   lifecycle: 'development',
   semanticContextOnly: true,
   rawDimensionInferenceRequired: false,
+  accessibilityHasPresentationPrecedence: true,
+  runtimePressureMayReducePresentationCost: true,
+  runtimePressureMayModifyCapabilityTruth: false,
+  connectivityChangesPreserveCompositionContinuity: true,
+  constrainedWindowPreservesTaskState: true,
   primaryActionReorderingAutomatic: false,
   navigationContinuityRequired: true,
   taskStateResetOnCapabilityChange: false,
