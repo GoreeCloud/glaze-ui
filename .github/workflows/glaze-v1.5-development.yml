@@ -8,6 +8,7 @@ on:
       - 'conformance/v1.5-*.json'
       - 'registry/development/glaze-v1.5.0-dev.1.json'
       - 'js/glaze-v1.5*.mjs'
+      - 'scripts/generate_glaze_v1_5_stabilization_review_packet.mjs'
       - 'scripts/verify_glaze_v1_5_*development.mjs'
       - '.github/workflows/glaze-v1.5-development.yml'
 
@@ -82,6 +83,11 @@ jobs:
 
       - name: Verify V1.5 representative GoreeCloud consumer integration profiles
         run: node scripts/verify_glaze_v1_5_consumer_integration_development.mjs
+
+      - name: Verify V1.5 stabilization review planning boundary
+        run: |
+          node scripts/verify_glaze_v1_5_stabilization_review_development.mjs
+          node scripts/generate_glaze_v1_5_stabilization_review_packet.mjs --self-test
 
       - name: Verify validation did not mutate tracked source
         run: git diff --exit-code -- .
