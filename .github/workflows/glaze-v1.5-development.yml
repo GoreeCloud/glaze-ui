@@ -5,6 +5,7 @@ on:
     paths:
       - 'GLAZE_UI_V1_5_DEVELOPMENT.md'
       - 'contracts/v1.5/**'
+      - 'conformance/v1.5-*.json'
       - 'registry/development/glaze-v1.5.0-dev.1.json'
       - 'js/glaze-v1.5*.mjs'
       - 'scripts/verify_glaze_v1_5_development.mjs'
@@ -67,7 +68,7 @@ jobs:
             test "$(git rev-parse "${STABLE_BASELINE_SHA}:${path}")" = "$(git rev-parse "HEAD:${path}")"
           done
 
-      - name: Verify V1.5 development contracts and negative paths
+      - name: Verify V1.5 development contracts and conformance matrix
         run: node scripts/verify_glaze_v1_5_development.mjs
 
       - name: Verify validation did not mutate tracked source
