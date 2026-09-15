@@ -37,8 +37,11 @@ The current `1.5.0-dev.1` source introduces:
 - runtime-pressure cost reduction that selects durable presentation without modifying capability truth;
 - connectivity and constrained-window continuity behavior that avoids task-state resets and page reloads during offline/reconnecting or picture-in-picture/background-like transitions;
 - capability-aware navigation that can omit truly unsupported destinations while preserving restricted/offline destinations and broader task continuity;
-- capability-aware control presentation with explicit unavailable/degraded states and user-initiated recovery semantics; and
-- a 39-scenario Development conformance matrix spanning capability states, provider conflicts, authority ownership, composition, navigation, accessibility, runtime pressure, connectivity/window continuity, privacy, anti-jitter, runtime downgrade, input transitions, and fold/posture transitions.
+- capability-aware control presentation with explicit unavailable/degraded states and user-initiated recovery semantics;
+- predictable adaptive action prioritization that preserves primary-action order while allowing bounded context relevance to reorder only non-primary actions;
+- privacy-safe unavailable/degraded explanations plus user-initiated recovery metadata;
+- explicit application-authored fallback suggestions that preserve supported local/core workflows without automatic fallback execution; and
+- 39 core Development conformance scenarios plus 8 action/degradation scenarios, for 47 machine-covered Development scenarios total.
 
 ## Provider authority boundary
 
@@ -54,7 +57,15 @@ Composition consumes semantic context rather than inferring sensitive meaning fr
 
 Accessibility has final presentation precedence over richer device/input choices: Large Text or Touch Assistance prevents dense control presentation, Reduced Motion suppresses motion preference, and clarity-oriented accessibility states force high-clarity material and explicit labeling. Runtime pressure may lower presentation cost to a durable mode but cannot change the truth of a capability. Connectivity loss or reconnection does not itself collapse an otherwise valid composition, and constrained window modes may reduce to single-pane without resetting the user’s task.
 
-Primary action ordering remains author-defined. Navigation does not automatically execute a destination. When a selected destination becomes truly unsupported and is governed to be omitted, the resolver may select an explicit or deterministic visible fallback while preserving task state and reporting the continuity transition. Restricted, offline, degraded, permission-gated, and temporarily unavailable destinations remain semantically representable instead of being silently treated as nonexistent.
+Primary navigation identity and task continuity remain stable. When a selected destination becomes truly unsupported and is governed to be omitted, the resolver may select an explicit or deterministic visible fallback while preserving task state and reporting the continuity transition. Restricted, offline, degraded, permission-gated, and temporarily unavailable destinations remain semantically representable instead of being silently treated as nonexistent.
+
+## Adaptive actions and graceful degradation boundary
+
+Adaptive action prioritization is bounded and predictable. Primary actions remain in author-defined order even when capability state changes. Context relevance may reorder only non-primary actions, and ties preserve author order. Glaze does not automatically execute a newly prominent action merely because it became more relevant.
+
+Unavailable, restricted, offline, permission-required, unsupported, unknown, and degraded states receive semantic presentation state and an explanation without exposing provider identities or raw context. Applications may supply bounded state-specific user-facing explanation text and recovery metadata. Recovery is always user initiated; Glaze does not automatically request permission or perform consequential actions.
+
+Fallbacks are explicit application intent rather than inferred behavior. If an unavailable action names a fallback action and that fallback is currently visible and invocable, Glaze may suggest it while preserving the original action state. The fallback is never executed automatically. This allows supported local/core workflows to remain available when cloud, network, device, or service capabilities degrade without pretending the unavailable capability succeeded.
 
 ## Compatibility boundary
 
@@ -64,10 +75,10 @@ Consumers must not switch their current Stable conformance target from `1.4.1` t
 
 ## Privacy boundary
 
-Ordinary adaptation is local-first, bounded, ephemeral by default, and does not require telemetry or remote analysis. The context normalizer rejects obviously sensitive/raw context field families such as credentials, tokens, clipboard data, raw content/activity, precise location, and biometric values. This is a source-level guardrail, not a substitute for Privacy Shield authorization at consumer/provider boundaries.
+Ordinary adaptation is local-first, bounded, ephemeral by default, and does not require telemetry or remote analysis. The context normalizer rejects obviously sensitive/raw context field families such as credentials, tokens, clipboard data, raw content/activity, precise location, and biometric values. Action summaries expose semantic states and reason codes rather than raw provider identities or context values. This is a source-level guardrail, not a substitute for Privacy Shield authorization at consumer/provider boundaries.
 
 ## Current acceptance state
 
-This development revision is eligible only for machine development validation. The conformance matrix is a Development gate and explicitly does **not** establish human acceptance, target-device/runtime acceptance, consumer conformance, Release Candidate status, Stable status, deployment, or production acceptance.
+This development revision is eligible only for machine development validation. The conformance matrices are Development gates and explicitly do **not** establish human acceptance, target-device/runtime acceptance, consumer conformance, Release Candidate status, Stable status, deployment, or production acceptance.
 
-Before Release Candidate/Stable qualification, the same matrix items marked for external acceptance still require exact-revision human usability, accessibility/assistive-technology, representative target-device/runtime, privacy, anti-jitter/performance, and platform/posture/input/window validation. Consumer-specific composition/navigation integration also remains separate from the shared design-system machine gate.
+Before Release Candidate/Stable qualification, the same matrix items marked for external acceptance still require exact-revision human usability, accessibility/assistive-technology, representative target-device/runtime, privacy, anti-jitter/performance, and platform/posture/input/window validation. Consumer-specific composition/navigation/action integration also remains separate from the shared design-system machine gate.

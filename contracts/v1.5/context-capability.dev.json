@@ -67,6 +67,19 @@
     "accessibilityOverridesDecorativeOptics": true,
     "unknownFailsClosed": true
   },
+  "actionResolution": {
+    "runtime": "js/glaze-v1.5-actions.dev.mjs",
+    "primaryActionOrderStable": true,
+    "contextualReorderingLimitedToNonPrimaryActions": true,
+    "unavailableStateExplanationSupported": true,
+    "degradedStateExplanationSupported": true,
+    "explicitFallbackRequired": true,
+    "fallbackExecutionAutomatic": false,
+    "permissionRequestAutomatic": false,
+    "consequentialExecutionAutomatic": false,
+    "providerIdentityIncludedInUserExplanation": false,
+    "rawContextIncludedInUserExplanation": false
+  },
   "compatibility": {
     "inheritsStableRuntime": "1.4.1",
     "v141OpticalCapabilityBridge": true,
@@ -75,6 +88,12 @@
   },
   "acceptance": {
     "machineDevelopmentGate": "scripts/verify_glaze_v1_5_development.mjs",
+    "machineDevelopmentGates": [
+      "scripts/verify_glaze_v1_5_development.mjs",
+      "scripts/verify_glaze_v1_5_actions_development.mjs"
+    ],
+    "coreConformanceMatrix": "conformance/v1.5-development-matrix.json",
+    "actionConformanceMatrix": "conformance/v1.5-action-development-matrix.json",
     "humanAcceptanceEstablished": false,
     "targetRuntimeAcceptanceEstablished": false,
     "releaseCandidateAccepted": false,

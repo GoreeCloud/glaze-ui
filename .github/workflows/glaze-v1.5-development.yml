@@ -8,7 +8,7 @@ on:
       - 'conformance/v1.5-*.json'
       - 'registry/development/glaze-v1.5.0-dev.1.json'
       - 'js/glaze-v1.5*.mjs'
-      - 'scripts/verify_glaze_v1_5_development.mjs'
+      - 'scripts/verify_glaze_v1_5_*development.mjs'
       - '.github/workflows/glaze-v1.5-development.yml'
 
 permissions:
@@ -68,8 +68,11 @@ jobs:
             test "$(git rev-parse "${STABLE_BASELINE_SHA}:${path}")" = "$(git rev-parse "HEAD:${path}")"
           done
 
-      - name: Verify V1.5 development contracts and conformance matrix
+      - name: Verify V1.5 development contracts and core conformance matrix
         run: node scripts/verify_glaze_v1_5_development.mjs
+
+      - name: Verify V1.5 adaptive actions and graceful degradation
+        run: node scripts/verify_glaze_v1_5_actions_development.mjs
 
       - name: Verify validation did not mutate tracked source
         run: git diff --exit-code -- .
