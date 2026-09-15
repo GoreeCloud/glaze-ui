@@ -11,30 +11,18 @@ function json(path) {
   return JSON.parse(read(path));
 }
 
-const VERSION = '1.4.0';
-
-assert.equal(read('VERSION').trim(), VERSION, 'VERSION must be 1.4.0');
+const RETAINED_VERSION = '1.4.0';
 
 const lifecycle = json('registry/lifecycle.json');
-assert.equal(lifecycle.currentOfficial, VERSION, 'currentOfficial must be 1.4.0');
-assert.equal(lifecycle.currentStable, VERSION, 'currentStable must be 1.4.0');
-assert.equal(lifecycle.activeCandidate, null, 'Stable release must not leave an active candidate');
-const release = lifecycle.releases.find(item => item.version === VERSION);
-assert.ok(release, 'lifecycle must contain the 1.4.0 release record');
-assert.equal(release.status, 'stable');
-assert.equal(release.consumerEligible, true);
+const release = lifecycle.releases.find(item => item.version === RETAINED_VERSION);
+assert.ok(release, 'lifecycle must retain the 1.4.0 release record');
+assert.equal(release.status, 'stable', 'retained 1.4.0 release must remain Stable');
+assert.equal(release.consumerEligible, true, 'retained 1.4.0 release must remain consumer-eligible historical authority');
 assert.equal(release.webEntrypoint, 'css/glaze-v1.4.0.css');
 assert.equal(release.runtimeEntrypoint, 'js/glaze-v1.4.0.mjs');
 assert.equal(release.deferredFollowUp, 'GLAZE_UI_V1_4_1_HARDENING.md');
 
-const consumers = json('consumers/registry.json');
-assert.equal(consumers.officialBaseline, VERSION);
-assert.equal(consumers.requiredConsumerVersion, VERSION);
-for (const consumer of consumers.consumers) {
-  assert.equal(consumer.requiredTargetVersion, VERSION, `${consumer.name} must require ${VERSION}`);
-}
-
-assert.equal(glazeOpticalEngineV14.version, VERSION);
+assert.equal(glazeOpticalEngineV14.version, RETAINED_VERSION);
 assert.equal(glazeOpticalEngineV14.lifecycle, 'stable');
 assert.equal(glazeOpticalEngineV14.telemetryRequired, false);
 assert.equal(glazeOpticalEngineV14.remoteContextRequired, false);
@@ -115,4 +103,4 @@ assert.match(contract, /human validation and human verification are assigned to 
 assert.match(followUp, /Human Validation & Optical Hardening/);
 assert.match(acceptance, /not represented as passed evidence/i);
 
-console.log('GLAZE UI V1.4.0 Stable verification passed.');
+console.log('GLAZE UI V1.4.0 retained Stable-source verification passed.');
