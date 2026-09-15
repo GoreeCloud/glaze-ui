@@ -8,6 +8,7 @@ on:
       - 'conformance/v1.5-*.json'
       - 'registry/development/glaze-v1.5.0-dev.1.json'
       - 'js/glaze-v1.5*.mjs'
+      - 'reference/v1.5/**'
       - 'scripts/generate_glaze_v1_5_stabilization_review_packet.mjs'
       - 'scripts/verify_glaze_v1_5_*development.mjs'
       - '.github/workflows/glaze-v1.5-development.yml'
@@ -88,6 +89,9 @@ jobs:
         run: |
           node scripts/verify_glaze_v1_5_stabilization_review_development.mjs
           node scripts/generate_glaze_v1_5_stabilization_review_packet.mjs --self-test
+
+      - name: Verify V1.5 human review harness boundary
+        run: node scripts/verify_glaze_v1_5_human_review_harness_development.mjs
 
       - name: Verify validation did not mutate tracked source
         run: git diff --exit-code -- .
