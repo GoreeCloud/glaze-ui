@@ -80,6 +80,21 @@
     "providerIdentityIncludedInUserExplanation": false,
     "rawContextIncludedInUserExplanation": false
   },
+  "diagnostics": {
+    "runtime": "js/glaze-v1.5-diagnostics.dev.mjs",
+    "compositionReasonExplanation": true,
+    "navigationContinuityExplanation": true,
+    "actionStateExplanation": true,
+    "opticalDowngradeExplanation": true,
+    "capabilityAuthorityClassVisible": true,
+    "providerIdentityIncludedByDefault": false,
+    "rawContextIncluded": false,
+    "applicationExplanationTextIncluded": false,
+    "exactObservationTimeIncluded": false,
+    "telemetryRequired": false,
+    "remoteAnalysisRequired": false,
+    "operationalAuthorityGranted": false
+  },
   "compatibility": {
     "inheritsStableRuntime": "1.4.1",
     "v141OpticalCapabilityBridge": true,
@@ -90,10 +105,12 @@
     "machineDevelopmentGate": "scripts/verify_glaze_v1_5_development.mjs",
     "machineDevelopmentGates": [
       "scripts/verify_glaze_v1_5_development.mjs",
-      "scripts/verify_glaze_v1_5_actions_development.mjs"
+      "scripts/verify_glaze_v1_5_actions_development.mjs",
+      "scripts/verify_glaze_v1_5_diagnostics_development.mjs"
     ],
     "coreConformanceMatrix": "conformance/v1.5-development-matrix.json",
     "actionConformanceMatrix": "conformance/v1.5-action-development-matrix.json",
+    "diagnosticsConformanceMatrix": "conformance/v1.5-diagnostics-development-matrix.json",
     "humanAcceptanceEstablished": false,
     "targetRuntimeAcceptanceEstablished": false,
     "releaseCandidateAccepted": false,
