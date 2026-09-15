@@ -48,6 +48,7 @@
     "glazeMayPresentAuthoritativeState": true,
     "glazeMayManufactureAuthorization": false,
     "glazeMayInferPermissionFromMissingData": false,
+    "privacyAuthorityMayProvideAuthorizationTruth": true,
     "requestedCapabilityEqualsAcceptedCapability": false,
     "displayedAffordanceEqualsAuthorization": false
   },
@@ -116,6 +117,18 @@
     "telemetryRequired": false,
     "remoteAnalysisRequired": false
   },
+  "representativeConsumerIntegration": {
+    "profiles": "contracts/v1.5/representative-consumers.dev.json",
+    "matrix": "conformance/v1.5-consumer-integration-development-matrix.json",
+    "verification": "scripts/verify_glaze_v1_5_consumer_integration_development.mjs",
+    "profileCount": 5,
+    "scenarioCount": 14,
+    "stableConsumerTarget": "1.4.1",
+    "changesStableConsumerTarget": false,
+    "repositoryLocalAcceptanceRequired": true,
+    "consumerAcceptanceEstablished": false,
+    "productionAcceptanceEstablished": false
+  },
   "compatibility": {
     "inheritsStableRuntime": "1.4.1",
     "v141OpticalCapabilityBridge": true,
@@ -128,14 +141,17 @@
       "scripts/verify_glaze_v1_5_development.mjs",
       "scripts/verify_glaze_v1_5_actions_development.mjs",
       "scripts/verify_glaze_v1_5_diagnostics_development.mjs",
-      "scripts/verify_glaze_v1_5_resolution_development.mjs"
+      "scripts/verify_glaze_v1_5_resolution_development.mjs",
+      "scripts/verify_glaze_v1_5_consumer_integration_development.mjs"
     ],
     "coreConformanceMatrix": "conformance/v1.5-development-matrix.json",
     "actionConformanceMatrix": "conformance/v1.5-action-development-matrix.json",
     "diagnosticsConformanceMatrix": "conformance/v1.5-diagnostics-development-matrix.json",
     "resolutionConformanceMatrix": "conformance/v1.5-resolution-development-matrix.json",
+    "consumerIntegrationConformanceMatrix": "conformance/v1.5-consumer-integration-development-matrix.json",
     "humanAcceptanceEstablished": false,
     "targetRuntimeAcceptanceEstablished": false,
+    "consumerAcceptanceEstablished": false,
     "releaseCandidateAccepted": false,
     "stableAccepted": false
   }
