@@ -40,8 +40,9 @@ The current `1.5.0-dev.1` source introduces:
 - capability-aware control presentation with explicit unavailable/degraded states and user-initiated recovery semantics;
 - predictable adaptive action prioritization that preserves primary-action order while allowing bounded context relevance to reorder only non-primary actions;
 - privacy-safe unavailable/degraded explanations plus user-initiated recovery metadata;
-- explicit application-authored fallback suggestions that preserve supported local/core workflows without automatic fallback execution; and
-- 39 core Development conformance scenarios plus 8 action/degradation scenarios, for 47 machine-covered Development scenarios total.
+- explicit application-authored fallback suggestions that preserve supported local/core workflows without automatic fallback execution;
+- privacy-safe explainable adaptation diagnostics spanning composition, navigation continuity, action states/fallbacks, optical downgrade reasons, and capability authority class without exposing raw context, provider identity, application explanation text, or exact observation timestamps; and
+- 39 core Development scenarios plus 8 action/degradation scenarios plus 7 diagnostics scenarios, for **54 machine-covered Development scenarios total**.
 
 ## Provider authority boundary
 
@@ -67,6 +68,14 @@ Unavailable, restricted, offline, permission-required, unsupported, unknown, and
 
 Fallbacks are explicit application intent rather than inferred behavior. If an unavailable action names a fallback action and that fallback is currently visible and invocable, Glaze may suggest it while preserving the original action state. The fallback is never executed automatically. This allows supported local/core workflows to remain available when cloud, network, device, or service capabilities degrade without pretending the unavailable capability succeeded.
 
+## Explainable diagnostics boundary
+
+The Development diagnostics layer explains accepted presentation decisions through semantic state rather than raw underlying data. It can expose composition reason codes, navigation continuity changes, omitted or blocked destinations, action states and fallback availability, optical downgrade reasons, and the authority class behind capability provenance.
+
+Diagnostics deliberately omit raw context values, application-provided explanation text, provider identifiers, provenance scope, exact observation timestamps, credentials, and private content. Authority classes may be retained because they explain whether a state came from a platform, application, service, policy, identity, accessibility, or other governed authority category without disclosing implementation identity.
+
+Diagnostics remain presentation-only. They cannot grant permission, authorize an operation, manufacture security/privacy/service state, or trigger recovery. Ordinary diagnostics require neither telemetry nor remote analysis.
+
 ## Compatibility boundary
 
 `1.5.0-dev.1` inherits the `1.4.1` Stable runtime and adds the new development-only context/capability layer. The Stable `1.4.1` implementation, lifecycle, acceptance, and release identity are not modified by this development line.
@@ -75,10 +84,10 @@ Consumers must not switch their current Stable conformance target from `1.4.1` t
 
 ## Privacy boundary
 
-Ordinary adaptation is local-first, bounded, ephemeral by default, and does not require telemetry or remote analysis. The context normalizer rejects obviously sensitive/raw context field families such as credentials, tokens, clipboard data, raw content/activity, precise location, and biometric values. Action summaries expose semantic states and reason codes rather than raw provider identities or context values. This is a source-level guardrail, not a substitute for Privacy Shield authorization at consumer/provider boundaries.
+Ordinary adaptation is local-first, bounded, ephemeral by default, and does not require telemetry or remote analysis. The context normalizer rejects obviously sensitive/raw context field families such as credentials, tokens, clipboard data, raw content/activity, precise location, and biometric values. Action summaries and diagnostics expose semantic states, reason codes, and authority classes rather than raw provider identities or context values. This is a source-level guardrail, not a substitute for Privacy Shield authorization at consumer/provider boundaries.
 
 ## Current acceptance state
 
-This development revision is eligible only for machine development validation. The conformance matrices are Development gates and explicitly do **not** establish human acceptance, target-device/runtime acceptance, consumer conformance, Release Candidate status, Stable status, deployment, or production acceptance.
+This development revision is eligible only for machine development validation. The three conformance matrices currently cover 54 machine scenarios and explicitly do **not** establish human acceptance, target-device/runtime acceptance, consumer conformance, Release Candidate status, Stable status, deployment, or production acceptance.
 
-Before Release Candidate/Stable qualification, the same matrix items marked for external acceptance still require exact-revision human usability, accessibility/assistive-technology, representative target-device/runtime, privacy, anti-jitter/performance, and platform/posture/input/window validation. Consumer-specific composition/navigation/action integration also remains separate from the shared design-system machine gate.
+Before Release Candidate/Stable qualification, the matrix items marked for external acceptance still require exact-revision human usability, accessibility/assistive-technology, representative target-device/runtime, privacy, anti-jitter/performance, and platform/posture/input/window validation. Consumer-specific composition/navigation/action/diagnostics integration also remains separate from the shared design-system machine gate.
