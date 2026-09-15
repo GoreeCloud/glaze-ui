@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {glazeV15Development} from '../js/glaze-v1.5.dev.mjs';
 import {
   GLAZE_CONTEXT_DOMAINS,
   GLAZE_CAPABILITY_DOMAINS,
@@ -30,6 +29,7 @@ import {
 const development = JSON.parse(fs.readFileSync(new URL('../registry/development/glaze-v1.5.0-dev.1.json', import.meta.url), 'utf8'));
 const contract = JSON.parse(fs.readFileSync(new URL('../contracts/v1.5/context-capability.dev.json', import.meta.url), 'utf8'));
 const conformance = JSON.parse(fs.readFileSync(new URL('../conformance/v1.5-development-matrix.json', import.meta.url), 'utf8'));
+const developmentEntrypointSource = fs.readFileSync(new URL('../js/glaze-v1.5.dev.mjs', import.meta.url), 'utf8');
 
 assert.equal(development.version, '1.5.0-dev.1');
 assert.equal(development.lifecycle, 'development');
@@ -44,15 +44,18 @@ assert.equal(contract.version, development.version);
 assert.equal(contract.lifecycle, 'development');
 assert.equal(contract.acceptance.releaseCandidateAccepted, false);
 assert.equal(contract.acceptance.stableAccepted, false);
-assert.equal(glazeV15Development.version, development.version);
-assert.equal(glazeV15Development.lifecycle, 'development');
-assert.equal(glazeV15Development.consumerEligible, false);
-assert.equal(glazeV15Development.providerAuthorityOwnershipEnforced, true);
-assert.equal(glazeV15Development.providerPrecedenceInferred, false);
-assert.equal(glazeV15Development.accessibilityHasPresentationPrecedence, true);
-assert.equal(glazeV15Development.runtimePressureMayReducePresentationCost, true);
-assert.equal(glazeV15Development.runtimePressureMayModifyCapabilityTruth, false);
-assert.equal(glazeV15Development.developmentConformanceScenarios, 39);
+for (const requiredEntrypointFragment of [
+  "version: '1.5.0-dev.1'",
+  "lifecycle: 'development'",
+  'consumerEligible: false',
+  'providerAuthorityOwnershipEnforced: true',
+  'providerPrecedenceInferred: false',
+  'accessibilityHasPresentationPrecedence: true',
+  'runtimePressureMayReducePresentationCost: true',
+  'runtimePressureMayModifyCapabilityTruth: false',
+  'developmentConformanceScenarios: 39',
+  'stablePromotionAutomatic: false'
+]) assert.ok(developmentEntrypointSource.includes(requiredEntrypointFragment), `Missing V1.5 entrypoint contract: ${requiredEntrypointFragment}`);
 assert.equal(glazeContextCapabilityDevelopment.consumerEligible, false);
 assert.equal(glazeContextCapabilityDevelopment.glazeIsAuthorizationAuthority, false);
 assert.equal(glazeProviderDevelopmentContract.providerPrecedenceInferred, false);
@@ -250,30 +253,22 @@ assert.equal(largeTextDesktop.labelMode, 'explicit');
 assert.equal(largeTextDesktop.accessibilityPriorityApplied, true);
 assert.ok(largeTextDesktop.reasonCodes.includes('large-text-spacing-authority'));
 
-const touchAssistance = resolveGlazeComposition({
-  context: {input: {primary: 'touch'}, accessibility: {touchAssistance: true}}
-});
+const touchAssistance = resolveGlazeComposition({context: {input: {primary: 'touch'}, accessibility: {touchAssistance: true}}});
 assert.equal(touchAssistance.controlDensity, 'spacious');
 assert.equal(touchAssistance.labelMode, 'explicit');
 assert.ok(touchAssistance.reasonCodes.includes('touch-assistance-spacing-authority'));
 
-const reducedMotionMedia = resolveGlazeComposition({
-  context: {task: {kind: 'viewing-media'}, accessibility: {reducedMotion: true}}
-});
+const reducedMotionMedia = resolveGlazeComposition({context: {task: {kind: 'viewing-media'}, accessibility: {reducedMotion: true}}});
 assert.equal(reducedMotionMedia.materialPreference, 'atmospheric');
 assert.equal(reducedMotionMedia.motionPreference, 'reduced');
 assert.ok(reducedMotionMedia.reasonCodes.includes('reduced-motion-authority'));
 
-const forcedColorsComposition = resolveGlazeComposition({
-  context: {task: {kind: 'viewing-media'}, accessibility: {forcedColors: true}}
-});
+const forcedColorsComposition = resolveGlazeComposition({context: {task: {kind: 'viewing-media'}, accessibility: {forcedColors: true}}});
 assert.equal(forcedColorsComposition.materialPreference, 'high-clarity');
 assert.equal(forcedColorsComposition.labelMode, 'explicit');
 assert.equal(forcedColorsComposition.accessibilityPriorityApplied, true);
 
-const runtimePressure = resolveGlazeComposition({
-  context: {task: {kind: 'viewing-media'}, runtime: {resourcePressure: 'critical'}}
-});
+const runtimePressure = resolveGlazeComposition({context: {task: {kind: 'viewing-media'}, runtime: {resourcePressure: 'critical'}}});
 assert.equal(runtimePressure.materialPreference, 'durable');
 assert.equal(runtimePressure.motionPreference, 'reduced');
 assert.equal(runtimePressure.runtimeCostProfile, 'reduced');
@@ -331,12 +326,7 @@ const opticalCapabilities = mapV141OpticalCapabilities({capabilities: {backdropB
 assert.equal(opticalCapabilities.find(item => item.id === 'rendering.backdrop-blur').state, 'unsupported');
 assert.equal(opticalCapabilities.find(item => item.id === 'rendering.motion').state, 'available');
 
-const forcedColors = resolveGlazeAdaptation({
-  context: {layout: {density: 'compact'}},
-  accessibility: {forcedColors: true},
-  capabilities: opticalCapabilities,
-  actions: []
-});
+const forcedColors = resolveGlazeAdaptation({context: {layout: {density: 'compact'}}, accessibility: {forcedColors: true}, capabilities: opticalCapabilities, actions: []});
 assert.equal(forcedColors.optical.mode, 'solid-forced-colors');
 assert.equal(forcedColors.optical.motionAllowed, false);
 assert.equal(forcedColors.authorizationInferred, false);
