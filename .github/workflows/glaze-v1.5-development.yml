@@ -77,5 +77,8 @@ jobs:
       - name: Verify V1.5 privacy-safe explainable adaptation diagnostics
         run: node scripts/verify_glaze_v1_5_diagnostics_development.mjs
 
+      - name: Verify V1.5 unified context and capability resolution layer
+        run: node scripts/verify_glaze_v1_5_resolution_development.mjs
+
       - name: Verify validation did not mutate tracked source
         run: git diff --exit-code -- .
