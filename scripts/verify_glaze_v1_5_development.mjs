@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {glazeV15Development} from '../js/glaze-v1.5.dev.mjs';
 import {
   GLAZE_CONTEXT_DOMAINS,
   GLAZE_CAPABILITY_DOMAINS,
@@ -35,10 +36,20 @@ assert.equal(development.lifecycle, 'development');
 assert.equal(development.consumerEligible, false);
 assert.equal(development.stableBaseline, '1.4.1');
 assert.equal(development.stable141Preserved, true);
+assert.equal(development.providerRegistry, 'js/glaze-v1.5-provider-registry.dev.mjs');
+assert.equal(development.composition, 'js/glaze-v1.5-composition.dev.mjs');
+assert.equal(development.conformanceMatrix, 'conformance/v1.5-development-matrix.json');
+assert.equal(development.providerAuthorityOwnershipEnforced, true);
 assert.equal(contract.version, development.version);
 assert.equal(contract.lifecycle, 'development');
 assert.equal(contract.acceptance.releaseCandidateAccepted, false);
 assert.equal(contract.acceptance.stableAccepted, false);
+assert.equal(glazeV15Development.version, development.version);
+assert.equal(glazeV15Development.lifecycle, 'development');
+assert.equal(glazeV15Development.consumerEligible, false);
+assert.equal(glazeV15Development.providerAuthorityOwnershipEnforced, true);
+assert.equal(glazeV15Development.providerPrecedenceInferred, false);
+assert.equal(glazeV15Development.developmentConformanceScenarios, 33);
 assert.equal(glazeContextCapabilityDevelopment.consumerEligible, false);
 assert.equal(glazeContextCapabilityDevelopment.glazeIsAuthorizationAuthority, false);
 assert.equal(glazeProviderDevelopmentContract.providerPrecedenceInferred, false);
@@ -307,6 +318,7 @@ assert.equal(accepted.signature, 'b');
 assert.equal(conformance.version, '1.5.0-dev.1');
 assert.equal(conformance.lifecycle, 'development');
 assert.equal(conformance.humanOrTargetRuntimeAcceptanceEstablished, false);
+assert.equal(conformance.scenarios.length, 33);
 assert.equal(conformance.promotionBoundary.machineCoverageAloneQualifiesReleaseCandidate, false);
 assert.equal(conformance.promotionBoundary.machineCoverageAloneQualifiesStable, false);
 const scenarioIds = new Set(conformance.scenarios.map(scenario => scenario.id));
