@@ -31,14 +31,17 @@ The current `1.5.0-dev.1` source introduces:
 - an explicit bridge from the V1.4.1 optical capability surface into the broader rendering-capability model;
 - an in-memory anti-jitter stabilizer with minimum-sample and dwell controls;
 - a provider aggregation boundary that rejects provenance impersonation and fails closed on duplicate context/capability ownership instead of inventing precedence;
+- explicit provider-authority ownership rules so a provider may contribute only context/capability domains its authority class is permitted to own;
 - semantic composition decisions for compact touch, desktop pointer/keyboard, remote/focus, unfolded multi-pane, reading, media, and critical-configuration contexts;
 - capability-aware navigation that can omit truly unsupported destinations while preserving restricted/offline destinations and broader task continuity;
 - capability-aware control presentation with explicit unavailable/degraded states and user-initiated recovery semantics; and
-- a 30-scenario Development conformance matrix spanning capability states, provider conflicts, composition, navigation, accessibility, privacy, anti-jitter, runtime downgrade, input transitions, and fold/posture transitions.
+- a 33-scenario Development conformance matrix spanning capability states, provider conflicts, authority ownership, composition, navigation, accessibility, privacy, anti-jitter, runtime downgrade, input transitions, and fold/posture transitions.
 
 ## Provider authority boundary
 
 Provider aggregation is deterministic and fail-closed. A provider cannot declare provenance as another provider or authority. If two providers claim the same context domain or capability identifier, Glaze does not guess which one wins; the conflicting input is omitted from the accepted snapshot and recorded as a semantic conflict for diagnostics. No provider priority is inferred.
+
+Self-consistent provenance is not sufficient. Each provider authority is constrained to the semantic domains it may own. For example, service authority cannot declare input-device context or authorization truth, application authority cannot manufacture device/platform capability, and an `unknown` authority cannot contribute accepted semantic truth. Authorization-domain capability remains restricted to appropriate policy, identity, platform permission, application permission, or security authorities. This keeps Glaze from converting technically valid records into unauthorized semantic facts.
 
 Provider diagnostics expose counts and semantic domains/states rather than raw provider identifiers or context values.
 
