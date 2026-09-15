@@ -74,5 +74,8 @@ jobs:
       - name: Verify V1.5 adaptive actions and graceful degradation
         run: node scripts/verify_glaze_v1_5_actions_development.mjs
 
+      - name: Verify V1.5 privacy-safe explainable adaptation diagnostics
+        run: node scripts/verify_glaze_v1_5_diagnostics_development.mjs
+
       - name: Verify validation did not mutate tracked source
         run: git diff --exit-code -- .
