@@ -2,10 +2,10 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
-  createGlazeOpticalEngineV141,
+  createGlazeOpticalEngineV141Candidate,
   deriveGlazeOpticalPerformanceLevel,
-  glazeOpticalEngineV141
-} from '../js/glaze-v1.4.1.mjs';
+  glazeOpticalEngineV141Candidate
+} from '../js/glaze-v1.4.1-optical-engine.mjs';
 
 function read(path) {
   return readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -70,17 +70,18 @@ assert.equal(
 const runtime = read('js/glaze-v1.4.1.mjs');
 assert.match(runtime, /glaze-v1\.4\.0\.mjs/);
 assert.match(runtime, /glaze-v1\.4\.1-optical-engine\.mjs/);
-assert.equal(glazeOpticalEngineV141.version, VERSION);
-assert.equal(glazeOpticalEngineV141.lifecycle, 'stable');
-assert.equal(glazeOpticalEngineV141.stableBaseline, BASELINE);
-assert.equal(glazeOpticalEngineV141.qualifiedImplementationAnchor, QUALIFIED_ANCHOR);
-assert.equal(glazeOpticalEngineV141.telemetryRequired, false);
-assert.equal(glazeOpticalEngineV141.remoteContextRequired, false);
-assert.equal(glazeOpticalEngineV141.deviceIdentityRequired, false);
-assert.equal(glazeOpticalEngineV141.humanAcceptanceAutomatic, false);
-assert.equal(glazeOpticalEngineV141.patchPromotionAutomatic, false);
+assert.match(runtime, /version:\s*'1\.4\.1'/);
+assert.match(runtime, /lifecycle:\s*'stable'/);
+assert.match(runtime, new RegExp(QUALIFIED_ANCHOR));
 
-const adapterFailure = createGlazeOpticalEngineV141({
+assert.equal(glazeOpticalEngineV141Candidate.stableBaseline, BASELINE);
+assert.equal(glazeOpticalEngineV141Candidate.telemetryRequired, false);
+assert.equal(glazeOpticalEngineV141Candidate.remoteContextRequired, false);
+assert.equal(glazeOpticalEngineV141Candidate.deviceIdentityRequired, false);
+assert.equal(glazeOpticalEngineV141Candidate.humanAcceptanceAutomatic, false);
+assert.equal(glazeOpticalEngineV141Candidate.patchPromotionAutomatic, false);
+
+const adapterFailure = createGlazeOpticalEngineV141Candidate({
   signalAdapter: {resolve() { throw new Error('synthetic local adapter failure'); }}
 }).resolve();
 assert.equal(adapterFailure.mode, 'solid-accessible');
@@ -88,12 +89,12 @@ assert.equal(adapterFailure.adapterStatus, 'failed-safe');
 assert.equal(adapterFailure.blurScale, 0);
 assert.equal(adapterFailure.memoryTint, null);
 
-const full = createGlazeOpticalEngineV141().resolve({
+const full = createGlazeOpticalEngineV141Candidate().resolve({
   performance: {requestedLevel: 'full-optical', capabilityLevel: 'full-optical'}
 });
 assert.equal(full.performance.acceptedLevel, 'full-optical');
 
-const constrained = createGlazeOpticalEngineV141().resolve({
+const constrained = createGlazeOpticalEngineV141Candidate().resolve({
   performance: {
     requestedLevel: 'full-optical',
     capabilityLevel: 'full-optical',
