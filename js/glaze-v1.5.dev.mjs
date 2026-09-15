@@ -5,6 +5,7 @@ export * from './glaze-v1.5-provider-registry.dev.mjs';
 export * from './glaze-v1.5-composition.dev.mjs';
 export * from './glaze-v1.5-actions.dev.mjs';
 export * from './glaze-v1.5-diagnostics.dev.mjs';
+export * from './glaze-v1.5-resolution.dev.mjs';
 
 export const glazeV15Development = Object.freeze({
   version: '1.5.0-dev.1',
@@ -25,9 +26,12 @@ export const glazeV15Development = Object.freeze({
   privacySafeExplainableDiagnostics: true,
   diagnosticsProviderIdentityIncludedByDefault: false,
   diagnosticsRawContextIncluded: false,
+  developerFacingUnifiedResolver: true,
+  unifiedResolutionProviderConflictsFailClosed: true,
   developmentConformanceScenarios: 39,
   actionConformanceScenarios: 8,
   diagnosticsConformanceScenarios: 7,
-  totalDevelopmentConformanceScenarios: 54,
+  resolutionConformanceScenarios: 10,
+  totalDevelopmentConformanceScenarios: 64,
   stablePromotionAutomatic: false
 });
