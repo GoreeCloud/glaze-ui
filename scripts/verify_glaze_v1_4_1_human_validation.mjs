@@ -59,9 +59,20 @@ function validateSource() {
   const template = json(TEMPLATE_PATH);
   const lifecycle = json('registry/lifecycle.json');
 
-  assert.equal(lifecycle.currentStable, '1.4.0', 'V1.4.1 hardening must preserve V1.4.0 Stable authority');
-  assert.equal(lifecycle.currentOfficial, '1.4.0', 'V1.4.1 hardening must preserve V1.4.0 Official authority');
-  assert.equal(lifecycle.plannedNext, '1.4.1-candidate', 'lifecycle plannedNext must remain 1.4.1-candidate');
+  if (lifecycle.currentStable === '1.4.1') {
+    assert.equal(lifecycle.currentOfficial, '1.4.1', 'promoted V1.4.1 source protocol requires matching Official authority');
+    assert.equal(lifecycle.plannedNext, null, 'promoted V1.4.1 source protocol must not leave a candidate plannedNext');
+    assert.equal(lifecycle.activeCandidate, null, 'promoted V1.4.1 source protocol must not leave an active candidate');
+    assert.equal(lifecycle.activePatchReleaseCandidate, null, 'promoted V1.4.1 source protocol must not leave an active patch RC');
+    const promoted = lifecycle.releases.find(item => item.version === '1.4.1');
+    assert.ok(promoted, 'promoted lifecycle must contain the 1.4.1 release record');
+    assert.equal(promoted.status, 'stable', 'promoted 1.4.1 release record must be Stable');
+    assert.equal(promoted.stableBaseline, '1.4.0', 'promoted 1.4.1 must retain V1.4.0 as its Stable baseline');
+  } else {
+    assert.equal(lifecycle.currentStable, '1.4.0', 'V1.4.1 hardening must preserve V1.4.0 Stable authority');
+    assert.equal(lifecycle.currentOfficial, '1.4.0', 'V1.4.1 hardening must preserve V1.4.0 Official authority');
+    assert.equal(lifecycle.plannedNext, '1.4.1-candidate', 'lifecycle plannedNext must remain 1.4.1-candidate');
+  }
   assert.equal(contract.schemaVersion, 2);
   assert.equal(contract.version, '1.4.1-candidate');
   assert.equal(contract.baselineVersion, '1.4.0');
