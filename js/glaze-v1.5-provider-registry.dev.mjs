@@ -37,7 +37,7 @@ const CAPABILITY_AUTHORITY_RULES = Object.freeze({
   device: Object.freeze(['platform', 'runtime']),
   application: Object.freeze(['application']),
   service: Object.freeze(['service']),
-  authorization: Object.freeze(['policy', 'identity', 'platform', 'application', 'security']),
+  authorization: Object.freeze(['policy', 'identity', 'platform', 'application', 'security', 'privacy']),
   connectivity: Object.freeze(['platform', 'runtime', 'service']),
   intelligence: Object.freeze(['application', 'service', 'runtime'])
 });
@@ -203,6 +203,7 @@ export const glazeProviderDevelopmentContract = Object.freeze({
   duplicateCapabilityPolicy: 'fail-closed-by-omission',
   provenanceImpersonationAllowed: false,
   authorityOwnershipEnforced: true,
+  privacyAuthorityMayOwnAuthorizationTruth: true,
   unknownAuthorityMayOwnSemanticTruth: false,
   providerPrecedenceInferred: false,
   authorizationInferred: false,
