@@ -1,10 +1,10 @@
 # GLAZE UI V1.0 Stability Contract — Historical Record
 
 **Historical scope:** V1.0 reset-era stability contract  
-**Current Stable authority:** GLAZE UI V1.4 — Optical Intelligence / `1.4.0`  
+**Current Stable authority:** GLAZE UI V1.4 — Optical Intelligence / `1.4.1`  
 **Current lifecycle source:** `registry/lifecycle.json`
 
-This document preserves the stability contract established for the V1.0 reset. V1.0 is now a historical reset baseline and is not the current Glaze UI product or consumer-conformance target. `registry/lifecycle.json` and `VERSION` currently identify GLAZE UI V1.4 / `1.4.0` as the Official Stable and consumer-eligible authority.
+This document preserves the stability contract established for the V1.0 reset. V1.0 is now a historical reset baseline and is not the current Glaze UI product or consumer-conformance target. `registry/lifecycle.json` and `VERSION` currently identify GLAZE UI V1.4 / `1.4.1` as the Official Stable and consumer-eligible authority.
 
 ## Historical V1.0 boundary
 
@@ -30,15 +30,17 @@ These principles remain inherited where a later governed Glaze UI contract does 
 
 ## Current V1.4 relationship
 
-V1.4.0 is the current Official, Stable, and consumer-eligible shared design-system release by owner release direction dated 2026-09-13. It supersedes V1.3.0 as the required current consumer target while retaining V1.3.0 as the immediate known-good rollback baseline.
+V1.4.1 is the current Official, Stable, and consumer-eligible shared design-system patch release. It promotes the completed V1.4.1 human-validation, optical-hardening, semantic-readability, fail-safe adapter, and capability-aware performance work under `GLAZE_UI_V1_4_1.md` and `acceptance/v1.4.1-stable.md`.
 
-The current V1.4 lifecycle contract is defined by `GLAZE_UI_V1_4.md`, `MIGRATION_V1_3_TO_V1_4.md`, `acceptance/v1.4-stable.md`, `VERSION`, and `registry/lifecycle.json`. Human optical-finish review, manual assistive-technology verification, representative physical-device validation, physical-device performance qualification, and other human-only checks assigned to V1.4.1 are not represented as passed V1.4.0 evidence.
+V1.4.0 remains the immediate known-good Stable rollback baseline. Its original acceptance record and deferred human/manual/physical qualification boundary are preserved as historical truth; V1.4.1 completion does not rewrite those checks as V1.4.0 evidence.
 
-Downstream applications and websites still require repository-local V1.4 adoption and acceptance. Stable design-system lifecycle does not itself certify a consumer product, native platform, real device, rendered deployment, or production release.
+Historical V1.4.1 human results remain bound to their actual tested revisions. Where they apply to the final Stable release revision, that applicability is established through the governed exact-revision continuity mechanism rather than by relabeling earlier executions.
+
+Downstream applications and websites still require repository-local V1.4.1 adoption and acceptance. Stable design-system lifecycle does not itself certify a consumer product, native platform, real device, rendered deployment, signing path, or production release.
 
 ## Historical V1.3 relationship
 
-V1.3.0 was the prior Official Stable release and remains the direct rollback baseline for V1.4.0. Its earlier lifecycle promotion and exact-revision evidence remain valid historical records, but V1.3.0 is no longer the current GoreeCloud consumer-conformance target.
+V1.3.0 was the Stable release before V1.4.0 and remains retained historical provenance. V1.4.0, not V1.3.0, is the immediate rollback baseline for current V1.4.1 authority.
 
 ## Historical reset acceptance
 
