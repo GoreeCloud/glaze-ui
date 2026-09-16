@@ -3,51 +3,64 @@
 **Status:** Active roadmap control  
 **As of:** 2026-09-15  
 **Authoritative project record:** Project Specification — Glaze UI  
+**Canonical lifecycle authority:** `registry/lifecycle.json`  
 **Canonical repository:** `GoreeCloud/goreecloud-glaze-ui`  
 **Drive control:** `GoreeCloud/Feature Roadmap/Glaze UI/FEATURE-ROADMAP.docx`
 
 ## Purpose
 
-This file is the repository-side feature roadmap control for Glaze UI. It records current planned and recommended feature work without replacing authoritative implementation evidence, exact-revision validation, release gates, GoreeCloud Tasks Management, or the Drive-side roadmap control.
+This file is the repository-side feature roadmap control for Glaze UI. It records current planned and recommended feature work without replacing exact-revision implementation evidence, lifecycle authority, release gates, GoreeCloud Tasks Management, or the Drive-side roadmap control.
 
-The current Official Stable release is **GLAZE UI V1.4.1 / `1.4.1`**. The V1.4.1 Extended Upgrade architecture is being developed as the successor **GLAZE UI V1.5 / `1.5.0-dev.1`** line so the published V1.4.1 Stable identity is not redefined. V1.5 remains **Development**, **non-consumer-eligible**, **non-RC**, and **non-Stable**.
+## Current verified lifecycle
+
+The current Official Stable release is **GLAZE UI V1.5 / `1.5.0`**. The accepted Stable integration commit is `b7fa8164bfdeaa1dc0acb21b770e7601120da04e`, and `1.4.1` remains the documented rollback baseline.
+
+The active successor stabilization stream is **GLAZE UI V1.5.1 / `1.5.1-dev.1`**, which remains **Development**, **Draft**, **non-RC**, **non-Stable**, and **non-consumer-authorizing**. Draft PR #230 (`feature/glaze-v1.5.1-hardening`) adds bounded qualification tooling while preserving the exact `1.5.0` Stable baseline.
+
+V1.5.1 has exactly two remaining external qualification obligations:
+
+1. `performance-representative-budget` — requires representative measurements against the approved GoreeCloud Glaze UI Performance Budget and exact reviewed revision;
+2. `platform-posture-continuity` — requires representative physical-device or approved target-runtime evidence for applicable posture/rotation/form-factor transitions.
+
+Neither obligation may be satisfied by machine simulation, generated review artifacts, repository-local harness success, or implication. Missing or mismatched evidence must remain pending.
 
 ## Current verified direction
 
-The V1.5 Development line now contains the governed Context + Capability Resolution architecture, fail-closed provider authority/provenance handling, Privacy Shield-owned data-use authorization presentation, capability-aware composition/navigation/controls, accessibility-priority composition, explicit graceful degradation, privacy-safe explainable diagnostics, continuity handling, anti-jitter stabilization, representative GoreeCloud consumer profiles, and fail-closed external-review planning tooling.
+V1.5.0 Stable provides the accepted Context + Capability Resolution baseline, including fail-closed authority/provenance handling, capability-aware presentation, accessibility-priority composition, continuity, graceful degradation, explainable diagnostics, and presentation-only enforcement boundaries. Glaze UI presents authoritative state but does not create consent, permissions, privacy authorization, security claims, recovery claims, or consequential execution authority.
 
-Machine functional coverage is 78 Development scenarios: 39 core + 8 action/degradation + 7 diagnostics + 10 unified-resolution + 14 representative-consumer scenarios. The stabilization-review planning layer defines six external evidence areas and eighteen pending review obligations. Those obligations are planning requirements, not acceptance passes.
+V1.5.1 hardening now provides repository-local qualification harnesses for representative performance measurement and posture-continuity evidence capture. Those harnesses are evidence-collection and boundary-verification tools only; they cannot promote lifecycle state, accept downstream consumers, or manufacture representative evidence.
 
-Repository-local V1.5 Development compatibility checkpoints are verified for GoreeCloud Reader, GoreeCloud Launcher, and GoreeCloud Manager. These checkpoints do not establish rendered/native V1.5 acceptance, consumer conformance, Release Candidate status, Stable status, deployment, or production acceptance. The current GoreeCloud Security Center and GoreeCloud Privacy Center repositories contain only README-level source and therefore cannot yet supply meaningful repository-local V1.5 consumer acceptance evidence.
+All GoreeCloud-controlled graphical consumers remain independently responsible for application-specific adoption of the current Stable Glaze UI release and for their own rendered/native/accessibility/platform acceptance. A Stable Glaze platform release does not make downstream applications Stable by inheritance.
 
 ## Roadmap
 
 | ID | Feature / obligation | Priority | Current state |
 | --- | --- | --- | --- |
-| FR-001 | Reconcile and maintain every current planned or recommended Glaze UI feature from the authoritative project record and verified repository evidence in this roadmap. | High | Ongoing control |
-| FR-002 | Move actionable feature obligations into GoreeCloud Tasks Management when required, preserving priority, dependency, blocker, and lifecycle disposition. | High | Ongoing control |
-| FR-003 | Do not mark features implemented, complete, cancelled, superseded, RC, Stable, deployed, or production-accepted without authoritative evidence and synchronized repository/Drive/task records. | High | Ongoing control |
-| FR-004 | Preserve GLAZE UI V1.4.1 / `1.4.1` as the current Official Stable authority and known-good shared baseline while V1.5 remains an isolated successor Development stream. | P0 | Active control — Stable authority preserved; V1.5 does not redefine V1.4.1. |
-| FR-005 | Complete the V1.5 Context + Capability Resolution architecture with bounded context normalization, governed capability state/provenance, fail-closed provider authority, capability-aware presentation, accessibility precedence, continuity, explainable diagnostics, graceful degradation, and anti-jitter behavior. | P0 | Development implementation and machine conformance substantially implemented; 78 functional scenarios are covered. External acceptance remains separate. |
-| FR-006 | Maintain privacy and authority boundaries so Glaze presents authoritative state but never creates consent, grants permissions, invents provider precedence, executes consequential operations, or upgrades security/privacy/recovery truth. | P0 | Machine-verified Development boundary; Privacy Shield and provider-owned authority remain external to Glaze execution authority. |
-| FR-007 | Expand repository-local V1.5 compatibility across representative GoreeCloud consumers while preserving each consumer's truthful implemented Glaze source mapping and current Stable requirement. | P0 | Reader, Launcher, and Manager Development checkpoints verified. Security Center and Privacy Center are currently README-only and cannot yet provide substantive consumer evidence. Additional implemented consumers remain eligible for bounded compatibility work. |
-| FR-008 | Execute exact-revision external stabilization review across human usability, assistive technology/accessibility, representative target-device/runtime behavior, privacy/authorization boundaries, anti-jitter/performance, and platform/posture/input/window adaptation. | P0 | Pending. Fail-closed planning contract/generator/verifier now define 6 evidence areas / 18 obligations without manufacturing evidence or acceptance. |
-| FR-009 | Qualify an exact V1.5 Release Candidate only after required repository-local integration and external stabilization evidence are complete, reviewed, and governed approval explicitly authorizes RC transition. | P0 | Blocked on FR-007 and FR-008 evidence. No RC claim. |
-| FR-010 | Promote V1.5 to Stable only after exact RC qualification, required human/policy approval, exact release evidence, post-merge verification, documentation reconciliation, rollback readiness, and explicit downstream adoption boundaries. | P0 | Not started as a lifecycle transition. Current Stable remains V1.4.1. |
-| FR-011 | Complete the separately governed V1.4.1 immutable tag/GitHub Release publication path without conflating publication with V1.5 stabilization or downstream consumer acceptance. | High | Pending governed publication approval/verification in Tasks Management. |
+| FR-001 | Reconcile and maintain every current planned or recommended Glaze UI feature from authoritative project records and verified repository evidence in this roadmap. | High | Ongoing control. |
+| FR-002 | Move actionable feature obligations into GoreeCloud Tasks Management when required, preserving priority, dependency, blocker, and lifecycle disposition. | High | Ongoing control. |
+| FR-003 | Do not mark features implemented, complete, cancelled, superseded, RC, Stable, deployed, or production-accepted without authoritative evidence and synchronized repository/Drive/task records. | High | Ongoing control. |
+| FR-004 | Preserve GLAZE UI V1.5 / `1.5.0` as the current Official Stable authority and `1.4.1` as the rollback baseline while successor work remains isolated. | P0 | Active control — Stable authority verified in `registry/lifecycle.json`. |
+| FR-005 | Preserve the V1.5 Context + Capability Resolution architecture and its fail-closed authority, accessibility, continuity, diagnostics, degradation, and truth-preservation invariants. | P0 | Stable baseline; regression protection remains mandatory. |
+| FR-006 | Maintain presentation-only authority boundaries so Glaze never creates consent, grants permissions, invents provider precedence, executes consequential operations, or upgrades Privacy Shield, Wardveil Security, Everkeep, Mesh, or application truth. | P0 | Stable invariant; V1.5.1 qualification tooling explicitly preserves it. |
+| FR-007 | Complete V1.5.1 representative performance qualification against the approved budget using exact-revision, privacy-minimized evidence from a representative reviewed environment. | P0 | Pending external evidence. Harness implemented in Draft PR #230; no acceptance inferred. |
+| FR-008 | Complete V1.5.1 platform/posture continuity qualification using a representative physical device or approved target runtime for every claimed applicable transition family. | P0 | Pending external evidence. Harness implemented in Draft PR #230; machine simulation alone is insufficient. |
+| FR-009 | Keep V1.5.1 Development until FR-007 and FR-008 are independently reviewed and durably recorded; only then evaluate any later RC or Stable transition under lifecycle governance. | P0 | Blocked on FR-007 and FR-008. No RC/Stable claim. |
+| FR-010 | Drive current-Stable adoption across GoreeCloud-controlled user-facing consumers without allowing platform-level Stable status to imply application-level acceptance. | P0 | Ongoing consumer migration/acceptance work. |
+| FR-011 | Reconcile stale historical documentation and roadmap records that still identify older Glaze releases as current, without rewriting immutable historical evidence. | High | Active documentation-control work. |
+| FR-012 | Preserve the separately governed V1.4.1 publication/rollback evidence as historical release provenance without conflating it with current V1.5.0 Stable authority or V1.5.1 qualification. | High | Historical/rollback control. |
 
-## Stabilization evidence boundary
+## Qualification evidence boundary
 
-Machine checks may prove source behavior, contract integrity, exact-revision preservation, or planning-tool integrity only to the extent those checks exercise them. They do not substitute for required human review, assistive-technology sessions, representative device/runtime evidence, privacy/policy review, performance qualification, repository-local consumer acceptance, lifecycle approval, deployment, or production acceptance.
+Machine checks may prove source behavior, contract integrity, exact-revision preservation, or qualification-tool integrity only to the extent those checks exercise them. They do not substitute for representative human/device/runtime evidence, assistive-technology sessions where required, privacy/policy review, performance measurements, application-specific consumer acceptance, lifecycle approval, deployment, or production acceptance.
 
-A generated V1.5 stabilization-review packet must remain pending until a real review is performed against the exact source revision. Missing evidence, unknown authority, duplicate authority, stale evidence, or source-revision mismatch must fail closed rather than being inferred as acceptable.
+A V1.5.1 qualification artifact must remain pending until real evidence is produced and reviewed against the exact source revision and applicable environment. Missing evidence, unsupported transition families, unknown authority, stale evidence, source-revision mismatch, or environment mismatch must fail closed rather than being inferred as acceptable.
 
 ## Maintenance and synchronization
 
-This roadmap and the corresponding Drive `FEATURE-ROADMAP.docx` must remain materially synchronized with one another and with the authoritative project record, current repository state, and GoreeCloud Tasks Management. Update both copies whenever feature scope, priority, dependency, implementation status, blocker, cancellation, supersession, recommendation, or verification state materially changes.
+This roadmap and the corresponding Drive `FEATURE-ROADMAP.docx` must remain materially synchronized with one another and with the authoritative project record, current repository state, `registry/lifecycle.json`, and GoreeCloud Tasks Management. Update both copies whenever feature scope, priority, dependency, implementation status, blocker, cancellation, supersession, recommendation, or verification state materially changes.
 
-No feature may be represented as complete or Stable solely because it appears in this roadmap. Completion and lifecycle claims require the applicable authoritative implementation, validation, review, release, and production evidence.
+No feature may be represented as complete or Stable solely because it appears in this roadmap. Completion and lifecycle claims require applicable authoritative implementation, validation, review, release, and production evidence.
 
 ## Reconciliation rule
 
-At each material feature change, reconcile this roadmap against the current authoritative project record, repository implementation state, applicable Platform System requirements, consumer evidence, and GoreeCloud Tasks Management. Missing obligations, stale status, duplicated work, roadmap drift, or undocumented disposition changes are defects to correct.
+At each material feature change, reconcile this roadmap against the current authoritative project record, lifecycle registry, repository implementation state, applicable Platform System requirements, consumer evidence, and GoreeCloud Tasks Management. Missing obligations, stale status, duplicated work, roadmap drift, or undocumented disposition changes are defects to correct.
