@@ -85,7 +85,11 @@ async function main() {
     'withinApprovedBudget',
     "canonicalQualificationStatus:'PENDING_REVIEW'",
     'not platform-posture-continuity evidence',
-    'navigator.clipboard.writeText'
+    'navigator.clipboard.writeText',
+    'no serials or unique identifiers',
+    'maxlength="160"',
+    'boundedEnvironmentValue',
+    "environmentMetadataReady()"
   ];
   for (const marker of requiredMarkers) {
     assert.ok(html.includes(marker), `performance harness missing required marker: ${marker}`);
@@ -134,6 +138,12 @@ async function main() {
   assert.equal(harnessContract.privacy.credentialsRecorded, false);
   assert.equal(harnessContract.privacy.providerSecretsRecorded, false);
   assert.equal(harnessContract.privacy.rawActivityRecorded, false);
+  assert.equal(harnessContract.privacy.uniqueDeviceIdentifiersRecorded, false);
+  assert.equal(harnessContract.privacy.environmentMetadataMaxLength, 160);
+  assert.equal(
+    harnessContract.privacy.hardwareMetadataPolicy,
+    'representative-class-or-model-only-no-serials-or-unique-identifiers'
+  );
 
   console.log('GLAZE UI V1.5.1 performance qualification harness structural verification: PASS');
   console.log('Boundary: local measurement tooling only; both V1.5.1 qualifications remain pending.');
