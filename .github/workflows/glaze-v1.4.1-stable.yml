@@ -53,7 +53,7 @@ permissions:
 
 jobs:
   stable-authority:
-    name: v1.4.1 fail-closed Stable authority gate
+    name: v1.4.1 Stable provenance gate
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -85,20 +85,35 @@ jobs:
       - name: Verify immutable GitHub Actions pins
         run: python3 scripts/validate_github_actions_runtime_integrity.py
 
-      - name: Verify V1.4.1 Stable source and lifecycle authority
-        run: node scripts/verify_glaze_v1_4_1_stable.mjs
+      - name: Verify active or historical V1.4.1 Stable authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          CURRENT_STABLE="$(node -p "require('./registry/lifecycle.json').currentStable")"
+          if [[ "${CURRENT_STABLE}" == "1.4.1" ]]; then
+            node scripts/verify_glaze_v1_4_1_stable.mjs
+          else
+            node -e "const a=require('node:assert/strict'),l=require('./registry/lifecycle.json'),v141=l.releases.find(x=>x.version==='1.4.1');a.ok(v141);a.equal(v141.status,'stable');a.equal(v141.consumerEligible,true);a.equal(v141.stableBaseline,'1.4.0');if(l.currentStable==='1.5.0'){const v150=l.releases.find(x=>x.version==='1.5.0');a.ok(v150);a.equal(v150.status,'stable');a.equal(v150.stableBaseline,'1.4.1')}console.log('V1.4.1 retained as historical Stable rollback provenance under current Stable '+l.currentStable+'.')"
+          fi
 
-      - name: Verify retained V1.4.0 rollback authority
+      - name: Verify retained V1.4.0 historical authority
         run: node scripts/verify_glaze_v1_4_stable.mjs
 
       - name: Verify V1.4.1 optical runtime hardening
         run: node scripts/verify_glaze_v1_4_1_optical_runtime.mjs
 
       - name: Verify V1.4.1 evidence protocol integrity
+        shell: bash
         run: |
+          set -euo pipefail
           node scripts/verify_glaze_v1_4_1_human_validation_schema.mjs
-          node scripts/verify_glaze_v1_4_1_human_validation.mjs --source-only
-          node scripts/verify_glaze_v1_4_1_human_validation.mjs --self-test
+          CURRENT_STABLE="$(node -p "require('./registry/lifecycle.json').currentStable")"
+          if [[ "${CURRENT_STABLE}" == "1.4.0" || "${CURRENT_STABLE}" == "1.4.1" ]]; then
+            node scripts/verify_glaze_v1_4_1_human_validation.mjs --source-only
+            node scripts/verify_glaze_v1_4_1_human_validation.mjs --self-test
+          else
+            node -e "const a=require('node:assert/strict'),l=require('./registry/lifecycle.json'),v=l.releases.find(x=>x.version==='1.4.1');a.ok(v);a.equal(v.status,'stable');a.equal(v.qualification,'GLAZE_UI_V1_4_1_HARDENING.md');a.equal(v.acceptance,'acceptance/v1.4.1-stable.md');console.log('V1.4.1 human-validation contract retained as historical release provenance.')"
+          fi
 
       - name: Verify lifecycle and current-authority documentation
         run: python3 scripts/validate_glaze_v1_2_documentation_versions.py
@@ -109,17 +124,17 @@ jobs:
       - name: Verify validation did not mutate tracked source
         run: git diff --exit-code -- .
 
-      - name: Record Stable gate boundary
+      - name: Record Stable provenance gate boundary
         run: |
           {
-            echo '### GLAZE UI V1.4.1 Stable authority gate'
+            echo '### GLAZE UI V1.4.1 Stable provenance gate'
             echo
-            echo '- Stable source/lifecycle verifier: **PASS**'
-            echo '- Retained V1.4.0 rollback verifier: **PASS**'
-            echo '- Optical runtime verifier: **PASS**'
-            echo '- Evidence protocol integrity: **PASS**'
-            echo '- Lifecycle/documentation integrity: **PASS**'
+            echo '- Historical V1.4.1 lifecycle provenance: **PASS**'
+            echo '- Retained V1.4.0 provenance: **PASS**'
+            echo '- V1.4.1 optical runtime integrity: **PASS**'
+            echo '- V1.4.1 evidence-protocol integrity: **PASS**'
+            echo '- Current lifecycle/documentation integrity: **PASS**'
             echo '- Consumer-target integrity: **PASS**'
             echo
-            echo 'This machine gate does not manufacture human evidence. Final promotion still requires the canonical exact-head V1.4.1 promotion evidence gate and governed merge into main.'
+            echo 'This gate preserves V1.4.1 as release/rollback provenance. It does not make V1.4.1 the current Stable release and does not manufacture human acceptance evidence.'
           } >> "${GITHUB_STEP_SUMMARY}"
