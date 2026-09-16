@@ -5,6 +5,11 @@ on:
     paths:
       - 'VERSION'
       - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
+      - 'README.md'
+      - 'STABILITY.md'
+      - 'ACCEPTANCE.md'
+      - 'CONFORMANCE.md'
       - 'GLAZE_UI_V1_5.md'
       - 'GLAZE_UI_V1_5_1_HARDENING.md'
       - 'acceptance/v1.5-stable.md'
@@ -20,6 +25,11 @@ on:
     paths:
       - 'VERSION'
       - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
+      - 'README.md'
+      - 'STABILITY.md'
+      - 'ACCEPTANCE.md'
+      - 'CONFORMANCE.md'
       - 'GLAZE_UI_V1_5.md'
       - 'GLAZE_UI_V1_5_1_HARDENING.md'
       - 'acceptance/v1.5-stable.md'
