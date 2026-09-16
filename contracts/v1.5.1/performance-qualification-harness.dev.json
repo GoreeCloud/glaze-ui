@@ -47,7 +47,10 @@
     "rawUserContentRecorded": false,
     "credentialsRecorded": false,
     "providerSecretsRecorded": false,
-    "rawActivityRecorded": false
+    "rawActivityRecorded": false,
+    "uniqueDeviceIdentifiersRecorded": false,
+    "environmentMetadataMaxLength": 160,
+    "hardwareMetadataPolicy": "representative-class-or-model-only-no-serials-or-unique-identifiers"
   },
-  "boundary": "This harness may collect local representative timing measurements and compare them to the approved budget. It cannot mark performance-representative-budget satisfied, create Release Candidate or Stable status, accept consumers, deploy software, or create production acceptance. Canonical qualification requires review and durable evidence tied to the exact measured revision and environment."
+  "boundary": "This harness may collect local representative timing measurements and bounded environment metadata needed for reproducibility. Hardware metadata is limited to representative class/model information and must not contain serials or unique device identifiers. The harness cannot mark performance-representative-budget satisfied, create Release Candidate or Stable status, accept consumers, deploy software, or create production acceptance. Canonical qualification requires review and durable evidence tied to the exact measured revision and environment."
 }
