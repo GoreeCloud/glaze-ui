@@ -74,7 +74,26 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(grep -F -c '"status": "pending"' contracts/v1.5.1/qualification.dev.json)" -eq 2
+          node <<'NODE'
+          const fs = require('node:fs');
+          const qualification = JSON.parse(
+            fs.readFileSync('contracts/v1.5.1/qualification.dev.json', 'utf8')
+          );
+          const expectedIds = [
+            'performance-representative-budget',
+            'platform-posture-continuity'
+          ];
+          const actual = qualification.requiredQualification;
+          if (!Array.isArray(actual) || actual.length !== 2) {
+            throw new Error('V1.5.1 must retain exactly two required qualification obligations.');
+          }
+          for (const id of expectedIds) {
+            const item = actual.find(entry => entry.id === id);
+            if (!item || item.status !== 'pending') {
+              throw new Error(`Qualification ${id} must remain pending until external evidence is reviewed.`);
+            }
+          }
+          NODE
           grep -F 'PENDING_REVIEW' reference/v1.5.1/performance-qualification.html >/dev/null
           grep -F 'PENDING_REVIEW' reference/v1.5.1/posture-qualification.html >/dev/null
           echo 'V1.5.1 qualification tooling: machine verification only; no representative performance or posture acceptance is created.'
