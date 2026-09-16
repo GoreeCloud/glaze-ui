@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 9,
+  "schemaVersion": 8,
   "officialBaseline": "1.5.0",
   "officialProductLabel": "GLAZE UI V1.5 — Contextual + Capability Awareness",
   "requiredConsumerVersion": "1.5.0",
@@ -10,16 +10,6 @@
     "productionExceptionsAllowed": false,
     "platformScope": ["web", "desktop", "mobile", "tablet", "tv", "smartwatch", "other-user-facing"],
     "unsupportedPlatformRule": "A user-facing platform without applicable repository-local GLAZE UI V1.5.0 acceptance evidence is production-blocked until the required current Stable contract is implemented, validated, and accepted for that consumer."
-  },
-  "sharedStableQualificationBoundary": {
-    "reviewedImplementationAnchor": "ee1032a0822ab8e103f8afe48e5c1859fde65cc9",
-    "qualifiedObligationCount": 16,
-    "v151FollowUp": [
-      "performance-representative-budget",
-      "platform-posture-continuity"
-    ],
-    "numericPerformanceBudgetV10AcceptanceClaimedByV150": false,
-    "foldablePostureAcceptanceClaimedByV150": false
   },
   "consumers": [
     {"name":"GoreeCloud Care","repository":"GoreeCloud/goreecloud-zorin-os","status":"adoption-required","targetVersion":"1.2.0","requiredTargetVersion":"1.5.0","referenceRevision":"bbc4779454c2887b810aa0ddc9e8a686a4c68ebd","evidence":"acceptance/goreecloud-care-v1.2-0.1.0-exact-source-bridge.json","productionEligible":false,"notes":"Historical V1.2 evidence remains recorded; fresh repository-local V1.5.0 adoption and acceptance evidence is required before current-baseline conformance may be claimed."},
