@@ -1,0 +1,77 @@
+name: GLAZE UI V1.5.1 Qualification Hardening
+
+on:
+  pull_request:
+    paths:
+      - 'contracts/v1.5.1/**'
+      - 'reference/v1.5.1/**'
+      - 'scripts/verify_glaze_v1_5_1_*.mjs'
+      - '.github/workflows/glaze-v1.5.1-qualification.yml'
+  push:
+    branches: [main, 'feature/glaze-v1.5.1-hardening']
+    paths:
+      - 'contracts/v1.5.1/**'
+      - 'reference/v1.5.1/**'
+      - 'scripts/verify_glaze_v1_5_1_*.mjs'
+      - '.github/workflows/glaze-v1.5.1-qualification.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1.5.1-qualification-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  STABLE_V150_INTEGRATION_SHA: b7fa8164bfdeaa1dc0acb21b770e7601120da04e
+
+jobs:
+  verify-qualification-tooling:
+    name: Verify V1.5.1 qualification tooling
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact revision and Stable ancestry
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+          git cat-file -e "${STABLE_V150_INTEGRATION_SHA}^{commit}"
+          git merge-base --is-ancestor "${STABLE_V150_INTEGRATION_SHA}" HEAD
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Syntax-check qualification verifier
+        run: node --check scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs
+
+      - name: Verify current V1.5.0 Stable authority remains valid
+        run: node scripts/verify_glaze_v1_5_stable.mjs
+
+      - name: Verify inherited V1.5 resolution behavior remains valid
+        run: node scripts/verify_glaze_v1_5_resolution_development.mjs
+
+      - name: Verify V1.5.1 performance measurement harness boundaries
+        run: node scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs
+
+      - name: Preserve external-evidence boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F '"status": "pending"' contracts/v1.5.1/qualification.dev.json >/dev/null
+          grep -F 'PENDING_REVIEW' reference/v1.5.1/performance-qualification.html >/dev/null
+          echo 'V1.5.1 qualification tooling: machine verification only; no representative performance or posture acceptance is created.'
+
+      - name: Verify checks did not mutate tracked source
+        run: git diff --exit-code -- .
