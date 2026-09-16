@@ -74,7 +74,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(grep -F -c '"'"'"status"'"'": "'"'"pending"'"'"' contracts/v1.5.1/qualification.dev.json)" -eq 2
+          test "$(grep -F -c '"status": "pending"' contracts/v1.5.1/qualification.dev.json)" -eq 2
           grep -F 'PENDING_REVIEW' reference/v1.5.1/performance-qualification.html >/dev/null
           grep -F 'PENDING_REVIEW' reference/v1.5.1/posture-qualification.html >/dev/null
           echo 'V1.5.1 qualification tooling: machine verification only; no representative performance or posture acceptance is created.'
