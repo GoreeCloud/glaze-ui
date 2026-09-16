@@ -36,38 +36,7 @@ jobs:
             node scripts/verify_glaze_v1_4_1_human_validation.mjs --source-only
             node scripts/verify_glaze_v1_4_1_human_validation.mjs --self-test
           else
-            node <<'NODE'
-            const assert = require('node:assert/strict');
-            const lifecycle = require('./registry/lifecycle.json');
-            assert.equal(lifecycle.currentOfficial, lifecycle.currentStable,
-              'current Official and Stable authorities must remain aligned');
-            const v140 = lifecycle.releases.find(item => item.version === '1.4.0');
-            const v141 = lifecycle.releases.find(item => item.version === '1.4.1');
-            assert.ok(v140, 'historical lifecycle must retain the 1.4.0 release record');
-            assert.equal(v140.status, 'stable', 'historical 1.4.0 record must remain Stable provenance');
-            assert.ok(v141, 'historical lifecycle must retain the 1.4.1 release record');
-            assert.equal(v141.status, 'stable', 'historical 1.4.1 record must remain Stable provenance');
-            assert.equal(v141.stableBaseline, '1.4.0', 'historical 1.4.1 record must preserve its 1.4.0 baseline');
-            assert.equal(v141.consumerEligible, true, 'historical 1.4.1 Stable record must remain consumer-eligible provenance');
-            if (lifecycle.currentStable === '1.5.0') {
-              const v150 = lifecycle.releases.find(item => item.version === '1.5.0');
-              assert.ok(v150, 'current lifecycle must contain the 1.5.0 release record');
-              assert.equal(v150.status, 'stable', 'current 1.5.0 record must be Stable');
-              assert.equal(v150.stableBaseline, '1.4.1', '1.5.0 must preserve 1.4.1 as its rollback baseline');
-            }
-            console.log(`GLAZE UI V1.4.1 protocol retained as historical Stable provenance under current Stable ${lifecycle.currentStable}.`);
-            NODE
+            node -e "const a=require('node:assert/strict'),l=require('./registry/lifecycle.json'),r=v=>l.releases.find(x=>x.version===v);a.equal(l.currentOfficial,l.currentStable);const v140=r('1.4.0'),v141=r('1.4.1');a.ok(v140);a.equal(v140.status,'stable');a.ok(v141);a.equal(v141.status,'stable');a.equal(v141.stableBaseline,'1.4.0');a.equal(v141.consumerEligible,true);if(l.currentStable==='1.5.0'){const v150=r('1.5.0');a.ok(v150);a.equal(v150.status,'stable');a.equal(v150.stableBaseline,'1.4.1')}console.log('GLAZE UI V1.4.1 protocol retained as historical Stable provenance under current Stable '+l.currentStable+'.')"
           fi
       - name: Preserve historical V1.4.0 authority record
-        shell: bash
-        run: |
-          node <<'NODE'
-          const assert = require('node:assert/strict');
-          const lifecycle = require('./registry/lifecycle.json');
-          const v140 = lifecycle.releases.find(item => item.version === '1.4.0');
-          assert.ok(v140, 'lifecycle must retain V1.4.0');
-          assert.equal(v140.status, 'stable');
-          assert.equal(v140.stableBaseline, '1.3.0');
-          assert.equal(v140.sourceIntegrationAnchor, 'a20374734dae6a119b28448f5e6b3232253b6da7');
-          console.log('GLAZE UI V1.4.0 historical Stable provenance preserved.');
-          NODE
+        run: node -e "const a=require('node:assert/strict'),l=require('./registry/lifecycle.json'),v=l.releases.find(x=>x.version==='1.4.0');a.ok(v);a.equal(v.status,'stable');a.equal(v.stableBaseline,'1.3.0');a.equal(v.sourceIntegrationAnchor,'a20374734dae6a119b28448f5e6b3232253b6da7');console.log('GLAZE UI V1.4.0 historical Stable provenance preserved.')"
