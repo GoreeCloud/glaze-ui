@@ -1,0 +1,99 @@
+name: GLAZE UI V1.5.1 Release Candidate
+
+on:
+  pull_request:
+    paths:
+      - 'registry/lifecycle.json'
+      - 'contracts/v1.5.1/**'
+      - 'acceptance/v1.5.1-rc.1.md'
+      - 'js/glaze-v1.5.1-rc.1.mjs'
+      - 'scripts/verify_glaze_v1_5_1_release_candidate.mjs'
+      - '.github/workflows/glaze-v1.5.1-release-candidate.yml'
+  push:
+    branches: [main, 'release/glaze-ui-v1.5.1-rc1-20260916']
+    paths:
+      - 'registry/lifecycle.json'
+      - 'contracts/v1.5.1/**'
+      - 'acceptance/v1.5.1-rc.1.md'
+      - 'js/glaze-v1.5.1-rc.1.mjs'
+      - 'scripts/verify_glaze_v1_5_1_release_candidate.mjs'
+      - '.github/workflows/glaze-v1.5.1-release-candidate.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1.5.1-rc-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  QUALIFIED_V151_SHA: 5b59d0e36950d737dba35b58ae58058684e0831b
+  QUALIFICATION_INTEGRATION_SHA: f7ef915f0aabea6cf92748018f2220a99e3a9c92
+
+jobs:
+  release-candidate-authority:
+    name: Verify V1.5.1 RC authority and continuity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact revision and qualified ancestry
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+          git cat-file -e "${QUALIFIED_V151_SHA}^{commit}"
+          git cat-file -e "${QUALIFICATION_INTEGRATION_SHA}^{commit}"
+          git merge-base --is-ancestor "${QUALIFIED_V151_SHA}" HEAD
+          git merge-base --is-ancestor "${QUALIFICATION_INTEGRATION_SHA}" HEAD
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Verify frozen V1.5.1 qualification sources remain unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code "${QUALIFIED_V151_SHA}" -- \
+            contracts/v1.5.1/qualification.dev.json \
+            contracts/v1.5.1/performance-qualification-harness.dev.json \
+            contracts/v1.5.1/posture-qualification-harness.dev.json \
+            reference/v1.5.1/performance-qualification.html \
+            reference/v1.5.1/posture-qualification.html \
+            scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs \
+            scripts/verify_glaze_v1_5_1_posture_qualification_harness.mjs \
+            .github/workflows/glaze-v1.5.1-qualification.yml
+
+      - name: Verify inherited V1.5.0 Stable authority and behavior
+        run: |
+          node scripts/verify_glaze_v1_5_stable.mjs
+          node scripts/verify_glaze_v1_5_resolution_development.mjs
+
+      - name: Verify qualification capture tooling remains bounded
+        run: |
+          node scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs
+          node scripts/verify_glaze_v1_5_1_posture_qualification_harness.mjs
+
+      - name: Verify V1.5.1 Release Candidate authority
+        run: node scripts/verify_glaze_v1_5_1_release_candidate.mjs
+
+      - name: Verify RC wrapper is identity-only
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F "export * from './glaze-v1.5.0.mjs'" js/glaze-v1.5.1-rc.1.mjs >/dev/null
+          ! grep -Eq 'resolveGlazeInterface\s*\(' js/glaze-v1.5.1-rc.1.mjs
+          ! grep -Eq 'grant|automaticExecutionAllowed:\s*true|permissionRequestAutomatic:\s*true' js/glaze-v1.5.1-rc.1.mjs
+
+      - name: Verify validation did not mutate tracked source
+        run: git diff --exit-code -- .

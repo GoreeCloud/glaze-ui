@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "version": "1.5.1-rc.1",
+  "releaseLifecycle": "Release Candidate",
+  "stableBaseline": "1.5.0",
+  "consumerEligible": false,
+  "sourceQualificationAnchor": "5b59d0e36950d737dba35b58ae58058684e0831b",
+  "qualificationIntegrationCommit": "f7ef915f0aabea6cf92748018f2220a99e3a9c92",
+  "qualificationContract": "contracts/v1.5.1/qualification.dev.json",
+  "runtimeEntrypoint": "js/glaze-v1.5.1-rc.1.mjs",
+  "acceptance": "acceptance/v1.5.1-rc.1.md",
+  "externalQualification": {
+    "performanceRepresentativeBudget": {
+      "status": "accepted",
+      "reviewRecord": "PR #230 comment 5697516074",
+      "boundRevision": "5b59d0e36950d737dba35b58ae58058684e0831b"
+    },
+    "platformPostureContinuity": {
+      "status": "accepted",
+      "reviewRecord": "PR #230 comment 5705230782",
+      "boundRevision": "5b59d0e36950d737dba35b58ae58058684e0831b",
+      "approvalReference": "GCU-ADR-GLAZE-V151-POSTURE-TR-001"
+    }
+  },
+  "continuity": {
+    "qualifiedSourceMayChangeDuringRcIdentityPromotion": false,
+    "v150PresentationBehaviorMayChange": false,
+    "authorizationBehaviorMayChange": false,
+    "privacyBoundaryMayChange": false,
+    "automaticExecutionBoundaryMayChange": false,
+    "qualificationEvidenceReboundToRcRevision": false
+  },
+  "authority": {
+    "currentOfficialRemains": "1.5.0",
+    "currentStableRemains": "1.5.0",
+    "releaseCandidateDoesNotEstablishStable": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false,
+    "tagOrGithubReleasePublicationAutomatic": false
+  },
+  "rollback": {
+    "knownGoodStable": "1.5.0",
+    "stableRuntime": "js/glaze-v1.5.0.mjs"
+  },
+  "boundary": "This record identifies GLAZE UI 1.5.1-rc.1 as the exact patch Release Candidate track. It carries accepted V1.5.1 qualification only through source-impact continuity from the frozen qualified revision; it does not relabel the external observations as RC-head testing and does not establish Stable, consumer, deployment, production, tag, or GitHub Release acceptance."
+}
