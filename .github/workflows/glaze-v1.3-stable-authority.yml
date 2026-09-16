@@ -49,7 +49,8 @@ jobs:
       - name: Check V1.3 Stable runtime syntax
         run: node --check js/glaze-v1.3.0.mjs
       - name: Resolve V1.3 Stable runtime module graph
-        run: node -e "import('./js/glaze-v1.3.0.mjs').then(() => console.log('GLAZE UI V1.3 historical runtime graph: PASS'))"
+        run: |
+          node -e "import('./js/glaze-v1.3.0.mjs').then(() => console.log('GLAZE UI V1.3 historical runtime graph: PASS'))"
       - name: Verify V1.3 Stable CSS source boundary
         run: |
           grep -F 'official Stable web entrypoint' css/glaze-v1.3.0.css
