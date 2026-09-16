@@ -59,7 +59,10 @@ def main():
     hardening = (ROOT / "GLAZE_UI_V1_3_1_HARDENING.md").read_text()
     req("Official Stable release" in acceptance, "V1.3 Stable acceptance must remain recorded")
     req("V1.3.1" in acceptance and "V1.3.1" in deferred and "V1.3.1" in hardening, "V1.3.1 follow-up provenance must remain visible")
-    req("not represented as passed" in acceptance, "V1.3 evidence boundary must reject fabricated readiness")
+    req(
+        "not represented as passed" in acceptance or "not rewritten as a pass" in acceptance,
+        "V1.3 evidence boundary must reject fabricated readiness",
+    )
 
     if errors:
         print("GLAZE UI V1.3 historical Stable/readiness validation FAILED:")
