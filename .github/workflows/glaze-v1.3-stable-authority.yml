@@ -48,9 +48,41 @@ jobs:
         run: python -m json.tool registry/lifecycle.json >/dev/null
       - name: Check V1.3 Stable runtime syntax
         run: node --check js/glaze-v1.3.0.mjs
-      - name: Resolve V1.3 Stable runtime module graph
+      - name: Verify V1.3 browser runtime module graph statically
         run: |
-          node -e "import('./js/glaze-v1.3.0.mjs').then(() => console.log('GLAZE UI V1.3 historical runtime graph: PASS'))"
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          import subprocess
+
+          root = Path.cwd().resolve()
+          entry = (root / 'js/glaze-v1.3.0.mjs').resolve()
+          pattern = re.compile(
+              r'''(?:import\s*\(|(?:import|export)\s+(?:[^"']*?\s+from\s+)?)['"](\./[^'"]+)['"]'''
+          )
+          pending = [entry]
+          seen = set()
+
+          while pending:
+              module = pending.pop()
+              if module in seen:
+                  continue
+              if root not in module.parents:
+                  raise SystemExit(f'module escaped repository root: {module}')
+              if not module.is_file():
+                  raise SystemExit(f'missing runtime module: {module.relative_to(root)}')
+              seen.add(module)
+              subprocess.run(['node', '--check', str(module)], check=True)
+              text = module.read_text(encoding='utf-8')
+              for specifier in pattern.findall(text):
+                  target = (module.parent / specifier).resolve()
+                  if target.suffix == '':
+                      target = target.with_suffix('.mjs')
+                  if target.suffix == '.mjs':
+                      pending.append(target)
+
+          print(f'GLAZE UI V1.3 historical browser runtime graph: PASS ({len(seen)} modules syntax-checked; no DOM execution attempted)')
+          PY
       - name: Verify V1.3 Stable CSS source boundary
         run: |
           grep -F 'official Stable web entrypoint' css/glaze-v1.3.0.css
