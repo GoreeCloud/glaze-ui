@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://goreecloud.dev/schemas/glaze-ui/consumer-registry.schema.json",
-  "title": "Glaze UI V1.4 Consumer Registry",
+  "title": "Glaze UI V1.5 Consumer Registry",
   "type": "object",
   "additionalProperties": false,
   "required": ["schemaVersion", "officialBaseline", "officialProductLabel", "requiredConsumerVersion", "auditedAt", "statusVocabulary", "enforcement", "consumers"],
