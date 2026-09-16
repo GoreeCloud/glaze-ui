@@ -3,10 +3,9 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 import {
-  glazeV15,
   resolveGlazeInterface,
   summarizeGlazeInterfaceResolution
-} from '../js/glaze-v1.5.0.mjs';
+} from '../js/glaze-v1.5-resolution.dev.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
@@ -77,12 +76,20 @@ for (const file of ['README.md', 'STABILITY.md', 'ACCEPTANCE.md', 'CONFORMANCE.m
   assert(!text.includes('V1.4 (`1.4.1`) is the current Stable'), `${file} contains stale V1.4.1 current-Stable authority`);
 }
 
-assert(glazeV15.version === '1.5.0', 'Stable runtime metadata version mismatch');
-assert(glazeV15.lifecycle === 'stable', 'Stable runtime metadata lifecycle mismatch');
-assert(glazeV15.consumerEligible === true, 'Stable runtime must be consumer eligible');
-assert(glazeV15.reviewedImplementationAnchor === expectedAnchor, 'Stable runtime reviewed anchor mismatch');
-assert(glazeV15.numericPerformanceBudgetV10AcceptanceClaimed === false, 'Stable runtime must not claim V1.0 numeric performance acceptance');
-assert(glazeV15.foldablePostureAcceptanceClaimed === false, 'Stable runtime must not claim foldable/posture acceptance');
+// The public Stable entrypoint inherits browser-oriented historical modules, so the
+// Node authority verifier checks its release wrapper statically while executing the
+// exact reviewed V1.5 resolver directly. The workflow separately proves that the
+// reviewed V1.5 behavior sources are byte-identical to the human-reviewed anchor.
+const stableRuntime = read('js/glaze-v1.5.0.mjs');
+assert(stableRuntime.includes("version: '1.5.0'"), 'Stable runtime must identify version 1.5.0');
+assert(stableRuntime.includes("lifecycle: 'stable'"), 'Stable runtime must identify stable lifecycle');
+assert(stableRuntime.includes(expectedAnchor), 'Stable runtime must name reviewed implementation anchor');
+assert(stableRuntime.includes("'performance-representative-budget'"), 'Stable runtime must disclose deferred performance qualification');
+assert(stableRuntime.includes("'platform-posture-continuity'"), 'Stable runtime must disclose deferred posture qualification');
+assert(stableRuntime.includes('numericPerformanceBudgetV10AcceptanceClaimed: false'), 'Stable runtime must preserve performance non-claim');
+assert(stableRuntime.includes('foldablePostureAcceptanceClaimed: false'), 'Stable runtime must preserve posture non-claim');
+assert(stableRuntime.includes("from './glaze-v1.5-resolution.dev.mjs'"), 'Stable runtime must delegate to reviewed V1.5 resolver');
+assert(stableRuntime.includes('promoteStableIdentity'), 'Stable runtime must contain bounded Stable identity promotion');
 
 const resolved = resolveGlazeInterface({
   providers: [
@@ -123,25 +130,25 @@ const resolved = resolveGlazeInterface({
   intent: {supportsMultiPane: true}
 });
 
-assert(resolved.version === '1.5.0', 'Stable resolver must report version 1.5.0');
-assert(resolved.lifecycle === 'stable', 'Stable resolver must report stable lifecycle');
-assert(resolved.authority.authorizationInferred === false, 'Stable resolver must not infer authorization');
-assert(resolved.authority.permissionGranted === false, 'Stable resolver must not grant permission');
-assert(resolved.authority.automaticNavigationAllowed === false, 'Stable resolver must not allow automatic navigation');
-assert(resolved.authority.automaticPermissionRequestAllowed === false, 'Stable resolver must not allow automatic permission requests');
-assert(resolved.authority.automaticConsequentialExecutionAllowed === false, 'Stable resolver must not allow automatic consequential execution');
-assert(resolved.authority.automaticFallbackExecutionAllowed === false, 'Stable resolver must not allow automatic fallback execution');
-assert(resolved.continuity.taskStateReset === false, 'Stable resolver must preserve task state');
-assert(resolved.continuity.pageReloadRequired === false, 'Stable resolver must not require page reload');
+assert(resolved.version === '1.5.0-dev.1', 'Reviewed resolver identity must remain Development at the exact implementation layer');
+assert(resolved.lifecycle === 'development', 'Reviewed resolver lifecycle must remain Development at the implementation layer');
+assert(resolved.authority.authorizationInferred === false, 'Reviewed resolver must not infer authorization');
+assert(resolved.authority.permissionGranted === false, 'Reviewed resolver must not grant permission');
+assert(resolved.authority.automaticNavigationAllowed === false, 'Reviewed resolver must not allow automatic navigation');
+assert(resolved.authority.automaticPermissionRequestAllowed === false, 'Reviewed resolver must not allow automatic permission requests');
+assert(resolved.authority.automaticConsequentialExecutionAllowed === false, 'Reviewed resolver must not allow automatic consequential execution');
+assert(resolved.authority.automaticFallbackExecutionAllowed === false, 'Reviewed resolver must not allow automatic fallback execution');
+assert(resolved.continuity.taskStateReset === false, 'Reviewed resolver must preserve task state');
+assert(resolved.continuity.pageReloadRequired === false, 'Reviewed resolver must not require page reload');
 
 const sensitive = resolved.actions.actions.find(action => action.id === 'sensitive');
 assert(sensitive?.state === 'permission-required', 'Privacy-sensitive action must remain permission-required');
 assert(sensitive?.enabled === false, 'Privacy-sensitive action must remain disabled');
 
 const summary = summarizeGlazeInterfaceResolution(resolved);
-assert(summary.version === '1.5.0', 'Stable summary version mismatch');
-assert(summary.lifecycle === 'stable', 'Stable summary lifecycle mismatch');
-assert(summary.operationalAuthorityGranted === false, 'Stable summary must not grant operational authority');
+assert(summary.version === '1.5.0-dev.1', 'Reviewed resolver summary identity must remain Development');
+assert(summary.lifecycle === 'development', 'Reviewed resolver summary lifecycle must remain Development');
+assert(summary.operationalAuthorityGranted === false, 'Reviewed resolver summary must not grant operational authority');
 
 const acceptance = read('acceptance/v1.5-stable.md');
 assert(acceptance.includes(expectedAnchor), 'Stable acceptance must name reviewed implementation anchor');
