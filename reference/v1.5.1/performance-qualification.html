@@ -18,15 +18,15 @@
     <p><strong>Local measurement surface only — not acceptance evidence.</strong> This page may calculate timing aggregates and budget comparisons. It cannot mark <code>performance-representative-budget</code> satisfied or create RC, Stable, consumer, deployment, or production acceptance.</p>
     <p id="revision-status"><strong>Revision:</strong> <span class="pending">UNBOUND — measurements are not exact-revision evidence.</span> Open with <code>?revision=&lt;40-hex-sha&gt;</code> and independently verify that SHA is the checked-out review revision.</p>
     <p><strong>Budget:</strong> Standard — Glaze UI Performance Budget v1.0. Required minimums: 20 warm-up + 200 measured resolver calls; 30 trusted user transitions; 120 idle frame intervals; 240 active frame intervals.</p>
-    <p><strong>Privacy boundary:</strong> repository-local; no telemetry, remote analysis, remote assets, camera access, credentials, provider secrets, or raw task content in the result record.</p>
+    <p><strong>Privacy boundary:</strong> repository-local; no telemetry, remote analysis, remote assets, camera access, credentials, provider secrets, raw task content, serials, or unique device identifiers in the result record.</p>
   </section>
 
   <div class="grid">
     <section class="panel controls" aria-labelledby="controls-title">
       <h2 id="controls-title">Environment and representative controls</h2>
-      <div class="field"><label for="os-version">Operating system and version</label><input id="os-version" autocomplete="off" placeholder="Example: Zorin OS 17.3 Pro"></div>
-      <div class="field"><label for="runtime-version">Browser/runtime and version</label><input id="runtime-version" autocomplete="off" placeholder="Example: Firefox 143.0"></div>
-      <div class="field"><label for="device-id">Representative hardware identity</label><input id="device-id" autocomplete="off" placeholder="Example: Lenovo IdeaPad 3 15IIL05"></div>
+      <div class="field"><label for="os-version">Operating system and version</label><input id="os-version" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Example: Zorin OS 17.3 Pro"></div>
+      <div class="field"><label for="runtime-version">Browser/runtime and version</label><input id="runtime-version" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Example: Firefox 143.0"></div>
+      <div class="field"><label for="device-id">Representative hardware class/model — no serials or unique identifiers</label><input id="device-id" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Example: Lenovo IdeaPad 3 15IIL05"></div>
       <label class="check"><input id="revision-confirmed" type="checkbox"><span>I independently confirmed the revision in this page URL equals the checked-out Git revision.</span></label>
 
       <h3>Review fixture</h3>
@@ -41,7 +41,7 @@
       <div class="field"><label for="performance-state">Performance level</label><select id="performance-state"><option value="normal">Normal</option><option value="low">Low power</option></select></div>
       <div class="field"><label for="pressure-state">Resource pressure</label><select id="pressure-state"><option value="normal">Normal</option><option value="critical">Critical</option></select></div>
       <div class="buttons"><button id="capture-idle" type="button">Capture idle baseline</button><button id="start-session" type="button">Start measured session</button><button id="evaluate" type="button">Evaluate current measurement</button><button id="copy-result" type="button">Copy minimized JSON</button></div>
-      <p id="instruction" class="muted">1. Bind and confirm the exact revision. 2. Capture idle baseline while foregrounded. 3. Start the session. 4. Make at least 30 real control changes spanning every coverage family. 5. Keep the page foregrounded until at least 240 active frame intervals are collected. 6. Evaluate.</p>
+      <p id="instruction" class="muted">1. Bind and confirm the exact revision. 2. Enter bounded representative environment metadata without serials or unique identifiers. 3. Capture idle baseline while foregrounded. 4. Start the session. 5. Make at least 30 real control changes spanning every coverage family. 6. Keep the page foregrounded until at least 240 active frame intervals are collected. 7. Evaluate.</p>
     </section>
 
     <section class="panel" aria-labelledby="results-title">
@@ -108,6 +108,14 @@
   }
   function round(value){return value == null ? null : Math.round(value*1000)/1000;}
   function median(values){return percentile(values,.5);}
+  function boundedEnvironmentValue(id){
+    const value=$(id).value;
+    if(typeof value !== 'string' || !value || value !== value.trim() || value.length>160 || /[\u0000-\u001f\u007f-\u009f]/u.test(value)) return null;
+    return value;
+  }
+  function environmentMetadataReady(){
+    return Boolean(boundedEnvironmentValue('os-version') && boundedEnvironmentValue('runtime-version') && boundedEnvironmentValue('device-id'));
+  }
 
   let idleIntervals=[];
   let activeIntervals=[];
@@ -202,12 +210,12 @@
   }
 
   function requiredEnvironmentReady(){
-    return exactRevisionBound && $('revision-confirmed').checked && $('os-version').value.trim() && $('runtime-version').value.trim() && $('device-id').value.trim();
+    return exactRevisionBound && $('revision-confirmed').checked && environmentMetadataReady();
   }
 
   function startSession(){
     if(!requiredEnvironmentReady()){
-      $('live-region').textContent='Cannot start: bind/confirm the exact revision and complete all required environment fields.';return;
+      $('live-region').textContent='Cannot start: bind/confirm the exact revision and complete all bounded environment fields without serials or unique identifiers.';return;
     }
     if(idleIntervals.length<120){$('live-region').textContent='Cannot start: capture at least 120 valid idle frame intervals first.';return;}
     if(document.visibilityState !== 'visible'){$('live-region').textContent='Cannot start while backgrounded.';return;}
@@ -257,7 +265,7 @@
       continuityAndAuthority:boundaryWithinLimits()
     };
     const allThresholds=Object.values(thresholds).every(Boolean);
-    const evaluable=exactRevisionBound&&$('revision-confirmed').checked&&enoughSamples&&coverageComplete&&!invalidated&&document.visibilityState==='visible';
+    const evaluable=requiredEnvironmentReady()&&enoughSamples&&coverageComplete&&!invalidated&&document.visibilityState==='visible';
     const record={
       recordType:'local-performance-measurement-evaluation',
       authority:'non-authorizing-measurement-only',
@@ -267,7 +275,7 @@
       measuredRevision:revision||null,
       revisionIndependentlyConfirmed:$('revision-confirmed').checked,
       measurementDate:new Date().toISOString(),
-      environment:{operatingSystem:$('os-version').value.trim(),runtime:$('runtime-version').value.trim(),hardware:$('device-id').value.trim(),foregroundAtEvaluation:document.visibilityState==='visible',presentationModes:['normal','constrained/low-power'],idleMedianFrameIntervalMs:round(idleMedian)},
+      environment:{operatingSystem:boundedEnvironmentValue('os-version'),runtime:boundedEnvironmentValue('runtime-version'),hardware:boundedEnvironmentValue('device-id'),foregroundAtEvaluation:document.visibilityState==='visible',presentationModes:['normal','constrained/low-power'],idleMedianFrameIntervalMs:round(idleMedian)},
       samples:{resolverWarmup:24,resolverMeasured:resolverDurations.length,interactionToPaint:interactionDurations.length,idleFrameIntervals:idleIntervals.length,activeFrameIntervals:activeIntervals.length},
       coverage:{required:requiredCoverage,touched:[...touchedCoverage],complete:coverageComplete},
       metrics:{resolverP95Ms:round(resolverP95),resolverP99Ms:round(resolverP99),interactionPaintP95Ms:round(interactionP95),interactionPaintP99Ms:round(interactionP99),activeFrameP95Ms:round(activeP95),activeFrameP95LimitMs:round(frameP95Limit),severeFrameStallRatePercent:round(severeRate),catastrophicForegroundStallCount:catastrophicCount},
