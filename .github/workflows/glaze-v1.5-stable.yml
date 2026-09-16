@@ -1,0 +1,64 @@
+name: GLAZE UI V1.5.0 Stable Authority
+
+on:
+  pull_request:
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'GLAZE_UI_V1_5.md'
+      - 'GLAZE_UI_V1_5_1_HARDENING.md'
+      - 'acceptance/v1.5-stable.md'
+      - 'contracts/v1.5/**'
+      - 'js/glaze-v1.5.0.mjs'
+      - 'js/glaze-v1.5*.dev.mjs'
+      - 'scripts/verify_glaze_v1_5_*.mjs'
+      - '.github/workflows/glaze-v1.5-stable.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'GLAZE_UI_V1_5.md'
+      - 'GLAZE_UI_V1_5_1_HARDENING.md'
+      - 'acceptance/v1.5-stable.md'
+      - 'contracts/v1.5/**'
+      - 'js/glaze-v1.5.0.mjs'
+      - 'js/glaze-v1.5*.dev.mjs'
+      - 'scripts/verify_glaze_v1_5_*.mjs'
+      - '.github/workflows/glaze-v1.5-stable.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  stable-authority:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify prior Stable baseline remains valid
+        run: node scripts/verify_glaze_v1_4_1_stable.mjs
+
+      - name: Verify V1.5 core Development implementation
+        run: node scripts/verify_glaze_v1_5_development.mjs
+
+      - name: Verify V1.5 actions and graceful degradation
+        run: node scripts/verify_glaze_v1_5_actions_development.mjs
+
+      - name: Verify V1.5 privacy-safe diagnostics
+        run: node scripts/verify_glaze_v1_5_diagnostics_development.mjs
+
+      - name: Verify V1.5 unified resolution
+        run: node scripts/verify_glaze_v1_5_resolution_development.mjs
+
+      - name: Verify V1.5 representative consumer profiles
+        run: node scripts/verify_glaze_v1_5_consumer_integration_development.mjs
+
+      - name: Verify V1.5 Stable authority and bounded scope
+        run: node scripts/verify_glaze_v1_5_stable.mjs
