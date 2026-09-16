@@ -63,6 +63,20 @@ assert(scope.stableClaims.foldablePostureTargetRuntimeAccepted === false, 'V1.5.
 assert(scope.continuityPolicy.presentationBehaviorChangePermittedByPromotion === false, 'Promotion must not permit presentation behavior change');
 assert(scope.continuityPolicy.authorizationBehaviorChangePermittedByPromotion === false, 'Promotion must not permit authorization behavior change');
 
+const consumers = json('consumers/registry.json');
+assert(consumers.officialBaseline === '1.5.0', 'Consumer registry official baseline must be 1.5.0');
+assert(consumers.requiredConsumerVersion === '1.5.0', 'Consumer registry required version must be 1.5.0');
+assert(consumers.consumers.every(item => item.requiredTargetVersion === '1.5.0'), 'Every registered consumer must require 1.5.0');
+assert(consumers.consumers.every(item => item.productionEligible === false), 'Stable design-system promotion must not auto-certify consumers');
+assert(consumers.sharedStableQualificationBoundary.numericPerformanceBudgetV10AcceptanceClaimedByV150 === false, 'Consumer registry must preserve V1.5.0 performance non-claim');
+assert(consumers.sharedStableQualificationBoundary.foldablePostureAcceptanceClaimedByV150 === false, 'Consumer registry must preserve V1.5.0 posture non-claim');
+
+for (const file of ['README.md', 'STABILITY.md', 'ACCEPTANCE.md', 'CONFORMANCE.md']) {
+  const text = read(file);
+  assert(text.includes('1.5.0'), `${file} must identify V1.5.0 current authority`);
+  assert(!text.includes('V1.4 (`1.4.1`) is the current Stable'), `${file} contains stale V1.4.1 current-Stable authority`);
+}
+
 assert(glazeV15.version === '1.5.0', 'Stable runtime metadata version mismatch');
 assert(glazeV15.lifecycle === 'stable', 'Stable runtime metadata lifecycle mismatch');
 assert(glazeV15.consumerEligible === true, 'Stable runtime must be consumer eligible');
