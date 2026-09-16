@@ -1,7 +1,7 @@
 # Glaze UI — Feature Roadmap
 
 **Status:** Active roadmap control  
-**As of:** 2026-09-15  
+**As of:** 2026-09-16  
 **Authoritative project record:** Project Specification — Glaze UI  
 **Canonical lifecycle authority:** `registry/lifecycle.json`  
 **Canonical repository:** `GoreeCloud/goreecloud-glaze-ui`  
@@ -13,22 +13,22 @@ This file is the repository-side feature roadmap control for Glaze UI. It record
 
 ## Current verified lifecycle
 
-The current Official Stable release is **GLAZE UI V1.5 / `1.5.0`**. The accepted Stable integration commit is `b7fa8164bfdeaa1dc0acb21b770e7601120da04e`, and `1.4.1` remains the documented rollback baseline.
+GLAZE UI V1.5.1 is the qualification-hardening successor to the V1.5.0 Stable baseline. The two V1.5.1 external qualification obligations were independently reviewed and accepted on frozen exact Development revision `5b59d0e36950d737dba35b58ae58058684e0831b`; the qualification changes were integrated at `f7ef915f0aabea6cf92748018f2220a99e3a9c92`, and Release Candidate `1.5.1-rc.1` was integrated and post-merge verified at `a9c93506dd062d29c6c894940b71d060e8c39110`.
 
-The active successor stabilization stream is **GLAZE UI V1.5.1 / `1.5.1-dev.1`**, which remains **Development**, **Draft**, **non-RC**, **non-Stable**, and **non-consumer-authorizing**. Draft PR #230 (`feature/glaze-v1.5.1-hardening`) adds bounded qualification tooling while preserving the exact `1.5.0` Stable baseline.
+This promotion stream establishes **GLAZE UI V1.5 / `1.5.1`** as the current Official Stable shared target only when the governed Stable promotion is authoritative on `main` and the merged `main` revision passes the V1.5.1 Stable authority gate. The immediate known-good rollback baseline is `1.5.0`.
 
-V1.5.1 has exactly two remaining external qualification obligations:
+The V1.5.1 qualification closure contains two independently accepted additions:
 
-1. `performance-representative-budget` — requires representative measurements against the approved GoreeCloud Glaze UI Performance Budget and exact reviewed revision;
-2. `platform-posture-continuity` — requires representative physical-device or approved target-runtime evidence for applicable posture/rotation/form-factor transitions.
+1. `performance-representative-budget` — accepted for the reviewed representative Zorin OS 17.3 / Firefox 156.0 / Lenovo IdeaPad 3 15IIL05 environment; durable review authority PR #230 comment `5697516074`.
+2. `platform-posture-continuity` — accepted for the approved Pixel Fold Android Emulator target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`; durable review authority PR #230 comment `5705230782`.
 
-Neither obligation may be satisfied by machine simulation, generated review artifacts, repository-local harness success, or implication. Missing or mismatched evidence must remain pending.
+Together with the sixteen retained V1.5.0 obligations, V1.5.1 contains **18 accepted shared qualification obligations**. The external observations remain bound to their real exact revisions and are carried into Stable only through fail-closed source-impact continuity.
 
 ## Current verified direction
 
-V1.5.0 Stable provides the accepted Context + Capability Resolution baseline, including fail-closed authority/provenance handling, capability-aware presentation, accessibility-priority composition, continuity, graceful degradation, explainable diagnostics, and presentation-only enforcement boundaries. Glaze UI presents authoritative state but does not create consent, permissions, privacy authorization, security claims, recovery claims, or consequential execution authority.
+V1.5.1 preserves the accepted Context + Capability Resolution architecture, including fail-closed authority/provenance handling, capability-aware presentation, accessibility-priority composition, continuity, graceful degradation, explainable diagnostics, and presentation-only enforcement boundaries. Glaze UI presents authoritative state but does not create consent, permissions, privacy authorization, security claims, recovery claims, or consequential execution authority.
 
-V1.5.1 hardening now provides repository-local qualification harnesses for representative performance measurement and posture-continuity evidence capture. Those harnesses are evidence-collection and boundary-verification tools only; they cannot promote lifecycle state, accept downstream consumers, or manufacture representative evidence.
+The V1.5.1 Stable patch adds qualification closure and Stable patch identity without changing the reviewed V1.5 presentation or authority implementation. Publication, deployment, production acceptance, and downstream application acceptance remain separate governed transitions.
 
 All GoreeCloud-controlled graphical consumers remain independently responsible for application-specific adoption of the current Stable Glaze UI release and for their own rendered/native/accessibility/platform acceptance. A Stable Glaze platform release does not make downstream applications Stable by inheritance.
 
@@ -39,21 +39,21 @@ All GoreeCloud-controlled graphical consumers remain independently responsible f
 | FR-001 | Reconcile and maintain every current planned or recommended Glaze UI feature from authoritative project records and verified repository evidence in this roadmap. | High | Ongoing control. |
 | FR-002 | Move actionable feature obligations into GoreeCloud Tasks Management when required, preserving priority, dependency, blocker, and lifecycle disposition. | High | Ongoing control. |
 | FR-003 | Do not mark features implemented, complete, cancelled, superseded, RC, Stable, deployed, or production-accepted without authoritative evidence and synchronized repository/Drive/task records. | High | Ongoing control. |
-| FR-004 | Preserve GLAZE UI V1.5 / `1.5.0` as the current Official Stable authority and `1.4.1` as the rollback baseline while successor work remains isolated. | P0 | Active control — Stable authority verified in `registry/lifecycle.json`. |
-| FR-005 | Preserve the V1.5 Context + Capability Resolution architecture and its fail-closed authority, accessibility, continuity, diagnostics, degradation, and truth-preservation invariants. | P0 | Stable baseline; regression protection remains mandatory. |
-| FR-006 | Maintain presentation-only authority boundaries so Glaze never creates consent, grants permissions, invents provider precedence, executes consequential operations, or upgrades Privacy Shield, Wardveil Security, Everkeep, Mesh, or application truth. | P0 | Stable invariant; V1.5.1 qualification tooling explicitly preserves it. |
-| FR-007 | Complete V1.5.1 representative performance qualification against the approved budget using exact-revision, privacy-minimized evidence from a representative reviewed environment. | P0 | Pending external evidence. Harness implemented in Draft PR #230; no acceptance inferred. |
-| FR-008 | Complete V1.5.1 platform/posture continuity qualification using a representative physical device or approved target runtime for every claimed applicable transition family. | P0 | Pending external evidence. Harness implemented in Draft PR #230; machine simulation alone is insufficient. |
-| FR-009 | Keep V1.5.1 Development until FR-007 and FR-008 are independently reviewed and durably recorded; only then evaluate any later RC or Stable transition under lifecycle governance. | P0 | Blocked on FR-007 and FR-008. No RC/Stable claim. |
-| FR-010 | Drive current-Stable adoption across GoreeCloud-controlled user-facing consumers without allowing platform-level Stable status to imply application-level acceptance. | P0 | Ongoing consumer migration/acceptance work. |
-| FR-011 | Reconcile stale historical documentation and roadmap records that still identify older Glaze releases as current, without rewriting immutable historical evidence. | High | Active documentation-control work. |
-| FR-012 | Preserve the separately governed V1.4.1 publication/rollback evidence as historical release provenance without conflating it with current V1.5.0 Stable authority or V1.5.1 qualification. | High | Historical/rollback control. |
+| FR-004 | Preserve GLAZE UI V1.5 / `1.5.1` as the current Official Stable authority after governed promotion and `1.5.0` as the immediate rollback baseline. | P0 | Stable-promotion control — qualification and RC boundaries verified; final authority requires exact-head promotion plus merged-`main` gate. |
+| FR-005 | Preserve the V1.5 Context + Capability Resolution architecture and its fail-closed authority, accessibility, continuity, diagnostics, degradation, and truth-preservation invariants. | P0 | Stable invariant; regression protection remains mandatory. |
+| FR-006 | Maintain presentation-only authority boundaries so Glaze never creates consent, grants permissions, invents provider precedence, executes consequential operations, or upgrades Privacy Shield, Wardveil Security, Everkeep, Mesh, or application truth. | P0 | Stable invariant; V1.5.1 promotion preserves it. |
+| FR-007 | Complete V1.5.1 representative performance qualification against the approved budget using exact-revision, privacy-minimized evidence from a representative reviewed environment. | P0 | Accepted — exact revision `5b59d0e36950d737dba35b58ae58058684e0831b`; PR #230 comment `5697516074`. |
+| FR-008 | Complete V1.5.1 platform/posture continuity qualification using a representative physical device or approved target runtime for every claimed applicable transition family. | P0 | Accepted — approved Pixel Fold target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`; PR #230 comment `5705230782`. |
+| FR-009 | Complete the governed V1.5.1 lifecycle transition through Release Candidate and separate Stable promotion with exact-head and post-merge verification. | P0 | RC complete at `a9c93506dd062d29c6c894940b71d060e8c39110`; Stable promotion in progress and must pass the V1.5.1 Stable authority gate before completion. |
+| FR-010 | Drive current-Stable adoption across GoreeCloud-controlled user-facing consumers without allowing platform-level Stable status to imply application-level acceptance. | P0 | Ongoing consumer migration/acceptance work; required target advances to `1.5.1` after authoritative Stable promotion. |
+| FR-011 | Reconcile stale historical documentation and roadmap records that still identify older Glaze releases as current, without rewriting immutable historical evidence. | High | Active documentation-control work; repository promotion surfaces reconciled for V1.5.1. |
+| FR-012 | Preserve V1.5.0 and earlier release evidence as historical rollback/audit provenance without conflating it with current V1.5.1 Stable authority. | High | Historical/rollback control. |
 
 ## Qualification evidence boundary
 
 Machine checks may prove source behavior, contract integrity, exact-revision preservation, or qualification-tool integrity only to the extent those checks exercise them. They do not substitute for representative human/device/runtime evidence, assistive-technology sessions where required, privacy/policy review, performance measurements, application-specific consumer acceptance, lifecycle approval, deployment, or production acceptance.
 
-A V1.5.1 qualification artifact must remain pending until real evidence is produced and reviewed against the exact source revision and applicable environment. Missing evidence, unsupported transition families, unknown authority, stale evidence, source-revision mismatch, or environment mismatch must fail closed rather than being inferred as acceptable.
+The V1.5.1 performance and posture qualification is accepted only for the exact reviewed environments and revision recorded above. Missing evidence, unsupported transition families, unknown authority, stale evidence, source-revision mismatch, or environment mismatch must fail closed rather than being inferred as acceptable.
 
 ## Maintenance and synchronization
 

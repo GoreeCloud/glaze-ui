@@ -1,9 +1,11 @@
-name: GLAZE UI V1.5.1 Release Candidate
+name: GLAZE UI V1.5.1 Release Candidate / Historical Integrity
 
 on:
   pull_request:
     paths:
+      - 'VERSION'
       - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
       - 'contracts/v1.5.1/**'
       - 'acceptance/v1.5.1-rc.1.md'
       - 'js/glaze-v1.5.1-rc.1.mjs'
@@ -12,7 +14,9 @@ on:
   push:
     branches: [main, 'release/glaze-ui-v1.5.1-rc1-20260916']
     paths:
+      - 'VERSION'
       - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
       - 'contracts/v1.5.1/**'
       - 'acceptance/v1.5.1-rc.1.md'
       - 'js/glaze-v1.5.1-rc.1.mjs'
@@ -29,14 +33,15 @@ concurrency:
 env:
   QUALIFIED_V151_SHA: 5b59d0e36950d737dba35b58ae58058684e0831b
   QUALIFICATION_INTEGRATION_SHA: f7ef915f0aabea6cf92748018f2220a99e3a9c92
+  RC_INTEGRATION_SHA: a9c93506dd062d29c6c894940b71d060e8c39110
 
 jobs:
-  release-candidate-authority:
-    name: Verify V1.5.1 RC authority and continuity
+  release-candidate-integrity:
+    name: Verify V1.5.1 RC authority or retained history
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check out exact candidate revision
+      - name: Check out exact revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -52,8 +57,10 @@ jobs:
           test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
           git cat-file -e "${QUALIFIED_V151_SHA}^{commit}"
           git cat-file -e "${QUALIFICATION_INTEGRATION_SHA}^{commit}"
+          git cat-file -e "${RC_INTEGRATION_SHA}^{commit}"
           git merge-base --is-ancestor "${QUALIFIED_V151_SHA}" HEAD
           git merge-base --is-ancestor "${QUALIFICATION_INTEGRATION_SHA}" HEAD
+          git merge-base --is-ancestor "${RC_INTEGRATION_SHA}" HEAD
 
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -74,7 +81,16 @@ jobs:
             scripts/verify_glaze_v1_5_1_posture_qualification_harness.mjs \
             .github/workflows/glaze-v1.5.1-qualification.yml
 
-      - name: Verify inherited V1.5.0 Stable authority and behavior
+      - name: Verify integrated RC evidence remains immutable
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code "${RC_INTEGRATION_SHA}" -- \
+            contracts/v1.5.1/release-candidate.json \
+            acceptance/v1.5.1-rc.1.md \
+            js/glaze-v1.5.1-rc.1.mjs
+
+      - name: Verify retained V1.5.0 behavior integrity
         run: |
           node scripts/verify_glaze_v1_5_stable.mjs
           node scripts/verify_glaze_v1_5_resolution_development.mjs
@@ -84,10 +100,10 @@ jobs:
           node scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs
           node scripts/verify_glaze_v1_5_1_posture_qualification_harness.mjs
 
-      - name: Verify V1.5.1 Release Candidate authority
+      - name: Verify V1.5.1 Release Candidate authority or historical integrity
         run: node scripts/verify_glaze_v1_5_1_release_candidate.mjs
 
-      - name: Verify RC wrapper is identity-only
+      - name: Verify RC wrapper remains identity-only
         shell: bash
         run: |
           set -euo pipefail

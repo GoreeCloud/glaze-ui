@@ -1,15 +1,9 @@
-name: GLAZE UI V1.5.0 Stable Authority
+name: GLAZE UI V1.5.0 Historical Stable Integrity
 
 on:
   pull_request:
     paths:
-      - 'VERSION'
       - 'registry/lifecycle.json'
-      - 'consumers/registry.json'
-      - 'README.md'
-      - 'STABILITY.md'
-      - 'ACCEPTANCE.md'
-      - 'CONFORMANCE.md'
       - 'GLAZE_UI_V1_5.md'
       - 'GLAZE_UI_V1_5_1_HARDENING.md'
       - 'acceptance/v1.5-stable.md'
@@ -23,13 +17,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'VERSION'
       - 'registry/lifecycle.json'
-      - 'consumers/registry.json'
-      - 'README.md'
-      - 'STABILITY.md'
-      - 'ACCEPTANCE.md'
-      - 'CONFORMANCE.md'
       - 'GLAZE_UI_V1_5.md'
       - 'GLAZE_UI_V1_5_1_HARDENING.md'
       - 'acceptance/v1.5-stable.md'
@@ -44,11 +32,16 @@ on:
 permissions:
   contents: read
 
+env:
+  REVIEWED_V15_IMPLEMENTATION_SHA: ee1032a0822ab8e103f8afe48e5c1859fde65cc9
+  V150_STABLE_INTEGRATION_SHA: b7fa8164bfdeaa1dc0acb21b770e7601120da04e
+
 jobs:
-  stable-authority:
+  historical-stable-integrity:
+    name: Verify retained V1.5.0 Stable integrity
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout exact revision with reviewed-anchor history
+      - name: Checkout exact revision with retained history
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -60,18 +53,31 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Verify exact revision
+      - name: Verify exact revision and retained Stable ancestry
         env:
           EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         shell: bash
-        run: test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+          git cat-file -e "${V150_STABLE_INTEGRATION_SHA}^{commit}"
+          git merge-base --is-ancestor "${V150_STABLE_INTEGRATION_SHA}" HEAD
+
+      - name: Verify immutable V1.5.0 Stable release records remain unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code "${V150_STABLE_INTEGRATION_SHA}" -- \
+            GLAZE_UI_V1_5.md \
+            contracts/v1.5/stable-scope.json \
+            acceptance/v1.5-stable.md \
+            js/glaze-v1.5.0.mjs
 
       - name: Verify reviewed V1.5 implementation remains unchanged
         shell: bash
         run: |
-          git diff --exit-code \
-            ee1032a0822ab8e103f8afe48e5c1859fde65cc9 \
-            -- \
+          set -euo pipefail
+          git diff --exit-code "${REVIEWED_V15_IMPLEMENTATION_SHA}" -- \
             js/glaze-v1.5-actions.dev.mjs \
             js/glaze-v1.5-composition.dev.mjs \
             js/glaze-v1.5-context-capability.dev.mjs \
@@ -90,5 +96,5 @@ jobs:
             conformance/v1.5-diagnostics-development-matrix.json \
             conformance/v1.5-resolution-development-matrix.json
 
-      - name: Verify V1.5.0 Stable authority and bounded scope
+      - name: Verify V1.5.0 historical Stable integrity
         run: node scripts/verify_glaze_v1_5_stable.mjs
