@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
-import {fileURLToPath, pathToFileURL} from 'node:url';
+import {fileURLToPath} from 'node:url';
+
+import {
+  resolveGlazeInterface as resolveReviewedGlazeInterface,
+  summarizeGlazeInterfaceResolution as summarizeReviewedGlazeInterfaceResolution
+} from '../js/glaze-v1.5-resolution.dev.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
@@ -111,26 +116,92 @@ const consumersGuide = read('CONSUMERS.md');
 assert(consumersGuide.includes('(`1.5.1`)'), 'CONSUMERS.md must identify current 1.5.1 target');
 assert(consumersGuide.includes('Fresh repository-local V1.5 adoption and acceptance evidence is required'), 'CONSUMERS.md must preserve repository-local acceptance boundary');
 
-const runtimeModule = await import(pathToFileURL(path.join(root, 'js/glaze-v1.5.1.mjs')).href);
-assert(runtimeModule.glazeV151?.version === '1.5.1', 'Stable runtime metadata version mismatch');
-assert(runtimeModule.glazeV151?.lifecycle === 'stable', 'Stable runtime metadata lifecycle mismatch');
-assert(runtimeModule.glazeV151?.stableBaseline === '1.5.0', 'Stable runtime metadata rollback mismatch');
-assert(runtimeModule.glazeV151?.qualifiedStabilizationObligations === 18, 'Stable runtime qualification count mismatch');
-assert(runtimeModule.glazeV151?.authorizationInferred === false, 'Stable runtime must not infer authorization');
-assert(runtimeModule.glazeV151?.permissionRequestAutomatic === false, 'Stable runtime must not automatically request permission');
-assert(runtimeModule.glazeV151?.automaticNavigationAllowed === false, 'Stable runtime must not automatically navigate');
-assert(runtimeModule.glazeV151?.consequentialExecutionAutomatic === false, 'Stable runtime must not automatically execute consequential actions');
-assert(runtimeModule.glazeV151?.fallbackExecutionAutomatic === false, 'Stable runtime must not automatically execute fallbacks');
-assert(runtimeModule.glazeV151?.downstreamConsumerAcceptanceAutomatic === false, 'Stable runtime must not auto-accept consumers');
+// The public Stable runtime inherits browser-oriented V1.4.1 modules through V1.5.0.
+// Do not execute that browser entrypoint in a Node-only CI process. Validate the
+// wrapper contract statically, then exercise the exact reviewed V1.5 resolver
+// directly using the same Node-safe pattern as the retained V1.5.0 verifier.
+const stableRuntime = read('js/glaze-v1.5.1.mjs');
+for (const token of [
+  "export * from './glaze-v1.5.0.mjs'",
+  "from './glaze-v1.5.0.mjs'",
+  "version: '1.5.1'",
+  "lifecycle: 'stable'",
+  "stableBaseline: '1.5.0'",
+  'qualifiedStabilizationObligations: 18',
+  `reviewedImplementationAnchor: REVIEWED_IMPLEMENTATION_ANCHOR`,
+  `sourceQualificationAnchor: V151_QUALIFICATION_ANCHOR`,
+  'authorizationInferred: false',
+  'permissionRequestAutomatic: false',
+  'automaticNavigationAllowed: false',
+  'consequentialExecutionAutomatic: false',
+  'fallbackExecutionAutomatic: false',
+  'downstreamConsumerAcceptanceAutomatic: false',
+  "if (key === 'version' && candidate === '1.5.0')",
+  "promoted[key] = '1.5.1'"
+]) {
+  assert(stableRuntime.includes(token), `Stable runtime wrapper missing required contract token: ${token}`);
+}
+assert(stableRuntime.includes(reviewedImplementationAnchor), 'Stable runtime wrapper reviewed implementation anchor mismatch');
+assert(stableRuntime.includes(qualifiedAnchor), 'Stable runtime wrapper qualification anchor mismatch');
+assert(stableRuntime.includes(qualificationIntegrationCommit), 'Stable runtime wrapper qualification integration mismatch');
+assert(stableRuntime.includes(rcIntegrationCommit), 'Stable runtime wrapper RC integration mismatch');
 
-const resolved = runtimeModule.resolveGlazeInterface({});
-assert(resolved && typeof resolved === 'object', 'Stable runtime must resolve a Glaze interface');
-if (Object.prototype.hasOwnProperty.call(resolved, 'version')) {
-  assert(resolved.version === '1.5.1', 'Resolved Stable interface must expose 1.5.1 identity');
-}
-if (Object.prototype.hasOwnProperty.call(resolved, 'lifecycle')) {
-  assert(resolved.lifecycle === 'stable', 'Resolved Stable interface must remain Stable');
-}
+const reviewedResolved = resolveReviewedGlazeInterface({
+  providers: [
+    {
+      id: 'stable-platform',
+      authority: 'platform',
+      context: {
+        layout: {category: 'expanded'},
+        input: {primary: 'keyboard'},
+        connectivity: {class: 'online'}
+      },
+      capabilities: [
+        {id: 'connectivity.network', domain: 'connectivity', state: 'available'}
+      ]
+    },
+    {
+      id: 'stable-app',
+      authority: 'application',
+      context: {task: {kind: 'composing'}},
+      capabilities: [
+        {id: 'application.compose', domain: 'application', state: 'available'}
+      ]
+    },
+    {
+      id: 'stable-privacy',
+      authority: 'privacy',
+      capabilities: [
+        {id: 'authorization.data-use', domain: 'authorization', state: 'permission-required'}
+      ]
+    }
+  ],
+  actions: [
+    {id: 'compose', label: 'Compose', primary: true, requiredCapabilities: ['application.compose']},
+    {id: 'sensitive', label: 'Sensitive action', requiredCapabilities: ['authorization.data-use'], consequential: true}
+  ],
+  destinations: [{id: 'home', label: 'Home'}],
+  currentDestinationId: 'home',
+  intent: {supportsMultiPane: true}
+});
+
+assert(reviewedResolved.version === '1.5.0-dev.1', 'Reviewed implementation identity must remain Development beneath Stable wrappers');
+assert(reviewedResolved.lifecycle === 'development', 'Reviewed implementation lifecycle must remain Development beneath Stable wrappers');
+assert(reviewedResolved.authority.authorizationInferred === false, 'Reviewed resolver must not infer authorization');
+assert(reviewedResolved.authority.permissionGranted === false, 'Reviewed resolver must not grant permission');
+assert(reviewedResolved.authority.automaticNavigationAllowed === false, 'Reviewed resolver must not allow automatic navigation');
+assert(reviewedResolved.authority.automaticPermissionRequestAllowed === false, 'Reviewed resolver must not allow automatic permission requests');
+assert(reviewedResolved.authority.automaticConsequentialExecutionAllowed === false, 'Reviewed resolver must not allow automatic consequential execution');
+assert(reviewedResolved.authority.automaticFallbackExecutionAllowed === false, 'Reviewed resolver must not allow automatic fallback execution');
+assert(reviewedResolved.continuity.taskStateReset === false, 'Reviewed resolver must preserve task state');
+assert(reviewedResolved.continuity.pageReloadRequired === false, 'Reviewed resolver must not require page reload');
+
+const sensitive = reviewedResolved.actions.actions.find(action => action.id === 'sensitive');
+assert(sensitive?.state === 'permission-required', 'Privacy-sensitive action must remain permission-required');
+assert(sensitive?.enabled === false, 'Privacy-sensitive action must remain disabled');
+
+const reviewedSummary = summarizeReviewedGlazeInterfaceResolution(reviewedResolved);
+assert(reviewedSummary.operationalAuthorityGranted === false, 'Reviewed resolver summary must not grant operational authority');
 
 console.log('GLAZE UI V1.5.1 Stable authority verification: PASS');
 console.log(`Reviewed V1.5 implementation anchor: ${reviewedImplementationAnchor}`);
