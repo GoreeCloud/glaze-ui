@@ -33,7 +33,11 @@
     "performanceMeasurementHarness": "reference/v1.5.1/performance-qualification.html",
     "performanceMeasurementContract": "contracts/v1.5.1/performance-qualification-harness.dev.json",
     "performanceMeasurementVerifier": "scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs",
-    "toolingAuthority": "measurement-and-structural-verification-only",
+    "postureReviewHarness": "reference/v1.5.1/posture-qualification.html",
+    "postureReviewContract": "contracts/v1.5.1/posture-qualification-harness.dev.json",
+    "postureReviewVerifier": "scripts/verify_glaze_v1_5_1_posture_qualification_harness.mjs",
+    "postureEvidenceRequirement": "representative physical device or approved target runtime with trusted human observation",
+    "toolingAuthority": "measurement-and-review-capture-structural-verification-only",
     "toolingDoesNotSatisfyQualification": true
   },
   "carryForwardBoundaries": {
@@ -52,5 +56,5 @@
     "machineChecksCannotSubstituteForRequiredExternalEvidence": true,
     "missingEvidenceFailsClosed": true
   },
-  "boundary": "This contract creates the V1.5.1 qualification workstream and verified local measurement tooling only. It does not mark either carried-forward obligation passed and does not create Release Candidate, Stable, consumer, deployment, or production acceptance."
+  "boundary": "This contract creates the V1.5.1 qualification workstream and verified local measurement/review-capture tooling only. It does not mark either carried-forward obligation passed and does not create Release Candidate, Stable, consumer, deployment, or production acceptance."
 }

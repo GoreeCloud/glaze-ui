@@ -53,8 +53,10 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Syntax-check qualification verifier
-        run: node --check scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs
+      - name: Syntax-check qualification verifiers
+        run: |
+          node --check scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs
+          node --check scripts/verify_glaze_v1_5_1_posture_qualification_harness.mjs
 
       - name: Verify current V1.5.0 Stable authority remains valid
         run: node scripts/verify_glaze_v1_5_stable.mjs
@@ -65,12 +67,16 @@ jobs:
       - name: Verify V1.5.1 performance measurement harness boundaries
         run: node scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs
 
+      - name: Verify V1.5.1 posture review harness boundaries
+        run: node scripts/verify_glaze_v1_5_1_posture_qualification_harness.mjs
+
       - name: Preserve external-evidence boundary
         shell: bash
         run: |
           set -euo pipefail
-          grep -F '"status": "pending"' contracts/v1.5.1/qualification.dev.json >/dev/null
+          test "$(grep -F -c '"'"'"status"'"'": "'"'"pending"'"'"' contracts/v1.5.1/qualification.dev.json)" -eq 2
           grep -F 'PENDING_REVIEW' reference/v1.5.1/performance-qualification.html >/dev/null
+          grep -F 'PENDING_REVIEW' reference/v1.5.1/posture-qualification.html >/dev/null
           echo 'V1.5.1 qualification tooling: machine verification only; no representative performance or posture acceptance is created.'
 
       - name: Verify checks did not mutate tracked source
