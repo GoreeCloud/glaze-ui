@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "version": "1.5.0",
+  "lifecycle": "stable",
+  "stableBaseline": "1.4.1",
+  "reviewedImplementationAnchor": "ee1032a0822ab8e103f8afe48e5c1859fde65cc9",
+  "scopeDecisionDate": "2026-09-15",
+  "scopeDecisionAuthority": "project-owner",
+  "consumerEligible": true,
+  "authority": "release-scope-and-acceptance-boundary",
+  "qualifiedObligations": [
+    "human-usability-state-explanations",
+    "human-usability-action-stability",
+    "human-usability-task-continuity",
+    "accessibility-keyboard-focus",
+    "accessibility-semantic-announcement",
+    "accessibility-presentation-modes",
+    "runtime-representative-rendering",
+    "runtime-connectivity-continuity",
+    "runtime-fallback-integrity",
+    "privacy-no-automatic-consent",
+    "privacy-diagnostic-minimization",
+    "privacy-authority-truthfulness",
+    "performance-transition-stability",
+    "performance-constrained-mode",
+    "platform-input-fidelity",
+    "platform-window-resilience"
+  ],
+  "qualifiedObligationCount": 16,
+  "deferredToV151": [
+    {
+      "id": "performance-representative-budget",
+      "reason": "The V1.0 numeric Glaze UI performance budget was approved after the reviewed V1.5.0 implementation checkpoint. Real representative measurement remains required and is moved to V1.5.1 rather than fabricated for V1.5.0.",
+      "v150Claim": "not-qualified-and-not-required-for-bounded-v1.5.0-stable-scope"
+    },
+    {
+      "id": "platform-posture-continuity",
+      "reason": "Representative physical or approved target-runtime fold/unfold/posture/rotation evidence is not available in the V1.5.0 reviewed environment. That platform-expansion qualification is moved to V1.5.1.",
+      "v150Claim": "foldable-posture-acceptance-not-claimed"
+    }
+  ],
+  "deferredObligationCount": 2,
+  "stableClaims": {
+    "numericPerformanceBudgetV10Measured": false,
+    "foldablePostureTargetRuntimeAccepted": false,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false,
+    "tagOrGithubReleasePublicationAutomatic": false
+  },
+  "continuityPolicy": {
+    "humanEvidenceRemainsBoundToReviewedAnchor": true,
+    "releaseDeltaMayChangeLifecycleAndVersionAuthorityOnly": true,
+    "presentationBehaviorChangePermittedByPromotion": false,
+    "authorizationBehaviorChangePermittedByPromotion": false,
+    "privacyBoundaryChangePermittedByPromotion": false,
+    "automaticExecutionBoundaryChangePermittedByPromotion": false
+  }
+}
