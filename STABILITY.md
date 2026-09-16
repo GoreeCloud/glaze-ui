@@ -1,49 +1,50 @@
-# GLAZE UI V1.0 Stability Contract — Historical Record
+# GLAZE UI Stability Contract
 
-**Historical scope:** V1.0 reset-era stability contract  
-**Current Stable authority:** GLAZE UI V1.4 — Optical Intelligence / `1.4.1`  
+**Current Stable authority:** GLAZE UI V1.5 — Contextual + Capability Awareness / `1.5.0`  
+**Immediate rollback baseline:** GLAZE UI V1.4.1 / `1.4.1`  
 **Current lifecycle source:** `registry/lifecycle.json`
-
-This document preserves the stability contract established for the V1.0 reset. V1.0 is now a historical reset baseline and is not the current Glaze UI product or consumer-conformance target. `registry/lifecycle.json` and `VERSION` currently identify GLAZE UI V1.4 / `1.4.1` as the Official Stable and consumer-eligible authority.
-
-## Historical V1.0 boundary
-
-- Product label at the V1.0 reset: **GLAZE UI V1.0**.
-- Machine version at the V1.0 reset: **1.0.0**.
-- V1.0 required fresh exact-revision validation before production-readiness claims could be made from the reset namespace.
-- No downstream application was promoted by declaration.
-- Later governed lifecycle promotions supersede V1.0 as the current application target without erasing this historical contract.
 
 ## Stability principles
 
 1. Stable behavior fails closed when required evidence is absent.
 2. Accessibility and semantic clarity outrank decorative effects.
-3. Reduced Motion, Reduced Transparency, Increased Contrast, Forced Colors, 200% text, RTL, keyboard, touch, pointer, and assistive input are first-class requirements.
-4. Durable readable content remains solid; Glaze is bounded to interaction roles where appropriate.
-5. Exact-revision evidence is required for consumer conformance and for any release claim that depends on that evidence.
-6. Recovery uses Git revision history and current-line corrective changes rather than moving or reusing published identities.
-7. Platform-native claims require platform-native evidence.
-8. Product-specific readiness remains product-specific.
-9. Lifecycle scope decisions must not manufacture missing human/manual/physical-device evidence.
+3. Exact-revision evidence is required for qualification claims that depend on human, runtime, device, or platform observations.
+4. Lifecycle scope decisions must never manufacture missing evidence.
+5. Presentation adaptation must preserve capability truth, authorization boundaries, task continuity, and understandable state.
+6. Glaze UI must not infer authorization, grant permission or consent, or automatically execute navigation, consequential actions, or fallbacks.
+7. Platform-native claims require representative platform-native evidence.
+8. Downstream product readiness remains product-specific and repository-local.
+9. Recovery preserves previous known-good Stable releases and exact source history.
 
-These principles remain inherited where a later governed Glaze UI contract does not supersede them. Current release and conformance authority must always be read from the active lifecycle records rather than inferred from this historical V1.0 document.
+## Current V1.5.0 boundary
 
-## Current V1.4 relationship
+V1.5.0 stabilizes the reviewed Context + Capability Awareness presentation layer against exact implementation anchor `ee1032a0822ab8e103f8afe48e5c1859fde65cc9`.
 
-V1.4.1 is the current Official, Stable, and consumer-eligible shared design-system patch release. It promotes the completed V1.4.1 human-validation, optical-hardening, semantic-readability, fail-safe adapter, and capability-aware performance work under `GLAZE_UI_V1_4_1.md` and `acceptance/v1.4.1-stable.md`.
+The governed V1.5.0 Stable scope contains 16 completed review obligations. The project owner explicitly moved two further qualification expansions into V1.5.1:
 
-V1.4.0 remains the immediate known-good Stable rollback baseline. Its original acceptance record and deferred human/manual/physical qualification boundary are preserved as historical truth; V1.4.1 completion does not rewrite those checks as V1.4.0 evidence.
+- `performance-representative-budget`;
+- `platform-posture-continuity`.
 
-Historical V1.4.1 human results remain bound to their actual tested revisions. Where they apply to the final Stable release revision, that applicability is established through the governed exact-revision continuity mechanism rather than by relabeling earlier executions.
+This is a versioned scope decision, not a PASS or waiver. V1.5.0 does not claim measurement against the new Glaze UI Performance Budget v1.0 and does not claim representative foldable/posture target-runtime acceptance.
 
-Downstream applications and websites still require repository-local V1.4.1 adoption and acceptance. Stable design-system lifecycle does not itself certify a consumer product, native platform, real device, rendered deployment, signing path, or production release.
+The exact boundary is recorded in `contracts/v1.5/stable-scope.json` and `acceptance/v1.5-stable.md`.
 
-## Historical V1.3 relationship
+## Evidence continuity
 
-V1.3.0 was the Stable release before V1.4.0 and remains retained historical provenance. V1.4.0, not V1.3.0, is the immediate rollback baseline for current V1.4.1 authority.
+The accepted V1.5 human and runtime observations remain bound to the exact revision on which they were performed. Stable promotion may carry those observations through a reviewed source-impact continuity assessment only when the behavior and authority implementation they cover remains unchanged.
 
-## Historical reset acceptance
+The V1.5.0 public Stable runtime entrypoint wraps the unchanged reviewed V1.5 implementation and promotes version/lifecycle identity. It does not create new operational authority or silently rebind missing evidence.
 
-The V1.0 identity reset was authoritative for naming and target selection at the time of the reset. It was not itself proof that rendered references, native references, performance budgets, or downstream applications had passed V1.0 acceptance. Those claims became valid only when the applicable validators and acceptance records existed for the exact post-reset revision.
+## Rollback and historical releases
 
-Glaze Motion remains separately governed by its own lifecycle unless an applicable later Glaze UI contract explicitly changes that status.
+GLAZE UI V1.4.1 / `1.4.1` remains the immediate known-good Stable rollback baseline. V1.4.0, V1.3.0, earlier Stable releases, and the V1.0 reset-era contract remain retained as historical provenance according to repository lifecycle records.
+
+## Consumer boundary
+
+No downstream application or website becomes V1.5.0-conformant merely because the shared design system is Stable. Each consumer must adopt the current Stable target and complete repository-local acceptance appropriate to its supported platforms, runtime, accessibility, integrations, and production boundary.
+
+## Planned V1.5.1 hardening
+
+`GLAZE_UI_V1_5_1_HARDENING.md` governs the remaining representative numeric performance-budget measurement and posture/fold target-runtime qualification. Neither is considered completed until real exact-revision evidence exists for a V1.5.1 candidate.
+
+Glaze Motion remains separately governed unless a later Stable Glaze UI contract explicitly incorporates it.

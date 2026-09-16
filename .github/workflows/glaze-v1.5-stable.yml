@@ -1,0 +1,86 @@
+name: GLAZE UI V1.5.0 Stable Authority
+
+on:
+  pull_request:
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
+      - 'README.md'
+      - 'STABILITY.md'
+      - 'ACCEPTANCE.md'
+      - 'CONFORMANCE.md'
+      - 'GLAZE_UI_V1_5.md'
+      - 'GLAZE_UI_V1_5_1_HARDENING.md'
+      - 'acceptance/v1.5-stable.md'
+      - 'contracts/v1.5/**'
+      - 'js/glaze-v1.5.0.mjs'
+      - 'js/glaze-v1.5*.dev.mjs'
+      - 'reference/v1.5/human-review-v2.html'
+      - 'conformance/v1.5-*.json'
+      - 'scripts/verify_glaze_v1_5_stable.mjs'
+      - '.github/workflows/glaze-v1.5-stable.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'consumers/registry.json'
+      - 'README.md'
+      - 'STABILITY.md'
+      - 'ACCEPTANCE.md'
+      - 'CONFORMANCE.md'
+      - 'GLAZE_UI_V1_5.md'
+      - 'GLAZE_UI_V1_5_1_HARDENING.md'
+      - 'acceptance/v1.5-stable.md'
+      - 'contracts/v1.5/**'
+      - 'js/glaze-v1.5.0.mjs'
+      - 'js/glaze-v1.5*.dev.mjs'
+      - 'reference/v1.5/human-review-v2.html'
+      - 'conformance/v1.5-*.json'
+      - 'scripts/verify_glaze_v1_5_stable.mjs'
+      - '.github/workflows/glaze-v1.5-stable.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  stable-authority:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact revision with reviewed-anchor history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify reviewed V1.5 implementation remains unchanged
+        shell: bash
+        run: |
+          git diff --exit-code \
+            ee1032a0822ab8e103f8afe48e5c1859fde65cc9 \
+            -- \
+            js/glaze-v1.5-actions.dev.mjs \
+            js/glaze-v1.5-composition.dev.mjs \
+            js/glaze-v1.5-context-capability.dev.mjs \
+            js/glaze-v1.5-diagnostics.dev.mjs \
+            js/glaze-v1.5-provider-registry.dev.mjs \
+            js/glaze-v1.5-resolution.dev.mjs \
+            js/glaze-v1.5.dev.mjs \
+            reference/v1.5/human-review-v2.html \
+            contracts/v1.5/context-capability.dev.json \
+            contracts/v1.5/human-review-harness.dev.json \
+            contracts/v1.5/representative-consumers.dev.json \
+            contracts/v1.5/stabilization-review.dev.json \
+            conformance/v1.5-action-development-matrix.json \
+            conformance/v1.5-consumer-integration-development-matrix.json \
+            conformance/v1.5-development-matrix.json \
+            conformance/v1.5-diagnostics-development-matrix.json \
+            conformance/v1.5-resolution-development-matrix.json
+
+      - name: Verify V1.5.0 Stable authority and bounded scope
+        run: node scripts/verify_glaze_v1_5_stable.mjs

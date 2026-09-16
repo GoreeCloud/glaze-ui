@@ -1,48 +1,58 @@
-# GLAZE UI V1.4 — Optical Intelligence
+# GLAZE UI V1.5 — Contextual + Capability Awareness
 
-GLAZE UI V1.4 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, not a regression risk.** Machine version: **1.4.1**.
+GLAZE UI V1.5 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, and adaptive presentation must remain truthful.** Machine version: **1.5.0**.
 
 ## Core rules
 
-**Neutral glass remains the material foundation. Optical adaptation is contextual, bounded, and subordinate to meaning, accessibility, privacy, security, and task completion.**
+**Glaze UI may adapt presentation from authoritative context and capability truth, but it must never manufacture that truth or expand operational authority.**
 
-**Solid where users read or make explicit critical decisions. Glazed where users interact with transient navigation, command, search, control, or feedback chrome.**
-
-V1.4 builds on V1.3 Adaptive Resonance with the Glaze Optical Engine: Content-Aware Frost, Semantic Blur Protection, bounded environment tinting/light warmth, chromatic depth layers, and bounded environmental color memory. V1.4.1 is the Stable hardening patch that completes the governed human/manual/physical qualification, semantic-readability hardening, fail-safe adapter handling, and capability-aware optical performance work without rewriting V1.4.0 evidence.
+V1.5 builds on the complete V1.4.1 Optical Intelligence foundation with governed Context + Capability Awareness: provider authority ownership, contextual composition, accessibility precedence, runtime/connectivity/window continuity, capability-aware navigation and controls, predictable adaptive actions, explicit graceful fallbacks, privacy-safe diagnostics, and a unified presentation resolver.
 
 ## Stable source authority
 
-- `VERSION` — `1.4.1`
-- `GLAZE_UI_V1_4_1.md` — current Stable patch contract
-- `GLAZE_UI_V1_4.md` — retained V1.4.0 Stable baseline contract
+- `VERSION` — `1.5.0`
+- `GLAZE_UI_V1_5.md` — current Stable contract
+- `contracts/v1.5/stable-scope.json` — bounded V1.5.0 Stable qualification scope
+- `acceptance/v1.5-stable.md` — current Stable acceptance/scope record
 - `registry/lifecycle.json` — lifecycle authority
-- `css/glaze-v1.4.1.css` — current Stable web entrypoint
-- `js/glaze-v1.4.1.mjs` — current Stable runtime entrypoint
-- `js/glaze-v1.4.1-optical-engine.mjs` — current Stable optical engine/hardening layer
-- `acceptance/v1.4.1-stable.md` — V1.4.1 Stable acceptance/scope record
-- `GLAZE_UI_V1_4_1_HARDENING.md` — retained qualification provenance
+- `css/glaze-v1.4.1.css` — inherited Stable optical/web material baseline
+- `js/glaze-v1.5.0.mjs` — current Stable runtime entrypoint
+- `GLAZE_UI_V1_5_1_HARDENING.md` — mandatory V1.5.1 qualification follow-up
 - `consumers/registry.json` — current consumer target and adoption state
-- `scripts/verify_glaze_v1_4_1_stable.mjs` — fail-closed machine-verifiable Stable gate
+- `scripts/verify_glaze_v1_5_stable.mjs` — fail-closed V1.5.0 Stable authority gate
 
-V1.4.1 inherits the complete V1.4.0 Stable foundation. V1.4.0 remains the immediate known-good rollback baseline.
+V1.4.1 remains the immediate known-good Stable rollback baseline.
 
-## Accessibility and context boundary
+## Stable qualification boundary
 
-Forced Colors and Reduced Transparency collapse optical behavior to a solid accessible mode. Increased Contrast suppresses decorative memory tinting and warmth while increasing optical protection. Environmental memory tint is decorative, optional, and capped at 8% influence.
+V1.5.0 accepts the 16 externally reviewed obligations recorded for exact implementation anchor `ee1032a0822ab8e103f8afe48e5c1859fde65cc9` and carried into Stable through explicit source-impact continuity.
 
-The Glaze Optical Engine is local and deterministic. It does not require telemetry, analytics, camera access, device identity, price/model heuristics, or remote context. Consumer applications remain responsible for obtaining any contextual signals through adapters accepted by their own Wardveil Security and Privacy Shield boundaries.
+By explicit project-owner version/scope decision, two additional qualification expansions move to V1.5.1 rather than being represented as passed for V1.5.0:
 
-## V1.4.1 qualification
+- `performance-representative-budget` — measurement against the newly approved Glaze UI Performance Budget v1.0;
+- `platform-posture-continuity` — representative fold/unfold/posture/rotation target-runtime evidence.
 
-The governed V1.4.1 human-validation program is complete for the supported shared design-system claim. Historical human results remain bound to their actual tested revisions and are carried to the final release revision only through the approved fail-closed continuity mechanism where source-impact analysis proves the relevant behavior unaffected.
+V1.5.0 therefore does **not** claim the new numeric budget was measured/passed and does **not** claim foldable/posture target-runtime acceptance.
 
-The completed V1.4.1 qualification does not retroactively rewrite the V1.4.0 acceptance record. Wearable/watch remains outside the shared V1.4.1 production claim under its separately governed non-production wearable workstream.
+## Authority and privacy boundary
+
+Glaze UI remains presentation-only. It does not infer authorization, grant consent or permissions, automatically request permission, automatically execute consequential or fallback actions, or automatically navigate merely because context changes.
+
+Privacy Shield, Wardveil Security, application, service, platform, policy, identity, device/runtime, and other authoritative providers retain their own truth domains. Provider ownership conflicts fail closed rather than being resolved through inferred precedence.
+
+The resolver and diagnostics are local-first. Ordinary Glaze UI resolution requires neither telemetry nor remote analysis, and privacy-safe diagnostics exclude raw sensitive context and provider identity by default.
+
+## Accessibility and resilience
+
+Accessibility has presentation precedence over visual richness. Reduced Motion, Reduced Transparency, Forced Colors/Increased Contrast, large text, keyboard/focus behavior, assistive-technology semantics, constrained windows, offline/degraded services, unsupported optical effects, and constrained runtimes must preserve understandable state, task continuity, and authority boundaries.
 
 ## Consumer boundary
 
-V1.4.1 is eligible for downstream adoption and is the required shared target. No downstream GoreeCloud application becomes conformant, Stable, or production-ready merely because Glaze UI V1.4.1 is Stable. Every user-facing consumer must migrate to the latest Stable Glaze UI release and maintain repository-local implementation and acceptance evidence appropriate to its supported platforms.
+V1.5.0 is eligible for downstream adoption and becomes the required shared Glaze UI target when this Stable promotion is authoritative on `main`. No downstream GoreeCloud application becomes conformant, Stable, deployed, or production-ready automatically. Every user-facing consumer must migrate and establish repository-local exact-revision acceptance for its supported platforms.
 
-GLAZE UI V1.4.0 / `1.4.0` remains preserved as the immediately preceding known-good Stable rollback anchor. Glaze Motion remains separately governed unless explicitly incorporated by a Stable contract.
+## Follow-up
+
+V1.5.1 is the planned hardening release for the two explicitly deferred qualification expansions. See `GLAZE_UI_V1_5_1_HARDENING.md`.
 
 ## License
 
