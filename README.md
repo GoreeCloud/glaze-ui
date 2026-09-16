@@ -1,6 +1,6 @@
 # GLAZE UI V1.5 — Contextual + Capability Awareness
 
-GLAZE UI V1.5 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, and adaptive presentation must remain truthful.** Machine version: **1.5.0**.
+GLAZE UI V1.5 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, and adaptive presentation must remain truthful.** Machine version: **1.5.1**.
 
 ## Core rules
 
@@ -10,29 +10,33 @@ V1.5 builds on the complete V1.4.1 Optical Intelligence foundation with governed
 
 ## Stable source authority
 
-- `VERSION` — `1.5.0`
-- `GLAZE_UI_V1_5.md` — current Stable contract
-- `contracts/v1.5/stable-scope.json` — bounded V1.5.0 Stable qualification scope
-- `acceptance/v1.5-stable.md` — current Stable acceptance/scope record
+- `VERSION` — `1.5.1`
+- `GLAZE_UI_V1_5.md` — current Stable family contract
+- `contracts/v1.5.1/stable-scope.json` — V1.5.1 Stable qualification scope
+- `acceptance/v1.5.1-stable.md` — current Stable acceptance/scope record
 - `registry/lifecycle.json` — lifecycle authority
 - `css/glaze-v1.4.1.css` — inherited Stable optical/web material baseline
-- `js/glaze-v1.5.0.mjs` — current Stable runtime entrypoint
-- `GLAZE_UI_V1_5_1_HARDENING.md` — mandatory V1.5.1 qualification follow-up
+- `js/glaze-v1.5.1.mjs` — current Stable runtime entrypoint
+- `GLAZE_UI_V1_5_1_HARDENING.md` — completed V1.5.1 qualification record
 - `consumers/registry.json` — current consumer target and adoption state
-- `scripts/verify_glaze_v1_5_stable.mjs` — fail-closed V1.5.0 Stable authority gate
+- `scripts/verify_glaze_v1_5_1_stable.mjs` — fail-closed V1.5.1 Stable authority gate
 
-V1.4.1 remains the immediate known-good Stable rollback baseline.
+V1.5.0 remains the immediate known-good Stable rollback baseline.
 
 ## Stable qualification boundary
 
-V1.5.0 accepts the 16 externally reviewed obligations recorded for exact implementation anchor `ee1032a0822ab8e103f8afe48e5c1859fde65cc9` and carried into Stable through explicit source-impact continuity.
+V1.5.1 retains the 16 externally reviewed obligations accepted for exact V1.5 implementation anchor `ee1032a0822ab8e103f8afe48e5c1859fde65cc9` and adds two independently reviewed qualification expansions bound to exact V1.5.1 Development revision `5b59d0e36950d737dba35b58ae58058684e0831b`:
 
-By explicit project-owner version/scope decision, two additional qualification expansions move to V1.5.1 rather than being represented as passed for V1.5.0:
+- `performance-representative-budget` — accepted for the reviewed representative Zorin OS 17.3 / Firefox 156.0 / Lenovo IdeaPad 3 15IIL05 environment; review authority PR #230 comment `5697516074`;
+- `platform-posture-continuity` — accepted for the approved Pixel Fold Android Emulator target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`; review authority PR #230 comment `5705230782`.
 
-- `performance-representative-budget` — measurement against the newly approved Glaze UI Performance Budget v1.0;
-- `platform-posture-continuity` — representative fold/unfold/posture/rotation target-runtime evidence.
+The complete shared V1.5.1 Stable qualification therefore contains **18 accepted obligations**. These claims remain bounded to their reviewed environments and do not automatically establish downstream application performance, device, posture, deployment, or production acceptance.
 
-V1.5.0 therefore does **not** claim the new numeric budget was measured/passed and does **not** claim foldable/posture target-runtime acceptance.
+## Evidence continuity
+
+The two V1.5.1 observations remain bound to `5b59d0e36950d737dba35b58ae58058684e0831b`. Stable promotion preserves the qualified source through fail-closed byte-identity/source-impact continuity rather than relabeling those observations as if they were performed on release metadata commits.
+
+The reviewed V1.5 presentation and authority implementation remains anchored to `ee1032a0822ab8e103f8afe48e5c1859fde65cc9`. V1.5.1 adds Stable patch identity and qualification closure without changing that reviewed behavior.
 
 ## Authority and privacy boundary
 
@@ -48,11 +52,11 @@ Accessibility has presentation precedence over visual richness. Reduced Motion, 
 
 ## Consumer boundary
 
-V1.5.0 is eligible for downstream adoption and becomes the required shared Glaze UI target when this Stable promotion is authoritative on `main`. No downstream GoreeCloud application becomes conformant, Stable, deployed, or production-ready automatically. Every user-facing consumer must migrate and establish repository-local exact-revision acceptance for its supported platforms.
+V1.5.1 is the required shared Glaze UI target once this governed Stable promotion is authoritative on `main`. No downstream GoreeCloud application becomes conformant, Stable, deployed, or production-ready automatically. Every user-facing consumer must migrate and establish fresh repository-local exact-revision V1.5 adoption and acceptance evidence for its supported platforms.
 
-## Follow-up
+## Publication and deployment boundary
 
-V1.5.1 is the planned hardening release for the two explicitly deferred qualification expansions. See `GLAZE_UI_V1_5_1_HARDENING.md`.
+Shared Stable promotion does not establish an immutable `v1.5.1` tag, GitHub Release publication, deployment, production acceptance, or downstream consumer acceptance. Those remain separate governed transitions.
 
 ## License
 
