@@ -147,13 +147,17 @@ jobs:
           import json
           lifecycle = json.load(open('registry/lifecycle.json', encoding='utf-8'))
           migration = json.load(open('contracts/v1.3/migration.candidate.json', encoding='utf-8'))
-          assert lifecycle['currentStable'] == lifecycle['currentOfficial'] == '1.4.0'
-          assert lifecycle['plannedNext'] == '1.4.1-candidate'
+          assert lifecycle['currentStable'] == lifecycle['currentOfficial'] == '1.5.0'
+          assert lifecycle['plannedNext'] == '1.5.1'
+          current = next(item for item in lifecycle['releases'] if item['version'] == '1.5.0')
+          assert current['status'] == 'stable'
+          assert current['consumerEligible'] is True
+          assert current['stableBaseline'] == '1.4.1'
           assert migration['sourceStable'] == '1.2.0'
           assert migration['targetVersion'] == '1.3.0-candidate'
           assert migration['lifecycleAuthority'] is False
           assert migration['consumerEligible'] is False
-          print('V1.3 migration Candidate contract is preserved as historical provenance and cannot override V1.4.0 live authority.')
+          print('V1.3 migration Candidate contract is preserved as historical provenance and cannot override V1.5.0 live authority.')
           PY
 
       - name: Validate preserved qualification control plane and 55-rule visual-quality authority
@@ -226,18 +230,22 @@ jobs:
           print('Historical qualification JSON authorities parse successfully; 55-rule human-quality authority remains preserved.')
           PY
 
-      - name: Assert V1.4 remains live authority and V1.3 remains historical Stable
+      - name: Assert V1.5 remains live authority and V1.3 remains historical Stable
         run: |
           python - <<'PY'
           import json
           lifecycle = json.load(open('registry/lifecycle.json', encoding='utf-8'))
-          assert lifecycle['currentStable'] == '1.4.0'
-          assert lifecycle['currentOfficial'] == '1.4.0'
+          assert lifecycle['currentStable'] == '1.5.0'
+          assert lifecycle['currentOfficial'] == '1.5.0'
           assert lifecycle['activeCandidate'] is None
-          assert lifecycle['plannedNext'] == '1.4.1-candidate'
+          assert lifecycle['plannedNext'] == '1.5.1'
+          current = next(item for item in lifecycle['releases'] if item['version'] == '1.5.0')
+          assert current['status'] == 'stable'
+          assert current['consumerEligible'] is True
+          assert current['stableBaseline'] == '1.4.1'
           release = next(item for item in lifecycle['releases'] if item['version'] == '1.3.0')
           assert release['status'] == 'stable'
           assert release['consumerEligible'] is True
           assert release['stableBaseline'] == '1.2.0'
-          print('V1.4.0 remains current; V1.3.0 remains an auditable historical Stable rollback baseline.')
+          print('V1.5.0 remains current; V1.3.0 remains auditable historical Stable provenance.')
           PY
