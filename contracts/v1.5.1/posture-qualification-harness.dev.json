@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "version": "1.5.1-dev.1",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.0",
+  "authority": "posture-review-capture-only",
+  "qualificationId": "platform-posture-continuity",
+  "candidateRuntime": "js/glaze-v1.5-resolution.dev.mjs",
+  "harness": "reference/v1.5.1/posture-qualification.html",
+  "networkPolicy": "repository-local-only",
+  "telemetryRequired": false,
+  "remoteAnalysisRequired": false,
+  "automaticAcceptance": false,
+  "automaticPromotionEligibility": false,
+  "exactRevisionRequired": true,
+  "externalEvidenceRequired": true,
+  "evidenceSource": {
+    "physicalDeviceAllowed": true,
+    "approvedTargetRuntimeAllowed": true,
+    "machineSimulationAloneAllowed": false,
+    "trustedHumanObservationRequired": true
+  },
+  "applicability": {
+    "supportedTransitionFamiliesMustBeDeclared": true,
+    "everyDeclaredSupportedFamilyRequiresObservedEvidence": true,
+    "unsupportedFamiliesMayNotBeClaimedPassed": true,
+    "rotationRequiredWhenSupported": true,
+    "foldOrPostureEvidenceRequiredForThisQualification": true
+  },
+  "transitionFamilies": [
+    "fold-unfold",
+    "posture-mode-change",
+    "rotation",
+    "related-form-factor-transition"
+  ],
+  "requiredInvariants": {
+    "taskStateReset": false,
+    "pageReloadRequired": false,
+    "currentDestinationChanged": false,
+    "capabilityTruthModified": false,
+    "primaryActionOrderStable": true,
+    "authorizationInferred": false,
+    "permissionGranted": false,
+    "automaticNavigationAllowed": false,
+    "automaticPermissionRequestAllowed": false,
+    "automaticConsequentialExecutionAllowed": false,
+    "automaticFallbackExecutionAllowed": false
+  },
+  "privacy": {
+    "rawTaskContentRecorded": false,
+    "credentialsRecorded": false,
+    "providerSecretsRecorded": false,
+    "preciseLocationRecorded": false,
+    "rawSensorStreamRecorded": false,
+    "exactObservationTimestampsRecorded": false,
+    "environmentIdentityAllowed": true,
+    "semanticTransitionStatesAllowed": true
+  },
+  "boundary": "This harness may capture privacy-minimized human-observed posture, rotation, and related form-factor continuity evidence from a representative physical device or approved target runtime. It cannot mark platform-posture-continuity satisfied, create Release Candidate or Stable status, accept consumers, deploy software, or create production acceptance. Canonical qualification requires review and durable evidence tied to the exact reviewed revision and environment."
+}

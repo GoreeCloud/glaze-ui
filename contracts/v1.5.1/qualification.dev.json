@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "contractVersion": "1.5.1-dev.1",
+  "glazeUiVersion": "1.5.1-dev.1",
+  "releaseLifecycle": "Development",
+  "stableBaseline": "1.5.0",
+  "stableIntegrationCommit": "b7fa8164bfdeaa1dc0acb21b770e7601120da04e",
+  "originatingReviewedV150Anchor": "ee1032a0822ab8e103f8afe48e5c1859fde65cc9",
+  "authority": "qualification-planning-only",
+  "promotionEligible": false,
+  "consumerEligible": false,
+  "releaseCandidate": false,
+  "stable": false,
+  "requiredQualification": [
+    {
+      "id": "performance-representative-budget",
+      "status": "pending",
+      "requirement": "Collect real representative measurements against Standard — Glaze UI Performance Budget v1.0, preserve the exact revision and environment identity, and pass every applicable conjunctive threshold without changing capability truth, semantic meaning, task continuity, or authority boundaries."
+    },
+    {
+      "id": "platform-posture-continuity",
+      "status": "pending",
+      "requirement": "Verify supported fold, unfold, posture, rotation, and related form-factor transitions on a representative physical device or approved target runtime while preserving task state, destination/state continuity, semantic hierarchy, capability truth, and authority boundaries."
+    }
+  ],
+  "requiredQualificationCount": 2,
+  "qualificationTooling": {
+    "performanceBudgetAuthority": {
+      "document": "Standard — Glaze UI Performance Budget v1.0",
+      "status": "Active — Approved Performance Budget",
+      "effectiveDate": "2026-09-15"
+    },
+    "performanceMeasurementHarness": "reference/v1.5.1/performance-qualification.html",
+    "performanceMeasurementContract": "contracts/v1.5.1/performance-qualification-harness.dev.json",
+    "performanceMeasurementVerifier": "scripts/verify_glaze_v1_5_1_performance_qualification_harness.mjs",
+    "postureReviewHarness": "reference/v1.5.1/posture-qualification.html",
+    "postureReviewContract": "contracts/v1.5.1/posture-qualification-harness.dev.json",
+    "postureReviewVerifier": "scripts/verify_glaze_v1_5_1_posture_qualification_harness.mjs",
+    "postureEvidenceRequirement": "representative physical device or approved target runtime with trusted human observation",
+    "toolingAuthority": "measurement-and-review-capture-structural-verification-only",
+    "toolingDoesNotSatisfyQualification": true
+  },
+  "carryForwardBoundaries": {
+    "v150StableBehaviorMustRemainCompatible": true,
+    "authorizationInferred": false,
+    "automaticPermissionRequestAllowed": false,
+    "automaticConsequentialExecutionAllowed": false,
+    "automaticFallbackExecutionAllowed": false,
+    "automaticNavigationAllowed": false,
+    "telemetryRequired": false,
+    "remoteAnalysisRequired": false
+  },
+  "evidencePolicy": {
+    "exactRevisionRequired": true,
+    "humanOrTargetRuntimeEvidenceCannotBeManufactured": true,
+    "machineChecksCannotSubstituteForRequiredExternalEvidence": true,
+    "missingEvidenceFailsClosed": true
+  },
+  "boundary": "This contract creates the V1.5.1 qualification workstream and verified local measurement/review-capture tooling only. It does not mark either carried-forward obligation passed and does not create Release Candidate, Stable, consumer, deployment, or production acceptance."
+}

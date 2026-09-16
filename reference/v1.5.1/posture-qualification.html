@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" data-review-harness="glaze-v1.5.1-posture-qualification">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>GLAZE UI V1.5.1 — Posture Continuity Qualification Harness</title>
+  <link rel="stylesheet" href="../../css/glaze-v1.4.1.css">
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light dark;--bg:#0b0f17;--panel:#111827;--line:rgba(255,255,255,.18);--muted:rgba(255,255,255,.72);--accent:#9ec5ff;--warning:#ffd58a;--good:#9de4b4}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:#f7f9fc}.shell{width:min(1280px,100%);margin:0 auto;padding:20px}.banner,.panel,.card{border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel) 90%,transparent)}.banner{padding:16px;margin-bottom:16px;border-color:rgba(255,199,104,.55)}.grid{display:grid;grid-template-columns:minmax(320px,430px) minmax(0,1fr);gap:16px}.panel{padding:18px;min-width:0}.card{padding:14px;margin:12px 0}h1{margin:0 0 8px;font-size:1.35rem}h2{margin:0 0 12px;font-size:1rem}h3{margin:18px 0 8px;font-size:.9rem}p{line-height:1.55}.muted{color:var(--muted)}.warning{color:var(--warning)}.good{color:var(--good)}.field{display:grid;gap:6px;margin:12px 0}.field label,.label{font-size:.78rem;font-weight:750;letter-spacing:.045em;text-transform:uppercase;color:var(--muted)}input,select,textarea,button{font:inherit;color:inherit;background:var(--panel);border:1px solid var(--line);border-radius:12px}input,select,textarea{width:100%;padding:.65rem .75rem}button{min-height:44px;padding:.65rem .85rem;cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:4px solid var(--accent);outline-offset:3px}.checks{display:grid;gap:8px}.check{display:flex;gap:8px;align-items:flex-start}.check input{width:auto;margin-top:.25rem}.state-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.pill-row{display:flex;flex-wrap:wrap;gap:8px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 9px;font-size:.8rem}.mono{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}@media(max-width:900px){.shell{padding:10px}.grid,.state-grid{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.001ms!important;animation-duration:.001ms!important;animation-iteration-count:1!important}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <section class="banner" aria-labelledby="title">
+    <h1 id="title">GLAZE UI V1.5.1 — Posture Continuity Qualification Harness</h1>
+    <p><strong class="warning">Human-observed capture surface only — not acceptance evidence.</strong> This page records privacy-minimized continuity observations from a representative physical device or approved target runtime. Machine simulation alone is not sufficient.</p>
+    <p id="revision-status"><strong>Revision:</strong> <span class="warning">UNBOUND — observations are not exact-revision evidence.</span> Open with <code>?revision=&lt;40-hex-sha&gt;</code> and independently verify that SHA is the checked-out review revision.</p>
+    <p><strong>Qualification:</strong> <code>platform-posture-continuity</code>. Every declared supported transition family must have real observed evidence. The canonical result remains <code>PENDING_REVIEW</code> until separately reviewed and durably recorded.</p>
+    <p><strong>Privacy:</strong> repository-local only; no telemetry, remote analysis, credentials, precise location, raw sensor stream, exact observation timestamps, provider secrets, or raw task content are exported.</p>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="setup-title">
+      <h2 id="setup-title">Environment and applicability</h2>
+      <div class="field"><label for="os-version">Operating system/runtime platform</label><input id="os-version" autocomplete="off" placeholder="Example: Android 17 / approved emulator image"></div>
+      <div class="field"><label for="runtime-version">Browser/native runtime and version</label><input id="runtime-version" autocomplete="off" placeholder="Example: Firefox 143.0"></div>
+      <div class="field"><label for="device-id">Representative device or target-runtime identity</label><input id="device-id" autocomplete="off" placeholder="Example: foldable device model or approved target runtime"></div>
+      <div class="field"><label for="source-type">Evidence source</label><select id="source-type"><option value="physical-device">Physical device</option><option value="approved-target-runtime">Approved target runtime</option></select></div>
+      <div class="field"><label for="approval-ref">Approval reference when using approved target runtime</label><input id="approval-ref" autocomplete="off" placeholder="Required only for approved target runtime"></div>
+      <label class="check"><input id="revision-confirmed" type="checkbox"><span>I independently confirmed the revision in this page URL equals the checked-out review revision.</span></label>
+
+      <h3>Declared supported transition families</h3>
+      <div class="checks">
+        <label class="check"><input class="family" type="checkbox" value="fold-unfold"><span>Fold / unfold</span></label>
+        <label class="check"><input class="family" type="checkbox" value="posture-mode-change"><span>Posture mode change (for example flat, book-style, tabletop, tent)</span></label>
+        <label class="check"><input class="family" type="checkbox" value="rotation"><span>Rotation / orientation change</span></label>
+        <label class="check"><input class="family" type="checkbox" value="related-form-factor-transition"><span>Other supported form-factor transition</span></label>
+      </div>
+      <p class="muted">Declare only transition families the reviewed physical device or approved target runtime actually supports. This qualification requires at least one fold/posture family; rotation must be covered when supported.</p>
+
+      <h3>Local continuity fixture</h3>
+      <div class="field"><label for="task-text">Task-state marker (never exported)</label><textarea id="task-text">POSTURE-CONTINUITY-LOCAL-FIXTURE</textarea></div>
+
+      <h3>Observed transition</h3>
+      <div class="field"><label for="transition-family">Transition family</label><select id="transition-family"><option value="fold-unfold">Fold / unfold</option><option value="posture-mode-change">Posture mode change</option><option value="rotation">Rotation</option><option value="related-form-factor-transition">Other form-factor transition</option></select></div>
+      <div class="state-grid">
+        <div>
+          <div class="label">Before state</div>
+          <div class="field"><label for="before-posture">Posture</label><select id="before-posture"><option value="folded">Folded</option><option value="unfolded">Unfolded</option><option value="flat">Flat</option><option value="book-style">Book-style</option><option value="tabletop">Tabletop</option><option value="tent">Tent</option><option value="unknown">Unknown</option></select></div>
+          <div class="field"><label for="before-layout">Layout</label><select id="before-layout"><option value="compact">Compact</option><option value="medium">Medium</option><option value="expanded">Expanded</option></select></div>
+          <div class="field"><label for="before-orientation">Orientation</label><select id="before-orientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option><option value="unknown">Unknown</option></select></div>
+        </div>
+        <div>
+          <div class="label">After state</div>
+          <div class="field"><label for="after-posture">Posture</label><select id="after-posture"><option value="unfolded">Unfolded</option><option value="folded">Folded</option><option value="flat">Flat</option><option value="book-style">Book-style</option><option value="tabletop">Tabletop</option><option value="tent">Tent</option><option value="unknown">Unknown</option></select></div>
+          <div class="field"><label for="after-layout">Layout</label><select id="after-layout"><option value="expanded">Expanded</option><option value="medium">Medium</option><option value="compact">Compact</option></select></div>
+          <div class="field"><label for="after-orientation">Orientation</label><select id="after-orientation"><option value="landscape">Landscape</option><option value="portrait">Portrait</option><option value="unknown">Unknown</option></select></div>
+        </div>
+      </div>
+      <label class="check"><input id="external-observed" type="checkbox"><span>I performed or directly observed this transition on the declared physical device or approved target runtime and confirmed the review surface remained usable through the transition.</span></label>
+      <label class="check"><input id="semantic-observed" type="checkbox"><span>I confirmed the task marker, current destination, critical actions, and semantic hierarchy remained understandable and no automatic action or navigation occurred.</span></label>
+      <div class="buttons"><button id="record-transition" type="button">Record observed transition</button><button id="evaluate" type="button">Evaluate review readiness</button><button id="copy-result" type="button">Copy minimized JSON</button></div>
+    </section>
+
+    <section class="panel" aria-labelledby="results-title">
+      <h2 id="results-title">Review status</h2>
+      <div class="pill-row"><span class="pill" id="revision-pill">Exact revision: no</span><span class="pill" id="source-pill">External source: incomplete</span><span class="pill" id="coverage-pill">Coverage: 0 / 0</span><span class="pill" id="invariant-pill">Continuity: waiting</span></div>
+      <section class="card"><strong>Declared support and observed coverage</strong><div id="coverage-output" class="mono">No transition families declared.</div></section>
+      <section class="card"><strong>Latest continuity invariants</strong><div id="invariant-output" class="mono">No observed transition recorded.</div></section>
+      <section class="card"><strong>Minimized evidence record</strong><div id="result-output" class="mono">No evaluated record yet.</div></section>
+      <p id="live-region" role="status" aria-live="polite" aria-atomic="true">Posture continuity harness loaded. No qualification result has been created.</p>
+    </section>
+  </div>
+</main>
+<script type="module">
+  import {resolveGlazeInterface} from '../../js/glaze-v1.5-resolution.dev.mjs';
+
+  const $ = id => document.getElementById(id);
+  const revision = new URLSearchParams(location.search).get('revision') || '';
+  const exactRevisionBound = /^[0-9a-f]{40}$/.test(revision);
+  if (exactRevisionBound) $('revision-status').innerHTML = `<strong>Revision:</strong> <code>${revision}</code>. Evidence is valid only if this equals the independently verified checked-out Git revision.`;
+
+  const records=[];
+  let lastRecord=null;
+
+  const actions=[
+    {id:'compose',label:'Compose',primary:true,requiredCapabilities:['application.compose']},
+    {id:'search',label:'Search',primary:true,requiredCapabilities:['service.search']},
+    {id:'sensitive-upload',label:'Sensitive upload',requiredCapabilities:['authorization.data-use'],consequential:true}
+  ];
+  const destinations=[{id:'home',label:'Home'},{id:'search',label:'Search',capabilityId:'service.search'}];
+
+  function selectedFamilies(){return [...document.querySelectorAll('.family:checked')].map(node=>node.value);}
+  function state(prefix){return {posture:$(`${prefix}-posture`).value,layout:$(`${prefix}-layout`).value,orientation:$(`${prefix}-orientation`).value};}
+
+  function resolve(observed){
+    return resolveGlazeInterface({
+      providers:[
+        {id:'posture-platform',authority:'platform',context:{layout:{category:observed.layout},'device-posture':{posture:observed.posture},environment:{orientation:observed.orientation},input:{primary:'touch'},'window-state':{state:'foreground'}},capabilities:[{id:'platform.posture',domain:'platform',state:'available'}]},
+        {id:'posture-app',authority:'application',context:{task:{kind:'composing'}},capabilities:[{id:'application.compose',domain:'application',state:'available'}]},
+        {id:'posture-service',authority:'service',capabilities:[{id:'service.search',domain:'service',state:'available'}]},
+        {id:'posture-privacy',authority:'privacy',capabilities:[{id:'authorization.data-use',domain:'authorization',state:'permission-required'}]}
+      ],
+      actions,destinations,currentDestinationId:'search',intent:{supportsMultiPane:true}
+    });
+  }
+
+  function summarize(result){
+    const sensitive=result.actions.actions.find(action=>action.id==='sensitive-upload');
+    return {
+      paneMode:result.composition.paneMode,
+      reasonCodes:result.composition.reasonCodes,
+      acceptedCurrentId:result.navigation.acceptedCurrentId,
+      currentDestinationChanged:result.navigation.currentDestinationChanged,
+      taskStateReset:result.continuity.taskStateReset,
+      pageReloadRequired:result.continuity.pageReloadRequired,
+      capabilityTruthModified:result.composition.capabilityTruthModified,
+      primaryActionOrderStable:result.actions.primaryActionOrderStable,
+      primaryActionIds:result.actions.primaryActionIds,
+      sensitiveActionState:sensitive?.state,
+      sensitiveActionEnabled:sensitive?.enabled,
+      authorizationInferred:result.authority.authorizationInferred,
+      permissionGranted:result.authority.permissionGranted,
+      automaticNavigationAllowed:result.authority.automaticNavigationAllowed,
+      automaticPermissionRequestAllowed:result.authority.automaticPermissionRequestAllowed,
+      automaticConsequentialExecutionAllowed:result.authority.automaticConsequentialExecutionAllowed,
+      automaticFallbackExecutionAllowed:result.authority.automaticFallbackExecutionAllowed
+    };
+  }
+
+  function continuity(before,after){
+    return {
+      currentDestinationPreserved:before.acceptedCurrentId==='search'&&after.acceptedCurrentId==='search'&&!before.currentDestinationChanged&&!after.currentDestinationChanged,
+      taskStatePreserved:!before.taskStateReset&&!after.taskStateReset&&!before.pageReloadRequired&&!after.pageReloadRequired,
+      capabilityTruthPreserved:!before.capabilityTruthModified&&!after.capabilityTruthModified,
+      primaryHierarchyStable:before.primaryActionOrderStable&&after.primaryActionOrderStable&&JSON.stringify(before.primaryActionIds)===JSON.stringify(after.primaryActionIds),
+      protectedMeaningPreserved:before.sensitiveActionState==='permission-required'&&after.sensitiveActionState==='permission-required'&&before.sensitiveActionEnabled===false&&after.sensitiveActionEnabled===false,
+      noAutomaticAuthorityAction:[before,after].every(item=>item.authorizationInferred===false&&item.permissionGranted===false&&item.automaticNavigationAllowed===false&&item.automaticPermissionRequestAllowed===false&&item.automaticConsequentialExecutionAllowed===false&&item.automaticFallbackExecutionAllowed===false)
+    };
+  }
+
+  function allTrue(object){return Object.values(object).every(Boolean);}
+  function environmentComplete(){return Boolean($('os-version').value.trim()&&$('runtime-version').value.trim()&&$('device-id').value.trim())&&($('source-type').value==='physical-device'||Boolean($('approval-ref').value.trim()));}
+  function coverage(){
+    const declared=selectedFamilies();
+    const counts=Object.fromEntries(declared.map(family=>[family,records.filter(record=>record.family===family).length]));
+    return {declared,counts,covered:declared.filter(family=>(counts[family]||0)>0)};
+  }
+
+  function renderCoverage(){
+    const c=coverage();
+    $('coverage-pill').textContent=`Coverage: ${c.covered.length} / ${c.declared.length}`;
+    $('coverage-output').textContent=c.declared.length?c.declared.map(f=>`${c.counts[f]>0?'✓':'○'} ${f}: ${c.counts[f]||0} observed`).join('\n'):'No transition families declared.';
+  }
+
+  function recordObservedTransition(event){
+    if(!event.isTrusted){$('live-region').textContent='Rejected: transition records require a trusted human action.';return;}
+    const family=$('transition-family').value;
+    if(!selectedFamilies().includes(family)){ $('live-region').textContent='Declare this transition family as supported before recording evidence.'; return; }
+    if(!$('external-observed').checked||!$('semantic-observed').checked){$('live-region').textContent='Confirm both human-observation statements before recording.';return;}
+    const taskBefore=$('task-text').value;
+    const beforeState=state('before');
+    const afterState=state('after');
+    const before=summarize(resolve(beforeState));
+    const after=summarize(resolve(afterState));
+    const invariants=continuity(before,after);
+    invariants.visibleTaskFixtureUnchanged=$('task-text').value===taskBefore;
+    lastRecord={family,beforeState,afterState,before,after,invariants,externallyObserved:true,trustedHumanAction:true};
+    records.push(lastRecord);
+    $('invariant-output').textContent=JSON.stringify(invariants,null,2);
+    $('invariant-pill').textContent=`Continuity: ${allTrue(invariants)?'preserved':'REVIEW'}`;
+    $('external-observed').checked=false;$('semantic-observed').checked=false;
+    renderCoverage();
+    $('live-region').textContent=`Recorded ${family} observation. Canonical qualification remains PENDING_REVIEW.`;
+  }
+
+  function evaluate(){
+    const c=coverage();
+    const exactRevisionConfirmed=exactRevisionBound&&$('revision-confirmed').checked;
+    const hasFoldOrPosture=c.declared.includes('fold-unfold')||c.declared.includes('posture-mode-change');
+    const everyDeclaredCovered=c.declared.length>0&&c.declared.every(family=>(c.counts[family]||0)>0);
+    const everyInvariantPassed=records.length>0&&records.every(record=>allTrue(record.invariants));
+    const readyForHumanReview=exactRevisionConfirmed&&environmentComplete()&&hasFoldOrPosture&&everyDeclaredCovered&&everyInvariantPassed;
+    const result={
+      schemaVersion:1,
+      glazeUiVersion:'1.5.1-dev.1',
+      qualificationId:'platform-posture-continuity',
+      exactRevision:exactRevisionBound?revision:null,
+      exactRevisionConfirmed,
+      environment:{
+        osOrPlatform:$('os-version').value.trim(),
+        runtime:$('runtime-version').value.trim(),
+        deviceOrTargetRuntime:$('device-id').value.trim(),
+        evidenceSource:$('source-type').value,
+        approvalReference:$('source-type').value==='approved-target-runtime'?$('approval-ref').value.trim():null
+      },
+      declaredSupportedFamilies:c.declared,
+      observedCoverageCounts:c.counts,
+      observedTransitionCount:records.length,
+      allDeclaredFamiliesCovered:everyDeclaredCovered,
+      foldOrPostureEvidencePresent:hasFoldOrPosture&&c.covered.some(f=>f==='fold-unfold'||f==='posture-mode-change'),
+      continuityInvariantsPassed:everyInvariantPassed,
+      environmentIdentityComplete:environmentComplete(),
+      readyForHumanReview,
+      canonicalQualificationStatus:'PENDING_REVIEW',
+      automaticAcceptance:false,
+      promotionEligible:false,
+      privacy:{rawTaskContentRecorded:false,rawSensorStreamRecorded:false,exactObservationTimestampsRecorded:false,telemetryRequired:false,remoteAnalysisRequired:false},
+      transitions:records.map(record=>({family:record.family,beforeState:record.beforeState,afterState:record.afterState,invariants:record.invariants,externallyObserved:record.externallyObserved,trustedHumanAction:record.trustedHumanAction}))
+    };
+    $('revision-pill').textContent=`Exact revision: ${exactRevisionConfirmed?'yes':'no'}`;
+    $('source-pill').textContent=`External source: ${environmentComplete()?'complete':'incomplete'}`;
+    $('result-output').textContent=JSON.stringify(result,null,2);
+    $('live-region').textContent=readyForHumanReview?'Evidence package is structurally ready for separate human review; canonical status remains PENDING_REVIEW.':'Evidence package is incomplete; canonical status remains PENDING_REVIEW.';
+    return result;
+  }
+
+  $('record-transition').addEventListener('click',recordObservedTransition);
+  $('evaluate').addEventListener('click',()=>evaluate());
+  $('copy-result').addEventListener('click',async event=>{
+    if(!event.isTrusted)return;
+    const result=evaluate();
+    await navigator.clipboard.writeText(JSON.stringify(result,null,2));
+    $('live-region').textContent='Copied privacy-minimized posture evidence JSON. This is not acceptance evidence by itself.';
+  });
+  document.querySelectorAll('.family').forEach(node=>node.addEventListener('change',renderCoverage));
+  renderCoverage();
+</script>
+</body>
+</html>

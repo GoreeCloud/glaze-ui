@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en" data-review-harness="glaze-v1.5.1-performance-qualification">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>GLAZE UI V1.5.1 — Performance Qualification Measurement Harness</title>
+  <link rel="stylesheet" href="../../css/glaze-v1.4.1.css">
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light dark;--bg:#0b0f17;--panel:#111827;--line:rgba(255,255,255,.18);--muted:rgba(255,255,255,.72);--accent:#9ec5ff;--warning:#ffd58a;--good:#9de4b4}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:#f7f9fc}button,input,select,textarea{font:inherit;color:inherit;background:var(--panel);border:1px solid var(--line);border-radius:12px}button,select,input{min-height:44px}button{padding:.65rem .85rem;cursor:pointer}input,select,textarea{width:100%;padding:.65rem .75rem}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:4px solid var(--accent);outline-offset:3px}.shell{width:min(1280px,100%);margin:0 auto;padding:20px}.banner,.panel{border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel) 90%,transparent)}.banner{padding:16px;margin-bottom:16px;border-color:rgba(255,199,104,.55)}.banner strong,.pending{color:var(--warning)}.banner code,.mono{overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:minmax(310px,410px) minmax(0,1fr);gap:16px}.panel{padding:18px;min-width:0}.controls{align-self:start}h1{margin:0 0 8px;font-size:1.35rem}h2{margin:0 0 12px;font-size:1rem}h3{margin:18px 0 8px;font-size:.9rem}p{line-height:1.55}.muted{color:var(--muted)}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:.78rem;font-weight:750;letter-spacing:.045em;text-transform:uppercase;color:var(--muted)}.buttons{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.status-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 9px;font-size:.8rem}.card{border:1px solid var(--line);border-radius:15px;padding:14px;background:rgba(255,255,255,.035);margin-bottom:12px}.mono{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap}.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.metric{border:1px solid var(--line);border-radius:12px;padding:12px}.metric strong{display:block}.ok{color:var(--good)}.warning{color:var(--warning)}.check{display:flex;gap:8px;align-items:flex-start}.check input{width:auto;min-height:auto;margin-top:.25rem}@media(max-width:850px){.shell{padding:10px}.grid{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.001ms!important;animation-duration:.001ms!important;animation-iteration-count:1!important}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <section class="banner" aria-labelledby="title">
+    <h1 id="title">GLAZE UI V1.5.1 — Performance Qualification Measurement Harness</h1>
+    <p><strong>Local measurement surface only — not acceptance evidence.</strong> This page may calculate timing aggregates and budget comparisons. It cannot mark <code>performance-representative-budget</code> satisfied or create RC, Stable, consumer, deployment, or production acceptance.</p>
+    <p id="revision-status"><strong>Revision:</strong> <span class="pending">UNBOUND — measurements are not exact-revision evidence.</span> Open with <code>?revision=&lt;40-hex-sha&gt;</code> and independently verify that SHA is the checked-out review revision.</p>
+    <p><strong>Budget:</strong> Standard — Glaze UI Performance Budget v1.0. Required minimums: 20 warm-up + 200 measured resolver calls; 30 trusted user transitions; 120 idle frame intervals; 240 active frame intervals.</p>
+    <p><strong>Privacy boundary:</strong> repository-local; no telemetry, remote analysis, remote assets, camera access, credentials, provider secrets, raw task content, serials, or unique device identifiers in the result record.</p>
+  </section>
+
+  <div class="grid">
+    <section class="panel controls" aria-labelledby="controls-title">
+      <h2 id="controls-title">Environment and representative controls</h2>
+      <div class="field"><label for="os-version">Operating system and version</label><input id="os-version" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Example: Zorin OS 17.3 Pro"></div>
+      <div class="field"><label for="runtime-version">Browser/runtime and version</label><input id="runtime-version" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Example: Firefox 143.0"></div>
+      <div class="field"><label for="device-id">Representative hardware class/model — no serials or unique identifiers</label><input id="device-id" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Example: Lenovo IdeaPad 3 15IIL05"></div>
+      <label class="check"><input id="revision-confirmed" type="checkbox"><span>I independently confirmed the revision in this page URL equals the checked-out Git revision.</span></label>
+
+      <h3>Review fixture</h3>
+      <div class="field"><label for="task-text">Local task-state fixture (never exported)</label><textarea id="task-text">Qualification fixture state remains intact.</textarea></div>
+      <div class="field"><label for="layout-state">Layout/window</label><select id="layout-state"><option value="expanded">Expanded</option><option value="compact">Compact</option></select></div>
+      <div class="field"><label for="connectivity-state">Connectivity</label><select id="connectivity-state"><option value="online">Online</option><option value="offline">Offline</option></select></div>
+      <div class="field"><label for="permission-state">Data-use authorization</label><select id="permission-state"><option value="permission-required">Permission required</option><option value="available">Available</option></select></div>
+      <div class="field"><label for="policy-state">Administrative authorization</label><select id="policy-state"><option value="available">Available</option><option value="restricted">Restricted</option></select></div>
+      <div class="field"><label for="search-state">Search service</label><select id="search-state"><option value="available">Available</option><option value="degraded">Degraded</option></select></div>
+      <div class="field"><label for="motion-state">Reduced Motion</label><select id="motion-state"><option value="false">Off</option><option value="true">On</option></select></div>
+      <div class="field"><label for="input-state">Primary input</label><select id="input-state"><option value="keyboard">Keyboard</option><option value="pointer">Pointer</option></select></div>
+      <div class="field"><label for="performance-state">Performance level</label><select id="performance-state"><option value="normal">Normal</option><option value="low">Low power</option></select></div>
+      <div class="field"><label for="pressure-state">Resource pressure</label><select id="pressure-state"><option value="normal">Normal</option><option value="critical">Critical</option></select></div>
+      <div class="buttons"><button id="capture-idle" type="button">Capture idle baseline</button><button id="start-session" type="button">Start measured session</button><button id="evaluate" type="button">Evaluate current measurement</button><button id="copy-result" type="button">Copy minimized JSON</button></div>
+      <p id="instruction" class="muted">1. Bind and confirm the exact revision. 2. Enter bounded representative environment metadata without serials or unique identifiers. 3. Capture idle baseline while foregrounded. 4. Start the session. 5. Make at least 30 real control changes spanning every coverage family. 6. Keep the page foregrounded until at least 240 active frame intervals are collected. 7. Evaluate.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="results-title">
+      <h2 id="results-title">Measurement status</h2>
+      <div class="status-row"><span class="pill" id="visibility-pill">Foreground: yes</span><span class="pill" id="idle-pill">Idle frames: 0 / 120</span><span class="pill" id="active-pill">Active frames: 0 / 240</span><span class="pill" id="transition-pill">User transitions: 0 / 30</span></div>
+      <section class="card"><strong>Coverage touched</strong><div id="coverage-output" class="mono">none</div></section>
+      <section class="card"><strong>Runtime authority and continuity</strong><div id="authority-output" class="mono">waiting</div></section>
+      <section class="card"><strong>Budget comparison</strong><div id="metric-output" class="metric-grid"></div></section>
+      <section class="card"><strong>Minimized measurement record</strong><div id="result-output" class="mono">No evaluated result yet.</div></section>
+      <p id="live-region" role="status" aria-live="polite" aria-atomic="true">Measurement harness loaded. No qualification result has been created.</p>
+    </section>
+  </div>
+</main>
+<script type="module">
+  import {resolveGlazeInterface} from '../../js/glaze-v1.5-resolution.dev.mjs';
+
+  const $ = id => document.getElementById(id);
+  const revision = new URLSearchParams(location.search).get('revision') || '';
+  const exactRevisionBound = /^[0-9a-f]{40}$/.test(revision);
+  if (exactRevisionBound) $('revision-status').innerHTML = `<strong>Revision:</strong> <code>${revision}</code>. Evidence is valid only if this equals the independently verified checked-out Git revision.`;
+
+  const controls = [
+    $('layout-state'),$('connectivity-state'),$('permission-state'),$('policy-state'),$('search-state'),$('motion-state'),$('input-state'),$('performance-state'),$('pressure-state')
+  ];
+  const coverageByControl = new Map([
+    ['connectivity-state','connectivity'],
+    ['permission-state','capability-or-authorization'],['policy-state','capability-or-authorization'],['search-state','capability-or-authorization'],
+    ['layout-state','layout-or-window'],
+    ['input-state','input-or-presentation'],['motion-state','input-or-presentation'],
+    ['performance-state','constrained-or-low-power'],['pressure-state','constrained-or-low-power']
+  ]);
+  const requiredCoverage = ['connectivity','capability-or-authorization','layout-or-window','input-or-presentation','constrained-or-low-power'];
+
+  const actions = [
+    {id:'compose',label:'Compose',primary:true,requiredCapabilities:['application.compose']},
+    {id:'search',label:'Search',primary:true,requiredCapabilities:['service.search']},
+    {id:'sensitive-upload',label:'Sensitive upload',requiredCapabilities:['authorization.data-use'],consequential:true},
+    {id:'admin',label:'Administration',requiredCapabilities:['authorization.admin']}
+  ];
+  const destinations = [{id:'home',label:'Home'},{id:'admin',label:'Administration',capabilityId:'authorization.admin'}];
+
+  function inputFromState(overrides={}){
+    const state = {
+      layout:$('layout-state').value,connectivity:$('connectivity-state').value,permission:$('permission-state').value,
+      policy:$('policy-state').value,search:$('search-state').value,reducedMotion:$('motion-state').value === 'true',
+      input:$('input-state').value,performance:$('performance-state').value,pressure:$('pressure-state').value,...overrides
+    };
+    return {
+      providers:[
+        {id:'qualification-platform',authority:'platform',context:{layout:{category:state.layout},input:{primary:state.input},connectivity:{class:state.connectivity},runtime:{performanceLevel:state.performance,resourcePressure:state.pressure}},capabilities:[{id:'connectivity.network',domain:'connectivity',state:state.connectivity === 'offline' ? 'offline' : 'available'}]},
+        {id:'qualification-app',authority:'application',context:{task:{kind:'composing'}},capabilities:[{id:'application.compose',domain:'application',state:'available'}]},
+        {id:'qualification-service',authority:'service',capabilities:[{id:'service.search',domain:'service',state:state.search}]},
+        {id:'qualification-privacy',authority:'privacy',capabilities:[{id:'authorization.data-use',domain:'authorization',state:state.permission}]},
+        {id:'qualification-policy',authority:'policy',capabilities:[{id:'authorization.admin',domain:'authorization',state:state.policy}]},
+        {id:'qualification-accessibility',authority:'accessibility',context:{accessibility:{reducedMotion:state.reducedMotion}}}
+      ],actions,destinations,currentDestinationId:'home',intent:{supportsMultiPane:true}
+    };
+  }
+
+  function percentile(values,p){
+    if(!values.length) return null;
+    const sorted=[...values].sort((a,b)=>a-b);
+    return sorted[Math.max(0,Math.ceil(p*sorted.length)-1)];
+  }
+  function round(value){return value == null ? null : Math.round(value*1000)/1000;}
+  function median(values){return percentile(values,.5);}
+  function boundedEnvironmentValue(id){
+    const value=$(id).value;
+    if(typeof value !== 'string' || !value || value !== value.trim() || value.length>160 || /[\u0000-\u001f\u007f-\u009f]/u.test(value)) return null;
+    return value;
+  }
+  function environmentMetadataReady(){
+    return Boolean(boundedEnvironmentValue('os-version') && boundedEnvironmentValue('runtime-version') && boundedEnvironmentValue('device-id'));
+  }
+
+  let idleIntervals=[];
+  let activeIntervals=[];
+  let interactionDurations=[];
+  let resolverDurations=[];
+  let touchedCoverage=new Set();
+  let sessionActive=false;
+  let invalidated=false;
+  let taskFixtureAtStart='';
+  let lastResult=null;
+  let activeLast=null;
+
+  function updateStatus(){
+    $('visibility-pill').textContent=`Foreground: ${document.visibilityState === 'visible' ? 'yes' : 'NO'}`;
+    $('idle-pill').textContent=`Idle frames: ${idleIntervals.length} / 120`;
+    $('active-pill').textContent=`Active frames: ${activeIntervals.length} / 240`;
+    $('transition-pill').textContent=`User transitions: ${interactionDurations.length} / 30`;
+    $('coverage-output').textContent=requiredCoverage.map(item=>`${touchedCoverage.has(item)?'✓':'○'} ${item}`).join('\n');
+  }
+
+  function summarizeBoundary(result){
+    return {
+      resolverIdentity:{version:result.version,lifecycle:result.lifecycle},
+      capabilityTruthModified:result.composition?.capabilityTruthModified ?? null,
+      taskStateReset:result.continuity?.taskStateReset,
+      pageReloadRequired:result.continuity?.pageReloadRequired,
+      primaryActionOrderStable:result.actions?.primaryActionOrderStable,
+      authorizationInferred:result.authority?.authorizationInferred,
+      permissionGranted:result.authority?.permissionGranted,
+      operationalAuthorityGranted:result.authority?.operationalAuthorityGranted,
+      automaticNavigationAllowed:result.authority?.automaticNavigationAllowed,
+      automaticPermissionRequestAllowed:result.authority?.automaticPermissionRequestAllowed,
+      automaticConsequentialExecutionAllowed:result.authority?.automaticConsequentialExecutionAllowed,
+      automaticFallbackExecutionAllowed:result.authority?.automaticFallbackExecutionAllowed
+    };
+  }
+
+  function render(){
+    const taskBefore=$('task-text').value;
+    lastResult=resolveGlazeInterface(inputFromState());
+    const boundary=summarizeBoundary(lastResult);
+    boundary.visibleTaskFixtureUnchanged=$('task-text').value === taskBefore;
+    $('authority-output').textContent=JSON.stringify(boundary,null,2);
+    return lastResult;
+  }
+
+  function representativeResolverInputs(){
+    return [
+      {},
+      {connectivity:'offline',search:'degraded'},
+      {permission:'permission-required',policy:'restricted'},
+      {performance:'low',pressure:'normal'},
+      {performance:'normal',pressure:'critical'},
+      {reducedMotion:true,input:'keyboard'},
+      {layout:'compact',input:'pointer'},
+      {layout:'expanded',input:'keyboard'}
+    ];
+  }
+
+  function measureResolver(){
+    const scenarios=representativeResolverInputs();
+    for(let i=0;i<24;i++) resolveGlazeInterface(inputFromState(scenarios[i%scenarios.length]));
+    resolverDurations=[];
+    for(let i=0;i<240;i++){
+      const start=performance.now();
+      resolveGlazeInterface(inputFromState(scenarios[i%scenarios.length]));
+      resolverDurations.push(performance.now()-start);
+    }
+  }
+
+  function collectIdle(){
+    if(document.visibilityState !== 'visible'){
+      $('live-region').textContent='Idle capture refused: keep the page foregrounded.';return;
+    }
+    if(sessionActive){$('live-region').textContent='End/evaluate the active session before recapturing idle baseline.';return;}
+    idleIntervals=[];updateStatus();
+    let previous=null;
+    const tick=now=>{
+      if(document.visibilityState !== 'visible'){idleIntervals=[];updateStatus();$('live-region').textContent='Idle baseline discarded because the page became hidden.';return;}
+      if(previous != null) idleIntervals.push(now-previous);
+      previous=now;updateStatus();
+      if(idleIntervals.length<120) requestAnimationFrame(tick);
+      else $('live-region').textContent='Idle baseline captured. Start the measured session and exercise representative controls.';
+    };
+    requestAnimationFrame(tick);
+  }
+
+  function activeTick(now){
+    if(!sessionActive) return;
+    if(activeLast != null) activeIntervals.push(now-activeLast);
+    activeLast=now;updateStatus();requestAnimationFrame(activeTick);
+  }
+
+  function requiredEnvironmentReady(){
+    return exactRevisionBound && $('revision-confirmed').checked && environmentMetadataReady();
+  }
+
+  function startSession(){
+    if(!requiredEnvironmentReady()){
+      $('live-region').textContent='Cannot start: bind/confirm the exact revision and complete all bounded environment fields without serials or unique identifiers.';return;
+    }
+    if(idleIntervals.length<120){$('live-region').textContent='Cannot start: capture at least 120 valid idle frame intervals first.';return;}
+    if(document.visibilityState !== 'visible'){$('live-region').textContent='Cannot start while backgrounded.';return;}
+    invalidated=false;interactionDurations=[];activeIntervals=[];touchedCoverage=new Set();taskFixtureAtStart=$('task-text').value;lastResult=render();
+    measureResolver();sessionActive=true;activeLast=null;updateStatus();requestAnimationFrame(activeTick);
+    $('live-region').textContent='Measured session active. Make at least 30 real control changes spanning all five coverage families; keep the page foregrounded.';
+  }
+
+  function onTrustedTransition(event){
+    if(!sessionActive || !event.isTrusted) return;
+    const start=performance.now();
+    const family=coverageByControl.get(event.currentTarget.id);if(family)touchedCoverage.add(family);
+    render();
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      interactionDurations.push(performance.now()-start);updateStatus();
+      $('live-region').textContent=`Recorded trusted transition ${interactionDurations.length}. Continue until all sample and coverage requirements are met.`;
+    }));
+  }
+
+  function boundaryWithinLimits(){
+    if(!lastResult) return false;
+    const a=lastResult.authority||{},c=lastResult.continuity||{},comp=lastResult.composition||{};
+    return c.taskStateReset===false && c.pageReloadRequired===false && a.authorizationInferred===false && a.permissionGranted===false && a.operationalAuthorityGranted===false && a.automaticNavigationAllowed===false && a.automaticPermissionRequestAllowed===false && a.automaticConsequentialExecutionAllowed===false && a.automaticFallbackExecutionAllowed===false && comp.capabilityTruthModified===false && $('task-text').value===taskFixtureAtStart;
+  }
+
+  function evaluate(){
+    sessionActive=false;activeLast=null;render();
+    const idleMedian=median(idleIntervals);
+    const resolverP95=percentile(resolverDurations,.95),resolverP99=percentile(resolverDurations,.99);
+    const interactionP95=percentile(interactionDurations,.95),interactionP99=percentile(interactionDurations,.99);
+    const activeP95=percentile(activeIntervals,.95);
+    const frameP95Limit=idleMedian==null?null:Math.max(20,1.25*idleMedian);
+    const severeLimit=idleMedian==null?null:2*idleMedian;
+    const severeCount=severeLimit==null?null:activeIntervals.filter(v=>v>severeLimit).length;
+    const severeRate=severeCount==null||!activeIntervals.length?null:(severeCount/activeIntervals.length)*100;
+    const catastrophicCount=activeIntervals.filter(v=>v>100).length;
+    const coverageComplete=requiredCoverage.every(item=>touchedCoverage.has(item));
+    const enoughSamples=resolverDurations.length>=200&&interactionDurations.length>=30&&idleIntervals.length>=120&&activeIntervals.length>=240;
+    const thresholds={
+      resolverP95:resolverP95!=null&&resolverP95<=10.0,
+      resolverP99:resolverP99!=null&&resolverP99<=16.7,
+      interactionP95:interactionP95!=null&&interactionP95<=100,
+      interactionP99:interactionP99!=null&&interactionP99<=200,
+      activeFrameP95:activeP95!=null&&frameP95Limit!=null&&activeP95<=frameP95Limit,
+      severeFrameStallRate:severeRate!=null&&severeRate<=1.0,
+      catastrophicForegroundStalls:catastrophicCount===0,
+      continuityAndAuthority:boundaryWithinLimits()
+    };
+    const allThresholds=Object.values(thresholds).every(Boolean);
+    const evaluable=requiredEnvironmentReady()&&enoughSamples&&coverageComplete&&!invalidated&&document.visibilityState==='visible';
+    const record={
+      recordType:'local-performance-measurement-evaluation',
+      authority:'non-authorizing-measurement-only',
+      qualificationTrack:'GLAZE UI V1.5.1 / 1.5.1-dev.1',
+      qualificationId:'performance-representative-budget',
+      governingBudget:'Standard — Glaze UI Performance Budget v1.0',
+      measuredRevision:revision||null,
+      revisionIndependentlyConfirmed:$('revision-confirmed').checked,
+      measurementDate:new Date().toISOString(),
+      environment:{operatingSystem:boundedEnvironmentValue('os-version'),runtime:boundedEnvironmentValue('runtime-version'),hardware:boundedEnvironmentValue('device-id'),foregroundAtEvaluation:document.visibilityState==='visible',presentationModes:['normal','constrained/low-power'],idleMedianFrameIntervalMs:round(idleMedian)},
+      samples:{resolverWarmup:24,resolverMeasured:resolverDurations.length,interactionToPaint:interactionDurations.length,idleFrameIntervals:idleIntervals.length,activeFrameIntervals:activeIntervals.length},
+      coverage:{required:requiredCoverage,touched:[...touchedCoverage],complete:coverageComplete},
+      metrics:{resolverP95Ms:round(resolverP95),resolverP99Ms:round(resolverP99),interactionPaintP95Ms:round(interactionP95),interactionPaintP99Ms:round(interactionP99),activeFrameP95Ms:round(activeP95),activeFrameP95LimitMs:round(frameP95Limit),severeFrameStallRatePercent:round(severeRate),catastrophicForegroundStallCount:catastrophicCount},
+      thresholdComparisons:thresholds,
+      measurementEvaluable:evaluable,
+      withinApprovedBudget:evaluable&&allThresholds,
+      invalidatedByBackgrounding:invalidated,
+      canonicalQualificationStatus:'PENDING_REVIEW',
+      nonClaims:['not canonical PASS evidence','not Release Candidate acceptance','not Stable acceptance','not consumer acceptance','not deployment acceptance','not production acceptance','not platform-posture-continuity evidence']
+    };
+    const entries=[
+      ['Resolver p95',record.metrics.resolverP95Ms,'≤ 10.0 ms',thresholds.resolverP95],['Resolver p99',record.metrics.resolverP99Ms,'≤ 16.7 ms',thresholds.resolverP99],
+      ['Interaction→paint p95',record.metrics.interactionPaintP95Ms,'≤ 100 ms',thresholds.interactionP95],['Interaction→paint p99',record.metrics.interactionPaintP99Ms,'≤ 200 ms',thresholds.interactionP99],
+      ['Active frame p95',record.metrics.activeFrameP95Ms,`≤ ${record.metrics.activeFrameP95LimitMs} ms`,thresholds.activeFrameP95],['Severe stall rate',record.metrics.severeFrameStallRatePercent,'≤ 1.0%',thresholds.severeFrameStallRate],
+      ['>100 ms stalls',record.metrics.catastrophicForegroundStallCount,'= 0',thresholds.catastrophicForegroundStalls],['Continuity/authority',thresholds.continuityAndAuthority?'preserved':'NOT preserved','= preserved',thresholds.continuityAndAuthority]
+    ];
+    $('metric-output').innerHTML=entries.map(([name,value,limit,ok])=>`<div class="metric"><strong>${name}</strong><span class="${ok?'ok':'warning'}">${value ?? 'insufficient'} · ${limit}</span></div>`).join('');
+    $('result-output').textContent=JSON.stringify(record,null,2);
+    $('live-region').textContent=evaluable?(record.withinApprovedBudget?'Measurement is within the approved numeric budget. Canonical qualification remains PENDING_REVIEW until the record is independently reviewed and durably recorded.':'Measurement is evaluable but one or more approved thresholds are not met. Canonical qualification remains pending.'): 'Measurement is not evaluable yet because sample, coverage, foreground, environment, or exact-revision requirements are incomplete.';
+  }
+
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState!=='visible'&&sessionActive){invalidated=true;$('live-region').textContent='Session invalidated because the page became hidden/backgrounded. Start a new session.';}updateStatus();});
+  for(const control of controls) control.addEventListener('change',onTrustedTransition);
+  $('capture-idle').addEventListener('click',collectIdle);
+  $('start-session').addEventListener('click',startSession);
+  $('evaluate').addEventListener('click',evaluate);
+  $('copy-result').addEventListener('click',async()=>{const text=$('result-output').textContent;if(!text.startsWith('{')){$('live-region').textContent='Evaluate a measurement before copying.';return;}try{await navigator.clipboard.writeText(text);$('live-region').textContent='Minimized JSON copied locally. No network transmission occurred.';}catch{$('live-region').textContent='Clipboard write was unavailable; copy the visible minimized JSON manually.';}});
+  render();updateStatus();
+</script>
+</body>
+</html>

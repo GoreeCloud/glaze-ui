@@ -54,20 +54,34 @@ async function main() {
   const lifecycle = await json('registry/lifecycle.json');
   const contract = await json('contracts/v1.4.1/optical-runtime-hardening.contract.json');
 
+  const v140 = lifecycle.releases.find(item => item.version === '1.4.0');
+  const v141 = lifecycle.releases.find(item => item.version === '1.4.1');
+  assert.ok(v140, 'lifecycle must retain the 1.4.0 release record');
+  assert.equal(v140.status, 'stable', 'historical 1.4.0 record must remain Stable provenance');
+  assert.ok(v141, 'lifecycle must retain the 1.4.1 release record');
+  assert.equal(v141.status, 'stable', 'historical 1.4.1 record must remain Stable provenance');
+  assert.equal(v141.consumerEligible, true, 'historical 1.4.1 Stable record must remain consumer-eligible provenance');
+  assert.equal(v141.stableBaseline, '1.4.0', 'historical 1.4.1 record must preserve its 1.4.0 baseline');
+
   if (lifecycle.currentStable === '1.4.1') {
     assert.equal(lifecycle.currentOfficial, '1.4.1');
     assert.equal(lifecycle.plannedNext, null);
     assert.equal(lifecycle.activeCandidate, null);
     assert.equal(lifecycle.activePatchReleaseCandidate, null);
-    const promoted = lifecycle.releases.find(item => item.version === '1.4.1');
-    assert.ok(promoted, 'Stable lifecycle must contain the 1.4.1 release record');
-    assert.equal(promoted.status, 'stable');
-    assert.equal(promoted.stableBaseline, '1.4.0');
-  } else {
-    assert.equal(lifecycle.currentStable, '1.4.0');
+  } else if (lifecycle.currentStable === '1.4.0') {
     assert.equal(lifecycle.currentOfficial, '1.4.0');
     assert.equal(lifecycle.plannedNext, '1.4.1-candidate');
     assert.equal(lifecycle.activeCandidate, null);
+  } else {
+    assert.equal(lifecycle.currentOfficial, lifecycle.currentStable,
+      'current Official and Stable authorities must remain aligned');
+    if (lifecycle.currentStable === '1.5.0') {
+      const v150 = lifecycle.releases.find(item => item.version === '1.5.0');
+      assert.ok(v150, 'current lifecycle must contain the 1.5.0 release record');
+      assert.equal(v150.status, 'stable', 'current 1.5.0 record must be Stable');
+      assert.equal(v150.consumerEligible, true, 'current 1.5.0 record must be consumer eligible');
+      assert.equal(v150.stableBaseline, '1.4.1', '1.5.0 must preserve 1.4.1 as its rollback baseline');
+    }
   }
 
   assert.equal(glazeOpticalEngineV14.version, '1.4.0');
@@ -187,7 +201,7 @@ async function main() {
   assert.equal('adapterStatus' in stable, false);
 
   console.log('GLAZE UI V1.4.1 optical runtime hardening: PASS');
-  console.log('Boundary: adapter faults fail safe to solid-accessible; V1.4.0 Stable blobs remain immutable; human V1.4.1 acceptance is not implied.');
+  console.log(`Boundary: adapter faults fail safe to solid-accessible; V1.4.0 Stable blobs remain immutable; V1.4.1 remains historical Stable provenance under current Stable ${lifecycle.currentStable}; no current acceptance is implied.`);
 }
 
 main().catch((error) => {

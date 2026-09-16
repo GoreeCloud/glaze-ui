@@ -64,13 +64,20 @@ jobs:
         run: node scripts/verify_glaze_v1_4_stable.mjs
 
       - name: Preserve V1.4.1 human-evidence protocol boundary
+        shell: bash
         run: |
+          set -euo pipefail
           node scripts/verify_glaze_v1_4_1_human_validation_schema.mjs
-          node scripts/verify_glaze_v1_4_1_human_validation.mjs --source-only
-          node scripts/verify_glaze_v1_4_1_human_validation.mjs --self-test
+          CURRENT_STABLE="$(node -p "require('./registry/lifecycle.json').currentStable")"
+          if [[ "${CURRENT_STABLE}" == "1.4.0" || "${CURRENT_STABLE}" == "1.4.1" ]]; then
+            node scripts/verify_glaze_v1_4_1_human_validation.mjs --source-only
+            node scripts/verify_glaze_v1_4_1_human_validation.mjs --self-test
+          else
+            node -e "const a=require('node:assert/strict'),l=require('./registry/lifecycle.json'),v140=l.releases.find(x=>x.version==='1.4.0'),v141=l.releases.find(x=>x.version==='1.4.1');a.equal(l.currentOfficial,l.currentStable);a.ok(v140);a.equal(v140.status,'stable');a.ok(v141);a.equal(v141.status,'stable');a.equal(v141.consumerEligible,true);a.equal(v141.stableBaseline,'1.4.0');if(l.currentStable==='1.5.0'){const v150=l.releases.find(x=>x.version==='1.5.0');a.ok(v150);a.equal(v150.status,'stable');a.equal(v150.stableBaseline,'1.4.1')}console.log('V1.4.1 human-evidence protocol retained as historical provenance under current Stable '+l.currentStable+'.')"
+          fi
 
       - name: Report non-claim boundary
         run: |
-          echo 'V1.4.1 optical runtime hardening is machine-verifiable candidate work only.'
-          echo 'This workflow does not claim human, physical-device, assistive-technology, performance, or subjective optical acceptance.'
-          echo 'V1.4.0 Stable source remains separately verified and immutable under the hardening contract.'
+          echo 'V1.4.1 optical runtime hardening remains historical machine-verifiable provenance when a later Stable release is current.'
+          echo 'This workflow does not manufacture new human, physical-device, assistive-technology, performance, or subjective optical acceptance.'
+          echo 'V1.4.0 and V1.4.1 Stable source/evidence remain separately auditable and do not override current lifecycle authority.'
