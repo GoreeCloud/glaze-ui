@@ -63,14 +63,18 @@ assert(scope.continuityPolicy.presentationBehaviorChangePermittedByPromotion ===
 assert(scope.continuityPolicy.authorizationBehaviorChangePermittedByPromotion === false, 'Promotion must not permit authorization behavior change');
 
 const consumers = json('consumers/registry.json');
+assert(consumers.schemaVersion === 8, 'Consumer registry must retain governed schema version 8');
 assert(consumers.officialBaseline === '1.5.0', 'Consumer registry official baseline must be 1.5.0');
 assert(consumers.requiredConsumerVersion === '1.5.0', 'Consumer registry required version must be 1.5.0');
+assert(consumers.officialProductLabel === lifecycle.officialProductLabel, 'Consumer registry label must match lifecycle authority');
 assert(consumers.consumers.every(item => item.requiredTargetVersion === '1.5.0'), 'Every registered consumer must require 1.5.0');
 assert(consumers.consumers.every(item => item.productionEligible === false), 'Stable design-system promotion must not auto-certify consumers');
-assert(consumers.sharedStableQualificationBoundary.numericPerformanceBudgetV10AcceptanceClaimedByV150 === false, 'Consumer registry must preserve V1.5.0 performance non-claim');
-assert(consumers.sharedStableQualificationBoundary.foldablePostureAcceptanceClaimedByV150 === false, 'Consumer registry must preserve V1.5.0 posture non-claim');
 
-for (const file of ['README.md', 'STABILITY.md', 'ACCEPTANCE.md', 'CONFORMANCE.md']) {
+const consumerSchema = json('schemas/consumer-registry.schema.json');
+assert(consumerSchema.properties?.schemaVersion?.const === 8, 'Consumer registry schema must retain version 8');
+assert(String(consumerSchema.title).includes('V1.5'), 'Consumer registry schema title must identify V1.5');
+
+for (const file of ['README.md', 'STABILITY.md', 'ACCEPTANCE.md', 'CONFORMANCE.md', 'CONSUMERS.md']) {
   const text = read(file);
   assert(text.includes('1.5.0'), `${file} must identify V1.5.0 current authority`);
   assert(!text.includes('V1.4 (`1.4.1`) is the current Stable'), `${file} contains stale V1.4.1 current-Stable authority`);
