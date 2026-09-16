@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "version": "1.5.1-dev.1",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.0",
+  "authority": "performance-measurement-surface-only",
+  "qualificationId": "performance-representative-budget",
+  "governingBudget": "Standard — Glaze UI Performance Budget v1.0",
+  "candidateRuntime": "js/glaze-v1.5-resolution.dev.mjs",
+  "harness": "reference/v1.5.1/performance-qualification.html",
+  "networkPolicy": "repository-local-only",
+  "telemetryRequired": false,
+  "remoteAnalysisRequired": false,
+  "automaticAcceptance": false,
+  "automaticPromotionEligibility": false,
+  "exactRevisionRequired": true,
+  "minimumSamples": {
+    "resolverWarmup": 20,
+    "resolverMeasured": 200,
+    "interactionToPaint": 30,
+    "idleFrameIntervals": 120,
+    "activeFrameIntervals": 240
+  },
+  "thresholds": {
+    "resolverP95MsMax": 10.0,
+    "resolverP99MsMax": 16.7,
+    "interactionPaintP95MsMax": 100,
+    "interactionPaintP99MsMax": 200,
+    "activeFrameP95Rule": "<= max(20 ms, 1.25 * idle median frame interval)",
+    "severeFrameStallRatePercentMax": 1.0,
+    "severeFrameStallRule": "active frame interval > 2 * idle median frame interval",
+    "catastrophicForegroundStallMsMaxExclusive": 100,
+    "catastrophicForegroundStallCountMax": 0,
+    "taskStateResetMax": 0,
+    "pageReloadRequiredMax": 0,
+    "automaticAuthorityActionsMax": 0
+  },
+  "requiredTransitionCoverage": [
+    "connectivity",
+    "capability-or-authorization",
+    "layout-or-window",
+    "input-or-presentation",
+    "constrained-or-low-power"
+  ],
+  "privacy": {
+    "aggregateTimingOnly": true,
+    "rawUserContentRecorded": false,
+    "credentialsRecorded": false,
+    "providerSecretsRecorded": false,
+    "rawActivityRecorded": false
+  },
+  "boundary": "This harness may collect local representative timing measurements and compare them to the approved budget. It cannot mark performance-representative-budget satisfied, create Release Candidate or Stable status, accept consumers, deploy software, or create production acceptance. Canonical qualification requires review and durable evidence tied to the exact measured revision and environment."
+}
