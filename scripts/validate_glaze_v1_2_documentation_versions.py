@@ -47,6 +47,8 @@ HISTORICAL_SOURCE_PATHS = {
     "GLAZE_UI_V1_1.md",
     "GLAZE_UI_V1_3.md",
     "GLAZE_UI_V1_3_1_HARDENING.md",
+    "GLAZE_UI_V1_4_1.md",
+    "GLAZE_UI_V1_5_DEVELOPMENT.md",
     "MIGRATION_V1_2_TO_V1_3.md",
     "acceptance/v1.1-rendered-web-evidence.json",
     "acceptance/v1.1-stable.md",
