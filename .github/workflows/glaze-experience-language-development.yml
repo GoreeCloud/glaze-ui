@@ -1,0 +1,71 @@
+name: Glaze UI Experience Language Development
+
+on:
+  pull_request:
+    paths:
+      - 'GLAZE_UI_VISUAL_SPATIAL_INTERACTION_LANGUAGE.md'
+      - 'contracts/experience-language.dev.json'
+      - 'schemas/experience-language.schema.json'
+      - 'tokens/glaze-experience-language.dev.json'
+      - 'tokens/README.md'
+      - 'scripts/validate_glaze_experience_language_development.py'
+      - '.github/workflows/glaze-experience-language-development.yml'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  push:
+    branches:
+      - main
+    paths:
+      - 'GLAZE_UI_VISUAL_SPATIAL_INTERACTION_LANGUAGE.md'
+      - 'contracts/experience-language.dev.json'
+      - 'schemas/experience-language.schema.json'
+      - 'tokens/glaze-experience-language.dev.json'
+      - 'tokens/README.md'
+      - 'scripts/validate_glaze_experience_language_development.py'
+      - '.github/workflows/glaze-experience-language-development.yml'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-experience-language-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  experience-language-contract:
+    name: Experience language source contract
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Validate JSON syntax
+        run: |
+          python -m json.tool contracts/experience-language.dev.json >/dev/null
+          python -m json.tool schemas/experience-language.schema.json >/dev/null
+          python -m json.tool tokens/glaze-experience-language.dev.json >/dev/null
+      - name: Validate Development experience language
+        run: |
+          python -m py_compile scripts/validate_glaze_experience_language_development.py
+          python scripts/validate_glaze_experience_language_development.py
+
+  stable-boundary:
+    name: Preserve Glaze UI 1.5.1 Stable authority
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify current Stable authority
+        run: |
+          node --version
+          node scripts/verify_glaze_v1_5_1_stable.mjs

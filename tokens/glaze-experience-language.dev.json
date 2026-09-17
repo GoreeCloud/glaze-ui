@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI Experience Language Development Token Ownership Map",
+  "lifecycle": "Development",
+  "mode": "reference-only",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "categories": {
+    "color": ["tokens/glaze.tokens.json", "tokens/semantic-colors.json", "tokens/adaptive-colors.json", "tokens/glaze-v1.3-color.candidate.json"],
+    "typography": ["tokens/glaze-v1.2-typography.candidate.json", "tokens/glaze-v1.3-type.candidate.json"],
+    "spacing": ["tokens/glaze-v1.2-spatial-foundation.candidate.json", "tokens/layout.json", "tokens/glaze-v1.3-layout.candidate.json"],
+    "radius": ["tokens/glaze-v1.2-geometry.candidate.json", "tokens/glaze-v1.3-shape.candidate.json"],
+    "border": ["tokens/glaze.tokens.json", "tokens/glaze-v1.3-shape.candidate.json"],
+    "shadow": ["tokens/glaze-v1.2-depth.candidate.json", "tokens/glaze.tokens.json"],
+    "elevation": ["tokens/glaze-v1.2-depth.candidate.json"],
+    "opacity": ["tokens/materials.json", "tokens/glaze-v1.3-material.candidate.json"],
+    "blur": ["tokens/materials.json", "tokens/glaze-v1.2-optical-foundation.candidate.json", "tokens/glaze-v1.3-material.candidate.json"],
+    "motion": ["tokens/motion.json", "tokens/glaze-motion.json", "tokens/glaze-v1.3-motion.candidate.json"],
+    "size": ["tokens/glaze.tokens.json", "tokens/layout.json", "tokens/glaze-v1.3-layout.candidate.json"],
+    "icon": ["tokens/iconography.json", "tokens/icon-construction.json", "tokens/icon-identity.json", "tokens/glaze-v1.2-crystal-icons.candidate.json"],
+    "breakpoint": ["tokens/layout.json", "tokens/glaze-v1.2-form-factor.candidate.json", "tokens/glaze-v1.3-layout.candidate.json"]
+  },
+  "compositionSources": {
+    "interactionStateSources": ["tokens/states.json", "tokens/glaze-v1.2-states.candidate.json", "tokens/glaze-v1.2-interaction.candidate.json"],
+    "spatialSources": ["tokens/layout.json", "tokens/glaze-v1.2-spatial-foundation.candidate.json", "tokens/glaze-v1.2-form-factor.candidate.json", "tokens/glaze-v1.3-layout.candidate.json"],
+    "materialSources": ["tokens/materials.json", "tokens/glaze-v1.2-optical-foundation.candidate.json", "tokens/glaze-v1.3-material.candidate.json"],
+    "iconSources": ["tokens/iconography.json", "tokens/icon-construction.json", "tokens/icon-identity.json", "tokens/glaze-v1.2-crystal-icons.candidate.json"],
+    "motionSources": ["tokens/motion.json", "tokens/glaze-motion.json", "tokens/glaze-v1.3-motion.candidate.json"]
+  },
+  "boundary": "References existing Glaze token/value authorities without changing Stable values or lifecycle identity. This Development map is non-consumer-eligible and does not establish downstream conformance."
+}

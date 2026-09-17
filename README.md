@@ -23,6 +23,19 @@ V1.5 builds on the complete V1.4.1 Optical Intelligence foundation with governed
 
 V1.5.0 remains the immediate known-good Stable rollback baseline.
 
+## Development successor inputs
+
+The repository now carries a non-consumer-eligible Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**. It extends the design-language source model without changing the current Stable release:
+
+- `GLAZE_UI_VISUAL_SPATIAL_INTERACTION_LANGUAGE.md` — human-readable Development language.
+- `contracts/experience-language.dev.json` — machine-readable Development contract.
+- `schemas/experience-language.schema.json` — contract structure.
+- `tokens/glaze-experience-language.dev.json` — reference-only token ownership map.
+- `scripts/validate_glaze_experience_language_development.py` — fail-closed source validator.
+- `.github/workflows/glaze-experience-language-development.yml` — independent Development and Stable-boundary verification.
+
+These Development inputs do not change `VERSION`, `registry/lifecycle.json`, Stable qualification evidence, Stable runtime/web entrypoints, downstream consumer acceptance, publication, deployment, or production status. Any lifecycle promotion requires separate governed exact-revision qualification.
+
 ## Stable qualification boundary
 
 V1.5.1 retains the 16 externally reviewed obligations accepted for exact V1.5 implementation anchor `ee1032a0822ab8e103f8afe48e5c1859fde65cc9` and adds two independently reviewed qualification expansions bound to exact V1.5.1 Development revision `5b59d0e36950d737dba35b58ae58058684e0831b`:
