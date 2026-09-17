@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/experience-language.schema.json",
+  "title": "Glaze UI Experience Language Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema", "schemaVersion", "contractId", "name", "lifecycle", "stableBaseline", "consumerEligible",
+    "authority", "layers", "visualLanguage", "spatialLanguage", "interactionLanguage", "componentLanguage",
+    "feedbackAndStatus", "dataVisualization", "contentLanguage", "accessibility", "adaptiveBehavior", "theming",
+    "applicationPersonalization", "designTokens", "requirements", "boundary"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.experience-language"},
+    "name": {"const": "Glaze UI — Visual, Spatial, and Interaction Language"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "consumerEligible": {"const": false},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boundary", "authorizationInferred", "permissionOrConsentGrantedByGlaze", "permissionRequestAutomatic", "consequentialExecutionAutomatic", "fallbackExecutionAutomatic", "navigationAutomatic", "providerPrecedenceInferred"],
+      "properties": {
+        "boundary": {"const": "presentation-only"},
+        "authorizationInferred": {"const": false},
+        "permissionOrConsentGrantedByGlaze": {"const": false},
+        "permissionRequestAutomatic": {"const": false},
+        "consequentialExecutionAutomatic": {"const": false},
+        "fallbackExecutionAutomatic": {"const": false},
+        "navigationAutomatic": {"const": false},
+        "providerPrecedenceInferred": {"const": false}
+      }
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visualLanguage", "spatialLanguage", "interactionLanguage", "componentLanguage", "experienceStandards"],
+      "properties": {
+        "visualLanguage": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "spatialLanguage": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "interactionLanguage": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "componentLanguage": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "experienceStandards": {"$ref": "#/$defs/nonEmptyUniqueStrings"}
+      }
+    },
+    "visualLanguage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["colorRoles", "typographyRoles", "iconVariants", "shapeSemantics", "surfaceTreatments", "elevationHierarchy"],
+      "properties": {
+        "colorRoles": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "typographyRoles": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "iconVariants": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "shapeSemantics": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "surfaceTreatments": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "elevationHierarchy": {"type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "spatialLanguage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["formFactors", "spacingRoles", "densities", "layoutModes"],
+      "properties": {
+        "formFactors": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "spacingRoles": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "densities": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"enum": ["comfortable", "standard", "compact"]}},
+        "layoutModes": {"$ref": "#/$defs/nonEmptyUniqueStrings"}
+      }
+    },
+    "interactionLanguage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["states", "motionTokens", "motionPrimitives", "reducedMotionAlternatives", "gestures", "haptics", "sounds"],
+      "properties": {
+        "states": {"type": "array", "minItems": 12, "maxItems": 12, "uniqueItems": true, "items": {"type": "string"}},
+        "motionTokens": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "string"}},
+        "motionPrimitives": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "reducedMotionAlternatives": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "gestures": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "haptics": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+        "sounds": {"$ref": "#/$defs/nonEmptyUniqueStrings"}
+      }
+    },
+    "componentLanguage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coreComponents"],
+      "properties": {"coreComponents": {"type": "array", "minItems": 36, "uniqueItems": true, "items": {"type": "string"}}}
+    },
+    "feedbackAndStatus": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+    "dataVisualization": {"$ref": "#/$defs/nonEmptyUniqueStrings"},
+    "contentLanguage": {
+      "type": "object", "additionalProperties": false, "required": ["principles"],
+      "properties": {"principles": {"$ref": "#/$defs/nonEmptyUniqueStrings"}}
+    },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirements", "precedesVisualRichness", "essentialInformationMayDependExclusivelyOnColor", "essentialInformationMayDependExclusivelyOnMotion", "essentialInformationMayDependExclusivelyOnSound"],
+      "properties": {
+        "requirements": {"type": "array", "minItems": 13, "uniqueItems": true, "items": {"type": "string"}},
+        "precedesVisualRichness": {"const": true},
+        "essentialInformationMayDependExclusivelyOnColor": {"const": false},
+        "essentialInformationMayDependExclusivelyOnMotion": {"const": false},
+        "essentialInformationMayDependExclusivelyOnSound": {"const": false}
+      }
+    },
+    "adaptiveBehavior": {
+      "type": "object", "additionalProperties": false, "required": ["inputs", "preserveCapabilities"],
+      "properties": {"inputs": {"$ref": "#/$defs/nonEmptyUniqueStrings"}, "preserveCapabilities": {"const": true}}
+    },
+    "theming": {
+      "type": "object", "additionalProperties": false, "required": ["controls", "accessibilityConstrained"],
+      "properties": {"controls": {"$ref": "#/$defs/nonEmptyUniqueStrings"}, "accessibilityConstrained": {"const": true}}
+    },
+    "applicationPersonalization": {
+      "type": "object", "additionalProperties": false, "required": ["applicationUnique", "sharedFoundation"],
+      "properties": {"applicationUnique": {"$ref": "#/$defs/nonEmptyUniqueStrings"}, "sharedFoundation": {"$ref": "#/$defs/nonEmptyUniqueStrings"}}
+    },
+    "designTokens": {
+      "type": "object", "additionalProperties": false, "required": ["categories"],
+      "properties": {"categories": {"type": "array", "minItems": 13, "maxItems": 13, "uniqueItems": true, "items": {"type": "string"}}}
+    },
+    "requirements": {
+      "type": "array", "minItems": 31, "maxItems": 31,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["id", "title", "normativeText"],
+        "properties": {
+          "id": {"type": "integer", "minimum": 1, "maximum": 31},
+          "title": {"type": "string", "minLength": 1},
+          "normativeText": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "boundary": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "nonEmptyUniqueStrings": {
+      "type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "../schemas/experience-language.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.experience-language",
+  "name": "Glaze UI — Visual, Spatial, and Interaction Language",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "authority": {
+    "boundary": "presentation-only",
+    "authorizationInferred": false,
+    "permissionOrConsentGrantedByGlaze": false,
+    "permissionRequestAutomatic": false,
+    "consequentialExecutionAutomatic": false,
+    "fallbackExecutionAutomatic": false,
+    "navigationAutomatic": false,
+    "providerPrecedenceInferred": false
+  },
+  "layers": {
+    "visualLanguage": ["color", "typography", "iconography", "shape", "materials", "surfaces", "depth", "imagery", "illustration", "brand-identity"],
+    "spatialLanguage": ["layout", "grid", "spacing", "sizing", "density", "responsive-behavior"],
+    "interactionLanguage": ["motion", "gestures", "feedback", "states", "haptics", "sound"],
+    "componentLanguage": ["navigation", "controls", "containers", "inputs", "feedback", "data-visualization", "system-components"],
+    "experienceStandards": ["accessibility", "responsiveness", "adaptability", "content-language", "theming", "personalization", "brand-consistency"]
+  },
+  "visualLanguage": {
+    "colorRoles": ["primary", "secondary", "accent", "neutral", "surface", "background", "foreground", "semantic", "success", "warning", "error", "informational", "destructive", "disabled", "selection", "focus", "application-accent", "user-accent", "light", "dark", "high-contrast", "adaptive", "dynamic-gradient", "tonal", "harmonized", "context-sensitive", "category", "account", "workspace", "application", "notification", "status"],
+    "typographyRoles": ["display", "page-title", "section-title", "heading", "subheading", "body", "label", "caption", "metadata", "button", "navigation", "numerical", "monospaced-technical", "compact-ui", "large-screen", "accessibility"],
+    "iconVariants": ["outline", "filled", "active", "selected", "symbolic", "status", "application", "system", "navigation", "file-type", "device", "service", "notification"],
+    "shapeSemantics": ["rounded-rectangle", "pill", "circle", "card", "sheet", "panel", "dialog", "container", "navigation-surface", "floating-element", "selection-indicator"],
+    "surfaceTreatments": ["transparent", "translucent", "blurred", "frosted", "semi-transparent-panel", "tinted-glass", "opaque", "layered", "elevated", "dimmed-background", "scrim", "overlay", "reflective-highlight", "subtle-gradient", "edge-lighting", "surface-tint"],
+    "elevationHierarchy": ["background", "base-surface", "content-container", "raised-control", "floating-panel", "menu-or-popover", "dialog", "critical-system-overlay"]
+  },
+  "spatialLanguage": {
+    "formFactors": ["phone", "tablet", "foldable", "desktop", "web", "television", "large-display", "embedded-display"],
+    "spacingRoles": ["extra-small", "small", "medium", "large", "extra-large", "section", "page-margin", "container-padding", "component-padding", "inline"],
+    "densities": ["comfortable", "standard", "compact"],
+    "layoutModes": ["single-column", "two-column", "multi-column", "sidebar", "navigation-rail", "bottom-navigation", "top-navigation", "split-view", "inspector-panel", "multi-pane"]
+  },
+  "interactionLanguage": {
+    "states": ["default", "hovered", "focused", "pressed", "selected", "active", "dragged", "disabled", "loading", "success", "warning", "error"],
+    "motionTokens": ["instant", "fast", "standard", "emphasized", "long"],
+    "motionPrimitives": ["easing", "spring", "acceleration", "deceleration", "fade", "scale", "slide"],
+    "reducedMotionAlternatives": ["fade", "crossfade", "immediate-state-change", "reduced-scaling", "reduced-parallax"],
+    "gestures": ["tap", "double-tap", "long-press", "swipe", "drag", "drop", "pinch", "zoom", "rotate", "edge-swipe", "pull-to-refresh", "swipe-action", "drag-selection"],
+    "haptics": ["selection", "confirmation", "warning", "error", "toggle", "drag-threshold", "snap", "long-press", "completion"],
+    "sounds": ["notification", "confirmation", "error", "warning", "incoming-communication", "completed-task", "device-connection", "security-alert"]
+  },
+  "componentLanguage": {
+    "coreComponents": ["buttons", "icon-buttons", "cards", "lists", "tables", "menus", "context-menus", "dialogs", "alerts", "sheets", "popovers", "tooltips", "tabs", "navigation-bars", "navigation-rails", "sidebars", "toolbars", "search-bars", "text-fields", "checkboxes", "radio-controls", "toggles", "sliders", "progress-indicators", "loading-indicators", "badges", "chips", "tags", "avatars", "breadcrumbs", "pagination", "date-selectors", "time-selectors", "file-pickers", "color-selectors", "command-palettes"]
+  },
+  "feedbackAndStatus": ["loading", "progress-bar", "progress-circle", "skeleton", "toast", "inline-message", "success-message", "warning-banner", "error-banner", "offline-indicator", "synchronization-state", "background-activity", "pending-change", "saved-state"],
+  "dataVisualization": ["line-chart", "bar-chart", "area-chart", "pie-style", "gauge", "progress-ring", "heat-map", "timeline", "histogram", "sparkline", "table", "status-dashboard", "activity-graph"],
+  "contentLanguage": {
+    "principles": ["clear", "concise", "human-readable", "consistent", "action-oriented", "informative-without-unnecessary-technical-terminology"]
+  },
+  "accessibility": {
+    "requirements": ["high-contrast", "adjustable-typography", "screen-readers", "keyboard-navigation", "focus-indicators", "switch-navigation", "voice-interaction", "reduced-motion", "reduced-transparency", "large-touch-targets", "color-independent-status", "semantic-interface-structure", "accessible-data-visualization"],
+    "precedesVisualRichness": true,
+    "essentialInformationMayDependExclusivelyOnColor": false,
+    "essentialInformationMayDependExclusivelyOnMotion": false,
+    "essentialInformationMayDependExclusivelyOnSound": false
+  },
+  "adaptiveBehavior": {
+    "inputs": ["screen-size", "orientation", "window-size", "input-type", "pointer-availability", "touch-availability", "keyboard-availability", "device-performance", "display-contrast", "accessibility-settings", "battery-saving-mode"],
+    "preserveCapabilities": true
+  },
+  "theming": {
+    "controls": ["color-palette", "accent-color", "surface-transparency", "blur-strength", "corner-radius", "interface-density", "typography-scale", "icon-treatment", "animation-intensity", "background-appearance"],
+    "accessibilityConstrained": true
+  },
+  "applicationPersonalization": {
+    "applicationUnique": ["accent-colors", "artwork", "illustrations", "application-icons", "category-colors", "specialized-components"],
+    "sharedFoundation": ["typography-hierarchy", "core-icon-language", "spacing", "motion-principles", "accessibility-behavior", "surface-behavior", "navigation-logic", "component-architecture"]
+  },
+  "designTokens": {
+    "categories": ["color", "typography", "spacing", "radius", "border", "shadow", "elevation", "opacity", "blur", "motion", "size", "icon", "breakpoint"]
+  },
+  "requirements": [
+    {"id": 1, "title": "Visual Language", "normativeText": "Color and visual semantics shall communicate meaning, hierarchy, grouping, and state rather than decoration alone."},
+    {"id": 2, "title": "Typography", "normativeText": "Typography shall use shared roles and responsive metrics for hierarchy, readability, density, and accessibility."},
+    {"id": 3, "title": "Iconography", "normativeText": "Icons shall use one coherent GoreeCloud construction language and remain understandable without color alone."},
+    {"id": 4, "title": "Shape Language", "normativeText": "Shapes and corner radii shall come from shared functional tokens rather than arbitrary values."},
+    {"id": 5, "title": "Materials and Surfaces", "normativeText": "Material effects shall preserve readability and reduce optical cost when accessibility or performance requires it."},
+    {"id": 6, "title": "Elevation and Depth", "normativeText": "Depth shall express hierarchy through the governed eight-level elevation model without excessive visual clutter."},
+    {"id": 7, "title": "Imagery", "normativeText": "Imagery shall follow shared crop, ratio, rounding, loading, placeholder, and error-state behavior."},
+    {"id": 8, "title": "Illustration and Artwork", "normativeText": "Illustration and artwork shall share compatible geometry, lighting, palette, weight, and surface treatment."},
+    {"id": 9, "title": "Brand Identity", "normativeText": "Brand identity shall remain recognizable across products without overwhelming application content."},
+    {"id": 10, "title": "Spatial Language", "normativeText": "Responsive grids shall adapt columns and spatial relationships to available space and form factor."},
+    {"id": 11, "title": "Spacing System", "normativeText": "Spacing shall use standardized semantic increments and component/page spacing roles."},
+    {"id": 12, "title": "Density", "normativeText": "Comfortable, standard, and compact densities shall preserve suitable target sizes for the active input method."},
+    {"id": 13, "title": "Responsive Layouts", "normativeText": "Interfaces shall rearrange composition across size classes instead of merely shrinking."},
+    {"id": 14, "title": "Component Language", "normativeText": "Core reusable components shall share state, spacing, motion, typography, and accessibility behavior."},
+    {"id": 15, "title": "Interaction Language", "normativeText": "Interactive components shall expose the governed twelve-state grammar with immediately understandable changes."},
+    {"id": 16, "title": "Motion System", "normativeText": "Motion shall explain relationships and state changes rather than exist only for decoration."},
+    {"id": 17, "title": "Motion Tokens", "normativeText": "Animation shall use shared duration, easing, spring, acceleration, fade, scale, and slide semantics."},
+    {"id": 18, "title": "Reduced Motion", "normativeText": "Reduced-motion presentation shall replace nonessential movement without hiding essential information."},
+    {"id": 19, "title": "Gestures", "normativeText": "Gesture meanings shall remain consistent across GoreeCloud products unless context justifies variation."},
+    {"id": 20, "title": "Haptics", "normativeText": "Haptic feedback shall be subtle, optional, semantic, and never required for comprehension."},
+    {"id": 21, "title": "Sound", "normativeText": "Sound may reinforce state but shall never be required to understand system state."},
+    {"id": 22, "title": "Feedback and Status", "normativeText": "System activity and outcomes shall clearly expose loading, progress, success, warning, error, offline, sync, pending, and saved state."},
+    {"id": 23, "title": "Data Visualization", "normativeText": "Data visualization shall share Glaze color, type, spacing, interaction, label, tooltip, and accessibility rules."},
+    {"id": 24, "title": "Content Language", "normativeText": "Interface text shall be clear, concise, human-readable, consistent, action-oriented, and minimally technical."},
+    {"id": 25, "title": "Accessibility", "normativeText": "Accessibility shall be structural, propagate where compatible, and take precedence over visual richness."},
+    {"id": 26, "title": "Adaptive Behavior", "normativeText": "Presentation shall adapt to environment and input while preserving product capabilities and authority boundaries."},
+    {"id": 27, "title": "Theming", "normativeText": "Shared themes may control appearance and motion only within accessibility and usability constraints."},
+    {"id": 28, "title": "Application Personalization", "normativeText": "Products may express character through bounded customization while retaining the shared Glaze foundation."},
+    {"id": 29, "title": "Design Tokens", "normativeText": "Core design decisions shall be represented by the governed thirteen token categories."},
+    {"id": 30, "title": "Glaze UI Design Layers", "normativeText": "Glaze shall organize appearance, arrangement, behavior, components, and experience quality into five primary layers."},
+    {"id": 31, "title": "Core Glaze UI Principle", "normativeText": "Every GoreeCloud interface shall feel related without requiring every product to look identical."}
+  ],
+  "boundary": "Development source implementation only. Stable 1.5.1 lifecycle, evidence, consumer eligibility, release publication, deployment, and production state remain unchanged."
+}
