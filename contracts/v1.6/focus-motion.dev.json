@@ -1,0 +1,102 @@
+{
+  "$schema": "../../schemas/v1.6-focus-motion.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.focus-motion",
+  "name": "Glaze UI V1.6 Focus, Motion, Microinteraction, and Continuity Development Contract",
+  "version": "1.6.0-dev.3",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [10, 11, 12, 13, 14, 71, 72, 73],
+  "focus": {
+    "modalities": [
+      "keyboard", "directional", "pointer", "touch", "stylus",
+      "assistive-input", "voice-focus", "mixed"
+    ],
+    "distinctFromSelection": true,
+    "distinctFromHover": true,
+    "distinctFromPress": true,
+    "distinctFromActivation": true,
+    "distinctFromDrag": true,
+    "materialAwareContrast": true,
+    "keyboardPreservationRequired": true,
+    "directionalContinuityRequired": true,
+    "restorationAfterDialogNavigationRequired": true,
+    "dynamicUpdatePreservationRequired": true,
+    "unexpectedFocusStealingAllowed": false
+  },
+  "motionFamilies": [
+    "enter", "exit", "expand", "collapse", "move", "reorder", "replace",
+    "reveal", "hide", "focus", "select", "load", "refresh", "complete",
+    "fail", "connect", "disconnect"
+  ],
+  "motionHierarchy": {
+    "magnitudes": ["micro", "small", "medium", "large"],
+    "surfaceHierarchies": ["decoration", "secondary", "primary", "navigation"],
+    "semanticMagnitudeMustMatchSemanticImportance": true
+  },
+  "interruptibility": {
+    "userDrivenMotionInterruptible": true,
+    "scrollBlockedByAnimation": false,
+    "navigationBlockedByAnimation": false,
+    "selectionBlockedByAnimation": false,
+    "closeBlockedByAnimation": false,
+    "reversalBlockedByAnimation": false,
+    "finalStateDependsOnAnimationCompletion": false
+  },
+  "motionBudget": {
+    "reference": {
+      "continuousAnimatedElements": 4,
+      "simultaneousTransitions": 6,
+      "backgroundMaterialAnimations": 1,
+      "skeletonMotionElements": 4,
+      "decorativeMovements": 2,
+      "largeAreaTransformations": 1
+    },
+    "configurable": true,
+    "fatigueProtectionRequired": true,
+    "optionalMotionReducedWhenExceeded": true
+  },
+  "microinteractionIntents": [
+    "toggle", "selection", "favorite", "save", "copy", "pin", "expand",
+    "collapse", "refresh", "retry", "send", "download", "upload", "completion"
+  ],
+  "stateContinuity": {
+    "preferContinuousTransformationForSameIdentity": true,
+    "destroyAndRecreateByDefault": false,
+    "focusPreservationRequired": true,
+    "finalSemanticStateIndependentOfAnimation": true
+  },
+  "contentTransitions": {
+    "sameConceptualRegionMayUseSubtleReplacement": true,
+    "flashingAllowed": false,
+    "largeUnexpectedMovementAllowed": false,
+    "focusLossAllowed": false,
+    "scrollJumpAllowed": false,
+    "reducedMotionSimplifiesTransition": true
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "directManipulationMayTrackInput": true,
+    "motionRequiredForMeaning": false,
+    "focusMayBeHiddenForVisualMinimalism": false
+  },
+  "glazeMotionBoundary": {
+    "separateSystem": "Glaze Motion",
+    "currentLifecycle": "Experimental foundation",
+    "promotedByThisContract": false,
+    "v1_6UsesSemanticMotionWithoutPromotingGlazeMotion": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "focusTargetTruthOwnedByCaller": true,
+    "taskStateChangedByResolver": false,
+    "navigationExecutedByResolver": false,
+    "actionsExecutedByResolver": false,
+    "contentTruthChangedByResolver": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.6-focus-motion.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.6-development.mjs",
+  "tokenMap": "tokens/glaze-v1.6-focus-motion.dev.json",
+  "boundary": "Development implementation foundation only. It does not alter Glaze Motion lifecycle, VERSION, registry lifecycle authority, V1.5.1 Stable contracts, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}

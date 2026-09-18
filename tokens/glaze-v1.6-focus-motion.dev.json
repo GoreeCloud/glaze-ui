@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.6 Focus and Motion Development Semantic Map",
+  "version": "1.6.0-dev.3",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/motion.json",
+    "tokens/states.json",
+    "tokens/materials.json",
+    "tokens/layout.json",
+    "tokens/glaze-v1.6-state-accessibility.dev.json"
+  ],
+  "focusRoles": {
+    "standard": "focus.standard",
+    "materialProtected": "focus.material-protected",
+    "overlayProtected": "focus.overlay-protected",
+    "mustRemainDistinctFrom": [
+      "selection", "hover", "press", "activation", "drag"
+    ],
+    "strongVisibleFocusRequiredFor": [
+      "keyboard", "directional", "assistive-input", "voice-focus"
+    ]
+  },
+  "motionFamilies": {
+    "enter": "motion.enter",
+    "exit": "motion.exit",
+    "expand": "motion.expand",
+    "collapse": "motion.collapse",
+    "move": "motion.move",
+    "reorder": "motion.reorder",
+    "replace": "motion.replace",
+    "reveal": "motion.reveal",
+    "hide": "motion.hide",
+    "focus": "motion.focus",
+    "select": "motion.select",
+    "load": "motion.load",
+    "refresh": "motion.refresh",
+    "complete": "motion.complete",
+    "fail": "motion.fail",
+    "connect": "motion.connect",
+    "disconnect": "motion.disconnect"
+  },
+  "motionHierarchy": {
+    "decoration": "micro",
+    "secondary": "small",
+    "primary": "medium",
+    "navigation": "large"
+  },
+  "referenceMotionBudget": {
+    "continuousAnimatedElements": 4,
+    "simultaneousTransitions": 6,
+    "backgroundMaterialAnimations": 1,
+    "skeletonMotionElements": 4,
+    "decorativeMovements": 2,
+    "largeAreaTransformations": 1
+  },
+  "reducedMotion": {
+    "enterExitReplaceRevealHide": "opacity-or-immediate",
+    "loadRefresh": "static-state-indicator",
+    "otherFamilies": "immediate-state-change",
+    "directManipulationMayTrackInput": true,
+    "continuousMotionAllowed": false
+  },
+  "microinteractions": {
+    "toggle": "select",
+    "selection": "select",
+    "favorite": "select",
+    "save": "complete",
+    "copy": "complete",
+    "pin": "select",
+    "expand": "expand",
+    "collapse": "collapse",
+    "refresh": "refresh",
+    "retry": "refresh",
+    "send": "complete",
+    "download": "load",
+    "upload": "load",
+    "completion": "complete"
+  },
+  "continuity": {
+    "sameIdentityPrefersContinuousTransform": true,
+    "destroyAndRecreateByDefault": false,
+    "focusPreservationRequired": true,
+    "scrollPreservationRequiredForContentReplacement": true,
+    "finalStateIndependentOfAnimation": true
+  },
+  "glazeMotionBoundary": {
+    "system": "Glaze Motion",
+    "lifecycle": "Experimental foundation",
+    "promotedByV16SemanticMap": false
+  },
+  "boundary": "Development semantic mapping only. V1.5.1 remains Stable, Glaze Motion remains separately governed Experimental foundation, and this map is non-consumer-eligible."
+}
