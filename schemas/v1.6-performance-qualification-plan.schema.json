@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-performance-qualification-plan.schema.json",
+  "title": "Glaze UI V1.6 Representative Performance Qualification Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","planId","name","lifecycle","sourceRevision",
+    "acceptanceModelVersion","stableBaseline","consumerEligible","laneId","evidenceType",
+    "budget","environmentRequirements","representativeCoverage","harness","evaluator",
+    "acceptanceRecord","execution","evidenceBoundary","boundary"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.6-performance-qualification-plan.schema.json"},
+    "schemaVersion": {"const":1},
+    "planId": {"const":"goreecloud.glaze-ui.v1.6.representative-performance-qualification"},
+    "name": {"const":"Glaze UI V1.6 Representative Performance Qualification Plan"},
+    "lifecycle": {"const":"DevelopmentQualification"},
+    "sourceRevision": {"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},
+    "acceptanceModelVersion": {"const":"1.6.0-dev.12"},
+    "stableBaseline": {"const":"1.5.1"},
+    "consumerEligible": {"const":false},
+    "laneId": {"const":"performance"},
+    "evidenceType": {"const":"performance"},
+    "budget": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "authority","version","resolverP95MsMax","resolverP99MsMax","interactionPaintP95MsMax",
+        "interactionPaintP99MsMax","activeFrameP95Rule","severeFrameStallRateMax",
+        "catastrophicForegroundStallCountMax","taskStateResetCountMax","pageReloadRequiredCountMax",
+        "automaticAuthorityActionCountMax","minimumSamples"
+      ],
+      "properties":{
+        "authority":{"const":"GoreeCloud Standard — Glaze UI Performance Budget"},
+        "version":{"const":"v1.0"},
+        "resolverP95MsMax":{"const":10},
+        "resolverP99MsMax":{"const":16.7},
+        "interactionPaintP95MsMax":{"const":100},
+        "interactionPaintP99MsMax":{"const":200},
+        "activeFrameP95Rule":{"const":"max(20ms,1.25*idle-median-frame-interval)"},
+        "severeFrameStallRateMax":{"const":0.01},
+        "catastrophicForegroundStallCountMax":{"const":0},
+        "taskStateResetCountMax":{"const":0},
+        "pageReloadRequiredCountMax":{"const":0},
+        "automaticAuthorityActionCountMax":{"const":0},
+        "minimumSamples":{
+          "type":"object","additionalProperties":false,
+          "required":["resolver","interactionPaint","idleFrames","activeFrames"],
+          "properties":{
+            "resolver":{"const":200},"interactionPaint":{"const":30},
+            "idleFrames":{"const":120},"activeFrames":{"const":240}
+          }
+        }
+      }
+    },
+    "environmentRequirements":{
+      "type":"array","minItems":8,"maxItems":8,"uniqueItems":true,
+      "items":{"enum":["exactRevision","lifecycle","operatingSystem","runtime","hardware","foregroundState","presentationMode","measurementDate"]}
+    },
+    "representativeCoverage":{
+      "type":"array","minItems":8,"maxItems":8,"uniqueItems":true,
+      "items":{"enum":[
+        "normal-available","offline-or-degraded","permission-required-or-restricted",
+        "runtime-resource-pressure","reduced-motion","expanded-window","constrained-window",
+        "pointer-or-keyboard"
+      ]}
+    },
+    "harness":{"const":"reference/v1.6/performance-qualification.html"},
+    "evaluator":{"const":"js/glaze-v1.6-performance-diagnostics.dev.mjs"},
+    "acceptanceRecord":{"const":"acceptance/v1.6-development.md"},
+    "execution":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "repositoryLocalOnly","telemetryRequired","remoteAnalysisRequired",
+        "reviewerMustConfirmRepresentativeEnvironment","reviewerMustConfirmAuthorityIncidentsAbsent",
+        "realReviewControlInteractionsRequired","hostedCiMayClaimRepresentativePerformance",
+        "generatedEvidenceRequiresSeparateDurableReview"
+      ],
+      "properties":{
+        "repositoryLocalOnly":{"const":true},
+        "telemetryRequired":{"const":false},
+        "remoteAnalysisRequired":{"const":false},
+        "reviewerMustConfirmRepresentativeEnvironment":{"const":true},
+        "reviewerMustConfirmAuthorityIncidentsAbsent":{"const":true},
+        "realReviewControlInteractionsRequired":{"const":true},
+        "hostedCiMayClaimRepresentativePerformance":{"const":false},
+        "generatedEvidenceRequiresSeparateDurableReview":{"const":true}
+      }
+    },
+    "evidenceBoundary":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "qualificationControlOnly","performanceEvidenceClaimedByPlan","humanEvidenceClaimed",
+        "assistiveTechnologyEvidenceClaimed","physicalDeviceEvidenceClaimed",
+        "representativeRenderingSecondGroupClaimed","lifecyclePromotionAutomatic",
+        "candidateStatusGranted","releaseCandidateStatusGranted","stableStatusGranted",
+        "consumerAcceptanceAutomatic","deploymentAcceptanceAutomatic","productionAcceptanceAutomatic"
+      ],
+      "properties":{
+        "qualificationControlOnly":{"const":true},
+        "performanceEvidenceClaimedByPlan":{"const":false},
+        "humanEvidenceClaimed":{"const":false},
+        "assistiveTechnologyEvidenceClaimed":{"const":false},
+        "physicalDeviceEvidenceClaimed":{"const":false},
+        "representativeRenderingSecondGroupClaimed":{"const":false},
+        "lifecyclePromotionAutomatic":{"const":false},
+        "candidateStatusGranted":{"const":false},
+        "releaseCandidateStatusGranted":{"const":false},
+        "stableStatusGranted":{"const":false},
+        "consumerAcceptanceAutomatic":{"const":false},
+        "deploymentAcceptanceAutomatic":{"const":false},
+        "productionAcceptanceAutomatic":{"const":false}
+      }
+    },
+    "boundary":{"type":"string","minLength":100}
+  }
+}
