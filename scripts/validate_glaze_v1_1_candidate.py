@@ -28,6 +28,7 @@ def main() -> int:
             errors.append(message)
 
     current_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    lifecycle = load_json("registry/lifecycle.json")
     performance = load_json("contracts/performance/glaze-v1-performance-budget.json")
     materials = load_json("tokens/materials.json")
     semantics = load_json("tokens/semantic-colors.json")
@@ -36,9 +37,45 @@ def main() -> int:
     atmosphere = load_json("tokens/glaze-v1.1-atmosphere.candidate.json")
 
     # Historical Candidate source remains valid to audit after later governed Stable promotions.
+    # Bind that permission to the live lifecycle authority instead of freezing this historical
+    # validator to the first three V1 releases.
+    current_stable = lifecycle.get("currentStable")
+    current_official = lifecycle.get("currentOfficial")
+    current_release = next(
+        (
+            item
+            for item in lifecycle.get("releases", [])
+            if isinstance(item, dict) and item.get("version") == current_stable
+        ),
+        None,
+    )
+    retained_v11 = next(
+        (
+            item
+            for item in lifecycle.get("releases", [])
+            if isinstance(item, dict) and item.get("version") == "1.1.0"
+        ),
+        None,
+    )
     require(
-        current_version in {"1.0.0", "1.1.0", "1.2.0"},
-        "V1.1 candidate history may be validated only within the governed V1 product line",
+        current_version == current_stable == current_official,
+        "VERSION/currentStable/currentOfficial must agree before historical V1.1 validation",
+    )
+    require(
+        isinstance(current_version, str) and current_version.split(".", 1)[0] == "1",
+        "V1.1 candidate history may be validated only while current Stable remains in the governed V1 product family",
+    )
+    require(
+        isinstance(current_release, dict)
+        and current_release.get("status") == "stable"
+        and current_release.get("consumerEligible") is True,
+        "current V1 lifecycle authority must resolve to a consumer-eligible Stable release",
+    )
+    require(
+        isinstance(retained_v11, dict)
+        and retained_v11.get("status") == "stable"
+        and retained_v11.get("contract") == "GLAZE_UI_V1_1.md",
+        "retained V1.1 Stable provenance must remain present for historical candidate validation",
     )
     require(candidate["releaseBoundary"]["currentTarget"] is False, "V1.1 candidate must not declare itself current")
     require(candidate["releaseBoundary"]["productionStable"] is False, "V1.1 candidate must not declare production stability")
