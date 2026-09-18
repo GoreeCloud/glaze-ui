@@ -83,7 +83,14 @@ assert(glazeV16StateAccessibilityDevelopmentContract.version === '1.6.0-dev.2', 
 assert(glazeV16StateAccessibilityDevelopmentContract.lifecycle === 'development', 'runtime contract must remain development');
 assert(glazeV16StateAccessibilityDevelopmentContract.stableBaseline === '1.5.1', 'runtime Stable baseline mismatch');
 assert(glazeV16StateAccessibilityDevelopmentContract.consumerEligible === false, 'runtime contract must remain non-consumer-eligible');
-assert(/^1\\.6\\.0-dev\\.[2-9][0-9]*$/.test(glazeV16Development.version), 'aggregate Development version must retain or advance beyond dev.2');
+const aggregateVersionParts = String(glazeV16Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.6.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 2,
+  'aggregate Development version must retain or advance beyond dev.2'
+);
 assert(glazeV16Development.lifecycle === 'development', 'aggregate entrypoint must remain Development');
 assert(glazeV16Development.stableBaseline === '1.5.1', 'aggregate Stable baseline must remain 1.5.1');
 assert(glazeV16Development.consumerEligible === false, 'aggregate entrypoint must remain non-consumer-eligible');
