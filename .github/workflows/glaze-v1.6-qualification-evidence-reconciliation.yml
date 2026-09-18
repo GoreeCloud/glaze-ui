@@ -81,6 +81,40 @@ jobs:
           fi
           grep -q "V1.6 qualification evidence remains incomplete" /tmp/should-not-complete.err
 
+      - name: Reject external evidence outside governed acceptance records
+        run: |
+          set -euo pipefail
+          cp acceptance/v1.6-human-evidence.template.json /tmp/v1.6-human-outside-repository.json
+          if node scripts/evaluate_glaze_v1_6_qualification_evidence.mjs --external /tmp/v1.6-human-outside-repository.json > /tmp/outside-evidence.json 2> /tmp/outside-evidence.err; then
+            echo "Evidence reconciliation unexpectedly accepted an out-of-repository record"
+            exit 1
+          fi
+          grep -q "external evidence must resolve inside the governed repository" /tmp/outside-evidence.err
+
+          ln -s /tmp/v1.6-human-outside-repository.json acceptance/.v1.6-outside-evidence-test.json
+          if node scripts/evaluate_glaze_v1_6_qualification_evidence.mjs --external acceptance/.v1.6-outside-evidence-test.json > /tmp/symlink-evidence.json 2> /tmp/symlink-evidence.err; then
+            echo "Evidence reconciliation unexpectedly accepted an escaping symlink"
+            exit 1
+          fi
+          grep -q "external evidence must resolve inside the governed repository" /tmp/symlink-evidence.err
+          rm acceptance/.v1.6-outside-evidence-test.json
+
+          cp acceptance/v1.6-human-evidence.template.json .v1.6-inside-repository-outside-acceptance.json
+          if node scripts/evaluate_glaze_v1_6_qualification_evidence.mjs --external .v1.6-inside-repository-outside-acceptance.json > /tmp/outside-acceptance.json 2> /tmp/outside-acceptance.err; then
+            echo "Evidence reconciliation unexpectedly accepted a record outside acceptance/"
+            exit 1
+          fi
+          grep -q "durable repository record under acceptance/" /tmp/outside-acceptance.err
+          rm .v1.6-inside-repository-outside-acceptance.json
+
+          cp acceptance/v1.6-human-evidence.template.json acceptance/.v1.6-untracked-evidence-test.json
+          if node scripts/evaluate_glaze_v1_6_qualification_evidence.mjs --external acceptance/.v1.6-untracked-evidence-test.json > /tmp/untracked-evidence.json 2> /tmp/untracked-evidence.err; then
+            echo "Evidence reconciliation unexpectedly accepted an untracked acceptance record"
+            exit 1
+          fi
+          grep -q "tracked by Git at the exact reconciliation revision" /tmp/untracked-evidence.err
+          rm acceptance/.v1.6-untracked-evidence-test.json
+
       - name: Preserve external record and acceptance controls
         run: |
           node scripts/validate_glaze_v1_6_external_evidence_records.mjs

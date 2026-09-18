@@ -67,26 +67,51 @@ function parseArgs(argv){
   return {external,requireComplete,compact};
 }
 
+function resolveGovernedExternalRecord(recordPath){
+  const repositoryRoot=fs.realpathSync(root);
+  const acceptanceRoot=fs.realpathSync(path.join(root,'acceptance'));
+  const requested=path.resolve(root,recordPath);
+  const resolved=fs.realpathSync(requested);
+  const relativeToRepository=path.relative(repositoryRoot,resolved);
+  const relativeToAcceptance=path.relative(acceptanceRoot,resolved);
+  assert(relativeToRepository!==''&&!relativeToRepository.startsWith('..')&&!path.isAbsolute(relativeToRepository),
+    'external evidence must resolve inside the governed repository');
+  assert(relativeToAcceptance!==''&&!relativeToAcceptance.startsWith('..')&&!path.isAbsolute(relativeToAcceptance),
+    'external evidence counted by reconciliation must be a durable repository record under acceptance/');
+  assert(fs.statSync(resolved).isFile(),'external evidence must resolve to a regular file');
+  const governedRecordPath=relativeToRepository.split(path.sep).join('/');
+  const tracked=spawnSync('git',['ls-files','--error-unmatch','--',governedRecordPath],{
+    cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']
+  });
+  assert(tracked.status===0,'external evidence counted by reconciliation must be tracked by Git at the exact reconciliation revision');
+  const clean=spawnSync('git',['diff','--quiet','HEAD','--',governedRecordPath],{
+    cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']
+  });
+  assert(clean.status===0,'external evidence must match the committed bytes at the exact reconciliation revision');
+  return governedRecordPath;
+}
+
 function validateExternalRecord(recordPath,seenIds){
-  const record=json(recordPath);
+  const governedRecordPath=resolveGovernedExternalRecord(recordPath);
+  const record=json(governedRecordPath);
   assert(intake.acceptedExternalRecordIds.includes(record.recordId),'external record type is not accepted by intake contract: '+record.recordId);
   assert(!seenIds.has(record.recordId),'duplicate external record type supplied: '+record.recordId);
   seenIds.add(record.recordId);
-  const stdout=runNode(intake.externalRecordValidator,[recordPath]);
+  const stdout=runNode(intake.externalRecordValidator,[governedRecordPath]);
   let result;
   try{
     result=JSON.parse(stdout);
   }catch(error){
-    throw new Error('external evidence validator did not return parseable JSON for '+recordPath+': '+error.message);
+    throw new Error('external evidence validator did not return parseable JSON for '+governedRecordPath+': '+error.message);
   }
-  assert(result.file===recordPath,'external validator path echo mismatch');
-  assert(Array.isArray(result.acceptedEvidence)&&result.acceptedEvidence.length>0,'validated external record returned no accepted evidence: '+recordPath);
+  assert(result.file===governedRecordPath,'external validator path echo mismatch');
+  assert(Array.isArray(result.acceptedEvidence)&&result.acceptedEvidence.length>0,'validated external record returned no accepted evidence: '+governedRecordPath);
   for(const item of result.acceptedEvidence){
     assert(item.verified===true,'external accepted evidence item must be verified');
     assert(item.revision===SOURCE,'external accepted evidence revision mismatch');
     assert(typeof item.reference==='string'&&item.reference.length>0,'external accepted evidence reference missing');
   }
-  return {recordId:record.recordId,path:recordPath,evidence:result.acceptedEvidence};
+  return {recordId:record.recordId,path:governedRecordPath,evidence:result.acceptedEvidence};
 }
 
 function compareCurrentDisposition(matrix){
