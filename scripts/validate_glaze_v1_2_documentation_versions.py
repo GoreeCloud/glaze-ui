@@ -22,6 +22,8 @@ VERSION = ROOT / "VERSION"
 
 CURRENT_AUTHORITY_DOCS = {
     "README.md": ("current Official", "Stable"),
+    "FEATURES.md": ("Stable",),
+    "SPECIFICATIONS.md": ("Stable",),
     "CONTRIBUTING.md": ("Stable",),
     "CONFORMANCE.md": ("conformance",),
     "ACCEPTANCE.md": ("Stable",),
