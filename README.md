@@ -23,9 +23,13 @@ V1.5 builds on the complete V1.4.1 Optical Intelligence foundation with governed
 
 V1.5.0 remains the immediate known-good Stable rollback baseline.
 
-## Development successor inputs
+## Development and planned successor inputs
 
-The repository now carries a non-consumer-eligible Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**. It extends the design-language source model without changing the current Stable release:
+The repository carries non-consumer-eligible successor material that extends the design-language source model without changing the current Stable release:
+
+- `GLAZE_UI_V1_6_PLANNED.md` — planned V1.6 upgrade specification covering the semantic Skeleton Motion System, loading and recovery behavior, state clarity, accessibility expansion, motion coherence, material intelligence, interaction continuity, performance adaptation, conformance metadata, diagnostics, and acceptance requirements. It is planning authority only and does not establish implementation or lifecycle promotion.
+
+The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
 - `GLAZE_UI_VISUAL_SPATIAL_INTERACTION_LANGUAGE.md` — human-readable Development language.
 - `contracts/experience-language.dev.json` — machine-readable Development contract.
