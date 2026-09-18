@@ -1,15 +1,15 @@
 {
-  "$schema":"../../schemas/v1.6-rendered-qualification-plan.schema.json",
-  "schemaVersion":1,
-  "planId":"goreecloud.glaze-ui.v1.6.rendered-browser-qualification",
-  "name":"Glaze UI V1.6 Exact-Source Rendered Browser Qualification Plan",
-  "lifecycle":"DevelopmentQualification",
-  "sourceRevision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
-  "acceptanceModelVersion":"1.6.0-dev.12",
-  "stableBaseline":"1.5.1",
-  "consumerEligible":false,
-  "harness":"reference/v1.6/rendered-qualification.html",
-  "eligibleRenderedEvidenceLaneIds":[
+  "$schema": "../../schemas/v1.6-rendered-qualification-plan.schema.json",
+  "schemaVersion": 1,
+  "planId": "goreecloud.glaze-ui.v1.6.rendered-browser-qualification",
+  "name": "Glaze UI V1.6 Exact-Source Rendered Browser Qualification Plan",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "harness": "reference/v1.6/rendered-qualification.html",
+  "eligibleRenderedEvidenceLaneIds": [
     "reduced-motion",
     "reduced-transparency",
     "increased-contrast",
@@ -19,11 +19,11 @@
     "layout-stability",
     "representative-rendering"
   ],
-  "expectedMatrixDispositionAfterAcceptedRenderedEvidence":{
-    "verifiedLaneCount":16,
-    "unverifiedLaneCount":8,
-    "notApplicableLaneCount":0,
-    "fullyVerifiedByThisCheckpoint":[
+  "expectedMatrixDispositionAfterAcceptedRenderedEvidence": {
+    "verifiedLaneCount": 16,
+    "unverifiedLaneCount": 8,
+    "notApplicableLaneCount": 0,
+    "fullyVerifiedByThisCheckpoint": [
       "reduced-motion",
       "reduced-transparency",
       "increased-contrast",
@@ -32,8 +32,10 @@
       "form-factor-transitions",
       "layout-stability"
     ],
-    "partialRenderedLaneIds":["representative-rendering"],
-    "remainingPartialLaneIds":[
+    "partialRenderedLaneIds": [
+      "representative-rendering"
+    ],
+    "remainingPartialLaneIds": [
       "accessibility",
       "keyboard-navigation",
       "privacy-boundaries",
@@ -41,34 +43,156 @@
       "regression-testing",
       "representative-rendering"
     ],
-    "remainingUntouchedLaneIds":["assistive-technology","performance"],
-    "qualificationEvidenceComplete":false,
-    "readyForGovernedQualificationReview":false
+    "remainingUntouchedLaneIds": [
+      "assistive-technology",
+      "performance"
+    ],
+    "qualificationEvidenceComplete": false,
+    "readyForGovernedQualificationReview": false
   },
-  "scenes":[
-    {"id":"representative-expanded","viewport":[1440,1000],"environment":"expanded","mode":"default"},
-    {"id":"representative-compact","viewport":[390,844],"environment":"compact","mode":"default","mobile":true},
-    {"id":"responsive-medium","viewport":[820,900],"environment":"medium","mode":"default"},
-    {"id":"reduced-motion","viewport":[1200,900],"environment":"expanded","mode":"reduced-motion","mediaFeatures":[{"name":"prefers-reduced-motion","value":"reduce"}]},
-    {"id":"reduced-transparency","viewport":[1200,900],"environment":"expanded","mode":"reduced-transparency"},
-    {"id":"increased-contrast","viewport":[1200,900],"environment":"expanded","mode":"increased-contrast","mediaFeatures":[{"name":"prefers-contrast","value":"more"}]},
-    {"id":"large-text","viewport":[1024,900],"environment":"expanded","mode":"large-text"},
-    {"id":"layout-stability","viewport":[1024,900],"environment":"medium","mode":"layout-stability"},
-    {"id":"form-factor-transition","viewport":[1024,900],"environment":"expanded","mode":"form-factor-transition"}
+  "scenes": [
+    {
+      "id": "representative-expanded",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "environment": "expanded",
+      "mode": "default",
+      "laneIds": [
+        "representative-rendering"
+      ]
+    },
+    {
+      "id": "representative-compact",
+      "viewport": [
+        390,
+        844
+      ],
+      "environment": "compact",
+      "mode": "default",
+      "mobile": true,
+      "laneIds": [
+        "representative-rendering",
+        "responsive-layouts"
+      ]
+    },
+    {
+      "id": "responsive-medium",
+      "viewport": [
+        820,
+        900
+      ],
+      "environment": "medium",
+      "mode": "default",
+      "laneIds": [
+        "responsive-layouts"
+      ]
+    },
+    {
+      "id": "reduced-motion",
+      "viewport": [
+        1200,
+        900
+      ],
+      "environment": "expanded",
+      "mode": "reduced-motion",
+      "mediaFeatures": [
+        {
+          "name": "prefers-reduced-motion",
+          "value": "reduce"
+        }
+      ],
+      "laneIds": [
+        "reduced-motion"
+      ]
+    },
+    {
+      "id": "reduced-transparency",
+      "viewport": [
+        1200,
+        900
+      ],
+      "environment": "expanded",
+      "mode": "reduced-transparency",
+      "laneIds": [
+        "reduced-transparency"
+      ]
+    },
+    {
+      "id": "increased-contrast",
+      "viewport": [
+        1200,
+        900
+      ],
+      "environment": "expanded",
+      "mode": "increased-contrast",
+      "mediaFeatures": [
+        {
+          "name": "prefers-contrast",
+          "value": "more"
+        }
+      ],
+      "laneIds": [
+        "increased-contrast"
+      ]
+    },
+    {
+      "id": "large-text",
+      "viewport": [
+        1024,
+        900
+      ],
+      "environment": "expanded",
+      "mode": "large-text",
+      "laneIds": [
+        "large-text"
+      ]
+    },
+    {
+      "id": "layout-stability",
+      "viewport": [
+        1024,
+        900
+      ],
+      "environment": "medium",
+      "mode": "layout-stability",
+      "laneIds": [
+        "layout-stability"
+      ]
+    },
+    {
+      "id": "form-factor-transition",
+      "viewport": [
+        1024,
+        900
+      ],
+      "environment": "expanded",
+      "mode": "form-factor-transition",
+      "laneIds": [
+        "form-factor-transitions"
+      ]
+    }
   ],
-  "evidenceBoundary":{
-    "renderedBrowserOnly":true,
-    "humanEvidenceClaimed":false,
-    "assistiveTechnologyEvidenceClaimed":false,
-    "physicalDeviceEvidenceClaimed":false,
-    "nativePlatformEvidenceClaimed":false,
-    "representativePerformanceEvidenceClaimed":false,
-    "regressionBaselineClaimed":false,
-    "lifecyclePromotionAutomatic":false,
-    "stableStatusGranted":false,
-    "consumerAcceptanceAutomatic":false,
-    "deploymentAcceptanceAutomatic":false,
-    "productionAcceptanceAutomatic":false
+  "evidenceBoundary": {
+    "renderedBrowserOnly": true,
+    "humanEvidenceClaimed": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "physicalDeviceEvidenceClaimed": false,
+    "nativePlatformEvidenceClaimed": false,
+    "representativePerformanceEvidenceClaimed": false,
+    "regressionBaselineClaimed": false,
+    "lifecyclePromotionAutomatic": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
   },
-  "boundary":"This plan captures deterministic Chromium-class rendered evidence for the frozen V1.6 Development source only. It may satisfy rendered evidence groups that the browser scenes actually exercise. It does not create human, assistive-technology, physical-device, native-platform, representative-performance, regression-baseline, consumer, deployment, production, Candidate, Release Candidate, or Stable evidence."
+  "boundary": "This plan captures deterministic Chromium-class rendered evidence for the frozen V1.6 Development source only. It may satisfy rendered evidence groups that the browser scenes actually exercise. It does not create human, assistive-technology, physical-device, native-platform, representative-performance, regression-baseline, consumer, deployment, production, Candidate, Release Candidate, or Stable evidence.",
+  "captureScript": "scripts/capture_glaze_v1_6_rendered_qualification.py",
+  "validator": "scripts/validate_glaze_v1_6_rendered_qualification_harness.mjs",
+  "workflow": ".github/workflows/glaze-v1.6-rendered-qualification.yml",
+  "artifactDirectory": "artifacts/v1.6-rendered",
+  "networkPolicy": "repository-local-only",
+  "browserClass": "chromium-headless"
 }
