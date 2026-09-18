@@ -27,7 +27,11 @@ V1.5.0 remains the immediate known-good Stable rollback baseline.
 
 The repository carries non-consumer-eligible successor material that extends the design-language source model without changing the current Stable release:
 
-- `GLAZE_UI_V1_6_PLANNED.md` — planned V1.6 upgrade specification covering the semantic Skeleton Motion System, loading and recovery behavior, state clarity, accessibility expansion, motion coherence, material intelligence, interaction continuity, performance adaptation, conformance metadata, diagnostics, and acceptance requirements. It is planning authority only and does not establish implementation or lifecycle promotion.
+- `GLAZE_UI_V1_6_PLANNED.md` — planned V1.6 upgrade specification covering the semantic Skeleton Motion System, loading and recovery behavior, state clarity, accessibility expansion, motion coherence, material intelligence, interaction continuity, performance adaptation, conformance metadata, diagnostics, and acceptance requirements. It remains planning authority and does not establish lifecycle promotion.
+- `contracts/v1.6/loading-skeleton.dev.json` + `schemas/v1.6-loading-skeleton.schema.json` — first V1.6 Development machine contract for sections 1–4 and bounded supporting behavior.
+- `js/glaze-v1.6-loading.dev.mjs` — Development-only loading/skeleton presentation resolver and skeleton descriptor foundation.
+- `tokens/glaze-v1.6-loading.dev.json` — semantic loading/skeleton aliases and accessibility/performance mappings without replacing V1.5.1 Stable token authority.
+- `scripts/validate_glaze_v1_6_loading_development.mjs` + `.github/workflows/glaze-v1.6-loading-development.yml` — fail-closed Development validation plus independent V1.5.1 Stable-boundary verification.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
