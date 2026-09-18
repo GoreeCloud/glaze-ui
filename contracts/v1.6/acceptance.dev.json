@@ -1,0 +1,48 @@
+{
+  "$schema":"../../schemas/v1.6-acceptance.schema.json",
+  "schemaVersion":1,
+  "contractId":"goreecloud.glaze-ui.v1.6.acceptance-control",
+  "name":"Glaze UI V1.6 Acceptance Control Development Contract",
+  "version":"1.6.0-dev.11",
+  "lifecycle":"Development",
+  "stableBaseline":"1.5.1",
+  "consumerEligible":false,
+  "implementedSpecificationSections":[98,99,100],
+  "acceptance":{
+    "laneCount":24,
+    "exactRevisionRequired":true,
+    "evidenceReferenceRequired":true,
+    "notApplicableRequiresJustification":true,
+    "missingEvidenceMayInferPass":false,
+    "revisionMismatchMayPass":false,
+    "matrixCompletionEqualsStablePromotion":false
+  },
+  "lanes":[
+    "source-implementation","design-tokens","skeleton-system","loading-behavior","accessibility",
+    "semantic-colors","reduced-motion","reduced-transparency","increased-contrast","large-text",
+    "keyboard-navigation","assistive-technology","responsive-layouts","form-factor-transitions",
+    "performance","layout-stability","offline-behavior","degraded-behavior","loading-escalation",
+    "component-state-completeness","privacy-boundaries","authority-boundaries","regression-testing",
+    "representative-rendering"
+  ],
+  "corePillars":[
+    "skeleton-motion","perceived-performance","state-clarity","accessibility-expansion",
+    "motion-coherence","material-intelligence","interaction-continuity","design-system-enforcement"
+  ],
+  "governingPrinciple":"Waiting, changing, adapting, loading, failing, recovering, and transitioning must be as intentionally designed as the final static interface.",
+  "authority":{
+    "boundary":"qualification-control-only",
+    "evidenceManufactured":false,
+    "staleEvidenceAccepted":false,
+    "mismatchedRevisionAccepted":false,
+    "lifecyclePromotionAutomatic":false,
+    "stableStatusGranted":false,
+    "consumerAcceptanceAutomatic":false,
+    "deploymentAcceptanceAutomatic":false,
+    "productionAcceptanceAutomatic":false
+  },
+  "runtimeEntrypoint":"js/glaze-v1.6-acceptance.dev.mjs",
+  "developmentAggregateEntrypoint":"js/glaze-v1.6-development.mjs",
+  "acceptanceRecord":"acceptance/v1.6-development.md",
+  "boundary":"Development qualification control only. The matrix defines and evaluates revision-bound evidence requirements; it does not itself constitute representative rendering, assistive-technology, device/form-factor, performance, human-review, downstream-consumer, deployment, production, Candidate, Release Candidate, or Stable acceptance."
+}
