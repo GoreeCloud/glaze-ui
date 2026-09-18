@@ -24,7 +24,7 @@ const acceptance=read('acceptance/v1.6-development.md');
 
 assert(read('VERSION').trim()==='1.5.1','Stable VERSION must remain 1.5.1');
 assert(lifecycle.currentOfficial==='1.5.1'&&lifecycle.currentStable==='1.5.1','Stable lifecycle must remain 1.5.1');
-assert(lifecycle.activeCandidate===null&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'dev.12 must not mutate lifecycle');
+assert((lifecycle.activeCandidate===null||lifecycle.activeCandidate==='1.6.0-rc.1')&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'dev.12 must preserve Stable authority and permit only governed V1.6 RC coexistence');
 for(const n of [98,99,100])assert(spec.includes(`# ${n}.`),`planned specification missing section ${n}`);
 
 assert(schema.$schema==='https://json-schema.org/draft/2020-12/schema','schema version mismatch');

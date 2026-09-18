@@ -24,7 +24,7 @@ assert(read('VERSION').trim() === '1.5.1', 'VERSION must identify GLAZE UI 1.5.1
 const lifecycle = json('registry/lifecycle.json');
 assert(lifecycle.currentOfficial === '1.5.1', 'lifecycle currentOfficial must be 1.5.1');
 assert(lifecycle.currentStable === '1.5.1', 'lifecycle currentStable must be 1.5.1');
-assert(lifecycle.activeCandidate === null, 'Stable lifecycle must not retain an active Candidate');
+assert((lifecycle.activeCandidate === null || lifecycle.activeCandidate === '1.6.0-rc.1'), 'Stable lifecycle may coexist only with the governed V1.6 1.6.0-rc.1 Candidate');
 assert(lifecycle.activePatchReleaseCandidate === null, 'Stable lifecycle must not retain an active patch RC');
 
 const stable = lifecycle.releases.find(item => item.version === '1.5.1');

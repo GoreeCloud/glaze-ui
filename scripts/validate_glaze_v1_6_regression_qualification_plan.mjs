@@ -18,7 +18,7 @@ const capture=read('scripts/capture_glaze_v1_6_rendered_qualification.py');
 
 assert(read('VERSION').trim()==='1.5.1','Stable VERSION must remain 1.5.1');
 assert(lifecycle.currentOfficial==='1.5.1'&&lifecycle.currentStable==='1.5.1','Stable lifecycle must remain 1.5.1');
-assert(lifecycle.activeCandidate===null&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'regression qualification tooling must not promote lifecycle');
+assert((lifecycle.activeCandidate===null||lifecycle.activeCandidate==='1.6.0-rc.1')&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'regression qualification tooling must preserve Stable authority and tolerate only separately governed V1.6 RC coexistence');
 
 assert(plan.schemaVersion===2,'regression plan schema version drifted');
 assert(plan.lifecycle==='DevelopmentQualification','regression plan lifecycle mismatch');

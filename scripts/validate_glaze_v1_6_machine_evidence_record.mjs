@@ -16,7 +16,7 @@ const acceptance=read('acceptance/v1.6-development.md');
 
 assert(read('VERSION').trim()==='1.5.1','Stable VERSION must remain 1.5.1');
 assert(lifecycle.currentOfficial==='1.5.1'&&lifecycle.currentStable==='1.5.1','Stable lifecycle must remain 1.5.1');
-assert(lifecycle.activeCandidate===null&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'machine evidence must not promote lifecycle');
+assert((lifecycle.activeCandidate===null||lifecycle.activeCandidate==='1.6.0-rc.1')&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'machine evidence must not promote lifecycle');
 
 assert(record.sourceRevision===plan.sourceRevision,'machine evidence source revision must match qualification plan');
 assert(record.acceptanceModelVersion===plan.acceptanceModelVersion,'acceptance model version mismatch');

@@ -110,7 +110,7 @@ def validate_final_human(record: dict) -> None:
     req(record.get("acceptedV1Authorized") is True, "final record must explicitly authorize accepted-v1")
 
 
-def validate_bridge(bridge: dict, care: dict) -> None:
+def validate_bridge(bridge: dict, care: dict, registry: dict) -> None:
     req(bridge.get("schemaVersion") == 1, "bridge schema")
     req(bridge.get("recordType") == "goreecloud-care-glaze-v1.2-exact-source-bridge", "bridge record type")
     req(bridge.get("consumerSourceRevision") == FINAL_SOURCE and SHA40.fullmatch(FINAL_SOURCE), "bridge exact source")
@@ -157,12 +157,19 @@ def validate_bridge(bridge: dict, care: dict) -> None:
     req(rationale.get("transferLimitedToUnchangedGlazeBehavior") is True, "bridge transfer scope")
     req(rationale.get("newHumanFindingsFabricated") is False, "bridge must not fabricate new human findings")
 
-    req(care.get("status") == "accepted-v1", "registry accepted-v1 state")
-    req(care.get("requiredTargetVersion") == EXPECTED_GLAZE, "required target version")
-    req(care.get("targetVersion") == EXPECTED_GLAZE, "accepted targetVersion")
+    official = registry.get("officialBaseline")
+    req(isinstance(official, str) and official.strip(), "current official baseline")
+    req(registry.get("requiredConsumerVersion") == official, "required consumer version must match current official baseline")
+    req(care.get("targetVersion") == EXPECTED_GLAZE, "historical accepted targetVersion")
     req(care.get("referenceRevision") == FINAL_SOURCE, "accepted exact Care 0.1.0 reference revision")
     req(care.get("evidence") == "acceptance/goreecloud-care-v1.2-0.1.0-exact-source-bridge.json", "bridge evidence reference")
-    req(care.get("productionEligible") is False, "accepted-v1 cannot grant overall production eligibility")
+    req(care.get("productionEligible") is False, "historical accepted-v1 evidence cannot grant overall production eligibility")
+    if official == EXPECTED_GLAZE:
+        req(care.get("status") == "accepted-v1", "registry accepted-v1 state while V1.2 is current")
+        req(care.get("requiredTargetVersion") == EXPECTED_GLAZE, "required target version while V1.2 is current")
+    else:
+        req(care.get("status") == "adoption-required", "registry must require current-baseline adoption after V1.2 is superseded")
+        req(care.get("requiredTargetVersion") == official, "required target version must follow current official baseline")
 
 
 def main() -> None:
@@ -180,10 +187,10 @@ def main() -> None:
     validate_final_human(final)
 
     if BRIDGE.exists():
-        validate_bridge(load(BRIDGE), care)
+        validate_bridge(load(BRIDGE), care, registry)
         print(
-            "GoreeCloud Care V1.2 human/native acceptance lineage validated: frozen RC review remains exact, "
-            "and exact Care 0.1.0 is validly bridged to accepted-v1 without fabricating a new human review."
+            "GoreeCloud Care V1.2 human/native acceptance lineage validated as historical evidence: frozen RC review "
+            "and the exact Care 0.1.0 bridge remain preserved without fabricating a new review or overriding the current baseline."
         )
         return
 

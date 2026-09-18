@@ -1,0 +1,147 @@
+name: GLAZE UI V1.6.0 Release Candidate Authority
+
+on:
+  pull_request:
+    paths:
+      - 'registry/lifecycle.json'
+      - 'contracts/v1.6/release-candidate.json'
+      - 'acceptance/v1.6-qualification-review.json'
+      - 'acceptance/v1.6-production-readiness-review.json'
+      - 'acceptance/v1.6-rc.1.json'
+      - 'acceptance/v1.6-*.json'
+      - 'js/glaze-v1.6.0-rc.1.mjs'
+      - 'scripts/verify_glaze_v1_6_release_candidate.mjs'
+      - 'scripts/verify_glaze_v1_5_1_stable.mjs'
+      - 'scripts/validate_glaze_v1_6_*_development.mjs'
+      - 'scripts/validate_glaze_v1_6_external_evidence_records.mjs'
+      - 'scripts/evaluate_glaze_v1_6_qualification_evidence.mjs'
+      - 'README.md'
+      - 'SPECIFICATIONS.md'
+      - 'FEATURE-ROADMAP.md'
+      - 'VERSION'
+      - 'consumers/registry.json'
+      - '.github/workflows/glaze-v1.6-release-candidate.yml'
+  push:
+    branches: [main, 'release/glaze-ui-v1.6.0-rc1-20260918']
+    paths:
+      - 'registry/lifecycle.json'
+      - 'contracts/v1.6/release-candidate.json'
+      - 'acceptance/v1.6-qualification-review.json'
+      - 'acceptance/v1.6-production-readiness-review.json'
+      - 'acceptance/v1.6-rc.1.json'
+      - 'acceptance/v1.6-*.json'
+      - 'js/glaze-v1.6.0-rc.1.mjs'
+      - 'scripts/verify_glaze_v1_6_release_candidate.mjs'
+      - 'scripts/verify_glaze_v1_5_1_stable.mjs'
+      - 'scripts/validate_glaze_v1_6_*_development.mjs'
+      - 'scripts/validate_glaze_v1_6_external_evidence_records.mjs'
+      - 'scripts/evaluate_glaze_v1_6_qualification_evidence.mjs'
+      - 'README.md'
+      - 'SPECIFICATIONS.md'
+      - 'FEATURE-ROADMAP.md'
+      - 'VERSION'
+      - 'consumers/registry.json'
+      - '.github/workflows/glaze-v1.6-release-candidate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1-6-rc-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  QUALIFIED_V16_SHA: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
+  QUALIFICATION_INTEGRATION_SHA: 354f5759385c28596fcfec26a3ad525e89fb1c35
+
+jobs:
+  release-candidate-authority:
+    name: Verify V1.6.0-rc.1 authority and qualification continuity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact revision and qualification ancestry
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git cat-file -e "${QUALIFIED_V16_SHA}^{commit}"
+          git cat-file -e "${QUALIFICATION_INTEGRATION_SHA}^{commit}"
+          git merge-base --is-ancestor "$QUALIFIED_V16_SHA" HEAD
+          git merge-base --is-ancestor "$QUALIFICATION_INTEGRATION_SHA" HEAD
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Validate RC syntax and version identity
+        run: |
+          set -euo pipefail
+          python -m json.tool registry/lifecycle.json >/dev/null
+          python -m json.tool contracts/v1.6/release-candidate.json >/dev/null
+          python -m json.tool acceptance/v1.6-qualification-review.json >/dev/null
+          python -m json.tool acceptance/v1.6-production-readiness-review.json >/dev/null
+          python -m json.tool acceptance/v1.6-rc.1.json >/dev/null
+          node --check js/glaze-v1.6.0-rc.1.mjs
+          node --check scripts/verify_glaze_v1_6_release_candidate.mjs
+
+      - name: Validate all accepted external evidence
+        run: |
+          node scripts/validate_glaze_v1_6_external_evidence_records.mjs             acceptance/v1.6-human-evidence.json             acceptance/v1.6-assistive-technology-evidence.json             acceptance/v1.6-performance-evidence.json
+
+      - name: Require complete 24-lane qualification reconciliation
+        run: |
+          set -euo pipefail
+          node scripts/evaluate_glaze_v1_6_qualification_evidence.mjs             --external acceptance/v1.6-human-evidence.json             --external acceptance/v1.6-assistive-technology-evidence.json             --external acceptance/v1.6-performance-evidence.json             --require-complete > /tmp/v16-complete.json
+          node - <<'NODE'
+          const fs=require('fs');
+          const result=JSON.parse(fs.readFileSync('/tmp/v16-complete.json','utf8'));
+          if(result.matrix.laneCount!==24||result.matrix.verifiedCount!==24||result.matrix.unverifiedCount!==0||result.matrix.notApplicableCount!==0) throw new Error('V1.6 RC requires exact 24/0/0 evidence disposition');
+          if(result.matrix.blockingLaneIds.length!==0) throw new Error('V1.6 RC requires zero evidence blockers');
+          if(result.matrix.qualificationEvidenceComplete!==true||result.matrix.readyForGovernedQualificationReview!==true) throw new Error('V1.6 RC requires complete review-ready evidence');
+          if(result.authority.lifecyclePromotionAutomatic!==false||result.authority.stableStatusGranted!==false) throw new Error('evidence reconciliation must remain non-promoting');
+          console.log('V1.6 complete evidence reconciliation: 24 verified / 0 unverified / 0 not applicable');
+          NODE
+
+      - name: Preserve retained V1.6 Development validation
+        run: |
+          set -euo pipefail
+          node scripts/validate_glaze_v1_6_loading_development.mjs
+          node scripts/validate_glaze_v1_6_state_accessibility_development.mjs
+          node scripts/validate_glaze_v1_6_focus_motion_development.mjs
+          node scripts/validate_glaze_v1_6_material_type_input_development.mjs
+          node scripts/validate_glaze_v1_6_resilience_feedback_development.mjs
+          node scripts/validate_glaze_v1_6_navigation_status_development.mjs
+          node scripts/validate_glaze_v1_6_component_systems_development.mjs
+          node scripts/validate_glaze_v1_6_experience_governance_development.mjs
+          node scripts/validate_glaze_v1_6_performance_diagnostics_development.mjs
+          node scripts/validate_glaze_v1_6_conformance_adoption_development.mjs
+          node scripts/validate_glaze_v1_6_acceptance_development.mjs
+
+      - name: Verify V1.6 Release Candidate authority
+        run: node scripts/verify_glaze_v1_6_release_candidate.mjs
+
+      - name: Preserve V1.5.1 Stable authority
+        run: node scripts/verify_glaze_v1_5_1_stable.mjs
+
+      - name: Verify RC wrapper remains identity only
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F "export * from './glaze-v1.6-development.mjs'" js/glaze-v1.6.0-rc.1.mjs >/dev/null
+          ! grep -Eq 'resolveGlaze[A-Za-z0-9_]*[[:space:]]*\(' js/glaze-v1.6.0-rc.1.mjs
+          ! grep -Eq 'grant|permissionRequestAutomatic:[[:space:]]*true|consequentialExecutionAutomatic:[[:space:]]*true|fallbackExecutionAutomatic:[[:space:]]*true' js/glaze-v1.6.0-rc.1.mjs
+
+      - name: Verify validation did not mutate tracked source
+        run: git diff --exit-code -- .

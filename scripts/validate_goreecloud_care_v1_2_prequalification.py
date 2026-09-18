@@ -144,18 +144,24 @@ def main() -> None:
     care = [item for item in consumers if isinstance(item, dict) and item.get("name") == "GoreeCloud Care"]
     req(len(care) == 1, "exactly one Care registry entry")
     care = care[0]
-    req(registry.get("officialBaseline") == TARGET, "V1.2 must remain official baseline while this bridge is active")
-    req(registry.get("requiredConsumerVersion") == TARGET, "V1.2 must remain required consumer version")
-    req(care.get("status") == "accepted-v1", "Care registry status")
-    req(care.get("targetVersion") == TARGET, "Care registry target")
-    req(care.get("requiredTargetVersion") == TARGET, "Care required target")
+    official = registry.get("officialBaseline")
+    req(isinstance(official, str) and official.strip(), "current official baseline")
+    req(registry.get("requiredConsumerVersion") == official, "required consumer version must match current official baseline")
+    req(care.get("targetVersion") == TARGET, "Care historical V1.2 target")
     req(care.get("referenceRevision") == FINAL_SOURCE, "Care exact registry revision")
     req(care.get("evidence") == BRIDGE_PATH, "Care exact registry evidence")
     req(care.get("productionEligible") is False, "Care registry must not independently grant overall product eligibility")
 
+    if official == TARGET:
+        req(care.get("status") == "accepted-v1", "Care registry status while V1.2 is current")
+        req(care.get("requiredTargetVersion") == TARGET, "Care required target while V1.2 is current")
+    else:
+        req(care.get("status") == "adoption-required", "Care must require adoption after the official baseline advances")
+        req(care.get("requiredTargetVersion") == official, "Care required target must follow the current official baseline")
+
     print(
-        "GoreeCloud Care V1.2 acceptance lineage validated: frozen RC human/native acceptance is preserved, "
-        "exact Care 0.1.0 is explicitly bridged for unchanged Glaze behavior, and the registry is exact-source accepted-v1."
+        "GoreeCloud Care V1.2 acceptance lineage validated as retained historical evidence: frozen RC human/native "
+        "acceptance and the exact Care 0.1.0 bridge remain preserved without overriding the current Glaze baseline."
     )
 
 

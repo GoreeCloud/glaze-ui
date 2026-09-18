@@ -186,7 +186,7 @@ function fillPerformance(){
 
 assert(read('VERSION').trim()===STABLE,'Stable VERSION must remain 1.5.1');
 assert(lifecycle.currentOfficial===STABLE&&lifecycle.currentStable===STABLE,'Stable lifecycle must remain 1.5.1');
-assert(lifecycle.activeCandidate===null&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'external evidence record control must not promote lifecycle');
+assert((lifecycle.activeCandidate===null||lifecycle.activeCandidate==='1.6.0-rc.1')&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'external evidence control must preserve Stable authority and tolerate only separately governed V1.6 RC coexistence');
 assert(JSON.stringify(acceptance.evidenceRequirements['assistive-technology'])==='[["assistive-technology"]]','Assistive Technology acceptance requirement drifted');
 assert(JSON.stringify(acceptance.evidenceRequirements.performance)==='[["performance"]]','Performance acceptance requirement drifted');
 assert(JSON.stringify(acceptance.evidenceRequirements.accessibility)==='[["machine"],["human","assistive-technology"]]','Accessibility grouped requirement drifted');

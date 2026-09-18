@@ -25,7 +25,7 @@ const planned = read('GLAZE_UI_V1_6_PLANNED.md');
 assert(stable === '1.5.1', `current Stable VERSION must remain 1.5.1, found ${stable}`);
 assert(lifecycle.currentOfficial === '1.5.1', 'currentOfficial must remain 1.5.1');
 assert(lifecycle.currentStable === '1.5.1', 'currentStable must remain 1.5.1');
-assert(lifecycle.activeCandidate === null, 'V1.6 Development foundation must not create an active Candidate');
+assert((lifecycle.activeCandidate === null || lifecycle.activeCandidate === '1.6.0-rc.1'), 'V1.6 Development validation permits only no active Candidate or governed 1.6.0-rc.1');
 assert(lifecycle.activePatchReleaseCandidate === null, 'V1.6 Development foundation must not create an active patch RC');
 assert(lifecycle.plannedNext === null, 'V1.6 Development foundation must not silently mutate lifecycle plannedNext');
 assert(planned.includes('status: "Planned"'), 'V1.6 human specification must remain Planned');

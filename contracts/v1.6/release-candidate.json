@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.release-candidate",
+  "product": "GLAZE UI V1.6",
+  "version": "1.6.0-rc.1",
+  "internal_version": "1.6.0-rc.1",
+  "external_version": "1.6.0-rc.1",
+  "version_name": null,
+  "releaseLifecycle": "Release Candidate",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+  "qualificationReview": "acceptance/v1.6-qualification-review.json",
+  "productionReadinessReview": "acceptance/v1.6-production-readiness-review.json",
+  "acceptance": "acceptance/v1.6-rc.1.json",
+  "runtimeEntrypoint": "js/glaze-v1.6.0-rc.1.mjs",
+  "qualification": {
+    "laneCount": 24,
+    "verifiedCount": 24,
+    "unverifiedCount": 0,
+    "notApplicableCount": 0,
+    "evidenceComplete": true,
+    "governedReviewDecision": "approved-for-release-candidate"
+  },
+  "productionReadiness": {
+    "standardVersion": "v2.0",
+    "nineIntegralPlatformSystemsEvaluated": true,
+    "releaseCandidateEntrySupported": true,
+    "stableQualificationCompleted": false,
+    "productionReadinessGranted": false,
+    "productionAcceptanceGranted": false
+  },
+  "continuity": {
+    "qualifiedSourceMayChangeDuringRcIdentityPromotion": false,
+    "presentationBehaviorMayChange": false,
+    "authorizationBehaviorMayChange": false,
+    "privacyBoundaryMayChange": false,
+    "automaticExecutionBoundaryMayChange": false,
+    "qualificationEvidenceReboundToRcRevision": false
+  },
+  "authority": {
+    "currentOfficialRemains": "1.5.1",
+    "currentStableRemains": "1.5.1",
+    "releaseCandidateDoesNotEstablishStable": true,
+    "releaseCandidateDoesNotEstablishProductionReadiness": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false,
+    "tagPublicationAutomatic": false,
+    "githubReleasePublicationAutomatic": false
+  },
+  "rollback": {
+    "knownGoodStable": "1.5.1",
+    "stableRuntime": "js/glaze-v1.5.1.mjs"
+  },
+  "boundary": "GLAZE UI 1.6.0-rc.1 is an identity-only Release Candidate over the fully qualified frozen V1.6 source after applying current Release Lifecycle and Production Readiness governance. Its evidence remains bound to the exact source and review records that produced the 24/24 matrix. Current Official Stable and downstream consumer target remain 1.5.1 until a separate governed Stable promotion."
+}
