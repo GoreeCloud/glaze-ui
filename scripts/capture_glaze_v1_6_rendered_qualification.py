@@ -118,6 +118,10 @@ def create_session() -> str:
                             "--headless=new",
                             "--no-sandbox",
                             "--disable-dev-shm-usage",
+                            "--disable-gpu",
+                            "--disable-lcd-text",
+                            "--font-render-hinting=none",
+                            "--force-device-scale-factor=1",
                             "--disable-background-networking",
                             "--disable-component-update",
                             "--disable-default-apps",
@@ -187,9 +191,16 @@ def wait_ready(session_id: str, seconds: float = 20) -> None:
             "return document.readyState==='complete' && window.__glazeV16RenderedReady===true;",
         )
         if last is True:
-            return
+            fonts = execute(session_id, "return !document.fonts || document.fonts.status === 'loaded';")
+            if fonts is True:
+                execute(
+                    session_id,
+                    "return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))));",
+                )
+                time.sleep(0.15)
+                return
         time.sleep(0.1)
-    raise QualificationError(f"rendered qualification scene did not become ready: {last}")
+    raise QualificationError(f"rendered qualification scene did not become ready with fonts loaded: {last}")
 
 
 def screenshot(session_id: str, path: Path) -> None:
@@ -238,6 +249,7 @@ return true;
     )
     require(result is True, "could not freeze scene for deterministic screenshot")
     execute(session_id, "return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))));")
+    time.sleep(0.15)
 
 
 def capture(
