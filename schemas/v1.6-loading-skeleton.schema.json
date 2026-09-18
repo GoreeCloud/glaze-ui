@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-loading-skeleton.schema.json",
+  "title": "Glaze UI V1.6 Loading and Skeleton Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema", "schemaVersion", "contractId", "name", "version", "lifecycle",
+    "stableBaseline", "consumerEligible", "implementedSpecificationSections",
+    "supportingSpecificationSections", "skeletonPrimitives", "skeletonMotionModes",
+    "loadingPresentations", "assistiveStates", "thresholds", "accessibility",
+    "decisionRules", "continuity", "authority", "runtimeEntrypoint", "tokenMap", "boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.6-loading-skeleton.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.6.loading-skeleton"},
+    "name": {"const": "Glaze UI V1.6 Loading and Skeleton Development Contract"},
+    "version": {"const": "1.6.0-dev.1"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.5.1"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "integer", "minimum": 1, "maximum": 100}
+    },
+    "supportingSpecificationSections": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "integer", "minimum": 1, "maximum": 100}
+    },
+    "skeletonPrimitives": {
+      "type": "array",
+      "minItems": 26,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "skeletonMotionModes": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"enum": ["static", "soft-pulse", "flow", "progressive-resolve", "skeleton-to-content-morph"]}
+    },
+    "loadingPresentations": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "assistiveStates": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["configurable", "referenceDefaultsMs", "timeoutMayInferOffline", "timeoutMayInferDegraded"],
+      "properties": {
+        "configurable": {"const": true},
+        "referenceDefaultsMs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["skeletonDelay", "extendedLoad", "delayedResponse"],
+          "properties": {
+            "skeletonDelay": {"type": "integer", "minimum": 0},
+            "extendedLoad": {"type": "integer", "minimum": 0},
+            "delayedResponse": {"type": "integer", "minimum": 0}
+          }
+        },
+        "timeoutMayInferOffline": {"const": false},
+        "timeoutMayInferDegraded": {"const": false}
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skeletonsHiddenFromAccessibilityTree", "individualSkeletonAnnouncements",
+        "reducedMotionForcesStatic", "reducedTransparencyUsesSolidAlternative",
+        "increasedContrastUsesSolidAlternative", "opacityOnlyMeaningAllowed",
+        "singleSemanticStateAnnouncementPreferred"
+      ],
+      "properties": {
+        "skeletonsHiddenFromAccessibilityTree": {"const": true},
+        "individualSkeletonAnnouncements": {"const": false},
+        "reducedMotionForcesStatic": {"const": true},
+        "reducedTransparencyUsesSolidAlternative": {"const": true},
+        "increasedContrastUsesSolidAlternative": {"const": true},
+        "opacityOnlyMeaningAllowed": {"const": false},
+        "singleSemanticStateAnnouncementPreferred": {"const": true}
+      }
+    },
+    "decisionRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "veryShortOperationsUseQuietWindow", "refreshPreservesExistingContent",
+        "staleUsableContentMayRemainVisible", "determinateProgressMustBeTruthful",
+        "fakePercentagesAllowed", "optimisticSecuritySensitiveAllowed",
+        "optimisticPrivacySensitiveAllowed", "optimisticDestructiveAllowed",
+        "optimisticIrreversibleAllowed", "fullBlockingReservedForBlockingOperations"
+      ],
+      "properties": {
+        "veryShortOperationsUseQuietWindow": {"const": true},
+        "refreshPreservesExistingContent": {"const": true},
+        "staleUsableContentMayRemainVisible": {"const": true},
+        "determinateProgressMustBeTruthful": {"const": true},
+        "fakePercentagesAllowed": {"const": false},
+        "optimisticSecuritySensitiveAllowed": {"const": false},
+        "optimisticPrivacySensitiveAllowed": {"const": false},
+        "optimisticDestructiveAllowed": {"const": false},
+        "optimisticIrreversibleAllowed": {"const": false},
+        "fullBlockingReservedForBlockingOperations": {"const": true}
+      }
+    },
+    "continuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layoutPositionPreservationRequired", "focusPreservationRequired",
+        "scrollPositionPreservationRequired", "skeletonGeometryApproximatesFinalContent"
+      ],
+      "properties": {
+        "layoutPositionPreservationRequired": {"const": true},
+        "focusPreservationRequired": {"const": true},
+        "scrollPositionPreservationRequired": {"const": true},
+        "skeletonGeometryApproximatesFinalContent": {"const": true}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary", "stateTruthOwnedByCaller", "connectivityInferred",
+        "privacyStateInferred", "securityStateInferred", "authorizationInferred",
+        "permissionGrantedByGlaze", "consequentialExecutionAutomatic",
+        "recoveryCapabilityInvented"
+      ],
+      "properties": {
+        "boundary": {"const": "presentation-only"},
+        "stateTruthOwnedByCaller": {"const": true},
+        "connectivityInferred": {"const": false},
+        "privacyStateInferred": {"const": false},
+        "securityStateInferred": {"const": false},
+        "authorizationInferred": {"const": false},
+        "permissionGrantedByGlaze": {"const": false},
+        "consequentialExecutionAutomatic": {"const": false},
+        "recoveryCapabilityInvented": {"const": false}
+      }
+    },
+    "runtimeEntrypoint": {"const": "js/glaze-v1.6-loading.dev.mjs"},
+    "tokenMap": {"const": "tokens/glaze-v1.6-loading.dev.json"},
+    "boundary": {"type": "string", "minLength": 1}
+  }
+}
