@@ -6,6 +6,7 @@ on:
       - 'acceptance/v1.6-human-evidence.json'
       - 'acceptance/v1.6-assistive-technology-evidence.json'
       - 'acceptance/v1.6-performance-evidence.json'
+      - 'acceptance/v1.6-performance-candidate-evidence.json'
       - 'acceptance/v1.6-human-evidence.template.json'
       - 'acceptance/v1.6-assistive-technology-evidence.template.json'
       - 'acceptance/v1.6-performance-evidence.template.json'
