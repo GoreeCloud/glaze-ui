@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.qualification-review",
+  "recordType": "governed-qualification-review",
+  "product": "GLAZE UI V1.6",
+  "reviewedAt": "2026-09-18T17:55:09-05:00",
+  "reviewExecutor": "ChatGPT",
+  "decisionAuthority": "GoreeCloud project-owner instruction to proceed with the governed V1.6 qualification review",
+  "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+  "stableBaseline": "1.5.1",
+  "evidenceMatrix": {
+    "laneCount": 24,
+    "verifiedCount": 24,
+    "unverifiedCount": 0,
+    "notApplicableCount": 0,
+    "qualificationEvidenceComplete": true,
+    "readyForGovernedQualificationReview": true,
+    "blockingLaneIds": []
+  },
+  "acceptedEvidenceRecords": [
+    "acceptance/v1.6-machine-evidence.json",
+    "acceptance/v1.6-rendered-evidence.json",
+    "acceptance/v1.6-regression-evidence.json",
+    "acceptance/v1.6-human-evidence.json",
+    "acceptance/v1.6-assistive-technology-evidence.json",
+    "acceptance/v1.6-performance-evidence.json"
+  ],
+  "performanceCandidate": {
+    "reference": "acceptance/v1.6-performance-candidate-evidence.json",
+    "sha256": "sha256:6ba3ea31b0bdde85de842c5fcac5c6756f92794efb55ba4e1d4a4d5b331823ad"
+  },
+  "sourceContinuity": {
+    "qualificationEvidenceRemainsBoundToFrozenSource": true,
+    "qualifiedBehaviorMayChangeDuringRcIdentityPromotion": false,
+    "qualificationEvidenceMayBeReboundToRcRevision": false
+  },
+  "releaseCandidateTarget": {
+    "internal_version": "1.6.0-rc.1",
+    "external_version": "1.6.0-rc.1",
+    "version_name": null,
+    "lifecycle": "Release Candidate",
+    "consumerEligible": false
+  },
+  "decision": "approved-for-release-candidate",
+  "authority": {
+    "releaseCandidateApproved": true,
+    "stableStatusGranted": false,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false,
+    "tagPublicationAutomatic": false,
+    "githubReleasePublicationAutomatic": false
+  },
+  "boundary": "This governed review approves the fully qualified frozen V1.6 source for an identity-only Release Candidate transition. The qualification evidence remains bound to its actual reviewed source and evidence revisions. Release Candidate status does not establish Stable, downstream consumer acceptance, deployment acceptance, production acceptance, tag publication, or GitHub Release publication."
+}
