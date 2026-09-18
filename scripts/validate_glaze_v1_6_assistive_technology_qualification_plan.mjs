@@ -17,7 +17,7 @@ const prepare=read('scripts/prepare_glaze_v1_6_assistive_technology_qualificatio
 
 assert(read('VERSION').trim()==='1.5.1','Stable VERSION must remain 1.5.1');
 assert(lifecycle.currentOfficial==='1.5.1'&&lifecycle.currentStable==='1.5.1','Stable lifecycle must remain 1.5.1');
-assert(lifecycle.activeCandidate===null&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'assistive-technology tooling must not promote lifecycle');
+assert((lifecycle.activeCandidate===null||lifecycle.activeCandidate==='1.6.0-rc.1')&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'assistive-technology tooling must not promote lifecycle beyond the governed V1.6 Release Candidate');
 assert(schema.$schema==='https://json-schema.org/draft/2020-12/schema','schema dialect mismatch');
 assert(plan.planId==='goreecloud.glaze-ui.v1.6.assistive-technology-qualification','plan ID mismatch');
 assert(plan.sourceRevision==='c7509c79256b04b0aa67cb9dd0737d7588e0ae4a','plan must stay bound to frozen source');
