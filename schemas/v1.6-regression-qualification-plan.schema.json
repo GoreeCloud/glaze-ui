@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-regression-qualification-plan.schema.json",
+  "title": "Glaze UI V1.6 Rendered Regression Qualification Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","planId","name","lifecycle","sourceRevision",
+    "acceptanceModelVersion","stableBaseline","consumerEligible","laneId",
+    "baseline","sceneIds","comparison","freshCapture","evidenceBoundary","boundary"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.6-regression-qualification-plan.schema.json"},
+    "schemaVersion": {"const":1},
+    "planId": {"const":"goreecloud.glaze-ui.v1.6.rendered-regression-qualification"},
+    "name": {"const":"Glaze UI V1.6 Exact-Source Rendered Regression Qualification Plan"},
+    "lifecycle": {"const":"DevelopmentQualification"},
+    "sourceRevision": {"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},
+    "acceptanceModelVersion": {"const":"1.6.0-dev.12"},
+    "stableBaseline": {"const":"1.5.1"},
+    "consumerEligible": {"const":false},
+    "laneId": {"const":"regression-testing"},
+    "baseline": {
+      "type":"object","additionalProperties":false,
+      "required":["runId","artifactId","artifactName","artifactDigest","sourceRevision","record"],
+      "properties":{
+        "runId":{"const":35348330585},
+        "artifactId":{"const":10549115165},
+        "artifactName":{"const":"glaze-v1.6-rendered-browser-35348330585"},
+        "artifactDigest":{"const":"sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"},
+        "sourceRevision":{"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},
+        "record":{"const":"acceptance/v1.6-rendered-evidence.json"}
+      }
+    },
+    "sceneIds": {
+      "type":"array","minItems":9,"maxItems":9,"uniqueItems":true,
+      "items":{"enum":[
+        "representative-expanded","representative-compact","responsive-medium",
+        "reduced-motion","reduced-transparency","increased-contrast","large-text",
+        "layout-stability","form-factor-transition"
+      ]}
+    },
+    "comparison": {
+      "type":"object","additionalProperties":false,
+      "required":["kind","tolerance","allScenesRequired","baselineManifestRequired","freshManifestRequired","sourceRevisionMustMatch"],
+      "properties":{
+        "kind":{"const":"screenshot-sha256-exact"},
+        "tolerance":{"const":0},
+        "allScenesRequired":{"const":true},
+        "baselineManifestRequired":{"const":true},
+        "freshManifestRequired":{"const":true},
+        "sourceRevisionMustMatch":{"const":true}
+      }
+    },
+    "freshCapture": {
+      "type":"object","additionalProperties":false,
+      "required":["captureScript","renderedPlan","harness","artifactDirectory"],
+      "properties":{
+        "captureScript":{"const":"scripts/capture_glaze_v1_6_rendered_qualification.py"},
+        "renderedPlan":{"const":"contracts/v1.6/qualification.rendered.plan.json"},
+        "harness":{"const":"reference/v1.6/rendered-qualification.html"},
+        "artifactDirectory":{"const":"artifacts/v1.6-regression"}
+      }
+    },
+    "evidenceBoundary": {
+      "type":"object","additionalProperties":false,
+      "required":[
+        "renderedRegressionOnly","humanEvidenceClaimed","assistiveTechnologyEvidenceClaimed",
+        "physicalDeviceEvidenceClaimed","nativePlatformEvidenceClaimed",
+        "representativePerformanceEvidenceClaimed","lifecyclePromotionAutomatic",
+        "candidateStatusGranted","releaseCandidateStatusGranted","stableStatusGranted",
+        "consumerAcceptanceAutomatic","deploymentAcceptanceAutomatic","productionAcceptanceAutomatic"
+      ],
+      "properties":{
+        "renderedRegressionOnly":{"const":true},
+        "humanEvidenceClaimed":{"const":false},
+        "assistiveTechnologyEvidenceClaimed":{"const":false},
+        "physicalDeviceEvidenceClaimed":{"const":false},
+        "nativePlatformEvidenceClaimed":{"const":false},
+        "representativePerformanceEvidenceClaimed":{"const":false},
+        "lifecyclePromotionAutomatic":{"const":false},
+        "candidateStatusGranted":{"const":false},
+        "releaseCandidateStatusGranted":{"const":false},
+        "stableStatusGranted":{"const":false},
+        "consumerAcceptanceAutomatic":{"const":false},
+        "deploymentAcceptanceAutomatic":{"const":false},
+        "productionAcceptanceAutomatic":{"const":false}
+      }
+    },
+    "boundary":{"type":"string","minLength":1}
+  }
+}
