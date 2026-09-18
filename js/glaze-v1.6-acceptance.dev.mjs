@@ -6,31 +6,35 @@
  */
 
 const ACCEPTANCE_LANES = Object.freeze([
-  ['source-implementation',['machine']],
-  ['design-tokens',['machine']],
-  ['skeleton-system',['machine','rendered']],
-  ['loading-behavior',['machine','rendered']],
-  ['accessibility',['machine','human','assistive-technology']],
-  ['semantic-colors',['machine','rendered']],
-  ['reduced-motion',['machine','rendered','human']],
-  ['reduced-transparency',['machine','rendered','human']],
-  ['increased-contrast',['machine','rendered','human']],
-  ['large-text',['machine','rendered','human']],
-  ['keyboard-navigation',['machine','human']],
-  ['assistive-technology',['assistive-technology']],
-  ['responsive-layouts',['machine','rendered','device']],
-  ['form-factor-transitions',['device','rendered']],
-  ['performance',['performance']],
-  ['layout-stability',['machine','performance','rendered']],
-  ['offline-behavior',['machine','rendered']],
-  ['degraded-behavior',['machine','rendered']],
-  ['loading-escalation',['machine','rendered']],
-  ['component-state-completeness',['machine','rendered']],
-  ['privacy-boundaries',['machine','human']],
-  ['authority-boundaries',['machine','human']],
-  ['regression-testing',['machine','rendered']],
-  ['representative-rendering',['rendered','device','human']]
-].map(([id,evidenceTypes])=>Object.freeze({id,evidenceTypes:Object.freeze(evidenceTypes)})));
+  {id:'source-implementation',groups:[['machine']]},
+  {id:'design-tokens',groups:[['machine']]},
+  {id:'skeleton-system',groups:[['machine','rendered']]},
+  {id:'loading-behavior',groups:[['machine','rendered']]},
+  {id:'accessibility',groups:[['machine'],['human','assistive-technology']]},
+  {id:'semantic-colors',groups:[['machine','rendered']]},
+  {id:'reduced-motion',groups:[['machine'],['rendered','human']]},
+  {id:'reduced-transparency',groups:[['machine'],['rendered','human']]},
+  {id:'increased-contrast',groups:[['machine'],['rendered','human']]},
+  {id:'large-text',groups:[['machine'],['rendered','human']]},
+  {id:'keyboard-navigation',groups:[['machine'],['human']]},
+  {id:'assistive-technology',groups:[['assistive-technology']]},
+  {id:'responsive-layouts',groups:[['machine'],['rendered','device']]},
+  {id:'form-factor-transitions',groups:[['device','rendered']]},
+  {id:'performance',groups:[['performance']]},
+  {id:'layout-stability',groups:[['machine'],['performance','rendered']]},
+  {id:'offline-behavior',groups:[['machine','rendered']]},
+  {id:'degraded-behavior',groups:[['machine','rendered']]},
+  {id:'loading-escalation',groups:[['machine','rendered']]},
+  {id:'component-state-completeness',groups:[['machine','rendered']]},
+  {id:'privacy-boundaries',groups:[['machine'],['human']]},
+  {id:'authority-boundaries',groups:[['machine'],['human']]},
+  {id:'regression-testing',groups:[['machine'],['rendered']]},
+  {id:'representative-rendering',groups:[['rendered'],['device','human']]}
+].map(def=>Object.freeze({
+  id:def.id,
+  evidenceGroups:Object.freeze(def.groups.map(group=>Object.freeze([...group]))),
+  evidenceTypes:Object.freeze([...new Set(def.groups.flat())])
+})));
 
 const CORE_PILLARS = Object.freeze([
   'skeleton-motion',
@@ -48,15 +52,57 @@ const GOVERNING_PRINCIPLE = 'Waiting, changing, adapting, loading, failing, reco
 function plainObject(v){return Boolean(v)&&typeof v==='object'&&!Array.isArray(v)&&Object.getPrototypeOf(v)===Object.prototype;}
 function text(v){return String(v??'').trim();}
 function validRevision(v){return /^[0-9a-f]{40}$/.test(text(v));}
+
 function recordsById(records){
   const out=new Map();
   if(!Array.isArray(records))return out;
-  for(const raw of records.slice(0,500)){
+  for(const raw of records.slice(0,1000)){
     if(!plainObject(raw))continue;
     const id=text(raw.id);
-    if(id&&!out.has(id))out.set(id,raw);
+    if(!id)continue;
+    const list=out.get(id)||[];
+    list.push(raw);
+    out.set(id,list);
   }
   return out;
+}
+
+function normalizeRecord(raw, exactRevision){
+  const evidenceRevision=validRevision(raw?.revision)?text(raw.revision):null;
+  const evidenceType=text(raw?.evidenceType).toLowerCase();
+  const reference=text(raw?.reference);
+  const revisionMatches=Boolean(exactRevision&&evidenceRevision===exactRevision);
+  return Object.freeze({
+    verified:raw?.verified===true,
+    evidenceRevision,
+    evidenceType:evidenceType||null,
+    evidenceReference:reference||null,
+    revisionMatches,
+    structurallyValid:Boolean(raw?.verified===true&&evidenceRevision&&evidenceType&&reference)
+  });
+}
+
+function groupSatisfied(group,records){
+  return records.some(record =>
+    record.verified
+    && record.revisionMatches
+    && record.evidenceReference
+    && group.includes(record.evidenceType)
+  );
+}
+
+function laneFailureReason(exactRevision, groups, records){
+  if(!exactRevision)return 'matrix-exact-revision-missing';
+  if(records.length===0)return 'missing-evidence';
+  if(records.some(record=>record.verified&&!record.evidenceRevision))return 'evidence-revision-invalid';
+  if(records.some(record=>record.verified&&record.evidenceRevision&&!record.revisionMatches))return 'evidence-revision-mismatch';
+  if(records.some(record=>record.verified&&record.revisionMatches&&!record.evidenceReference))return 'evidence-reference-missing';
+  const allowed=[...new Set(groups.flat())];
+  if(records.some(record=>record.verified&&record.revisionMatches&&record.evidenceReference&&!allowed.includes(record.evidenceType))){
+    return 'evidence-type-not-allowed';
+  }
+  if(records.some(record=>record.verified!==true))return 'evidence-not-verified';
+  return 'required-evidence-group-unsatisfied';
 }
 
 export function createGlazeV16AcceptanceMatrix(input={}){
@@ -69,7 +115,8 @@ export function createGlazeV16AcceptanceMatrix(input={}){
 
   const lanes=ACCEPTANCE_LANES.map(def=>{
     const applicable=applicability[def.id]!==false;
-    const record=evidence.get(def.id);
+    const rawRecords=evidence.get(def.id)||[];
+    const records=Object.freeze(rawRecords.map(raw=>normalizeRecord(raw,exactRevision)));
     const justification=text(notApplicableJustifications[def.id]);
 
     if(!applicable){
@@ -78,40 +125,35 @@ export function createGlazeV16AcceptanceMatrix(input={}){
         applicable:false,
         status:justification?'not-applicable':'unverified',
         allowedEvidenceTypes:def.evidenceTypes,
-        evidenceReference:null,
-        evidenceType:null,
-        evidenceRevision:null,
+        requiredEvidenceGroups:def.evidenceGroups,
+        satisfiedEvidenceGroupCount:0,
+        evidenceReferences:Object.freeze([]),
+        evidenceTypes:Object.freeze([]),
+        evidenceRevisions:Object.freeze([]),
         failureReason:justification?null:'not-applicable-requires-justification'
       });
     }
 
-    if(!record){
-      return Object.freeze({
-        id:def.id,applicable:true,status:'unverified',allowedEvidenceTypes:def.evidenceTypes,
-        evidenceReference:null,evidenceType:null,evidenceRevision:null,failureReason:'missing-evidence'
-      });
-    }
-
-    const evidenceRevision=validRevision(record.revision)?text(record.revision):null;
-    const evidenceType=text(record.evidenceType).toLowerCase();
-    const reference=text(record.reference);
-    const revisionMatches=Boolean(exactRevision&&evidenceRevision===exactRevision);
-    const typeAllowed=def.evidenceTypes.includes(evidenceType);
-    const verified=record.verified===true&&revisionMatches&&typeAllowed&&Boolean(reference);
-
-    let failureReason=null;
-    if(record.verified!==true)failureReason='evidence-not-verified';
-    else if(!exactRevision)failureReason='matrix-exact-revision-missing';
-    else if(!evidenceRevision)failureReason='evidence-revision-invalid';
-    else if(!revisionMatches)failureReason='evidence-revision-mismatch';
-    else if(!typeAllowed)failureReason='evidence-type-not-allowed';
-    else if(!reference)failureReason='evidence-reference-missing';
+    const groupResults=def.evidenceGroups.map(group=>Object.freeze({
+      allowedEvidenceTypes:group,
+      satisfied:groupSatisfied(group,records)
+    }));
+    const satisfiedEvidenceGroupCount=groupResults.filter(group=>group.satisfied).length;
+    const verified=Boolean(exactRevision)&&groupResults.every(group=>group.satisfied);
+    const validRecords=records.filter(record=>record.verified&&record.revisionMatches&&record.evidenceReference);
 
     return Object.freeze({
-      id:def.id,applicable:true,status:verified?'verified':'unverified',
+      id:def.id,
+      applicable:true,
+      status:verified?'verified':'unverified',
       allowedEvidenceTypes:def.evidenceTypes,
-      evidenceReference:reference||null,evidenceType:evidenceType||null,
-      evidenceRevision,failureReason
+      requiredEvidenceGroups:def.evidenceGroups,
+      evidenceGroupResults:Object.freeze(groupResults),
+      satisfiedEvidenceGroupCount,
+      evidenceReferences:Object.freeze(validRecords.map(record=>record.evidenceReference)),
+      evidenceTypes:Object.freeze(validRecords.map(record=>record.evidenceType)),
+      evidenceRevisions:Object.freeze(validRecords.map(record=>record.evidenceRevision)),
+      failureReason:verified?null:laneFailureReason(exactRevision,def.evidenceGroups,records)
     });
   });
 
@@ -119,7 +161,7 @@ export function createGlazeV16AcceptanceMatrix(input={}){
   const qualificationEvidenceComplete=Boolean(exactRevision)&&blocking.length===0;
 
   return Object.freeze({
-    version:'1.6.0-dev.11',
+    version:'1.6.0-dev.12',
     lifecycle:'development',
     stableBaseline:'1.5.1',
     consumerEligible:false,
@@ -137,6 +179,7 @@ export function createGlazeV16AcceptanceMatrix(input={}){
       staleEvidenceAccepted:false,
       mismatchedRevisionAccepted:false,
       missingEvidenceInferredPassing:false,
+      partialEvidenceGroupInferredPassing:false,
       lifecyclePromotionAutomatic:false,
       stableStatusGranted:false,
       consumerAcceptanceAutomatic:false,
@@ -148,7 +191,7 @@ export function createGlazeV16AcceptanceMatrix(input={}){
 
 export function describeGlazeV16CorePillars(){
   return Object.freeze({
-    version:'1.6.0-dev.11',
+    version:'1.6.0-dev.12',
     lifecycle:'development',
     pillars:CORE_PILLARS,
     count:CORE_PILLARS.length,
@@ -159,7 +202,7 @@ export function describeGlazeV16CorePillars(){
 
 export function describeGlazeV16GoverningPrinciple(){
   return Object.freeze({
-    version:'1.6.0-dev.11',
+    version:'1.6.0-dev.12',
     lifecycle:'development',
     principle:GOVERNING_PRINCIPLE,
     states:Object.freeze([
@@ -180,7 +223,7 @@ export function describeGlazeV16GoverningPrinciple(){
 }
 
 export const glazeV16AcceptanceDevelopmentContract=Object.freeze({
-  version:'1.6.0-dev.11',
+  version:'1.6.0-dev.12',
   lifecycle:'development',
   stableBaseline:'1.5.1',
   consumerEligible:false,
@@ -190,8 +233,10 @@ export const glazeV16AcceptanceDevelopmentContract=Object.freeze({
   exactRevisionRequired:true,
   evidenceReferenceRequired:true,
   notApplicableRequiresJustification:true,
+  allEvidenceGroupsRequired:true,
   missingEvidenceMayInferPass:false,
   revisionMismatchMayPass:false,
+  partialEvidenceGroupMayPass:false,
   lifecyclePromotionAutomatic:false,
   authorityBoundary:'qualification-control-only'
 });
