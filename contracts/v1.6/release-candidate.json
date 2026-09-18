@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "internalVersion": "1.6.0-rc.1",
+  "externalVersion": "1.6.0-rc.1",
+  "releaseLifecycle": "Release Candidate",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+  "qualificationContract": "contracts/v1.6/acceptance.dev.json",
+  "qualificationAcceptance": "acceptance/v1.6-development.md",
+  "runtimeEntrypoint": "js/glaze-v1.6.0-rc.1.mjs",
+  "releaseCandidateAcceptance": "acceptance/v1.6.0-rc.1.md",
+  "qualification": {
+    "laneCount": 24,
+    "verifiedCount": 24,
+    "unverifiedCount": 0,
+    "notApplicableCount": 0,
+    "qualificationEvidenceComplete": true,
+    "readyForGovernedQualificationReview": true,
+    "governedQualificationReviewDecision": "accepted-for-release-candidate"
+  },
+  "externalEvidence": {
+    "human": "acceptance/v1.6-human-evidence.json",
+    "assistiveTechnology": "acceptance/v1.6-assistive-technology-evidence.json",
+    "performance": "acceptance/v1.6-performance-evidence.json",
+    "performanceCandidate": "acceptance/v1.6-performance-candidate-evidence.json",
+    "performanceCandidateSha256": "sha256:6ba3ea31b0bdde85de842c5fcac5c6756f92794efb55ba4e1d4a4d5b331823ad"
+  },
+  "continuity": {
+    "qualifiedImplementationMayChangeDuringRcIdentityPromotion": false,
+    "qualificationEvidenceReboundToRcRevision": false,
+    "stable151BehaviorMayChange": false,
+    "authorizationBehaviorMayChange": false,
+    "privacyBoundaryMayChange": false,
+    "automaticExecutionBoundaryMayChange": false
+  },
+  "authority": {
+    "currentOfficialRemains": "1.5.1",
+    "currentStableRemains": "1.5.1",
+    "releaseCandidateDoesNotEstablishStable": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false,
+    "tagOrGithubReleasePublicationAutomatic": false
+  },
+  "rollback": {
+    "knownGoodStable": "1.5.1",
+    "stableRuntime": "js/glaze-v1.5.1.mjs"
+  },
+  "boundary": "This record identifies GLAZE UI 1.6.0-rc.1 as the governed Release Candidate after complete V1.6 exact-source qualification evidence and governed qualification review. It carries qualification only through explicit source-impact continuity from frozen source c7509c79256b04b0aa67cb9dd0737d7588e0ae4a and does not relabel the Human, Assistive Technology, Performance, rendered, or machine observations as RC-head testing. It does not establish Stable, downstream consumer, deployment, production, tag, or GitHub Release acceptance."
+}
