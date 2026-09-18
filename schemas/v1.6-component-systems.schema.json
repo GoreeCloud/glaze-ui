@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-component-systems.schema.json",
+  "title": "Glaze UI V1.6 Component Systems Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle",
+    "stableBaseline","consumerEligible","implementedSpecificationSections",
+    "visualComplexity","energyAwareness","componentStateCompleteness",
+    "componentComposition","forms","saveState","tables","charts","media",
+    "scroll","backgroundActivity","authority","runtimeEntrypoint",
+    "developmentAggregateEntrypoint","tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.6-component-systems.schema.json"},
+    "schemaVersion": {"const":1},
+    "contractId": {"const":"goreecloud.glaze-ui.v1.6.component-systems"},
+    "name": {"const":"Glaze UI V1.6 Complexity, Energy, Component, Form, Data, Media, Scroll, and Background Activity Development Contract"},
+    "version": {"const":"1.6.0-dev.7"},
+    "lifecycle": {"const":"Development"},
+    "stableBaseline": {"const":"1.5.1"},
+    "consumerEligible": {"const":false},
+    "implementedSpecificationSections": {
+      "type":"array","minItems":11,"maxItems":11,"uniqueItems":true,
+      "items":{"type":"integer","minimum":1,"maximum":100}
+    },
+    "visualComplexity":{"type":"object","minProperties":6},
+    "energyAwareness":{"type":"object","minProperties":5},
+    "componentStateCompleteness":{"type":"object","minProperties":4},
+    "componentComposition":{"type":"object","minProperties":5},
+    "forms":{"type":"object","minProperties":6},
+    "saveState":{"type":"object","minProperties":5},
+    "tables":{"type":"object","minProperties":5},
+    "charts":{"type":"object","minProperties":5},
+    "media":{"type":"object","minProperties":4},
+    "scroll":{"type":"object","minProperties":5},
+    "backgroundActivity":{"type":"object","minProperties":5},
+    "authority":{
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "boundary","workflowTruthOwnedByApplication","validationTruthOwnedByApplication",
+        "saveTruthOwnedByApplicationOrStorageProvider","dataTruthOwnedByApplication",
+        "activityTruthOwnedByApplication","runtimeSignalsOwnedByCallerOrPlatform",
+        "consequentialExecutionAutomatic"
+      ],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "workflowTruthOwnedByApplication":{"const":true},
+        "validationTruthOwnedByApplication":{"const":true},
+        "saveTruthOwnedByApplicationOrStorageProvider":{"const":true},
+        "dataTruthOwnedByApplication":{"const":true},
+        "activityTruthOwnedByApplication":{"const":true},
+        "runtimeSignalsOwnedByCallerOrPlatform":{"const":true},
+        "consequentialExecutionAutomatic":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.6-component-systems.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.6-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.6-component-systems.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}
