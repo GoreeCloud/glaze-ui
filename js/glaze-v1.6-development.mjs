@@ -10,9 +10,10 @@ export * from './glaze-v1.6-focus-motion.dev.mjs';
 export * from './glaze-v1.6-material-type-input.dev.mjs';
 export * from './glaze-v1.6-resilience-feedback.dev.mjs';
 export * from './glaze-v1.6-navigation-status.dev.mjs';
+export * from './glaze-v1.6-component-systems.dev.mjs';
 
 export const glazeV16Development = Object.freeze({
-  version: '1.6.0-dev.6',
+  version: '1.6.0-dev.7',
   lifecycle: 'development',
   stableBaseline: '1.5.1',
   consumerEligible: false,
@@ -24,6 +25,7 @@ export const glazeV16Development = Object.freeze({
     29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
     41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
     55, 56, 57, 58, 59,
+    60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
     71, 72, 73
   ]),
   loadingFoundation: 'js/glaze-v1.6-loading.dev.mjs',
@@ -32,6 +34,7 @@ export const glazeV16Development = Object.freeze({
   materialTypeInputFoundation: 'js/glaze-v1.6-material-type-input.dev.mjs',
   resilienceFeedbackFoundation: 'js/glaze-v1.6-resilience-feedback.dev.mjs',
   navigationStatusFoundation: 'js/glaze-v1.6-navigation-status.dev.mjs',
+  componentSystemsFoundation: 'js/glaze-v1.6-component-systems.dev.mjs',
   presentationOnly: true,
   accessibilityPrecedence: true,
   providerTruthManufactured: false,
