@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-navigation-status.schema.json",
+  "title": "Glaze UI V1.6 Navigation Status Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle",
+    "stableBaseline","consumerEligible","implementedSpecificationSections",
+    "search","navigation","responsive","paneContinuity","posture","localization",
+    "iconography","statusIndicators","badges","provenance","privacy","security",
+    "capabilities","authority","runtimeEntrypoint","developmentAggregateEntrypoint",
+    "tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.6-navigation-status.schema.json"},
+    "schemaVersion": {"const":1},
+    "contractId": {"const":"goreecloud.glaze-ui.v1.6.navigation-status"},
+    "name": {"const":"Glaze UI V1.6 Search, Navigation, Responsive, Localization, Status, Provenance, Privacy, Security, and Capability Development Contract"},
+    "version": {"const":"1.6.0-dev.6"},
+    "lifecycle": {"const":"Development"},
+    "stableBaseline": {"const":"1.5.1"},
+    "consumerEligible": {"const":false},
+    "implementedSpecificationSections": {
+      "type":"array",
+      "minItems":14,
+      "maxItems":14,
+      "uniqueItems":true,
+      "items":{"type":"integer","minimum":1,"maximum":100}
+    },
+    "search": {"type":"object","minProperties":6},
+    "navigation": {"type":"object","minProperties":5},
+    "responsive": {"type":"object","minProperties":7},
+    "paneContinuity": {"type":"object","minProperties":4},
+    "posture": {"type":"object","minProperties":5},
+    "localization": {"type":"object","minProperties":7},
+    "iconography": {"type":"object","minProperties":6},
+    "statusIndicators": {"type":"object","minProperties":4},
+    "badges": {"type":"object","minProperties":4},
+    "provenance": {"type":"object","minProperties":6},
+    "privacy": {"type":"object","minProperties":5},
+    "security": {"type":"object","minProperties":5},
+    "capabilities": {"type":"object","minProperties":5},
+    "authority": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "boundary","taskStateOwnedByApplication","environmentAndPostureOwnedByCallerOrPlatform",
+        "sourceTruthOwnedByCallerOrProvider","privacyTruthOwnedByPrivacyShieldOrCaller",
+        "securityTruthOwnedByWardveilOrAuthoritativeProvider",
+        "capabilityTruthOwnedByCallerOrProvider","providerPrecedenceInferred",
+        "consequentialExecutionAutomatic"
+      ],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "taskStateOwnedByApplication":{"const":true},
+        "environmentAndPostureOwnedByCallerOrPlatform":{"const":true},
+        "sourceTruthOwnedByCallerOrProvider":{"const":true},
+        "privacyTruthOwnedByPrivacyShieldOrCaller":{"const":true},
+        "securityTruthOwnedByWardveilOrAuthoritativeProvider":{"const":true},
+        "capabilityTruthOwnedByCallerOrProvider":{"const":true},
+        "providerPrecedenceInferred":{"const":false},
+        "consequentialExecutionAutomatic":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.6-navigation-status.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.6-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.6-navigation-status.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}
