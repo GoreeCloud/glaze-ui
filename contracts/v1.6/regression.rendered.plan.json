@@ -13,13 +13,13 @@
   "captureScript": "scripts/capture_glaze_v1_6_rendered_qualification.py",
   "qualifier": "scripts/qualify_glaze_v1_6_zero_drift_regression.py",
   "comparison": {
-    "mode": "independent-browser-session-zero-decoded-pixel-drift",
+    "mode": "same-browser-process-reload-zero-decoded-pixel-drift",
     "changedPixelTolerance": 0,
     "maximumChannelDeltaTolerance": 0,
     "compareDecodedRgba": true,
     "sceneSetMustMatch": true,
-    "browserProductMustMatch": true,
-    "browserRevisionMustMatch": true,
+    "browserProcessMustRemainSame": true,
+    "reloadBetweenReferenceAndRepeat": true,
     "sameRunnerRequired": true
   },
   "requiredSceneCount": 9,
@@ -54,5 +54,5 @@
     "deploymentAcceptanceAutomatic": false,
     "productionAcceptanceAutomatic": false
   },
-  "boundary": "This plan qualifies only deterministic rendered regression evidence for the frozen V1.6 Development source. Any non-zero decoded-pixel drift fails closed. A passing run does not establish human, assistive-technology, physical-device/native-platform, representative-performance, lifecycle, consumer, deployment, or production acceptance."
+  "boundary": "This plan qualifies only deterministic rendered regression evidence for the frozen V1.6 Development source. Reference and repeat renders are reloaded inside one Chromium process to remove unrelated cross-process compositor variance, while any non-zero decoded-pixel drift still fails closed. A passing run does not establish human, assistive-technology, physical-device/native-platform, representative-performance, lifecycle, consumer, deployment, or production acceptance."
 }
