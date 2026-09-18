@@ -1,0 +1,66 @@
+{
+  "$schema": "../../schemas/v1.6-human-qualification-plan.schema.json",
+  "schemaVersion": 1,
+  "planId": "goreecloud.glaze-ui.v1.6.human-qualification",
+  "name": "Glaze UI V1.6 Human Qualification Review Plan",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "evidenceType": "human",
+  "lanes": [
+    "accessibility",
+    "keyboard-navigation",
+    "privacy-boundaries",
+    "authority-boundaries",
+    "representative-rendering"
+  ],
+  "existingEvidencePrerequisites": {
+    "accessibility": ["machine"],
+    "keyboard-navigation": ["machine"],
+    "privacy-boundaries": ["machine"],
+    "authority-boundaries": ["machine"],
+    "representative-rendering": ["rendered"]
+  },
+  "requiredReviewScenarios": [
+    "available-expanded",
+    "permission-required",
+    "restricted",
+    "offline-or-degraded",
+    "reduced-motion",
+    "large-text",
+    "compact-layout",
+    "real-keyboard-focus",
+    "privacy-minimization",
+    "representative-runtime-rendering"
+  ],
+  "harness": "reference/v1.6/human-qualification.html",
+  "preparation": "scripts/prepare_glaze_v1_6_human_qualification.py",
+  "acceptanceRecord": "acceptance/v1.6-development.md",
+  "execution": {
+    "repositoryLocalOnly": true,
+    "telemetryRequired": false,
+    "remoteAnalysisRequired": false,
+    "realHumanObservationRequired": true,
+    "realKeyboardInteractionRequiredForKeyboardLane": true,
+    "reviewerMustConfirmRepresentativeRuntimeForRenderingLane": true,
+    "reviewFindingsMustBeRecordedOutsideHarness": true,
+    "generatedEvidenceAutomatic": false
+  },
+  "evidenceBoundary": {
+    "reviewSurfaceOnly": true,
+    "humanEvidenceClaimedByPlan": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "physicalDeviceEvidenceClaimed": false,
+    "performanceEvidenceClaimed": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This plan prepares an exact-source, repository-local human review surface for the five V1.6 acceptance lanes whose remaining evidence groups allow human evidence. The harness is not a reviewer, cannot mark a lane passed, cannot create canonical evidence, and cannot satisfy the separate Assistive technology or Performance lanes. Any accepted human evidence must come from an actual review of the frozen source, be independently recorded with environment and findings, and be evaluated through the governed acceptance process."
+}
