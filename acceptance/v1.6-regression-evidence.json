@@ -1,0 +1,172 @@
+{
+  "$schema": "../schemas/v1.6-regression-evidence.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.rendered-regression-evidence",
+  "name": "Glaze UI V1.6 Exact-Source Rendered Regression Evidence",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "tooling": {
+    "pullRequest": 258,
+    "toolingHeadRevision": "fe471447d37ea800d03be438e1126f0840f89000",
+    "mergeRevision": "b1f8575d6ed9199a7eb130f919680376c2e74d14"
+  },
+  "qualificationRun": {
+    "runId": 35352215130,
+    "verificationJobId": 105622807547,
+    "comparisonJobId": 105622931820,
+    "conclusion": "success",
+    "observedAt": "2026-09-18T13:47:36Z",
+    "reference": "GitHub Actions run 35352215130 / verification job 105622807547 / comparison job 105622931820"
+  },
+  "artifact": {
+    "id": 10550685472,
+    "name": "glaze-v1.6-rendered-regression-35352215130",
+    "sizeBytes": 3808954,
+    "digest": "sha256:5c4058fba12969fe1c95c523f5f9cd4fc1fb846cc2b3aaab4b2ba84c9034839d",
+    "createdAt": "2026-09-18T13:47:36Z",
+    "expiresAt": "2026-12-17T13:46:44Z",
+    "sceneCount": 9,
+    "expiredAtObservation": false
+  },
+  "priorRenderedEvidence": {
+    "runId": 35348330585,
+    "artifactId": 10549115165,
+    "artifactDigest": "sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506",
+    "pixelBaselineClaimed": false
+  },
+  "comparison": {
+    "kind": "semantic-baseline-plus-double-render-pixel-sha256-exact",
+    "semanticBaselineMatched": true,
+    "freshVisualRepeatabilityMatched": true,
+    "pixelTolerance": 0,
+    "semanticMismatches": [],
+    "freshVisualMismatches": []
+  },
+  "browser": {
+    "product": "Chrome/152.0.7977.82",
+    "revision": "@d04cdb24d67b081f6cf80200ffc5233f44b61109",
+    "protocolVersion": "1.3",
+    "jsVersion": "15.2.124.21",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36"
+  },
+  "baselineScenes": [
+    {
+      "id": "representative-expanded",
+      "evidenceSha256": "b5e4e29fd03392ea050c80685e591254cfbaee360b95ae3ce4bbe9d34e10cedb",
+      "pixelSha256": "4d7a63135e5169d76826145691a89547fbecad5d7f30d482dcacd8ef7c34c889",
+      "screenshotSha256": "e7db64ccc4c7e2e8b93ce8a940cf3758104d20349b8ad9b15e14846e07fc372b"
+    },
+    {
+      "id": "representative-compact",
+      "evidenceSha256": "5b82848b20f47a836cd33786197aaab60ea97dcd3c5daf5d49964d760f2cdcb5",
+      "pixelSha256": "9cf3b8340c4e16dd082129986b821f785983d6186bc49538da845cbecbfea73e",
+      "screenshotSha256": "cb44617c1daee9ddc044053c785848cb0b8834b2ffe57fb4464c21b314f29de5"
+    },
+    {
+      "id": "responsive-medium",
+      "evidenceSha256": "319a0a4e720d2dcf7983d15b893cf68b6f1064b307a941f0c566becfef728544",
+      "pixelSha256": "02e016d39f0432b45ed6e654bb1e46e311fecbc2586366364af9f097540ec46f",
+      "screenshotSha256": "bc225f4280f81dd37f8f35222b8eff2e61909921793d429abd95ee74bdbc3b7e"
+    },
+    {
+      "id": "reduced-motion",
+      "evidenceSha256": "3d72a7ebb65af46115f244fe68f3e271bdb600bf5a26d239bb6c1bedf2209761",
+      "pixelSha256": "f4cfdaf70829c240765835b88eb8d368880363b2800e47e95bce76d4debe2a8f",
+      "screenshotSha256": "f6a6b0efb0693ada2ae47aa8591530411d32be3e34c2582c935beeccf29b7de2"
+    },
+    {
+      "id": "reduced-transparency",
+      "evidenceSha256": "f9d2a07bd32c9e4a50fec8a44c751da5db92d55217b467dbe74404168e0595f1",
+      "pixelSha256": "02cce8b7a3f8923f9b6139fe535a2a89cd75c82ac947e4909210b7086c78d2ef",
+      "screenshotSha256": "f514d92ffbae2d646e7acde51dd58cf65780f337f99c839eab6f983fe3d6405f"
+    },
+    {
+      "id": "increased-contrast",
+      "evidenceSha256": "18783cdf93069d8deb744d77f3a78ca87ead26f7647f73b93aa130590eb28fa3",
+      "pixelSha256": "828c251d5de68776dbda7f06e19e827f52ca8bb8f7919032100c1119f62f6895",
+      "screenshotSha256": "c67e792ce87b4f53ad92f91a045b218e393068876f64edf3f1737566ed113006"
+    },
+    {
+      "id": "large-text",
+      "evidenceSha256": "7a8281df46a691659136beba3b8d9de8b1d92b38281028348af615c04114688f",
+      "pixelSha256": "8eddb4edde983358306f2870215853be47d917d3e85d73815ee922769bca0346",
+      "screenshotSha256": "e325152185459e8542ae1efc8cf6d83a68bacb57e3473598ef0be172d79820ed"
+    },
+    {
+      "id": "layout-stability",
+      "evidenceSha256": "b551106ba609711d75d117bd7702179db07cffb19bdb31db2492ad9d2065041b",
+      "pixelSha256": "0c360f401eb10ff90680c4ab31d0b30ae0c68f52a7688e6ce54e7a9667f6d26e",
+      "screenshotSha256": "712b3ce4e7365f287f751a933e398018ce4667cccd5e2a270684d3afe61c304f"
+    },
+    {
+      "id": "form-factor-transition",
+      "evidenceSha256": "a27d0de2f5efad2d4a88b84c11069407aa5cedfb3129c2bf6efe9fcc87705ee4",
+      "pixelSha256": "a905d60c20d1aee7a84b1b2160dfb2a05a3ab161b978477f5ddbdae36aeb5501",
+      "screenshotSha256": "fb5600379239a96f2f9b784a4a44d5044db5d6b8acacd7b164ebfb6a0f25d9cb"
+    }
+  ],
+  "renderedEvidence": [
+    {
+      "id": "regression-testing",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35352215130 / comparison job 105622931820 / artifact 10550685472 / sha256:5c4058fba12969fe1c95c523f5f9cd4fc1fb846cc2b3aaab4b2ba84c9034839d"
+    }
+  ],
+  "matrixDisposition": {
+    "fullyVerifiedLaneIds": [
+      "source-implementation",
+      "design-tokens",
+      "skeleton-system",
+      "loading-behavior",
+      "semantic-colors",
+      "reduced-motion",
+      "reduced-transparency",
+      "increased-contrast",
+      "large-text",
+      "responsive-layouts",
+      "form-factor-transitions",
+      "layout-stability",
+      "offline-behavior",
+      "degraded-behavior",
+      "loading-escalation",
+      "component-state-completeness",
+      "regression-testing"
+    ],
+    "partialLaneIds": [
+      "accessibility",
+      "keyboard-navigation",
+      "privacy-boundaries",
+      "authority-boundaries",
+      "representative-rendering"
+    ],
+    "untouchedLaneIds": [
+      "assistive-technology",
+      "performance"
+    ],
+    "verifiedCount": 17,
+    "unverifiedCount": 7,
+    "notApplicableCount": 0,
+    "qualificationEvidenceComplete": false,
+    "readyForGovernedQualificationReview": false
+  },
+  "authority": {
+    "renderedRegressionEvidenceClaimed": true,
+    "regressionBaselineClaimed": true,
+    "humanEvidenceClaimed": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "deviceEvidenceClaimed": false,
+    "nativePlatformEvidenceClaimed": false,
+    "performanceEvidenceClaimed": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This record preserves exact-source rendered regression evidence for the frozen V1.6 Development qualification revision. It establishes a governed normalized rendered regression baseline only for the regression-testing lane: prior rendered semantic evidence matched exactly and two fresh normalized captures matched at decoded-pixel SHA-256 with zero pixel tolerance. It does not claim human, assistive-technology, physical-device/native-platform, representative-performance, Candidate, Release Candidate, Stable, consumer, deployment, or production acceptance."
+}
