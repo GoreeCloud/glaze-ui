@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/v1.6-performance-qualification-plan.schema.json",
+  "schemaVersion": 1,
+  "planId": "goreecloud.glaze-ui.v1.6.representative-performance-qualification",
+  "name": "Glaze UI V1.6 Representative Performance Qualification Plan",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "laneId": "performance",
+  "evidenceType": "performance",
+  "budget": {
+    "authority": "GoreeCloud Standard — Glaze UI Performance Budget",
+    "version": "v1.0",
+    "resolverP95MsMax": 10.0,
+    "resolverP99MsMax": 16.7,
+    "interactionPaintP95MsMax": 100,
+    "interactionPaintP99MsMax": 200,
+    "activeFrameP95Rule": "max(20ms,1.25*idle-median-frame-interval)",
+    "severeFrameStallRateMax": 0.01,
+    "catastrophicForegroundStallCountMax": 0,
+    "taskStateResetCountMax": 0,
+    "pageReloadRequiredCountMax": 0,
+    "automaticAuthorityActionCountMax": 0,
+    "minimumSamples": {
+      "resolver": 200,
+      "interactionPaint": 30,
+      "idleFrames": 120,
+      "activeFrames": 240
+    }
+  },
+  "environmentRequirements": [
+    "exactRevision",
+    "lifecycle",
+    "operatingSystem",
+    "runtime",
+    "hardware",
+    "foregroundState",
+    "presentationMode",
+    "measurementDate"
+  ],
+  "representativeCoverage": [
+    "normal-available",
+    "offline-or-degraded",
+    "permission-required-or-restricted",
+    "runtime-resource-pressure",
+    "reduced-motion",
+    "expanded-window",
+    "constrained-window",
+    "pointer-or-keyboard"
+  ],
+  "harness": "reference/v1.6/performance-qualification.html",
+  "evaluator": "js/glaze-v1.6-performance-diagnostics.dev.mjs",
+  "acceptanceRecord": "acceptance/v1.6-development.md",
+  "execution": {
+    "repositoryLocalOnly": true,
+    "telemetryRequired": false,
+    "remoteAnalysisRequired": false,
+    "reviewerMustConfirmRepresentativeEnvironment": true,
+    "reviewerMustConfirmAuthorityIncidentsAbsent": true,
+    "realReviewControlInteractionsRequired": true,
+    "hostedCiMayClaimRepresentativePerformance": false,
+    "generatedEvidenceRequiresSeparateDurableReview": true
+  },
+  "evidenceBoundary": {
+    "qualificationControlOnly": true,
+    "performanceEvidenceClaimedByPlan": false,
+    "humanEvidenceClaimed": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "physicalDeviceEvidenceClaimed": false,
+    "representativeRenderingSecondGroupClaimed": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This plan defines a local-first representative performance qualification harness for the frozen V1.6 Development source. Hosted CI validates only the control plane and must not be treated as representative performance evidence. The performance lane remains unverified until a reviewer-approved representative environment produces exact-source measurements meeting every approved budget threshold and that evidence is separately reviewed and durably recorded."
+}
