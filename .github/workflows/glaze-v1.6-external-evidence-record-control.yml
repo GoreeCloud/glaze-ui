@@ -3,6 +3,9 @@ name: Glaze UI V1.6 External Evidence Record Control
 on:
   pull_request:
     paths:
+      - 'acceptance/v1.6-human-evidence.json'
+      - 'acceptance/v1.6-assistive-technology-evidence.json'
+      - 'acceptance/v1.6-performance-evidence.json'
       - 'acceptance/v1.6-human-evidence.template.json'
       - 'acceptance/v1.6-assistive-technology-evidence.template.json'
       - 'acceptance/v1.6-performance-evidence.template.json'
@@ -59,6 +62,22 @@ jobs:
 
       - name: Validate fail-closed record templates and accepted fixtures
         run: node scripts/validate_glaze_v1_6_external_evidence_records.mjs
+
+      - name: Validate committed accepted external evidence records when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          records=()
+          for record in \
+            acceptance/v1.6-human-evidence.json \
+            acceptance/v1.6-assistive-technology-evidence.json \
+            acceptance/v1.6-performance-evidence.json
+          do
+            if [[ -f "$record" ]]; then records+=("$record"); fi
+          done
+          if ((${#records[@]})); then
+            node scripts/validate_glaze_v1_6_external_evidence_records.mjs "${records[@]}"
+          fi
 
       - name: Preserve V1.6 qualification controls
         run: |
