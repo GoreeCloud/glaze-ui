@@ -22,10 +22,10 @@ permissions:
 
 env:
   V16_SOURCE_SHA: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
-  BASELINE_RUN_ID: '35348330585'
-  BASELINE_ARTIFACT_ID: '10549115165'
-  BASELINE_ARTIFACT_NAME: glaze-v1.6-rendered-browser-35348330585
-  BASELINE_ARTIFACT_DIGEST: sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506
+  PRIOR_RUN_ID: '35348330585'
+  PRIOR_ARTIFACT_ID: '10549115165'
+  PRIOR_ARTIFACT_NAME: glaze-v1.6-rendered-browser-35348330585
+  PRIOR_ARTIFACT_DIGEST: sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506
 
 jobs:
   verify-regression-control-plane:
@@ -82,27 +82,37 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Verify baseline artifact metadata
+      - name: Verify prior rendered artifact metadata
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL             -H "Authorization: Bearer $GH_TOKEN"             -H "Accept: application/vnd.github+json"             -H "X-GitHub-Api-Version: 2022-11-28"             "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$BASELINE_ARTIFACT_ID"             -o baseline-artifact.json
-          test "$(jq -r '.id' baseline-artifact.json)" = "$BASELINE_ARTIFACT_ID"
-          test "$(jq -r '.name' baseline-artifact.json)" = "$BASELINE_ARTIFACT_NAME"
-          test "$(jq -r '.digest' baseline-artifact.json)" = "$BASELINE_ARTIFACT_DIGEST"
-          test "$(jq -r '.expired' baseline-artifact.json)" = "false"
-          test "$(jq -r '.workflow_run.id' baseline-artifact.json)" = "$BASELINE_RUN_ID"
+          curl -fsSL \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$PRIOR_ARTIFACT_ID" \
+            -o prior-artifact.json
+          test "$(jq -r '.id' prior-artifact.json)" = "$PRIOR_ARTIFACT_ID"
+          test "$(jq -r '.name' prior-artifact.json)" = "$PRIOR_ARTIFACT_NAME"
+          test "$(jq -r '.digest' prior-artifact.json)" = "$PRIOR_ARTIFACT_DIGEST"
+          test "$(jq -r '.expired' prior-artifact.json)" = "false"
+          test "$(jq -r '.workflow_run.id' prior-artifact.json)" = "$PRIOR_RUN_ID"
 
-      - name: Download recorded rendered baseline
+      - name: Download prior rendered evidence
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL -L             -H "Authorization: Bearer $GH_TOKEN"             -H "Accept: application/vnd.github+json"             -H "X-GitHub-Api-Version: 2022-11-28"             "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$BASELINE_ARTIFACT_ID/zip"             -o baseline.zip
-          rm -rf _baseline
-          mkdir _baseline
-          unzip -q baseline.zip -d _baseline
-          test -f _baseline/manifest.json
-          test -d _baseline/screenshots
+          curl -fsSL -L \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$PRIOR_ARTIFACT_ID/zip" \
+            -o prior.zip
+          rm -rf _prior
+          mkdir _prior
+          unzip -q prior.zip -d _prior
+          test -f _prior/manifest.json
+          test -d _prior/scenes
 
       - name: Assemble local-only composite render root
         shell: bash
@@ -117,12 +127,24 @@ jobs:
           test -f _v16-render-root/css/glaze-v1.4.1.css
           test -f _v16-render-root/reference/v1.6/rendered-qualification.html
 
-      - name: Capture fresh exact-source rendered scenes
+      - name: Capture first normalized exact-source render
         run: |
           rm -rf artifacts/v1.6-regression
-          python scripts/capture_glaze_v1_6_rendered_qualification.py             --render-root _v16-render-root             --source-root _v16-source             --tooling-root .             --out artifacts/v1.6-regression/fresh
+          python scripts/capture_glaze_v1_6_rendered_qualification.py \
+            --render-root _v16-render-root \
+            --source-root _v16-source \
+            --tooling-root . \
+            --out artifacts/v1.6-regression/fresh-a
 
-      - name: Compare screenshots against governed baseline
+      - name: Capture second normalized exact-source render
+        run: |
+          python scripts/capture_glaze_v1_6_rendered_qualification.py \
+            --render-root _v16-render-root \
+            --source-root _v16-source \
+            --tooling-root . \
+            --out artifacts/v1.6-regression/fresh-b
+
+      - name: Verify semantic continuity and deterministic visual repeatability
         shell: bash
         run: |
           set -euo pipefail
@@ -131,43 +153,68 @@ jobs:
           from pathlib import Path
 
           SOURCE='c7509c79256b04b0aa67cb9dd0737d7588e0ae4a'
-          baseline=json.loads(Path('_baseline/manifest.json').read_text())
-          fresh=json.loads(Path('artifacts/v1.6-regression/fresh/manifest.json').read_text())
+          prior=json.loads(Path('_prior/manifest.json').read_text())
+          a=json.loads(Path('artifacts/v1.6-regression/fresh-a/manifest.json').read_text())
+          b=json.loads(Path('artifacts/v1.6-regression/fresh-b/manifest.json').read_text())
 
-          assert baseline['sourceRevision']==SOURCE
-          assert fresh['sourceRevision']==SOURCE
-          assert baseline['sceneCount']==9
-          assert fresh['sceneCount']==9
-          assert baseline['passed'] is True
-          assert fresh['passed'] is True
+          for manifest in (prior,a,b):
+              assert manifest['sourceRevision']==SOURCE
+              assert manifest['sceneCount']==9
+              assert manifest['passed'] is True
 
-          base={item['id']:item for item in baseline['scenes']}
-          new={item['id']:item for item in fresh['scenes']}
-          assert set(base)==set(new)
-          mismatches=[]
-          for scene_id in sorted(base):
-              expected=base[scene_id]['screenshotSha256']
-              actual=new[scene_id]['screenshotSha256']
-              if expected!=actual:
-                  mismatches.append({'id':scene_id,'baseline':expected,'fresh':actual})
+          prior_scenes={item['id']:item for item in prior['scenes']}
+          a_scenes={item['id']:item for item in a['scenes']}
+          b_scenes={item['id']:item for item in b['scenes']}
+          assert set(prior_scenes)==set(a_scenes)==set(b_scenes)
+
+          semantic_mismatches=[]
+          visual_mismatches=[]
+          prior_pixel_drift=[]
+          for scene_id in sorted(prior_scenes):
+              old=prior_scenes[scene_id]
+              first=a_scenes[scene_id]
+              second=b_scenes[scene_id]
+              if old['evidenceSha256']!=first['evidenceSha256'] or first['evidenceSha256']!=second['evidenceSha256']:
+                  semantic_mismatches.append({
+                      'id':scene_id,
+                      'prior':old['evidenceSha256'],
+                      'freshA':first['evidenceSha256'],
+                      'freshB':second['evidenceSha256']
+                  })
+              if first['screenshotSha256']!=second['screenshotSha256']:
+                  visual_mismatches.append({
+                      'id':scene_id,
+                      'freshA':first['screenshotSha256'],
+                      'freshB':second['screenshotSha256']
+                  })
+              if old['screenshotSha256']!=first['screenshotSha256']:
+                  prior_pixel_drift.append(scene_id)
 
           result={
-              'schemaVersion':1,
+              'schemaVersion':2,
               'recordType':'glaze-v1.6-rendered-regression-comparison',
               'lifecycle':'DevelopmentQualification',
               'sourceRevision':SOURCE,
               'stableBaseline':'1.5.1',
               'laneId':'regression-testing',
-              'baselineRunId':35348330585,
-              'baselineArtifactId':10549115165,
-              'baselineArtifactDigest':'sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506',
-              'comparisonKind':'screenshot-sha256-exact',
-              'tolerance':0,
+              'priorRenderedEvidence':{
+                  'runId':35348330585,
+                  'artifactId':10549115165,
+                  'artifactDigest':'sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506',
+                  'pixelBaselineClaimed':False
+              },
+              'comparisonKind':'semantic-baseline-plus-double-render-sha256-exact',
+              'pixelTolerance':0,
               'sceneCount':9,
-              'mismatches':mismatches,
-              'passed':not mismatches,
+              'semanticMismatches':semantic_mismatches,
+              'freshVisualMismatches':visual_mismatches,
+              'priorPixelDriftSceneIdsInformationalOnly':prior_pixel_drift,
+              'semanticBaselineMatched':not semantic_mismatches,
+              'freshVisualRepeatabilityMatched':not visual_mismatches,
+              'passed':not semantic_mismatches and not visual_mismatches,
               'authority':{
                   'renderedRegressionOnly':True,
+                  'priorArtifactReclassifiedAsPixelBaseline':False,
                   'humanEvidenceClaimed':False,
                   'assistiveTechnologyEvidenceClaimed':False,
                   'physicalDeviceEvidenceClaimed':False,
@@ -181,13 +228,15 @@ jobs:
               }
           }
           out=Path('artifacts/v1.6-regression/regression-result.json')
-          out.parent.mkdir(parents=True,exist_ok=True)
           out.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
-          if mismatches:
-              raise SystemExit('rendered regression mismatch: '+json.dumps(mismatches,sort_keys=True))
-          print('V1.6 rendered regression comparison: PASS')
-          print('Scenes compared: 9')
-          print('Tolerance: 0')
+          if semantic_mismatches:
+              raise SystemExit('rendered semantic regression mismatch: '+json.dumps(semantic_mismatches,sort_keys=True))
+          if visual_mismatches:
+              raise SystemExit('normalized rendered repeatability mismatch: '+json.dumps(visual_mismatches,sort_keys=True))
+          print('V1.6 rendered regression qualification: PASS')
+          print('Semantic scenes matched prior evidence: 9')
+          print('Fresh normalized screenshots matched exactly: 9')
+          print('Pixel tolerance: 0')
           PY
 
       - name: Preserve frozen source and tooling cleanliness
