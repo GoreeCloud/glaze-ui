@@ -61,6 +61,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-experience-governance.dev.mjs` — Development-only resolver covering sections 74–79 and 88–93 with essential-function visibility protection, bounded dominant actions, cross-app operation familiarity, fail-closed truth, minimum-necessary adaptation signals, and effect-benefit validation.
 - `tokens/glaze-v1.6-experience-governance.dev.json` — semantic governance map composed from current token/state/material/layout and implemented V1.6 authorities without changing Stable values.
 - `scripts/validate_glaze_v1_6_experience_governance_development.mjs` + `.github/workflows/glaze-v1.6-experience-governance-development.yml` — exact-head `dev.8` validation plus V1.5.1 Stable preservation; prior V1.6 workflows remain independently triggered for regression coverage.
+- `contracts/v1.6/diagnostics-regression.dev.json` + `schemas/v1.6-diagnostics-regression.schema.json` — V1.6 Development evidence contract for developer/accessibility/skeleton diagnostics, visual/semantic/performance regression, layout stability, and graceful degradation.
+- `js/glaze-v1.6-diagnostics-regression.dev.mjs` — Development-only evidence evaluator covering sections 80–87; it consumes caller/harness-owned results and budgets, fails closed on missing evidence, and never manufactures rendered/native/assistive-technology/device acceptance.
+- `tokens/glaze-v1.6-diagnostics-regression.dev.json` — diagnostic scenario/invariant/fallback map plus explicitly Development-only skeleton reference budgets.
+- `scripts/validate_glaze_v1_6_diagnostics_regression_development.mjs` + `.github/workflows/glaze-v1.6-diagnostics-regression-development.yml` — exact-head `dev.9` validation plus V1.5.1 Stable preservation; prior V1.6 workflows remain independently triggered for layered regression evidence.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
