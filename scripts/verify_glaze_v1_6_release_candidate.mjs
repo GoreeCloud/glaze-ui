@@ -50,6 +50,26 @@ assert(review.releaseCandidateTarget?.version_name===null,'qualification review 
 assert(review.decision==='approved-for-release-candidate','governed qualification review must approve RC');
 assert(review.authority?.releaseCandidateApproved===true,'qualification review must explicitly approve RC');
 assert(review.authority?.stableStatusGranted===false,'qualification review must not grant Stable');
+assert(review.authority?.productionReadinessGranted===false,'qualification review must not grant production readiness');
+assert(review.governanceReview?.productionReadinessStandard==='Standard — Application and Service Production Readiness v2.0','qualification review must apply Production Readiness v2.0');
+assert(review.governanceReview?.productionReadinessReview==='acceptance/v1.6-production-readiness-review.json','qualification review readiness record reference mismatch');
+assert(review.governanceReview?.nineIntegralPlatformSystemsEvaluated===true,'qualification review must evaluate all nine Integral Platform Systems');
+
+const readiness=json('acceptance/v1.6-production-readiness-review.json');
+assert(readiness.recordId==='goreecloud.glaze-ui.v1.6.release-candidate-production-readiness-review','production-readiness review recordId mismatch');
+assert(readiness.targetVersion===RC,'production-readiness review target version mismatch');
+assert(readiness.source?.qualificationAnchor===SOURCE,'production-readiness review source anchor mismatch');
+assert(readiness.source?.qualificationEvidenceIntegrationCommit===QUALIFICATION_INTEGRATION,'production-readiness review integration mismatch');
+assert(readiness.governance?.productionReadiness?.version==='v2.0'&&readiness.governance?.productionReadiness?.status==='Active','production-readiness review must apply active v2.0 standard');
+assert(Array.isArray(readiness.integralPlatformSystems)&&readiness.integralPlatformSystems.length===9,'production-readiness review must cover exactly nine Integral Platform Systems');
+const requiredSystems=['GoreeCloud Manager','Privacy Shield','Wardveil Security','Everkeep','Glaze UI','GoreeCloud Mesh','GoreeCloud Identity','GoreeCloud Policy','GoreeCloud Observability'];
+assert(requiredSystems.every(name=>readiness.integralPlatformSystems.some(item=>item.system===name)),'production-readiness review is missing a required Integral Platform System');
+assert(readiness.reviewFindings?.nineSystemApplicabilityEvaluated===true,'production-readiness review must confirm nine-system evaluation');
+assert(readiness.reviewFindings?.qualificationEvidenceComplete===true,'production-readiness review must preserve complete V1.6 qualification evidence');
+assert(readiness.reviewFindings?.knownReleaseCandidateBlockingFinding===false,'production-readiness review must have no known RC blocker');
+assert(readiness.reviewFindings?.stableQualificationCompleted===false,'RC review must not claim Stable qualification complete');
+assert(readiness.reviewFindings?.productionReadinessGranted===false&&readiness.reviewFindings?.productionAcceptanceGranted===false,'RC review must not grant production readiness or acceptance');
+assert(readiness.decision==='release-candidate-entry-supported','production-readiness review must support RC entry');
 
 const contract=json('contracts/v1.6/release-candidate.json');
 assert(contract.version===RC,'RC contract version mismatch');
@@ -61,6 +81,10 @@ assert(contract.sourceQualificationAnchor===SOURCE,'RC contract source anchor mi
 assert(contract.qualificationEvidenceIntegrationCommit===QUALIFICATION_INTEGRATION,'RC contract qualification integration mismatch');
 assert(contract.qualification?.laneCount===24&&contract.qualification?.verifiedCount===24&&contract.qualification?.unverifiedCount===0&&contract.qualification?.notApplicableCount===0,'RC contract must carry 24/0/0 evidence disposition');
 assert(contract.qualification?.evidenceComplete===true,'RC contract qualification must be complete');
+assert(contract.productionReadinessReview==='acceptance/v1.6-production-readiness-review.json','RC contract production-readiness review reference mismatch');
+assert(contract.productionReadiness?.standardVersion==='v2.0'&&contract.productionReadiness?.nineIntegralPlatformSystemsEvaluated===true,'RC contract must apply nine-system Production Readiness v2.0 review');
+assert(contract.productionReadiness?.releaseCandidateEntrySupported===true,'RC contract readiness review must support Release Candidate entry');
+assert(contract.productionReadiness?.stableQualificationCompleted===false&&contract.productionReadiness?.productionReadinessGranted===false&&contract.productionReadiness?.productionAcceptanceGranted===false,'RC contract must not grant Stable or production authority');
 assert(contract.continuity?.qualifiedSourceMayChangeDuringRcIdentityPromotion===false,'RC promotion must not change qualified source');
 assert(contract.continuity?.qualificationEvidenceReboundToRcRevision===false,'RC must not rebind qualification evidence');
 assert(contract.authority?.currentOfficialRemains===STABLE&&contract.authority?.currentStableRemains===STABLE,'RC contract must preserve 1.5.1 Stable authority');
@@ -76,6 +100,9 @@ assert(acceptance.sourceQualificationAnchor===SOURCE,'RC acceptance source misma
 assert(acceptance.qualificationEvidenceIntegrationCommit===QUALIFICATION_INTEGRATION,'RC acceptance qualification integration mismatch');
 assert(acceptance.qualificationDisposition?.verifiedCount===24&&acceptance.qualificationDisposition?.unverifiedCount===0&&acceptance.qualificationDisposition?.notApplicableCount===0,'RC acceptance must record 24/0/0');
 assert(acceptance.qualificationDisposition?.qualificationEvidenceComplete===true,'RC acceptance must record evidence complete');
+assert(acceptance.productionReadinessReview==='acceptance/v1.6-production-readiness-review.json','RC acceptance production-readiness review reference mismatch');
+assert(acceptance.productionReadinessDisposition?.nineIntegralPlatformSystemsEvaluated===true&&acceptance.productionReadinessDisposition?.releaseCandidateEntrySupported===true,'RC acceptance must record nine-system readiness review');
+assert(acceptance.productionReadinessDisposition?.stableQualificationCompleted===false&&acceptance.productionReadinessDisposition?.productionReadinessGranted===false&&acceptance.productionReadinessDisposition?.productionAcceptanceGranted===false,'RC acceptance must not grant Stable or production authority');
 assert(Array.isArray(acceptance.qualificationDisposition?.blockingLaneIds)&&acceptance.qualificationDisposition.blockingLaneIds.length===0,'RC acceptance must have no blockers');
 assert(acceptance.decision==='accepted-release-candidate','RC acceptance decision mismatch');
 assert(acceptance.consumerEligible===false,'RC acceptance must remain non-consumer-eligible');
