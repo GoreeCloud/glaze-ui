@@ -25,10 +25,10 @@
     "name": "glaze-v1.6-rendered-browser-35348330585",
     "sizeBytes": 2191010,
     "digest": "sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506",
-    "expired": false,
     "createdAt": "2026-09-18T13:07:30Z",
     "expiresAt": "2026-12-17T13:06:53Z",
-    "sceneCount": 9
+    "sceneCount": 9,
+    "expiredAtObservation": false
   },
   "sceneIds": [
     "representative-expanded",
