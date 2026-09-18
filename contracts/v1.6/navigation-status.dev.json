@@ -81,7 +81,7 @@
   "statusIndicators": {
     "states": [
       "online","offline","local","remote","syncing","synced","unsynced",
-      "protected","restricted","shared","private","updating","error"
+      "protected","restricted","shared","private","updating","error","unverified"
     ],
     "standardizedAcrossApplications": true,
     "nonColorMeaningRequired": true,
