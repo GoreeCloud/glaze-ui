@@ -45,6 +45,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-material-type-input.dev.mjs` — Development-only resolver covering sections 15–28 without introducing competing raw token values or platform hardware assumptions.
 - `tokens/glaze-v1.6-material-type-input.dev.json` — semantic aliases to existing material, type, layout, form-factor, accessibility, and motion authorities.
 - `scripts/validate_glaze_v1_6_material_type_input_development.mjs` + `.github/workflows/glaze-v1.6-material-type-input-development.yml` — exact-head validation with all earlier V1.6 regressions and V1.5.1 Stable-boundary verification.
+- `contracts/v1.6/resilience-feedback.dev.json` + `schemas/v1.6-resilience-feedback.schema.json` — V1.6 Development contract for empty/error/recovery/offline/stale/optimistic/progress states plus notification, banner/toast/dialog, and destructive-action governance.
+- `js/glaze-v1.6-resilience-feedback.dev.mjs` — Development-only resolver covering sections 29–40 while keeping state, recovery, connectivity, criticality, and destructive intent caller/provider-owned.
+- `tokens/glaze-v1.6-resilience-feedback.dev.json` — semantic resilience/feedback aliases composed from current state, color, motion, material, and earlier V1.6 Development authorities.
+- `scripts/validate_glaze_v1_6_resilience_feedback_development.mjs` + `.github/workflows/glaze-v1.6-resilience-feedback-development.yml` — exact-head validation with all four earlier V1.6 regressions and V1.5.1 Stable-boundary verification.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
