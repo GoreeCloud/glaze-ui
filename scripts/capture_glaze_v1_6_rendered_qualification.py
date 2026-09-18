@@ -10,6 +10,8 @@ import shutil
 import subprocess
 import sys
 import time
+import struct
+import zlib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -200,6 +202,86 @@ def screenshot(session_id: str, path: Path) -> None:
     require(path.stat().st_size > 5000, f"invalid screenshot: {path}")
 
 
+def png_pixel_sha256(path: Path) -> str:
+    """Hash decoded 8-bit non-interlaced PNG pixels, excluding PNG encoding metadata."""
+    data = path.read_bytes()
+    signature = b"\x89PNG\r\n\x1a\n"
+    require(data.startswith(signature), f"not a PNG screenshot: {path}")
+    offset = len(signature)
+    width = height = bit_depth = color_type = interlace = None
+    idat = bytearray()
+    while offset < len(data):
+        require(offset + 12 <= len(data), f"truncated PNG chunk: {path}")
+        length = struct.unpack(">I", data[offset:offset + 4])[0]
+        chunk_type = data[offset + 4:offset + 8]
+        payload_start = offset + 8
+        payload_end = payload_start + length
+        require(payload_end + 4 <= len(data), f"truncated PNG payload: {path}")
+        payload = data[payload_start:payload_end]
+        if chunk_type == b"IHDR":
+            width, height, bit_depth, color_type, compression, filter_method, interlace = struct.unpack(
+                ">IIBBBBB", payload
+            )
+            require(compression == 0 and filter_method == 0, f"unsupported PNG compression/filter: {path}")
+        elif chunk_type == b"IDAT":
+            idat.extend(payload)
+        elif chunk_type == b"IEND":
+            break
+        offset = payload_end + 4
+
+    require(width is not None and height is not None, f"PNG missing IHDR: {path}")
+    require(bit_depth == 8 and interlace == 0, f"unsupported PNG bit depth/interlace: {path}")
+    channels = {0: 1, 2: 3, 4: 2, 6: 4}.get(color_type)
+    require(channels is not None, f"unsupported PNG color type {color_type}: {path}")
+    stride = int(width) * int(channels)
+    raw = zlib.decompress(bytes(idat))
+    require(len(raw) == int(height) * (stride + 1), f"unexpected PNG scanline size: {path}")
+
+    decoded = bytearray()
+    previous = bytearray(stride)
+    cursor = 0
+    bpp = int(channels)
+
+    def paeth(a: int, b: int, c: int) -> int:
+        p = a + b - c
+        pa = abs(p - a)
+        pb = abs(p - b)
+        pc = abs(p - c)
+        if pa <= pb and pa <= pc:
+            return a
+        if pb <= pc:
+            return b
+        return c
+
+    for _ in range(int(height)):
+        filter_type = raw[cursor]
+        cursor += 1
+        scan = bytearray(raw[cursor:cursor + stride])
+        cursor += stride
+        for i in range(stride):
+            left = scan[i - bpp] if i >= bpp else 0
+            up = previous[i]
+            up_left = previous[i - bpp] if i >= bpp else 0
+            if filter_type == 1:
+                scan[i] = (scan[i] + left) & 0xFF
+            elif filter_type == 2:
+                scan[i] = (scan[i] + up) & 0xFF
+            elif filter_type == 3:
+                scan[i] = (scan[i] + ((left + up) // 2)) & 0xFF
+            elif filter_type == 4:
+                scan[i] = (scan[i] + paeth(left, up, up_left)) & 0xFF
+            else:
+                require(filter_type == 0, f"unsupported PNG filter {filter_type}: {path}")
+        decoded.extend(scan)
+        previous = scan
+
+    digest = hashlib.sha256()
+    digest.update(struct.pack(">II", int(width), int(height)))
+    digest.update(bytes([int(color_type), int(channels)]))
+    digest.update(decoded)
+    return digest.hexdigest()
+
+
 def git_revision(root: Path) -> str:
     try:
         return subprocess.check_output(
@@ -229,10 +311,15 @@ let style=document.getElementById('glz16-capture-freeze');
 if(!style){
   style=document.createElement('style');
   style.id='glz16-capture-freeze';
-  style.textContent='*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important;scroll-behavior:auto!important}';
+  style.textContent='*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important;scroll-behavior:auto!important}.skeleton-line{animation:none!important;background-position:50% 0!important}.glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--surface-solid)!important}*{border-radius:0!important}';
   document.head.appendChild(style);
 }
+for(const line of document.querySelectorAll('.skeleton-line')){
+  line.style.animation='none';
+  line.style.backgroundPosition='50% 0';
+}
 window.scrollTo(0,0);
+void document.documentElement.offsetWidth;
 return true;
 """,
     )
@@ -359,6 +446,7 @@ def capture(
                     "evidenceSha256": hashlib.sha256(scene_json.read_bytes()).hexdigest(),
                     "screenshot": str(image.relative_to(output)),
                     "screenshotSha256": hashlib.sha256(image.read_bytes()).hexdigest(),
+                    "pixelSha256": png_pixel_sha256(image),
                     "passed": True,
                 }
             )
