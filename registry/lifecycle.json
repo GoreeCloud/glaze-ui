@@ -165,252 +165,41 @@
     }
   ],
   "capabilities": {
-    "system-shell": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/system-shell.candidate.json"
-    },
-    "component-catalog": {
-      "status": "stable-inherited",
-      "since": "1.0.0",
-      "implementation": "contracts/components/v1/catalog.json"
-    },
-    "web-entrypoint": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "implementation": "css/glaze-v1.4.1.css",
-      "note": "V1.5 introduces no new Stable CSS surface; the reviewed V1.4.1 optical CSS remains the Stable web material baseline."
-    },
-    "runtime-entrypoint": {
-      "status": "stable",
-      "since": "1.5.1",
-      "implementation": "js/glaze-v1.5.1.mjs",
-      "note": "V1.5.1 promotes Stable patch identity over the unchanged reviewed V1.5.0 runtime behavior."
-    },
-    "adaptive-dynamic-color": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/dynamic-color.candidate.json",
-      "runtime": "js/glaze-v1.3-dynamic-color.candidate.mjs"
-    },
-    "expressive-shape": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/expressive-shape.candidate.json",
-      "runtime": "js/glaze-v1.3-shape.candidate.mjs"
-    },
-    "responsive-typography": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/typography.candidate.json",
-      "runtime": "js/glaze-v1.3-typography.candidate.mjs"
-    },
-    "living-material-2": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/living-material-2.candidate.json",
-      "runtime": "js/glaze-v1.3-living-material-2.candidate.mjs"
-    },
-    "human-reachability": {
-      "status": "stable-inherited-bounded",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/reachability.candidate.json",
-      "runtime": "js/glaze-v1.3-reachability.candidate.mjs"
-    },
-    "adaptive-navigation": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/adaptive-navigation.candidate.json",
-      "runtime": "js/glaze-v1.3-adaptive-navigation.candidate.mjs"
-    },
-    "multi-pane": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/multi-pane.candidate.json",
-      "runtime": "js/glaze-v1.3-multi-pane.candidate.mjs"
-    },
-    "contextual-intelligence": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/contextual-intelligence.candidate.json",
-      "runtime": "js/glaze-v1.3-contextual-intelligence.candidate.mjs"
-    },
-    "motion-continuity": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/motion-semantics.candidate.json",
-      "runtime": "js/glaze-v1.3-motion.candidate.mjs"
-    },
-    "accessibility-resilience": {
-      "status": "stable",
-      "since": "1.5.0",
-      "implementation": "js/glaze-v1.5.0.mjs",
-      "note": "V1.5.1 preserves the accepted keyboard/focus, assistive-technology semantic announcement, presentation-mode, transition-stability, and constrained-presentation behavior reviewed for V1.5.0."
-    },
-    "personalization": {
-      "status": "stable-inherited-bounded",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/personalization.candidate.json",
-      "runtime": "js/glaze-v1.3-personalization.candidate.mjs"
-    },
-    "signature-components": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/component-experience.candidate.json",
-      "runtime": "js/glaze-v1.3-component-experience.candidate.mjs",
-      "reference": "reference/v1.3/signature-components-and-compositions.html"
-    },
-    "glaze-optical-engine": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "implementation": "js/glaze-v1.4.1-optical-engine.mjs",
-      "telemetryRequired": false,
-      "remoteContextRequired": false
-    },
-    "content-aware-frost": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "implementation": "js/glaze-v1.4.1-optical-engine.mjs"
-    },
-    "semantic-blur-protection": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "implementation": "js/glaze-v1.4.1-optical-engine.mjs"
-    },
-    "environment-tinting": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "implementation": "js/glaze-v1.4.1-optical-engine.mjs",
-      "note": "Consumer supplies approved context signals; Glaze UI grants no data-collection authority."
-    },
-    "chromatic-depth-layers": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "implementation": "js/glaze-v1.4.1-optical-engine.mjs"
-    },
-    "environmental-color-memory": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "implementation": "js/glaze-v1.4.1-optical-engine.mjs",
-      "maxInfluence": 0.08
-    },
-    "performance-budget": {
-      "status": "stable-bounded",
-      "since": "1.5.1",
-      "implementation": "contracts/performance/glaze-v1-performance-budget.json",
-      "qualification": "contracts/v1.5.1/stable-scope.json",
-      "sourceQualificationAnchor": "5b59d0e36950d737dba35b58ae58058684e0831b",
-      "reviewRecord": "PR #230 comment 5697516074",
-      "note": "Representative V1.5.1 shared performance qualification is accepted for the reviewed environment only; downstream consumer performance acceptance remains repository-local."
-    },
-    "platform-posture-continuity": {
-      "status": "stable-bounded",
-      "since": "1.5.1",
-      "implementation": "contracts/v1.5.1/stable-scope.json",
-      "sourceQualificationAnchor": "5b59d0e36950d737dba35b58ae58058684e0831b",
-      "reviewRecord": "PR #230 comment 5705230782",
-      "approvalReference": "GCU-ADR-GLAZE-V151-POSTURE-TR-001",
-      "note": "Representative V1.5.1 posture continuity is accepted for the approved Pixel Fold target runtime only; downstream and physical-device acceptance remain separate."
-    },
-    "visual-regression": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "implementation": "css/glaze-v1.4.1.css"
-    },
-    "native-reference": {
-      "status": "bounded-release-evidence",
-      "since": "1.3.0",
-      "implementation": "reference/v1.3"
-    },
-    "context-capability-resolution": {
-      "status": "stable",
-      "since": "1.5.0",
-      "implementation": "js/glaze-v1.5.0.mjs",
-      "reviewedImplementationAnchor": "ee1032a0822ab8e103f8afe48e5c1859fde65cc9",
-      "authorityBoundary": "presentation-only"
-    },
-    "provider-authority-ownership": {
-      "status": "stable",
-      "since": "1.5.0",
-      "implementation": "js/glaze-v1.5.0.mjs",
-      "conflictPolicy": "fail-closed",
-      "providerPrecedenceInferred": false
-    },
-    "adaptive-action-prioritization": {
-      "status": "stable",
-      "since": "1.5.0",
-      "implementation": "js/glaze-v1.5.0.mjs",
-      "automaticFallbackExecution": false
-    },
-    "privacy-safe-diagnostics": {
-      "status": "stable",
-      "since": "1.5.0",
-      "implementation": "js/glaze-v1.5.0.mjs",
-      "rawContextIncluded": false,
-      "providerIdentityIncludedByDefault": false
-    },
-    "v1.3-migration-control-plane": {
-      "status": "stable-inherited",
-      "since": "1.3.0",
-      "implementation": "contracts/v1.3/migration.candidate.json",
-      "plan": "MIGRATION_V1_2_TO_V1_3.md",
-      "acceptance": "acceptance/v1.3-stable.md"
-    },
-    "v1.4-release-control-plane": {
-      "status": "stable-inherited",
-      "since": "1.4.0",
-      "contract": "GLAZE_UI_V1_4.md",
-      "migration": "MIGRATION_V1_3_TO_V1_4.md",
-      "acceptance": "acceptance/v1.4-stable.md",
-      "verification": "scripts/verify_glaze_v1_4_stable.mjs",
-      "followUp": "GLAZE_UI_V1_4_1_HARDENING.md"
-    },
-    "v1.4.1-release-control-plane": {
-      "status": "stable-inherited",
-      "since": "1.4.1",
-      "contract": "GLAZE_UI_V1_4_1.md",
-      "qualification": "GLAZE_UI_V1_4_1_HARDENING.md",
-      "acceptance": "acceptance/v1.4.1-stable.md",
-      "verification": "scripts/verify_glaze_v1_4_1_stable.mjs",
-      "sourceQualificationAnchor": "66478aed461b83c49b2ed027c3e4afc26520e98c"
-    },
-    "v1.5-release-control-plane": {
-      "status": "stable",
-      "since": "1.5.0",
-      "contract": "GLAZE_UI_V1_5.md",
-      "qualification": "contracts/v1.5/stable-scope.json",
-      "acceptance": "acceptance/v1.5-stable.md",
-      "runtimeEntrypoint": "js/glaze-v1.5.0.mjs",
-      "sourceQualificationAnchor": "ee1032a0822ab8e103f8afe48e5c1859fde65cc9",
-      "followUp": "GLAZE_UI_V1_5_1_HARDENING.md"
-    },
-    "v1.5.1-release-candidate-control-plane": {
-      "status": "superseded-release-candidate",
-      "version": "1.5.1-rc.1",
-      "stableBaseline": "1.5.0",
-      "contract": "contracts/v1.5.1/release-candidate.json",
-      "qualification": "contracts/v1.5.1/qualification.dev.json",
-      "acceptance": "acceptance/v1.5.1-rc.1.md",
-      "runtimeEntrypoint": "js/glaze-v1.5.1-rc.1.mjs",
-      "verification": "scripts/verify_glaze_v1_5_1_release_candidate.mjs",
-      "sourceQualificationAnchor": "5b59d0e36950d737dba35b58ae58058684e0831b",
-      "sourceIntegrationAnchor": "f7ef915f0aabea6cf92748018f2220a99e3a9c92",
-      "releaseCandidateIntegrationCommit": "a9c93506dd062d29c6c894940b71d060e8c39110",
-      "consumerEligible": false
-    },
-    "v1.5.1-release-control-plane": {
-      "status": "stable",
-      "version": "1.5.1",
-      "stableBaseline": "1.5.0",
-      "contract": "GLAZE_UI_V1_5.md",
-      "qualification": "contracts/v1.5.1/stable-scope.json",
-      "acceptance": "acceptance/v1.5.1-stable.md",
-      "runtimeEntrypoint": "js/glaze-v1.5.1.mjs",
-      "verification": "scripts/verify_glaze_v1_5_1_stable.mjs",
-      "sourceQualificationAnchor": "5b59d0e36950d737dba35b58ae58058684e0831b",
-      "qualificationIntegrationCommit": "f7ef915f0aabea6cf92748018f2220a99e3a9c92",
-      "releaseCandidateIntegrationCommit": "a9c93506dd062d29c6c894940b71d060e8c39110",
-      "consumerEligible": true
-    }
+    "system-shell": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/system-shell.candidate.json"},
+    "component-catalog": {"status":"stable-inherited","since":"1.0.0","implementation":"contracts/components/v1/catalog.json"},
+    "web-entrypoint": {"status":"stable-inherited","since":"1.4.1","implementation":"css/glaze-v1.4.1.css","note":"V1.5 introduces no new Stable CSS surface; the reviewed V1.4.1 optical CSS remains the Stable web material baseline."},
+    "runtime-entrypoint": {"status":"stable","since":"1.5.1","implementation":"js/glaze-v1.5.1.mjs","note":"V1.5.1 promotes Stable patch identity over the unchanged reviewed V1.5.0 runtime behavior."},
+    "adaptive-dynamic-color": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/dynamic-color.candidate.json","runtime":"js/glaze-v1.3-dynamic-color.candidate.mjs"},
+    "expressive-shape": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/expressive-shape.candidate.json","runtime":"js/glaze-v1.3-shape.candidate.mjs"},
+    "responsive-typography": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/typography.candidate.json","runtime":"js/glaze-v1.3-typography.candidate.mjs"},
+    "living-material-2": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/living-material-2.candidate.json","runtime":"js/glaze-v1.3-living-material-2.candidate.mjs"},
+    "human-reachability": {"status":"stable-inherited-bounded","since":"1.3.0","implementation":"contracts/v1.3/reachability.candidate.json","runtime":"js/glaze-v1.3-reachability.candidate.mjs"},
+    "adaptive-navigation": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/adaptive-navigation.candidate.json","runtime":"js/glaze-v1.3-adaptive-navigation.candidate.mjs"},
+    "multi-pane": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/multi-pane.candidate.json","runtime":"js/glaze-v1.3-multi-pane.candidate.mjs"},
+    "contextual-intelligence": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/contextual-intelligence.candidate.json","runtime":"js/glaze-v1.3-contextual-intelligence.candidate.mjs"},
+    "motion-continuity": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/motion-semantics.candidate.json","runtime":"js/glaze-v1.3-motion.candidate.mjs"},
+    "accessibility-resilience": {"status":"stable","since":"1.5.0","implementation":"js/glaze-v1.5.0.mjs","note":"V1.5.1 preserves the accepted keyboard/focus, assistive-technology semantic announcement, presentation-mode, transition-stability, and constrained-presentation behavior reviewed for V1.5.0."},
+    "personalization": {"status":"stable-inherited-bounded","since":"1.3.0","implementation":"contracts/v1.3/personalization.candidate.json","runtime":"js/glaze-v1.3-personalization.candidate.mjs"},
+    "signature-components": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/component-experience.candidate.json","runtime":"js/glaze-v1.3-component-experience.candidate.mjs","reference":"reference/v1.3/signature-components-and-compositions.html"},
+    "glaze-optical-engine": {"status":"stable-inherited","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs","telemetryRequired":false,"remoteContextRequired":false},
+    "content-aware-frost": {"status":"stable-inherited","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs"},
+    "semantic-blur-protection": {"status":"stable-inherited","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs"},
+    "environment-tinting": {"status":"stable-inherited","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs","note":"Consumer supplies approved context signals; Glaze UI grants no data-collection authority."},
+    "chromatic-depth-layers": {"status":"stable-inherited","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs"},
+    "environmental-color-memory": {"status":"stable-inherited","since":"1.4.1","implementation":"js/glaze-v1.4.1-optical-engine.mjs","maxInfluence":0.08},
+    "performance-budget": {"status":"stable-bounded","since":"1.5.1","implementation":"contracts/performance/glaze-v1-performance-budget.json","qualification":"contracts/v1.5.1/stable-scope.json","sourceQualificationAnchor":"5b59d0e36950d737dba35b58ae58058684e0831b","reviewRecord":"PR #230 comment 5697516074","note":"Representative V1.5.1 shared performance qualification is accepted for the reviewed environment only; downstream consumer performance acceptance remains repository-local."},
+    "platform-posture-continuity": {"status":"stable-bounded","since":"1.5.1","implementation":"contracts/v1.5.1/stable-scope.json","sourceQualificationAnchor":"5b59d0e36950d737dba35b58ae58058684e0831b","reviewRecord":"PR #230 comment 5705230782","approvalReference":"GCU-ADR-GLAZE-V151-POSTURE-TR-001","note":"Representative V1.5.1 posture continuity is accepted for the approved Pixel Fold target runtime only; downstream and physical-device acceptance remain separate."},
+    "visual-regression": {"status":"stable-inherited","since":"1.4.1","implementation":"css/glaze-v1.4.1.css"},
+    "native-reference": {"status":"bounded-release-evidence","since":"1.3.0","implementation":"reference/v1.3"},
+    "context-capability-resolution": {"status":"stable","since":"1.5.0","implementation":"js/glaze-v1.5.0.mjs","reviewedImplementationAnchor":"ee1032a0822ab8e103f8afe48e5c1859fde65cc9","authorityBoundary":"presentation-only"},
+    "provider-authority-ownership": {"status":"stable","since":"1.5.0","implementation":"js/glaze-v1.5.0.mjs","conflictPolicy":"fail-closed","providerPrecedenceInferred":false},
+    "adaptive-action-prioritization": {"status":"stable","since":"1.5.0","implementation":"js/glaze-v1.5.0.mjs","automaticFallbackExecution":false},
+    "privacy-safe-diagnostics": {"status":"stable","since":"1.5.0","implementation":"js/glaze-v1.5.0.mjs","rawContextIncluded":false,"providerIdentityIncludedByDefault":false},
+    "v1.3-migration-control-plane": {"status":"stable-inherited","since":"1.3.0","implementation":"contracts/v1.3/migration.candidate.json","plan":"MIGRATION_V1_2_TO_V1_3.md","acceptance":"acceptance/v1.3-stable.md"},
+    "v1.4-release-control-plane": {"status":"stable-inherited","since":"1.4.0","contract":"GLAZE_UI_V1_4.md","migration":"MIGRATION_V1_3_TO_V1_4.md","acceptance":"acceptance/v1.4-stable.md","verification":"scripts/verify_glaze_v1_4_stable.mjs","followUp":"GLAZE_UI_V1_4_1_HARDENING.md"},
+    "v1.4.1-release-control-plane": {"status":"stable-inherited","since":"1.4.1","contract":"GLAZE_UI_V1_4_1.md","qualification":"GLAZE_UI_V1_4_1_HARDENING.md","acceptance":"acceptance/v1.4.1-stable.md","verification":"scripts/verify_glaze_v1_4_1_stable.mjs","sourceQualificationAnchor":"66478aed461b83c49b2ed027c3e4afc26520e98c"},
+    "v1.5-release-control-plane": {"status":"stable","since":"1.5.0","contract":"GLAZE_UI_V1_5.md","qualification":"contracts/v1.5/stable-scope.json","acceptance":"acceptance/v1.5-stable.md","runtimeEntrypoint":"js/glaze-v1.5.0.mjs","sourceQualificationAnchor":"ee1032a0822ab8e103f8afe48e5c1859fde65cc9","followUp":"GLAZE_UI_V1_5_1_HARDENING.md"},
+    "v1.5.1-release-candidate-control-plane": {"status":"superseded-release-candidate","version":"1.5.1-rc.1","stableBaseline":"1.5.0","contract":"contracts/v1.5.1/release-candidate.json","qualification":"contracts/v1.5.1/qualification.dev.json","acceptance":"acceptance/v1.5.1-rc.1.md","runtimeEntrypoint":"js/glaze-v1.5.1-rc.1.mjs","verification":"scripts/verify_glaze_v1_5_1_release_candidate.mjs","sourceQualificationAnchor":"5b59d0e36950d737dba35b58ae58058684e0831b","sourceIntegrationAnchor":"f7ef915f0aabea6cf92748018f2220a99e3a9c92","releaseCandidateIntegrationCommit":"a9c93506dd062d29c6c894940b71d060e8c39110","consumerEligible":false},
+    "v1.5.1-release-control-plane": {"status":"stable","version":"1.5.1","stableBaseline":"1.5.0","contract":"GLAZE_UI_V1_5.md","qualification":"contracts/v1.5.1/stable-scope.json","acceptance":"acceptance/v1.5.1-stable.md","runtimeEntrypoint":"js/glaze-v1.5.1.mjs","verification":"scripts/verify_glaze_v1_5_1_stable.mjs","sourceQualificationAnchor":"5b59d0e36950d737dba35b58ae58058684e0831b","qualificationIntegrationCommit":"f7ef915f0aabea6cf92748018f2220a99e3a9c92","releaseCandidateIntegrationCommit":"a9c93506dd062d29c6c894940b71d060e8c39110","consumerEligible":true}
   }
 }
