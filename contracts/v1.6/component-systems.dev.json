@@ -1,0 +1,135 @@
+{
+  "$schema": "../../schemas/v1.6-component-systems.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.component-systems",
+  "name": "Glaze UI V1.6 Complexity, Energy, Component, Form, Data, Media, Scroll, and Background Activity Development Contract",
+  "version": "1.6.0-dev.7",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [60,61,62,63,64,65,66,67,68,69,70],
+  "visualComplexity": {
+    "dimensions": [
+      "transparentLayers","blurLayers","shadows","animatedSurfaces",
+      "gradientLayers","liveBackgrounds","skeletonAnimations"
+    ],
+    "referenceBudget": {
+      "transparentLayers": 4,
+      "blurLayers": 1,
+      "shadows": 4,
+      "animatedSurfaces": 4,
+      "gradientLayers": 2,
+      "liveBackgrounds": 1,
+      "skeletonAnimations": 4
+    },
+    "optionalEffectsSimplifyWhenExceeded": true,
+    "semanticContentMayBeRemovedToMeetBudget": false,
+    "accessibilityMayBeReducedToMeetBudget": false,
+    "criticalStatusMayBeHiddenToMeetBudget": false
+  },
+  "energyAwareness": {
+    "activityStates": ["active","idle","background"],
+    "continuousDecorativeAnimationConstrained": true,
+    "idleBackgroundsCalm": true,
+    "powerSavingAndThermalPressureMayReduceEffects": true,
+    "essentialProgressMayRemain": true,
+    "directManipulationMayRemainResponsive": true
+  },
+  "componentStateCompleteness": {
+    "requiredStates": [
+      "default","hover","focused","pressed","selected","disabled","loading","error"
+    ],
+    "additionalStates": [
+      "read-only","expanded","success","warning","empty","offline",
+      "restricted","unavailable","updating","conflict"
+    ],
+    "criticalStatesMayBeApplicationGuesswork": false,
+    "additionalRelevantStatesMayBeRequired": true
+  },
+  "componentComposition": {
+    "nestedTransparencyDefaultAllowed": false,
+    "unnecessaryRepeatedBordersAllowed": false,
+    "conflictingElevationAllowed": false,
+    "repeatedPaddingAllowed": false,
+    "hierarchyMustRemainUnderstandable": true
+  },
+  "forms": {
+    "fieldDesignations": ["required","optional"],
+    "fieldStates": [
+      "default","warning","invalid","disabled","read-only",
+      "saving","saved","save-failed"
+    ],
+    "validationNearFieldRequired": true,
+    "accessibleValidationAssociationRequired": true,
+    "disabledDistinctFromReadOnly": true,
+    "stateMayRelyOnColorAlone": false
+  },
+  "saveState": {
+    "states": ["unsaved","saving","saved","save-failed","conflict","offline-pending"],
+    "explicitFeedbackRequired": true,
+    "savedRequiresAuthoritativePersistenceTruth": true,
+    "conflictResolutionAutomatic": false,
+    "retryAutomatic": false
+  },
+  "tables": {
+    "features": [
+      "sticky-headers","row-focus","selection","sortable-columns",
+      "responsive-collapse","horizontal-overflow","loading-rows",
+      "empty-state","error-state","compact-density",
+      "accessible-row-column-semantics"
+    ],
+    "transparencyPolicy": "solid-or-near-solid",
+    "rowColumnSemanticsRequired": true,
+    "keyboardAccessRequired": true,
+    "compactMayShrinkTargetsBelowMinimum": false
+  },
+  "charts": {
+    "alternatives": ["labels","values","summary","accessible-description","table"],
+    "essentialInformationRequiresNonvisualAlternative": true,
+    "colorOnlyMeaningAllowed": false,
+    "summaryContentInventedByGlaze": false,
+    "numericValuesInventedByGlaze": false
+  },
+  "media": {
+    "protection": [
+      "contrast-surface","scrim","adaptive-opacity","bounded-blur","protected-text"
+    ],
+    "controlLegibilityProtected": true,
+    "mediaContentMayOverrideControlContrast": false,
+    "blurIsBounded": true
+  },
+  "scroll": {
+    "features": [
+      "scrollbar-presentation","overscroll","restoration",
+      "sticky-surfaces","nested-scrolling","keyboard-scrolling"
+    ],
+    "keyboardScrollingRequired": true,
+    "stickySurfacesMayObscureFocusedContent": false,
+    "decorativeEffectsMayBlockContentAccess": false,
+    "responsiveRestorationRequired": true
+  },
+  "backgroundActivity": {
+    "surfaces": [
+      "toolbar-activity","status-indicator","inline-sync-marker",
+      "small-progress-surface","blocking-loader"
+    ],
+    "nonBlockingWorkMayUseBlockingLoader": false,
+    "subtleFeedbackPreferredForNonBlockingWork": true,
+    "fakeProgressAllowed": false,
+    "blockingTruthOwnedByApplication": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "workflowTruthOwnedByApplication": true,
+    "validationTruthOwnedByApplication": true,
+    "saveTruthOwnedByApplicationOrStorageProvider": true,
+    "dataTruthOwnedByApplication": true,
+    "activityTruthOwnedByApplication": true,
+    "runtimeSignalsOwnedByCallerOrPlatform": true,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.6-component-systems.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.6-development.mjs",
+  "tokenMap": "tokens/glaze-v1.6-component-systems.dev.json",
+  "boundary": "Development implementation foundation only. It does not alter VERSION, registry lifecycle authority, V1.5.1 Stable contracts, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}

@@ -147,3 +147,26 @@ It composes current layout, state, semantic-color, iconography, form-factor, acc
 Unverified status claims use an explicit `status.unverified` role. The map does not infer provider precedence, navigation actions, privacy/security truth, permission, authorization, device identity, locale, or capability support.
 
 This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
+
+
+## V1.6 complexity and component-systems Development semantic map
+
+`tokens/glaze-v1.6-component-systems.dev.json` is a **Development, non-consumer-eligible semantic map** for V1.6 sections 60–70.
+
+It composes current state, layout, material, semantic-color, motion, loading, accessibility, and prior V1.6 authorities into semantic roles for:
+
+- seven bounded visual-complexity dimensions and Development reference budgets;
+- active, idle-calm, and background energy presentation;
+- minimum Default/Hover/Focused/Pressed/Selected/Disabled/Loading/Error component-state coverage;
+- component nesting constraints that avoid nested transparency, repeated borders/padding, and conflicting elevation;
+- required/optional/validation/read-only/save form presentation;
+- Unsaved, Saving, Saved, Save failed, Conflict, and Offline pending persistence feedback;
+- solid or near-solid dense-table presentation with accessible row/column semantics;
+- labels, values, summaries, accessible descriptions, and table alternatives for charts;
+- contrast/scrim/opacity/bounded-blur/protected-text media control protection;
+- standardized scrollbar, overscroll, restoration, sticky, nested, and keyboard scrolling;
+- subtle toolbar/status/inline/progress surfaces for nonblocking background work.
+
+The complexity budget may simplify optional effects, but it may not remove semantic content, reduce accessibility, hide critical state, invent save/data/progress truth, or execute application work. Its numeric reference thresholds are Development guidance only and are not Stable production thresholds.
+
+This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
