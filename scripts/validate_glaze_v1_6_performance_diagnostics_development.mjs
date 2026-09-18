@@ -92,12 +92,19 @@ assert(glazeV16PerformanceDiagnosticsDevelopmentContract.performanceMeasurements
 assert(glazeV16PerformanceDiagnosticsDevelopmentContract.layoutShiftBudgetMayBeInvented === false, 'runtime must not invent layout budget');
 assert(glazeV16PerformanceDiagnosticsDevelopmentContract.gracefulFallbackMustPreserveMeaning === true, 'runtime degradation invariant missing');
 
-assert(glazeV16Development.version === '1.6.0-dev.9', 'aggregate must identify dev.9');
+const aggregateVersionParts = String(glazeV16Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.6.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 9,
+  'aggregate Development version must retain or advance beyond dev.9'
+);
 assert(glazeV16Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV16Development.stableBaseline === '1.5.1', 'aggregate Stable baseline mismatch');
 assert(glazeV16Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
 for (const number of sections) {
-  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate missing performance/diagnostics section ${number}`);
+  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate must retain performance/diagnostics section ${number}`);
 }
 for (const retained of [1,6,10,15,29,41,55,60,70,71,73,74,79,88,93]) {
   assert(glazeV16Development.implementedSpecificationSections.includes(retained), `aggregate lost prior section ${retained}`);

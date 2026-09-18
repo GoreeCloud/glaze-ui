@@ -1,0 +1,35 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://goreecloud.dev/schemas/glaze-ui/v1.6-conformance-adoption.schema.json",
+  "title":"Glaze UI V1.6 Conformance Adoption Development Contract",
+  "type":"object","additionalProperties":false,
+  "required":["$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline","consumerEligible","implementedSpecificationSections","consistencyInspector","componentConformanceMetadata","applicationAdoptionProfiles","migrationFromV151","authority","runtimeEntrypoint","developmentAggregateEntrypoint","tokenMap","boundary"],
+  "properties":{
+    "$schema":{"const":"../../schemas/v1.6-conformance-adoption.schema.json"},
+    "schemaVersion":{"const":1},
+    "contractId":{"const":"goreecloud.glaze-ui.v1.6.conformance-adoption"},
+    "name":{"const":"Glaze UI V1.6 Consistency, Conformance Metadata, Adoption Profile, and Migration Development Contract"},
+    "version":{"const":"1.6.0-dev.10"},"lifecycle":{"const":"Development"},"stableBaseline":{"const":"1.5.1"},"consumerEligible":{"const":false},
+    "implementedSpecificationSections":{"type":"array","minItems":4,"maxItems":4,"uniqueItems":true,"items":{"type":"integer","minimum":1,"maximum":100}},
+    "consistencyInspector":{"type":"object","minProperties":4},
+    "componentConformanceMetadata":{"type":"object","minProperties":4},
+    "applicationAdoptionProfiles":{"type":"object","minProperties":6},
+    "migrationFromV151":{"type":"object","minProperties":5},
+    "authority":{"type":"object","additionalProperties":false,
+      "required":["boundary","consumerAcceptanceGranted","consumerRegistryMutatedAutomatically","productionEligibilityGranted","releasePromotionAutomatic","deploymentAcceptanceAutomatic","sourceModifiedByInspector"],
+      "properties":{
+        "boundary":{"const":"development-conformance-support-only"},
+        "consumerAcceptanceGranted":{"const":false},
+        "consumerRegistryMutatedAutomatically":{"const":false},
+        "productionEligibilityGranted":{"const":false},
+        "releasePromotionAutomatic":{"const":false},
+        "deploymentAcceptanceAutomatic":{"const":false},
+        "sourceModifiedByInspector":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.6-conformance-adoption.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.6-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.6-conformance-adoption.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}

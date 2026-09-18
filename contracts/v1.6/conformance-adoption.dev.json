@@ -1,0 +1,51 @@
+{
+  "$schema":"../../schemas/v1.6-conformance-adoption.schema.json",
+  "schemaVersion":1,
+  "contractId":"goreecloud.glaze-ui.v1.6.conformance-adoption",
+  "name":"Glaze UI V1.6 Consistency, Conformance Metadata, Adoption Profile, and Migration Development Contract",
+  "version":"1.6.0-dev.10",
+  "lifecycle":"Development",
+  "stableBaseline":"1.5.1",
+  "consumerEligible":false,
+  "implementedSpecificationSections":[94,95,96,97],
+  "consistencyInspector":{
+    "domains":["tokens","colors","typography","spacing","materials","focus","motion","skeleton","component-states","accessibility","loading"],
+    "advisoryOnly":true,
+    "sourceModifiedAutomatically":false,
+    "visualAcceptanceManufactured":false
+  },
+  "componentConformanceMetadata":{
+    "requiredFields":["component-id","supported-states","accessibility-modes","form-factors","motion-behavior","fallback-behavior","performance-expectations"],
+    "metadataProvesRuntimeConformance":false,
+    "performanceEvidenceManufactured":false,
+    "accessibilityEvidenceManufactured":false
+  },
+  "applicationAdoptionProfiles":{
+    "statuses":["implemented","partially-implemented","unsupported","not-applicable","awaiting-acceptance"],
+    "sharedStableStatusImpliesApplicationAdoption":false,
+    "sharedDevelopmentStatusImpliesApplicationAdoption":false,
+    "applicationAcceptanceAutomatic":false,
+    "productionEligibilityAutomatic":false,
+    "consumerRegistryMutatedAutomatically":false
+  },
+  "migrationFromV151":{
+    "invariants":["semantic-colors","accessibility-precedence","contextual-awareness","capability-awareness","authority-boundaries","graceful-fallback","continuity-behavior","privacy-safe-diagnostics"],
+    "evolutionaryMigrationRequired":true,
+    "exactRevisionEvidenceRequired":true,
+    "priorAcceptanceReboundAutomatically":false,
+    "lifecyclePromotionAutomatic":false
+  },
+  "authority":{
+    "boundary":"development-conformance-support-only",
+    "consumerAcceptanceGranted":false,
+    "consumerRegistryMutatedAutomatically":false,
+    "productionEligibilityGranted":false,
+    "releasePromotionAutomatic":false,
+    "deploymentAcceptanceAutomatic":false,
+    "sourceModifiedByInspector":false
+  },
+  "runtimeEntrypoint":"js/glaze-v1.6-conformance-adoption.dev.mjs",
+  "developmentAggregateEntrypoint":"js/glaze-v1.6-development.mjs",
+  "tokenMap":"tokens/glaze-v1.6-conformance-adoption.dev.json",
+  "boundary":"Development conformance/adoption support only. Profiles and metadata record supplied implementation/evidence state but do not establish downstream acceptance, lifecycle promotion, release publication, deployment, production eligibility, or Stable status."
+}
