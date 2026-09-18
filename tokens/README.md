@@ -212,3 +212,19 @@ It composes current layout, state, semantic-color, material, motion, iconography
 The evaluator records missing measurements or environment metadata as unverified rather than passing them. Static source validation does not claim screenshots, rendered/native/device measurements, assistive-technology behavior, Release Candidate or Stable acceptance, downstream consumer adoption, deployment, or production acceptance.
 
 This map does not change Stable V1.5.1 values, consumer eligibility, lifecycle authority, or release state.
+
+
+## V1.6 conformance, adoption, and migration Development semantic map
+
+`tokens/glaze-v1.6-conformance-adoption.dev.json` is a **Development, non-consumer-eligible semantic map** for V1.6 sections 94–97.
+
+It composes current Stable and V1.6 Development authorities into semantic support for:
+
+- an advisory Consistency Inspector covering tokens, colors, typography, spacing, materials, focus, motion, skeletons, component states, accessibility, and loading;
+- component conformance metadata for supported states, accessibility modes, form factors, motion behavior, fallback behavior, and performance expectations;
+- explicit application capability statuses: Implemented, Partially implemented, Unsupported, Not applicable, and Awaiting acceptance;
+- exact-revision V1.5.1 migration-continuity checks for semantic colors, accessibility precedence, contextual/capability awareness, authority boundaries, graceful fallback, continuity behavior, and privacy-safe diagnostics.
+
+The inspector does not modify source. Component metadata does not establish runtime conformance. Shared Glaze Stable or Development status does not grant application adoption, and application profiles do not mutate `consumers/registry.json` automatically. Historical or V1.5.1 acceptance evidence is never rebound to a new revision merely because migration checks pass.
+
+This map does not change Stable V1.5.1 values, lifecycle authority, consumer eligibility, downstream acceptance, deployment, or production state.
