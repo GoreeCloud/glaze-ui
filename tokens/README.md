@@ -33,3 +33,19 @@ The map points each semantic category to existing repository token sources inste
 This Development map does not modify Stable token values, `VERSION`, lifecycle state, release evidence, or downstream consumer acceptance. Future promotion requires the applicable governed release and exact-revision qualification process.
 
 Token presence, alias resolution, or Development source validation alone never establishes downstream conformance, target-runtime acceptance, deployment, or production eligibility.
+
+
+## V1.6 loading and skeleton Development semantic map
+
+`tokens/glaze-v1.6-loading.dev.json` is the first V1.6-specific **Development, non-consumer-eligible semantic map**. It covers skeleton surfaces, geometry, motion modes, loading state, progress, recovery presentation, accessibility fallbacks, performance levels, and motion-fatigue protection.
+
+The map inherits Stable V1.5.1 authorities from `tokens/motion.json`, `tokens/states.json`, `tokens/layout.json`, and `tokens/materials.json` rather than replacing their current Stable values. It adds V1.6 semantic intent for the Development loading/skeleton resolver while preserving these boundaries:
+
+- Reduced Motion maps continuous skeleton motion to `static`.
+- Reduced Transparency maps skeleton presentation to solid surfaces.
+- Increased Contrast and Forced Colors prohibit opacity-only differentiation.
+- Determinate progress requires truthful progress values; fake percentages are forbidden.
+- Efficient and Essential performance levels disable continuous skeleton motion.
+- Many simultaneous skeletons trigger motion-fatigue protection rather than multiplying shimmer.
+
+This map is Development source only. It does not change `VERSION`, lifecycle state, current Stable token authority, consumer eligibility, downstream conformance, deployment, or production status.
