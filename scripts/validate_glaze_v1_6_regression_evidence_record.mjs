@@ -78,8 +78,8 @@ const disposition=record.matrixDisposition;
 assert(matrix.verifiedCount===17&&matrix.unverifiedCount===7&&matrix.notApplicableCount===0,'expected 17 verified / 7 unverified / 0 N/A after regression evidence');
 assert(matrix.qualificationEvidenceComplete===false&&matrix.readyForGovernedQualificationReview===false,'regression evidence must not complete qualification');
 assert(JSON.stringify(sort(disposition.fullyVerifiedLaneIds))===JSON.stringify(sort(matrix.lanes.filter(l=>l.status==='verified').map(l=>l.id))),'fully verified lane disposition mismatch');
-assert(JSON.stringify(sort(disposition.partialLaneIds))===JSON.stringify(sort(matrix.lanes.filter(l=>l.status==='unverified'&&l.evidenceGroups.some(g=>g.satisfied)).map(l=>l.id))),'partial lane disposition mismatch');
-assert(JSON.stringify(sort(disposition.untouchedLaneIds))===JSON.stringify(sort(matrix.lanes.filter(l=>l.status==='unverified'&&!l.evidenceGroups.some(g=>g.satisfied)).map(l=>l.id))),'untouched lane disposition mismatch');
+assert(JSON.stringify(sort(disposition.partialLaneIds))===JSON.stringify(sort(matrix.lanes.filter(l=>l.status==='unverified'&&l.satisfiedEvidenceGroupCount>0).map(l=>l.id))),'partial lane disposition mismatch');
+assert(JSON.stringify(sort(disposition.untouchedLaneIds))===JSON.stringify(sort(matrix.lanes.filter(l=>l.status==='unverified'&&l.satisfiedEvidenceGroupCount===0).map(l=>l.id))),'untouched lane disposition mismatch');
 assert(disposition.verifiedCount===17&&disposition.unverifiedCount===7&&disposition.notApplicableCount===0,'recorded matrix counts mismatch');
 assert(disposition.qualificationEvidenceComplete===false&&disposition.readyForGovernedQualificationReview===false,'recorded qualification disposition must remain incomplete');
 
