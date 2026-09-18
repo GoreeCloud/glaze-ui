@@ -1,9 +1,9 @@
 {
   "$schema":"../../schemas/v1.6-acceptance.schema.json",
-  "schemaVersion":1,
+  "schemaVersion":2,
   "contractId":"goreecloud.glaze-ui.v1.6.acceptance-control",
   "name":"Glaze UI V1.6 Acceptance Control Development Contract",
-  "version":"1.6.0-dev.11",
+  "version":"1.6.0-dev.12",
   "lifecycle":"Development",
   "stableBaseline":"1.5.1",
   "consumerEligible":false,
@@ -13,8 +13,10 @@
     "exactRevisionRequired":true,
     "evidenceReferenceRequired":true,
     "notApplicableRequiresJustification":true,
+    "allEvidenceGroupsRequired":true,
     "missingEvidenceMayInferPass":false,
     "revisionMismatchMayPass":false,
+    "partialEvidenceGroupMayPass":false,
     "matrixCompletionEqualsStablePromotion":false
   },
   "lanes":[
@@ -25,6 +27,32 @@
     "component-state-completeness","privacy-boundaries","authority-boundaries","regression-testing",
     "representative-rendering"
   ],
+  "evidenceRequirements":{
+    "source-implementation":[["machine"]],
+    "design-tokens":[["machine"]],
+    "skeleton-system":[["machine","rendered"]],
+    "loading-behavior":[["machine","rendered"]],
+    "accessibility":[["machine"],["human","assistive-technology"]],
+    "semantic-colors":[["machine","rendered"]],
+    "reduced-motion":[["machine"],["rendered","human"]],
+    "reduced-transparency":[["machine"],["rendered","human"]],
+    "increased-contrast":[["machine"],["rendered","human"]],
+    "large-text":[["machine"],["rendered","human"]],
+    "keyboard-navigation":[["machine"],["human"]],
+    "assistive-technology":[["assistive-technology"]],
+    "responsive-layouts":[["machine"],["rendered","device"]],
+    "form-factor-transitions":[["device","rendered"]],
+    "performance":[["performance"]],
+    "layout-stability":[["machine"],["performance","rendered"]],
+    "offline-behavior":[["machine","rendered"]],
+    "degraded-behavior":[["machine","rendered"]],
+    "loading-escalation":[["machine","rendered"]],
+    "component-state-completeness":[["machine","rendered"]],
+    "privacy-boundaries":[["machine"],["human"]],
+    "authority-boundaries":[["machine"],["human"]],
+    "regression-testing":[["machine"],["rendered"]],
+    "representative-rendering":[["rendered"],["device","human"]]
+  },
   "corePillars":[
     "skeleton-motion","perceived-performance","state-clarity","accessibility-expansion",
     "motion-coherence","material-intelligence","interaction-continuity","design-system-enforcement"
@@ -35,6 +63,7 @@
     "evidenceManufactured":false,
     "staleEvidenceAccepted":false,
     "mismatchedRevisionAccepted":false,
+    "partialEvidenceGroupAccepted":false,
     "lifecyclePromotionAutomatic":false,
     "stableStatusGranted":false,
     "consumerAcceptanceAutomatic":false,
@@ -44,5 +73,5 @@
   "runtimeEntrypoint":"js/glaze-v1.6-acceptance.dev.mjs",
   "developmentAggregateEntrypoint":"js/glaze-v1.6-development.mjs",
   "acceptanceRecord":"acceptance/v1.6-development.md",
-  "boundary":"Development qualification control only. The matrix defines and evaluates revision-bound evidence requirements; it does not itself constitute representative rendering, assistive-technology, device/form-factor, performance, human-review, downstream-consumer, deployment, production, Candidate, Release Candidate, or Stable acceptance."
+  "boundary":"Development qualification control only. Every required evidence group for an applicable lane must be satisfied on the same exact reviewed revision. Matrix definition and partial evidence do not establish representative rendering, assistive-technology, device/form-factor, performance, human-review, downstream-consumer, deployment, production, Candidate, Release Candidate, or Stable acceptance."
 }
