@@ -1,0 +1,63 @@
+{
+  "$schema": "../schemas/v1.6-performance-evidence-record.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.performance-evidence",
+  "recordType": "performance",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "review": {
+    "reviewedAt": "REPLACE_WITH_ISO_8601_TIMESTAMP_WITH_TIMEZONE",
+    "reviewer": "REPLACE_WITH_AUTHORIZED_REVIEWER",
+    "candidateEvidenceReference": "REPLACE_WITH_CANDIDATE_EVIDENCE_REFERENCE",
+    "candidateEvidenceSha256": "REPLACE_WITH_SHA256",
+    "representativeEnvironmentConfirmed": false,
+    "authorityIncidentsAbsentConfirmed": false
+  },
+  "environment": {
+    "operatingSystem": "REPLACE_WITH_OPERATING_SYSTEM",
+    "runtime": "REPLACE_WITH_RUNTIME",
+    "hardware": "REPLACE_WITH_HARDWARE",
+    "foregroundState": "foreground",
+    "presentationMode": "normal",
+    "measurementDate": "REPLACE_WITH_MEASUREMENT_DATE"
+  },
+  "samples": {
+    "resolver": 0,
+    "interactionPaint": 0,
+    "idleFrames": 0,
+    "activeFrames": 0
+  },
+  "measurements": {
+    "resolverP95Ms": null,
+    "resolverP99Ms": null,
+    "interactionPaintP95Ms": null,
+    "interactionPaintP99Ms": null,
+    "idleMedianFrameIntervalMs": null,
+    "activeFrameP95Ms": null,
+    "severeFrameStallRate": null,
+    "catastrophicForegroundStallCount": null,
+    "taskStateResetCount": null,
+    "pageReloadRequiredCount": null,
+    "automaticAuthorityActionCount": null
+  },
+  "budgetResult": "unverified",
+  "laneEvidence": [
+    {"id":"performance","verified":false,"revision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a","evidenceType":"performance","reference":"REPLACE_WITH_DURABLE_REVIEW_REFERENCE","finding":"Template placeholder; not evidence."}
+  ],
+  "reviewDecision": "not-accepted",
+  "authority": {
+    "performanceEvidenceAccepted": false,
+    "humanEvidenceAccepted": false,
+    "assistiveTechnologyEvidenceAccepted": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "Fail-closed template only. A completed record requires a real representative measurement from the frozen source, minimum sample counts, all approved performance thresholds passing, reviewer confirmation of the environment and authority observations, a separately reviewed candidate-evidence digest/reference, and a durable accepted review record."
+}
