@@ -116,6 +116,30 @@ assert(specifications.includes('**Machine version:** `1.5.1`'), 'SPECIFICATIONS.
 assert(specifications.includes('contracts/v1.5.1/stable-scope.json'), 'SPECIFICATIONS.md must identify current V1.5.1 Stable scope');
 assert(!specifications.includes('# GLAZE UI V1.2 — Specifications'), 'SPECIFICATIONS.md must not retain the obsolete V1.2 current heading');
 
+const contributing = read('CONTRIBUTING.md');
+assert(contributing.includes("GLAZE UI V1.5 (`1.5.1`) is GoreeCloud's current Official, Stable"), 'CONTRIBUTING.md must identify current Stable 1.5.1');
+assert(contributing.includes('V1.5.0 is the immediate known-good Stable rollback baseline'), 'CONTRIBUTING.md must preserve 1.5.0 rollback baseline');
+
+const adoption = read('ADOPTION.md');
+assert(adoption.includes('current Glaze UI adoption target is **GLAZE UI V1.5** (`1.5.1`)'), 'ADOPTION.md must identify current 1.5.1 adoption target');
+assert(adoption.includes('V1.5.0 (`1.5.0`) is the immediate known-good Stable rollback baseline'), 'ADOPTION.md must preserve 1.5.0 rollback baseline');
+
+const enforcement = read('ENFORCEMENT.md');
+assert(enforcement.includes('current Glaze UI enforcement and consumer-conformance target is **GLAZE UI V1.5** (`1.5.1`)'), 'ENFORCEMENT.md must identify current 1.5.1 enforcement target');
+assert(enforcement.includes('contracts/v1.5.1/stable-scope.json'), 'ENFORCEMENT.md must identify current V1.5.1 Stable scope');
+
+const websiteReadme = read('website/README.md');
+assert(websiteReadme.includes('current Stable Glaze UI product identity is **GLAZE UI V1.5 — Contextual + Capability Awareness** (`1.5.1`)'), 'website/README.md must identify current Stable 1.5.1');
+assert(websiteReadme.includes('V1.5.0 / `1.5.0` is the retained immediate Stable rollback baseline'), 'website/README.md must preserve 1.5.0 rollback baseline');
+
+const iconConstruction = read('ICON_CONSTRUCTION.md');
+assert(iconConstruction.includes('**Current Stable product authority:** GLAZE UI V1.5 / `1.5.1`.'), 'ICON_CONSTRUCTION.md must identify current Stable 1.5.1 product authority');
+assert(iconConstruction.includes('Current product lifecycle authority is `1.5.1`'), 'ICON_CONSTRUCTION.md must separate subsystem revision from current product lifecycle');
+
+const iconIdentity = read('ICON_IDENTITY.md');
+assert(iconIdentity.includes('**Current Stable product authority:** GLAZE UI V1.5 / `1.5.1`.'), 'ICON_IDENTITY.md must identify current Stable 1.5.1 product authority');
+assert(iconIdentity.includes('Current product lifecycle authority is `1.5.1`'), 'ICON_IDENTITY.md must separate subsystem revision from current product lifecycle');
+
 const stability = read('STABILITY.md');
 assert(stability.includes('`1.5.1`'), 'STABILITY.md must identify current Stable 1.5.1');
 assert(stability.includes('`1.5.0`'), 'STABILITY.md must identify 1.5.0 rollback baseline');

@@ -49,7 +49,7 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 - Added `reference/candidate-1.6-workspace.html` as a dependency-free evaluation surface and `scripts/validate_workspace_navigation.py` as a fail-closed Candidate validator.
 - Wired the Candidate validator into the exact-head Glaze UI CI workflow and surfaced a bounded workspace preview in the Design Center without changing the Stable production target.
 - Corrected Design Center Facet authority wording: the authoritative identity source is `GoreeCloud/goreecloud-branding-assets` at `systems/glaze-ui/glaze-ui-mark.svg`; this repository publishes a synchronized byte-equivalent consumer copy.
-- Glaze UI 1.5.0 remains the current Stable baseline. The Adaptive Workspace layer does not trigger consumer migration or permit Stable 1.6 conformance claims until the normal promotion gate is completed.
+- At the time of this historical Candidate entry, Glaze UI 1.5.0 was the current Stable baseline. The Adaptive Workspace layer did not trigger consumer migration or permit Stable 1.6 conformance claims until the normal promotion gate was completed.
 
 ### Glaze Motion — Experimental
 
