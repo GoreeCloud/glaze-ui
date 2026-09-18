@@ -73,6 +73,8 @@ The repository carries non-consumer-eligible successor material that extends the
 - `acceptance/v1.6-development.md` — fail-closed 24-lane Development acceptance matrix; all real qualification evidence remains revision-bound and separately verified.
 - `js/glaze-v1.6-acceptance.dev.mjs` — Development-only acceptance evaluator that rejects stale/mismatched/wrong-type evidence and never auto-promotes lifecycle.
 - `scripts/validate_glaze_v1_6_acceptance_development.mjs` + `.github/workflows/glaze-v1.6-acceptance-control-development.yml` — exact-head acceptance-control validation plus V1.5.1 Stable preservation. `dev.12` hardens section 98 so every required evidence group must be satisfied on one exact revision; machine evidence cannot substitute for required human, rendered, assistive-technology, device, or performance evidence.
+- `contracts/v1.6/qualification.machine.plan.json` + `scripts/qualify_glaze_v1_6_machine_source.mjs` — frozen-source qualification control bound to `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`; it runs all V1.6 validators plus the V1.5.1 Stable boundary against that exact source in an isolated worktree.
+- `acceptance/v1.6-machine-evidence.json` — durable machine-evidence checkpoint from GitHub Actions run `35345027816`, job `105599478986`: 9 lanes verified, 11 additional lanes machine-partial and still unverified, 4 non-machine-only lanes untouched, 15 lanes unverified overall, qualification incomplete.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
