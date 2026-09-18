@@ -6,6 +6,7 @@ on:
       - 'registry/lifecycle.json'
       - 'contracts/v1.6/release-candidate.json'
       - 'acceptance/v1.6-qualification-review.json'
+      - 'acceptance/v1.6-production-readiness-review.json'
       - 'acceptance/v1.6-rc.1.json'
       - 'acceptance/v1.6-*.json'
       - 'js/glaze-v1.6.0-rc.1.mjs'
@@ -26,6 +27,7 @@ on:
       - 'registry/lifecycle.json'
       - 'contracts/v1.6/release-candidate.json'
       - 'acceptance/v1.6-qualification-review.json'
+      - 'acceptance/v1.6-production-readiness-review.json'
       - 'acceptance/v1.6-rc.1.json'
       - 'acceptance/v1.6-*.json'
       - 'js/glaze-v1.6.0-rc.1.mjs'
@@ -89,6 +91,7 @@ jobs:
           python -m json.tool registry/lifecycle.json >/dev/null
           python -m json.tool contracts/v1.6/release-candidate.json >/dev/null
           python -m json.tool acceptance/v1.6-qualification-review.json >/dev/null
+          python -m json.tool acceptance/v1.6-production-readiness-review.json >/dev/null
           python -m json.tool acceptance/v1.6-rc.1.json >/dev/null
           node --check js/glaze-v1.6.0-rc.1.mjs
           node --check scripts/verify_glaze_v1_6_release_candidate.mjs
