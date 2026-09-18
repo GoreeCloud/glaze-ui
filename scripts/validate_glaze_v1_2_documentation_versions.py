@@ -22,6 +22,8 @@ VERSION = ROOT / "VERSION"
 
 CURRENT_AUTHORITY_DOCS = {
     "README.md": ("current Official", "Stable"),
+    "FEATURES.md": ("Stable",),
+    "SPECIFICATIONS.md": ("Stable",),
     "CONTRIBUTING.md": ("Stable",),
     "CONFORMANCE.md": ("conformance",),
     "ACCEPTANCE.md": ("Stable",),
@@ -180,8 +182,15 @@ def main() -> int:
     stable_label = current_release.get("label")
     if not isinstance(stable_label, str) or not stable_label:
         fail("live current Stable release label is missing")
-    if lifecycle.get("officialProductLabel") != stable_label:
-        fail("officialProductLabel must match the live current Stable release")
+    official_product_label = lifecycle.get("officialProductLabel")
+    if not isinstance(official_product_label, str) or not official_product_label:
+        fail("officialProductLabel must identify the live current Stable product family")
+    stable_parts = current_stable.split(".")
+    if len(stable_parts) < 2:
+        fail("currentStable must use a major.minor release family")
+    stable_family = ".".join(stable_parts[:2])
+    if not official_product_label.startswith(f"GLAZE UI V{stable_family}"):
+        fail("officialProductLabel must identify the live current Stable release family")
 
     retained_v12 = release_for(lifecycle, "1.2.0")
     if retained_v12.get("status") != "stable" or retained_v12.get("consumerEligible") is not True:

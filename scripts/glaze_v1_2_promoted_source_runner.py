@@ -64,9 +64,17 @@ def validate_live_stable() -> dict:
     assert current is not None
     req(current.get("status") == "stable", "live currentStable release must be Stable")
     req(current.get("consumerEligible") is True, "live currentStable release must be consumer-eligible")
+    official_product_label = lifecycle.get("officialProductLabel")
     req(
-        lifecycle.get("officialProductLabel") == current.get("label"),
-        "live product label must match the current Stable release",
+        isinstance(official_product_label, str) and official_product_label,
+        "live product label must identify the current Stable product family",
+    )
+    stable_parts = current_stable.split(".")
+    req(len(stable_parts) >= 2, "live currentStable must use a major.minor release family")
+    stable_family = ".".join(stable_parts[:2])
+    req(
+        official_product_label.startswith(f"GLAZE UI V{stable_family}"),
+        "live product label must identify the current Stable release family",
     )
 
     stable = release_for(lifecycle, "1.2.0")

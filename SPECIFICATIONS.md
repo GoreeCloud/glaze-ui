@@ -1,31 +1,87 @@
-# GLAZE UI V1.2 — Specifications
+# GLAZE UI V1.5 — Specifications
 
 ## Product identity
 
-- **Official product name:** GLAZE UI V1.2
-- **Machine version:** `1.2.0`
+- **Official product label:** GLAZE UI V1.5 — Contextual + Capability Awareness
+- **Machine version:** `1.5.1`
 - **Lifecycle:** Stable
+- **Consumer eligibility:** Yes, as a shared Glaze UI Stable release
 - **Repository:** `GoreeCloud/goreecloud-glaze-ui`
-- **Authoritative product contract:** `GLAZE_UI_V1_2.md`
+- **Authoritative family contract:** `GLAZE_UI_V1_5.md`
+- **Stable qualification scope:** `contracts/v1.5.1/stable-scope.json`
+- **Stable acceptance record:** `acceptance/v1.5.1-stable.md`
+- **Qualification-hardening record:** `GLAZE_UI_V1_5_1_HARDENING.md`
+- **Lifecycle authority:** `registry/lifecycle.json`
 
-## Runtime entrypoints
+V1.5.1 is the Stable qualification-hardening patch for the V1.5 Context + Capability Awareness line. It preserves the reviewed V1.5 presentation and authority implementation while closing the two shared qualification expansions intentionally deferred from V1.5.0.
 
-- Web CSS: `css/glaze-v1.2.0.css`
-- Web JavaScript: `js/glaze-v1.2.0.mjs`
-- Token manifest: `tokens/glaze-v1.json`
-- Component catalog: `contracts/components/v1/catalog.json`
-- System Shell: `contracts/system-shell/glaze-system-shell-v1.json`
-- Lifecycle registry: `registry/lifecycle.json`
+## Runtime and Stable entrypoints
+
+- Version authority: `VERSION`
+- Web/material entrypoint: `css/glaze-v1.4.1.css`
+- Runtime entrypoint: `js/glaze-v1.5.1.mjs`
+- Immediate known-good Stable rollback runtime: `js/glaze-v1.5.0.mjs`
+- Stable authority gate: `scripts/verify_glaze_v1_5_1_stable.mjs`
 - Consumer registry: `consumers/registry.json`
 
-The Stable wrappers intentionally freeze the already-developed V1.2 implementation layers even where those promoted source files retain historical `.candidate` filenames.
+The V1.5.1 runtime inherits the reviewed V1.5.0 Stable behavior and promotes Stable patch identity and qualification closure without changing the reviewed presentation or operational-authority boundary.
 
-## Stable V1.2 requirements
+## Stable V1.5 requirements
 
-V1.2 preserves inherited semantic/protected-state authority, accessibility precedence, the canonical 32-component catalog, System Shell semantics, and bounded Glaze-region budgets while promoting Frosted Neutral, Frosted Optical, Living Frosted interaction, adaptive navigation, responsive/form-factor composition, Personalization interfaces, and Tier 3 → Tier 0 degradation behavior.
+V1.5 extends the inherited V1.4.1 Optical Intelligence foundation with governed Context + Capability Awareness. The Stable contract requires:
 
-The governing material rule is: **Neutral glass is the material. Color is an accent.**
+- semantic context normalization across governed domains;
+- capability-state grammar with provenance;
+- explicit provider authority/domain ownership;
+- fail-closed handling of provider ownership conflicts;
+- Privacy Shield ownership of privacy/data-use authorization truth where applicable;
+- contextual composition and presentation-density adaptation;
+- accessibility precedence over visual richness;
+- runtime-pressure presentation-cost reduction without capability-truth modification;
+- connectivity, window-state, posture, and constrained-runtime continuity;
+- capability-aware navigation and controls;
+- stable primary-action ordering with predictable contextual adaptation of non-primary actions;
+- explicit unavailable/degraded explanations and recovery metadata;
+- graceful user-initiated fallback suggestions without automatic fallback execution;
+- privacy-safe explainable diagnostics;
+- inherited V1.4.1 optical-capability integration;
+- unified Context + Capability Resolution for developer-facing presentation decisions.
 
-## Acceptance boundary
+## Authority boundary
 
-V1.2 is a bounded Stable design-system release under the project-owner lifecycle decision recorded on 2026-09-06. Previously unresolved broader human/manual/physical qualification is carried to V1.3 rather than represented as passed V1.2 evidence. Downstream applications remain independently migration-, platform-, accessibility-, performance-, and production-acceptance-gated.
+Glaze UI remains presentation-only. It does not infer authorization, grant consent or permission, automatically request permission, automatically navigate because context changes, automatically execute consequential actions, or automatically execute fallback actions.
+
+Privacy Shield, Wardveil Security, applications, services, platforms, policy, identity, device/runtime, and other authoritative providers retain their own truth domains. Provider ownership conflicts fail closed rather than being resolved through inferred precedence.
+
+## V1.5.1 qualification boundary
+
+The exact V1.5.1 Stable qualification scope is defined by `contracts/v1.5.1/stable-scope.json`.
+
+V1.5.1 retains the sixteen obligations accepted for V1.5.0 and adds two independently reviewed obligations:
+
+1. `performance-representative-budget` — accepted for the reviewed Zorin OS 17.3 / Firefox 156.0 / Lenovo IdeaPad 3 15IIL05 environment.
+2. `platform-posture-continuity` — accepted for the approved Pixel Fold Android Emulator target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`.
+
+The complete shared Stable qualification therefore contains eighteen accepted obligations. These claims remain bounded to their reviewed environments and do not automatically establish downstream application performance, physical-device, posture, deployment, or production acceptance.
+
+## Evidence continuity
+
+The reviewed V1.5 presentation and authority implementation remains anchored to exact revision `ee1032a0822ab8e103f8afe48e5c1859fde65cc9`.
+
+The two V1.5.1 qualification observations remain bound to exact Development revision `5b59d0e36950d737dba35b58ae58058684e0831b`.
+
+Stable promotion preserves those evidence boundaries through fail-closed source-impact continuity. Evidence is not relabeled as if it were performed on later release-metadata revisions.
+
+## Consumer boundary
+
+V1.5.1 is the required shared Glaze UI target recorded by the current consumer registry. No downstream GoreeCloud application becomes conformant, Stable, deployed, production-eligible, or production-ready automatically.
+
+Every applicable consumer must complete fresh repository-local exact-revision V1.5.1 adoption and acceptance for its supported platforms.
+
+## Publication and deployment boundary
+
+Shared Stable source/lifecycle authority does not by itself establish an immutable `v1.5.1` tag, GitHub Release publication, deployment, production acceptance, or downstream consumer acceptance. Those remain separate governed transitions.
+
+## Development successor boundary
+
+Development-only successor language, contracts, schemas, tokens, validators, and reference inputs may coexist in this repository. They remain non-consumer-eligible and do not alter V1.5.1 Stable authority unless separately promoted through the governed lifecycle.
