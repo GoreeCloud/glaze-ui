@@ -1,0 +1,38 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://goreecloud.dev/schemas/glaze-ui/v1.6-review-harness-plan.schema.json",
+  "title":"Glaze UI V1.6 Review Harness Plan",
+  "type":"object",
+  "additionalProperties":false,
+  "required":[
+    "$schema","schemaVersion","planId","name","lifecycle","sourceRevision",
+    "acceptanceModelVersion","stableBaseline","consumerEligible","humanHarness",
+    "performanceHarness","reviewRecordTemplate","networkPolicy","automaticAcceptance",
+    "automaticPromotionEligibility","requiredReviewLanes","humanReviewScenarios",
+    "performanceMinimumSamples","performanceThresholds","sourceContinuityPaths","privacy","boundary"
+  ],
+  "properties":{
+    "$schema":{"const":"../../schemas/v1.6-review-harness-plan.schema.json"},
+    "schemaVersion":{"const":1},
+    "planId":{"const":"goreecloud.glaze-ui.v1.6.review-harness"},
+    "name":{"const":"Glaze UI V1.6 Human, Rendered, Accessibility, and Performance Review Harness Plan"},
+    "lifecycle":{"const":"DevelopmentQualification"},
+    "sourceRevision":{"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},
+    "acceptanceModelVersion":{"const":"1.6.0-dev.12"},
+    "stableBaseline":{"const":"1.5.1"},
+    "consumerEligible":{"const":false},
+    "humanHarness":{"const":"reference/v1.6/human-review.html"},
+    "performanceHarness":{"const":"reference/v1.6/performance-qualification.html"},
+    "reviewRecordTemplate":{"const":"acceptance/v1.6-review-record.template.json"},
+    "networkPolicy":{"const":"repository-local-only"},
+    "automaticAcceptance":{"const":false},
+    "automaticPromotionEligibility":{"const":false},
+    "requiredReviewLanes":{"type":"array","minItems":15,"maxItems":15,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "humanReviewScenarios":{"type":"array","minItems":18,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "performanceMinimumSamples":{"type":"object","minProperties":5},
+    "performanceThresholds":{"type":"object","minProperties":9},
+    "sourceContinuityPaths":{"type":"array","minItems":12,"maxItems":12,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "privacy":{"type":"object","minProperties":6},
+    "boundary":{"type":"string","minLength":1}
+  }
+}
