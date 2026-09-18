@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../schemas/v1.6-rendered-regression-plan.schema.json",
+  "schemaVersion": 1,
+  "planId": "goreecloud.glaze-ui.v1.6.zero-drift-rendered-regression",
+  "name": "Glaze UI V1.6 Zero-Drift Rendered Regression Qualification",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "specificationSection": 83,
+  "acceptanceLaneId": "regression-testing",
+  "renderedQualificationPlan": "contracts/v1.6/qualification.rendered.plan.json",
+  "captureScript": "scripts/capture_glaze_v1_6_rendered_qualification.py",
+  "qualifier": "scripts/qualify_glaze_v1_6_zero_drift_regression.py",
+  "comparison": {
+    "mode": "independent-browser-session-zero-decoded-pixel-drift",
+    "changedPixelTolerance": 0,
+    "maximumChannelDeltaTolerance": 0,
+    "compareDecodedRgba": true,
+    "sceneSetMustMatch": true,
+    "browserProductMustMatch": true,
+    "browserRevisionMustMatch": true,
+    "sameRunnerRequired": true
+  },
+  "requiredSceneCount": 9,
+  "requiredSceneIds": [
+    "representative-expanded",
+    "representative-compact",
+    "responsive-medium",
+    "reduced-motion",
+    "reduced-transparency",
+    "increased-contrast",
+    "large-text",
+    "layout-stability",
+    "form-factor-transition"
+  ],
+  "evidence": {
+    "type": "rendered",
+    "machineGroupAlreadySatisfied": true,
+    "renderedGroupSatisfiedOnlyOnZeroDriftPass": true,
+    "baselineAndRepeatBoundToSameFrozenSource": true,
+    "referenceMayBePromotedToDurableRecordOnlyAfterSuccessfulExactHeadRun": true
+  },
+  "authority": {
+    "humanEvidenceClaimed": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "physicalDeviceEvidenceClaimed": false,
+    "nativePlatformEvidenceClaimed": false,
+    "representativePerformanceEvidenceClaimed": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This plan qualifies only deterministic rendered regression evidence for the frozen V1.6 Development source. Any non-zero decoded-pixel drift fails closed. A passing run does not establish human, assistive-technology, physical-device/native-platform, representative-performance, lifecycle, consumer, deployment, or production acceptance."
+}
