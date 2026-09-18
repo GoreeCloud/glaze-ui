@@ -94,6 +94,7 @@
     "private":"status.private",
     "updating":"status.updating",
     "error":"status.error",
+    "unverified":"status.unverified",
     "unknownOrUnverifiedMayUpgradeToPositive":false
   },
   "badgeCategories": {
