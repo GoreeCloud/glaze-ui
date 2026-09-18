@@ -106,7 +106,7 @@ def decode_png(path: Path) -> tuple[int, int, bytes]:
                 pixels.extend((row[i], row[i + 1], row[i + 2], 255))
         elif color_type == 4:
             for i in range(0, len(row), 2):
-                pixels.extend((row[i], row[i], row[i + 1], 255))
+                pixels.extend((row[i], row[i], row[i], row[i + 1]))
         else:
             for value in row:
                 pixels.extend((value, value, value, 255))
