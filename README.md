@@ -69,6 +69,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-conformance-adoption.dev.mjs` — Development-only sections 94–97 tooling that records supplied conformance/adoption/migration evidence without changing source, consumer registry state, lifecycle, or production eligibility.
 - `tokens/glaze-v1.6-conformance-adoption.dev.json` — semantic conformance/adoption/migration roles composed from current Stable and V1.6 Development authorities.
 - `scripts/validate_glaze_v1_6_conformance_adoption_development.mjs` + `.github/workflows/glaze-v1.6-conformance-adoption-development.yml` — exact-head `dev.10` source validation plus V1.5.1 Stable preservation.
+- `contracts/v1.6/acceptance.dev.json` + `schemas/v1.6-acceptance.schema.json` — final V1.6 Development qualification-control contract for section 98 plus the section 99/100 pillars and governing principle.
+- `acceptance/v1.6-development.md` — fail-closed 24-lane Development acceptance matrix; all real qualification evidence remains revision-bound and separately verified.
+- `js/glaze-v1.6-acceptance.dev.mjs` — Development-only acceptance evaluator that rejects stale/mismatched/wrong-type evidence and never auto-promotes lifecycle.
+- `scripts/validate_glaze_v1_6_acceptance_development.mjs` + `.github/workflows/glaze-v1.6-acceptance-control-development.yml` — exact-head `dev.11` acceptance-control validation plus V1.5.1 Stable preservation.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 

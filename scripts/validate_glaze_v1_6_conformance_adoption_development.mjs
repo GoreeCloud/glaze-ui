@@ -49,9 +49,14 @@ assert(glazeV16ConformanceAdoptionDevelopmentContract.consumerEligible===false,'
 assert(glazeV16ConformanceAdoptionDevelopmentContract.inspectorMayModifySource===false,'runtime inspector must be advisory');
 assert(glazeV16ConformanceAdoptionDevelopmentContract.sharedStatusImpliesApplicationAdoption===false,'runtime must not infer adoption');
 
-assert(glazeV16Development.version==='1.6.0-dev.10','aggregate must identify dev.10');
+const aggregateVersionParts=String(glazeV16Development.version).split('-dev.');
+const aggregateDevelopmentRevision=Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0]==='1.6.0'&&Number.isInteger(aggregateDevelopmentRevision)&&aggregateDevelopmentRevision>=10,
+  'aggregate Development version must retain or advance beyond dev.10'
+);
 assert(glazeV16Development.lifecycle==='development'&&glazeV16Development.consumerEligible===false,'aggregate boundary mismatch');
-for(let n=1;n<=97;n++)assert(glazeV16Development.implementedSpecificationSections.includes(n),`aggregate missing section ${n}`);
+for(let n=1;n<=97;n++)assert(glazeV16Development.implementedSpecificationSections.includes(n),`aggregate must retain section ${n}`);
 
 const inspectorPass=runGlazeConsistencyInspector({
   evidence:Object.fromEntries(glazeV16ConformanceAdoptionDevelopmentContract.inspectorDomains.map(x=>[x,true])),
