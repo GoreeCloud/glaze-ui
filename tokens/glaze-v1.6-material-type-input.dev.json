@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.6 Material, Typography, Density, and Input Development Semantic Map",
+  "version": "1.6.0-dev.4",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/materials.json",
+    "tokens/layout.json",
+    "tokens/glaze-v1.2-typography.candidate.json",
+    "tokens/glaze-v1.3-type.candidate.json",
+    "tokens/glaze-v1.2-spatial-foundation.candidate.json",
+    "tokens/glaze-v1.2-form-factor.candidate.json",
+    "tokens/glaze-v1.3-layout.candidate.json",
+    "tokens/glaze-v1.3-material.candidate.json",
+    "tokens/glaze-v1.6-state-accessibility.dev.json",
+    "tokens/glaze-v1.6-focus-motion.dev.json"
+  ],
+  "materialRoles": {
+    "canvas": "material.canvas",
+    "solid": "material.solid",
+    "raised": "material.raised",
+    "functional-glass": "material.functionalGlass",
+    "clear-glass": "material.clearGlass",
+    "overlay": "material.overlay"
+  },
+  "blurLevels": {
+    "none": "material.blur.none",
+    "low": "material.blur.low",
+    "standard": "material.blur.standard",
+    "rawArbitraryValuesAllowed": false
+  },
+  "depthRoles": {
+    "canvas": "depth.canvas",
+    "base-surface": "depth.base",
+    "raised-surface": "depth.raised",
+    "floating-surface": "depth.floating",
+    "overlay": "depth.overlay",
+    "dialog": "depth.dialog",
+    "modal": "depth.modal",
+    "transient-control": "depth.transient",
+    "context-surface": "depth.context"
+  },
+  "typographyRoles": {
+    "display": "display",
+    "hero": "largeTitle",
+    "page-title": "title",
+    "section-heading": "heading",
+    "subheading": "subheading",
+    "body": "body",
+    "secondary-body": "body",
+    "label": "label",
+    "supporting-label": "label",
+    "caption": "caption",
+    "metadata": "caption",
+    "numeric-data": "numeric",
+    "code": "monospace",
+    "status": "ui",
+    "button-text": "ui"
+  },
+  "typographyEnvironmentSources": {
+    "compact": "tokens/glaze-v1.3-type.candidate.json#/implementationValues/layoutEnvironmentAdaptation/roleSizeRem/compact",
+    "medium": "tokens/glaze-v1.3-type.candidate.json#/implementationValues/layoutEnvironmentAdaptation/roleSizeRem/medium",
+    "expanded": "tokens/glaze-v1.3-type.candidate.json#/implementationValues/layoutEnvironmentAdaptation/roleSizeRem/expanded",
+    "workspace": "tokens/glaze-v1.3-type.candidate.json#/implementationValues/layoutEnvironmentAdaptation/roleSizeRem/workspace",
+    "far-view": "tokens/glaze-v1.3-type.candidate.json#/implementationValues/layoutEnvironmentAdaptation/roleSizeRem/farView",
+    "wearable": "tokens/glaze-v1.3-type.candidate.json#/implementationValues/layoutEnvironmentAdaptation/roleSizeRem/wearable"
+  },
+  "densityRoles": {
+    "comfortable": "density.comfortable",
+    "standard": "density.standard",
+    "compact": "density.compact",
+    "targetFloorSource": "tokens/layout.json#/interactiveGeometry",
+    "densityMayReduceBelowTargetFloor": false
+  },
+  "inputModes": {
+    "touch": "input.touch",
+    "pointer": "input.pointer",
+    "keyboard": "input.keyboard",
+    "directional": "input.directional",
+    "stylus": "input.stylus",
+    "voice-focus": "input.voice-focus",
+    "assistive-input": "input.assistive",
+    "mixed": "input.mixed"
+  },
+  "pressFeedback": {
+    "surface-compression": "interaction.press.surface-compression",
+    "light-change": "interaction.press.light-change",
+    "opacity": "interaction.press.opacity",
+    "scale": "interaction.press.scale",
+    "border": "interaction.press.border",
+    "material-response": "interaction.press.material-response"
+  },
+  "tactileIntents": {
+    "selection": "tactile.selection",
+    "toggle": "tactile.toggle",
+    "success": "tactile.success",
+    "warning": "tactile.warning",
+    "error": "tactile.error",
+    "boundary": "tactile.boundary",
+    "drag-snap": "tactile.drag-snap",
+    "hardwarePatternOwnedByPlatformAdapter": true
+  },
+  "boundaries": {
+    "solidPreferredForCriticalReadingAndDecisionSurfaces": true,
+    "reducedTransparencyMayForceSolid": true,
+    "performanceMayReduceMaterialCostBeforeSemantics": true,
+    "largeTextMayOverrideDensity": true,
+    "hoverMayBeSoleEssentialPath": false,
+    "tactileFeedbackMayBeSoleMeaningCarrier": false
+  },
+  "boundary": "Development semantic mapping only. Existing Stable V1.5.1 values remain authoritative; inherited candidate/reference sources are not promoted by this map and V1.6 remains non-consumer-eligible."
+}
