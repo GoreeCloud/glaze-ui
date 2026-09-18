@@ -68,3 +68,22 @@ It aliases existing current/historical token authorities rather than replacing S
 Accessibility profiles resolve only from supplied authoritative preferences. The state map does not infer privacy, security, authorization, or provider precedence. Performance adaptation may reduce visual cost but may not rewrite capability truth or interaction authority.
 
 This map does not change `VERSION`, `registry/lifecycle.json`, Stable token values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
+
+
+## V1.6 focus and motion Development semantic map
+
+`tokens/glaze-v1.6-focus-motion.dev.json` is a **Development, non-consumer-eligible semantic map** for the unified V1.6 focus, motion, microinteraction, and continuity foundation.
+
+It defines semantic aliases and bounded presentation roles for:
+
+- material-aware visible focus that remains distinct from selection, hover, press, activation, and drag;
+- 17 semantic motion families covering enter/exit, expansion/collapse, movement/reorder, replacement/reveal/hide, focus/select, loading/refresh, completion/failure, and connection/disconnection;
+- motion magnitude tied to decoration, secondary, primary, and navigation hierarchy;
+- reference fatigue budgets for continuous animation, simultaneous transitions, background material movement, skeleton motion, decorative movement, and large-area transformations;
+- Reduced Motion fallbacks that preserve state and direct manipulation without requiring spatial travel;
+- 14 reusable microinteraction intents;
+- same-identity state continuity and focus/scroll-preserving content replacement.
+
+The map consumes existing Stable motion/state/material/layout authorities and the V1.6 accessibility foundation. It does not promote Glaze Motion: that system remains separately governed as an Experimental foundation.
+
+This map does not change `VERSION`, lifecycle authority, Stable token values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
