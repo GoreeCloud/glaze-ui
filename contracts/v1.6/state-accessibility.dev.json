@@ -1,0 +1,112 @@
+{
+  "$schema": "../../schemas/v1.6-state-accessibility.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.state-accessibility",
+  "name": "Glaze UI V1.6 Semantic State, Accessibility, Performance, and Anti-Jitter Development Contract",
+  "version": "1.6.0-dev.2",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [6, 7, 8, 9, 55, 56, 57, 58, 59],
+  "semanticStates": [
+    "neutral", "informational", "positive", "successful", "warning", "caution",
+    "error", "critical", "restricted", "privacy-sensitive", "security-sensitive",
+    "offline", "degraded", "syncing", "loading", "updating", "stale", "disabled",
+    "read-only", "selected", "active", "inactive", "pending", "scheduled", "paused",
+    "complete"
+  ],
+  "capabilityPresentationStates": [
+    "available", "disabled", "unavailable", "restricted", "unsupported",
+    "permission-required", "temporarily-unavailable", "unknown"
+  ],
+  "semanticColor": {
+    "themeIndependentRoles": true,
+    "protectedSemanticForegrounds": true,
+    "protectedStateBackgrounds": true,
+    "contrastAwareAdaptation": true,
+    "materialAwareSemanticSurfaces": true,
+    "automaticTextColorResolution": true,
+    "increasedContrastVariants": true,
+    "forcedColorCompatibility": true,
+    "colorBlindSafeDifferentiation": true,
+    "nonColorIndicatorsRequired": true,
+    "colorOnlyMeaningAllowed": false
+  },
+  "accessibilityProfiles": [
+    "default", "reduced-motion", "minimal-motion", "reduced-transparency",
+    "solid-surfaces", "increased-contrast", "large-text", "extra-large-text",
+    "simplified-visual-effects", "strong-focus", "touch-assistance",
+    "keyboard-first", "screen-reader-optimized"
+  ],
+  "accessibilityPrecedence": {
+    "overridesDecorativeRichness": true,
+    "fallbackRemainsGlazeUI": true,
+    "profilesMayCombineFromAuthoritativePreferences": true,
+    "privateContentUsedForProfileResolution": false
+  },
+  "capabilityDistinctions": {
+    "disabled": "currently-not-interactive-due-to-local-state",
+    "unavailable": "capability-cannot-currently-be-provided",
+    "restricted": "authoritative-rule-prevents-use",
+    "unsupported": "runtime-cannot-provide-capability",
+    "permission-required": "user-authorization-is-needed",
+    "mustRemainVisuallyDistinct": true
+  },
+  "performanceLevels": {
+    "ordered": ["full", "balanced", "efficient", "essential"],
+    "full": "all-supported-effects-within-governed-budgets",
+    "balanced": "reduced-expensive-effects-preserving-identity",
+    "efficient": "simplified-material-and-motion",
+    "essential": "primarily-solid-surfaces-and-minimal-motion",
+    "semanticsPreserved": true,
+    "interactionCapabilityPreserved": true
+  },
+  "dynamicPerformanceAdaptation": {
+    "authoritativeRuntimeInputsOnly": true,
+    "considerations": [
+      "sustained-frame-degradation",
+      "memory-pressure",
+      "rendering-capability",
+      "power-saving",
+      "thermal-pressure",
+      "active-effect-count"
+    ],
+    "immediateCostReductionAllowed": true,
+    "rapidCostUpgradeAllowed": false,
+    "capabilityTruthMayBeModified": false
+  },
+  "antiJitter": {
+    "referenceStabilityWindowMs": 2000,
+    "referenceMinimumDwellMs": 3000,
+    "stabilityWindowsRequired": true,
+    "minimumDwellRequired": true,
+    "transitionThresholdsRequired": true,
+    "hysteresisRequired": true,
+    "stateChangeCoalescingRequired": true
+  },
+  "diagnostics": {
+    "privacySafe": true,
+    "rawContentIncluded": false,
+    "privateCommunicationsIncluded": false,
+    "providerIdentityIncluded": false,
+    "preciseBehaviorIncluded": false,
+    "credentialsIncluded": false,
+    "operationalAuthorityGranted": false
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "stateTruthOwnedByCaller": true,
+    "capabilityTruthOwnedByCaller": true,
+    "runtimeSignalsOwnedByCaller": true,
+    "privacyTruthCreatedByGlaze": false,
+    "securityTruthCreatedByGlaze": false,
+    "authorizationInferred": false,
+    "permissionGrantedByGlaze": false,
+    "providerPrecedenceInferred": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.6-state-accessibility.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.6-development.mjs",
+  "tokenMap": "tokens/glaze-v1.6-state-accessibility.dev.json",
+  "boundary": "Development implementation foundation only. It does not alter VERSION, registry lifecycle authority, V1.5.1 Stable contracts, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}
