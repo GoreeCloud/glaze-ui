@@ -17,7 +17,7 @@ export * from './glaze-v1.6-conformance-adoption.dev.mjs';
 export * from './glaze-v1.6-acceptance.dev.mjs';
 
 export const glazeV16Development = Object.freeze({
-  version: '1.6.0-dev.11',
+  version: '1.6.0-dev.12',
   lifecycle: 'development',
   stableBaseline: '1.5.1',
   consumerEligible: false,
