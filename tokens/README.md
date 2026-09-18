@@ -107,3 +107,21 @@ It composes existing material, layout, typography, form-factor, accessibility, a
 Critical reading, security/privacy decisions, complex forms, accessibility fallback, and high-information content may force solid or near-solid presentation. Reduced Transparency, large text, performance pressure, and unsupported backdrop effects may reduce visual richness before semantics or interaction correctness.
 
 Candidate/reference token sources remain provenance inputs only; this map does not promote their historical lifecycle status. It also does not change V1.5.1 Stable values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
+
+
+## V1.6 resilience and feedback Development semantic map
+
+`tokens/glaze-v1.6-resilience-feedback.dev.json` is a **Development, non-consumer-eligible semantic map** for V1.6 sections 29–40.
+
+It composes existing state, semantic-color, motion, material, loading, accessibility, focus, and material/type/input authorities into semantic roles for:
+
+- ten distinct empty-state reasons rather than one generic empty screen;
+- fully-online/offline/local-only/partial/sync/degraded connectivity presentation;
+- indeterminate, determinate, step, background, sync, transfer, and processing progress;
+- Passive, Informational, Actionable, Important, and Critical notification priorities;
+- toast, persistent banner, inline status, and dialog surfaces;
+- non-color destructive-action communication and confirmation semantics.
+
+The map preserves caller/provider authority for recovery capability, connectivity truth, data safety, notification criticality, destructive intent, privacy, security, and authorization. It forbids invented recovery, timeout-based connectivity inference, fake progress, invented critical notifications, automatic destructive execution, and blanking usable stale content by default.
+
+This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
