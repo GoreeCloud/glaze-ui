@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://goreecloud.example/schemas/v1.6-assistive-technology-qualification-plan.schema.json",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-assistive-technology-qualification-plan.schema.json",
   "title": "Glaze UI V1.6 Assistive Technology Qualification Plan",
   "type": "object",
   "additionalProperties": false,
   "required": ["$schema","schemaVersion","planId","name","lifecycle","sourceRevision","acceptanceModelVersion","stableBaseline","consumerEligible","evidenceType","laneId","mayAlsoSatisfyAccessibilityAlternativeGroup","requiredReviewScenarios","requiredEnvironmentMetadata","harness","preparation","acceptanceRecord","execution","evidenceBoundary","boundary"],
   "properties": {
-    "$schema": {"type":"string"},
+    "$schema": {"const":"../../schemas/v1.6-assistive-technology-qualification-plan.schema.json"},
     "schemaVersion": {"const":1},
     "planId": {"const":"goreecloud.glaze-ui.v1.6.assistive-technology-qualification"},
     "name": {"type":"string","minLength":20},
