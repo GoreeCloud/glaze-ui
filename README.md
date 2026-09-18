@@ -65,6 +65,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-performance-diagnostics.dev.mjs` — Development-only resolver/evaluator covering section 5 and sections 80–87; it evaluates caller-supplied evidence without manufacturing measurements, rendered/native acceptance, or assistive-technology evidence.
 - `tokens/glaze-v1.6-performance-diagnostics.dev.json` — semantic performance/diagnostic/regression/degradation map including the approved Glaze UI Performance Budget v1.0 thresholds as evidence-evaluation limits.
 - `scripts/validate_glaze_v1_6_performance_diagnostics_development.mjs` + `.github/workflows/glaze-v1.6-performance-diagnostics-development.yml` — exact-head `dev.9` validation plus V1.5.1 Stable preservation; existing V1.6 workflows independently provide regression coverage on aggregate changes.
+- `contracts/v1.6/conformance-adoption.dev.json` + `schemas/v1.6-conformance-adoption.schema.json` — V1.6 Development contract for the Consistency Inspector, component conformance metadata, application adoption profiles, and V1.5.1 migration continuity.
+- `js/glaze-v1.6-conformance-adoption.dev.mjs` — Development-only sections 94–97 tooling that records supplied conformance/adoption/migration evidence without changing source, consumer registry state, lifecycle, or production eligibility.
+- `tokens/glaze-v1.6-conformance-adoption.dev.json` — semantic conformance/adoption/migration roles composed from current Stable and V1.6 Development authorities.
+- `scripts/validate_glaze_v1_6_conformance_adoption_development.mjs` + `.github/workflows/glaze-v1.6-conformance-adoption-development.yml` — exact-head `dev.10` source validation plus V1.5.1 Stable preservation.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
