@@ -61,6 +61,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-experience-governance.dev.mjs` — Development-only resolver covering sections 74–79 and 88–93 with essential-function visibility protection, bounded dominant actions, cross-app operation familiarity, fail-closed truth, minimum-necessary adaptation signals, and effect-benefit validation.
 - `tokens/glaze-v1.6-experience-governance.dev.json` — semantic governance map composed from current token/state/material/layout and implemented V1.6 authorities without changing Stable values.
 - `scripts/validate_glaze_v1_6_experience_governance_development.mjs` + `.github/workflows/glaze-v1.6-experience-governance-development.yml` — exact-head `dev.8` validation plus V1.5.1 Stable preservation; prior V1.6 workflows remain independently triggered for regression coverage.
+- `contracts/v1.6/performance-diagnostics.dev.json` + `schemas/v1.6-performance-diagnostics.schema.json` — V1.6 Development contract for perceived-performance behavior, developer/accessibility/skeleton diagnostics, visual/semantic/performance regression modeling, layout stability, and graceful degradation.
+- `js/glaze-v1.6-performance-diagnostics.dev.mjs` — Development-only resolver/evaluator covering section 5 and sections 80–87; it evaluates caller-supplied evidence without manufacturing measurements, rendered/native acceptance, or assistive-technology evidence.
+- `tokens/glaze-v1.6-performance-diagnostics.dev.json` — semantic performance/diagnostic/regression/degradation map including the approved Glaze UI Performance Budget v1.0 thresholds as evidence-evaluation limits.
+- `scripts/validate_glaze_v1_6_performance_diagnostics_development.mjs` + `.github/workflows/glaze-v1.6-performance-diagnostics-development.yml` — exact-head `dev.9` validation plus V1.5.1 Stable preservation; existing V1.6 workflows independently provide regression coverage on aggregate changes.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 

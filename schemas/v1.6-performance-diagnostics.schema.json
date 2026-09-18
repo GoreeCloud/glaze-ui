@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-performance-diagnostics.schema.json",
+  "title": "Glaze UI V1.6 Performance Diagnostics Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle",
+    "stableBaseline","consumerEligible","implementedSpecificationSections",
+    "perceivedPerformance","developerDiagnostics","accessibilityDiagnostics",
+    "skeletonDiagnostics","visualRegression","semanticRegression",
+    "performanceRegression","layoutStability","gracefulDegradation",
+    "authority","runtimeEntrypoint","developmentAggregateEntrypoint",
+    "tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.6-performance-diagnostics.schema.json"},
+    "schemaVersion": {"const":1},
+    "contractId": {"const":"goreecloud.glaze-ui.v1.6.performance-diagnostics"},
+    "name": {"const":"Glaze UI V1.6 Perceived Performance, Diagnostics, Regression, Layout Stability, and Graceful Degradation Development Contract"},
+    "version": {"const":"1.6.0-dev.9"},
+    "lifecycle": {"const":"Development"},
+    "stableBaseline": {"const":"1.5.1"},
+    "consumerEligible": {"const":false},
+    "implementedSpecificationSections": {
+      "type":"array",
+      "minItems":9,
+      "maxItems":9,
+      "uniqueItems":true,
+      "items":{"type":"integer","minimum":1,"maximum":100}
+    },
+    "perceivedPerformance":{"type":"object","minProperties":10},
+    "developerDiagnostics":{"type":"object","minProperties":4},
+    "accessibilityDiagnostics":{"type":"object","minProperties":2},
+    "skeletonDiagnostics":{"type":"object","minProperties":3},
+    "visualRegression":{"type":"object","minProperties":3},
+    "semanticRegression":{"type":"object","minProperties":2},
+    "performanceRegression":{"type":"object","minProperties":15},
+    "layoutStability":{"type":"object","minProperties":6},
+    "gracefulDegradation":{"type":"object","minProperties":6},
+    "authority":{
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "boundary","measurementsManufactured","renderedEvidenceManufactured",
+        "assistiveTechnologyEvidenceManufactured","stateTruthInvented",
+        "sourceModifiedByDiagnostics","consequentialExecutionAutomatic",
+        "releaseAcceptanceAutomatic","lifecyclePromotionAutomatic"
+      ],
+      "properties":{
+        "boundary":{"const":"presentation-and-evidence-evaluation-only"},
+        "measurementsManufactured":{"const":false},
+        "renderedEvidenceManufactured":{"const":false},
+        "assistiveTechnologyEvidenceManufactured":{"const":false},
+        "stateTruthInvented":{"const":false},
+        "sourceModifiedByDiagnostics":{"const":false},
+        "consequentialExecutionAutomatic":{"const":false},
+        "releaseAcceptanceAutomatic":{"const":false},
+        "lifecyclePromotionAutomatic":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.6-performance-diagnostics.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.6-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.6-performance-diagnostics.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}

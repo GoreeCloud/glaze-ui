@@ -1,0 +1,80 @@
+name: Glaze UI V1.6 Performance Diagnostics Development
+
+on:
+  pull_request:
+    paths:
+      - 'GLAZE_UI_V1_6_PLANNED.md'
+      - 'contracts/v1.6/performance-diagnostics.dev.json'
+      - 'schemas/v1.6-performance-diagnostics.schema.json'
+      - 'tokens/glaze-v1.6-performance-diagnostics.dev.json'
+      - 'tokens/README.md'
+      - 'js/glaze-v1.6-performance-diagnostics.dev.mjs'
+      - 'js/glaze-v1.6-development.mjs'
+      - 'scripts/validate_glaze_v1_6_performance_diagnostics_development.mjs'
+      - 'scripts/validate_glaze_v1_6_experience_governance_development.mjs'
+      - '.github/workflows/glaze-v1.6-performance-diagnostics-development.yml'
+      - 'README.md'
+      - 'SPECIFICATIONS.md'
+      - 'FEATURE-ROADMAP.md'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  push:
+    branches:
+      - main
+    paths:
+      - 'GLAZE_UI_V1_6_PLANNED.md'
+      - 'contracts/v1.6/performance-diagnostics.dev.json'
+      - 'schemas/v1.6-performance-diagnostics.schema.json'
+      - 'tokens/glaze-v1.6-performance-diagnostics.dev.json'
+      - 'tokens/README.md'
+      - 'js/glaze-v1.6-performance-diagnostics.dev.mjs'
+      - 'js/glaze-v1.6-development.mjs'
+      - 'scripts/validate_glaze_v1_6_performance_diagnostics_development.mjs'
+      - 'scripts/validate_glaze_v1_6_experience_governance_development.mjs'
+      - '.github/workflows/glaze-v1.6-performance-diagnostics-development.yml'
+      - 'README.md'
+      - 'SPECIFICATIONS.md'
+      - 'FEATURE-ROADMAP.md'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1-6-performance-diagnostics-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  performance-diagnostics-development:
+    name: Validate V1.6 performance/diagnostics Development foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Validate JSON syntax
+        run: |
+          python -m json.tool contracts/v1.6/performance-diagnostics.dev.json >/dev/null
+          python -m json.tool schemas/v1.6-performance-diagnostics.schema.json >/dev/null
+          python -m json.tool tokens/glaze-v1.6-performance-diagnostics.dev.json >/dev/null
+      - name: Validate JavaScript syntax
+        run: |
+          node --check js/glaze-v1.6-performance-diagnostics.dev.mjs
+          node --check js/glaze-v1.6-development.mjs
+          node --check scripts/validate_glaze_v1_6_performance_diagnostics_development.mjs
+      - name: Validate V1.6 performance/diagnostics Development foundation
+        run: node scripts/validate_glaze_v1_6_performance_diagnostics_development.mjs
+
+  stable-boundary:
+    name: Preserve Glaze UI 1.5.1 Stable authority
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify current Stable authority
+        run: node scripts/verify_glaze_v1_5_1_stable.mjs

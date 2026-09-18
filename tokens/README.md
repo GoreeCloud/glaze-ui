@@ -192,3 +192,23 @@ It composes current layout, state, semantic-color, material, motion, iconography
 Reference dominant-action limits are Development guidance only. Protected semantic meaning, truth authority, privacy, permission, and consequential actions remain outside presentation authority.
 
 This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
+
+
+## V1.6 performance, diagnostics, regression, and degradation Development semantic map
+
+`tokens/glaze-v1.6-performance-diagnostics.dev.json` is a **Development, non-consumer-eligible semantic map** for V1.6 section 5 and sections 80–87.
+
+It composes current layout, state, semantic-color, material, motion, iconography, loading, accessibility, continuity, component-system, and experience-governance authorities into semantic support for:
+
+- immediate interaction feedback, stable asynchronous layout, incremental rendering, progressive disclosure, visible-content priority, deferred nonessential effects, background hydration, placeholder geometry, and stale-content preservation;
+- developer diagnostics for contrast, token overrides, missing component states, blur/motion budget pressure, target size, accessible names, nested material misuse, semantic inconsistency, skeleton duration, and missing loading recovery;
+- accessibility diagnostics for contrast, focus visibility/order, target sizing, Reduced Motion, Reduced Transparency, large-text reflow, semantic announcements, screen-reader labeling, and non-color status meaning;
+- skeleton diagnostics that never invent shimmer or duration limits when the applicable budget is not supplied;
+- deterministic visual-regression scenes and semantic-regression invariants;
+- evaluation of caller-supplied measurements against the approved **GoreeCloud Standard — Glaze UI Performance Budget v1.0** thresholds;
+- layout-stability checks that do not invent a numeric shift threshold;
+- explicit graceful-degradation chains for blur, morphs, animated skeletons, environmental effects, and complex transitions.
+
+The evaluator records missing measurements or environment metadata as unverified rather than passing them. Static source validation does not claim screenshots, rendered/native/device measurements, assistive-technology behavior, Release Candidate or Stable acceptance, downstream consumer adoption, deployment, or production acceptance.
+
+This map does not change Stable V1.5.1 values, consumer eligibility, lifecycle authority, or release state.

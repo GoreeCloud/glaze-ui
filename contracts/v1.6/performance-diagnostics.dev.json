@@ -1,0 +1,155 @@
+{
+  "$schema": "../../schemas/v1.6-performance-diagnostics.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.performance-diagnostics",
+  "name": "Glaze UI V1.6 Perceived Performance, Diagnostics, Regression, Layout Stability, and Graceful Degradation Development Contract",
+  "version": "1.6.0-dev.9",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [5,80,81,82,83,84,85,86,87],
+  "perceivedPerformance": {
+    "immediateInteractionFeedbackRequired": true,
+    "stableLayoutDuringAsyncRequired": true,
+    "incrementalRenderingPreferred": true,
+    "progressiveDisclosurePreferred": true,
+    "deferNonessentialEffects": true,
+    "prioritizeVisibleContent": true,
+    "backgroundHydrateSecondaryContent": true,
+    "placeholderGeometryPreventsLayoutJumps": true,
+    "preserveUsableStaleContent": true,
+    "secondaryCompletionRequiredBeforeInteraction": false
+  },
+  "developerDiagnostics": {
+    "codes": [
+      "insufficient-contrast",
+      "unsupported-token-override",
+      "missing-component-state",
+      "excessive-blur",
+      "excessive-animation",
+      "inaccessible-target-size",
+      "missing-accessible-name",
+      "nested-material-misuse",
+      "inconsistent-semantic-state",
+      "skeleton-active-too-long",
+      "loading-without-recovery"
+    ],
+    "autofixSource": false,
+    "privateContentIncludedByDefault": false,
+    "providerSecretsIncluded": false
+  },
+  "accessibilityDiagnostics": {
+    "checks": [
+      "contrast",
+      "focus-visibility",
+      "logical-focus-order",
+      "minimum-target-sizing",
+      "reduced-motion",
+      "reduced-transparency",
+      "large-text-reflow",
+      "semantic-announcements",
+      "screen-reader-labeling",
+      "non-color-status"
+    ],
+    "missingEvidenceMayInferPass": false
+  },
+  "skeletonDiagnostics": {
+    "detects": [
+      "skeleton-after-content-ready",
+      "reduced-motion-incompatibility",
+      "simultaneous-shimmer-over-budget",
+      "major-layout-shift",
+      "missing-loading-semantics",
+      "missing-failure-escalation",
+      "endless-skeleton",
+      "focus-loss-on-resolve"
+    ],
+    "durationThresholdInvented": false,
+    "shimmerBudgetInvented": false
+  },
+  "visualRegression": {
+    "requiredScenes": [
+      "appearance-light",
+      "appearance-dark",
+      "high-contrast",
+      "reduced-motion",
+      "reduced-transparency",
+      "large-text",
+      "loading",
+      "skeleton-loading",
+      "offline",
+      "degraded",
+      "error",
+      "empty",
+      "responsive-layout",
+      "multiple-input-methods"
+    ],
+    "deterministicReferenceScenes": true,
+    "renderedEvidenceClaimedByResolver": false
+  },
+  "semanticRegression": {
+    "invariants": [
+      "error-remains-error-across-themes",
+      "focus-distinct-from-selection",
+      "loading-not-completion",
+      "restricted-not-merely-disabled",
+      "offline-not-generic-failure"
+    ],
+    "stateTruthInventedByGlaze": false
+  },
+  "performanceRegression": {
+    "budgetSource": "GoreeCloud Standard — Glaze UI Performance Budget",
+    "budgetSourceVersion": "v1.0",
+    "resolverP95MsMax": 10.0,
+    "resolverP99MsMax": 16.7,
+    "interactionPaintP95MsMax": 100,
+    "interactionPaintP99MsMax": 200,
+    "activeFrameP95Rule": "max(20ms,1.25*idle-median-frame-interval)",
+    "severeFrameStallRateMax": 0.01,
+    "catastrophicForegroundStallCountMax": 0,
+    "taskStateResetCountMax": 0,
+    "pageReloadRequiredCountMax": 0,
+    "automaticAuthorityActionCountMax": 0,
+    "measurementsMayBeManufactured": false,
+    "missingMeasurementMayInferPass": false,
+    "exactRevisionBindingRequired": true,
+    "representativeRenderedOrNativeEvidenceRequiredForAcceptance": true
+  },
+  "layoutStability": {
+    "reserveSkeletonSpace": true,
+    "reserveImageSpaceWherePractical": true,
+    "reserveDynamicControlSpaceWherePractical": true,
+    "reserveAsyncContentSpaceWherePractical": true,
+    "unexpectedLayoutMovementMinimized": true,
+    "numericShiftBudgetInvented": false
+  },
+  "gracefulDegradation": {
+    "chains": {
+      "blur": ["blur","translucent-solid","opaque-solid"],
+      "morph": ["morph","fade","immediate-state-change"],
+      "animated-skeleton": ["animated-skeleton","static-skeleton"],
+      "environmental-effect": ["environmental-effect","semantic-surface"],
+      "complex-transition": ["complex-transition","direct-replacement"]
+    },
+    "meaningPreserved": true,
+    "usabilityPreserved": true,
+    "semanticStatePreserved": true,
+    "authorityStatePreserved": true,
+    "automaticFallbackExecution": false
+  },
+  "authority": {
+    "boundary": "presentation-and-evidence-evaluation-only",
+    "measurementsManufactured": false,
+    "renderedEvidenceManufactured": false,
+    "assistiveTechnologyEvidenceManufactured": false,
+    "stateTruthInvented": false,
+    "sourceModifiedByDiagnostics": false,
+    "consequentialExecutionAutomatic": false,
+    "releaseAcceptanceAutomatic": false,
+    "lifecyclePromotionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.6-performance-diagnostics.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.6-development.mjs",
+  "tokenMap": "tokens/glaze-v1.6-performance-diagnostics.dev.json",
+  "boundary": "Development implementation foundation only. It can evaluate caller-supplied evidence against governed budgets but does not itself constitute rendered, native, assistive-technology, performance, Release Candidate, Stable, downstream consumer, deployment, or production acceptance."
+}
