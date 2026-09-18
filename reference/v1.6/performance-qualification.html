@@ -122,7 +122,7 @@ const MIN={resolver:200,interaction:30,idle:120,active:240};
 const SESSION_KEY='goreecloud.glaze-ui.v1.6.performance-measurement-running';
 const $=id=>document.getElementById(id);
 const state={
-  sourceVerified:false,
+  sourceVerified:false,sourceManifest:null,
   reloadDetected:sessionStorage.getItem(SESSION_KEY)==='running',
   idle:[],active:[],resolver:[],interaction:[],
   activeRunning:false,interactionBusy:false,toggle:false,
@@ -182,7 +182,7 @@ function resolverCase(index){
     simplifiedVisualEffects:variant===3
   }});
   resolveGlazeLoadingPresentation({
-    state:variant===1?'continuing':'initial',
+    state:variant===1?'updating':'initial',
     elapsedMs:variant===3?4200:900,
     thresholds:{quietMs:100,skeletonDelayMs:250,delayedResponseMs:4000,recoveryOfferMs:8000},
     accessibility:{
@@ -264,7 +264,7 @@ async function loadSourceManifest(){
       glazeV16Development.stableBaseline===STABLE&&
       glazeV16Development.consumerEligible===false;
     if(!good)throw new Error('exact-source or lifecycle identity mismatch');
-    state.sourceVerified=true;
+    state.sourceVerified=true;\n    state.sourceManifest=manifest;
     $('source-status').textContent='Exact frozen source verified: '+SOURCE+'. Tooling: '+manifest.toolingRevision+'.';
     $('source-status').className='status pass';
     $('start').disabled=false;
