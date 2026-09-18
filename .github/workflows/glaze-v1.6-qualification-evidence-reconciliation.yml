@@ -81,6 +81,24 @@ jobs:
           fi
           grep -q "V1.6 qualification evidence remains incomplete" /tmp/should-not-complete.err
 
+      - name: Reject external evidence outside governed acceptance records
+        run: |
+          set -euo pipefail
+          cp acceptance/v1.6-human-evidence.template.json /tmp/v1.6-human-outside-repository.json
+          if node scripts/evaluate_glaze_v1_6_qualification_evidence.mjs --external /tmp/v1.6-human-outside-repository.json > /tmp/outside-evidence.json 2> /tmp/outside-evidence.err; then
+            echo "Evidence reconciliation unexpectedly accepted an out-of-repository record"
+            exit 1
+          fi
+          grep -q "durable repository record under acceptance/" /tmp/outside-evidence.err
+
+          ln -s /tmp/v1.6-human-outside-repository.json acceptance/.v1.6-outside-evidence-test.json
+          if node scripts/evaluate_glaze_v1_6_qualification_evidence.mjs --external acceptance/.v1.6-outside-evidence-test.json > /tmp/symlink-evidence.json 2> /tmp/symlink-evidence.err; then
+            echo "Evidence reconciliation unexpectedly accepted an escaping symlink"
+            exit 1
+          fi
+          grep -q "durable repository record under acceptance/" /tmp/symlink-evidence.err
+          rm acceptance/.v1.6-outside-evidence-test.json
+
       - name: Preserve external record and acceptance controls
         run: |
           node scripts/validate_glaze_v1_6_external_evidence_records.mjs
