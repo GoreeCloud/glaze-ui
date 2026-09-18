@@ -78,7 +78,17 @@ function resolveGovernedExternalRecord(recordPath){
     'external evidence must resolve inside the governed repository');
   assert(relativeToAcceptance!==''&&!relativeToAcceptance.startsWith('..')&&!path.isAbsolute(relativeToAcceptance),
     'external evidence counted by reconciliation must be a durable repository record under acceptance/');
-  return relativeToRepository.split(path.sep).join('/');
+  assert(fs.statSync(resolved).isFile(),'external evidence must resolve to a regular file');
+  const governedRecordPath=relativeToRepository.split(path.sep).join('/');
+  const tracked=spawnSync('git',['ls-files','--error-unmatch','--',governedRecordPath],{
+    cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']
+  });
+  assert(tracked.status===0,'external evidence counted by reconciliation must be tracked by Git at the exact reconciliation revision');
+  const clean=spawnSync('git',['diff','--quiet','HEAD','--',governedRecordPath],{
+    cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']
+  });
+  assert(clean.status===0,'external evidence must match the committed bytes at the exact reconciliation revision');
+  return governedRecordPath;
 }
 
 function validateExternalRecord(recordPath,seenIds){
