@@ -32,7 +32,7 @@ This file describes capabilities present in the current Stable GLAZE UI V1.5 sou
 
 ## Stable qualification capabilities
 
-The current Stable V1.5.1 qualification retains the sixteen accepted V1.5.0 obligations and adds two independently reviewed qualification expansions, for eighteen accepted shared obligations in total:
+The current Stable V1.5.1 qualification is the governing shared qualification. It retains the sixteen accepted V1.5.0 obligations and adds two independently reviewed qualification expansions, for eighteen accepted shared obligations in total:
 
 - `performance-representative-budget` — accepted for the reviewed representative Zorin OS 17.3 / Firefox 156.0 / Lenovo IdeaPad 3 15IIL05 environment.
 - `platform-posture-continuity` — accepted for the approved Pixel Fold Android Emulator target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`.
