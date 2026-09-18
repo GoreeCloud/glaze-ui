@@ -15,7 +15,7 @@ live_release = next(
     (item for item in lifecycle.get("releases", []) if isinstance(item, dict) and item.get("version") == live_version),
     None,
 )
-live_product = str((live_release or {}).get("label", "GLAZE UI")).split(" — ", 1)[0].strip()
+live_product = str(lifecycle.get("officialProductLabel", "GLAZE UI")).split(" — ", 1)[0].strip()
 
 if DIST.exists():
     shutil.rmtree(DIST)
