@@ -10,6 +10,9 @@ on:
       - 'contracts/v1.6/qualification.rendered.plan.json'
       - 'reference/v1.6/rendered-qualification.html'
       - 'acceptance/v1.6-rendered-evidence.json'
+      - 'acceptance/v1.6-regression-evidence.json'
+      - 'schemas/v1.6-regression-evidence.schema.json'
+      - 'scripts/validate_glaze_v1_6_regression_evidence_record.mjs'
       - 'acceptance/v1.6-development.md'
       - 'contracts/v1.6/acceptance.dev.json'
       - 'js/glaze-v1.6-acceptance.dev.mjs'
@@ -47,6 +50,9 @@ jobs:
 
       - name: Preserve durable rendered evidence record
         run: node scripts/validate_glaze_v1_6_rendered_evidence_record.mjs
+
+      - name: Validate durable rendered regression evidence record
+        run: node scripts/validate_glaze_v1_6_regression_evidence_record.mjs
 
       - name: Preserve V1.5.1 Stable authority
         run: node scripts/verify_glaze_v1_5_1_stable.mjs
