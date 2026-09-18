@@ -1,0 +1,146 @@
+{
+  "$schema": "../../schemas/v1.6-navigation-status.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.navigation-status",
+  "name": "Glaze UI V1.6 Search, Navigation, Responsive, Localization, Status, Provenance, Privacy, Security, and Capability Development Contract",
+  "version": "1.6.0-dev.6",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [41,42,43,44,45,46,47,48,49,50,51,52,53,54],
+  "search": {
+    "phases": [
+      "initial","typing","suggestions","loading","partial-results","results",
+      "no-results","offline-results","filters","history","error"
+    ],
+    "preserveExistingRelativeOrder": true,
+    "providerArrivalMayReorderExistingResults": false,
+    "providerPrecedenceInferred": false,
+    "offlineStateInferredFromTimeout": false,
+    "queryFilterSelectionContinuityRequired": true
+  },
+  "navigation": {
+    "preserve": [
+      "scroll-position","selection","expanded-state",
+      "active-filters","query-state","pane-state"
+    ],
+    "capabilityStates": ["available","unavailable","restricted","degraded"],
+    "primaryDestinationsStable": true,
+    "transientRuntimeChangesMayContinuouslyReorderPrimaryDestinations": false,
+    "silentRemovalPreferred": false
+  },
+  "responsive": {
+    "environments": [
+      "compact","medium","expanded","large-screen",
+      "workspace","far-view","wearable","spatial"
+    ],
+    "inputs": [
+      "available-window-space","viewing-distance","input-method",
+      "posture","content-density","application-task","accessibility"
+    ],
+    "widthAloneIsAuthority": false,
+    "deviceBrandBreakpointAuthority": false,
+    "taskValueRequiredForAdditionalPanes": true,
+    "accessibilityMayReducePaneCount": true,
+    "targetMayShrinkToPreservePaneCount": false
+  },
+  "paneContinuity": {
+    "states": ["single-pane","dual-pane","multi-pane","overlay-pane"],
+    "deterministicTransitionsRequired": true,
+    "selectedContentPreservedWhenValid": true,
+    "overlayDismissalPreservesUnderlyingTask": true
+  },
+  "posture": {
+    "states": [
+      "folded","unfolded","tabletop","portrait","landscape",
+      "external-display","resized-window","flat","unknown"
+    ],
+    "platformUnsafeRegionsRequiredWhenApplicable": true,
+    "hardCodedDeviceGeometryAllowed": false,
+    "criticalControlsMayCrossUnsafeRegions": false,
+    "textMayCrossUnsafeRegions": false
+  },
+  "localization": {
+    "directions": ["ltr","rtl","mixed"],
+    "logicalPropertiesRequired": true,
+    "englishLengthAssumptionsAllowed": false,
+    "wrappingAndReflowPreferred": true,
+    "clippingAllowedByDefault": false,
+    "localeSpecificNumbersAndDatesRequired": true,
+    "localeInferredFromPrivateContent": false
+  },
+  "iconography": {
+    "states": ["inactive","active","selected","disabled","unavailable"],
+    "consistentOpticalWeightRequired": true,
+    "scalableConstructionRequired": true,
+    "directionalCorrectnessRequired": true,
+    "sufficientContrastRequired": true,
+    "labelRequiredWhenMeaningUnclear": true,
+    "temporaryStateSeparateFromIdentity": true
+  },
+  "statusIndicators": {
+    "states": [
+      "online","offline","local","remote","syncing","synced","unsynced",
+      "protected","restricted","shared","private","updating","error"
+    ],
+    "standardizedAcrossApplications": true,
+    "nonColorMeaningRequired": true,
+    "unknownOrUnverifiedMayUpgradeToPositive": false
+  },
+  "badges": {
+    "categories": ["status","count","source","privacy","connectivity","warning"],
+    "secondaryToPrimaryContent": true,
+    "maxVisibleCompact": 1,
+    "excessiveStackingAllowed": false
+  },
+  "provenance": {
+    "sources": ["local","goreecloud-service","remote","cached","synchronized","imported","unknown"],
+    "truthfulSourceRequired": true,
+    "implementationDetailsMinimized": true,
+    "ownershipImplied": false,
+    "authorizationImplied": false,
+    "providerPrecedenceInferred": false
+  },
+  "privacy": {
+    "states": [
+      "private","shared","restricted","permission-required",
+      "consent-required","local-only","protected","retention-limited","unknown"
+    ],
+    "stateCreatedByGlaze": false,
+    "positiveStateRequiresAuthority": true,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false
+  },
+  "security": {
+    "states": ["protected","restricted","warning","critical","unverified","unknown"],
+    "distinguishFromOrdinaryWarning": true,
+    "stateInferredByGlaze": false,
+    "positiveStateRequiresAuthority": true,
+    "authorizationGrantedByGlaze": false
+  },
+  "capabilities": {
+    "states": [
+      "available","unavailable","unsupported","restricted",
+      "permission-required","temporarily-unavailable","unknown"
+    ],
+    "explainUnavailableWhereUseful": true,
+    "silentRemovalPreferred": false,
+    "permissionRequestAutomatic": false,
+    "restrictionInferredByGlaze": false
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "taskStateOwnedByApplication": true,
+    "environmentAndPostureOwnedByCallerOrPlatform": true,
+    "sourceTruthOwnedByCallerOrProvider": true,
+    "privacyTruthOwnedByPrivacyShieldOrCaller": true,
+    "securityTruthOwnedByWardveilOrAuthoritativeProvider": true,
+    "capabilityTruthOwnedByCallerOrProvider": true,
+    "providerPrecedenceInferred": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.6-navigation-status.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.6-development.mjs",
+  "tokenMap": "tokens/glaze-v1.6-navigation-status.dev.json",
+  "boundary": "Development implementation foundation only. It does not alter VERSION, registry lifecycle authority, V1.5.1 Stable contracts, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}
