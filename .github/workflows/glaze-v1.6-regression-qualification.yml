@@ -1,0 +1,207 @@
+name: Glaze UI V1.6 Rendered Regression Qualification
+
+on:
+  pull_request:
+    paths:
+      - 'contracts/v1.6/qualification.regression.plan.json'
+      - 'schemas/v1.6-regression-qualification-plan.schema.json'
+      - 'scripts/validate_glaze_v1_6_regression_qualification_plan.mjs'
+      - 'scripts/capture_glaze_v1_6_rendered_qualification.py'
+      - 'contracts/v1.6/qualification.rendered.plan.json'
+      - 'reference/v1.6/rendered-qualification.html'
+      - 'acceptance/v1.6-rendered-evidence.json'
+      - 'acceptance/v1.6-development.md'
+      - 'contracts/v1.6/acceptance.dev.json'
+      - 'js/glaze-v1.6-acceptance.dev.mjs'
+      - '.github/workflows/glaze-v1.6-regression-qualification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  V16_SOURCE_SHA: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
+  BASELINE_RUN_ID: '35348330585'
+  BASELINE_ARTIFACT_ID: '10549115165'
+  BASELINE_ARTIFACT_NAME: glaze-v1.6-rendered-browser-35348330585
+  BASELINE_ARTIFACT_DIGEST: sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506
+
+jobs:
+  verify-regression-control-plane:
+    name: Verify V1.6 regression control plane
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out exact tooling revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate regression qualification plan
+        run: node scripts/validate_glaze_v1_6_regression_qualification_plan.mjs
+
+      - name: Preserve acceptance behavior
+        run: node scripts/validate_glaze_v1_6_acceptance_development.mjs
+
+      - name: Preserve durable rendered evidence record
+        run: node scripts/validate_glaze_v1_6_rendered_evidence_record.mjs
+
+      - name: Preserve V1.5.1 Stable authority
+        run: node scripts/verify_glaze_v1_5_1_stable.mjs
+
+      - name: Verify validation did not mutate tracked source
+        run: git diff --exit-code -- .
+
+  compare-rendered-regression:
+    name: Compare frozen-source rendered regression
+    needs: verify-regression-control-plane
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out exact tooling revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check out frozen V1.6 qualification source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.V16_SOURCE_SHA }}
+          path: _v16-source
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Verify baseline artifact metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL             -H "Authorization: Bearer $GH_TOKEN"             -H "Accept: application/vnd.github+json"             -H "X-GitHub-Api-Version: 2022-11-28"             "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$BASELINE_ARTIFACT_ID"             -o baseline-artifact.json
+          test "$(jq -r '.id' baseline-artifact.json)" = "$BASELINE_ARTIFACT_ID"
+          test "$(jq -r '.name' baseline-artifact.json)" = "$BASELINE_ARTIFACT_NAME"
+          test "$(jq -r '.digest' baseline-artifact.json)" = "$BASELINE_ARTIFACT_DIGEST"
+          test "$(jq -r '.expired' baseline-artifact.json)" = "false"
+          test "$(jq -r '.workflow_run.id' baseline-artifact.json)" = "$BASELINE_RUN_ID"
+
+      - name: Download recorded rendered baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL -L             -H "Authorization: Bearer $GH_TOKEN"             -H "Accept: application/vnd.github+json"             -H "X-GitHub-Api-Version: 2022-11-28"             "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$BASELINE_ARTIFACT_ID/zip"             -o baseline.zip
+          rm -rf _baseline
+          mkdir _baseline
+          unzip -q baseline.zip -d _baseline
+          test -f _baseline/manifest.json
+          test -d _baseline/screenshots
+
+      - name: Assemble local-only composite render root
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _v16-render-root
+          mkdir -p _v16-render-root/reference/v1.6
+          cp -a _v16-source/js _v16-render-root/js
+          cp -a _v16-source/css _v16-render-root/css
+          cp reference/v1.6/rendered-qualification.html _v16-render-root/reference/v1.6/rendered-qualification.html
+          test -f _v16-render-root/js/glaze-v1.6-development.mjs
+          test -f _v16-render-root/css/glaze-v1.4.1.css
+          test -f _v16-render-root/reference/v1.6/rendered-qualification.html
+
+      - name: Capture fresh exact-source rendered scenes
+        run: |
+          rm -rf artifacts/v1.6-regression
+          python scripts/capture_glaze_v1_6_rendered_qualification.py             --render-root _v16-render-root             --source-root _v16-source             --tooling-root .             --out artifacts/v1.6-regression/fresh
+
+      - name: Compare screenshots against governed baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          SOURCE='c7509c79256b04b0aa67cb9dd0737d7588e0ae4a'
+          baseline=json.loads(Path('_baseline/manifest.json').read_text())
+          fresh=json.loads(Path('artifacts/v1.6-regression/fresh/manifest.json').read_text())
+
+          assert baseline['sourceRevision']==SOURCE
+          assert fresh['sourceRevision']==SOURCE
+          assert baseline['sceneCount']==9
+          assert fresh['sceneCount']==9
+          assert baseline['passed'] is True
+          assert fresh['passed'] is True
+
+          base={item['id']:item for item in baseline['scenes']}
+          new={item['id']:item for item in fresh['scenes']}
+          assert set(base)==set(new)
+          mismatches=[]
+          for scene_id in sorted(base):
+              expected=base[scene_id]['screenshotSha256']
+              actual=new[scene_id]['screenshotSha256']
+              if expected!=actual:
+                  mismatches.append({'id':scene_id,'baseline':expected,'fresh':actual})
+
+          result={
+              'schemaVersion':1,
+              'recordType':'glaze-v1.6-rendered-regression-comparison',
+              'lifecycle':'DevelopmentQualification',
+              'sourceRevision':SOURCE,
+              'stableBaseline':'1.5.1',
+              'laneId':'regression-testing',
+              'baselineRunId':35348330585,
+              'baselineArtifactId':10549115165,
+              'baselineArtifactDigest':'sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506',
+              'comparisonKind':'screenshot-sha256-exact',
+              'tolerance':0,
+              'sceneCount':9,
+              'mismatches':mismatches,
+              'passed':not mismatches,
+              'authority':{
+                  'renderedRegressionOnly':True,
+                  'humanEvidenceClaimed':False,
+                  'assistiveTechnologyEvidenceClaimed':False,
+                  'physicalDeviceEvidenceClaimed':False,
+                  'nativePlatformEvidenceClaimed':False,
+                  'representativePerformanceEvidenceClaimed':False,
+                  'lifecyclePromotionAutomatic':False,
+                  'stableStatusGranted':False,
+                  'consumerAcceptanceAutomatic':False,
+                  'deploymentAcceptanceAutomatic':False,
+                  'productionAcceptanceAutomatic':False
+              }
+          }
+          out=Path('artifacts/v1.6-regression/regression-result.json')
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+          if mismatches:
+              raise SystemExit('rendered regression mismatch: '+json.dumps(mismatches,sort_keys=True))
+          print('V1.6 rendered regression comparison: PASS')
+          print('Scenes compared: 9')
+          print('Tolerance: 0')
+          PY
+
+      - name: Preserve frozen source and tooling cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C _v16-source diff --exit-code -- .
+          git diff --exit-code -- .
+
+      - name: Upload regression qualification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: glaze-v1.6-rendered-regression-${{ github.run_id }}
+          path: artifacts/v1.6-regression/
+          if-no-files-found: error
+          retention-days: 90
