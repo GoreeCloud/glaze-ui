@@ -57,6 +57,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-component-systems.dev.mjs` — Development-only resolver covering sections 60–70 with bounded optional richness, energy-aware simplification, component completeness checks, authoritative save state, accessible data presentation, and nonblocking background-work feedback.
 - `tokens/glaze-v1.6-component-systems.dev.json` — semantic aliases and Development reference budgets composed from current Stable and implemented V1.6 authorities.
 - `scripts/validate_glaze_v1_6_component_systems_development.mjs` + `.github/workflows/glaze-v1.6-component-systems-development.yml` — exact-head `dev.7` validation plus V1.5.1 Stable-boundary preservation; prior V1.6 regression workflows remain independently triggered by aggregate changes to avoid duplicating the same checks again inside this workflow.
+- `contracts/v1.6/experience-governance.dev.json` + `schemas/v1.6-experience-governance.schema.json` — V1.6 Development contract for progressive disclosure, action hierarchy, common application behavior, semantic-token safety, truthful/privacy-minimized/local-first presentation, stable primary actions, calm defaults, and restrained expressive effects.
+- `js/glaze-v1.6-experience-governance.dev.mjs` — Development-only resolver covering sections 74–79 and 88–93 with essential-function visibility protection, bounded dominant actions, cross-app operation familiarity, fail-closed truth, minimum-necessary adaptation signals, and effect-benefit validation.
+- `tokens/glaze-v1.6-experience-governance.dev.json` — semantic governance map composed from current token/state/material/layout and implemented V1.6 authorities without changing Stable values.
+- `scripts/validate_glaze_v1_6_experience_governance_development.mjs` + `.github/workflows/glaze-v1.6-experience-governance-development.yml` — exact-head `dev.8` validation plus V1.5.1 Stable preservation; prior V1.6 workflows remain independently triggered for regression coverage.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 

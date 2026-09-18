@@ -170,3 +170,25 @@ It composes current state, layout, material, semantic-color, motion, loading, ac
 The complexity budget may simplify optional effects, but it may not remove semantic content, reduce accessibility, hide critical state, invent save/data/progress truth, or execute application work. Its numeric reference thresholds are Development guidance only and are not Stable production thresholds.
 
 This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
+
+
+## V1.6 experience-governance Development semantic map
+
+`tokens/glaze-v1.6-experience-governance.dev.json` is a **Development, non-consumer-eligible semantic map** for V1.6 sections 74–79 and 88–93.
+
+It composes current layout, state, semantic-color, material, motion, iconography, and implemented V1.6 authorities into semantic governance for:
+
+- progressive disclosure that keeps application-declared essential functionality visible;
+- Primary, Secondary, Tertiary, Contextual, and Destructive action hierarchy;
+- shared GoreeCloud application chrome and familiar common-operation behavior;
+- semantic token categories and protected token domains;
+- fail-closed presentation of capability, authority, privacy, security, connectivity, availability, and permission truth;
+- minimum-necessary adaptation signals that reject personal content, private communications, browsing history, precise behavior, and unrelated app state;
+- local-first resolution of ordinary appearance, accessibility, responsive behavior, skeleton loading, component state, focus, semantic color, and density;
+- stable primary-action ordering unless an application supplies a strong task-related reason for recomposition;
+- calm-default visual behavior;
+- expressive effects that must improve at least one approved outcome such as hierarchy, readability, feedback, continuity, spatial understanding, state comprehension, or identity.
+
+Reference dominant-action limits are Development guidance only. Protected semantic meaning, truth authority, privacy, permission, and consequential actions remain outside presentation authority.
+
+This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.

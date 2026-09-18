@@ -11,9 +11,10 @@ export * from './glaze-v1.6-material-type-input.dev.mjs';
 export * from './glaze-v1.6-resilience-feedback.dev.mjs';
 export * from './glaze-v1.6-navigation-status.dev.mjs';
 export * from './glaze-v1.6-component-systems.dev.mjs';
+export * from './glaze-v1.6-experience-governance.dev.mjs';
 
 export const glazeV16Development = Object.freeze({
-  version: '1.6.0-dev.7',
+  version: '1.6.0-dev.8',
   lifecycle: 'development',
   stableBaseline: '1.5.1',
   consumerEligible: false,
@@ -26,7 +27,9 @@ export const glazeV16Development = Object.freeze({
     41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
     55, 56, 57, 58, 59,
     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
-    71, 72, 73
+    71, 72, 73,
+    74, 75, 76, 77, 78, 79,
+    88, 89, 90, 91, 92, 93
   ]),
   loadingFoundation: 'js/glaze-v1.6-loading.dev.mjs',
   stateAccessibilityFoundation: 'js/glaze-v1.6-state-accessibility.dev.mjs',
@@ -35,6 +38,7 @@ export const glazeV16Development = Object.freeze({
   resilienceFeedbackFoundation: 'js/glaze-v1.6-resilience-feedback.dev.mjs',
   navigationStatusFoundation: 'js/glaze-v1.6-navigation-status.dev.mjs',
   componentSystemsFoundation: 'js/glaze-v1.6-component-systems.dev.mjs',
+  experienceGovernanceFoundation: 'js/glaze-v1.6-experience-governance.dev.mjs',
   presentationOnly: true,
   accessibilityPrecedence: true,
   providerTruthManufactured: false,
