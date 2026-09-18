@@ -10,7 +10,10 @@ on:
       - 'contracts/v1.6/qualification.rendered.plan.json'
       - 'reference/v1.6/rendered-qualification.html'
       - 'acceptance/v1.6-rendered-evidence.json'
+      - 'acceptance/v1.6-regression-evidence.json'
       - 'acceptance/v1.6-development.md'
+      - 'schemas/v1.6-regression-evidence.schema.json'
+      - 'scripts/validate_glaze_v1_6_regression_evidence_record.mjs'
       - 'contracts/v1.6/acceptance.dev.json'
       - 'js/glaze-v1.6-acceptance.dev.mjs'
       - '.github/workflows/glaze-v1.6-regression-qualification.yml'
@@ -41,6 +44,12 @@ jobs:
 
       - name: Validate regression qualification plan
         run: node scripts/validate_glaze_v1_6_regression_qualification_plan.mjs
+
+      - name: Syntax-check durable regression evidence validator
+        run: node --check scripts/validate_glaze_v1_6_regression_evidence_record.mjs
+
+      - name: Validate durable regression evidence record
+        run: node scripts/validate_glaze_v1_6_regression_evidence_record.mjs
 
       - name: Preserve acceptance behavior
         run: node scripts/validate_glaze_v1_6_acceptance_development.mjs

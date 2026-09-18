@@ -1,0 +1,104 @@
+{
+  "$schema": "../schemas/v1.6-regression-evidence.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.rendered-regression-evidence",
+  "name": "Glaze UI V1.6 Exact-Source Rendered Regression Evidence",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "tooling": {
+    "pullRequest": 258,
+    "toolingHeadRevision": "fe471447d37ea800d03be438e1126f0840f89000",
+    "mergeRevision": "b1f8575d6ed9199a7eb130f919680376c2e74d14"
+  },
+  "qualificationRun": {
+    "runId": 35352215130,
+    "verificationJobId": 105622807547,
+    "comparisonJobId": 105622931820,
+    "conclusion": "success",
+    "observedAt": "2026-09-18T13:47:39Z",
+    "reference": "GitHub Actions run 35352215130 / verification job 105622807547 / comparison job 105622931820"
+  },
+  "artifact": {
+    "id": 10550685472,
+    "name": "glaze-v1.6-rendered-regression-35352215130",
+    "sizeBytes": 3808954,
+    "digest": "sha256:5c4058fba12969fe1c95c523f5f9cd4fc1fb846cc2b3aaab4b2ba84c9034839d",
+    "createdAt": "2026-09-18T13:47:36Z",
+    "expiresAt": "2026-12-17T13:46:44Z",
+    "expiredAtObservation": false,
+    "sceneCount": 9,
+    "pixelTolerance": 0
+  },
+  "comparison": {
+    "kind": "semantic-baseline-plus-double-render-pixel-sha256-exact",
+    "priorRenderedEvidenceRunId": 35348330585,
+    "priorRenderedEvidenceArtifactId": 10549115165,
+    "semanticBaselineMatched": true,
+    "freshVisualRepeatabilityMatched": true,
+    "freshCaptureCount": 2,
+    "pixelTolerance": 0
+  },
+  "regressionEvidence": [
+    {
+      "id": "regression-testing",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35352215130 / comparison job 105622931820 / artifact 10550685472 / sha256:5c4058fba12969fe1c95c523f5f9cd4fc1fb846cc2b3aaab4b2ba84c9034839d"
+    }
+  ],
+  "matrixDisposition": {
+    "fullyVerifiedLaneIds": [
+      "source-implementation",
+      "design-tokens",
+      "skeleton-system",
+      "loading-behavior",
+      "semantic-colors",
+      "reduced-motion",
+      "reduced-transparency",
+      "increased-contrast",
+      "large-text",
+      "responsive-layouts",
+      "form-factor-transitions",
+      "layout-stability",
+      "offline-behavior",
+      "degraded-behavior",
+      "loading-escalation",
+      "component-state-completeness",
+      "regression-testing"
+    ],
+    "partialLaneIds": [
+      "accessibility",
+      "keyboard-navigation",
+      "privacy-boundaries",
+      "authority-boundaries",
+      "representative-rendering"
+    ],
+    "untouchedLaneIds": [
+      "assistive-technology",
+      "performance"
+    ],
+    "verifiedCount": 17,
+    "unverifiedCount": 7,
+    "notApplicableCount": 0,
+    "qualificationEvidenceComplete": false,
+    "readyForGovernedQualificationReview": false
+  },
+  "authority": {
+    "renderedRegressionEvidenceClaimed": true,
+    "humanEvidenceClaimed": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "deviceEvidenceClaimed": false,
+    "nativePlatformEvidenceClaimed": false,
+    "performanceEvidenceClaimed": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This record binds the successful exact-source rendered regression qualification from PR #258 to the frozen V1.6 Development source. It closes only the rendered evidence group for regression-testing. Human, assistive-technology, physical-device/native-platform, representative-performance, Candidate, Release Candidate, Stable, downstream consumer, deployment, and production acceptance remain unclaimed."
+}
