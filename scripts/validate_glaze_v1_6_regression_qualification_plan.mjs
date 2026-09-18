@@ -41,9 +41,9 @@ const renderedScenes=sort(renderedPlan.scenes.map(scene=>scene.id));
 assert(JSON.stringify(sort(plan.sceneIds))===JSON.stringify(renderedScenes),'regression scene set must equal rendered qualification scene set');
 assert(new Set(plan.sceneIds).size===9,'regression scene IDs must be unique');
 const comparison=plan.comparison;
-assert(comparison.kind==='semantic-baseline-plus-double-render-sha256-exact','regression comparison kind drifted');
+assert(comparison.kind==='semantic-baseline-plus-double-render-pixel-sha256-exact','regression comparison kind drifted');
 assert(comparison.pixelTolerance===0,'pixel comparison tolerance must remain zero');
-for(const key of ['allScenesRequired','priorManifestRequired','sourceRevisionMustMatch','semanticEvidenceSha256MustMatchPrior','freshScreenshotSha256MustMatchEachOther']){
+for(const key of ['allScenesRequired','priorManifestRequired','sourceRevisionMustMatch','semanticEvidenceSha256MustMatchPrior','freshPixelSha256MustMatchEachOther']){
   assert(comparison[key]===true,'regression comparison requirement drifted: '+key);
 }
 assert(comparison.freshManifestCount===2,'regression qualification must require two fresh manifests');
@@ -51,6 +51,7 @@ assert(comparison.freshManifestCount===2,'regression qualification must require 
 assert(capture.includes("background-position:50% 0!important"),'capture must normalize skeleton background position before screenshot');
 assert(capture.includes("line.style.backgroundPosition='50% 0'"),'capture must explicitly normalize skeleton inline background position');
 assert(capture.includes(".glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--surface-solid)!important}"),'capture must normalize composited material after semantic measurement');
+assert(capture.includes('"pixelSha256": png_pixel_sha256(image)'), 'capture manifest must record decoded pixel SHA-256');
 
 assert(Array.isArray(acceptance.evidenceRequirements['regression-testing']),'acceptance contract missing regression-testing');
 assert(JSON.stringify(acceptance.evidenceRequirements['regression-testing'])==='[["machine"],["rendered"]]','regression evidence groups drifted');
