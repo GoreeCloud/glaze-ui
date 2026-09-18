@@ -97,12 +97,19 @@ assert(glazeV16ExperienceGovernanceDevelopmentContract.ordinaryPresentationRequi
 assert(glazeV16ExperienceGovernanceDevelopmentContract.transientAdaptationMayReorderPrimaryActions === false, 'runtime must preserve primary action stability');
 assert(glazeV16ExperienceGovernanceDevelopmentContract.unjustifiedExpressiveEffectsAllowed === false, 'runtime must reject unjustified effects');
 
-assert(glazeV16Development.version === '1.6.0-dev.8', 'aggregate must identify dev.8');
+const aggregateVersionParts = String(glazeV16Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.6.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 8,
+  'aggregate Development version must retain or advance beyond dev.8'
+);
 assert(glazeV16Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV16Development.stableBaseline === '1.5.1', 'aggregate Stable baseline mismatch');
 assert(glazeV16Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
 for (const number of sections) {
-  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate missing experience-governance section ${number}`);
+  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate must retain experience-governance section ${number}`);
 }
 for (const retained of [1,6,10,15,29,41,55,60,70,71,73]) {
   assert(glazeV16Development.implementedSpecificationSections.includes(retained), `aggregate lost prior section ${retained}`);
