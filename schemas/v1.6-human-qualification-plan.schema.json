@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-human-qualification-plan.schema.json",
+  "title": "Glaze UI V1.6 Human Qualification Review Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","planId","name","lifecycle","sourceRevision",
+    "acceptanceModelVersion","stableBaseline","consumerEligible","evidenceType",
+    "lanes","existingEvidencePrerequisites","requiredReviewScenarios","harness",
+    "preparation","acceptanceRecord","execution","evidenceBoundary","boundary"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.6-human-qualification-plan.schema.json"},
+    "schemaVersion": {"const":1},
+    "planId": {"const":"goreecloud.glaze-ui.v1.6.human-qualification"},
+    "name": {"const":"Glaze UI V1.6 Human Qualification Review Plan"},
+    "lifecycle": {"const":"DevelopmentQualification"},
+    "sourceRevision": {"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},
+    "acceptanceModelVersion": {"const":"1.6.0-dev.12"},
+    "stableBaseline": {"const":"1.5.1"},
+    "consumerEligible": {"const":false},
+    "evidenceType": {"const":"human"},
+    "lanes": {
+      "type":"array","minItems":5,"maxItems":5,"uniqueItems":true,
+      "items":{"enum":["accessibility","keyboard-navigation","privacy-boundaries","authority-boundaries","representative-rendering"]}
+    },
+    "existingEvidencePrerequisites": {
+      "type":"object","additionalProperties":false,
+      "required":["accessibility","keyboard-navigation","privacy-boundaries","authority-boundaries","representative-rendering"],
+      "properties":{
+        "accessibility":{"const":["machine"]},
+        "keyboard-navigation":{"const":["machine"]},
+        "privacy-boundaries":{"const":["machine"]},
+        "authority-boundaries":{"const":["machine"]},
+        "representative-rendering":{"const":["rendered"]}
+      }
+    },
+    "requiredReviewScenarios": {
+      "type":"array","minItems":10,"maxItems":10,"uniqueItems":true,
+      "items":{"enum":[
+        "available-expanded","permission-required","restricted","offline-or-degraded",
+        "reduced-motion","large-text","compact-layout","real-keyboard-focus",
+        "privacy-minimization","representative-runtime-rendering"
+      ]}
+    },
+    "harness":{"const":"reference/v1.6/human-qualification.html"},
+    "preparation":{"const":"scripts/prepare_glaze_v1_6_human_qualification.py"},
+    "acceptanceRecord":{"const":"acceptance/v1.6-development.md"},
+    "execution":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "repositoryLocalOnly","telemetryRequired","remoteAnalysisRequired","realHumanObservationRequired",
+        "realKeyboardInteractionRequiredForKeyboardLane","reviewerMustConfirmRepresentativeRuntimeForRenderingLane",
+        "reviewFindingsMustBeRecordedOutsideHarness","generatedEvidenceAutomatic"
+      ],
+      "properties":{
+        "repositoryLocalOnly":{"const":true},
+        "telemetryRequired":{"const":false},
+        "remoteAnalysisRequired":{"const":false},
+        "realHumanObservationRequired":{"const":true},
+        "realKeyboardInteractionRequiredForKeyboardLane":{"const":true},
+        "reviewerMustConfirmRepresentativeRuntimeForRenderingLane":{"const":true},
+        "reviewFindingsMustBeRecordedOutsideHarness":{"const":true},
+        "generatedEvidenceAutomatic":{"const":false}
+      }
+    },
+    "evidenceBoundary":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "reviewSurfaceOnly","humanEvidenceClaimedByPlan","assistiveTechnologyEvidenceClaimed",
+        "physicalDeviceEvidenceClaimed","performanceEvidenceClaimed","lifecyclePromotionAutomatic",
+        "candidateStatusGranted","releaseCandidateStatusGranted","stableStatusGranted",
+        "consumerAcceptanceAutomatic","deploymentAcceptanceAutomatic","productionAcceptanceAutomatic"
+      ],
+      "properties":{
+        "reviewSurfaceOnly":{"const":true},
+        "humanEvidenceClaimedByPlan":{"const":false},
+        "assistiveTechnologyEvidenceClaimed":{"const":false},
+        "physicalDeviceEvidenceClaimed":{"const":false},
+        "performanceEvidenceClaimed":{"const":false},
+        "lifecyclePromotionAutomatic":{"const":false},
+        "candidateStatusGranted":{"const":false},
+        "releaseCandidateStatusGranted":{"const":false},
+        "stableStatusGranted":{"const":false},
+        "consumerAcceptanceAutomatic":{"const":false},
+        "deploymentAcceptanceAutomatic":{"const":false},
+        "productionAcceptanceAutomatic":{"const":false}
+      }
+    },
+    "boundary":{"type":"string","minLength":160}
+  }
+}
