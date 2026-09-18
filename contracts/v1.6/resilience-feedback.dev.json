@@ -1,0 +1,118 @@
+{
+  "$schema": "../../schemas/v1.6-resilience-feedback.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.resilience-feedback",
+  "name": "Glaze UI V1.6 Resilience, Recovery, Progress, Notification, and Dialog Development Contract",
+  "version": "1.6.0-dev.5",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [29,30,31,32,33,34,35,36,37,38,39,40],
+  "emptyStates": {
+    "kinds": [
+      "no-content-yet","no-search-results","filter-removed-all-results",
+      "no-permission","offline","service-unavailable","feature-unsupported",
+      "content-deleted","content-unavailable","setup-incomplete"
+    ],
+    "genericEmptyScreenAllowed": false,
+    "reasonSpecificPresentationRequired": true
+  },
+  "errors": {
+    "mustExplain": [
+      "what-happened","what-remains-available","data-safety",
+      "retry-appropriateness","alternate-action-when-available"
+    ],
+    "sensitiveInternalDetailsIncluded": false,
+    "rawProviderErrorIncluded": false
+  },
+  "recovery": {
+    "actions": [
+      "retry","reconnect","continue-offline","use-local-content",
+      "restore-previous-state","change-settings","resolve-conflict",
+      "return-to-safe-state"
+    ],
+    "capabilityOwnedByCaller": true,
+    "mayInventCapabilities": false,
+    "automaticExecutionAllowed": false
+  },
+  "connectivity": {
+    "states": [
+      "fully-online","fully-offline","local-only","partially-connected",
+      "sync-pending","sync-failed","service-degraded"
+    ],
+    "timeoutAloneMayInferState": false,
+    "availableOfflineFunctionalityRemainsAccessible": true
+  },
+  "staleAndRefresh": {
+    "staleUsableDistinctFromUnavailable": true,
+    "usableStaleContentMayRemainVisible": true,
+    "blankLoadingReplacementPreferred": false,
+    "backgroundRefreshPreservesInterface": true,
+    "subtleRefreshIndicatorPreferred": true
+  },
+  "optimisticInteraction": {
+    "safeReversibleOnly": true,
+    "destructiveAllowed": false,
+    "irreversibleAllowed": false,
+    "securitySensitiveAllowed": false,
+    "privacySensitiveAllowed": false,
+    "failureRequiresFeedback": true,
+    "automaticReversionExecution": false
+  },
+  "progress": {
+    "kinds": [
+      "indeterminate","determinate","step","background-activity",
+      "sync","transfer","processing"
+    ],
+    "fakePercentageAllowed": false,
+    "fakeStepCountAllowed": false,
+    "actualInformationOnly": true
+  },
+  "notifications": {
+    "priorities": ["passive","informational","actionable","important","critical"],
+    "criticalTreatmentRequiresAuthoritativeCriticality": true,
+    "colorOnlyPriorityMeaningAllowed": false
+  },
+  "messageSurfaces": {
+    "supported": ["toast","banner","inline","dialog"],
+    "toastForBriefConfirmation": true,
+    "bannerForPersistentPageImpact": true,
+    "dialogOnlyWhenInterruptionNecessary": true,
+    "inlinePreferredWhenClearer": true
+  },
+  "dialogs": {
+    "clearTitleRequired": true,
+    "concisePurposeRequired": true,
+    "predictableActionPlacementRequired": true,
+    "keyboardNavigationRequired": true,
+    "focusTrapWhenAppropriate": true,
+    "focusRestorationRequired": true,
+    "safeDismissalRequired": true,
+    "explicitDestructiveActions": true,
+    "automaticActionExecution": false
+  },
+  "destructiveActions": {
+    "riskStates": ["none","destructive","irreversible","security-sensitive"],
+    "languageRequired": true,
+    "semanticColorRequired": true,
+    "iconographyRequired": true,
+    "placementRequired": true,
+    "confirmationForHighRisk": true,
+    "colorOnlyIntentAllowed": false,
+    "automaticExecutionAllowed": false
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "stateTruthOwnedByCallerOrProvider": true,
+    "dataSafetyTruthOwnedByCaller": true,
+    "recoveryCapabilityOwnedByCaller": true,
+    "connectivityTruthOwnedByCallerOrProvider": true,
+    "criticalityOwnedByCallerOrProvider": true,
+    "permissionOrAuthorizationInferred": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.6-resilience-feedback.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.6-development.mjs",
+  "tokenMap": "tokens/glaze-v1.6-resilience-feedback.dev.json",
+  "boundary": "Development implementation foundation only. It does not alter VERSION, registry lifecycle authority, V1.5.1 Stable contracts, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}

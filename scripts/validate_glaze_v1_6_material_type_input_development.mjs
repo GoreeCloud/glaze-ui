@@ -86,12 +86,19 @@ assert(glazeV16MaterialTypeInputDevelopmentContract.consumerEligible === false, 
 assert(glazeV16MaterialTypeInputDevelopmentContract.accessibilityOverridesRichness === true, 'accessibility must override richness');
 assert(glazeV16MaterialTypeInputDevelopmentContract.hoverMayBeSoleEssentialPath === false, 'hover-only essential path must remain prohibited');
 
-assert(glazeV16Development.version === '1.6.0-dev.4', 'aggregate must identify current dev.4 source');
+const aggregateVersionParts = String(glazeV16Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.6.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 4,
+  'aggregate Development version must retain or advance beyond dev.4'
+);
 assert(glazeV16Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV16Development.stableBaseline === '1.5.1', 'aggregate Stable baseline mismatch');
 assert(glazeV16Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
 for (const number of sections) {
-  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate missing material/type/input section ${number}`);
+  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate must retain material/type/input section ${number}`);
 }
 assert(glazeV16Development.implementedSpecificationSections.includes(1), 'aggregate must retain loading foundation');
 assert(glazeV16Development.implementedSpecificationSections.includes(73), 'aggregate must retain focus/motion continuity foundation');
