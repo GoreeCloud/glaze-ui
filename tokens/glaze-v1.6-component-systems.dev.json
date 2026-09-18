@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.6 Complexity, Component, Form, Data, Media, Scroll, and Background Activity Development Semantic Map",
+  "version": "1.6.0-dev.7",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/states.json",
+    "tokens/layout.json",
+    "tokens/materials.json",
+    "tokens/semantic-colors.json",
+    "tokens/motion.json",
+    "tokens/glaze-v1.6-loading.dev.json",
+    "tokens/glaze-v1.6-state-accessibility.dev.json",
+    "tokens/glaze-v1.6-focus-motion.dev.json",
+    "tokens/glaze-v1.6-material-type-input.dev.json",
+    "tokens/glaze-v1.6-resilience-feedback.dev.json",
+    "tokens/glaze-v1.6-navigation-status.dev.json"
+  ],
+  "complexity": {
+    "dimensions": [
+      "transparentLayers","blurLayers","shadows","animatedSurfaces",
+      "gradientLayers","liveBackgrounds","skeletonAnimations"
+    ],
+    "referenceBudget": {
+      "transparentLayers":4,
+      "blurLayers":1,
+      "shadows":4,
+      "animatedSurfaces":4,
+      "gradientLayers":2,
+      "liveBackgrounds":1,
+      "skeletonAnimations":4
+    },
+    "overBudget":"complexity.simplified",
+    "optionalEffectsSimplify":true
+  },
+  "energy": {
+    "active":"energy.active",
+    "idle":"energy.idle-calm",
+    "background":"energy.background",
+    "continuousDecorativeAnimationConstrained":true
+  },
+  "componentStates": {
+    "default":"component.default",
+    "hover":"component.hover",
+    "focused":"component.focused",
+    "pressed":"component.pressed",
+    "selected":"component.selected",
+    "disabled":"component.disabled",
+    "loading":"component.loading",
+    "error":"component.error",
+    "applicationGuessworkForMissingCriticalStateAllowed":false
+  },
+  "composition": {
+    "nestedTransparencyDefaultAllowed":false,
+    "repeatedBordersAllowed":false,
+    "conflictingElevationAllowed":false,
+    "repeatedPaddingAllowed":false
+  },
+  "formStates": {
+    "required":"form.required",
+    "optional":"form.optional",
+    "warning":"form.warning",
+    "invalid":"form.invalid",
+    "disabled":"form.disabled",
+    "read-only":"form.read-only",
+    "saving":"form.saving",
+    "saved":"form.saved",
+    "save-failed":"form.save-failed",
+    "validationNearField":true
+  },
+  "saveStates": {
+    "unsaved":"save.unsaved",
+    "saving":"save.saving",
+    "saved":"save.saved",
+    "save-failed":"save.save-failed",
+    "conflict":"save.conflict",
+    "offline-pending":"save.offline-pending",
+    "savedRequiresAuthority":true
+  },
+  "table": {
+    "surface":"material.solid-or-near-solid",
+    "stickyHeader":"table.sticky-header",
+    "rowFocus":"table.row-focus",
+    "selection":"table.selection",
+    "sort":"table.sort",
+    "loadingRow":"table.loading-row",
+    "accessibleRowColumnSemantics":true,
+    "compactMayShrinkTargetsBelowMinimum":false
+  },
+  "chart": {
+    "labels":"chart.labels",
+    "values":"chart.values",
+    "summary":"chart.summary",
+    "accessible-description":"chart.accessible-description",
+    "table":"chart.table-alternative",
+    "colorOnlyMeaningAllowed":false
+  },
+  "media": {
+    "contrastSurface":"media.contrast-surface",
+    "scrim":"media.scrim",
+    "adaptiveOpacity":"media.adaptive-opacity",
+    "boundedBlur":"media.bounded-blur",
+    "protectedText":"media.protected-text"
+  },
+  "scroll": {
+    "scrollbar":"scroll.scrollbar",
+    "overscroll":"scroll.overscroll",
+    "restoration":"scroll.restoration",
+    "sticky":"scroll.sticky",
+    "nested":"scroll.nested",
+    "keyboard":"scroll.keyboard",
+    "decorativeEffectsMayBlockAccess":false
+  },
+  "backgroundActivity": {
+    "toolbar-activity":"activity.toolbar",
+    "status-indicator":"activity.status",
+    "inline-sync-marker":"activity.inline-sync",
+    "small-progress-surface":"activity.small-progress",
+    "blocking-loader":"activity.blocking-loader",
+    "nonBlockingMayUseBlockingLoader":false
+  },
+  "boundaries": {
+    "semanticContentMayBeRemovedForComplexity":false,
+    "accessibilityMayBeReducedForComplexity":false,
+    "saveTruthCreatedByGlaze":false,
+    "chartValuesInventedByGlaze":false,
+    "backgroundTaskExecutedByGlaze":false,
+    "consequentialExecutionAutomatic":false
+  },
+  "boundary": "Development semantic mapping only. Stable V1.5.1 values and lifecycle authority remain unchanged; the reference complexity budget is Development guidance and does not establish Stable production thresholds."
+}
