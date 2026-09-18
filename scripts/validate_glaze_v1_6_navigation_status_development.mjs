@@ -125,12 +125,19 @@ assert(glazeV16NavigationStatusDevelopmentContract.privacyTruthCreatedByGlaze ==
 assert(glazeV16NavigationStatusDevelopmentContract.securityTruthCreatedByGlaze === false, 'runtime must not create security truth');
 assert(glazeV16NavigationStatusDevelopmentContract.capabilityTruthCreatedByGlaze === false, 'runtime must not create capability truth');
 
-assert(glazeV16Development.version === '1.6.0-dev.6', 'aggregate must identify dev.6');
+const aggregateVersionParts = String(glazeV16Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.6.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 6,
+  'aggregate Development version must retain or advance beyond dev.6'
+);
 assert(glazeV16Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV16Development.stableBaseline === '1.5.1', 'aggregate Stable baseline mismatch');
 assert(glazeV16Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
 for (const number of sections) {
-  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate missing navigation/status section ${number}`);
+  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate must retain navigation/status section ${number}`);
 }
 for (const retained of [1,6,10,15,29,55,71,73]) {
   assert(glazeV16Development.implementedSpecificationSections.includes(retained), `aggregate lost prior section ${retained}`);
