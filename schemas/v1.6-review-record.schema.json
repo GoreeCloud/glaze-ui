@@ -1,0 +1,25 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://goreecloud.dev/schemas/glaze-ui/v1.6-review-record.schema.json",
+  "title":"Glaze UI V1.6 External Review Record",
+  "type":"object",
+  "additionalProperties":false,
+  "required":[
+    "$schema","schemaVersion","recordId","lifecycle","sourceRevision","acceptanceModelVersion",
+    "toolingRevision","environment","observations","evidence","authority","notice"
+  ],
+  "properties":{
+    "$schema":{"const":"../schemas/v1.6-review-record.schema.json"},
+    "schemaVersion":{"const":1},
+    "recordId":{"const":"goreecloud.glaze-ui.v1.6.external-review"},
+    "lifecycle":{"const":"DevelopmentQualificationReview"},
+    "sourceRevision":{"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},
+    "acceptanceModelVersion":{"const":"1.6.0-dev.12"},
+    "toolingRevision":{"type":["string","null"],"pattern":"^[0-9a-f]{40}$"},
+    "environment":{"type":"object","minProperties":8},
+    "observations":{"type":"array","minItems":15,"items":{"type":"object","minProperties":5}},
+    "evidence":{"type":"array","items":{"type":"object","minProperties":5}},
+    "authority":{"type":"object","minProperties":8},
+    "notice":{"type":"string","minLength":1}
+  }
+}
