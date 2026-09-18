@@ -108,6 +108,10 @@ jobs:
             if(result.matrix.verifiedCount!==22||result.matrix.unverifiedCount!==2) throw new Error('Human-only reconciliation must be 22 verified / 2 unverified');
             if(JSON.stringify(result.matrix.blockingLaneIds)!==JSON.stringify(['assistive-technology','performance'])) throw new Error('Human-only blocker set must be Assistive Technology + Performance');
           }
+          if(present.human&&present.assistive&&!present.performance){
+            if(result.matrix.verifiedCount!==23||result.matrix.unverifiedCount!==1) throw new Error('Human + Assistive Technology reconciliation must be 23 verified / 1 unverified');
+            if(JSON.stringify(result.matrix.blockingLaneIds)!==JSON.stringify(['performance'])) throw new Error('Human + Assistive Technology blocker set must be Performance only');
+          }
           if(present.human&&present.assistive&&present.performance){
             if(result.matrix.qualificationEvidenceComplete!==true||result.matrix.readyForGovernedQualificationReview!==true) throw new Error('all three accepted external record types must complete the evidence matrix');
           }
