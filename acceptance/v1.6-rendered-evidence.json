@@ -1,0 +1,155 @@
+{
+  "$schema": "../schemas/v1.6-rendered-evidence.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.rendered-browser-evidence",
+  "name": "Glaze UI V1.6 Exact-Source Rendered Browser Evidence",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "tooling": {
+    "pullRequest": 254,
+    "toolingHeadRevision": "ac737b650d02ff53ccb73dc36a013e816acb7050",
+    "mergeRevision": "040bb003fa137d1ddc4f162f0d91aa2d801129ce"
+  },
+  "qualificationRun": {
+    "runId": 35348330585,
+    "verificationJobId": 105610140264,
+    "captureJobId": 105610194447,
+    "conclusion": "success",
+    "observedAt": "2026-09-18T13:07:34Z",
+    "reference": "GitHub Actions run 35348330585 / verification job 105610140264 / capture job 105610194447"
+  },
+  "artifact": {
+    "id": 10549115165,
+    "name": "glaze-v1.6-rendered-browser-35348330585",
+    "sizeBytes": 2191010,
+    "digest": "sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506",
+    "createdAt": "2026-09-18T13:07:30Z",
+    "expiresAt": "2026-12-17T13:06:53Z",
+    "sceneCount": 9,
+    "expiredAtObservation": false
+  },
+  "sceneIds": [
+    "representative-expanded",
+    "representative-compact",
+    "responsive-medium",
+    "reduced-motion",
+    "reduced-transparency",
+    "increased-contrast",
+    "large-text",
+    "layout-stability",
+    "form-factor-transition"
+  ],
+  "renderedEvidence": [
+    {
+      "id": "reduced-motion",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35348330585 / capture job 105610194447 / artifact 10549115165 / sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+    },
+    {
+      "id": "reduced-transparency",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35348330585 / capture job 105610194447 / artifact 10549115165 / sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+    },
+    {
+      "id": "increased-contrast",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35348330585 / capture job 105610194447 / artifact 10549115165 / sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+    },
+    {
+      "id": "large-text",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35348330585 / capture job 105610194447 / artifact 10549115165 / sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+    },
+    {
+      "id": "responsive-layouts",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35348330585 / capture job 105610194447 / artifact 10549115165 / sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+    },
+    {
+      "id": "form-factor-transitions",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35348330585 / capture job 105610194447 / artifact 10549115165 / sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+    },
+    {
+      "id": "layout-stability",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35348330585 / capture job 105610194447 / artifact 10549115165 / sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+    },
+    {
+      "id": "representative-rendering",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "rendered",
+      "reference": "GitHub Actions run 35348330585 / capture job 105610194447 / artifact 10549115165 / sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+    }
+  ],
+  "matrixDisposition": {
+    "fullyVerifiedLaneIds": [
+      "source-implementation",
+      "design-tokens",
+      "skeleton-system",
+      "loading-behavior",
+      "semantic-colors",
+      "reduced-motion",
+      "reduced-transparency",
+      "increased-contrast",
+      "large-text",
+      "responsive-layouts",
+      "form-factor-transitions",
+      "layout-stability",
+      "offline-behavior",
+      "degraded-behavior",
+      "loading-escalation",
+      "component-state-completeness"
+    ],
+    "partialLaneIds": [
+      "accessibility",
+      "keyboard-navigation",
+      "privacy-boundaries",
+      "authority-boundaries",
+      "regression-testing",
+      "representative-rendering"
+    ],
+    "untouchedLaneIds": [
+      "assistive-technology",
+      "performance"
+    ],
+    "verifiedCount": 16,
+    "unverifiedCount": 8,
+    "notApplicableCount": 0,
+    "qualificationEvidenceComplete": false,
+    "readyForGovernedQualificationReview": false
+  },
+  "authority": {
+    "renderedEvidenceClaimed": true,
+    "humanEvidenceClaimed": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "deviceEvidenceClaimed": false,
+    "nativePlatformEvidenceClaimed": false,
+    "performanceEvidenceClaimed": false,
+    "regressionBaselineClaimed": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This record preserves rendered Chromium-class evidence from the exact-source V1.6 Development qualification run. Seven additional lanes become fully verified and the rendered group of representative rendering is satisfied, producing 16 verified and 8 unverified lanes. Human, assistive-technology, device/native-platform, representative-performance, regression-baseline, Candidate, Release Candidate, Stable, consumer, deployment, and production acceptance remain unclaimed."
+}
