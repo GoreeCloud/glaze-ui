@@ -13,12 +13,20 @@
   "acceptanceModelVersion": "1.6.0-dev.12",
   "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
   "qualificationReview": "acceptance/v1.6-qualification-review.json",
+  "productionReadinessReview": "acceptance/v1.6-production-readiness-review.json",
   "qualificationDisposition": {
     "verifiedCount": 24,
     "unverifiedCount": 0,
     "notApplicableCount": 0,
     "qualificationEvidenceComplete": true,
     "blockingLaneIds": []
+  },
+  "productionReadinessDisposition": {
+    "nineIntegralPlatformSystemsEvaluated": true,
+    "releaseCandidateEntrySupported": true,
+    "stableQualificationCompleted": false,
+    "productionReadinessGranted": false,
+    "productionAcceptanceGranted": false
   },
   "decision": "accepted-release-candidate",
   "consumerEligible": false,
@@ -37,5 +45,5 @@
     "knownGoodStable": "1.5.1",
     "runtimeEntrypoint": "js/glaze-v1.5.1.mjs"
   },
-  "boundary": "This record accepts GLAZE UI 1.6.0-rc.1 as the governed Release Candidate identity for the fully qualified V1.6 source. It does not promote V1.6 to Stable, change the current 1.5.1 consumer baseline, accept any downstream consumer, authorize deployment or production, or publish a tag or GitHub Release."
+  "boundary": "This record accepts GLAZE UI 1.6.0-rc.1 as the governed Release Candidate identity for the fully qualified V1.6 source after the required current-governance production-readiness review. It does not promote V1.6 to Stable, declare production readiness, change the current 1.5.1 consumer baseline, accept any downstream consumer, authorize deployment or production, or publish a tag or GitHub Release."
 }
