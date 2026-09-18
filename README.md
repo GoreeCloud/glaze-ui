@@ -49,6 +49,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-resilience-feedback.dev.mjs` — Development-only resolver covering sections 29–40 while keeping state, recovery, connectivity, criticality, and destructive intent caller/provider-owned.
 - `tokens/glaze-v1.6-resilience-feedback.dev.json` — semantic resilience/feedback aliases composed from current state, color, motion, material, and earlier V1.6 Development authorities.
 - `scripts/validate_glaze_v1_6_resilience_feedback_development.mjs` + `.github/workflows/glaze-v1.6-resilience-feedback-development.yml` — exact-head validation with all four earlier V1.6 regressions and V1.5.1 Stable-boundary verification.
+- `contracts/v1.6/navigation-status.dev.json` + `schemas/v1.6-navigation-status.schema.json` — V1.6 Development contract for search stability, navigation/task continuity, responsive/pane/posture/localization behavior, icon/status/badge/provenance presentation, and authoritative privacy/security/capability states.
+- `js/glaze-v1.6-navigation-status.dev.mjs` — Development-only resolver covering sections 41–54 with stable async search ordering, non-width-only responsive composition, deterministic pane transitions, localization resilience, and fail-closed provider truth.
+- `tokens/glaze-v1.6-navigation-status.dev.json` — semantic aliases for search/navigation/layout/icon/status/provenance/privacy/security/capability presentation composed from current authorities.
+- `scripts/validate_glaze_v1_6_navigation_status_development.mjs` + `.github/workflows/glaze-v1.6-navigation-status-development.yml` — exact-head validation with all five earlier V1.6 regressions and V1.5.1 Stable-boundary verification.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
