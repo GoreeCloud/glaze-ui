@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-rendered-regression-plan.schema.json",
+  "title": "Glaze UI V1.6 Zero-Drift Rendered Regression Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "planId",
+    "name",
+    "lifecycle",
+    "sourceRevision",
+    "acceptanceModelVersion",
+    "stableBaseline",
+    "specificationSection",
+    "acceptanceLaneId",
+    "renderedQualificationPlan",
+    "captureScript",
+    "qualifier",
+    "comparison",
+    "requiredSceneCount",
+    "requiredSceneIds",
+    "evidence",
+    "authority",
+    "boundary"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../../schemas/v1.6-rendered-regression-plan.schema.json"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "planId": {
+      "const": "goreecloud.glaze-ui.v1.6.zero-drift-rendered-regression"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle": {
+      "const": "DevelopmentQualification"
+    },
+    "sourceRevision": {
+      "const": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"
+    },
+    "acceptanceModelVersion": {
+      "const": "1.6.0-dev.12"
+    },
+    "stableBaseline": {
+      "const": "1.5.1"
+    },
+    "specificationSection": {
+      "const": 83
+    },
+    "acceptanceLaneId": {
+      "const": "regression-testing"
+    },
+    "renderedQualificationPlan": {
+      "const": "contracts/v1.6/qualification.rendered.plan.json"
+    },
+    "captureScript": {
+      "const": "scripts/capture_glaze_v1_6_rendered_qualification.py"
+    },
+    "qualifier": {
+      "const": "scripts/qualify_glaze_v1_6_zero_drift_regression.py"
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "changedPixelTolerance",
+        "maximumChannelDeltaTolerance",
+        "compareDecodedRgba",
+        "sceneSetMustMatch",
+        "browserProductMustMatch",
+        "browserRevisionMustMatch",
+        "sameRunnerRequired"
+      ],
+      "properties": {
+        "mode": {
+          "const": "independent-browser-session-zero-decoded-pixel-drift"
+        },
+        "changedPixelTolerance": {
+          "const": 0
+        },
+        "maximumChannelDeltaTolerance": {
+          "const": 0
+        },
+        "compareDecodedRgba": {
+          "const": true
+        },
+        "sceneSetMustMatch": {
+          "const": true
+        },
+        "browserProductMustMatch": {
+          "const": true
+        },
+        "browserRevisionMustMatch": {
+          "const": true
+        },
+        "sameRunnerRequired": {
+          "const": true
+        }
+      }
+    },
+    "requiredSceneCount": {
+      "const": 9
+    },
+    "requiredSceneIds": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "representative-expanded",
+          "representative-compact",
+          "responsive-medium",
+          "reduced-motion",
+          "reduced-transparency",
+          "increased-contrast",
+          "large-text",
+          "layout-stability",
+          "form-factor-transition"
+        ]
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "minProperties": 4
+    },
+    "authority": {
+      "type": "object",
+      "minProperties": 10
+    },
+    "boundary": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
