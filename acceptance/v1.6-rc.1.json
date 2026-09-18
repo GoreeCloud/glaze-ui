@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.rc.1-acceptance",
+  "recordType": "release-candidate-acceptance",
+  "product": "GLAZE UI V1.6",
+  "version": "1.6.0-rc.1",
+  "internal_version": "1.6.0-rc.1",
+  "external_version": "1.6.0-rc.1",
+  "version_name": null,
+  "releaseLifecycle": "Release Candidate",
+  "stableBaseline": "1.5.1",
+  "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+  "qualificationReview": "acceptance/v1.6-qualification-review.json",
+  "qualificationDisposition": {
+    "verifiedCount": 24,
+    "unverifiedCount": 0,
+    "notApplicableCount": 0,
+    "qualificationEvidenceComplete": true,
+    "blockingLaneIds": []
+  },
+  "decision": "accepted-release-candidate",
+  "consumerEligible": false,
+  "authority": {
+    "releaseCandidateStatusGranted": true,
+    "stableStatusGranted": false,
+    "currentOfficialRemains": "1.5.1",
+    "currentStableRemains": "1.5.1",
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false,
+    "tagPublicationAutomatic": false,
+    "githubReleasePublicationAutomatic": false
+  },
+  "rollback": {
+    "knownGoodStable": "1.5.1",
+    "runtimeEntrypoint": "js/glaze-v1.5.1.mjs"
+  },
+  "boundary": "This record accepts GLAZE UI 1.6.0-rc.1 as the governed Release Candidate identity for the fully qualified V1.6 source. It does not promote V1.6 to Stable, change the current 1.5.1 consumer baseline, accept any downstream consumer, authorize deployment or production, or publish a tag or GitHub Release."
+}
