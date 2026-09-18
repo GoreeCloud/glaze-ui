@@ -83,10 +83,14 @@ assert(glazeV16StateAccessibilityDevelopmentContract.version === '1.6.0-dev.2', 
 assert(glazeV16StateAccessibilityDevelopmentContract.lifecycle === 'development', 'runtime contract must remain development');
 assert(glazeV16StateAccessibilityDevelopmentContract.stableBaseline === '1.5.1', 'runtime Stable baseline mismatch');
 assert(glazeV16StateAccessibilityDevelopmentContract.consumerEligible === false, 'runtime contract must remain non-consumer-eligible');
-assert(glazeV16Development.version === '1.6.0-dev.2', 'aggregate Development version mismatch');
+assert(/^1\\.6\\.0-dev\\.[2-9][0-9]*$/.test(glazeV16Development.version), 'aggregate Development version must retain or advance beyond dev.2');
+assert(glazeV16Development.lifecycle === 'development', 'aggregate entrypoint must remain Development');
+assert(glazeV16Development.stableBaseline === '1.5.1', 'aggregate Stable baseline must remain 1.5.1');
 assert(glazeV16Development.consumerEligible === false, 'aggregate entrypoint must remain non-consumer-eligible');
 assert(glazeV16Development.implementedSpecificationSections.includes(1), 'aggregate must retain loading foundation');
-assert(glazeV16Development.implementedSpecificationSections.includes(59), 'aggregate must include anti-jitter foundation');
+for (const number of expectedSections) {
+  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate must retain state/accessibility section ${number}`);
+}
 
 for (const state of expectedStates) {
   const resolved = resolveGlazeSemanticState({state, sourceAuthority: 'application', authoritative: true});
