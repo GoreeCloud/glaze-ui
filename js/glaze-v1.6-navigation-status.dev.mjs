@@ -21,7 +21,8 @@ const SEARCH_PHASES = Object.freeze([
   'offline-results',
   'filters',
   'history',
-  'error'
+  'error',
+  'unverified'
 ]);
 
 const NAVIGATION_CAPABILITY_STATES = Object.freeze([
@@ -266,10 +267,12 @@ export function resolveGlazeSearchPresentation(input = {}) {
 
   const previousResultIds = boundedIds(input.previousResultIds);
   const incomingResultIds = boundedIds(input.incomingResultIds);
-  const stableResultIds = stableMergeResultIds(previousResultIds, incomingResultIds);
   const providerPending = uniqueSemantic(input.pendingProviders);
   const providerFailed = uniqueSemantic(input.failedProviders);
   const partial = phase === 'partial-results' || providerPending.length > 0 || providerFailed.length > 0;
+  const stableResultIds = partial
+    ? Object.freeze([...previousResultIds, ...incomingResultIds.filter(id => !previousResultIds.includes(id))].slice(0, 200))
+    : stableMergeResultIds(previousResultIds, incomingResultIds);
   const offline = phase === 'offline-results' || bool(input.offline);
   const usableExistingResults = stableResultIds.length > 0;
 
@@ -332,9 +335,9 @@ export function resolveGlazeNavigationContinuity(input = {}) {
 
   const primaryDestinations = boundedIds(input.primaryDestinations, 30);
   const requestedPrimaryDestinations = boundedIds(input.requestedPrimaryDestinations, 30);
-  const stablePrimaryDestinations = primaryDestinations.length > 0
-    ? primaryDestinations
-    : requestedPrimaryDestinations;
+  const stablePrimaryDestinations = Object.freeze(
+    [...primaryDestinations, ...requestedPrimaryDestinations.filter(id => !primaryDestinations.includes(id))].slice(0, 30)
+  );
 
   return Object.freeze({
     version: '1.6.0-dev.6',
@@ -617,9 +620,8 @@ export function resolveGlazeStatusIndicator(input = {}) {
   }
 
   const authoritative = bool(input.authoritative);
-  const positiveEvidenceRequired = ['online','synced','protected'].includes(state);
-  const acceptedState = positiveEvidenceRequired && !authoritative ? 'restricted' : state;
-  const acceptedRole = statusRole(acceptedState);
+  const acceptedState = authoritative || state === 'unverified' ? state : 'unverified';
+  const acceptedRole = acceptedState === 'unverified' ? 'status.unverified' : statusRole(acceptedState);
 
   return Object.freeze({
     version: '1.6.0-dev.6',
@@ -636,7 +638,7 @@ export function resolveGlazeStatusIndicator(input = {}) {
     }),
     evidence: Object.freeze({
       authoritativeEvidenceProvided: authoritative,
-      positiveStateDowngradedWithoutEvidence: acceptedState !== state,
+      requestedStateWithheldWithoutAuthority: acceptedState !== state,
       unknownOrUnverifiedMayUpgradeToPositive: false
     }),
     authority: Object.freeze({
