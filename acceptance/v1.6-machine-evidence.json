@@ -1,0 +1,225 @@
+{
+  "$schema": "../schemas/v1.6-machine-evidence.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.machine-evidence",
+  "name": "Glaze UI V1.6 Exact-Source Machine Evidence",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "qualificationRun": {
+    "runId": 35345027816,
+    "jobId": 105599478986,
+    "toolingRevision": "260c59776617ae9c72c60398f7f42e6ab764accd",
+    "conclusion": "success",
+    "observedAt": "2026-09-18T12:31:11Z",
+    "reference": "GitHub Actions run 35345027816 / job 105599478986"
+  },
+  "validatorsPassed": [
+    "loading-skeleton",
+    "state-accessibility",
+    "focus-motion",
+    "material-type-input",
+    "resilience-feedback",
+    "navigation-status",
+    "component-systems",
+    "experience-governance",
+    "performance-diagnostics",
+    "conformance-adoption",
+    "acceptance-control",
+    "stable-boundary"
+  ],
+  "machineEvidence": [
+    {
+      "id": "source-implementation",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "design-tokens",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "skeleton-system",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "loading-behavior",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "accessibility",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "semantic-colors",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "reduced-motion",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "reduced-transparency",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "increased-contrast",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "large-text",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "keyboard-navigation",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "responsive-layouts",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "layout-stability",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "offline-behavior",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "degraded-behavior",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "loading-escalation",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "component-state-completeness",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "privacy-boundaries",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "authority-boundaries",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    },
+    {
+      "id": "regression-testing",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "machine",
+      "reference": "GitHub Actions run 35345027816 / job 105599478986"
+    }
+  ],
+  "matrixDisposition": {
+    "fullyVerifiedLaneIds": [
+      "source-implementation",
+      "design-tokens",
+      "skeleton-system",
+      "loading-behavior",
+      "semantic-colors",
+      "offline-behavior",
+      "degraded-behavior",
+      "loading-escalation",
+      "component-state-completeness"
+    ],
+    "partialMachineLaneIds": [
+      "accessibility",
+      "reduced-motion",
+      "reduced-transparency",
+      "increased-contrast",
+      "large-text",
+      "keyboard-navigation",
+      "responsive-layouts",
+      "layout-stability",
+      "privacy-boundaries",
+      "authority-boundaries",
+      "regression-testing"
+    ],
+    "untouchedLaneIds": [
+      "assistive-technology",
+      "form-factor-transitions",
+      "performance",
+      "representative-rendering"
+    ],
+    "verifiedCount": 9,
+    "unverifiedCount": 15,
+    "notApplicableCount": 0,
+    "qualificationEvidenceComplete": false,
+    "readyForGovernedQualificationReview": false
+  },
+  "authority": {
+    "renderedEvidenceClaimed": false,
+    "humanEvidenceClaimed": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "deviceEvidenceClaimed": false,
+    "performanceEvidenceClaimed": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This record preserves exact-revision machine evidence only. Nine lanes are fully verified by machine evidence; eleven multi-group lanes retain only their machine group and remain unverified; four non-machine-only lanes remain untouched. No non-machine evidence or lifecycle promotion is claimed."
+}

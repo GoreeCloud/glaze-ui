@@ -1,0 +1,43 @@
+{
+  "$schema":"../../schemas/v1.6-machine-qualification-plan.schema.json",
+  "schemaVersion":1,
+  "planId":"goreecloud.glaze-ui.v1.6.machine-qualification",
+  "name":"Glaze UI V1.6 Machine Qualification Plan",
+  "lifecycle":"DevelopmentQualification",
+  "sourceRevision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "stableBaseline":"1.5.1",
+  "acceptanceModelVersion":"1.6.0-dev.12",
+  "consumerEligible":false,
+  "machineEvidenceLaneIds":[
+    "source-implementation","design-tokens","skeleton-system","loading-behavior","accessibility",
+    "semantic-colors","reduced-motion","reduced-transparency","increased-contrast","large-text",
+    "keyboard-navigation","responsive-layouts","layout-stability","offline-behavior","degraded-behavior",
+    "loading-escalation","component-state-completeness","privacy-boundaries","authority-boundaries",
+    "regression-testing"
+  ],
+  "nonMachineOnlyLaneIds":[
+    "assistive-technology","form-factor-transitions","performance","representative-rendering"
+  ],
+  "validators":[
+    {"id":"loading-skeleton","path":"scripts/validate_glaze_v1_6_loading_development.mjs"},
+    {"id":"state-accessibility","path":"scripts/validate_glaze_v1_6_state_accessibility_development.mjs"},
+    {"id":"focus-motion","path":"scripts/validate_glaze_v1_6_focus_motion_development.mjs"},
+    {"id":"material-type-input","path":"scripts/validate_glaze_v1_6_material_type_input_development.mjs"},
+    {"id":"resilience-feedback","path":"scripts/validate_glaze_v1_6_resilience_feedback_development.mjs"},
+    {"id":"navigation-status","path":"scripts/validate_glaze_v1_6_navigation_status_development.mjs"},
+    {"id":"component-systems","path":"scripts/validate_glaze_v1_6_component_systems_development.mjs"},
+    {"id":"experience-governance","path":"scripts/validate_glaze_v1_6_experience_governance_development.mjs"},
+    {"id":"performance-diagnostics","path":"scripts/validate_glaze_v1_6_performance_diagnostics_development.mjs"},
+    {"id":"conformance-adoption","path":"scripts/validate_glaze_v1_6_conformance_adoption_development.mjs"},
+    {"id":"acceptance-control","path":"scripts/validate_glaze_v1_6_acceptance_development.mjs"},
+    {"id":"stable-boundary","path":"scripts/verify_glaze_v1_5_1_stable.mjs"}
+  ],
+  "expectedMachineMatrixDisposition":{
+    "verifiedLaneCount":9,
+    "unverifiedLaneCount":15,
+    "notApplicableLaneCount":0,
+    "qualificationEvidenceComplete":false,
+    "readyForGovernedQualificationReview":false
+  },
+  "boundary":"This plan collects exact-revision machine evidence only. It does not manufacture or replace required human, rendered, assistive-technology, device/form-factor, performance, downstream-consumer, deployment, production, Candidate, Release Candidate, or Stable evidence."
+}
