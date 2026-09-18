@@ -23,11 +23,31 @@ V1.5 builds on the complete V1.4.1 Optical Intelligence foundation with governed
 
 V1.5.0 remains the immediate known-good Stable rollback baseline.
 
-## Development and planned successor inputs
+## Active V1.6 Release Candidate
 
-The repository carries non-consumer-eligible successor material that extends the design-language source model without changing the current Stable release:
+GLAZE UI V1.6 is now represented by the governed **Release Candidate `1.6.0-rc.1`** while V1.5.1 remains the current Official Stable and downstream consumer baseline.
 
-- `GLAZE_UI_V1_6_PLANNED.md` — planned V1.6 upgrade specification covering the semantic Skeleton Motion System, loading and recovery behavior, state clarity, accessibility expansion, motion coherence, material intelligence, interaction continuity, performance adaptation, conformance metadata, diagnostics, and acceptance requirements. It remains planning authority and does not establish lifecycle promotion.
+- **Internal version:** `1.6.0-rc.1`
+- **External version:** `1.6.0-rc.1`
+- **Version name:** none
+- **Lifecycle:** Release Candidate
+- **Consumer eligible:** No
+- **Frozen qualification source:** `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`
+- **Qualification evidence integration:** `354f5759385c28596fcfec26a3ad525e89fb1c35`
+- **Qualification disposition:** 24 verified / 0 unverified / 0 not applicable
+- **Governed review:** `acceptance/v1.6-qualification-review.json`
+- **RC contract:** `contracts/v1.6/release-candidate.json`
+- **RC acceptance:** `acceptance/v1.6-rc.1.json`
+- **RC runtime identity:** `js/glaze-v1.6.0-rc.1.mjs`
+- **RC authority gate:** `scripts/verify_glaze_v1_6_release_candidate.mjs`
+
+The RC wrapper is identity-only over the qualified V1.6 Development implementation. Qualification evidence remains bound to the actual frozen source and review records. RC status does not establish Stable, downstream consumer acceptance, deployment, production acceptance, tag publication, or GitHub Release publication.
+
+## V1.6 Release Candidate and retained Development inputs
+
+The repository carries the active non-consumer V1.6 Release Candidate together with its retained frozen Development and qualification inputs, without changing the current Stable release:
+
+- `GLAZE_UI_V1_6_PLANNED.md` — original V1.6 upgrade requirements source covering the semantic Skeleton Motion System, loading and recovery behavior, state clarity, accessibility expansion, motion coherence, material intelligence, interaction continuity, performance adaptation, conformance metadata, diagnostics, and acceptance requirements. It remains requirements provenance; lifecycle authority now comes from the separate RC records above.
 - `contracts/v1.6/loading-skeleton.dev.json` + `schemas/v1.6-loading-skeleton.schema.json` — first V1.6 Development machine contract for sections 1–4 and bounded supporting behavior.
 - `js/glaze-v1.6-loading.dev.mjs` — Development-only loading/skeleton presentation resolver and skeleton descriptor foundation.
 - `tokens/glaze-v1.6-loading.dev.json` — semantic loading/skeleton aliases and accessibility/performance mappings without replacing V1.5.1 Stable token authority.
