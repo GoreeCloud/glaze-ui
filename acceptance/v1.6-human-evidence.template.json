@@ -1,0 +1,52 @@
+{
+  "$schema": "../schemas/v1.6-human-evidence-record.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.human-evidence",
+  "recordType": "human",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "review": {
+    "reviewedAt": "REPLACE_WITH_ISO_8601_TIMESTAMP_WITH_TIMEZONE",
+    "reviewer": "REPLACE_WITH_AUTHORIZED_REVIEWER",
+    "reviewerRole": "REPLACE_WITH_REVIEWER_ROLE",
+    "operatingSystem": "REPLACE_WITH_OPERATING_SYSTEM",
+    "runtime": "REPLACE_WITH_BROWSER_OR_NATIVE_RUNTIME",
+    "inputMethods": ["keyboard"],
+    "representativeRuntimeConfirmed": false
+  },
+  "scenarioResults": [
+    {"id":"available-expanded","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"permission-required","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"restricted","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"offline-or-degraded","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"reduced-motion","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"large-text","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"compact-layout","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"real-keyboard-focus","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"privacy-minimization","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"representative-runtime-rendering","status":"fail","finding":"Template placeholder; not evidence."}
+  ],
+  "laneEvidence": [
+    {"id":"accessibility","verified":false,"revision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a","evidenceType":"human","reference":"REPLACE_WITH_DURABLE_REVIEW_REFERENCE","finding":"Template placeholder; not evidence."},
+    {"id":"keyboard-navigation","verified":false,"revision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a","evidenceType":"human","reference":"REPLACE_WITH_DURABLE_REVIEW_REFERENCE","finding":"Template placeholder; not evidence."},
+    {"id":"privacy-boundaries","verified":false,"revision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a","evidenceType":"human","reference":"REPLACE_WITH_DURABLE_REVIEW_REFERENCE","finding":"Template placeholder; not evidence."},
+    {"id":"authority-boundaries","verified":false,"revision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a","evidenceType":"human","reference":"REPLACE_WITH_DURABLE_REVIEW_REFERENCE","finding":"Template placeholder; not evidence."},
+    {"id":"representative-rendering","verified":false,"revision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a","evidenceType":"human","reference":"REPLACE_WITH_DURABLE_REVIEW_REFERENCE","finding":"Template placeholder; not evidence."}
+  ],
+  "reviewDecision": "not-accepted",
+  "authority": {
+    "humanEvidenceAccepted": false,
+    "assistiveTechnologyEvidenceAccepted": false,
+    "performanceEvidenceAccepted": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "Fail-closed template only. A completed record counts only after a real human review of the frozen source, all claimed lane observations are documented, placeholders are removed, the review decision is accepted, and a durable review reference is recorded. This record never promotes lifecycle automatically."
+}

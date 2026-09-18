@@ -1,0 +1,50 @@
+{
+  "$schema": "../schemas/v1.6-assistive-technology-evidence-record.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.assistive-technology-evidence",
+  "recordType": "assistive-technology",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "review": {
+    "reviewedAt": "REPLACE_WITH_ISO_8601_TIMESTAMP_WITH_TIMEZONE",
+    "reviewer": "REPLACE_WITH_AUTHORIZED_REVIEWER",
+    "operatingSystem": "REPLACE_WITH_OPERATING_SYSTEM",
+    "runtime": "REPLACE_WITH_BROWSER_OR_NATIVE_RUNTIME",
+    "assistiveTechnologyName": "REPLACE_WITH_ASSISTIVE_TECHNOLOGY_NAME",
+    "assistiveTechnologyVersion": "REPLACE_WITH_ASSISTIVE_TECHNOLOGY_VERSION",
+    "inputMethod": "REPLACE_WITH_INPUT_METHOD",
+    "realAssistiveTechnologySessionConfirmed": false
+  },
+  "scenarioResults": [
+    {"id":"document-landmarks-and-headings","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"accessible-name-role-state","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"focus-order-and-focus-announcement","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"live-region-status-update","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"permission-required-state","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"restricted-state","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"offline-or-degraded-state","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"error-and-recovery-state","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"loading-and-progress-state","status":"fail","finding":"Template placeholder; not evidence."},
+    {"id":"large-text-and-zoom-continuity","status":"fail","finding":"Template placeholder; not evidence."}
+  ],
+  "laneEvidence": [
+    {"id":"assistive-technology","verified":false,"revision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a","evidenceType":"assistive-technology","reference":"REPLACE_WITH_DURABLE_REVIEW_REFERENCE","finding":"Template placeholder; not evidence."},
+    {"id":"accessibility","verified":false,"revision":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a","evidenceType":"assistive-technology","reference":"REPLACE_WITH_DURABLE_REVIEW_REFERENCE","finding":"Set true only when the same real session independently supports Accessibility's assistive-technology alternative."}
+  ],
+  "reviewDecision": "not-accepted",
+  "authority": {
+    "assistiveTechnologyEvidenceAccepted": false,
+    "humanEvidenceAccepted": false,
+    "performanceEvidenceAccepted": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "Fail-closed template only. A completed record requires a real identified assistive-technology session against the frozen source, documented environment and scenario observations, removal of placeholders, an accepted review decision, and a durable evidence reference. The dedicated Assistive Technology lane and Accessibility alternative are evaluated separately."
+}

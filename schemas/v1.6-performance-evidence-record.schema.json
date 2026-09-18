@@ -1,0 +1,33 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://goreecloud.dev/schemas/glaze-ui/v1.6-performance-evidence-record.schema.json",
+  "title":"Glaze UI V1.6 Representative Performance Evidence Record",
+  "type":"object","additionalProperties":false,
+  "required":["$schema","schemaVersion","recordId","recordType","lifecycle","sourceRevision","acceptanceModelVersion","stableBaseline","review","environment","samples","measurements","budgetResult","laneEvidence","reviewDecision","authority","boundary"],
+  "properties":{
+    "$schema":{"const":"../schemas/v1.6-performance-evidence-record.schema.json"},"schemaVersion":{"const":1},"recordId":{"const":"goreecloud.glaze-ui.v1.6.performance-evidence"},"recordType":{"const":"performance"},
+    "lifecycle":{"const":"DevelopmentQualification"},"sourceRevision":{"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},"acceptanceModelVersion":{"const":"1.6.0-dev.12"},"stableBaseline":{"const":"1.5.1"},
+    "review":{"type":"object","additionalProperties":false,"required":["reviewedAt","reviewer","candidateEvidenceReference","candidateEvidenceSha256","representativeEnvironmentConfirmed","authorityIncidentsAbsentConfirmed"],"properties":{
+      "reviewedAt":{"type":"string","minLength":1},"reviewer":{"type":"string","minLength":1},"candidateEvidenceReference":{"type":"string","minLength":1},"candidateEvidenceSha256":{"type":"string","minLength":1},
+      "representativeEnvironmentConfirmed":{"type":"boolean"},"authorityIncidentsAbsentConfirmed":{"type":"boolean"}
+    }},
+    "environment":{"type":"object","additionalProperties":false,"required":["operatingSystem","runtime","hardware","foregroundState","presentationMode","measurementDate"],"properties":{
+      "operatingSystem":{"type":"string","minLength":1},"runtime":{"type":"string","minLength":1},"hardware":{"type":"string","minLength":1},"foregroundState":{"type":"string","minLength":1},"presentationMode":{"type":"string","minLength":1},"measurementDate":{"type":"string","minLength":1}
+    }},
+    "samples":{"type":"object","additionalProperties":false,"required":["resolver","interactionPaint","idleFrames","activeFrames"],"properties":{"resolver":{"type":"integer","minimum":0},"interactionPaint":{"type":"integer","minimum":0},"idleFrames":{"type":"integer","minimum":0},"activeFrames":{"type":"integer","minimum":0}}},
+    "measurements":{"type":"object","additionalProperties":false,"required":["resolverP95Ms","resolverP99Ms","interactionPaintP95Ms","interactionPaintP99Ms","idleMedianFrameIntervalMs","activeFrameP95Ms","severeFrameStallRate","catastrophicForegroundStallCount","taskStateResetCount","pageReloadRequiredCount","automaticAuthorityActionCount"],"properties":{
+      "resolverP95Ms":{"type":["number","null"]},"resolverP99Ms":{"type":["number","null"]},"interactionPaintP95Ms":{"type":["number","null"]},"interactionPaintP99Ms":{"type":["number","null"]},
+      "idleMedianFrameIntervalMs":{"type":["number","null"]},"activeFrameP95Ms":{"type":["number","null"]},"severeFrameStallRate":{"type":["number","null"]},
+      "catastrophicForegroundStallCount":{"type":["integer","null"]},"taskStateResetCount":{"type":["integer","null"]},"pageReloadRequiredCount":{"type":["integer","null"]},"automaticAuthorityActionCount":{"type":["integer","null"]}
+    }},
+    "budgetResult":{"enum":["pass","fail","unverified"]},
+    "laneEvidence":{"type":"array","minItems":1,"maxItems":1,"items":{"type":"object","additionalProperties":false,"required":["id","verified","revision","evidenceType","reference","finding"],"properties":{
+      "id":{"const":"performance"},"verified":{"type":"boolean"},"revision":{"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},"evidenceType":{"const":"performance"},"reference":{"type":"string","minLength":1},"finding":{"type":"string","minLength":1}
+    }}},
+    "reviewDecision":{"enum":["accepted","not-accepted"]},
+    "authority":{"type":"object","additionalProperties":false,"required":["performanceEvidenceAccepted","humanEvidenceAccepted","assistiveTechnologyEvidenceAccepted","lifecyclePromotionAutomatic","candidateStatusGranted","releaseCandidateStatusGranted","stableStatusGranted","consumerAcceptanceAutomatic","deploymentAcceptanceAutomatic","productionAcceptanceAutomatic"],"properties":{
+      "performanceEvidenceAccepted":{"type":"boolean"},"humanEvidenceAccepted":{"const":false},"assistiveTechnologyEvidenceAccepted":{"const":false},"lifecyclePromotionAutomatic":{"const":false},"candidateStatusGranted":{"const":false},"releaseCandidateStatusGranted":{"const":false},"stableStatusGranted":{"const":false},"consumerAcceptanceAutomatic":{"const":false},"deploymentAcceptanceAutomatic":{"const":false},"productionAcceptanceAutomatic":{"const":false}
+    }},
+    "boundary":{"type":"string","minLength":120}
+  }
+}
