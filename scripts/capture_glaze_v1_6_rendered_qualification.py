@@ -229,10 +229,15 @@ let style=document.getElementById('glz16-capture-freeze');
 if(!style){
   style=document.createElement('style');
   style.id='glz16-capture-freeze';
-  style.textContent='*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important;scroll-behavior:auto!important}';
+  style.textContent='*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important;scroll-behavior:auto!important}.skeleton-line{animation:none!important;background-position:50% 0!important}';
   document.head.appendChild(style);
 }
+for(const line of document.querySelectorAll('.skeleton-line')){
+  line.style.animation='none';
+  line.style.backgroundPosition='50% 0';
+}
 window.scrollTo(0,0);
+void document.documentElement.offsetWidth;
 return true;
 """,
     )
