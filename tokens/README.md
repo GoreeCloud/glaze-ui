@@ -10,6 +10,10 @@ The token directory intentionally preserves source files from earlier Stable and
 
 Existing token families continue to provide value authority for color, typography, spacing, geometry, shape, material, depth, motion, iconography, interaction states, layout, and form-factor semantics inherited by later Glaze releases.
 
+### Retained V1.2 promoted-source compatibility
+
+Historical V1.2 qualification was developed against the **V1.1 / `1.1.0`** Stable baseline. The retained `glaze-v1.2-core.candidate.json` composition manifest remains historical source provenance and **does not duplicate raw token values**; it resolves semantic ownership into retained token authorities instead. Historical state and form-factor authorities remain in `glaze-v1.2-states.candidate.json` and `glaze-v1.2-form-factor.candidate.json`. Their Candidate-era records remain non-consumer-eligible provenance, and **capability-class selection remains platform-adapter owned**. Retained form-factor source validation **does not establish platform or form-factor acceptance**. These historical markers exist for promoted-source validation only and do not override current V1.5.1 Stable authority.
+
 ## Experience Language Development ownership map
 
 `tokens/glaze-experience-language.dev.json` is a **Development, reference-only, non-consumer-eligible ownership map** for the broader Glaze UI Visual, Spatial, and Interaction Language. It defines the required token categories:

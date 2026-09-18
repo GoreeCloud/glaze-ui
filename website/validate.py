@@ -30,9 +30,9 @@ live_release = next(
 )
 if not live_release or live_release.get("status") != "stable" or live_release.get("consumerEligible") is not True:
     raise SystemExit("current Design Center authority must resolve to a consumer-eligible Stable release")
-LIVE_PRODUCT = str(live_release.get("label", "")).split(" — ", 1)[0].strip()
+LIVE_PRODUCT = str(lifecycle.get("officialProductLabel", "")).split(" — ", 1)[0].strip()
 if not LIVE_PRODUCT:
-    raise SystemExit("current Stable release label is missing")
+    raise SystemExit("current official product label is missing")
 
 for name in ("index.html", "404.html", "site.css", "identity.css", "site.js", "_headers", "build.py"):
     if not (SITE / name).is_file():

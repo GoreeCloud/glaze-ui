@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-assistive-technology-qualification-plan.schema.json",
+  "title": "Glaze UI V1.6 Assistive Technology Qualification Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema","schemaVersion","planId","name","lifecycle","sourceRevision","acceptanceModelVersion","stableBaseline","consumerEligible","evidenceType","laneId","mayAlsoSatisfyAccessibilityAlternativeGroup","requiredReviewScenarios","requiredEnvironmentMetadata","harness","preparation","acceptanceRecord","execution","evidenceBoundary","boundary"],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.6-assistive-technology-qualification-plan.schema.json"},
+    "schemaVersion": {"const":1},
+    "planId": {"const":"goreecloud.glaze-ui.v1.6.assistive-technology-qualification"},
+    "name": {"type":"string","minLength":20},
+    "lifecycle": {"const":"DevelopmentQualification"},
+    "sourceRevision": {"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},
+    "acceptanceModelVersion": {"const":"1.6.0-dev.12"},
+    "stableBaseline": {"const":"1.5.1"},
+    "consumerEligible": {"const":false},
+    "evidenceType": {"const":"assistive-technology"},
+    "laneId": {"const":"assistive-technology"},
+    "mayAlsoSatisfyAccessibilityAlternativeGroup": {"const":true},
+    "requiredReviewScenarios": {"type":"array","minItems":10,"uniqueItems":true,"items":{"type":"string","minLength":3}},
+    "requiredEnvironmentMetadata": {"type":"array","minItems":6,"uniqueItems":true,"items":{"type":"string","minLength":3}},
+    "harness": {"const":"reference/v1.6/assistive-technology-qualification.html"},
+    "preparation": {"const":"scripts/prepare_glaze_v1_6_assistive_technology_qualification.py"},
+    "acceptanceRecord": {"const":"acceptance/v1.6-development.md"},
+    "execution": {
+      "type":"object","additionalProperties":false,
+      "required":["repositoryLocalOnly","telemetryRequired","remoteAnalysisRequired","realAssistiveTechnologySessionRequired","reviewerMustIdentifyAssistiveTechnology","reviewerMustExerciseKeyboardOrEquivalentNavigation","reviewerMustObserveDynamicAnnouncements","reviewFindingsMustBeRecordedOutsideHarness","generatedEvidenceAutomatic","hostedCiMayClaimAssistiveTechnologyEvidence"],
+      "properties":{
+        "repositoryLocalOnly":{"const":true},
+        "telemetryRequired":{"const":false},
+        "remoteAnalysisRequired":{"const":false},
+        "realAssistiveTechnologySessionRequired":{"const":true},
+        "reviewerMustIdentifyAssistiveTechnology":{"const":true},
+        "reviewerMustExerciseKeyboardOrEquivalentNavigation":{"const":true},
+        "reviewerMustObserveDynamicAnnouncements":{"const":true},
+        "reviewFindingsMustBeRecordedOutsideHarness":{"const":true},
+        "generatedEvidenceAutomatic":{"const":false},
+        "hostedCiMayClaimAssistiveTechnologyEvidence":{"const":false}
+      }
+    },
+    "evidenceBoundary": {
+      "type":"object","additionalProperties":false,
+      "required":["reviewSurfaceOnly","assistiveTechnologyEvidenceClaimedByPlan","humanEvidenceClaimed","physicalDeviceEvidenceClaimed","performanceEvidenceClaimed","lifecyclePromotionAutomatic","candidateStatusGranted","releaseCandidateStatusGranted","stableStatusGranted","consumerAcceptanceAutomatic","deploymentAcceptanceAutomatic","productionAcceptanceAutomatic"],
+      "properties":{
+        "reviewSurfaceOnly":{"const":true},
+        "assistiveTechnologyEvidenceClaimedByPlan":{"const":false},
+        "humanEvidenceClaimed":{"const":false},
+        "physicalDeviceEvidenceClaimed":{"const":false},
+        "performanceEvidenceClaimed":{"const":false},
+        "lifecyclePromotionAutomatic":{"const":false},
+        "candidateStatusGranted":{"const":false},
+        "releaseCandidateStatusGranted":{"const":false},
+        "stableStatusGranted":{"const":false},
+        "consumerAcceptanceAutomatic":{"const":false},
+        "deploymentAcceptanceAutomatic":{"const":false},
+        "productionAcceptanceAutomatic":{"const":false}
+      }
+    },
+    "boundary": {"type":"string","minLength":180}
+  }
+}

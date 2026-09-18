@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" data-review-harness="glaze-v1.6-assistive-technology-qualification">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GLAZE UI V1.6 — Assistive Technology Qualification Review</title>
+<style>
+:root{font-family:system-ui,sans-serif;color-scheme:light dark;--bg:#0b111a;--surface:#182335;--line:#76859c;--text:#f5f8ff;--muted:#c6d0df;--accent:#b8d7ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text)}main{width:min(980px,100%);margin:auto;padding:20px}
+section,nav{border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 16px;background:var(--surface)}
+button,input,select{font:inherit;min-height:44px;padding:.6rem .75rem}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.muted{color:var(--muted)}.status{padding:10px;border:1px dashed var(--line);border-radius:10px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a href="#main">Skip to review content</a>
+<header>
+  <nav aria-label="Qualification review navigation">
+    <a href="#identity">Source identity</a> · <a href="#semantics">Semantics</a> · <a href="#dynamic">Dynamic states</a> · <a href="#review">Review checklist</a>
+  </nav>
+</header>
+<main id="main">
+<section id="identity" aria-labelledby="title">
+  <h1 id="title">GLAZE UI V1.6 — Assistive Technology Qualification Review</h1>
+  <p><strong>Review surface only — not acceptance evidence.</strong> A real assistive-technology session is required. This page cannot detect or certify a screen reader, switch-control system, voice-control system, magnifier, or other assistive technology; it cannot mark any lane passed.</p>
+  <dl>
+    <dt>Frozen source</dt><dd><code id="source">c7509c79256b04b0aa67cb9dd0737d7588e0ae4a</code></dd>
+    <dt>Acceptance model</dt><dd>1.6.0-dev.12</dd>
+    <dt>Stable baseline</dt><dd>1.5.1</dd>
+  </dl>
+  <p id="manifest-status" role="status" class="status">Checking exact-source manifest…</p>
+</section>
+
+<section id="semantics" aria-labelledby="semantics-title">
+  <h2 id="semantics-title">Semantic structure and controls</h2>
+  <div class="grid">
+    <div>
+      <h3>Form labels and descriptions</h3>
+      <label for="name">Workspace name</label>
+      <input id="name" aria-describedby="name-help" value="Qualification workspace">
+      <p id="name-help" class="muted">Review whether the accessible name and description are announced without duplication.</p>
+    </div>
+    <div>
+      <h3>State selection</h3>
+      <label for="state">Capability state</label>
+      <select id="state">
+        <option value="available">Available</option>
+        <option value="permission-required">Permission required</option>
+        <option value="restricted">Restricted</option>
+        <option value="offline">Offline</option>
+        <option value="error">Error</option>
+      </select>
+      <p id="state-detail" class="status" role="status" aria-live="polite">Available. Primary action is enabled.</p>
+    </div>
+  </div>
+  <h3>Named actions</h3>
+  <p>
+    <button id="primary">Apply presentation</button>
+    <button id="secondary">Show details</button>
+  </p>
+</section>
+
+<section id="dynamic" aria-labelledby="dynamic-title">
+  <h2 id="dynamic-title">Dynamic announcements and progress</h2>
+  <p><button id="announce">Trigger background status update</button></p>
+  <p id="live" role="status" aria-live="polite" aria-atomic="true" class="status">No background update has been triggered.</p>
+  <label for="progress">Example loading progress</label>
+  <progress id="progress" max="100" value="35">35%</progress>
+  <p class="muted">Review whether progress is exposed meaningfully and does not imply completion.</p>
+</section>
+
+<section id="review" aria-labelledby="review-title">
+  <h2 id="review-title">Required real-session observations</h2>
+  <ol>
+    <li>Navigate landmarks, headings, links, form fields, and buttons with the chosen assistive technology.</li>
+    <li>Confirm accessible names, roles, descriptions, values, disabled/restricted meaning, and state changes are understandable.</li>
+    <li>Confirm focus order follows the visible task flow and focus changes are not stolen by background updates.</li>
+    <li>Trigger the live-region update and confirm the announcement is useful, non-duplicative, and non-disruptive.</li>
+    <li>Exercise Permission required, Restricted, Offline, and Error states and confirm the distinction is conveyed without relying on color.</li>
+    <li>Review loading/progress semantics and recovery affordances.</li>
+    <li>Review at increased zoom or large text and confirm content remains navigable and understandable.</li>
+  </ol>
+  <p><strong>This page intentionally has no PASS button and does not create or download evidence.</strong> Record findings separately with OS/runtime, assistive-technology name/version, input method, exact source, observations, limitations, and durable evidence reference.</p>
+</section>
+</main>
+<script type="module">
+const SOURCE='c7509c79256b04b0aa67cb9dd0737d7588e0ae4a';
+const manifestStatus=document.getElementById('manifest-status');
+fetch('../../qualification-source.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('manifest unavailable');return r.json()}).then(m=>{
+  if(m.sourceRevision!==SOURCE||m.assistiveTechnologyEvidenceClaimed!==false)throw new Error('source manifest mismatch');
+  manifestStatus.textContent='Exact-source manifest verified. Assistive-technology evidence claimed: false.';
+}).catch(e=>{manifestStatus.textContent='Exact-source manifest verification failed: '+e.message});
+const state=document.getElementById('state'), detail=document.getElementById('state-detail'), primary=document.getElementById('primary');
+const messages={
+ available:'Available. Primary action is enabled.',
+ 'permission-required':'Permission required. Glaze does not request or grant permission automatically.',
+ restricted:'Restricted. Primary action is unavailable because caller-owned policy blocks it.',
+ offline:'Offline. Existing content remains available where cached; network action is unavailable.',
+ error:'Error. The failure is identified and recovery remains caller-owned.'
+};
+function updateState(){const v=state.value;detail.textContent=messages[v];primary.disabled=v!=='available';primary.setAttribute('aria-disabled',String(v!=='available'))}
+state.addEventListener('change',updateState);updateState();
+document.getElementById('announce').addEventListener('click',()=>{document.getElementById('live').textContent='Background refresh finished. Current task and focus were preserved.'});
+</script>
+</body>
+</html>
