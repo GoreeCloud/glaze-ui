@@ -5,7 +5,7 @@
 **Authoritative project record:** Project Specification — Glaze UI  
 **Canonical lifecycle authority:** `registry/lifecycle.json`  
 **Canonical repository:** `GoreeCloud/goreecloud-glaze-ui`  
-**Drive control:** `GoreeCloud/Feature Roadmap/Glaze UI/FEATURE-ROADMAP.docx`
+**Drive control:** `GoreeCloud/Feature Roadmap/Glaze UI/FEATURE-ROADMAP.md`
 
 ## Purpose
 
@@ -62,7 +62,7 @@ The V1.5.1 performance and posture qualification is accepted only for the exact 
 
 ## Maintenance and synchronization
 
-This roadmap and the corresponding Drive `FEATURE-ROADMAP.docx` must remain materially synchronized with one another and with the authoritative project record, current repository state, `registry/lifecycle.json`, and GoreeCloud Tasks Management. Update both copies whenever feature scope, priority, dependency, implementation status, blocker, cancellation, supersession, recommendation, or verification state materially changes.
+This roadmap and the corresponding Drive `FEATURE-ROADMAP.md` must remain materially synchronized with one another and with the authoritative project record, current repository state, `registry/lifecycle.json`, and GoreeCloud Tasks Management. Update both copies whenever feature scope, priority, dependency, implementation status, blocker, cancellation, supersession, recommendation, or verification state materially changes.
 
 No feature may be represented as complete or Stable solely because it appears in this roadmap. Completion and lifecycle claims require applicable authoritative implementation, validation, review, release, and production evidence.
 
