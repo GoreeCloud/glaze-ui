@@ -1,0 +1,101 @@
+{
+  "$schema": "../../schemas/v1.6-material-type-input.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.material-type-input",
+  "name": "Glaze UI V1.6 Material, Typography, Density, Input, and Tactile Development Contract",
+  "version": "1.6.0-dev.4",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+  "material": {
+    "roles": ["canvas","solid","raised","functional-glass","clear-glass","overlay"],
+    "blurLevels": ["none","low","standard"],
+    "depthRoles": [
+      "canvas","base-surface","raised-surface","floating-surface","overlay",
+      "dialog","modal","transient-control","context-surface"
+    ],
+    "solidPreferredContent": [
+      "dense-text","critical-warning","security-confirmation","privacy-decision",
+      "complex-form","long-reading","accessibility-fallback","high-information-table"
+    ],
+    "adaptiveInputs": [
+      "background-luminance","background-complexity","foreground-importance",
+      "scrolling","focus","modal-state","accessibility","performance",
+      "input-mode","form-factor"
+    ],
+    "clarityOverridesTranslucency": true,
+    "blurIsBoundedResource": true,
+    "nestedOrOverlappingBlurMayForceReduction": true,
+    "unsupportedBackdropFallsBackSafely": true,
+    "blurAloneMayProvideContrast": false
+  },
+  "typography": {
+    "roles": [
+      "display","hero","page-title","section-heading","subheading","body",
+      "secondary-body","label","supporting-label","caption","metadata",
+      "numeric-data","code","status","button-text"
+    ],
+    "environments": ["compact","medium","expanded","workspace","far-view","wearable"],
+    "semanticHierarchyBeforeRawFontValues": true,
+    "responsiveInputs": [
+      "window-environment","viewing-distance","text-scale","language-expansion",
+      "content-density","available-space","interaction-mode"
+    ],
+    "largeTextReflowRequired": true,
+    "clippingAllowedByDefault": false,
+    "remoteRuntimeFontDependencyAllowed": false
+  },
+  "largeTextResilience": {
+    "components": [
+      "navigation","card","toolbar","dialog","form","table","button",
+      "media-control","search","notification","settings"
+    ],
+    "wrapOrReflowRequired": true,
+    "targetMayShrinkToPreserveLayout": false,
+    "densityMayYieldToReflow": true,
+    "paneCountMayYieldToAccessibility": true
+  },
+  "density": {
+    "modes": ["comfortable","standard","compact"],
+    "compactMayReduceBelowSupportedMinimum": false,
+    "smallVisualIconMayUseLargerHitRegion": true,
+    "neighborSpacingMustReduceAccidentalActivation": true,
+    "targetFloorAuthority": "tokens/layout.json#/interactiveGeometry"
+  },
+  "input": {
+    "modes": [
+      "touch","pointer","keyboard","directional","stylus",
+      "voice-focus","assistive-input","mixed"
+    ],
+    "inputChangeAloneMayDramaticallyRearrange": false,
+    "taskContinuityRequired": true,
+    "hoverEnhancementOnly": true,
+    "essentialControlMayBeHoverOnly": false,
+    "equivalentNonHoverPathRequired": true,
+    "pressFeedbackImmediate": true,
+    "pressFeedbackSubtleAndFast": true
+  },
+  "tactile": {
+    "intents": ["selection","toggle","success","warning","error","boundary","drag-snap"],
+    "hardwarePatternHardcodedByGlaze": false,
+    "platformAdapterOwnsHardwareMapping": true,
+    "automaticHardwareExecutionByResolver": false,
+    "tactileFeedbackRequiredForMeaning": false,
+    "visualOrSemanticEquivalentRequired": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "contentTruthModified": false,
+    "backgroundContentInspectedByGlaze": false,
+    "localeInferredFromContent": false,
+    "inputModeOwnedByCallerOrPlatform": true,
+    "hardwareCapabilityOwnedByPlatform": true,
+    "privacyStateInferred": false,
+    "securityStateInferred": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.6-material-type-input.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.6-development.mjs",
+  "tokenMap": "tokens/glaze-v1.6-material-type-input.dev.json",
+  "boundary": "Development implementation foundation only. It does not alter VERSION, registry lifecycle authority, V1.5.1 Stable contracts, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}
