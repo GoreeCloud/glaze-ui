@@ -15,6 +15,26 @@
 
 V1.5.1 is the Stable qualification-hardening patch for the V1.5 Context + Capability Awareness line. It preserves the reviewed V1.5 presentation and authority implementation while closing the two shared qualification expansions intentionally deferred from V1.5.0.
 
+## Active V1.6 Release Candidate
+
+The governed successor candidate is **GLAZE UI V1.6 / `1.6.0-rc.1`**.
+
+- **Internal version:** `1.6.0-rc.1`
+- **External version:** `1.6.0-rc.1`
+- **Version name:** none
+- **Lifecycle:** Release Candidate
+- **Consumer eligibility:** No
+- **Stable baseline:** `1.5.1`
+- **Qualified source:** `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`
+- **Qualification evidence integration:** `354f5759385c28596fcfec26a3ad525e89fb1c35`
+- **Evidence matrix:** 24 verified / 0 unverified / 0 not applicable
+- **Governed qualification review:** `acceptance/v1.6-qualification-review.json`
+- **Release Candidate contract:** `contracts/v1.6/release-candidate.json`
+- **Release Candidate acceptance:** `acceptance/v1.6-rc.1.json`
+- **Release Candidate runtime:** `js/glaze-v1.6.0-rc.1.mjs`
+
+The Release Candidate is an identity/governance layer over the exact qualified V1.6 Development implementation. It does not replace V1.5.1 as current Stable, does not change the required downstream consumer version, and does not authorize deployment, production acceptance, tag publication, GitHub Release publication, or Stable promotion.
+
 ## Runtime and Stable entrypoints
 
 - Version authority: `VERSION`
@@ -82,9 +102,9 @@ Every applicable consumer must complete fresh repository-local exact-revision V1
 
 Shared Stable source/lifecycle authority does not by itself establish an immutable `v1.5.1` tag, GitHub Release publication, deployment, production acceptance, or downstream consumer acceptance. Those remain separate governed transitions.
 
-## Development successor boundary
+## V1.6 Release Candidate and retained Development boundary
 
-Development-only successor language, contracts, schemas, tokens, validators, and reference inputs may coexist in this repository. They remain non-consumer-eligible and do not alter V1.5.1 Stable authority unless separately promoted through the governed lifecycle.
+The active V1.6 Release Candidate and its retained Development-language contracts, schemas, tokens, validators, and qualification inputs coexist with V1.5.1 Stable. The RC remains non-consumer-eligible and does not alter V1.5.1 Stable authority unless a separate governed Stable promotion is completed.
 
 `GLAZE_UI_V1_6_PLANNED.md` records the planned V1.6 successor requirements, centered on semantic skeleton/loading behavior, state clarity, accessibility, motion, materials, responsive continuity, performance adaptation, diagnostics, conformance metadata, adoption profiles, and evidence-backed acceptance.
 
