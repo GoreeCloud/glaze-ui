@@ -108,7 +108,7 @@
         "name",
         "sizeBytes",
         "digest",
-        "expired",
+        "expiredAtObservation",
         "createdAt",
         "expiresAt",
         "sceneCount"
@@ -126,9 +126,6 @@
         "digest": {
           "const": "sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
         },
-        "expired": {
-          "const": false
-        },
         "createdAt": {
           "const": "2026-09-18T13:07:30Z"
         },
@@ -137,6 +134,9 @@
         },
         "sceneCount": {
           "const": 9
+        },
+        "expiredAtObservation": {
+          "const": false
         }
       }
     },
