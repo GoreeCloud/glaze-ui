@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.6 Loading and Skeleton Development Semantic Map",
+  "version": "1.6.0-dev.1",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "mode": "semantic-aliases",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/motion.json",
+    "tokens/states.json",
+    "tokens/layout.json",
+    "tokens/materials.json",
+    "tokens/glaze-experience-language.dev.json"
+  ],
+  "roles": {
+    "skeletonSurface": {
+      "semanticRole": "loading-placeholder-surface",
+      "inherits": ["surface", "foreground", "semantic"],
+      "mustPreserveContrast": true,
+      "mustSupportSolidFallback": true
+    },
+    "skeletonHighlight": {
+      "semanticRole": "loading-placeholder-emphasis",
+      "inherits": ["foreground", "semantic"],
+      "flashingAllowed": false,
+      "meaningMayDependOnHighlight": false
+    },
+    "skeletonGeometry": {
+      "semanticRole": "expected-content-geometry",
+      "inherits": ["spacing", "size", "radius"],
+      "layoutShiftReductionRequired": true,
+      "fakeContentGenerated": false
+    },
+    "skeletonMotion": {
+      "semanticRole": "loading-placeholder-motion",
+      "inherits": ["motion"],
+      "modes": ["static", "soft-pulse", "flow", "progressive-resolve", "skeleton-to-content-morph"],
+      "reducedMotionFallback": "static"
+    },
+    "loadingState": {
+      "semanticRole": "operation-presentation-state",
+      "inherits": ["states"],
+      "states": ["loading", "updating", "refreshing", "processing", "offline", "degraded", "failed", "complete"]
+    },
+    "progress": {
+      "semanticRole": "operation-progress",
+      "determinateRequiresTruthfulValue": true,
+      "fakePercentageAllowed": false
+    },
+    "recovery": {
+      "semanticRole": "available-recovery-presentation",
+      "capabilityMayBeInvented": false
+    }
+  },
+  "accessibility": {
+    "reducedMotion": {
+      "skeletonMode": "static",
+      "continuousAnimationAllowed": false
+    },
+    "reducedTransparency": {
+      "surfaceMode": "solid",
+      "blurRequired": false
+    },
+    "increasedContrast": {
+      "surfaceMode": "solid-contrast-protected",
+      "opacityOnlyDifferentiationAllowed": false
+    },
+    "forcedColors": {
+      "platformColorsPreferred": true,
+      "opacityOnlyDifferentiationAllowed": false
+    }
+  },
+  "performanceLevels": {
+    "full": {
+      "flowEligible": true,
+      "continuousMotionBudgeted": true
+    },
+    "balanced": {
+      "flowEligible": true,
+      "continuousMotionBudgeted": true
+    },
+    "efficient": {
+      "flowEligible": false,
+      "continuousMotionBudgeted": false,
+      "skeletonMode": "static"
+    },
+    "essential": {
+      "flowEligible": false,
+      "continuousMotionBudgeted": false,
+      "skeletonMode": "static",
+      "solidSurfacesPreferred": true
+    }
+  },
+  "motionFatigue": {
+    "manySkeletonThreshold": 12,
+    "atOrAboveThreshold": "static",
+    "continuousMotionRequired": false
+  },
+  "boundary": "Development semantic mapping only. Existing Stable token values remain authoritative for V1.5.1; this file does not promote V1.6 or make consumers eligible."
+}

@@ -1,7 +1,7 @@
 # Glaze UI — Feature Roadmap
 
 **Status:** Active roadmap control  
-**As of:** 2026-09-16  
+**As of:** 2026-09-18  
 **Authoritative project record:** Project Specification — Glaze UI  
 **Canonical lifecycle authority:** `registry/lifecycle.json`  
 **Canonical repository:** `GoreeCloud/goreecloud-glaze-ui`  
@@ -15,7 +15,7 @@ This file is the repository-side feature roadmap control for Glaze UI. It record
 
 GLAZE UI V1.5.1 is the qualification-hardening successor to the V1.5.0 Stable baseline. The two V1.5.1 external qualification obligations were independently reviewed and accepted on frozen exact Development revision `5b59d0e36950d737dba35b58ae58058684e0831b`; the qualification changes were integrated at `f7ef915f0aabea6cf92748018f2220a99e3a9c92`, and Release Candidate `1.5.1-rc.1` was integrated and post-merge verified at `a9c93506dd062d29c6c894940b71d060e8c39110`.
 
-This promotion stream establishes **GLAZE UI V1.5 / `1.5.1`** as the current Official Stable shared target only when the governed Stable promotion is authoritative on `main` and the merged `main` revision passes the V1.5.1 Stable authority gate. The immediate known-good rollback baseline is `1.5.0`.
+**GLAZE UI V1.5 / `1.5.1` is the current Official Stable shared target.** Stable promotion is authoritative on `main`; the immediate known-good rollback baseline remains `1.5.0`. Release publication, downstream consumer acceptance, deployment, and production acceptance remain separate governed transitions.
 
 The V1.5.1 qualification closure contains two independently accepted additions:
 
@@ -39,15 +39,20 @@ All GoreeCloud-controlled graphical consumers remain independently responsible f
 | FR-001 | Reconcile and maintain every current planned or recommended Glaze UI feature from authoritative project records and verified repository evidence in this roadmap. | High | Ongoing control. |
 | FR-002 | Move actionable feature obligations into GoreeCloud Tasks Management when required, preserving priority, dependency, blocker, and lifecycle disposition. | High | Ongoing control. |
 | FR-003 | Do not mark features implemented, complete, cancelled, superseded, RC, Stable, deployed, or production-accepted without authoritative evidence and synchronized repository/Drive/task records. | High | Ongoing control. |
-| FR-004 | Preserve GLAZE UI V1.5 / `1.5.1` as the current Official Stable authority after governed promotion and `1.5.0` as the immediate rollback baseline. | P0 | Stable-promotion control — qualification and RC boundaries verified; final authority requires exact-head promotion plus merged-`main` gate. |
+| FR-004 | Preserve GLAZE UI V1.5 / `1.5.1` as the current Official Stable authority and `1.5.0` as the immediate rollback baseline. | P0 | Verified Stable invariant; current lifecycle authority remains `1.5.1`. |
 | FR-005 | Preserve the V1.5 Context + Capability Resolution architecture and its fail-closed authority, accessibility, continuity, diagnostics, degradation, and truth-preservation invariants. | P0 | Stable invariant; regression protection remains mandatory. |
 | FR-006 | Maintain presentation-only authority boundaries so Glaze never creates consent, grants permissions, invents provider precedence, executes consequential operations, or upgrades Privacy Shield, Wardveil Security, Everkeep, Mesh, or application truth. | P0 | Stable invariant; V1.5.1 promotion preserves it. |
 | FR-007 | Complete V1.5.1 representative performance qualification against the approved budget using exact-revision, privacy-minimized evidence from a representative reviewed environment. | P0 | Accepted — exact revision `5b59d0e36950d737dba35b58ae58058684e0831b`; PR #230 comment `5697516074`. |
 | FR-008 | Complete V1.5.1 platform/posture continuity qualification using a representative physical device or approved target runtime for every claimed applicable transition family. | P0 | Accepted — approved Pixel Fold target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`; PR #230 comment `5705230782`. |
-| FR-009 | Complete the governed V1.5.1 lifecycle transition through Release Candidate and separate Stable promotion with exact-head and post-merge verification. | P0 | RC complete at `a9c93506dd062d29c6c894940b71d060e8c39110`; Stable promotion in progress and must pass the V1.5.1 Stable authority gate before completion. |
+| FR-009 | Complete the governed V1.5.1 lifecycle transition through Release Candidate and separate Stable promotion with exact-head and post-merge verification. | P0 | Completed for shared source/lifecycle authority; V1.5.1 is current Stable. Publication, downstream adoption, deployment, and production remain separate. |
 | FR-010 | Drive current-Stable adoption across GoreeCloud-controlled user-facing consumers without allowing platform-level Stable status to imply application-level acceptance. | P0 | Ongoing consumer migration/acceptance work; required target advances to `1.5.1` after authoritative Stable promotion. |
 | FR-011 | Reconcile stale historical documentation and roadmap records that still identify older Glaze releases as current, without rewriting immutable historical evidence. | High | Active documentation-control work; repository promotion surfaces reconciled for V1.5.1. |
 | FR-012 | Preserve V1.5.0 and earlier release evidence as historical rollback/audit provenance without conflating it with current V1.5.1 Stable authority. | High | Historical/rollback control. |
+| FR-013 | Implement the planned V1.6 Glaze Skeleton Motion System and intelligent loading decision/escalation foundation without altering V1.5.1 Stable authority. | P0 | Development source foundation implemented for sections 1–4; lifecycle remains non-consumer-eligible Development and requires exact-revision CI/acceptance evidence. |
+| FR-014 | Expand V1.6 semantic loading/skeleton tokens, accessibility fallbacks, motion-fatigue controls, and configurable thresholds through governed machine contracts. | P0 | Initial semantic map and machine contract implemented; broader V1.6 token/state expansion remains open. |
+| FR-015 | Expand V1.6 beyond loading into the full semantic state grammar, accessibility profiles, focus, motion families, materials, typography, density, responsive behavior, recovery, diagnostics, and conformance metadata. | P0 | Planned / pending implementation. |
+| FR-016 | Build the V1.6 section 98 acceptance matrix, including accessibility, representative rendering, layout stability, performance, offline/degraded behavior, privacy/authority boundaries, and regression coverage. | P0 | Pending; Development source checks do not constitute acceptance. |
+| FR-017 | Establish downstream V1.6 application adoption profiles only after shared V1.6 lifecycle and acceptance state make consumer migration valid. | High | Deferred until shared V1.6 implementation and lifecycle prerequisites are satisfied. |
 
 ## Qualification evidence boundary
 
