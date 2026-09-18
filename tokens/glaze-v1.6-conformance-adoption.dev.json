@@ -1,0 +1,50 @@
+{
+  "schemaVersion":1,
+  "name":"Glaze UI V1.6 Conformance and Adoption Development Semantic Map",
+  "version":"1.6.0-dev.10",
+  "lifecycle":"Development",
+  "stableBaseline":"1.5.1",
+  "consumerEligible":false,
+  "sourceAuthorities":[
+    "tokens/states.json","tokens/semantic-colors.json","tokens/layout.json","tokens/materials.json","tokens/motion.json","tokens/iconography.json",
+    "tokens/glaze-v1.6-loading.dev.json","tokens/glaze-v1.6-state-accessibility.dev.json","tokens/glaze-v1.6-focus-motion.dev.json",
+    "tokens/glaze-v1.6-material-type-input.dev.json","tokens/glaze-v1.6-resilience-feedback.dev.json","tokens/glaze-v1.6-navigation-status.dev.json",
+    "tokens/glaze-v1.6-component-systems.dev.json","tokens/glaze-v1.6-experience-governance.dev.json","tokens/glaze-v1.6-performance-diagnostics.dev.json"
+  ],
+  "consistencyInspectorDomains":{
+    "tokens":"conformance.tokens","colors":"conformance.colors","typography":"conformance.typography","spacing":"conformance.spacing",
+    "materials":"conformance.materials","focus":"conformance.focus","motion":"conformance.motion","skeleton":"conformance.skeleton",
+    "component-states":"conformance.component-states","accessibility":"conformance.accessibility","loading":"conformance.loading"
+  },
+  "componentMetadata":{
+    "supportedStates":"component.conformance.supported-states",
+    "accessibilityModes":"component.conformance.accessibility-modes",
+    "formFactors":"component.conformance.form-factors",
+    "motionBehavior":"component.conformance.motion",
+    "fallbackBehavior":"component.conformance.fallback",
+    "performanceExpectations":"component.conformance.performance"
+  },
+  "adoptionStatuses":{
+    "implemented":"adoption.implemented","partially-implemented":"adoption.partially-implemented","unsupported":"adoption.unsupported",
+    "not-applicable":"adoption.not-applicable","awaiting-acceptance":"adoption.awaiting-acceptance"
+  },
+  "migrationInvariants":{
+    "semantic-colors":"migration.preserve.semantic-colors",
+    "accessibility-precedence":"migration.preserve.accessibility-precedence",
+    "contextual-awareness":"migration.preserve.contextual-awareness",
+    "capability-awareness":"migration.preserve.capability-awareness",
+    "authority-boundaries":"migration.preserve.authority-boundaries",
+    "graceful-fallback":"migration.preserve.graceful-fallback",
+    "continuity-behavior":"migration.preserve.continuity",
+    "privacy-safe-diagnostics":"migration.preserve.privacy-safe-diagnostics"
+  },
+  "boundaries":{
+    "inspectorMayModifySource":false,
+    "componentMetadataProvesRuntimeConformance":false,
+    "sharedStatusImpliesApplicationAdoption":false,
+    "consumerRegistryMutationAutomatic":false,
+    "priorAcceptanceReboundAutomatic":false,
+    "productionEligibilityAutomatic":false
+  },
+  "boundary":"Development conformance/adoption semantic support only. Stable V1.5.1 remains the current consumer target; V1.6 profiles do not establish downstream acceptance or production eligibility."
+}
