@@ -45,10 +45,10 @@
       "type":"object","additionalProperties":false,
       "required":[
         "kind","pixelTolerance","allScenesRequired","priorManifestRequired","freshManifestCount",
-        "sourceRevisionMustMatch","semanticEvidenceSha256MustMatchPrior","freshScreenshotSha256MustMatchEachOther"
+        "sourceRevisionMustMatch","semanticEvidenceSha256MustMatchPrior","freshPixelSha256MustMatchEachOther"
       ],
       "properties":{
-        "kind":{"const":"semantic-baseline-plus-double-render-sha256-exact"},
+        "kind":{"const":"semantic-baseline-plus-double-render-pixel-sha256-exact"},
         "pixelTolerance":{"const":0},
         "allScenesRequired":{"const":true},
         "priorManifestRequired":{"const":true},
