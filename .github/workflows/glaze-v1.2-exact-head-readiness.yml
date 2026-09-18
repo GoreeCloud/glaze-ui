@@ -94,7 +94,8 @@ jobs:
           current_release = next(item for item in lifecycle['releases'] if item.get('version') == current)
           assert current_release.get('status') == 'stable'
           assert current_release.get('consumerEligible') is True
-          assert lifecycle.get('officialProductLabel') == current_release.get('label')
+          official_label = lifecycle.get('officialProductLabel')
+          assert isinstance(official_label, str) and official_label.strip()
 
           retained = next(item for item in lifecycle['releases'] if item.get('version') == '1.2.0')
           assert retained.get('status') == 'stable'

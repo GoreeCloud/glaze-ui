@@ -68,9 +68,15 @@ jobs:
           lifecycle = json.loads((root / 'registry/lifecycle.json').read_text(encoding='utf-8'))
           assert lifecycle.get('currentStable') == version
           assert lifecycle.get('currentOfficial') == version
-          assert lifecycle.get('activeCandidate') is None
           current = [r for r in lifecycle.get('releases', []) if r.get('version') == version]
           assert len(current) == 1 and current[0].get('status') == 'stable' and current[0].get('consumerEligible') is True
+          active_candidate = lifecycle.get('activeCandidate')
+          if active_candidate is not None:
+              candidates = [r for r in lifecycle.get('releases', []) if r.get('version') == active_candidate]
+              assert len(candidates) == 1
+              assert candidates[0].get('status') == 'release-candidate'
+              assert candidates[0].get('consumerEligible') is False
+              assert candidates[0].get('stableBaseline') == version
           for historical in ('1.3.0', '1.2.0'):
               records = [r for r in lifecycle.get('releases', []) if r.get('version') == historical]
               assert len(records) == 1 and records[0].get('status') == 'stable' and records[0].get('consumerEligible') is True

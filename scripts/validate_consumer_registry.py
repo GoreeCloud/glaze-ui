@@ -69,10 +69,23 @@ def main() -> None:
     req(lifecycle.get("currentStable") == stable, "lifecycle currentStable must match VERSION")
     req(lifecycle.get("currentOfficial") == stable, "lifecycle currentOfficial must match VERSION")
     req(lifecycle.get("officialProductLabel") == label, "registry/lifecycle product label mismatch")
-    req(lifecycle.get("activeCandidate") is None, "Stable registry must not retain an active Candidate")
 
     releases = lifecycle.get("releases")
     req(isinstance(releases, list), "lifecycle releases list")
+
+    active_candidate = lifecycle.get("activeCandidate")
+    if active_candidate is not None:
+        req(isinstance(active_candidate, str) and active_candidate.strip(), "activeCandidate must be a version string when present")
+        req(active_candidate != stable, "activeCandidate must not equal current Stable")
+        candidate_releases = [
+            r for r in releases
+            if isinstance(r, dict) and r.get("version") == active_candidate
+        ]
+        req(len(candidate_releases) == 1, "activeCandidate must reference exactly one lifecycle release")
+        candidate = candidate_releases[0]
+        req(candidate.get("status") == "release-candidate", "activeCandidate must reference a Release Candidate")
+        req(candidate.get("consumerEligible") is False, "active Release Candidate must not be consumer-eligible")
+        req(candidate.get("stableBaseline") == stable, "active Release Candidate stableBaseline must match current Stable")
     stable_releases = [r for r in releases if isinstance(r, dict) and r.get("version") == stable]
     req(len(stable_releases) == 1, "exactly one lifecycle record must match current Stable")
     release = stable_releases[0]

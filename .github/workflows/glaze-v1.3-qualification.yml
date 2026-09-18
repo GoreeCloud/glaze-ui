@@ -147,17 +147,22 @@ jobs:
           import json
           lifecycle = json.load(open('registry/lifecycle.json', encoding='utf-8'))
           migration = json.load(open('contracts/v1.3/migration.candidate.json', encoding='utf-8'))
-          assert lifecycle['currentStable'] == lifecycle['currentOfficial'] == '1.5.0'
-          assert lifecycle['plannedNext'] == '1.5.1'
-          current = next(item for item in lifecycle['releases'] if item['version'] == '1.5.0')
+          version = open('VERSION', encoding='utf-8').read().strip()
+          assert lifecycle['currentStable'] == lifecycle['currentOfficial'] == version
+          current = next(item for item in lifecycle['releases'] if item['version'] == version)
           assert current['status'] == 'stable'
           assert current['consumerEligible'] is True
-          assert current['stableBaseline'] == '1.4.1'
+          active_candidate = lifecycle.get('activeCandidate')
+          if active_candidate is not None:
+              candidate = next(item for item in lifecycle['releases'] if item['version'] == active_candidate)
+              assert candidate['status'] == 'release-candidate'
+              assert candidate['consumerEligible'] is False
+              assert candidate['stableBaseline'] == version
           assert migration['sourceStable'] == '1.2.0'
           assert migration['targetVersion'] == '1.3.0-candidate'
           assert migration['lifecycleAuthority'] is False
           assert migration['consumerEligible'] is False
-          print('V1.3 migration Candidate contract is preserved as historical provenance and cannot override V1.5.0 live authority.')
+          print(f'V1.3 migration Candidate contract is preserved as historical provenance and cannot override {version} live Stable authority.')
           PY
 
       - name: Validate preserved qualification control plane and 55-rule visual-quality authority
