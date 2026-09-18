@@ -30,14 +30,14 @@
     "form-factor-transition"
   ],
   "comparison": {
-    "kind": "semantic-baseline-plus-double-render-sha256-exact",
+    "kind": "semantic-baseline-plus-double-render-pixel-sha256-exact",
     "pixelTolerance": 0,
     "allScenesRequired": true,
     "priorManifestRequired": true,
     "freshManifestCount": 2,
     "sourceRevisionMustMatch": true,
     "semanticEvidenceSha256MustMatchPrior": true,
-    "freshScreenshotSha256MustMatchEachOther": true
+    "freshPixelSha256MustMatchEachOther": true
   },
   "freshCapture": {
     "captureScript": "scripts/capture_glaze_v1_6_rendered_qualification.py",
@@ -62,5 +62,5 @@
     "deploymentAcceptanceAutomatic": false,
     "productionAcceptanceAutomatic": false
   },
-  "boundary": "This plan preserves the prior exact-source rendered artifact as semantic rendered provenance only; it does not retroactively declare those PNGs a governed pixel baseline. Regression qualification requires every fresh scene to preserve the prior scene evidence digest and requires two independently captured normalized renders of the same frozen source to be byte-identical by screenshot SHA-256 with zero tolerance. Screenshot normalization occurs only after the live rendered semantic/computed-state evidence has been recorded and includes deterministic solid-material replacement for composited blur. A pass may support only the rendered evidence group of regression-testing."
+  "boundary": "This plan preserves the prior exact-source rendered artifact as semantic rendered provenance only; it does not retroactively declare those PNGs a governed pixel baseline. Regression qualification requires every fresh scene to preserve the prior scene evidence digest and requires two independently captured normalized renders of the same frozen source to be pixel-identical by decoded-pixel SHA-256 with zero tolerance. Screenshot normalization occurs only after the live rendered semantic/computed-state evidence has been recorded and includes deterministic solid-material replacement for composited blur. A pass may support only the rendered evidence group of regression-testing."
 }
