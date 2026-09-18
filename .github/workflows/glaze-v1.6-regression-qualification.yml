@@ -181,11 +181,11 @@ jobs:
                       'freshA':first['evidenceSha256'],
                       'freshB':second['evidenceSha256']
                   })
-              if first['screenshotSha256']!=second['screenshotSha256']:
+              if first['pixelSha256']!=second['pixelSha256']:
                   visual_mismatches.append({
                       'id':scene_id,
-                      'freshA':first['screenshotSha256'],
-                      'freshB':second['screenshotSha256']
+                      'freshA':first['pixelSha256'],
+                      'freshB':second['pixelSha256']
                   })
               if old['screenshotSha256']!=first['screenshotSha256']:
                   prior_pixel_drift.append(scene_id)
@@ -203,7 +203,7 @@ jobs:
                   'artifactDigest':'sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506',
                   'pixelBaselineClaimed':False
               },
-              'comparisonKind':'semantic-baseline-plus-double-render-sha256-exact',
+              'comparisonKind':'semantic-baseline-plus-double-render-pixel-sha256-exact',
               'pixelTolerance':0,
               'sceneCount':9,
               'semanticMismatches':semantic_mismatches,
@@ -235,7 +235,7 @@ jobs:
               raise SystemExit('normalized rendered repeatability mismatch: '+json.dumps(visual_mismatches,sort_keys=True))
           print('V1.6 rendered regression qualification: PASS')
           print('Semantic scenes matched prior evidence: 9')
-          print('Fresh normalized screenshots matched exactly: 9')
+          print('Fresh normalized decoded pixels matched exactly: 9')
           print('Pixel tolerance: 0')
           PY
 
