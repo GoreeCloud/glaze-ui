@@ -10,6 +10,9 @@ on:
       - 'acceptance/v1.6-machine-evidence.json'
       - 'acceptance/v1.6-rendered-evidence.json'
       - 'acceptance/v1.6-regression-evidence.json'
+      - 'acceptance/v1.6-human-evidence.json'
+      - 'acceptance/v1.6-assistive-technology-evidence.json'
+      - 'acceptance/v1.6-performance-evidence.json'
       - 'acceptance/v1.6-human-evidence.template.json'
       - 'acceptance/v1.6-assistive-technology-evidence.template.json'
       - 'acceptance/v1.6-performance-evidence.template.json'
@@ -70,6 +73,45 @@ jobs:
           if(result.matrix.readyForGovernedQualificationReview!==false) throw new Error('current evidence must not be review-ready');
           if(result.externalEvidenceItemCount!==0) throw new Error('current canonical evaluation must not invent external evidence');
           console.log('Current V1.6 evidence reconciliation: 17 verified / 7 unverified');
+          NODE
+
+      - name: Reconcile committed accepted external evidence when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=()
+          for record in \
+            acceptance/v1.6-human-evidence.json \
+            acceptance/v1.6-assistive-technology-evidence.json \
+            acceptance/v1.6-performance-evidence.json
+          do
+            if [[ -f "$record" ]]; then args+=(--external "$record"); fi
+          done
+          node scripts/evaluate_glaze_v1_6_qualification_evidence.mjs "${args[@]}" > /tmp/v16-evidence-with-accepted-external.json
+          node - <<'NODE'
+          const fs=require('fs');
+          const result=JSON.parse(fs.readFileSync('/tmp/v16-evidence-with-accepted-external.json','utf8'));
+          const present={
+            human:fs.existsSync('acceptance/v1.6-human-evidence.json'),
+            assistive:fs.existsSync('acceptance/v1.6-assistive-technology-evidence.json'),
+            performance:fs.existsSync('acceptance/v1.6-performance-evidence.json')
+          };
+          const byId=new Map(result.matrix.lanes.map(lane=>[lane.id,lane]));
+          if(present.human){
+            for(const id of ['accessibility','keyboard-navigation','privacy-boundaries','authority-boundaries','representative-rendering']){
+              if(byId.get(id)?.status!=='verified') throw new Error('accepted Human record did not verify '+id);
+            }
+          }
+          if(present.assistive&&byId.get('assistive-technology')?.status!=='verified') throw new Error('accepted Assistive Technology record did not verify dedicated lane');
+          if(present.performance&&byId.get('performance')?.status!=='verified') throw new Error('accepted Performance record did not verify Performance lane');
+          if(present.human&&!present.assistive&&!present.performance){
+            if(result.matrix.verifiedCount!==22||result.matrix.unverifiedCount!==2) throw new Error('Human-only reconciliation must be 22 verified / 2 unverified');
+            if(JSON.stringify(result.matrix.blockingLaneIds)!==JSON.stringify(['assistive-technology','performance'])) throw new Error('Human-only blocker set must be Assistive Technology + Performance');
+          }
+          if(present.human&&present.assistive&&present.performance){
+            if(result.matrix.qualificationEvidenceComplete!==true||result.matrix.readyForGovernedQualificationReview!==true) throw new Error('all three accepted external record types must complete the evidence matrix');
+          }
+          console.log('Accepted external evidence reconciliation verified');
           NODE
 
       - name: Prove incomplete evidence fails the completion gate
