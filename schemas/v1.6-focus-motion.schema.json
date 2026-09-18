@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-focus-motion.schema.json",
+  "title": "Glaze UI V1.6 Focus and Motion Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema", "schemaVersion", "contractId", "name", "version", "lifecycle",
+    "stableBaseline", "consumerEligible", "implementedSpecificationSections",
+    "focus", "motionFamilies", "motionHierarchy", "interruptibility",
+    "motionBudget", "microinteractionIntents", "stateContinuity",
+    "contentTransitions", "accessibility", "glazeMotionBoundary", "authority",
+    "runtimeEntrypoint", "developmentAggregateEntrypoint", "tokenMap", "boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.6-focus-motion.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.6.focus-motion"},
+    "name": {"const": "Glaze UI V1.6 Focus, Motion, Microinteraction, and Continuity Development Contract"},
+    "version": {"const": "1.6.0-dev.3"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.5.1"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "integer", "minimum": 1, "maximum": 100}
+    },
+    "focus": {"type": "object", "minProperties": 10},
+    "motionFamilies": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "motionHierarchy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["magnitudes", "surfaceHierarchies", "semanticMagnitudeMustMatchSemanticImportance"],
+      "properties": {
+        "magnitudes": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {"enum": ["micro", "small", "medium", "large"]}
+        },
+        "surfaceHierarchies": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {"enum": ["decoration", "secondary", "primary", "navigation"]}
+        },
+        "semanticMagnitudeMustMatchSemanticImportance": {"const": true}
+      }
+    },
+    "interruptibility": {"type": "object", "minProperties": 7},
+    "motionBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference", "configurable", "fatigueProtectionRequired", "optionalMotionReducedWhenExceeded"],
+      "properties": {
+        "reference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "continuousAnimatedElements", "simultaneousTransitions",
+            "backgroundMaterialAnimations", "skeletonMotionElements",
+            "decorativeMovements", "largeAreaTransformations"
+          ],
+          "properties": {
+            "continuousAnimatedElements": {"type": "integer", "minimum": 0},
+            "simultaneousTransitions": {"type": "integer", "minimum": 0},
+            "backgroundMaterialAnimations": {"type": "integer", "minimum": 0},
+            "skeletonMotionElements": {"type": "integer", "minimum": 0},
+            "decorativeMovements": {"type": "integer", "minimum": 0},
+            "largeAreaTransformations": {"type": "integer", "minimum": 0}
+          }
+        },
+        "configurable": {"const": true},
+        "fatigueProtectionRequired": {"const": true},
+        "optionalMotionReducedWhenExceeded": {"const": true}
+      }
+    },
+    "microinteractionIntents": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "stateContinuity": {"type": "object", "minProperties": 4},
+    "contentTransitions": {"type": "object", "minProperties": 6},
+    "accessibility": {"type": "object", "minProperties": 4},
+    "glazeMotionBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["separateSystem", "currentLifecycle", "promotedByThisContract", "v1_6UsesSemanticMotionWithoutPromotingGlazeMotion"],
+      "properties": {
+        "separateSystem": {"const": "Glaze Motion"},
+        "currentLifecycle": {"const": "Experimental foundation"},
+        "promotedByThisContract": {"const": false},
+        "v1_6UsesSemanticMotionWithoutPromotingGlazeMotion": {"const": true}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary", "focusTargetTruthOwnedByCaller", "taskStateChangedByResolver",
+        "navigationExecutedByResolver", "actionsExecutedByResolver",
+        "contentTruthChangedByResolver"
+      ],
+      "properties": {
+        "boundary": {"const": "presentation-only"},
+        "focusTargetTruthOwnedByCaller": {"const": true},
+        "taskStateChangedByResolver": {"const": false},
+        "navigationExecutedByResolver": {"const": false},
+        "actionsExecutedByResolver": {"const": false},
+        "contentTruthChangedByResolver": {"const": false}
+      }
+    },
+    "runtimeEntrypoint": {"const": "js/glaze-v1.6-focus-motion.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const": "js/glaze-v1.6-development.mjs"},
+    "tokenMap": {"const": "tokens/glaze-v1.6-focus-motion.dev.json"},
+    "boundary": {"type": "string", "minLength": 1}
+  }
+}
