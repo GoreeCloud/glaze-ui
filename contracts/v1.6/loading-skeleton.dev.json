@@ -1,0 +1,105 @@
+{
+  "$schema": "../../schemas/v1.6-loading-skeleton.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.loading-skeleton",
+  "name": "Glaze UI V1.6 Loading and Skeleton Development Contract",
+  "version": "1.6.0-dev.1",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [1, 2, 3, 4],
+  "supportingSpecificationSections": [5, 33, 34, 35, 36, 70, 82, 86, 87, 88, 89, 90],
+  "skeletonPrimitives": [
+    "text", "heading", "paragraph", "avatar", "profile-information", "icon",
+    "button", "card", "list", "grid-item", "table", "row", "navigation-item",
+    "image", "album-artwork", "video-thumbnail", "media-metadata", "chart",
+    "form", "search-result", "message", "notification", "dashboard-widget",
+    "sidebar", "detail-pane", "custom"
+  ],
+  "skeletonMotionModes": [
+    "static",
+    "soft-pulse",
+    "flow",
+    "progressive-resolve",
+    "skeleton-to-content-morph"
+  ],
+  "loadingPresentations": [
+    "quiet-wait",
+    "immediate-content",
+    "optimistic-state",
+    "inline-progress",
+    "skeleton",
+    "indeterminate-progress",
+    "determinate-progress",
+    "background-refresh",
+    "full-blocking-progress",
+    "empty",
+    "error",
+    "offline",
+    "degraded",
+    "stale-content"
+  ],
+  "assistiveStates": [
+    "loading",
+    "updating",
+    "loading-additional-results",
+    "refreshing",
+    "processing",
+    "content-available",
+    "loading-failed",
+    "offline",
+    "degraded",
+    "empty"
+  ],
+  "thresholds": {
+    "configurable": true,
+    "referenceDefaultsMs": {
+      "skeletonDelay": 160,
+      "extendedLoad": 2000,
+      "delayedResponse": 6000
+    },
+    "timeoutMayInferOffline": false,
+    "timeoutMayInferDegraded": false
+  },
+  "accessibility": {
+    "skeletonsHiddenFromAccessibilityTree": true,
+    "individualSkeletonAnnouncements": false,
+    "reducedMotionForcesStatic": true,
+    "reducedTransparencyUsesSolidAlternative": true,
+    "increasedContrastUsesSolidAlternative": true,
+    "opacityOnlyMeaningAllowed": false,
+    "singleSemanticStateAnnouncementPreferred": true
+  },
+  "decisionRules": {
+    "veryShortOperationsUseQuietWindow": true,
+    "refreshPreservesExistingContent": true,
+    "staleUsableContentMayRemainVisible": true,
+    "determinateProgressMustBeTruthful": true,
+    "fakePercentagesAllowed": false,
+    "optimisticSecuritySensitiveAllowed": false,
+    "optimisticPrivacySensitiveAllowed": false,
+    "optimisticDestructiveAllowed": false,
+    "optimisticIrreversibleAllowed": false,
+    "fullBlockingReservedForBlockingOperations": true
+  },
+  "continuity": {
+    "layoutPositionPreservationRequired": true,
+    "focusPreservationRequired": true,
+    "scrollPositionPreservationRequired": true,
+    "skeletonGeometryApproximatesFinalContent": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "stateTruthOwnedByCaller": true,
+    "connectivityInferred": false,
+    "privacyStateInferred": false,
+    "securityStateInferred": false,
+    "authorizationInferred": false,
+    "permissionGrantedByGlaze": false,
+    "consequentialExecutionAutomatic": false,
+    "recoveryCapabilityInvented": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.6-loading.dev.mjs",
+  "tokenMap": "tokens/glaze-v1.6-loading.dev.json",
+  "boundary": "Development implementation foundation only. It does not alter VERSION, registry lifecycle authority, V1.5.1 Stable contracts, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}
