@@ -50,6 +50,7 @@ assert(comparison.freshManifestCount===2,'regression qualification must require 
 
 assert(capture.includes("background-position:50% 0!important"),'capture must normalize skeleton background position before screenshot');
 assert(capture.includes("line.style.backgroundPosition='50% 0'"),'capture must explicitly normalize skeleton inline background position');
+assert(capture.includes(".glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--surface-solid)!important}"),'capture must normalize composited material after semantic measurement');
 
 assert(Array.isArray(acceptance.evidenceRequirements['regression-testing']),'acceptance contract missing regression-testing');
 assert(JSON.stringify(acceptance.evidenceRequirements['regression-testing'])==='[["machine"],["rendered"]]','regression evidence groups drifted');
