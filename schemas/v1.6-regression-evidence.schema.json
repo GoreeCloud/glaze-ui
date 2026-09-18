@@ -1,0 +1,354 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-regression-evidence.schema.json",
+  "title": "Glaze UI V1.6 Exact-Source Rendered Regression Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "recordId",
+    "name",
+    "lifecycle",
+    "sourceRevision",
+    "acceptanceModelVersion",
+    "stableBaseline",
+    "tooling",
+    "qualificationRun",
+    "artifact",
+    "priorRenderedEvidence",
+    "comparison",
+    "browser",
+    "baselineScenes",
+    "renderedEvidence",
+    "matrixDisposition",
+    "authority",
+    "boundary"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../schemas/v1.6-regression-evidence.schema.json"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "recordId": {
+      "const": "goreecloud.glaze-ui.v1.6.rendered-regression-evidence"
+    },
+    "name": {
+      "const": "Glaze UI V1.6 Exact-Source Rendered Regression Evidence"
+    },
+    "lifecycle": {
+      "const": "DevelopmentQualification"
+    },
+    "sourceRevision": {
+      "const": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"
+    },
+    "acceptanceModelVersion": {
+      "const": "1.6.0-dev.12"
+    },
+    "stableBaseline": {
+      "const": "1.5.1"
+    },
+    "tooling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pullRequest",
+        "toolingHeadRevision",
+        "mergeRevision"
+      ],
+      "properties": {
+        "pullRequest": {
+          "const": 258
+        },
+        "toolingHeadRevision": {
+          "const": "fe471447d37ea800d03be438e1126f0840f89000"
+        },
+        "mergeRevision": {
+          "const": "b1f8575d6ed9199a7eb130f919680376c2e74d14"
+        }
+      }
+    },
+    "qualificationRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runId",
+        "verificationJobId",
+        "comparisonJobId",
+        "conclusion",
+        "observedAt",
+        "reference"
+      ],
+      "properties": {
+        "runId": {
+          "const": 35352215130
+        },
+        "verificationJobId": {
+          "const": 105622807547
+        },
+        "comparisonJobId": {
+          "const": 105622931820
+        },
+        "conclusion": {
+          "const": "success"
+        },
+        "observedAt": {
+          "const": "2026-09-18T13:47:36Z"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "sizeBytes",
+        "digest",
+        "createdAt",
+        "expiresAt",
+        "sceneCount",
+        "expiredAtObservation"
+      ],
+      "properties": {
+        "id": {
+          "const": 10550685472
+        },
+        "name": {
+          "const": "glaze-v1.6-rendered-regression-35352215130"
+        },
+        "sizeBytes": {
+          "const": 3808954
+        },
+        "digest": {
+          "const": "sha256:5c4058fba12969fe1c95c523f5f9cd4fc1fb846cc2b3aaab4b2ba84c9034839d"
+        },
+        "createdAt": {
+          "const": "2026-09-18T13:47:36Z"
+        },
+        "expiresAt": {
+          "const": "2026-12-17T13:46:44Z"
+        },
+        "sceneCount": {
+          "const": 9
+        },
+        "expiredAtObservation": {
+          "const": false
+        }
+      }
+    },
+    "priorRenderedEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runId",
+        "artifactId",
+        "artifactDigest",
+        "pixelBaselineClaimed"
+      ],
+      "properties": {
+        "runId": {
+          "const": 35348330585
+        },
+        "artifactId": {
+          "const": 10549115165
+        },
+        "artifactDigest": {
+          "const": "sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506"
+        },
+        "pixelBaselineClaimed": {
+          "const": false
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "semanticBaselineMatched",
+        "freshVisualRepeatabilityMatched",
+        "pixelTolerance",
+        "semanticMismatches",
+        "freshVisualMismatches"
+      ],
+      "properties": {
+        "kind": {
+          "const": "semantic-baseline-plus-double-render-pixel-sha256-exact"
+        },
+        "semanticBaselineMatched": {
+          "const": true
+        },
+        "freshVisualRepeatabilityMatched": {
+          "const": true
+        },
+        "pixelTolerance": {
+          "const": 0
+        },
+        "semanticMismatches": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "freshVisualMismatches": {
+          "type": "array",
+          "maxItems": 0
+        }
+      }
+    },
+    "browser": {
+      "type": "object",
+      "minProperties": 5
+    },
+    "baselineScenes": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": false,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "evidenceSha256",
+          "pixelSha256",
+          "screenshotSha256"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "representative-expanded",
+              "representative-compact",
+              "responsive-medium",
+              "reduced-motion",
+              "reduced-transparency",
+              "increased-contrast",
+              "large-text",
+              "layout-stability",
+              "form-factor-transition"
+            ]
+          },
+          "evidenceSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "pixelSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "screenshotSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "renderedEvidence": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "verified",
+          "revision",
+          "evidenceType",
+          "reference"
+        ],
+        "properties": {
+          "id": {
+            "const": "regression-testing"
+          },
+          "verified": {
+            "const": true
+          },
+          "revision": {
+            "const": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"
+          },
+          "evidenceType": {
+            "const": "rendered"
+          },
+          "reference": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "matrixDisposition": {
+      "type": "object",
+      "minProperties": 8
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "renderedRegressionEvidenceClaimed",
+        "regressionBaselineClaimed",
+        "humanEvidenceClaimed",
+        "assistiveTechnologyEvidenceClaimed",
+        "deviceEvidenceClaimed",
+        "nativePlatformEvidenceClaimed",
+        "performanceEvidenceClaimed",
+        "candidateStatusGranted",
+        "releaseCandidateStatusGranted",
+        "stableStatusGranted",
+        "consumerAcceptanceAutomatic",
+        "deploymentAcceptanceAutomatic",
+        "productionAcceptanceAutomatic"
+      ],
+      "properties": {
+        "renderedRegressionEvidenceClaimed": {
+          "const": true
+        },
+        "regressionBaselineClaimed": {
+          "const": true
+        },
+        "humanEvidenceClaimed": {
+          "const": false
+        },
+        "assistiveTechnologyEvidenceClaimed": {
+          "const": false
+        },
+        "deviceEvidenceClaimed": {
+          "const": false
+        },
+        "nativePlatformEvidenceClaimed": {
+          "const": false
+        },
+        "performanceEvidenceClaimed": {
+          "const": false
+        },
+        "candidateStatusGranted": {
+          "const": false
+        },
+        "releaseCandidateStatusGranted": {
+          "const": false
+        },
+        "stableStatusGranted": {
+          "const": false
+        },
+        "consumerAcceptanceAutomatic": {
+          "const": false
+        },
+        "deploymentAcceptanceAutomatic": {
+          "const": false
+        },
+        "productionAcceptanceAutomatic": {
+          "const": false
+        }
+      }
+    },
+    "boundary": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
