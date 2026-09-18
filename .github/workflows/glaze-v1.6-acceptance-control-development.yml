@@ -5,12 +5,16 @@ on:
     paths:
       - 'GLAZE_UI_V1_6_PLANNED.md'
       - 'acceptance/v1.6-development.md'
+      - 'acceptance/v1.6-machine-evidence.json'
       - 'contracts/v1.6/acceptance.dev.json'
+      - 'contracts/v1.6/qualification.machine.plan.json'
       - 'schemas/v1.6-acceptance.schema.json'
+      - 'schemas/v1.6-machine-qualification-plan.schema.json'
       - 'js/glaze-v1.6-acceptance.dev.mjs'
       - 'js/glaze-v1.6-development.mjs'
       - 'scripts/validate_glaze_v1_6_acceptance_development.mjs'
       - 'scripts/validate_glaze_v1_6_conformance_adoption_development.mjs'
+      - 'scripts/qualify_glaze_v1_6_machine_source.mjs'
       - '.github/workflows/glaze-v1.6-acceptance-control-development.yml'
       - 'README.md'
       - 'SPECIFICATIONS.md'
@@ -22,12 +26,16 @@ on:
     paths:
       - 'GLAZE_UI_V1_6_PLANNED.md'
       - 'acceptance/v1.6-development.md'
+      - 'acceptance/v1.6-machine-evidence.json'
       - 'contracts/v1.6/acceptance.dev.json'
+      - 'contracts/v1.6/qualification.machine.plan.json'
       - 'schemas/v1.6-acceptance.schema.json'
+      - 'schemas/v1.6-machine-qualification-plan.schema.json'
       - 'js/glaze-v1.6-acceptance.dev.mjs'
       - 'js/glaze-v1.6-development.mjs'
       - 'scripts/validate_glaze_v1_6_acceptance_development.mjs'
       - 'scripts/validate_glaze_v1_6_conformance_adoption_development.mjs'
+      - 'scripts/qualify_glaze_v1_6_machine_source.mjs'
       - '.github/workflows/glaze-v1.6-acceptance-control-development.yml'
       - 'README.md'
       - 'SPECIFICATIONS.md'
@@ -61,6 +69,28 @@ jobs:
           node --check scripts/validate_glaze_v1_6_acceptance_development.mjs
       - name: Validate V1.6 acceptance-control Development foundation
         run: node scripts/validate_glaze_v1_6_acceptance_development.mjs
+
+  frozen-source-machine-qualification:
+    name: Qualify frozen V1.6 source machine evidence
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out qualification tooling revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Validate qualification control syntax
+        run: |
+          python -m json.tool contracts/v1.6/qualification.machine.plan.json >/dev/null
+          python -m json.tool schemas/v1.6-machine-qualification-plan.schema.json >/dev/null
+          node --check scripts/qualify_glaze_v1_6_machine_source.mjs
+      - name: Materialize exact frozen V1.6 source
+        run: |
+          ANCHOR="$(python -c 'import json; print(json.load(open("contracts/v1.6/qualification.machine.plan.json"))["sourceRevision"])')"
+          git worktree add --detach /tmp/glaze-v1-6-qualification-source "$ANCHOR"
+          test "$(git -C /tmp/glaze-v1-6-qualification-source rev-parse HEAD)" = "$ANCHOR"
+      - name: Run exact-source machine qualification
+        run: node scripts/qualify_glaze_v1_6_machine_source.mjs /tmp/glaze-v1-6-qualification-source
 
   stable-boundary:
     name: Preserve Glaze UI 1.5.1 Stable authority
