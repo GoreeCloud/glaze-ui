@@ -1,0 +1,40 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://goreecloud.dev/schemas/glaze-ui/v1.6-acceptance.schema.json",
+  "title":"Glaze UI V1.6 Acceptance Control Development Contract",
+  "type":"object","additionalProperties":false,
+  "required":["$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline","consumerEligible","implementedSpecificationSections","acceptance","lanes","corePillars","governingPrinciple","authority","runtimeEntrypoint","developmentAggregateEntrypoint","acceptanceRecord","boundary"],
+  "properties":{
+    "$schema":{"const":"../../schemas/v1.6-acceptance.schema.json"},
+    "schemaVersion":{"const":1},
+    "contractId":{"const":"goreecloud.glaze-ui.v1.6.acceptance-control"},
+    "name":{"const":"Glaze UI V1.6 Acceptance Control Development Contract"},
+    "version":{"const":"1.6.0-dev.11"},
+    "lifecycle":{"const":"Development"},
+    "stableBaseline":{"const":"1.5.1"},
+    "consumerEligible":{"const":false},
+    "implementedSpecificationSections":{"type":"array","minItems":3,"maxItems":3,"uniqueItems":true,"items":{"enum":[98,99,100]}},
+    "acceptance":{"type":"object","minProperties":6},
+    "lanes":{"type":"array","minItems":24,"maxItems":24,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "corePillars":{"type":"array","minItems":8,"maxItems":8,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "governingPrinciple":{"type":"string","minLength":1},
+    "authority":{"type":"object","additionalProperties":false,
+      "required":["boundary","evidenceManufactured","staleEvidenceAccepted","mismatchedRevisionAccepted","lifecyclePromotionAutomatic","stableStatusGranted","consumerAcceptanceAutomatic","deploymentAcceptanceAutomatic","productionAcceptanceAutomatic"],
+      "properties":{
+        "boundary":{"const":"qualification-control-only"},
+        "evidenceManufactured":{"const":false},
+        "staleEvidenceAccepted":{"const":false},
+        "mismatchedRevisionAccepted":{"const":false},
+        "lifecyclePromotionAutomatic":{"const":false},
+        "stableStatusGranted":{"const":false},
+        "consumerAcceptanceAutomatic":{"const":false},
+        "deploymentAcceptanceAutomatic":{"const":false},
+        "productionAcceptanceAutomatic":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.6-acceptance.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.6-development.mjs"},
+    "acceptanceRecord":{"const":"acceptance/v1.6-development.md"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}
