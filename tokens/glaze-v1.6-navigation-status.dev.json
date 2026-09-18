@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.6 Search, Navigation, Responsive, Status, and Authority Development Semantic Map",
+  "version": "1.6.0-dev.6",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/layout.json",
+    "tokens/states.json",
+    "tokens/semantic-colors.json",
+    "tokens/adaptive-colors.json",
+    "tokens/iconography.json",
+    "tokens/icon-construction.json",
+    "tokens/icon-identity.json",
+    "tokens/glaze-v1.2-form-factor.candidate.json",
+    "tokens/glaze-v1.3-layout.candidate.json",
+    "tokens/glaze-v1.6-state-accessibility.dev.json",
+    "tokens/glaze-v1.6-resilience-feedback.dev.json"
+  ],
+  "searchPhases": {
+    "initial":"search.initial",
+    "typing":"search.typing",
+    "suggestions":"search.suggestions",
+    "loading":"search.loading",
+    "partial-results":"search.partial-results",
+    "results":"search.results",
+    "no-results":"search.no-results",
+    "offline-results":"search.offline-results",
+    "filters":"search.filters",
+    "history":"search.history",
+    "error":"search.error"
+  },
+  "navigation": {
+    "stablePrimaryDestinations": true,
+    "transientCapabilityReorderingAllowed": false,
+    "preservedContext":[
+      "scroll-position","selection","expanded-state",
+      "active-filters","query-state","pane-state"
+    ]
+  },
+  "responsive": {
+    "environments":[
+      "compact","medium","expanded","large-screen",
+      "workspace","far-view","wearable","spatial"
+    ],
+    "widthAloneIsAuthority": false,
+    "deviceBrandBreakpointAuthority": false,
+    "taskAndAccessibilityMayChangeComposition": true
+  },
+  "paneStates": {
+    "single-pane":"layout.pane.single",
+    "dual-pane":"layout.pane.dual",
+    "multi-pane":"layout.pane.multi",
+    "overlay-pane":"layout.pane.overlay"
+  },
+  "postureRoles": {
+    "folded":"posture.folded",
+    "unfolded":"posture.unfolded",
+    "tabletop":"posture.tabletop",
+    "portrait":"posture.portrait",
+    "landscape":"posture.landscape",
+    "external-display":"posture.external-display",
+    "resized-window":"posture.resized-window",
+    "flat":"posture.flat",
+    "unknown":"posture.unknown",
+    "hardCodedHingeGeometryAllowed":false
+  },
+  "localization": {
+    "directions":["ltr","rtl","mixed"],
+    "logicalPropertiesRequired":true,
+    "englishLengthAssumptionsAllowed":false,
+    "clippingAllowedByDefault":false,
+    "directionalIconMirroringSemanticOnly":true
+  },
+  "iconPresentation": {
+    "states":["inactive","active","selected","disabled","unavailable"],
+    "labelWhenMeaningUnclear":true,
+    "accessibleNameForInteractiveIcons":true,
+    "temporaryStateSeparateFromIdentity":true,
+    "colorOnlyMeaningAllowed":false
+  },
+  "statusRoles": {
+    "online":"status.online",
+    "offline":"status.offline",
+    "local":"status.local",
+    "remote":"status.remote",
+    "syncing":"status.syncing",
+    "synced":"status.synced",
+    "unsynced":"status.unsynced",
+    "protected":"status.protected",
+    "restricted":"status.restricted",
+    "shared":"status.shared",
+    "private":"status.private",
+    "updating":"status.updating",
+    "error":"status.error",
+    "unknownOrUnverifiedMayUpgradeToPositive":false
+  },
+  "badgeCategories": {
+    "status":"badge.status",
+    "count":"badge.count",
+    "source":"badge.source",
+    "privacy":"badge.privacy",
+    "connectivity":"badge.connectivity",
+    "warning":"badge.warning",
+    "maxVisibleCompact":1
+  },
+  "sourceRoles": {
+    "local":"source.local",
+    "goreecloud-service":"source.goreecloud-service",
+    "remote":"source.remote",
+    "cached":"source.cached",
+    "synchronized":"source.synchronized",
+    "imported":"source.imported",
+    "unknown":"source.unknown",
+    "ownershipImplied":false,
+    "authorizationImplied":false
+  },
+  "privacyRoles": {
+    "private":"privacy.private",
+    "shared":"privacy.shared",
+    "restricted":"privacy.restricted",
+    "permission-required":"privacy.permission-required",
+    "consent-required":"privacy.consent-required",
+    "local-only":"privacy.local-only",
+    "protected":"privacy.protected",
+    "retention-limited":"privacy.retention-limited",
+    "unknown":"privacy.unknown",
+    "stateCreatedByGlaze":false
+  },
+  "securityRoles": {
+    "protected":"security.protected",
+    "restricted":"security.restricted",
+    "warning":"security.warning",
+    "critical":"security.critical",
+    "unverified":"security.unverified",
+    "unknown":"security.unknown",
+    "stateInferredByGlaze":false
+  },
+  "capabilityRoles": {
+    "available":"capability.available",
+    "unavailable":"capability.unavailable",
+    "unsupported":"capability.unsupported",
+    "restricted":"capability.restricted",
+    "permission-required":"capability.permission-required",
+    "temporarily-unavailable":"capability.temporarily-unavailable",
+    "unknown":"capability.unknown",
+    "silentRemovalPreferred":false,
+    "permissionRequestAutomatic":false
+  },
+  "boundaries": {
+    "providerPrecedenceInferred":false,
+    "privacyTruthCreatedByGlaze":false,
+    "securityTruthCreatedByGlaze":false,
+    "capabilityTruthCreatedByGlaze":false,
+    "navigationExecutedByGlaze":false,
+    "consequentialExecutionAutomatic":false
+  },
+  "boundary": "Development semantic mapping only. Stable V1.5.1 values and lifecycle authority remain unchanged; inherited historical Candidate/reference sources are provenance inputs only and are not promoted."
+}
