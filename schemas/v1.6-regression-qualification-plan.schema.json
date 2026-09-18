@@ -66,7 +66,7 @@
         "renderedPlan":{"const":"contracts/v1.6/qualification.rendered.plan.json"},
         "harness":{"const":"reference/v1.6/rendered-qualification.html"},
         "artifactDirectory":{"const":"artifacts/v1.6-regression"},
-        "normalization":{"const":"animations-and-transitions-disabled; skeleton-gradient-position-fixed-before-screenshot"}
+        "normalization":{"const":"animations-and-transitions-disabled; skeleton-gradient-position-fixed; composited-blur-disabled-and-solid-material-applied-before-screenshot"}
       }
     },
     "evidenceBoundary": {
