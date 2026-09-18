@@ -311,7 +311,7 @@ let style=document.getElementById('glz16-capture-freeze');
 if(!style){
   style=document.createElement('style');
   style.id='glz16-capture-freeze';
-  style.textContent='*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important;scroll-behavior:auto!important}.skeleton-line{animation:none!important;background-position:50% 0!important}.glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--surface-solid)!important}';
+  style.textContent='*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important;scroll-behavior:auto!important}.skeleton-line{animation:none!important;background-position:50% 0!important}.glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--surface-solid)!important}*{border-radius:0!important}';
   document.head.appendChild(style);
 }
 for(const line of document.querySelectorAll('.skeleton-line')){
