@@ -569,7 +569,7 @@ export function evaluateGlazeLayoutStability(input = {}) {
     checks: Object.freeze(allChecks),
     status: aggregateCheckStatus(allChecks),
     evidence: Object.freeze({
-      suppliedShiftBudget,
+      suppliedShiftBudget: suppliedBudget,
       inventedShiftBudget: false,
       measuredShiftManufactured: false
     }),
