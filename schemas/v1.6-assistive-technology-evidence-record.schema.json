@@ -1,0 +1,28 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://goreecloud.dev/schemas/glaze-ui/v1.6-assistive-technology-evidence-record.schema.json",
+  "title":"Glaze UI V1.6 Assistive Technology Evidence Record",
+  "type":"object","additionalProperties":false,
+  "required":["$schema","schemaVersion","recordId","recordType","lifecycle","sourceRevision","acceptanceModelVersion","stableBaseline","review","scenarioResults","laneEvidence","reviewDecision","authority","boundary"],
+  "properties":{
+    "$schema":{"const":"../schemas/v1.6-assistive-technology-evidence-record.schema.json"},
+    "schemaVersion":{"const":1},"recordId":{"const":"goreecloud.glaze-ui.v1.6.assistive-technology-evidence"},"recordType":{"const":"assistive-technology"},
+    "lifecycle":{"const":"DevelopmentQualification"},"sourceRevision":{"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},"acceptanceModelVersion":{"const":"1.6.0-dev.12"},"stableBaseline":{"const":"1.5.1"},
+    "review":{"type":"object","additionalProperties":false,"required":["reviewedAt","reviewer","operatingSystem","runtime","assistiveTechnologyName","assistiveTechnologyVersion","inputMethod","realAssistiveTechnologySessionConfirmed"],"properties":{
+      "reviewedAt":{"type":"string","minLength":1},"reviewer":{"type":"string","minLength":1},"operatingSystem":{"type":"string","minLength":1},"runtime":{"type":"string","minLength":1},
+      "assistiveTechnologyName":{"type":"string","minLength":1},"assistiveTechnologyVersion":{"type":"string","minLength":1},"inputMethod":{"type":"string","minLength":1},"realAssistiveTechnologySessionConfirmed":{"type":"boolean"}
+    }},
+    "scenarioResults":{"type":"array","minItems":10,"maxItems":10,"items":{"type":"object","additionalProperties":false,"required":["id","status","finding"],"properties":{
+      "id":{"enum":["document-landmarks-and-headings","accessible-name-role-state","focus-order-and-focus-announcement","live-region-status-update","permission-required-state","restricted-state","offline-or-degraded-state","error-and-recovery-state","loading-and-progress-state","large-text-and-zoom-continuity"]},
+      "status":{"enum":["pass","fail"]},"finding":{"type":"string","minLength":1}
+    }}},
+    "laneEvidence":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"object","additionalProperties":false,"required":["id","verified","revision","evidenceType","reference","finding"],"properties":{
+      "id":{"enum":["assistive-technology","accessibility"]},"verified":{"type":"boolean"},"revision":{"const":"c7509c79256b04b0aa67cb9dd0737d7588e0ae4a"},"evidenceType":{"const":"assistive-technology"},"reference":{"type":"string","minLength":1},"finding":{"type":"string","minLength":1}
+    }}},
+    "reviewDecision":{"enum":["accepted","not-accepted"]},
+    "authority":{"type":"object","additionalProperties":false,"required":["assistiveTechnologyEvidenceAccepted","humanEvidenceAccepted","performanceEvidenceAccepted","lifecyclePromotionAutomatic","candidateStatusGranted","releaseCandidateStatusGranted","stableStatusGranted","consumerAcceptanceAutomatic","deploymentAcceptanceAutomatic","productionAcceptanceAutomatic"],"properties":{
+      "assistiveTechnologyEvidenceAccepted":{"type":"boolean"},"humanEvidenceAccepted":{"const":false},"performanceEvidenceAccepted":{"const":false},"lifecyclePromotionAutomatic":{"const":false},"candidateStatusGranted":{"const":false},"releaseCandidateStatusGranted":{"const":false},"stableStatusGranted":{"const":false},"consumerAcceptanceAutomatic":{"const":false},"deploymentAcceptanceAutomatic":{"const":false},"productionAcceptanceAutomatic":{"const":false}
+    }},
+    "boundary":{"type":"string","minLength":120}
+  }
+}
