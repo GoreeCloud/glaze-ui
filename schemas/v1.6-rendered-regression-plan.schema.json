@@ -75,13 +75,13 @@
         "maximumChannelDeltaTolerance",
         "compareDecodedRgba",
         "sceneSetMustMatch",
-        "browserProductMustMatch",
-        "browserRevisionMustMatch",
+        "browserProcessMustRemainSame",
+        "reloadBetweenReferenceAndRepeat",
         "sameRunnerRequired"
       ],
       "properties": {
         "mode": {
-          "const": "independent-browser-session-zero-decoded-pixel-drift"
+          "const": "same-browser-process-reload-zero-decoded-pixel-drift"
         },
         "changedPixelTolerance": {
           "const": 0
@@ -95,10 +95,10 @@
         "sceneSetMustMatch": {
           "const": true
         },
-        "browserProductMustMatch": {
+        "browserProcessMustRemainSame": {
           "const": true
         },
-        "browserRevisionMustMatch": {
+        "reloadBetweenReferenceAndRepeat": {
           "const": true
         },
         "sameRunnerRequired": {
