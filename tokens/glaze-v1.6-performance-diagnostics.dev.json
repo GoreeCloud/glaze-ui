@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.6 Performance, Diagnostics, Regression, and Degradation Development Semantic Map",
+  "version": "1.6.0-dev.9",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/layout.json",
+    "tokens/states.json",
+    "tokens/semantic-colors.json",
+    "tokens/materials.json",
+    "tokens/motion.json",
+    "tokens/iconography.json",
+    "tokens/glaze-v1.6-loading.dev.json",
+    "tokens/glaze-v1.6-state-accessibility.dev.json",
+    "tokens/glaze-v1.6-focus-motion.dev.json",
+    "tokens/glaze-v1.6-material-type-input.dev.json",
+    "tokens/glaze-v1.6-resilience-feedback.dev.json",
+    "tokens/glaze-v1.6-navigation-status.dev.json",
+    "tokens/glaze-v1.6-component-systems.dev.json",
+    "tokens/glaze-v1.6-experience-governance.dev.json"
+  ],
+  "perceivedPerformance": {
+    "interactionFeedback": "performance.perceived.immediate-feedback",
+    "stableAsyncLayout": "performance.perceived.stable-layout",
+    "incrementalRendering": "performance.perceived.incremental-rendering",
+    "progressiveDisclosure": "performance.perceived.progressive-disclosure",
+    "deferredEffects": "performance.perceived.deferred-effects",
+    "visibleContentPriority": "performance.perceived.visible-content-priority",
+    "secondaryHydration": "performance.perceived.secondary-background-hydration",
+    "placeholderGeometry": "performance.perceived.placeholder-geometry",
+    "staleContentPreservation": "performance.perceived.stale-content-preservation"
+  },
+  "diagnosticDomains": {
+    "accessibility": "diagnostic.accessibility",
+    "tokens": "diagnostic.tokens",
+    "components": "diagnostic.components",
+    "materials": "diagnostic.materials",
+    "motion": "diagnostic.motion",
+    "semantics": "diagnostic.semantics",
+    "loading": "diagnostic.loading",
+    "recovery": "diagnostic.recovery",
+    "layout": "diagnostic.layout"
+  },
+  "accessibilityChecks": {
+    "contrast": "diagnostic.accessibility.contrast",
+    "focus-visibility": "diagnostic.accessibility.focus-visibility",
+    "logical-focus-order": "diagnostic.accessibility.logical-focus-order",
+    "minimum-target-sizing": "diagnostic.accessibility.minimum-target-sizing",
+    "reduced-motion": "diagnostic.accessibility.reduced-motion",
+    "reduced-transparency": "diagnostic.accessibility.reduced-transparency",
+    "large-text-reflow": "diagnostic.accessibility.large-text-reflow",
+    "semantic-announcements": "diagnostic.accessibility.semantic-announcements",
+    "screen-reader-labeling": "diagnostic.accessibility.screen-reader-labeling",
+    "non-color-status": "diagnostic.accessibility.non-color-status"
+  },
+  "visualRegressionScenes": [
+    "appearance-light",
+    "appearance-dark",
+    "high-contrast",
+    "reduced-motion",
+    "reduced-transparency",
+    "large-text",
+    "loading",
+    "skeleton-loading",
+    "offline",
+    "degraded",
+    "error",
+    "empty",
+    "responsive-layout",
+    "multiple-input-methods"
+  ],
+  "semanticRegressionInvariants": [
+    "error-remains-error-across-themes",
+    "focus-distinct-from-selection",
+    "loading-not-completion",
+    "restricted-not-merely-disabled",
+    "offline-not-generic-failure"
+  ],
+  "performanceBudget": {
+    "source": "GoreeCloud Standard — Glaze UI Performance Budget",
+    "sourceVersion": "v1.0",
+    "resolverP95MsMax": 10.0,
+    "resolverP99MsMax": 16.7,
+    "interactionPaintP95MsMax": 100,
+    "interactionPaintP99MsMax": 200,
+    "activeFrameP95MinimumCeilingMs": 20,
+    "activeFrameP95IdleMultiplier": 1.25,
+    "severeFrameStallRateMax": 0.01,
+    "catastrophicForegroundStallCountMax": 0,
+    "taskStateResetCountMax": 0,
+    "pageReloadRequiredCountMax": 0,
+    "automaticAuthorityActionCountMax": 0,
+    "measurementsMayBeManufactured": false
+  },
+  "layoutStability": {
+    "skeletonSpaceReservation": "layout.stability.skeleton-space",
+    "imageSpaceReservation": "layout.stability.image-space",
+    "dynamicControlSpaceReservation": "layout.stability.dynamic-control-space",
+    "asyncContentSpaceReservation": "layout.stability.async-content-space",
+    "numericShiftBudgetInvented": false
+  },
+  "degradationChains": {
+    "blur": ["blur","translucent-solid","opaque-solid"],
+    "morph": ["morph","fade","immediate-state-change"],
+    "animated-skeleton": ["animated-skeleton","static-skeleton"],
+    "environmental-effect": ["environmental-effect","semantic-surface"],
+    "complex-transition": ["complex-transition","direct-replacement"]
+  },
+  "boundaries": {
+    "autofixSourceAllowed": false,
+    "privateContentInDiagnosticsByDefault": false,
+    "missingEvidenceMayInferPass": false,
+    "renderedEvidenceClaimedByStaticResolver": false,
+    "assistiveTechnologyEvidenceClaimedByStaticResolver": false,
+    "releaseAcceptanceAutomatic": false,
+    "lifecyclePromotionAutomatic": false
+  },
+  "boundary": "Development semantic mapping and evidence-evaluation support only. Stable V1.5.1 values and lifecycle authority remain unchanged; measurements, rendered/native acceptance, assistive-technology evidence, downstream conformance, deployment, and production acceptance remain separately verified."
+}
