@@ -85,3 +85,5 @@ Shared Stable source/lifecycle authority does not by itself establish an immutab
 ## Development successor boundary
 
 Development-only successor language, contracts, schemas, tokens, validators, and reference inputs may coexist in this repository. They remain non-consumer-eligible and do not alter V1.5.1 Stable authority unless separately promoted through the governed lifecycle.
+
+`GLAZE_UI_V1_6_PLANNED.md` records the planned V1.6 successor requirements, centered on semantic skeleton/loading behavior, state clarity, accessibility, motion, materials, responsive continuity, performance adaptation, diagnostics, conformance metadata, adoption profiles, and evidence-backed acceptance. The document is a planning artifact only: it does not establish V1.6 implementation, Candidate or Release Candidate status, Stable qualification, consumer eligibility, downstream adoption, deployment, production acceptance, or publication.
