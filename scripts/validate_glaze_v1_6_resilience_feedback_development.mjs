@@ -100,12 +100,19 @@ assert(glazeV16ResilienceFeedbackDevelopmentContract.consumerEligible === false,
 assert(glazeV16ResilienceFeedbackDevelopmentContract.recoveryCapabilityMayBeInvented === false, 'runtime must not invent recovery');
 assert(glazeV16ResilienceFeedbackDevelopmentContract.fakeProgressAllowed === false, 'runtime must not invent progress');
 
-assert(glazeV16Development.version === '1.6.0-dev.5', 'aggregate must identify dev.5');
+const aggregateVersionParts = String(glazeV16Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.6.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 5,
+  'aggregate Development version must retain or advance beyond dev.5'
+);
 assert(glazeV16Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV16Development.stableBaseline === '1.5.1', 'aggregate Stable baseline mismatch');
 assert(glazeV16Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
 for (const number of sections) {
-  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate missing resilience section ${number}`);
+  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate must retain resilience section ${number}`);
 }
 assert(glazeV16Development.implementedSpecificationSections.includes(1), 'aggregate must retain loading foundation');
 assert(glazeV16Development.implementedSpecificationSections.includes(28), 'aggregate must retain material/type/input foundation');

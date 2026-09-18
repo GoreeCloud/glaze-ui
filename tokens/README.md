@@ -125,3 +125,25 @@ It composes existing state, semantic-color, motion, material, loading, accessibi
 The map preserves caller/provider authority for recovery capability, connectivity truth, data safety, notification criticality, destructive intent, privacy, security, and authorization. It forbids invented recovery, timeout-based connectivity inference, fake progress, invented critical notifications, automatic destructive execution, and blanking usable stale content by default.
 
 This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
+
+
+## V1.6 search, navigation, responsive, status, and authority Development semantic map
+
+`tokens/glaze-v1.6-navigation-status.dev.json` is a **Development, non-consumer-eligible semantic map** for V1.6 sections 41–54.
+
+It composes current layout, state, semantic-color, iconography, form-factor, accessibility, and resilience authorities into semantic roles for:
+
+- stable search phases and partial-result continuity;
+- primary-navigation stability and preserved task context;
+- semantic responsive environments rather than raw-width-only behavior;
+- single/dual/multi/overlay pane transitions and platform-owned posture/unsafe regions;
+- RTL, mixed-direction, variable text expansion, locale-aware number/date formatting, and directional icon behavior;
+- icon active/inactive/disabled/unavailable presentation with labels when meaning is unclear;
+- standardized status and badge categories;
+- truthful source/provenance presentation without implied ownership or authorization;
+- privacy and security states whose truth remains owned by Privacy Shield, Wardveil Security, or another authoritative caller/provider;
+- capability-state presentation that distinguishes Available, Unavailable, Unsupported, Restricted, Permission required, Temporarily unavailable, and Unknown without automatic permission requests or silent removal.
+
+Unverified status claims use an explicit `status.unverified` role. The map does not infer provider precedence, navigation actions, privacy/security truth, permission, authorization, device identity, locale, or capability support.
+
+This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
