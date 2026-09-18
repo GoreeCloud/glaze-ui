@@ -51,6 +51,7 @@ assert(comparison.freshManifestCount===2,'regression qualification must require 
 assert(capture.includes("background-position:50% 0!important"),'capture must normalize skeleton background position before screenshot');
 assert(capture.includes("line.style.backgroundPosition='50% 0'"),'capture must explicitly normalize skeleton inline background position');
 assert(capture.includes(".glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--surface-solid)!important}"),'capture must normalize composited material after semantic measurement');
+assert(capture.includes("*{border-radius:0!important}"),'capture must normalize rounded-edge rasterization after semantic measurement');
 assert(capture.includes('"pixelSha256": png_pixel_sha256(image)'), 'capture manifest must record decoded pixel SHA-256');
 
 assert(Array.isArray(acceptance.evidenceRequirements['regression-testing']),'acceptance contract missing regression-testing');
