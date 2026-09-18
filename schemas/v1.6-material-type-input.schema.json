@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-material-type-input.schema.json",
+  "title": "Glaze UI V1.6 Material Typography Input Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle",
+    "stableBaseline","consumerEligible","implementedSpecificationSections",
+    "material","typography","largeTextResilience","density","input","tactile",
+    "authority","runtimeEntrypoint","developmentAggregateEntrypoint","tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.6-material-type-input.schema.json"},
+    "schemaVersion": {"const":1},
+    "contractId": {"const":"goreecloud.glaze-ui.v1.6.material-type-input"},
+    "name": {"const":"Glaze UI V1.6 Material, Typography, Density, Input, and Tactile Development Contract"},
+    "version": {"const":"1.6.0-dev.4"},
+    "lifecycle": {"const":"Development"},
+    "stableBaseline": {"const":"1.5.1"},
+    "consumerEligible": {"const":false},
+    "implementedSpecificationSections": {
+      "type":"array","minItems":14,"maxItems":14,"uniqueItems":true,
+      "items":{"type":"integer","minimum":1,"maximum":100}
+    },
+    "material": {"type":"object","minProperties":10},
+    "typography": {"type":"object","minProperties":7},
+    "largeTextResilience": {"type":"object","minProperties":5},
+    "density": {"type":"object","minProperties":5},
+    "input": {"type":"object","minProperties":7},
+    "tactile": {"type":"object","minProperties":6},
+    "authority": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "boundary","contentTruthModified","backgroundContentInspectedByGlaze",
+        "localeInferredFromContent","inputModeOwnedByCallerOrPlatform",
+        "hardwareCapabilityOwnedByPlatform","privacyStateInferred","securityStateInferred"
+      ],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "contentTruthModified":{"const":false},
+        "backgroundContentInspectedByGlaze":{"const":false},
+        "localeInferredFromContent":{"const":false},
+        "inputModeOwnedByCallerOrPlatform":{"const":true},
+        "hardwareCapabilityOwnedByPlatform":{"const":true},
+        "privacyStateInferred":{"const":false},
+        "securityStateInferred":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.6-material-type-input.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.6-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.6-material-type-input.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}

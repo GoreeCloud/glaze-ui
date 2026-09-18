@@ -87,3 +87,23 @@ It defines semantic aliases and bounded presentation roles for:
 The map consumes existing Stable motion/state/material/layout authorities and the V1.6 accessibility foundation. It does not promote Glaze Motion: that system remains separately governed as an Experimental foundation.
 
 This map does not change `VERSION`, lifecycle authority, Stable token values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
+
+
+## V1.6 material, typography, density, and input Development semantic map
+
+`tokens/glaze-v1.6-material-type-input.dev.json` is a **Development, non-consumer-eligible semantic map** for V1.6 sections 15–28.
+
+It composes existing material, layout, typography, form-factor, accessibility, and focus/motion authorities instead of replacing their values. It establishes semantic roles for:
+
+- canvas, solid, raised, functional-glass, clear-glass, and overlay materials;
+- bounded none/low/standard blur intent rather than arbitrary blur values;
+- semantic depth roles from canvas through modal/context surfaces;
+- 15 typography roles mapped to inherited type authorities;
+- compact/medium/expanded/workspace/far-view/wearable typography environments;
+- Comfortable, Standard, and Compact density with interaction-target floors owned by `tokens/layout.json`;
+- touch, pointer, keyboard, directional, stylus, voice-focus, assistive-input, and mixed input presentation;
+- press-feedback semantics and platform-adapter-owned tactile intents.
+
+Critical reading, security/privacy decisions, complex forms, accessibility fallback, and high-information content may force solid or near-solid presentation. Reduced Transparency, large text, performance pressure, and unsupported backdrop effects may reduce visual richness before semantics or interaction correctness.
+
+Candidate/reference token sources remain provenance inputs only; this map does not promote their historical lifecycle status. It also does not change V1.5.1 Stable values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.

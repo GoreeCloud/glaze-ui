@@ -79,9 +79,20 @@ assert(glazeV16FocusMotionDevelopmentContract.version === '1.6.0-dev.3', 'runtim
 assert(glazeV16FocusMotionDevelopmentContract.lifecycle === 'development', 'runtime focus/motion lifecycle mismatch');
 assert(glazeV16FocusMotionDevelopmentContract.consumerEligible === false, 'runtime focus/motion must remain non-consumer-eligible');
 assert(glazeV16FocusMotionDevelopmentContract.glazeMotionExperimentalLifecyclePromoted === false, 'runtime must not promote Glaze Motion');
-assert(glazeV16Development.version === '1.6.0-dev.3', 'Development aggregate version mismatch');
-assert(glazeV16Development.implementedSpecificationSections.includes(10), 'aggregate missing focus foundation');
-assert(glazeV16Development.implementedSpecificationSections.includes(73), 'aggregate missing content-transition foundation');
+const aggregateVersionParts = String(glazeV16Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.6.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 3,
+  'aggregate Development version must retain or advance beyond dev.3'
+);
+assert(glazeV16Development.lifecycle === 'development', 'aggregate must remain Development');
+assert(glazeV16Development.stableBaseline === '1.5.1', 'aggregate Stable baseline must remain 1.5.1');
+assert(glazeV16Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
+for (const number of sections) {
+  assert(glazeV16Development.implementedSpecificationSections.includes(number), `aggregate must retain focus/motion section ${number}`);
+}
 
 const keyboardFocus = resolveGlazeFocusPresentation({
   focused: true,

@@ -41,6 +41,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-focus-motion.dev.mjs` — Development-only focus/motion resolver covering sections 10–14 and 71–73 without promoting the separately governed Glaze Motion lifecycle.
 - `tokens/glaze-v1.6-focus-motion.dev.json` — focus and motion semantic aliases, reference motion budgets, Reduced Motion mappings, and continuity requirements.
 - `scripts/validate_glaze_v1_6_focus_motion_development.mjs` + `.github/workflows/glaze-v1.6-focus-motion-development.yml` — exact-head focus/motion validation with both earlier V1.6 tranche regressions and V1.5.1 Stable-boundary verification.
+- `contracts/v1.6/material-type-input.dev.json` + `schemas/v1.6-material-type-input.schema.json` — V1.6 Development contract for material/transparency/blur/depth boundaries, semantic typography, large-text resilience, density/target protection, input/hover/press behavior, and tactile intent.
+- `js/glaze-v1.6-material-type-input.dev.mjs` — Development-only resolver covering sections 15–28 without introducing competing raw token values or platform hardware assumptions.
+- `tokens/glaze-v1.6-material-type-input.dev.json` — semantic aliases to existing material, type, layout, form-factor, accessibility, and motion authorities.
+- `scripts/validate_glaze_v1_6_material_type_input_development.mjs` + `.github/workflows/glaze-v1.6-material-type-input-development.yml` — exact-head validation with all earlier V1.6 regressions and V1.5.1 Stable-boundary verification.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 

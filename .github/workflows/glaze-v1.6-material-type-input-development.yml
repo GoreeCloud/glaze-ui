@@ -1,0 +1,113 @@
+name: Glaze UI V1.6 Material Type Input Development
+
+on:
+  pull_request:
+    paths:
+      - 'GLAZE_UI_V1_6_PLANNED.md'
+      - 'contracts/v1.6/material-type-input.dev.json'
+      - 'schemas/v1.6-material-type-input.schema.json'
+      - 'tokens/glaze-v1.6-material-type-input.dev.json'
+      - 'tokens/README.md'
+      - 'js/glaze-v1.6-material-type-input.dev.mjs'
+      - 'js/glaze-v1.6-development.mjs'
+      - 'scripts/validate_glaze_v1_6_material_type_input_development.mjs'
+      - 'scripts/validate_glaze_v1_6_focus_motion_development.mjs'
+      - '.github/workflows/glaze-v1.6-material-type-input-development.yml'
+      - 'README.md'
+      - 'SPECIFICATIONS.md'
+      - 'FEATURE-ROADMAP.md'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  push:
+    branches:
+      - main
+    paths:
+      - 'GLAZE_UI_V1_6_PLANNED.md'
+      - 'contracts/v1.6/material-type-input.dev.json'
+      - 'schemas/v1.6-material-type-input.schema.json'
+      - 'tokens/glaze-v1.6-material-type-input.dev.json'
+      - 'tokens/README.md'
+      - 'js/glaze-v1.6-material-type-input.dev.mjs'
+      - 'js/glaze-v1.6-development.mjs'
+      - 'scripts/validate_glaze_v1_6_material_type_input_development.mjs'
+      - 'scripts/validate_glaze_v1_6_focus_motion_development.mjs'
+      - '.github/workflows/glaze-v1.6-material-type-input-development.yml'
+      - 'README.md'
+      - 'SPECIFICATIONS.md'
+      - 'FEATURE-ROADMAP.md'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1-6-material-type-input-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  material-type-input-development:
+    name: Validate V1.6 material/type/input Development foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Validate JSON syntax
+        run: |
+          python -m json.tool contracts/v1.6/material-type-input.dev.json >/dev/null
+          python -m json.tool schemas/v1.6-material-type-input.schema.json >/dev/null
+          python -m json.tool tokens/glaze-v1.6-material-type-input.dev.json >/dev/null
+      - name: Validate JavaScript syntax
+        run: |
+          node --check js/glaze-v1.6-material-type-input.dev.mjs
+          node --check js/glaze-v1.6-development.mjs
+          node --check scripts/validate_glaze_v1_6_material_type_input_development.mjs
+      - name: Validate V1.6 material/type/input Development foundation
+        run: node scripts/validate_glaze_v1_6_material_type_input_development.mjs
+
+  focus-motion-regression:
+    name: Preserve V1.6 focus/motion Development foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify focus/motion foundation
+        run: node scripts/validate_glaze_v1_6_focus_motion_development.mjs
+
+  state-accessibility-regression:
+    name: Preserve V1.6 state/accessibility Development foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify state/accessibility foundation
+        run: node scripts/validate_glaze_v1_6_state_accessibility_development.mjs
+
+  loading-regression:
+    name: Preserve V1.6 loading/skeleton Development foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify loading/skeleton foundation
+        run: node scripts/validate_glaze_v1_6_loading_development.mjs
+
+  stable-boundary:
+    name: Preserve Glaze UI 1.5.1 Stable authority
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify current Stable authority
+        run: node scripts/verify_glaze_v1_5_1_stable.mjs
