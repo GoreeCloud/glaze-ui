@@ -10,11 +10,13 @@ on:
       - 'contracts/v1.6/qualification.machine.plan.json'
       - 'schemas/v1.6-acceptance.schema.json'
       - 'schemas/v1.6-machine-qualification-plan.schema.json'
+      - 'schemas/v1.6-machine-evidence.schema.json'
       - 'js/glaze-v1.6-acceptance.dev.mjs'
       - 'js/glaze-v1.6-development.mjs'
       - 'scripts/validate_glaze_v1_6_acceptance_development.mjs'
       - 'scripts/validate_glaze_v1_6_conformance_adoption_development.mjs'
       - 'scripts/qualify_glaze_v1_6_machine_source.mjs'
+      - 'scripts/validate_glaze_v1_6_machine_evidence_record.mjs'
       - '.github/workflows/glaze-v1.6-acceptance-control-development.yml'
       - 'README.md'
       - 'SPECIFICATIONS.md'
@@ -31,11 +33,13 @@ on:
       - 'contracts/v1.6/qualification.machine.plan.json'
       - 'schemas/v1.6-acceptance.schema.json'
       - 'schemas/v1.6-machine-qualification-plan.schema.json'
+      - 'schemas/v1.6-machine-evidence.schema.json'
       - 'js/glaze-v1.6-acceptance.dev.mjs'
       - 'js/glaze-v1.6-development.mjs'
       - 'scripts/validate_glaze_v1_6_acceptance_development.mjs'
       - 'scripts/validate_glaze_v1_6_conformance_adoption_development.mjs'
       - 'scripts/qualify_glaze_v1_6_machine_source.mjs'
+      - 'scripts/validate_glaze_v1_6_machine_evidence_record.mjs'
       - '.github/workflows/glaze-v1.6-acceptance-control-development.yml'
       - 'README.md'
       - 'SPECIFICATIONS.md'
@@ -83,7 +87,10 @@ jobs:
         run: |
           python -m json.tool contracts/v1.6/qualification.machine.plan.json >/dev/null
           python -m json.tool schemas/v1.6-machine-qualification-plan.schema.json >/dev/null
+          python -m json.tool acceptance/v1.6-machine-evidence.json >/dev/null
+          python -m json.tool schemas/v1.6-machine-evidence.schema.json >/dev/null
           node --check scripts/qualify_glaze_v1_6_machine_source.mjs
+          node --check scripts/validate_glaze_v1_6_machine_evidence_record.mjs
       - name: Materialize exact frozen V1.6 source
         run: |
           ANCHOR="$(python -c 'import json; print(json.load(open("contracts/v1.6/qualification.machine.plan.json"))["sourceRevision"])')"
@@ -91,6 +98,8 @@ jobs:
           test "$(git -C /tmp/glaze-v1-6-qualification-source rev-parse HEAD)" = "$ANCHOR"
       - name: Run exact-source machine qualification
         run: node scripts/qualify_glaze_v1_6_machine_source.mjs /tmp/glaze-v1-6-qualification-source
+      - name: Validate persisted machine evidence record
+        run: node scripts/validate_glaze_v1_6_machine_evidence_record.mjs
 
   stable-boundary:
     name: Preserve Glaze UI 1.5.1 Stable authority
