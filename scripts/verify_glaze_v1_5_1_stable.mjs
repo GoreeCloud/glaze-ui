@@ -104,6 +104,18 @@ assert(readme.includes('Machine version: **1.5.1**'), 'README must identify 1.5.
 assert(readme.includes('js/glaze-v1.5.1.mjs'), 'README must identify current Stable runtime');
 assert(readme.includes('1.5.0') && readme.includes('rollback'), 'README must preserve 1.5.0 rollback boundary');
 
+const features = read('FEATURES.md');
+assert(features.includes('# GLAZE UI V1.5 — Features'), 'FEATURES.md must identify the current V1.5 Stable family');
+assert(features.includes('machine version `1.5.1`'), 'FEATURES.md must identify current Stable machine version 1.5.1');
+assert(features.includes('contracts/v1.5.1/stable-scope.json'), 'FEATURES.md must identify current V1.5.1 Stable scope');
+assert(!features.includes('# GLAZE UI V1.1 — Features'), 'FEATURES.md must not retain the obsolete V1.1 current heading');
+
+const specifications = read('SPECIFICATIONS.md');
+assert(specifications.includes('# GLAZE UI V1.5 — Specifications'), 'SPECIFICATIONS.md must identify the current V1.5 Stable family');
+assert(specifications.includes('**Machine version:** `1.5.1`'), 'SPECIFICATIONS.md must identify current Stable machine version 1.5.1');
+assert(specifications.includes('contracts/v1.5.1/stable-scope.json'), 'SPECIFICATIONS.md must identify current V1.5.1 Stable scope');
+assert(!specifications.includes('# GLAZE UI V1.2 — Specifications'), 'SPECIFICATIONS.md must not retain the obsolete V1.2 current heading');
+
 const stability = read('STABILITY.md');
 assert(stability.includes('`1.5.1`'), 'STABILITY.md must identify current Stable 1.5.1');
 assert(stability.includes('`1.5.0`'), 'STABILITY.md must identify 1.5.0 rollback baseline');
