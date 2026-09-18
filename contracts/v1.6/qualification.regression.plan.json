@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/v1.6-regression-qualification-plan.schema.json",
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "planId": "goreecloud.glaze-ui.v1.6.rendered-regression-qualification",
   "name": "Glaze UI V1.6 Exact-Source Rendered Regression Qualification Plan",
   "lifecycle": "DevelopmentQualification",
@@ -9,13 +9,14 @@
   "stableBaseline": "1.5.1",
   "consumerEligible": false,
   "laneId": "regression-testing",
-  "baseline": {
+  "priorRenderedEvidence": {
     "runId": 35348330585,
     "artifactId": 10549115165,
     "artifactName": "glaze-v1.6-rendered-browser-35348330585",
     "artifactDigest": "sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506",
     "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
-    "record": "acceptance/v1.6-rendered-evidence.json"
+    "record": "acceptance/v1.6-rendered-evidence.json",
+    "pixelBaselineClaimed": false
   },
   "sceneIds": [
     "representative-expanded",
@@ -29,21 +30,25 @@
     "form-factor-transition"
   ],
   "comparison": {
-    "kind": "screenshot-sha256-exact",
-    "tolerance": 0,
+    "kind": "semantic-baseline-plus-double-render-sha256-exact",
+    "pixelTolerance": 0,
     "allScenesRequired": true,
-    "baselineManifestRequired": true,
-    "freshManifestRequired": true,
-    "sourceRevisionMustMatch": true
+    "priorManifestRequired": true,
+    "freshManifestCount": 2,
+    "sourceRevisionMustMatch": true,
+    "semanticEvidenceSha256MustMatchPrior": true,
+    "freshScreenshotSha256MustMatchEachOther": true
   },
   "freshCapture": {
     "captureScript": "scripts/capture_glaze_v1_6_rendered_qualification.py",
     "renderedPlan": "contracts/v1.6/qualification.rendered.plan.json",
     "harness": "reference/v1.6/rendered-qualification.html",
-    "artifactDirectory": "artifacts/v1.6-regression"
+    "artifactDirectory": "artifacts/v1.6-regression",
+    "normalization": "animations-and-transitions-disabled; skeleton-gradient-position-fixed-before-screenshot"
   },
   "evidenceBoundary": {
     "renderedRegressionOnly": true,
+    "priorArtifactReclassifiedAsPixelBaseline": false,
     "humanEvidenceClaimed": false,
     "assistiveTechnologyEvidenceClaimed": false,
     "physicalDeviceEvidenceClaimed": false,
@@ -57,5 +62,5 @@
     "deploymentAcceptanceAutomatic": false,
     "productionAcceptanceAutomatic": false
   },
-  "boundary": "This plan compares a fresh deterministic rendered capture of the frozen V1.6 Development qualification source against the previously recorded exact-source rendered artifact. A pass may support only the rendered evidence group of the regression-testing lane. It does not create human, assistive-technology, device/native-platform, representative-performance, lifecycle, consumer, deployment, or production acceptance."
+  "boundary": "This plan preserves the prior exact-source rendered artifact as semantic rendered provenance only; it does not retroactively declare those PNGs a governed pixel baseline. Regression qualification requires every fresh scene to preserve the prior scene evidence digest and requires two independently captured normalized renders of the same frozen source to be byte-identical by screenshot SHA-256 with zero tolerance. A pass may support only the rendered evidence group of regression-testing."
 }
