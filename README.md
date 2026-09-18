@@ -84,6 +84,8 @@ The repository also carries a Development foundation for the broader **Glaze UI 
 - `tokens/glaze-experience-language.dev.json` — reference-only token ownership map.
 - `scripts/validate_glaze_experience_language_development.py` — fail-closed source validator.
 - `.github/workflows/glaze-experience-language-development.yml` — independent Development and Stable-boundary verification.
+- `acceptance/v1.6-development.md` — exact-source V1.6 Development qualification matrix. The current combined machine, rendered-browser, and rendered-regression evidence disposition is 17 verified / 7 unverified; qualification remains incomplete and non-promoting.
+- `acceptance/v1.6-regression-evidence.json` + `contracts/v1.6/qualification.regression.plan.json` — governed rendered-regression evidence and zero-tolerance decoded-pixel repeatability control for the frozen V1.6 source; this closes only the Regression testing lane and does not grant lifecycle or consumer status.
 
 These Development inputs do not change `VERSION`, `registry/lifecycle.json`, Stable qualification evidence, Stable runtime/web entrypoints, downstream consumer acceptance, publication, deployment, or production status. Any lifecycle promotion requires separate governed exact-revision qualification.
 
