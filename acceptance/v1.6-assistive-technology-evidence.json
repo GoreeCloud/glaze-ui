@@ -1,0 +1,104 @@
+{
+  "$schema": "../schemas/v1.6-assistive-technology-evidence-record.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.assistive-technology-evidence",
+  "recordType": "assistive-technology",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "review": {
+    "reviewedAt": "2026-09-18T16:44:23-05:00",
+    "reviewer": "Slickkredd",
+    "operatingSystem": "Zorin OS 17.3",
+    "runtime": "Mozilla Firefox 156.0",
+    "assistiveTechnologyName": "Orca",
+    "assistiveTechnologyVersion": "42.0",
+    "inputMethod": "keyboard",
+    "realAssistiveTechnologySessionConfirmed": true
+  },
+  "scenarioResults": [
+    {
+      "id": "document-landmarks-and-headings",
+      "status": "pass",
+      "finding": "Reviewer reported PASS during the real Orca session and stated that the page structure and interactive elements were read aloud accurately while navigating and activating controls with the keyboard."
+    },
+    {
+      "id": "accessible-name-role-state",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after checking accessible names, roles, states, and values with Orca, describing the announcements as accurate and prompt."
+    },
+    {
+      "id": "focus-order-and-focus-announcement",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after exercising keyboard focus navigation with Orca and described the focus announcements as accurate."
+    },
+    {
+      "id": "live-region-status-update",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after triggering the background live-region status update with Orca and described the dynamic announcement as accurate."
+    },
+    {
+      "id": "permission-required-state",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after selecting the Permission required state and reviewing its Orca presentation, describing the announced result as accurate."
+    },
+    {
+      "id": "restricted-state",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after selecting the Restricted state and reviewing its Orca presentation, describing the announced result as accurate."
+    },
+    {
+      "id": "offline-or-degraded-state",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after selecting the Offline state and reviewing its Orca presentation, describing the announced result as accurate."
+    },
+    {
+      "id": "error-and-recovery-state",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after selecting the Error state and reviewing its Orca presentation and recovery wording, describing the announced result as accurate."
+    },
+    {
+      "id": "loading-and-progress-state",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after reviewing the loading/progress control through Orca and described the progress announcement as accurate."
+    },
+    {
+      "id": "large-text-and-zoom-continuity",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after increasing Firefox zoom and navigating the enlarged interface with Orca, describing the continued assistive-technology presentation as accurate."
+    }
+  ],
+  "laneEvidence": [
+    {
+      "id": "assistive-technology",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "assistive-technology",
+      "reference": "acceptance/v1.6-assistive-technology-evidence.json",
+      "finding": "A real Orca 42.0 session in Firefox 156.0 on Zorin OS 17.3 passed all ten governed assistive-technology scenarios using keyboard navigation, including semantic structure, control semantics, focus, dynamic announcements, state distinctions, progress, and zoom continuity."
+    },
+    {
+      "id": "accessibility",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "assistive-technology",
+      "reference": "acceptance/v1.6-assistive-technology-evidence.json",
+      "finding": "The same real Orca session independently supports the Accessibility assistive-technology alternative through successful semantic navigation, accessible name/role/state review, focus announcements, live-region behavior, state communication, progress exposure, and large-text/zoom continuity."
+    }
+  ],
+  "reviewDecision": "accepted",
+  "authority": {
+    "assistiveTechnologyEvidenceAccepted": true,
+    "humanEvidenceAccepted": false,
+    "performanceEvidenceAccepted": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This accepted record captures only the real Assistive Technology qualification review performed with Orca 42.0 against frozen V1.6 source c7509c79256b04b0aa67cb9dd0737d7588e0ae4a. It supplies assistive-technology evidence for the dedicated Assistive Technology lane and the permitted Accessibility alternative only; it does not satisfy Performance, complete V1.6 qualification, or grant Candidate, Release Candidate, Stable, consumer, deployment, or production acceptance."
+}
