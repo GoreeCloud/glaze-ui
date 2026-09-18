@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.6 State, Accessibility, and Performance Development Semantic Map",
+  "version": "1.6.0-dev.2",
+  "lifecycle": "Development",
+  "stableBaseline": "1.5.1",
+  "mode": "semantic-aliases",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/semantic-colors.json",
+    "tokens/adaptive-colors.json",
+    "tokens/states.json",
+    "tokens/motion.json",
+    "tokens/materials.json",
+    "tokens/layout.json",
+    "tokens/glaze-experience-language.dev.json"
+  ],
+  "semanticStateRoles": {
+    "neutral": "state.neutral",
+    "informational": "state.informational",
+    "positive": "state.positive",
+    "successful": "state.successful",
+    "warning": "state.warning",
+    "caution": "state.caution",
+    "error": "state.error",
+    "critical": "state.critical",
+    "restricted": "state.restricted",
+    "privacy-sensitive": "state.privacy-sensitive",
+    "security-sensitive": "state.security-sensitive",
+    "offline": "state.offline",
+    "degraded": "state.degraded",
+    "syncing": "state.syncing",
+    "loading": "state.loading",
+    "updating": "state.updating",
+    "stale": "state.stale",
+    "disabled": "state.disabled",
+    "read-only": "state.read-only",
+    "selected": "state.selected",
+    "active": "state.active",
+    "inactive": "state.inactive",
+    "pending": "state.pending",
+    "scheduled": "state.scheduled",
+    "paused": "state.paused",
+    "complete": "state.complete"
+  },
+  "semanticColor": {
+    "foregroundSuffix": ".foreground",
+    "backgroundSuffix": ".background",
+    "protectedCategories": ["critical", "privacy", "security", "restricted"],
+    "automaticTextColorResolution": true,
+    "themeIndependentMeaning": true,
+    "colorOnlyMeaningAllowed": false,
+    "forcedColorCompatibilityRequired": true,
+    "increasedContrastVariantsRequired": true
+  },
+  "capabilityPresentation": {
+    "disabled": "local-state-disabled",
+    "unavailable": "capability-unavailable",
+    "restricted": "authoritative-rule-restricts-use",
+    "unsupported": "runtime-unsupported",
+    "permission-required": "user-authorization-required",
+    "temporarily-unavailable": "capability-temporarily-unavailable",
+    "unknown": "capability-state-unknown",
+    "hideUnavailableByDefault": false,
+    "permissionRequestAutomatic": false
+  },
+  "accessibilityProfiles": {
+    "default": [],
+    "reduced-motion": ["motion"],
+    "minimal-motion": ["motion"],
+    "reduced-transparency": ["materials", "blur", "opacity"],
+    "solid-surfaces": ["materials", "blur", "opacity"],
+    "increased-contrast": ["color", "focus"],
+    "large-text": ["typography", "layout"],
+    "extra-large-text": ["typography", "layout"],
+    "simplified-visual-effects": ["materials", "motion", "blur", "shadow"],
+    "strong-focus": ["focus"],
+    "touch-assistance": ["size", "spacing"],
+    "keyboard-first": ["focus", "interaction"],
+    "screen-reader-optimized": ["semantics", "focus", "announcements"]
+  },
+  "performanceLevels": {
+    "full": {
+      "material": "full-supported",
+      "motion": "full-supported",
+      "blur": "bounded-full",
+      "transparency": "bounded-full"
+    },
+    "balanced": {
+      "material": "reduced-expensive-effects",
+      "motion": "standard",
+      "blur": "bounded-reduced",
+      "transparency": "preserved"
+    },
+    "efficient": {
+      "material": "simplified",
+      "motion": "minimal-functional",
+      "blur": "minimal-or-none",
+      "transparency": "reduced"
+    },
+    "essential": {
+      "material": "solid-primary",
+      "motion": "minimal",
+      "blur": "none",
+      "transparency": "minimal-or-none"
+    }
+  },
+  "antiJitter": {
+    "referenceStabilityWindowMs": 2000,
+    "referenceMinimumDwellMs": 3000,
+    "immediateCostReductionAllowed": true,
+    "rapidCostUpgradeAllowed": false,
+    "stateChangeCoalescingRequired": true,
+    "hysteresisRequired": true
+  },
+  "boundary": "Development semantic mapping only. Stable V1.5.1 token values and lifecycle authority remain unchanged; V1.6 remains non-consumer-eligible Development."
+}

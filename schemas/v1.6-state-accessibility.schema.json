@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.6-state-accessibility.schema.json",
+  "title": "Glaze UI V1.6 State Accessibility Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema", "schemaVersion", "contractId", "name", "version", "lifecycle",
+    "stableBaseline", "consumerEligible", "implementedSpecificationSections",
+    "semanticStates", "capabilityPresentationStates", "semanticColor",
+    "accessibilityProfiles", "accessibilityPrecedence", "capabilityDistinctions",
+    "performanceLevels", "dynamicPerformanceAdaptation", "antiJitter",
+    "diagnostics", "authority", "runtimeEntrypoint",
+    "developmentAggregateEntrypoint", "tokenMap", "boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.6-state-accessibility.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.6.state-accessibility"},
+    "name": {"const": "Glaze UI V1.6 Semantic State, Accessibility, Performance, and Anti-Jitter Development Contract"},
+    "version": {"const": "1.6.0-dev.2"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.5.1"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {"type": "integer", "minimum": 1, "maximum": 100}
+    },
+    "semanticStates": {
+      "type": "array",
+      "minItems": 26,
+      "maxItems": 26,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "capabilityPresentationStates": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "semanticColor": {"$ref": "#/$defs/booleanPolicy"},
+    "accessibilityProfiles": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "accessibilityPrecedence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overridesDecorativeRichness", "fallbackRemainsGlazeUI", "profilesMayCombineFromAuthoritativePreferences", "privateContentUsedForProfileResolution"],
+      "properties": {
+        "overridesDecorativeRichness": {"const": true},
+        "fallbackRemainsGlazeUI": {"const": true},
+        "profilesMayCombineFromAuthoritativePreferences": {"const": true},
+        "privateContentUsedForProfileResolution": {"const": false}
+      }
+    },
+    "capabilityDistinctions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disabled", "unavailable", "restricted", "unsupported", "permission-required", "mustRemainVisuallyDistinct"],
+      "properties": {
+        "disabled": {"type": "string", "minLength": 1},
+        "unavailable": {"type": "string", "minLength": 1},
+        "restricted": {"type": "string", "minLength": 1},
+        "unsupported": {"type": "string", "minLength": 1},
+        "permission-required": {"type": "string", "minLength": 1},
+        "mustRemainVisuallyDistinct": {"const": true}
+      }
+    },
+    "performanceLevels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordered", "full", "balanced", "efficient", "essential", "semanticsPreserved", "interactionCapabilityPreserved"],
+      "properties": {
+        "ordered": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {"enum": ["full", "balanced", "efficient", "essential"]}
+        },
+        "full": {"type": "string", "minLength": 1},
+        "balanced": {"type": "string", "minLength": 1},
+        "efficient": {"type": "string", "minLength": 1},
+        "essential": {"type": "string", "minLength": 1},
+        "semanticsPreserved": {"const": true},
+        "interactionCapabilityPreserved": {"const": true}
+      }
+    },
+    "dynamicPerformanceAdaptation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authoritativeRuntimeInputsOnly", "considerations", "immediateCostReductionAllowed", "rapidCostUpgradeAllowed", "capabilityTruthMayBeModified"],
+      "properties": {
+        "authoritativeRuntimeInputsOnly": {"const": true},
+        "considerations": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "immediateCostReductionAllowed": {"const": true},
+        "rapidCostUpgradeAllowed": {"const": false},
+        "capabilityTruthMayBeModified": {"const": false}
+      }
+    },
+    "antiJitter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "referenceStabilityWindowMs", "referenceMinimumDwellMs",
+        "stabilityWindowsRequired", "minimumDwellRequired",
+        "transitionThresholdsRequired", "hysteresisRequired",
+        "stateChangeCoalescingRequired"
+      ],
+      "properties": {
+        "referenceStabilityWindowMs": {"type": "integer", "minimum": 0},
+        "referenceMinimumDwellMs": {"type": "integer", "minimum": 0},
+        "stabilityWindowsRequired": {"const": true},
+        "minimumDwellRequired": {"const": true},
+        "transitionThresholdsRequired": {"const": true},
+        "hysteresisRequired": {"const": true},
+        "stateChangeCoalescingRequired": {"const": true}
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "privacySafe", "rawContentIncluded", "privateCommunicationsIncluded",
+        "providerIdentityIncluded", "preciseBehaviorIncluded",
+        "credentialsIncluded", "operationalAuthorityGranted"
+      ],
+      "properties": {
+        "privacySafe": {"const": true},
+        "rawContentIncluded": {"const": false},
+        "privateCommunicationsIncluded": {"const": false},
+        "providerIdentityIncluded": {"const": false},
+        "preciseBehaviorIncluded": {"const": false},
+        "credentialsIncluded": {"const": false},
+        "operationalAuthorityGranted": {"const": false}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary", "stateTruthOwnedByCaller", "capabilityTruthOwnedByCaller",
+        "runtimeSignalsOwnedByCaller", "privacyTruthCreatedByGlaze",
+        "securityTruthCreatedByGlaze", "authorizationInferred",
+        "permissionGrantedByGlaze", "providerPrecedenceInferred",
+        "consequentialExecutionAutomatic"
+      ],
+      "properties": {
+        "boundary": {"const": "presentation-only"},
+        "stateTruthOwnedByCaller": {"const": true},
+        "capabilityTruthOwnedByCaller": {"const": true},
+        "runtimeSignalsOwnedByCaller": {"const": true},
+        "privacyTruthCreatedByGlaze": {"const": false},
+        "securityTruthCreatedByGlaze": {"const": false},
+        "authorizationInferred": {"const": false},
+        "permissionGrantedByGlaze": {"const": false},
+        "providerPrecedenceInferred": {"const": false},
+        "consequentialExecutionAutomatic": {"const": false}
+      }
+    },
+    "runtimeEntrypoint": {"const": "js/glaze-v1.6-state-accessibility.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const": "js/glaze-v1.6-development.mjs"},
+    "tokenMap": {"const": "tokens/glaze-v1.6-state-accessibility.dev.json"},
+    "boundary": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "booleanPolicy": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "boolean"}
+    }
+  }
+}

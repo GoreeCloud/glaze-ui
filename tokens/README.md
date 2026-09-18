@@ -49,3 +49,22 @@ The map inherits Stable V1.5.1 authorities from `tokens/motion.json`, `tokens/st
 - Many simultaneous skeletons trigger motion-fatigue protection rather than multiplying shimmer.
 
 This map is Development source only. It does not change `VERSION`, lifecycle state, current Stable token authority, consumer eligibility, downstream conformance, deployment, or production status.
+
+
+## V1.6 state, accessibility, and performance Development semantic map
+
+`tokens/glaze-v1.6-state-accessibility.dev.json` is a **Development, non-consumer-eligible semantic map** for the implemented V1.6 state/accessibility/performance foundation.
+
+It aliases existing current/historical token authorities rather than replacing Stable V1.5.1 values and establishes Development semantics for:
+
+- the 26-state V1.6 semantic state grammar;
+- protected semantic foreground/background roles;
+- non-color state differentiation;
+- capability-state distinctions for Disabled, Unavailable, Restricted, Unsupported, Permission required, Temporarily unavailable, and Unknown;
+- the 13 accessibility profiles and the token domains each profile may constrain;
+- Full, Balanced, Efficient, and Essential visual-performance levels;
+- anti-jitter stability windows, dwell, coalescing, and hysteresis behavior.
+
+Accessibility profiles resolve only from supplied authoritative preferences. The state map does not infer privacy, security, authorization, or provider precedence. Performance adaptation may reduce visual cost but may not rewrite capability truth or interaction authority.
+
+This map does not change `VERSION`, `registry/lifecycle.json`, Stable token values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.

@@ -32,6 +32,11 @@ The repository carries non-consumer-eligible successor material that extends the
 - `js/glaze-v1.6-loading.dev.mjs` — Development-only loading/skeleton presentation resolver and skeleton descriptor foundation.
 - `tokens/glaze-v1.6-loading.dev.json` — semantic loading/skeleton aliases and accessibility/performance mappings without replacing V1.5.1 Stable token authority.
 - `scripts/validate_glaze_v1_6_loading_development.mjs` + `.github/workflows/glaze-v1.6-loading-development.yml` — fail-closed Development validation plus independent V1.5.1 Stable-boundary verification.
+- `contracts/v1.6/state-accessibility.dev.json` + `schemas/v1.6-state-accessibility.schema.json` — V1.6 Development contract for semantic states, accessibility profiles, capability-state distinctions, performance levels, privacy-safe adaptation diagnostics, and anti-jitter behavior.
+- `js/glaze-v1.6-state-accessibility.dev.mjs` — Development-only semantic-state/accessibility/performance resolver covering sections 6–9 and 55–59.
+- `tokens/glaze-v1.6-state-accessibility.dev.json` — semantic state/accessibility/performance aliases that preserve protected meaning and inherit current token authorities.
+- `js/glaze-v1.6-development.mjs` — non-consumer-eligible Development aggregate entrypoint for implemented V1.6 foundations; it is not a Stable runtime entrypoint.
+- `scripts/validate_glaze_v1_6_state_accessibility_development.mjs` + `.github/workflows/glaze-v1.6-state-accessibility-development.yml` — exact-head validation with loading-foundation regression and V1.5.1 Stable-boundary gates.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
