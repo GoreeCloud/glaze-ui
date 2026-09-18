@@ -134,8 +134,8 @@ def verify_authority(repo_root: Path) -> tuple[dict, dict[str, dict]]:
         require(plan.get("acceptanceModelVersion") == ACCEPTANCE_MODEL, f"{session['id']} plan model mismatch")
         require(plan.get("stableBaseline") == STABLE_BASELINE, f"{session['id']} plan Stable baseline mismatch")
         require(plan.get("evidenceType") == session["evidenceType"], f"{session['id']} plan evidence type mismatch")
-        scenarios = plan.get("requiredReviewScenarios")
-        require(isinstance(scenarios, list) and scenarios, f"{session['id']} plan scenarios missing")
+        scenarios = plan.get("requiredReviewScenarios") or plan.get("representativeCoverage")
+        require(isinstance(scenarios, list) and scenarios, f"{session['id']} plan review coverage missing")
         plans[session["id"]] = plan
 
     human_lanes = plans["human"].get("lanes")
@@ -220,7 +220,7 @@ def prepare(repo_root: Path, output: Path, replace: bool) -> dict:
             "id": session["id"],
             "evidenceType": session["evidenceType"],
             "laneIds": lane_ids,
-            "requiredReviewScenarios": plan["requiredReviewScenarios"],
+            "requiredReviewScenarios": plan.get("requiredReviewScenarios") or plan.get("representativeCoverage"),
             "reviewRoot": session["id"],
             "entrypoint": f"{session['id']}/{session['entrypoint']}",
             "workingTemplate": f"records/{copied_template.name}",
