@@ -1,0 +1,129 @@
+{
+  "$schema": "../schemas/v1.6-human-evidence-record.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.human-evidence",
+  "recordType": "human",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "review": {
+    "reviewedAt": "2026-09-18T16:02:15-05:00",
+    "reviewer": "Slickkredd",
+    "reviewerRole": "GoreeCloud owner/reviewer",
+    "operatingSystem": "Zorin OS 17.3",
+    "runtime": "Mozilla Firefox 156.0",
+    "inputMethods": [
+      "keyboard"
+    ],
+    "representativeRuntimeConfirmed": true
+  },
+  "scenarioResults": [
+    {
+      "id": "available-expanded",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after reviewing the expanded Available/Private scenario for readability, usability, truthful state presentation, task-marker continuity, and absence of unintended product action."
+    },
+    {
+      "id": "permission-required",
+      "status": "pass",
+      "finding": "Reviewer observed the presentation output change to the permission-required state and reported that no browser or operating-system permission prompt appeared automatically."
+    },
+    {
+      "id": "restricted",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after reviewing the Restricted state for distinct truthful presentation, preserved task state, and absence of automatic navigation or action."
+    },
+    {
+      "id": "offline-or-degraded",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after reviewing the temporarily-unavailable/degraded condition for truthful degradation, preserved task state, usability, and absence of automatic fallback or navigation."
+    },
+    {
+      "id": "reduced-motion",
+      "status": "pass",
+      "finding": "Reviewer reported PASS with Reduced Motion selected after checking that the page remained understandable and usable without essential meaning depending on motion."
+    },
+    {
+      "id": "large-text",
+      "status": "pass",
+      "finding": "Reviewer reported PASS with Large text selected after checking readability, reflow, control usability, clipping/overlap, and task-marker continuity."
+    },
+    {
+      "id": "compact-layout",
+      "status": "pass",
+      "finding": "Reviewer reported PASS in Compact layout after checking usability, visual coherence, clipping/overlap, control operation, and preservation of the V1.6 human-review task marker."
+    },
+    {
+      "id": "real-keyboard-focus",
+      "status": "pass",
+      "finding": "Reviewer reported PASS using real keyboard navigation. The reviewed harness observed 13 keyboard events, showed visible focus on Apply review scenario, and reported focus preservation from apply to apply across the scenario change."
+    },
+    {
+      "id": "privacy-minimization",
+      "status": "pass",
+      "finding": "Reviewer reported PASS after reviewing the non-authoritative positive privacy condition and privacy-minimized diagnostics for fail-closed presentation and absence of automatic privacy-sensitive action."
+    },
+    {
+      "id": "representative-runtime-rendering",
+      "status": "pass",
+      "finding": "Reviewer reported PASS for Expanded and Compact rendering on Zorin OS 17.3, Mozilla Firefox 156.0, Lenovo IdeaPad 3 15IIL05 (81WE), and explicitly confirmed the runtime as representative."
+    }
+  ],
+  "laneEvidence": [
+    {
+      "id": "accessibility",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "human",
+      "reference": "acceptance/v1.6-human-evidence.json",
+      "finding": "Human review passed the governed accessibility-focused scenarios, including Reduced Motion, Large text, compact/expanded continuity, readable state presentation, and visible keyboard focus on the representative runtime."
+    },
+    {
+      "id": "keyboard-navigation",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "human",
+      "reference": "acceptance/v1.6-human-evidence.json",
+      "finding": "Real keyboard review passed; the harness observed 13 keyboard events, visible focus was present, and DOM focus was preserved across the reviewed scenario change."
+    },
+    {
+      "id": "privacy-boundaries",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "human",
+      "reference": "acceptance/v1.6-human-evidence.json",
+      "finding": "Human review passed permission-required and privacy-minimization scenarios; the reviewer observed no automatic browser or OS permission prompt and accepted the fail-closed privacy presentation."
+    },
+    {
+      "id": "authority-boundaries",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "human",
+      "reference": "acceptance/v1.6-human-evidence.json",
+      "finding": "Human review passed permission-required, restricted, and degraded/unavailable authority scenarios without observed automatic navigation, permission prompting, fallback execution, or product action."
+    },
+    {
+      "id": "representative-rendering",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "human",
+      "reference": "acceptance/v1.6-human-evidence.json",
+      "finding": "Reviewer passed Expanded and Compact rendering on the confirmed representative Zorin OS 17.3 / Mozilla Firefox 156.0 / Lenovo IdeaPad 3 15IIL05 environment with task continuity preserved."
+    }
+  ],
+  "reviewDecision": "accepted",
+  "authority": {
+    "humanEvidenceAccepted": true,
+    "assistiveTechnologyEvidenceAccepted": false,
+    "performanceEvidenceAccepted": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This accepted record captures only the real Human Qualification review performed against frozen V1.6 source c7509c79256b04b0aa67cb9dd0737d7588e0ae4a on the recorded representative runtime. It supplies human evidence only for the five scoped lanes and does not satisfy the separate Assistive Technology or Performance lanes, complete V1.6 qualification, or grant Candidate, Release Candidate, Stable, consumer, deployment, or production acceptance."
+}
