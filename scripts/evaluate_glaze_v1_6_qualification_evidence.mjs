@@ -24,8 +24,8 @@ function runNode(script,args=[]){
   if(result.status!==0){
     throw new Error(
       `validator failed: ${script}`+
-      (result.stdout?\`\nstdout:\n${result.stdout.trim()}\`:'')+
-      (result.stderr?\`\nstderr:\n${result.stderr.trim()}\`:'')
+      (result.stdout?`\nstdout:\n${result.stdout.trim()}`:'')+
+      (result.stderr?`\nstderr:\n${result.stderr.trim()}`:'')
     );
   }
   return result.stdout.trim();
