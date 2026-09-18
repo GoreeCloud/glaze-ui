@@ -1,0 +1,75 @@
+name: GLAZE UI V1.6.0 Release Candidate
+
+on:
+  pull_request:
+    paths:
+      - 'registry/lifecycle.json'
+      - 'contracts/v1.6/release-candidate.json'
+      - 'acceptance/v1.6.0-rc.1.md'
+      - 'js/glaze-v1.6.0-rc.1.mjs'
+      - 'scripts/verify_glaze_v1_6_release_candidate.mjs'
+      - 'acceptance/v1.6-human-evidence.json'
+      - 'acceptance/v1.6-assistive-technology-evidence.json'
+      - 'acceptance/v1.6-performance-evidence.json'
+      - 'acceptance/v1.6-performance-candidate-evidence.json'
+      - 'acceptance/v1.6-development.md'
+      - 'README.md'
+      - 'FEATURE-ROADMAP.md'
+      - '.github/workflows/glaze-v1.6-release-candidate.yml'
+  push:
+    branches: [main, 'release/v1.6.0-rc.1-20260918']
+    paths:
+      - 'registry/lifecycle.json'
+      - 'contracts/v1.6/release-candidate.json'
+      - 'acceptance/v1.6.0-rc.1.md'
+      - 'js/glaze-v1.6.0-rc.1.mjs'
+      - 'scripts/verify_glaze_v1_6_release_candidate.mjs'
+      - 'acceptance/v1.6-human-evidence.json'
+      - 'acceptance/v1.6-assistive-technology-evidence.json'
+      - 'acceptance/v1.6-performance-evidence.json'
+      - 'acceptance/v1.6-performance-candidate-evidence.json'
+      - '.github/workflows/glaze-v1.6-release-candidate.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1-6-rc-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-candidate-authority:
+    name: Verify V1.6.0 RC.1 authority
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact revision
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Syntax-check Release Candidate verifier
+        run: node --check scripts/verify_glaze_v1_6_release_candidate.mjs
+
+      - name: Verify V1.6.0 RC.1 authority and qualification continuity
+        run: node scripts/verify_glaze_v1_6_release_candidate.mjs
+
+      - name: Preserve V1.5.1 Stable authority
+        run: node scripts/verify_glaze_v1_5_1_stable.mjs
+
+      - name: Verify validation did not mutate tracked source
+        run: git diff --exit-code -- .
