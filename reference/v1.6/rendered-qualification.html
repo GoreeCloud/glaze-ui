@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en" data-review-harness="glaze-v1.6-rendered-browser-qualification">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>GLAZE UI V1.6 — Rendered Browser Qualification</title>
+  <link rel="stylesheet" href="../../css/glaze-v1.4.1.css">
+  <style>
+    :root{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color-scheme:light dark;
+      --canvas:#0b111a;--surface:rgba(26,36,52,.82);--surface-solid:#1a2434;
+      --surface-raised:rgba(38,51,72,.88);--line:rgba(225,235,255,.22);
+      --line-strong:rgba(240,246,255,.72);--text:#f5f8ff;--muted:#b9c5d8;
+      --accent:#9fc6ff;--success:#89e3b0;--warning:#ffd184;--danger:#ff9ca8;
+      --radius:18px;--shadow:0 18px 55px rgba(0,0,0,.28);
+    }
+    *{box-sizing:border-box}
+    html[data-mode="large-text"]{font-size:200%}
+    body{margin:0;min-height:100vh;background:
+      radial-gradient(circle at 18% 8%,rgba(79,123,202,.25),transparent 34rem),
+      radial-gradient(circle at 82% 22%,rgba(122,83,177,.20),transparent 31rem),
+      var(--canvas);color:var(--text);overflow-x:hidden}
+    body[data-mode="increased-contrast"]{--line:var(--line-strong);--muted:#eef4ff}
+    body[data-mode="reduced-transparency"] .glass,
+    body[data-mode="increased-contrast"] .glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--surface-solid)!important}
+    body[data-mode="reduced-motion"] *,body[data-mode="reduced-motion"] *::before,body[data-mode="reduced-motion"] *::after{
+      animation:none!important;transition:none!important;scroll-behavior:auto!important
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    }
+    .shell{width:min(1240px,100%);margin:0 auto;padding:clamp(12px,2vw,28px)}
+    .glass{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(18px) saturate(1.1);-webkit-backdrop-filter:blur(18px) saturate(1.1);box-shadow:var(--shadow)}
+    .banner{padding:18px 20px;margin-bottom:16px}
+    h1{font-size:clamp(1.3rem,2.6vw,2rem);margin:0 0 8px}h2{font-size:1rem;margin:0 0 12px}h3{font-size:.9rem;margin:16px 0 8px}
+    p{line-height:1.55}.muted{color:var(--muted)}code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .pills{display:flex;flex-wrap:wrap;gap:8px}.pill{padding:5px 9px;border:1px solid var(--line);border-radius:999px;font-size:.78rem}
+    .workspace{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+    .workspace[data-composition="dual-pane"]{grid-template-columns:minmax(230px,.8fr) minmax(0,1.6fr)}
+    .workspace[data-composition="multi-pane"]{grid-template-columns:minmax(210px,.65fr) minmax(0,1.45fr) minmax(220px,.8fr)}
+    .panel{padding:18px;min-width:0}.panel[hidden]{display:none}
+    .nav-list,.card-list{display:grid;gap:10px}.nav-item,.card,.status-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.035);min-width:0}
+    .nav-item[aria-current="page"]{outline:2px solid var(--accent);outline-offset:1px}
+    .row{display:flex;align-items:center;gap:10px;justify-content:space-between;min-width:0}.row>*{min-width:0}
+    button,input{font:inherit;color:inherit;background:var(--surface-solid);border:1px solid var(--line);border-radius:12px;min-height:44px;padding:.6rem .8rem}
+    button:focus-visible,input:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+    .skeleton-card{height:154px;border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:12px;overflow:hidden;position:relative;background:rgba(255,255,255,.03)}
+    .skeleton-line{height:14px;border-radius:999px;background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.24),rgba(255,255,255,.08));background-size:220% 100%;animation:shimmer 1.45s linear infinite}
+    .skeleton-line:nth-child(1){width:58%}.skeleton-line:nth-child(2){width:92%}.skeleton-line:nth-child(3){width:74%}
+    @keyframes shimmer{from{background-position:100% 0}to{background-position:-120% 0}}
+    .resolved-card{height:154px;border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;align-content:center;gap:9px;background:rgba(255,255,255,.04)}
+    .resolved-card strong{font-size:1.05rem}.resolved-card p{margin:0;color:var(--muted)}
+    .async-frame{height:154px;position:relative}.async-frame>.skeleton-card,.async-frame>.resolved-card{position:absolute;inset:0;width:100%}
+    .state-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    .state-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);flex:none}.state-dot.warning{background:var(--warning)}.state-dot.danger{background:var(--danger)}.state-dot.success{background:var(--success)}
+    .evidence{margin-top:16px;padding:14px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;line-height:1.5}
+    .transition-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.transition-pane{border:1px solid var(--line);border-radius:14px;padding:12px;min-width:0}
+    [data-scene-emphasis="true"]{outline:3px solid var(--accent);outline-offset:3px}
+    @media(max-width:760px){
+      .workspace,.workspace[data-composition="dual-pane"],.workspace[data-composition="multi-pane"]{grid-template-columns:1fr}
+      .state-grid,.transition-grid{grid-template-columns:1fr}
+      .shell{padding:10px}.panel{padding:14px}
+    }
+  </style>
+</head>
+<body>
+<main class="shell">
+  <section class="banner glass" aria-labelledby="title">
+    <h1 id="title">GLAZE UI V1.6 — Rendered Browser Qualification</h1>
+    <p><strong>Exact-source rendered evidence surface.</strong> This page cannot grant human, assistive-technology, physical-device, native-platform, performance, consumer, deployment, Candidate, Release Candidate, or Stable acceptance.</p>
+    <div class="pills" aria-label="Qualification identity">
+      <span class="pill" id="scene-pill">Scene: loading</span>
+      <span class="pill" id="revision-pill">Revision: unbound</span>
+      <span class="pill" id="aggregate-pill">Aggregate: pending</span>
+      <span class="pill" id="composition-pill">Composition: pending</span>
+    </div>
+  </section>
+
+  <section id="workspace" class="workspace" data-composition="single-pane">
+    <aside class="panel glass" id="navigation-panel" aria-labelledby="navigation-title">
+      <h2 id="navigation-title">Navigation</h2>
+      <div class="nav-list">
+        <div class="nav-item" aria-current="page"><strong>Workspace</strong><div class="muted">Selected content remains stable.</div></div>
+        <div class="nav-item"><strong>Activity</strong><div class="muted">Background work stays secondary.</div></div>
+        <div class="nav-item"><strong>Settings</strong><div class="muted">Accessibility remains first-class.</div></div>
+      </div>
+    </aside>
+
+    <section class="panel glass" id="content-panel" aria-labelledby="content-title">
+      <div class="row"><h2 id="content-title">Representative task surface</h2><button id="primary-action" type="button">Primary action</button></div>
+      <label for="task-marker" class="muted">Task continuity marker</label>
+      <input id="task-marker" value="V1.6-QUALIFICATION-TASK-STATE" aria-label="Task continuity marker">
+      <div class="card-list" style="margin-top:12px">
+        <div class="async-frame" id="async-frame">
+          <div class="skeleton-card" id="skeleton-card" aria-hidden="true">
+            <div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div>
+          </div>
+          <div class="resolved-card" id="resolved-card" hidden>
+            <strong>Content resolved without geometry loss</strong>
+            <p>Selection, focus, layout, and semantic hierarchy remain understandable.</p>
+          </div>
+        </div>
+        <div class="state-grid" aria-label="Semantic states">
+          <div class="status-card"><div class="row"><strong>Synced</strong><span class="state-dot success"></span></div><p class="muted">Positive status is explicit.</p></div>
+          <div class="status-card"><div class="row"><strong>Restricted</strong><span class="state-dot warning"></span></div><p class="muted">Not represented as merely disabled.</p></div>
+          <div class="status-card"><div class="row"><strong>Error</strong><span class="state-dot danger"></span></div><p class="muted">Meaning survives appearance changes.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel glass" id="detail-panel" aria-labelledby="detail-title">
+      <h2 id="detail-title">Context</h2>
+      <div class="card"><strong>Selected item</strong><p class="muted" id="selection-value">record-42</p></div>
+      <div class="card"><strong>Presentation mode</strong><p class="muted" id="profile-value">default</p></div>
+      <div class="card"><strong>Connectivity</strong><p class="muted" id="connectivity-value">connected</p></div>
+    </aside>
+  </section>
+
+  <section class="panel glass" id="transition-panel" hidden aria-labelledby="transition-title">
+    <h2 id="transition-title">Rendered form-factor transition</h2>
+    <div class="transition-grid">
+      <div class="transition-pane"><strong>Before</strong><div class="mono" id="transition-before"></div></div>
+      <div class="transition-pane"><strong>After</strong><div class="mono" id="transition-after"></div></div>
+    </div>
+  </section>
+
+  <pre id="evidence-output" class="evidence glass" aria-label="Rendered qualification evidence"></pre>
+</main>
+
+<script type="module">
+  import {glazeV16Development} from '../../js/glaze-v1.6-development.mjs';
+  import {resolveGlazeLoadingPresentation} from '../../js/glaze-v1.6-loading.dev.mjs';
+  import {resolveGlazeAccessibilityProfiles} from '../../js/glaze-v1.6-state-accessibility.dev.mjs';
+  import {resolveGlazeResponsiveLayout} from '../../js/glaze-v1.6-navigation-status.dev.mjs';
+  import {resolveGlazeConnectivityPresentation} from '../../js/glaze-v1.6-resilience-feedback.dev.mjs';
+
+  const $=id=>document.getElementById(id);
+  const params=new URLSearchParams(location.search);
+  const scene=params.get('scene')||'representative-expanded';
+  const revision=params.get('revision')||'';
+  const environment=params.get('environment')||'expanded';
+  const mode=params.get('mode')||'default';
+  const exactRevision=/^[0-9a-f]{40}$/.test(revision);
+
+  const preferences={
+    reducedMotion:mode==='reduced-motion',
+    reducedTransparency:mode==='reduced-transparency',
+    increasedContrast:mode==='increased-contrast',
+    largeText:mode==='large-text',
+    strongFocus:mode==='increased-contrast'
+  };
+  const profile=resolveGlazeAccessibilityProfiles({preferences});
+  const responsive=resolveGlazeResponsiveLayout({
+    environment,
+    viewingDistance:'near',
+    inputMode:environment==='compact'?'touch':'pointer',
+    posture:mode==='form-factor-transition'?'resized-window':'flat',
+    contentDensity:'standard',
+    task:'editing',
+    accessibilityProfiles:profile.profiles
+  });
+  const loading=resolveGlazeLoadingPresentation({
+    state:'initial',
+    elapsedMs:1000,
+    thresholds:{quietMs:100,skeletonDelayMs:250,delayedResponseMs:4000,recoveryOfferMs:8000},
+    accessibility:{
+      reducedMotion:preferences.reducedMotion,
+      reducedTransparency:preferences.reducedTransparency,
+      increasedContrast:preferences.increasedContrast
+    },
+    runtime:{performanceLevel:'balanced',animationBudgetAvailable:true},
+    skeleton:{count:3,requestedMotionMode:'flow',progressiveResolve:true,geometrySimilar:true}
+  });
+  const connectivity=resolveGlazeConnectivityPresentation({
+    state:'connected',
+    localCapabilities:['edit','local-save'],
+    remoteCapabilities:['sync']
+  });
+
+  document.body.dataset.mode=mode;
+  document.documentElement.dataset.mode=mode;
+  $('scene-pill').textContent='Scene: '+scene;
+  $('revision-pill').textContent='Revision: '+(exactRevision?revision:'UNBOUND');
+  $('aggregate-pill').textContent='Aggregate: '+glazeV16Development.version;
+  $('composition-pill').textContent='Composition: '+responsive.composition;
+  $('workspace').dataset.composition=responsive.composition;
+  $('profile-value').textContent=profile.profiles.join(', ');
+  $('connectivity-value').textContent=connectivity.state;
+
+  if(responsive.composition==='single-pane'){
+    $('navigation-panel').hidden=true;$('detail-panel').hidden=true;
+  }else if(responsive.composition==='dual-pane'){
+    $('detail-panel').hidden=true;
+  }
+
+  if(mode!=='reduced-motion') $('skeleton-card').dataset.sceneEmphasis='true';
+  if(mode==='reduced-transparency') $('content-panel').dataset.sceneEmphasis='true';
+  if(mode==='increased-contrast') $('detail-panel').dataset.sceneEmphasis='true';
+  if(mode==='large-text') $('task-marker').dataset.sceneEmphasis='true';
+
+  const beforeTask=$('task-marker').value;
+  const beforeSelection=$('selection-value').textContent;
+  const initialRect=$('async-frame').getBoundingClientRect();
+
+  const assertions={
+    exactRevisionParameter:exactRevision,
+    developmentAggregate:glazeV16Development.version==='1.6.0-dev.12'&&glazeV16Development.lifecycle==='development'&&glazeV16Development.consumerEligible===false,
+    stableBaselinePreserved:glazeV16Development.stableBaseline==='1.5.1',
+    semanticEnvironment:responsive.environment===environment,
+    widthAloneNotAuthority:responsive.rules.widthAloneIsAuthority===false,
+    continuityDeclared:responsive.continuity.currentLocationPreserved===true&&responsive.continuity.userEnteredDataPreserved===true,
+    noHorizontalOverflow:false
+  };
+
+  let sceneDetails={};
+  if(mode==='reduced-motion'){
+    assertions.reducedMotionProfile=profile.profiles.includes('reduced-motion');
+    assertions.motionDisabledByResolver=profile.presentation.continuousDecorativeMotionAllowed===false&&loading.skeleton.motion.baseMode==='static'&&loading.skeleton.motion.reducedMotionApplied===true;
+    sceneDetails={skeletonMotion:loading.skeleton.motion.baseMode};
+  }
+  if(mode==='reduced-transparency'){
+    assertions.reducedTransparencyProfile=profile.profiles.includes('reduced-transparency');
+    assertions.transparencyDisabledByResolver=profile.presentation.transparencyAllowed===false&&profile.presentation.blurAllowed===false&&loading.skeleton.solidAlternativeApplied===true;
+  }
+  if(mode==='increased-contrast'){
+    assertions.increasedContrastProfile=profile.profiles.includes('increased-contrast');
+    assertions.contrastRequiredByResolver=profile.presentation.increasedContrastRequired===true&&loading.skeleton.solidAlternativeApplied===true;
+  }
+  if(mode==='large-text'){
+    assertions.largeTextProfile=profile.profiles.includes('large-text');
+    assertions.largeTextReflowRequired=profile.presentation.largeTextReflowRequired===true;
+    assertions.paneCountMayReduce=responsive.rules.accessibilityMayReducePaneCount===true;
+  }
+
+  if(mode==='form-factor-transition'){
+    const compact=resolveGlazeResponsiveLayout({
+      environment:'compact',viewingDistance:'near',inputMode:'touch',posture:'folded',
+      contentDensity:'standard',task:'editing',accessibilityProfiles:profile.profiles
+    });
+    const expanded=resolveGlazeResponsiveLayout({
+      environment:'expanded',viewingDistance:'near',inputMode:'pointer',posture:'unfolded',
+      contentDensity:'standard',task:'editing',accessibilityProfiles:profile.profiles
+    });
+    $('transition-panel').hidden=false;
+    $('transition-before').textContent=JSON.stringify({environment:compact.environment,composition:compact.composition,selected:beforeSelection,task:beforeTask},null,2);
+    $('transition-after').textContent=JSON.stringify({environment:expanded.environment,composition:expanded.composition,selected:$('selection-value').textContent,task:$('task-marker').value},null,2);
+    assertions.formFactorCompositionChanged=compact.composition!==expanded.composition;
+    assertions.taskStatePreserved=$('task-marker').value===beforeTask;
+    assertions.selectionPreserved=$('selection-value').textContent===beforeSelection;
+    assertions.transitionContinuity=compact.continuity.userEnteredDataPreserved===true&&expanded.continuity.userEnteredDataPreserved===true&&compact.continuity.currentLocationPreserved===true&&expanded.continuity.currentLocationPreserved===true;
+    sceneDetails={before:{environment:compact.environment,composition:compact.composition},after:{environment:expanded.environment,composition:expanded.composition}};
+  }
+
+  if(mode==='layout-stability'){
+    $('resolved-card').hidden=false;
+    $('skeleton-card').hidden=true;
+    const finalRect=$('async-frame').getBoundingClientRect();
+    const delta={
+      top:Math.abs(initialRect.top-finalRect.top),
+      left:Math.abs(initialRect.left-finalRect.left),
+      width:Math.abs(initialRect.width-finalRect.width),
+      height:Math.abs(initialRect.height-finalRect.height)
+    };
+    assertions.layoutGeometryStable=Object.values(delta).every(value=>value<=0.5);
+    assertions.taskStatePreserved=$('task-marker').value===beforeTask;
+    assertions.selectionPreserved=$('selection-value').textContent===beforeSelection;
+    sceneDetails={geometryDelta:delta};
+  }
+
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+  const computedGlass=getComputedStyle($('content-panel'));
+  const computedSkeleton=getComputedStyle(document.querySelector('.skeleton-line'));
+  const rootFont=parseFloat(getComputedStyle(document.documentElement).fontSize);
+  assertions.noHorizontalOverflow=document.documentElement.scrollWidth<=innerWidth+1;
+
+  if(mode==='reduced-motion'){
+    assertions.renderedMotionDisabled=computedSkeleton.animationName==='none'||parseFloat(computedSkeleton.animationDuration)===0;
+  }
+  if(mode==='reduced-transparency'){
+    const filter=computedGlass.backdropFilter||computedGlass.webkitBackdropFilter||'none';
+    assertions.renderedTransparencyDisabled=filter==='none';
+  }
+  if(mode==='increased-contrast'){
+    assertions.renderedStrongBoundary=parseFloat(computedGlass.borderTopWidth)>=1;
+  }
+  if(mode==='large-text'){
+    assertions.renderedLargeText=rootFont>=30;
+  }
+
+  const evidence={
+    schemaVersion:1,
+    kind:'glaze-v1.6-rendered-browser-scene',
+    scene,
+    sourceRevisionParameter:exactRevision?revision:null,
+    aggregateVersion:glazeV16Development.version,
+    lifecycle:glazeV16Development.lifecycle,
+    stableBaseline:glazeV16Development.stableBaseline,
+    environment,
+    mode,
+    viewport:{width:innerWidth,height:innerHeight,devicePixelRatio},
+    accessibilityProfiles:profile.profiles,
+    responsive:{environment:responsive.environment,composition:responsive.composition},
+    loading:{presentation:loading.presentation.kind,skeletonActive:loading.skeleton.active,skeletonMotion:loading.skeleton.motion.baseMode},
+    computed:{
+      rootFontPx:rootFont,
+      backdropFilter:computedGlass.backdropFilter||computedGlass.webkitBackdropFilter||'none',
+      skeletonAnimationName:computedSkeleton.animationName,
+      horizontalOverflowPx:Math.max(0,document.documentElement.scrollWidth-innerWidth)
+    },
+    sceneDetails,
+    assertions,
+    passed:Object.values(assertions).every(Boolean),
+    authority:{
+      renderedBrowserOnly:true,
+      humanEvidenceClaimed:false,
+      assistiveTechnologyEvidenceClaimed:false,
+      physicalDeviceEvidenceClaimed:false,
+      nativePlatformEvidenceClaimed:false,
+      representativePerformanceEvidenceClaimed:false,
+      regressionBaselineClaimed:false,
+      lifecyclePromotionAutomatic:false
+    }
+  };
+  $('evidence-output').textContent=JSON.stringify(evidence,null,2);
+  window.__glazeV16RenderedEvidence=evidence;
+  window.__glazeV16RenderedReady=true;
+</script>
+</body>
+</html>
