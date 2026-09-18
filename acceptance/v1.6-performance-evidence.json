@@ -1,0 +1,70 @@
+{
+  "$schema": "../schemas/v1.6-performance-evidence-record.schema.json",
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.performance-evidence",
+  "recordType": "performance",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "review": {
+    "reviewedAt": "2026-09-18T17:08:00-05:00",
+    "reviewer": "Slickkredd",
+    "candidateEvidenceReference": "acceptance/v1.6-performance-candidate-evidence.json",
+    "candidateEvidenceSha256": "sha256:6ba3ea31b0bdde85de842c5fcac5c6756f92794efb55ba4e1d4a4d5b331823ad",
+    "representativeEnvironmentConfirmed": true,
+    "authorityIncidentsAbsentConfirmed": true
+  },
+  "environment": {
+    "operatingSystem": "Zorin OS 17.3",
+    "runtime": "Mozilla Firefox 156.0",
+    "hardware": "Lenovo IdeaPad 3 15IIL05 (81WE)",
+    "foregroundState": "foreground",
+    "presentationMode": "normal",
+    "measurementDate": "2026-09-18"
+  },
+  "samples": {
+    "resolver": 220,
+    "interactionPaint": 30,
+    "idleFrames": 120,
+    "activeFrames": 268
+  },
+  "measurements": {
+    "resolverP95Ms": 0.42,
+    "resolverP99Ms": 0.71,
+    "interactionPaintP95Ms": 33.61,
+    "interactionPaintP99Ms": 34.18,
+    "idleMedianFrameIntervalMs": 16.67,
+    "activeFrameP95Ms": 16.82,
+    "severeFrameStallRate": 0,
+    "catastrophicForegroundStallCount": 0,
+    "taskStateResetCount": 0,
+    "pageReloadRequiredCount": 0,
+    "automaticAuthorityActionCount": 0
+  },
+  "budgetResult": "pass",
+  "laneEvidence": [
+    {
+      "id": "performance",
+      "verified": true,
+      "revision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "evidenceType": "performance",
+      "reference": "acceptance/v1.6-performance-evidence.json",
+      "finding": "Representative performance review on Zorin OS 17.3 / Mozilla Firefox 156.0 / Lenovo IdeaPad 3 15IIL05 (81WE) satisfied all approved Glaze UI Performance Budget v1.0 thresholds with sufficient resolver, interaction-to-paint, idle-frame, and active-frame samples. No catastrophic foreground stalls, task-state resets, page reloads, or automatic authority actions were observed."
+    }
+  ],
+  "reviewDecision": "accepted",
+  "authority": {
+    "performanceEvidenceAccepted": true,
+    "humanEvidenceAccepted": false,
+    "assistiveTechnologyEvidenceAccepted": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This accepted record captures only representative Performance qualification evidence for frozen V1.6 source c7509c79256b04b0aa67cb9dd0737d7588e0ae4a on the recorded environment. It satisfies the V1.6 Performance evidence lane only after governed validation and reconciliation; it does not itself grant Candidate, Release Candidate, Stable, consumer, deployment, or production acceptance."
+}

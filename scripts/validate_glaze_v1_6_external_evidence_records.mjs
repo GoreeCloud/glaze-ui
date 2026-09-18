@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 
 import {createGlazeV16AcceptanceMatrix} from '../js/glaze-v1.6-acceptance.dev.mjs';
@@ -88,7 +89,7 @@ function validateAssistiveTechnology(record){
   return laneRecords(record,'assistive-technology');
 }
 
-function validatePerformance(record){
+function validatePerformance(record,{verifyCandidateArtifact=false}={}){
   base(record,'goreecloud.glaze-ui.v1.6.performance-evidence','performance');
   assert(record.reviewDecision==='accepted','performance review decision must be accepted');
   assert(record.authority.performanceEvidenceAccepted===true,'performance evidence authority must be explicitly accepted');
@@ -98,6 +99,34 @@ function validatePerformance(record){
   for(const key of ['reviewedAt','reviewer','candidateEvidenceReference'])assert(usable(record.review[key]),'performance review metadata missing: '+key);
   assert(/^sha256:[0-9a-f]{64}$/.test(record.review.candidateEvidenceSha256),'candidate performance evidence SHA-256 must be durable');
   for(const key of ['operatingSystem','runtime','hardware','foregroundState','presentationMode','measurementDate'])assert(usable(record.environment[key]),'performance environment metadata missing: '+key);
+
+  if(verifyCandidateArtifact){
+    const candidatePath=record.review.candidateEvidenceReference;
+    assert(candidatePath==='acceptance/v1.6-performance-candidate-evidence.json','accepted performance evidence must reference the canonical committed candidate artifact');
+    const resolved=path.resolve(root,candidatePath);
+    const acceptanceRoot=path.resolve(root,'acceptance');
+    const relative=path.relative(acceptanceRoot,resolved);
+    assert(relative!==''&&!relative.startsWith('..')&&!path.isAbsolute(relative),'performance candidate evidence must remain under acceptance/');
+    assert(fs.existsSync(resolved)&&fs.statSync(resolved).isFile(),'performance candidate evidence artifact is missing');
+    const candidateBytes=fs.readFileSync(resolved);
+    const digest='sha256:'+crypto.createHash('sha256').update(candidateBytes).digest('hex');
+    assert(digest===record.review.candidateEvidenceSha256,'performance candidate evidence SHA-256 mismatch');
+    const candidate=JSON.parse(candidateBytes.toString('utf8'));
+    assert(candidate.recordType==='glaze-v1.6-representative-performance-candidate-evidence','performance candidate recordType mismatch');
+    assert(candidate.lifecycle==='DevelopmentQualification'&&candidate.evidenceType==='performance','performance candidate lifecycle/evidence type mismatch');
+    assert(candidate.sourceRevision===SOURCE&&candidate.acceptanceModelVersion===MODEL&&candidate.stableBaseline===STABLE,'performance candidate authority binding mismatch');
+    assert(candidate.environment?.exactRevision===SOURCE&&candidate.environment?.lifecycle==='DevelopmentQualification','performance candidate exact revision/lifecycle mismatch');
+    assert(candidate.representativeEnvironmentConfirmed===true&&candidate.authorityObservationReviewed===true,'performance candidate review confirmations missing');
+    assert(candidate.candidateDisposition==='pass'&&candidate.evaluation?.status==='pass','performance candidate disposition/evaluation must pass');
+    assert(Array.isArray(candidate.evaluation?.sampleChecks)&&candidate.evaluation.sampleChecks.every(x=>x.status==='pass'),'performance candidate sample checks must all pass');
+    assert(Array.isArray(candidate.evaluation?.metricChecks)&&candidate.evaluation.metricChecks.every(x=>x.status==='pass'),'performance candidate metric checks must all pass');
+    for(const key of ['operatingSystem','runtime','hardware','foregroundState','presentationMode','measurementDate']){
+      assert(candidate.environment?.[key]===record.environment[key],'performance candidate environment mismatch: '+key);
+    }
+    assert(JSON.stringify(candidate.samples)===JSON.stringify(record.samples),'performance candidate sample counts mismatch accepted record');
+    assert(JSON.stringify(candidate.measurements)===JSON.stringify(record.measurements),'performance candidate measurements mismatch accepted record');
+  }
+
   const minimum=performancePlan.budget.minimumSamples;
   for(const key of ['resolver','interactionPaint','idleFrames','activeFrames'])assert(record.samples[key]>=minimum[key],'performance sample minimum not met: '+key);
   for(const [key,value] of Object.entries(record.measurements))assert(Number.isFinite(value),'performance measurement missing: '+key);
@@ -118,11 +147,10 @@ function validatePerformance(record){
   assert(usable(item.reference)&&usable(item.finding),'performance lane evidence needs durable reference and finding');
   return laneRecords(record,'performance');
 }
-
 const validators=new Map([
   ['goreecloud.glaze-ui.v1.6.human-evidence',validateHuman],
   ['goreecloud.glaze-ui.v1.6.assistive-technology-evidence',validateAssistiveTechnology],
-  ['goreecloud.glaze-ui.v1.6.performance-evidence',validatePerformance]
+  ['goreecloud.glaze-ui.v1.6.performance-evidence',record=>validatePerformance(record,{verifyCandidateArtifact:true})]
 ]);
 
 function validateTemplate(record,acceptedKey){

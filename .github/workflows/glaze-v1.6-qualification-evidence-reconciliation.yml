@@ -13,6 +13,7 @@ on:
       - 'acceptance/v1.6-human-evidence.json'
       - 'acceptance/v1.6-assistive-technology-evidence.json'
       - 'acceptance/v1.6-performance-evidence.json'
+      - 'acceptance/v1.6-performance-candidate-evidence.json'
       - 'acceptance/v1.6-human-evidence.template.json'
       - 'acceptance/v1.6-assistive-technology-evidence.template.json'
       - 'acceptance/v1.6-performance-evidence.template.json'
@@ -113,6 +114,8 @@ jobs:
             if(JSON.stringify(result.matrix.blockingLaneIds)!==JSON.stringify(['performance'])) throw new Error('Human + Assistive Technology blocker set must be Performance only');
           }
           if(present.human&&present.assistive&&present.performance){
+            if(result.matrix.verifiedCount!==24||result.matrix.unverifiedCount!==0||result.matrix.notApplicableCount!==0) throw new Error('complete reconciliation must be 24 verified / 0 unverified / 0 not applicable');
+            if(result.matrix.blockingLaneIds.length!==0) throw new Error('complete reconciliation must have no blocking lanes');
             if(result.matrix.qualificationEvidenceComplete!==true||result.matrix.readyForGovernedQualificationReview!==true) throw new Error('all three accepted external record types must complete the evidence matrix');
           }
           console.log('Accepted external evidence reconciliation verified');
