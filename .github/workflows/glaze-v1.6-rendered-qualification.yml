@@ -4,9 +4,13 @@ on:
   pull_request:
     paths:
       - 'contracts/v1.6/qualification.rendered.plan.json'
+      - 'contracts/v1.6/regression.rendered.plan.json'
       - 'schemas/v1.6-rendered-qualification-plan.schema.json'
+      - 'schemas/v1.6-rendered-regression-plan.schema.json'
       - 'reference/v1.6/rendered-qualification.html'
       - 'scripts/capture_glaze_v1_6_rendered_qualification.py'
+      - 'scripts/qualify_glaze_v1_6_zero_drift_regression.py'
+      - 'scripts/validate_glaze_v1_6_zero_drift_regression_plan.mjs'
       - 'scripts/validate_glaze_v1_6_rendered_qualification_harness.mjs'
       - 'js/glaze-v1.6-acceptance.dev.mjs'
       - 'acceptance/v1.6-machine-evidence.json'
@@ -64,10 +68,15 @@ jobs:
         run: |
           node --check scripts/validate_glaze_v1_6_rendered_qualification_harness.mjs
           node --check scripts/validate_glaze_v1_6_rendered_evidence_record.mjs
+          node --check scripts/validate_glaze_v1_6_zero_drift_regression_plan.mjs
           python -m py_compile scripts/capture_glaze_v1_6_rendered_qualification.py
+          python -m py_compile scripts/qualify_glaze_v1_6_zero_drift_regression.py
 
       - name: Verify rendered qualification plan and authority boundaries
         run: node scripts/validate_glaze_v1_6_rendered_qualification_harness.mjs
+
+      - name: Verify zero-drift rendered regression plan
+        run: node scripts/validate_glaze_v1_6_zero_drift_regression_plan.mjs
 
       - name: Verify durable rendered evidence record
         run: node scripts/validate_glaze_v1_6_rendered_evidence_record.mjs
@@ -171,3 +180,101 @@ jobs:
           path: artifacts/v1.6-rendered/
           if-no-files-found: error
           retention-days: 90
+
+  qualify-zero-drift-rendered-regression:
+    name: Qualify V1.6 zero-drift rendered regression
+    needs: verify-rendered-qualification-tooling
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact tooling revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check out frozen V1.6 qualification source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.V16_SOURCE_SHA }}
+          path: _v16-source
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Verify source and tooling identities
+        env:
+          EXPECTED_TOOLING_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_TOOLING_SHA"
+          test "$(git -C _v16-source rev-parse HEAD)" = "$V16_SOURCE_SHA"
+          git -C _v16-source diff --exit-code -- .
+
+      - name: Assemble local-only composite render root
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _v16-render-root
+          mkdir -p _v16-render-root/reference/v1.6
+          cp -a _v16-source/js _v16-render-root/js
+          cp -a _v16-source/css _v16-render-root/css
+          cp reference/v1.6/rendered-qualification.html _v16-render-root/reference/v1.6/rendered-qualification.html
+          test -f _v16-render-root/js/glaze-v1.6-development.mjs
+          test -f _v16-render-root/css/glaze-v1.4.1.css
+          test -f _v16-render-root/reference/v1.6/rendered-qualification.html
+
+      - name: Run independent-session zero-drift qualification
+        run: |
+          python scripts/qualify_glaze_v1_6_zero_drift_regression.py \
+            --render-root _v16-render-root \
+            --source-root _v16-source \
+            --tooling-root . \
+            --out artifacts/v1.6-regression
+
+      - name: Verify zero-drift evidence boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          evidence=json.loads(Path('artifacts/v1.6-regression/evidence.json').read_text())
+          assert evidence['status']=='passed'
+          assert evidence['sourceRevision']=='c7509c79256b04b0aa67cb9dd0737d7588e0ae4a'
+          assert evidence['acceptanceLaneId']=='regression-testing'
+          assert evidence['evidenceType']=='rendered'
+          assert evidence['comparison']['changedPixelTolerance']==0
+          assert evidence['comparison']['maximumChannelDeltaTolerance']==0
+          assert evidence['comparison']['failedSceneIds']==[]
+          assert evidence['renderedRegressionEvidenceEligible'] is True
+          assert all(item['changedPixels']==0 for item in evidence['comparisons'])
+          assert all(item['maximumChannelDelta']==0 for item in evidence['comparisons'])
+          assert evidence['authority']['regressionRenderedEvidenceClaimed'] is True
+          for key in (
+              'humanEvidenceClaimed','assistiveTechnologyEvidenceClaimed','physicalDeviceEvidenceClaimed',
+              'nativePlatformEvidenceClaimed','representativePerformanceEvidenceClaimed',
+              'candidateStatusGranted','releaseCandidateStatusGranted','stableStatusGranted',
+              'consumerAcceptanceAutomatic','deploymentAcceptanceAutomatic','productionAcceptanceAutomatic'
+          ):
+              assert evidence['authority'][key] is False, key
+          print('V1.6 zero-drift evidence boundary verification: PASS')
+          PY
+          git -C _v16-source diff --exit-code -- .
+          git diff --exit-code -- .
+
+      - name: Upload zero-drift regression evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: glaze-v1.6-zero-drift-regression-${{ github.run_id }}
+          path: artifacts/v1.6-regression/
+          if-no-files-found: error
+          retention-days: 90
+
