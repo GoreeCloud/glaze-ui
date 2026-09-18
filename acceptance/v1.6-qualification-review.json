@@ -3,13 +3,21 @@
   "recordId": "goreecloud.glaze-ui.v1.6.qualification-review",
   "recordType": "governed-qualification-review",
   "product": "GLAZE UI V1.6",
-  "reviewedAt": "2026-09-18T17:55:09-05:00",
+  "reviewedAt": "2026-09-18T18:44:00-05:00",
   "reviewExecutor": "ChatGPT",
   "decisionAuthority": "GoreeCloud project-owner instruction to proceed with the governed V1.6 qualification review",
   "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
   "acceptanceModelVersion": "1.6.0-dev.12",
   "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
   "stableBaseline": "1.5.1",
+  "governanceReview": {
+    "releaseLifecycleStandard": "Standard — Application and Service Release Lifecycle v0.6",
+    "productionReadinessStandard": "Standard — Application and Service Production Readiness v2.0",
+    "productionReadinessReview": "acceptance/v1.6-production-readiness-review.json",
+    "nineIntegralPlatformSystemsEvaluated": true,
+    "stableQualificationCompleted": false,
+    "productionReadinessGranted": false
+  },
   "evidenceMatrix": {
     "laneCount": 24,
     "verifiedCount": 24,
@@ -47,11 +55,12 @@
   "authority": {
     "releaseCandidateApproved": true,
     "stableStatusGranted": false,
+    "productionReadinessGranted": false,
     "downstreamConsumerAcceptanceAutomatic": false,
     "deploymentAcceptanceAutomatic": false,
     "productionAcceptanceAutomatic": false,
     "tagPublicationAutomatic": false,
     "githubReleasePublicationAutomatic": false
   },
-  "boundary": "This governed review approves the fully qualified frozen V1.6 source for an identity-only Release Candidate transition. The qualification evidence remains bound to its actual reviewed source and evidence revisions. Release Candidate status does not establish Stable, downstream consumer acceptance, deployment acceptance, production acceptance, tag publication, or GitHub Release publication."
+  "boundary": "This governed review approves the fully qualified frozen V1.6 source for an identity-only Release Candidate transition after applying the current Release Lifecycle and Production Readiness governance and explicitly evaluating all nine Integral Platform Systems for the shared presentation-system scope. The qualification evidence remains bound to its actual reviewed source and evidence revisions. Release Candidate status does not establish Stable, production readiness, downstream consumer acceptance, deployment acceptance, production acceptance, tag publication, or GitHub Release publication."
 }
