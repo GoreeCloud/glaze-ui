@@ -21,8 +21,7 @@ const SEARCH_PHASES = Object.freeze([
   'offline-results',
   'filters',
   'history',
-  'error',
-  'unverified'
+  'error'
 ]);
 
 const NAVIGATION_CAPABILITY_STATES = Object.freeze([
@@ -89,7 +88,8 @@ const STATUS_STATES = Object.freeze([
   'shared',
   'private',
   'updating',
-  'error'
+  'error',
+  'unverified'
 ]);
 
 const BADGE_CATEGORIES = Object.freeze([
