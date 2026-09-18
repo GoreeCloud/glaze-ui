@@ -12,9 +12,10 @@ export * from './glaze-v1.6-resilience-feedback.dev.mjs';
 export * from './glaze-v1.6-navigation-status.dev.mjs';
 export * from './glaze-v1.6-component-systems.dev.mjs';
 export * from './glaze-v1.6-experience-governance.dev.mjs';
+export * from './glaze-v1.6-diagnostics-regression.dev.mjs';
 
 export const glazeV16Development = Object.freeze({
-  version: '1.6.0-dev.8',
+  version: '1.6.0-dev.9',
   lifecycle: 'development',
   stableBaseline: '1.5.1',
   consumerEligible: false,
@@ -29,6 +30,7 @@ export const glazeV16Development = Object.freeze({
     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
     71, 72, 73,
     74, 75, 76, 77, 78, 79,
+    80, 81, 82, 83, 84, 85, 86, 87,
     88, 89, 90, 91, 92, 93
   ]),
   loadingFoundation: 'js/glaze-v1.6-loading.dev.mjs',
@@ -39,6 +41,7 @@ export const glazeV16Development = Object.freeze({
   navigationStatusFoundation: 'js/glaze-v1.6-navigation-status.dev.mjs',
   componentSystemsFoundation: 'js/glaze-v1.6-component-systems.dev.mjs',
   experienceGovernanceFoundation: 'js/glaze-v1.6-experience-governance.dev.mjs',
+  diagnosticsRegressionFoundation: 'js/glaze-v1.6-diagnostics-regression.dev.mjs',
   presentationOnly: true,
   accessibilityPrecedence: true,
   providerTruthManufactured: false,
