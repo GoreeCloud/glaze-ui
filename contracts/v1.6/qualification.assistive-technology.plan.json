@@ -1,0 +1,62 @@
+{
+  "$schema": "../../schemas/v1.6-assistive-technology-qualification-plan.schema.json",
+  "schemaVersion": 1,
+  "planId": "goreecloud.glaze-ui.v1.6.assistive-technology-qualification",
+  "name": "Glaze UI V1.6 Assistive Technology Qualification Review Plan",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "evidenceType": "assistive-technology",
+  "primaryLane": "assistive-technology",
+  "eligibleSecondaryLanes": ["accessibility"],
+  "existingEvidencePrerequisites": {
+    "assistive-technology": [],
+    "accessibility": ["machine"]
+  },
+  "requiredReviewScenarios": [
+    "landmark-and-heading-navigation",
+    "accessible-name-role-state",
+    "focus-order-and-focus-continuity",
+    "permission-required-announcement",
+    "restricted-announcement",
+    "unknown-state-fail-closed",
+    "dynamic-live-status-update",
+    "screen-reader-optimized-profile",
+    "large-text-with-assistive-technology",
+    "reduced-motion-with-assistive-technology",
+    "compact-and-expanded-layout-reading-order",
+    "privacy-and-authority-state-truthfulness"
+  ],
+  "harness": "reference/v1.6/assistive-technology-qualification.html",
+  "preparation": "scripts/prepare_glaze_v1_6_assistive_technology_qualification.py",
+  "acceptanceRecord": "acceptance/v1.6-development.md",
+  "execution": {
+    "repositoryLocalOnly": true,
+    "telemetryRequired": false,
+    "remoteAnalysisRequired": false,
+    "realAssistiveTechnologyRequired": true,
+    "assistiveTechnologyNameAndVersionRequired": true,
+    "reviewerObservationRequired": true,
+    "syntheticSpeechMayQualify": false,
+    "browserAutomationMayQualify": false,
+    "reviewFindingsMustBeRecordedOutsideHarness": true,
+    "generatedEvidenceAutomatic": false
+  },
+  "evidenceBoundary": {
+    "reviewSurfaceOnly": true,
+    "assistiveTechnologyEvidenceClaimedByPlan": false,
+    "humanEvidenceClaimed": false,
+    "physicalDeviceEvidenceClaimed": false,
+    "performanceEvidenceClaimed": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This plan prepares an exact-source, repository-local surface for a real assistive-technology review of the V1.6 Assistive technology acceptance lane and, when the reviewed findings also cover the required accessibility semantics, the remaining human-or-assistive-technology evidence group for Accessibility. The harness cannot hear, inspect, emulate, or certify a screen reader or other assistive technology, cannot create canonical evidence, and cannot promote lifecycle state. Qualifying evidence requires an actual reviewer-observed session using identified assistive technology on the frozen source, with environment, findings, limitations, and evidence references recorded separately."
+}
