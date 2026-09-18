@@ -1,0 +1,64 @@
+{
+  "$schema": "../../schemas/v1.6-qualification-evidence-intake.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.6.qualification-evidence-intake",
+  "name": "Glaze UI V1.6 Qualification Evidence Intake",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "canonicalEvidenceRecords": [
+    {
+      "type": "machine",
+      "path": "acceptance/v1.6-machine-evidence.json",
+      "validator": "scripts/validate_glaze_v1_6_machine_evidence_record.mjs"
+    },
+    {
+      "type": "rendered",
+      "path": "acceptance/v1.6-rendered-evidence.json",
+      "validator": "scripts/validate_glaze_v1_6_rendered_evidence_record.mjs"
+    },
+    {
+      "type": "rendered-regression",
+      "path": "acceptance/v1.6-regression-evidence.json",
+      "validator": "scripts/validate_glaze_v1_6_regression_evidence_record.mjs"
+    }
+  ],
+  "acceptedExternalRecordIds": [
+    "goreecloud.glaze-ui.v1.6.human-evidence",
+    "goreecloud.glaze-ui.v1.6.assistive-technology-evidence",
+    "goreecloud.glaze-ui.v1.6.performance-evidence"
+  ],
+  "externalRecordValidator": "scripts/validate_glaze_v1_6_external_evidence_records.mjs",
+  "currentDispositionWithoutExternalEvidence": {
+    "verifiedCount": 17,
+    "unverifiedCount": 7,
+    "notApplicableCount": 0,
+    "qualificationEvidenceComplete": false,
+    "readyForGovernedQualificationReview": false,
+    "blockingLaneIds": [
+      "accessibility",
+      "keyboard-navigation",
+      "assistive-technology",
+      "performance",
+      "privacy-boundaries",
+      "authority-boundaries",
+      "representative-rendering"
+    ]
+  },
+  "authority": {
+    "externalEvidenceOptionalForEvaluation": true,
+    "externalEvidenceMustBeSeparatelyValidated": true,
+    "missingExternalEvidenceMayInferPass": false,
+    "staleEvidenceMayInferPass": false,
+    "revisionMismatchMayInferPass": false,
+    "qualificationCompletionMayPromoteLifecycleAutomatically": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This intake contract reconciles already accepted exact-source machine, rendered-browser, and rendered-regression evidence with optional separately validated external human, assistive-technology, or performance records. It may determine that the section-98 evidence matrix is complete, but matrix completion is only readiness for governed qualification review and never automatic lifecycle promotion."
+}
