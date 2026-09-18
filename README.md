@@ -37,6 +37,10 @@ The repository carries non-consumer-eligible successor material that extends the
 - `tokens/glaze-v1.6-state-accessibility.dev.json` — semantic state/accessibility/performance aliases that preserve protected meaning and inherit current token authorities.
 - `js/glaze-v1.6-development.mjs` — non-consumer-eligible Development aggregate entrypoint for implemented V1.6 foundations; it is not a Stable runtime entrypoint.
 - `scripts/validate_glaze_v1_6_state_accessibility_development.mjs` + `.github/workflows/glaze-v1.6-state-accessibility-development.yml` — exact-head validation with loading-foundation regression and V1.5.1 Stable-boundary gates.
+- `contracts/v1.6/focus-motion.dev.json` + `schemas/v1.6-focus-motion.schema.json` — V1.6 Development contract for unified focus, semantic motion families/hierarchy, interruptibility, fatigue budgets, microinteractions, and continuity.
+- `js/glaze-v1.6-focus-motion.dev.mjs` — Development-only focus/motion resolver covering sections 10–14 and 71–73 without promoting the separately governed Glaze Motion lifecycle.
+- `tokens/glaze-v1.6-focus-motion.dev.json` — focus and motion semantic aliases, reference motion budgets, Reduced Motion mappings, and continuity requirements.
+- `scripts/validate_glaze_v1_6_focus_motion_development.mjs` + `.github/workflows/glaze-v1.6-focus-motion-development.yml` — exact-head focus/motion validation with both earlier V1.6 tranche regressions and V1.5.1 Stable-boundary verification.
 
 The repository also carries a Development foundation for the broader **Glaze UI — Visual, Spatial, and Interaction Language**:
 
