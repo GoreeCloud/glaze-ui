@@ -230,7 +230,7 @@ jobs:
           test -f _v16-render-root/css/glaze-v1.4.1.css
           test -f _v16-render-root/reference/v1.6/rendered-qualification.html
 
-      - name: Run independent-session zero-drift qualification
+      - name: Run same-renderer zero-drift qualification
         run: |
           python scripts/qualify_glaze_v1_6_zero_drift_regression.py \
             --render-root _v16-render-root \
