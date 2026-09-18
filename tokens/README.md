@@ -192,3 +192,23 @@ It composes current layout, state, semantic-color, material, motion, iconography
 Reference dominant-action limits are Development guidance only. Protected semantic meaning, truth authority, privacy, permission, and consequential actions remain outside presentation authority.
 
 This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
+
+
+## V1.6 diagnostics and regression Development semantic map
+
+`tokens/glaze-v1.6-diagnostics-regression.dev.json` is a **Development, non-consumer-eligible diagnostic/evidence map** for V1.6 sections 80–87.
+
+It composes current Stable and implemented V1.6 authorities into machine-readable coverage for:
+
+- 11 developer diagnostics covering contrast, unsupported token overrides, missing component states, expensive effects, target size, accessible names, material nesting, semantic consistency, skeleton duration, and loading recovery;
+- 10 accessibility diagnostics covering focus, order, targets, motion/transparency compatibility, large-text reflow, announcements, screen-reader labeling, and color-independent state;
+- 8 skeleton diagnostics covering readiness, Reduced Motion, simultaneous shimmer, layout stability, loading semantics, failure escalation, duration, and focus continuity;
+- 14 deterministic visual-regression scenarios;
+- 5 semantic regression invariants;
+- 8 performance-regression dimensions;
+- explicit layout-stability evidence;
+- graceful fallback chains for blur, morphs, animated skeletons, environmental effects, and complex transitions.
+
+Diagnostic measurements remain test-harness/caller owned, performance budgets remain governed acceptance-profile inputs, and missing evidence fails closed. The Development-only skeleton reference budgets are not Stable acceptance thresholds. This map does not manufacture rendered/native/human/assistive-technology/device acceptance.
+
+This map does not change Stable V1.5.1 values, consumer eligibility, downstream acceptance, release publication, deployment, or production state.
