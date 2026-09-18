@@ -1,0 +1,61 @@
+{
+  "$schema": "../../schemas/v1.6-regression-qualification-plan.schema.json",
+  "schemaVersion": 1,
+  "planId": "goreecloud.glaze-ui.v1.6.rendered-regression-qualification",
+  "name": "Glaze UI V1.6 Exact-Source Rendered Regression Qualification Plan",
+  "lifecycle": "DevelopmentQualification",
+  "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "acceptanceModelVersion": "1.6.0-dev.12",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": false,
+  "laneId": "regression-testing",
+  "baseline": {
+    "runId": 35348330585,
+    "artifactId": 10549115165,
+    "artifactName": "glaze-v1.6-rendered-browser-35348330585",
+    "artifactDigest": "sha256:dbd9d89353b630eae781210ba334cfcf1288189533a27f70931facee1b245506",
+    "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+    "record": "acceptance/v1.6-rendered-evidence.json"
+  },
+  "sceneIds": [
+    "representative-expanded",
+    "representative-compact",
+    "responsive-medium",
+    "reduced-motion",
+    "reduced-transparency",
+    "increased-contrast",
+    "large-text",
+    "layout-stability",
+    "form-factor-transition"
+  ],
+  "comparison": {
+    "kind": "screenshot-sha256-exact",
+    "tolerance": 0,
+    "allScenesRequired": true,
+    "baselineManifestRequired": true,
+    "freshManifestRequired": true,
+    "sourceRevisionMustMatch": true
+  },
+  "freshCapture": {
+    "captureScript": "scripts/capture_glaze_v1_6_rendered_qualification.py",
+    "renderedPlan": "contracts/v1.6/qualification.rendered.plan.json",
+    "harness": "reference/v1.6/rendered-qualification.html",
+    "artifactDirectory": "artifacts/v1.6-regression"
+  },
+  "evidenceBoundary": {
+    "renderedRegressionOnly": true,
+    "humanEvidenceClaimed": false,
+    "assistiveTechnologyEvidenceClaimed": false,
+    "physicalDeviceEvidenceClaimed": false,
+    "nativePlatformEvidenceClaimed": false,
+    "representativePerformanceEvidenceClaimed": false,
+    "lifecyclePromotionAutomatic": false,
+    "candidateStatusGranted": false,
+    "releaseCandidateStatusGranted": false,
+    "stableStatusGranted": false,
+    "consumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "boundary": "This plan compares a fresh deterministic rendered capture of the frozen V1.6 Development qualification source against the previously recorded exact-source rendered artifact. A pass may support only the rendered evidence group of the regression-testing lane. It does not create human, assistive-technology, device/native-platform, representative-performance, lifecycle, consumer, deployment, or production acceptance."
+}
