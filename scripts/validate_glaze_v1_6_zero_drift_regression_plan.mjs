@@ -34,13 +34,13 @@ async function main(){
   assert.equal(plan.renderedQualificationPlan,'contracts/v1.6/qualification.rendered.plan.json');
   assert.equal(plan.captureScript,'scripts/capture_glaze_v1_6_rendered_qualification.py');
   assert.equal(plan.qualifier,'scripts/qualify_glaze_v1_6_zero_drift_regression.py');
-  assert.equal(plan.comparison.mode,'independent-browser-session-zero-decoded-pixel-drift');
+  assert.equal(plan.comparison.mode,'same-browser-process-reload-zero-decoded-pixel-drift');
   assert.equal(plan.comparison.changedPixelTolerance,0);
   assert.equal(plan.comparison.maximumChannelDeltaTolerance,0);
   assert.equal(plan.comparison.compareDecodedRgba,true);
   assert.equal(plan.comparison.sceneSetMustMatch,true);
-  assert.equal(plan.comparison.browserProductMustMatch,true);
-  assert.equal(plan.comparison.browserRevisionMustMatch,true);
+  assert.equal(plan.comparison.browserProcessMustRemainSame,true);
+  assert.equal(plan.comparison.reloadBetweenReferenceAndRepeat,true);
   assert.equal(plan.comparison.sameRunnerRequired,true);
   assert.equal(plan.requiredSceneCount,9);
   assert.equal(new Set(plan.requiredSceneIds).size,9);
