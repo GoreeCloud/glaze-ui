@@ -47,3 +47,12 @@ Glaze UI source and consumers must:
 The V1.6 governed qualification review records explicit Release Candidate evaluation against the nine Integral Platform Systems. That review verifies the design system's applicable authority boundaries; it does not grant Stable security qualification, production readiness, deployment acceptance, or downstream consumer security acceptance.
 
 Stable promotion remains subject to the current Stable Release Security Blockers standard and exact-candidate security evidence.
+
+## V1.6 Stable-security checkpoint
+
+The governed V1.6 security evidence now verifies two release-security sub-gates for the qualified shared-library scope:
+
+- Complete Git-history secret scanning passes with 0 unreviewed findings after exact-fingerprint review of the retained historical false positives.
+- The remediated Gradle-selected Android/Wear build-tool graph passes dependency scanning: 206 distinct selected Maven coordinates, 426 project package entries, 206 CycloneDX 1.5 components, and 0 selected OSV advisories/vulnerabilities. Exact-head Android and Wear compatibility validation passes with the remediated graph.
+
+This does **not** grant final Stable security acceptance. Authoritative `main` branch protection is still disabled, so required security gates are not yet host-enforced against bypass. The final Stable artifact/source-provenance and immutable publication boundary is also not yet accepted. Those release-integrity controls remain security blockers.
