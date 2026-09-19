@@ -1,9 +1,9 @@
 # GLAZE UI V1.0-Origin — Icon Grid, Geometry, Materials, and Construction Contract
 
 **Contract origin:** Official V1.0 reset baseline; inherited by later V1 releases unless superseded.  
-**Current Stable product authority:** GLAZE UI V1.5 / `1.5.1`.
+**Current Stable product authority:** GLAZE UI V1.6 / `1.6.0`.
 
-`tokens/icon-construction.json` retains an internal icon-construction contract revision and baseline of `1.5.0`. That value is a subsystem-contract revision only and does not define the current Glaze UI product lifecycle, consumer target, or production-acceptance state. Current product lifecycle authority is `1.5.1` and remains separate in `registry/lifecycle.json` and `VERSION`.
+`tokens/icon-construction.json` retains an internal icon-construction contract revision and baseline of `1.5.0`. That value is a subsystem-contract revision only and does not define the current Glaze UI product lifecycle, consumer target, or production-acceptance state. Current product lifecycle authority is `1.6.0` and remains separate in `registry/lifecycle.json` and `VERSION`.
 
 ## Purpose
 
@@ -80,4 +80,4 @@ Live environment preview, automatic production export, icon linting, and a searc
 
 ## V1 inheritance and acceptance boundary
 
-This construction contract originated in the official GLAZE UI V1.0 reset baseline and remains inherited through current Stable V1.5.1 where not superseded. V1.5.0 remains the immediate known-good Stable rollback baseline. The internal `1.5.0` icon-construction revision remains a subsystem revision and must not be interpreted as independent evidence of the current Glaze UI product lifecycle. Machine-contract consistency does not certify rendered artwork or establish production Stable acceptance. Fresh exact-revision visual, accessibility, optical-size, platform, and package validation is required before production acceptance may be claimed.
+This construction contract originated in the official GLAZE UI V1.0 reset baseline and remains inherited through current Stable V1.6.0 where not superseded. V1.5.1 remains the immediate known-good Stable rollback baseline. The internal `1.5.0` icon-construction revision remains a subsystem revision and must not be interpreted as independent evidence of the current Glaze UI product lifecycle. Machine-contract consistency does not certify rendered artwork or establish production Stable acceptance. Fresh exact-revision visual, accessibility, optical-size, platform, and package validation is required before production acceptance may be claimed.
