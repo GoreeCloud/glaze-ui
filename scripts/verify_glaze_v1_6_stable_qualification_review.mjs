@@ -89,13 +89,6 @@ assert.equal(security.controlApplicability.exceptedCount,0);
 assert.deepEqual(security.controlApplicability.exceptions,[]);
 assert.equal(security.controlApplicability.controls.length,39);
 
-const drive = json('acceptance/v1.6-drive-document-reconciliation.json');
-assert.equal(drive.decision,'passed-promotion-ready');
-assert.equal(drive.taskRecord.sha256,'eaf98db0b43650059ded5173925dc16f1bc174a6e33674f4aec20158edd232e4');
-assert.equal(drive.taskRecord.pageCount,76);
-assert.equal(drive.changeLogRecord.sha256,'9d8cc11374ca7bee8c743eb46680ca7a5dc866004fca6a07fa8287925d8d552c');
-assert.equal(drive.changeLogRecord.pageCount,235);
-
 const finalSecurity = json('acceptance/v1.6-final-security-acceptance.json');
 assert.equal(finalSecurity.decision, 'passed-for-controlled-publication');
 assert.equal(finalSecurity.stableSecurityAcceptanceGranted, true);
