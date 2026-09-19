@@ -8,6 +8,7 @@ const review = readJson('acceptance/v1.6-stable-qualification-review.json');
 const rcReview = readJson('acceptance/v1.6-qualification-review.json');
 const readiness = readJson('acceptance/v1.6-production-readiness-review.json');
 const driveReconciliation = readJson('acceptance/v1.6-drive-document-reconciliation.json');
+const productionApplicability = readJson('acceptance/v1.6-production-applicability.json');
 
 assert.equal(fs.readFileSync(new URL('../VERSION', import.meta.url), 'utf8').trim(), '1.5.1');
 assert.equal(lifecycle.currentStable, '1.5.1');
@@ -54,7 +55,6 @@ const requiredBlockers = [
   'security.dependency-and-supply-chain-scan',
   'security.release-security-acceptance',
   'release.artifact-provenance-and-publication-boundary',
-  'production-acceptance.applicability'
 ];
 const blockers = new Map(review.blockers.map(item => [item.id, item]));
 for (const id of requiredBlockers) {
@@ -62,11 +62,20 @@ for (const id of requiredBlockers) {
   assert.match(blockers.get(id).status, /^blocked/, `Stable blocker must remain fail-closed: ${id}`);
 }
 
-assert.equal(review.blockers.length, 5, 'V1.6 Stable review must retain the five unresolved blockers after Platform Contract, Drive, and secret-history reconciliation');
+assert.equal(review.blockers.length, 4, 'V1.6 Stable review must retain the four unresolved blockers after production-applicability reconciliation');
 assert.ok(review.verifiedPasses.some(item => item.id === 'drive.documentation-and-task-reconciliation' && item.status === 'passed'), 'Drive reconciliation must be a verified pass');
 assert.ok(review.verifiedPasses.some(item => item.id === 'platform-contract.current-machine-contract' && item.status === 'passed'), 'Platform Contract shared-library declaration must be a verified pass');
 assert.ok(review.verifiedPasses.some(item => item.id === 'security.secret-and-history-scan' && item.status === 'passed'), 'Secret/history security scan must be a verified pass');
-assert.equal(review.remainingBlockerCount, 5, 'remainingBlockerCount must be five');
+assert.equal(productionApplicability.decision, 'deployment-not-applicable-publication-acceptance-required');
+assert.equal(productionApplicability.componentBoundary?.type, 'shared-library');
+assert.equal(productionApplicability.deploymentApplicability?.directProductionDeploymentRequired, false);
+assert.equal(productionApplicability.deploymentApplicability?.result, 'not-applicable-justified');
+assert.equal(productionApplicability.productionAcceptanceApplicability?.releasePublicationAcceptanceRequired, true);
+assert.equal(productionApplicability.productionAcceptanceApplicability?.finalArtifactAcceptanceRequired, true);
+assert.equal(productionApplicability.currentDisposition?.publicationAcceptanceCompleted, false);
+assert.equal(productionApplicability.currentDisposition?.stablePromotionAuthorized, false);
+assert.ok(review.verifiedPasses.some(item => item.id === 'production-acceptance.applicability' && item.status === 'passed-applicability-resolved'), 'Production applicability must be a verified resolved boundary');
+assert.equal(review.remainingBlockerCount, 4, 'remainingBlockerCount must be four');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
 assert.equal(review.stablePromotionAuthorized, false);
 assert.equal(review.productionReadinessGranted, false);
