@@ -1,71 +1,38 @@
-# GLAZE UI V1.5 — Specifications
+# GLAZE UI V1.6 — Specifications
 
 ## Product identity
 
-- **Official product label:** GLAZE UI V1.5 — Contextual + Capability Awareness
-- **Machine version:** `1.5.1`
+- **Official product label:** GLAZE UI V1.6
+- **Machine version:** `1.6.0`
 - **Lifecycle:** Stable
-- **Consumer eligibility:** Yes, as a shared Glaze UI Stable release
+- **Consumer eligibility:** Yes, as a shared GLAZE UI Stable release
 - **Repository:** `GoreeCloud/goreecloud-glaze-ui`
-- **Authoritative family contract:** `GLAZE_UI_V1_5.md`
-- **Stable qualification scope:** `contracts/v1.5.1/stable-scope.json`
-- **Stable acceptance record:** `acceptance/v1.5.1-stable.md`
-- **Qualification-hardening record:** `GLAZE_UI_V1_5_1_HARDENING.md`
+- **Stable contract:** `contracts/v1.6/stable-release.json`
+- **Stable acceptance record:** `acceptance/v1.6-stable.json`
+- **Final Stable qualification:** `acceptance/v1.6-stable-qualification-review.json`
+- **Final Stable security acceptance:** `acceptance/v1.6-final-security-acceptance.json`
+- **Publication readback:** `acceptance/v1.6-publication-readback.json`
 - **Lifecycle authority:** `registry/lifecycle.json`
+- **Runtime entrypoint:** `js/glaze-v1.6.0.mjs`
+- **Immediate rollback baseline:** `1.5.1`
 
-V1.5.1 is the Stable qualification-hardening patch for the V1.5 Context + Capability Awareness line. It preserves the reviewed V1.5 presentation and authority implementation while closing the two shared qualification expansions intentionally deferred from V1.5.0.
+The qualified V1.6 source is `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`. The released and security-accepted source is `a7180679ea851389e0f3004515f9a25f420e716d`, published as `v1.6.0` with byte-for-byte readback.
 
-## Active V1.6 Release Candidate
+## Qualification and release boundary
 
-The governed successor candidate is **GLAZE UI V1.6 / `1.6.0-rc.1`**.
+The shared evidence matrix is **24 verified / 0 unverified / 0 not applicable**. Final security acceptance, deterministic artifact generation, checksum/SBOM/provenance, immutable publication, and post-publication readback all passed. Direct service deployment is not applicable because Glaze UI is a source-distributed shared presentation library.
 
-- **Internal version:** `1.6.0-rc.1`
-- **External version:** `1.6.0-rc.1`
-- **Version name:** none
-- **Lifecycle:** Release Candidate
-- **Consumer eligibility:** No
-- **Stable baseline:** `1.5.1`
-- **Qualified source:** `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`
-- **Qualification evidence integration:** `354f5759385c28596fcfec26a3ad525e89fb1c35`
-- **Evidence matrix:** 24 verified / 0 unverified / 0 not applicable
-- **Governed qualification review:** `acceptance/v1.6-qualification-review.json`
-- **Release Candidate contract:** `contracts/v1.6/release-candidate.json`
-- **Release Candidate acceptance:** `acceptance/v1.6-rc.1.json`
-- **Release Candidate runtime:** `js/glaze-v1.6.0-rc.1.mjs`
-
-The Release Candidate is an identity/governance layer over the exact qualified V1.6 Development implementation. It does not replace V1.5.1 as current Stable, does not change the required downstream consumer version, and does not authorize deployment, production acceptance, tag publication, GitHub Release publication, or Stable promotion.
+Downstream consumer acceptance is never inherited. Every GoreeCloud consumer must independently target `1.6.0` and complete repository-local V1.6 acceptance before claiming conformance or production eligibility.
 
 ## Runtime and Stable entrypoints
 
 - Version authority: `VERSION`
-- Web/material entrypoint: `css/glaze-v1.4.1.css`
-- Runtime entrypoint: `js/glaze-v1.5.1.mjs`
-- Immediate known-good Stable rollback runtime: `js/glaze-v1.5.0.mjs`
-- Stable authority gate: `scripts/verify_glaze_v1_5_1_stable.mjs`
+- Runtime entrypoint: `js/glaze-v1.6.0.mjs`
+- Stable contract: `contracts/v1.6/stable-release.json`
+- Stable acceptance: `acceptance/v1.6-stable.json`
+- Immediate known-good rollback runtime: `js/glaze-v1.5.1.mjs`
+- Stable authority gate: `scripts/verify_glaze_v1_6_stable_qualification_review.mjs`
 - Consumer registry: `consumers/registry.json`
-
-The V1.5.1 runtime inherits the reviewed V1.5.0 Stable behavior and promotes Stable patch identity and qualification closure without changing the reviewed presentation or operational-authority boundary.
-
-## Stable V1.5 requirements
-
-V1.5 extends the inherited V1.4.1 Optical Intelligence foundation with governed Context + Capability Awareness. The Stable contract requires:
-
-- semantic context normalization across governed domains;
-- capability-state grammar with provenance;
-- explicit provider authority/domain ownership;
-- fail-closed handling of provider ownership conflicts;
-- Privacy Shield ownership of privacy/data-use authorization truth where applicable;
-- contextual composition and presentation-density adaptation;
-- accessibility precedence over visual richness;
-- runtime-pressure presentation-cost reduction without capability-truth modification;
-- connectivity, window-state, posture, and constrained-runtime continuity;
-- capability-aware navigation and controls;
-- stable primary-action ordering with predictable contextual adaptation of non-primary actions;
-- explicit unavailable/degraded explanations and recovery metadata;
-- graceful user-initiated fallback suggestions without automatic fallback execution;
-- privacy-safe explainable diagnostics;
-- inherited V1.4.1 optical-capability integration;
-- unified Context + Capability Resolution for developer-facing presentation decisions.
 
 ## Authority boundary
 
@@ -73,7 +40,7 @@ Glaze UI remains presentation-only. It does not infer authorization, grant conse
 
 Privacy Shield, Wardveil Security, applications, services, platforms, policy, identity, device/runtime, and other authoritative providers retain their own truth domains. Provider ownership conflicts fail closed rather than being resolved through inferred precedence.
 
-## V1.5.1 qualification boundary
+## Historical V1.5.1 qualification boundary
 
 The exact V1.5.1 Stable qualification scope is defined by `contracts/v1.5.1/stable-scope.json`.
 
