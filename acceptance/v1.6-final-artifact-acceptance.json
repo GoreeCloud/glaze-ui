@@ -22,7 +22,9 @@
     "rulesetName": "GoreeCloud Main Branch Production",
     "bypassActors": [],
     "postMergeWorkflowCount": 31,
-    "postMergeWorkflowFailureCount": 0
+    "postMergeWorkflowFailureCount": 0,
+    "postMergeWorkflowCountType": "unique-workflow-names",
+    "postMergeRunRecordCountObservedAtAcceptance": 73
   },
   "artifact": {
     "preparationWorkflow": ".github/workflows/glaze-v1.6-final-artifact-preparation.yml",
@@ -109,5 +111,331 @@
     "knownGoodStable": "1.5.1",
     "runtimeEntrypoint": "js/glaze-v1.5.1.mjs"
   },
-  "boundary": "Final Stable security acceptance is granted only for the exact protected source revision a7180679ea851389e0f3004515f9a25f420e716d and the exact unpublished 1.6.0 artifact bytes identified by this record. This authorizes controlled candidate publication of those same bytes under v1.6.0 as a prerelease. It does not grant lifecycle Stable, current Official status, consumer eligibility, deployment acceptance, production acceptance, or downstream adoption. Stable remains blocked until immutable publication/readback and the final exact-candidate Stable qualification and lifecycle promotion complete."
+  "boundary": "Final Stable security acceptance is granted only for the exact protected source revision a7180679ea851389e0f3004515f9a25f420e716d and the exact unpublished 1.6.0 artifact bytes identified by this record. This authorizes controlled candidate publication of those same bytes under v1.6.0 as a prerelease. It does not grant lifecycle Stable, current Official status, consumer eligibility, deployment acceptance, production acceptance, or downstream adoption. Stable remains blocked until immutable publication/readback and the final exact-candidate Stable qualification and lifecycle promotion complete.",
+  "securityScopeObservations": {
+    "acceptedArtifactBoundary": "35-file deterministic source/runtime archive for GLAZE UI 1.6.0, bound to source revision a7180679ea851389e0f3004515f9a25f420e716d and source tree 9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+    "componentType": "shared-library",
+    "independentServiceOrBackend": false,
+    "ownsAuthentication": false,
+    "ownsAuthorization": false,
+    "ownsUserOrTenantData": false,
+    "ownsFileUploads": false,
+    "ownsHttpApiOrListener": false,
+    "ownsNetworkTransport": false,
+    "runtimeExternalDependencyCount": 0,
+    "exactArtifactStaticSurfaceReview": {
+      "result": "passed",
+      "searchedArtifact": "glaze-ui-v1.6.0-source-runtime.tar.gz",
+      "searchedFileCount": 35,
+      "absentDirectSinksOrCapabilities": [
+        "eval(",
+        "new Function",
+        "innerHTML",
+        "outerHTML",
+        "insertAdjacentHTML",
+        "document.write",
+        "fetch(",
+        "XMLHttpRequest",
+        "WebSocket",
+        "EventSource",
+        "localStorage",
+        "sessionStorage",
+        "indexedDB",
+        "navigator.sendBeacon",
+        "postMessage",
+        "window.open",
+        "FileReader",
+        "FormData",
+        "console.log/debug/trace",
+        "debugger statements",
+        "external http/https/ws/wss URL literals",
+        "external package/module imports"
+      ],
+      "evidenceBoundary": "Static absence checks apply only to the exact accepted artifact files and do not transfer downstream security responsibilities to consumer applications."
+    }
+  },
+  "stableSecurityControlMatrix": {
+    "standard": "GoreeCloud — Standard — Stable Release Security Blockers",
+    "version": "v1.0",
+    "evaluatedControlCount": 39,
+    "passedOrBoundedPassedCount": 14,
+    "notApplicableJustifiedCount": 25,
+    "blockedCount": 0,
+    "unknownCount": 0,
+    "exceptedCount": 0,
+    "exceptions": [],
+    "controls": [
+      {
+        "id": "5.1",
+        "title": "No Exposed Secrets",
+        "result": "passed",
+        "justification": "Complete-history Gitleaks has 0 unreviewed findings and the exact extracted final artifact Gitleaks scan reports no leaks."
+      },
+      {
+        "id": "5.2",
+        "title": "Repository and Git History Are Clean",
+        "result": "passed",
+        "justification": "The exact Stable Security run scanned 3,426 commits with 0 unreviewed secret findings after review of 21 historical false positives."
+      },
+      {
+        "id": "5.3",
+        "title": "Public Keys and Public Client Credentials Are Actually Public-Safe",
+        "result": "not-applicable-justified",
+        "justification": "The accepted shared-library artifact ships no credential, authentication token, service credential, signing key, or public-client credential boundary."
+      },
+      {
+        "id": "5.4",
+        "title": "Secret Lifecycle Is Enforceable",
+        "result": "not-applicable-justified",
+        "justification": "Glaze UI owns and ships no runtime secret lifecycle; CI/release credentials remain platform-managed and outside the artifact."
+      },
+      {
+        "id": "6.1",
+        "title": "Resource-Level Authorization",
+        "result": "not-applicable-justified",
+        "justification": "The shared presentation library owns no resource service, database, object store, account resource, or authorization boundary."
+      },
+      {
+        "id": "6.2",
+        "title": "Sensitive Data Protection",
+        "result": "not-applicable-justified",
+        "justification": "The accepted runtime owns no user dataset, persistent storage, network transport, or protected-data-at-rest boundary."
+      },
+      {
+        "id": "6.3",
+        "title": "No Protected-Data Leakage",
+        "result": "not-applicable-justified",
+        "justification": "Glaze UI owns no protected dataset or backend/log/export pipeline; downstream consumers remain responsible for data leakage controls."
+      },
+      {
+        "id": "6.4",
+        "title": "Tenant and User Isolation",
+        "result": "not-applicable-justified",
+        "justification": "The shared runtime has no tenant/user data store or server-side multi-user access path."
+      },
+      {
+        "id": "7.1",
+        "title": "Server-Side Authentication",
+        "result": "not-applicable-justified",
+        "justification": "There is no server, login endpoint, credential verifier, or authenticated resource boundary in the accepted artifact."
+      },
+      {
+        "id": "7.2",
+        "title": "Ownership and Authorization Checks",
+        "result": "not-applicable-justified",
+        "justification": "The artifact performs no privileged read/write/delete/share/export operation against owned resources."
+      },
+      {
+        "id": "7.3",
+        "title": "Protected Fields Cannot Be Tampered With",
+        "result": "not-applicable-justified",
+        "justification": "The artifact owns no protected server-side account, role, tenant, billing, or authorization fields."
+      },
+      {
+        "id": "7.4",
+        "title": "Privilege Is Least-Authority",
+        "result": "not-applicable-justified",
+        "justification": "The artifact has no role/privilege system or privileged runtime authority; operational authority remains with caller systems."
+      },
+      {
+        "id": "7.5",
+        "title": "Sessions Are Secure",
+        "result": "not-applicable-justified",
+        "justification": "The accepted shared library creates and manages no sessions, cookies, refresh tokens, or server authentication state."
+      },
+      {
+        "id": "7.6",
+        "title": "Password Handling Is Approved",
+        "result": "not-applicable-justified",
+        "justification": "The accepted artifact performs no password collection, hashing, verification, storage, or recovery."
+      },
+      {
+        "id": "8.1",
+        "title": "Sensitive Endpoints Are Rate-Limited",
+        "result": "not-applicable-justified",
+        "justification": "The artifact exposes no network endpoint."
+      },
+      {
+        "id": "8.2",
+        "title": "Public Abuse Paths Are Protected",
+        "result": "not-applicable-justified",
+        "justification": "There is no independently hosted public API/service abuse boundary in the artifact."
+      },
+      {
+        "id": "8.3",
+        "title": "Queries Are Parameterized",
+        "result": "not-applicable-justified",
+        "justification": "The artifact performs no database or server-side query construction."
+      },
+      {
+        "id": "8.4",
+        "title": "Input Is Validated Server-Side",
+        "result": "not-applicable-justified",
+        "justification": "There is no server-side request-processing boundary; consumer-side validation responsibilities remain downstream."
+      },
+      {
+        "id": "8.5",
+        "title": "User Content Is Safely Rendered",
+        "result": "passed-bounded",
+        "justification": "Exact-artifact static review found no direct innerHTML/outerHTML/insertAdjacentHTML/document.write/eval/new Function sinks. This establishes only the shared-library boundary; downstream applications must still safely render their own content."
+      },
+      {
+        "id": "8.6",
+        "title": "Server-Side Request and Redirect Safety",
+        "result": "not-applicable-justified",
+        "justification": "Exact-artifact static review found no fetch/XMLHttpRequest/WebSocket/EventSource/network URL or redirect execution surface."
+      },
+      {
+        "id": "8.7",
+        "title": "File Uploads Are Restricted",
+        "result": "not-applicable-justified",
+        "justification": "The artifact implements no file upload, FileReader, FormData, attachment storage, or upload endpoint boundary."
+      },
+      {
+        "id": "9.1",
+        "title": "API Responses Are Minimized",
+        "result": "not-applicable-justified",
+        "justification": "The accepted component exposes no HTTP/API response surface."
+      },
+      {
+        "id": "9.2",
+        "title": "Security Headers Are Configured",
+        "result": "not-applicable-justified",
+        "justification": "HTTP response headers are owned by downstream host applications/services, not this source-distributed library."
+      },
+      {
+        "id": "9.3",
+        "title": "HTTPS Is Enforced",
+        "result": "not-applicable-justified",
+        "justification": "The artifact owns no listener, origin, transport endpoint, or TLS termination boundary."
+      },
+      {
+        "id": "9.4",
+        "title": "CORS Is Explicit",
+        "result": "not-applicable-justified",
+        "justification": "The artifact owns no HTTP server/API CORS boundary."
+      },
+      {
+        "id": "9.5",
+        "title": "CSRF Protection Is Appropriate to the Authentication Model",
+        "result": "not-applicable-justified",
+        "justification": "The artifact has no automatically attached credential model or state-changing HTTP endpoint."
+      },
+      {
+        "id": "10.1",
+        "title": "Dependencies Are Scanned",
+        "result": "passed",
+        "justification": "The selected Android/Wear build-tool graph has 206 distinct selected coordinates, 426 selected package entries, 0 OSV advisories, and a 206-component CycloneDX SBOM with 0 vulnerabilities; runtime external dependency count is 0."
+      },
+      {
+        "id": "10.2",
+        "title": "Dependency State Is Reproducible",
+        "result": "passed",
+        "justification": "Selected Gradle dependency evidence is exact-version governed and the final runtime artifact has zero external runtime dependencies; final artifact double-build equality passed."
+      },
+      {
+        "id": "10.3",
+        "title": "Artifact and Source Provenance Is Traceable",
+        "result": "passed",
+        "justification": "Provenance binds exact source revision/tree to archive SHA-256, SBOM SHA-256, builder identity, ruleset, and intended immutable release identity."
+      },
+      {
+        "id": "10.4",
+        "title": "Build and CI Credentials Are Protected",
+        "result": "passed-bounded",
+        "justification": "Artifact/security preparation workflows use read-only repository permissions; publication write authority is isolated to the post-merge publication job and is not available to pull-request execution."
+      },
+      {
+        "id": "11.1",
+        "title": "Exact-Revision Validation",
+        "result": "passed",
+        "justification": "Final artifact and Stable Security workflows completed successfully for exact accepted source a7180679ea851389e0f3004515f9a25f420e716d."
+      },
+      {
+        "id": "11.2",
+        "title": "Validation Fails Closed",
+        "result": "passed",
+        "justification": "Security, artifact checksum/SBOM/provenance, exact-head, branch-protection, and publication gates fail on missing, mismatched, unknown, skipped-required, or scanner-error evidence."
+      },
+      {
+        "id": "11.3",
+        "title": "Production Debug Behavior Is Disabled",
+        "result": "passed-bounded",
+        "justification": "Exact-artifact static review found no console.log/debug/trace, debugger statement, dynamic code execution, development server, authentication bypass, or network debug endpoint in the accepted shared-library artifact."
+      },
+      {
+        "id": "11.4",
+        "title": "Artifact Matches Reviewed Source",
+        "result": "passed",
+        "justification": "The deterministic artifact provenance and source manifest bind the accepted archive to the exact protected source revision/tree and prohibit publication rebuilds."
+      },
+      {
+        "id": "11.5",
+        "title": "Security Gates Cannot Be Silently Bypassed",
+        "result": "passed",
+        "justification": "Active ruleset 23699829 requires the four governed checks on protected main, blocks force pushes/deletion, has an empty bypass list, and reports current_user_can_bypass=never."
+      },
+      {
+        "id": "12.1",
+        "title": "Logging and Auditability",
+        "result": "not-applicable-justified",
+        "justification": "The stateless shared library owns no independent service/security audit log; release and repository actions remain auditable through GitHub and governed records."
+      },
+      {
+        "id": "12.2",
+        "title": "Safe Failure",
+        "result": "passed-bounded",
+        "justification": "The 24/24 shared qualification, resilience/feedback evidence, authority-boundary tests, and fail-closed release gates establish safe failure for the shared presentation boundary; downstream runtime failure handling remains consumer-local."
+      },
+      {
+        "id": "12.3",
+        "title": "Security Monitoring and Detection",
+        "result": "not-applicable-justified",
+        "justification": "The shared library operates no independent production service or monitoring backend; downstream hosts own runtime monitoring."
+      },
+      {
+        "id": "12.4",
+        "title": "Recovery Preserves Security",
+        "result": "passed",
+        "justification": "Known-good rollback remains GLAZE UI 1.5.1; the final artifact and lifecycle records preserve this rollback binding and no mutable user/security data migration is involved."
+      }
+    ]
+  },
+  "releaseSecurityAcceptanceRecord": {
+    "repository": "GoreeCloud/goreecloud-glaze-ui",
+    "version": "1.6.0",
+    "exactCommitSha": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "tagOrReleaseIdentifier": "v1.6.0 (intended; not created at acceptance)",
+    "buildWorkflowRunId": 35447623700,
+    "artifactName": "glaze-ui-v1.6.0-source-runtime.tar.gz",
+    "artifactSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+    "sbomIdentity": "CycloneDX 1.5 / sha256:3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+    "deploymentConfigurationRevision": null,
+    "targetEnvironment": "shared-library publication boundary; no independent service deployment",
+    "securityScanIdentities": [
+      "Stable Security workflow run 35447623641",
+      "Final Artifact Preparation workflow run 35447623700",
+      "Gitleaks 8.30.1 verified binary sha256:551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
+    ],
+    "secretScanResult": "passed",
+    "dependencyAndContainerScanResult": "passed; container scanning not applicable because no container artifact exists",
+    "authenticationValidationResult": "not-applicable-justified",
+    "authorizationAndIsolationValidationResult": "not-applicable-justified",
+    "inputAndInjectionValidationResult": "passed-bounded / otherwise not-applicable-justified per control matrix",
+    "fileUploadValidationResult": "not-applicable-justified",
+    "httpBrowserApiHardeningResult": "not-applicable-justified at shared-library boundary",
+    "debugModeValidationResult": "passed-bounded",
+    "securityLoggingAndAuditResult": "not-applicable-justified for runtime; repository/release actions auditable",
+    "recoverySecurityValidationResult": "passed; rollback bound to 1.5.1",
+    "exceptions": [],
+    "finalSecurityGateResult": "passed",
+    "evidenceLocations": [
+      "acceptance/v1.6-final-artifact-acceptance.json",
+      "acceptance/v1.6-stable-security-review.json",
+      "acceptance/v1.6-dependency-vulnerability-classification.json",
+      "acceptance/v1.6-gitleaks-false-positive-review.json",
+      ".github/workflows/glaze-v1.6-stable-security-evidence.yml",
+      ".github/workflows/glaze-v1.6-final-artifact-preparation.yml"
+    ]
+  }
 }
