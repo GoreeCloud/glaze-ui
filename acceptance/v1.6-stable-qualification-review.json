@@ -4,7 +4,7 @@
   "recordType": "stable-qualification-review",
   "product": "GLAZE UI V1.6",
   "reviewedReleaseCandidate": "1.6.0-rc.1",
-  "reviewedAt": "2026-09-18T21:05:00-05:00",
+  "reviewedAt": "2026-09-18T21:35:00-05:00",
   "reviewExecutor": "ChatGPT",
   "decisionAuthority": "GoreeCloud project-owner instruction to continue the V1.6 governed qualification review",
   "governance": {
@@ -220,10 +220,15 @@
     },
     {
       "id": "release.artifact-provenance-and-publication-boundary",
-      "status": "blocked-pending-definition",
+      "status": "blocked-prepared-awaiting-final-exact-artifact",
       "authority": "Stable Release Qualification v0.5",
-      "finding": "The Release Candidate is source-qualified, but the exact Stable artifact/package/publication boundary, checksum/SBOM/provenance requirements, and final immutable release identity have not yet been established and accepted for V1.6 Stable.",
-      "requiredResolution": "Define the supported Stable distribution artifact or source-release boundary, bind it to the exact approved source, generate applicable checksum/SBOM/provenance/signing evidence, and perform the controlled release transition only after all prior blockers close."
+      "finding": "The shared-library Stable distribution boundary is now defined and a non-publishing exact-head rehearsal can deterministically produce a source/runtime archive, SHA-256 manifest, CycloneDX 1.5 runtime/source SBOM, and provenance record. This does not close the blocker: no exact Stable-approved source revision has been selected, no final Stable artifact has been accepted, no immutable Stable tag/release has been published, and no post-publication readback exists.",
+      "requiredResolution": "After branch protection, dependency/supply-chain security, and final Stable release-security acceptance close, select the exact Stable-eligible merged revision; produce the final deterministic artifact and applicable checksum/SBOM/provenance/signing evidence from that exact revision; create the controlled immutable release identity; then read back and verify the published tag/release/artifact before closing this blocker.",
+      "evidence": [
+        "acceptance/v1.6-artifact-provenance-plan.json",
+        ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
+        "scripts/build_glaze_v1_6_artifact_rehearsal.py"
+      ]
     }
   ],
   "nonBlockingBoundaries": [
