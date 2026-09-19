@@ -1,17 +1,44 @@
-# GLAZE UI V1.2 — Branding
+# GLAZE UI — Branding
 
 ## Official identity
 
-- **Product name:** GLAZE UI V1.2
+- **Product name:** GLAZE UI
 - **Short product name:** Glaze UI
-- **Machine version:** `1.2.0`
-- **Lifecycle:** Stable
+- **Current Official Stable family:** GLAZE UI V1.5 — Contextual + Capability Awareness
+- **Current Stable machine version:** `1.5.1`
+- **Active successor:** GLAZE UI V1.6
+- **Active successor lifecycle:** Release Candidate
+- **Active successor machine version:** `1.6.0-rc.1`
 - **Repository:** `GoreeCloud/goreecloud-glaze-ui`
 
-Use **GLAZE UI V1.2** where the official versioned product identity is required. Use **Glaze UI** in ordinary prose where the version is not material. Use `1.2.0` for machine-readable version fields.
+Use **GLAZE UI V1.5** when the current Stable family identity is material. Use **GLAZE UI V1.6** only for the active Release Candidate or its retained V1.6 qualification/development provenance. Use **Glaze UI** in ordinary prose where the version is not material.
 
-The official Facet identity mark remains `assets/identity/official/facet/glaze-ui-mark.svg`.
+Machine-readable version and lifecycle authority come from `VERSION` and `registry/lifecycle.json`, not from branding prose.
 
-V1.2's optical identity is neutral Frosted/Living glass with color reserved as intentional accent, semantic state, focus, product identity, and restrained atmosphere. Branding never overrides semantic state, accessibility, or producer-authoritative security/privacy/identity/recovery/coordination truth.
+## Identity mark
 
-V1.0 and V1.1 remain historical/prior Stable identities. V1.2 Candidate/qualification filenames retained in the repository are provenance and audit evidence, not the current product lifecycle. Branding alone does not establish downstream conformance or production acceptance.
+The official Facet identity mark remains:
+
+`assets/identity/official/facet/glaze-ui-mark.svg`
+
+Any synchronized copy or rendered derivative must preserve the authoritative GoreeCloud branding relationship and must not become a competing identity source.
+
+## Visual identity principles
+
+Glaze UI uses restrained layered material, semantic color, typography, geometry, depth, motion, responsive composition, state clarity, and accessible interaction to create a recognizable GoreeCloud experience.
+
+Brand expression must never override:
+
+- Protected semantic meaning.
+- Accessibility requirements.
+- Focus visibility.
+- Required contrast.
+- Reduced Motion or Reduced Transparency behavior.
+- Forced Colors.
+- Producer-authoritative privacy, security, identity, policy, recovery, connectivity, capability, or operational state.
+
+V1.6 may expand the presentation system, but Release Candidate identity does not make it the consumer target until a separate governed Stable promotion changes authoritative lifecycle state.
+
+## Historical branding
+
+V1.0 through V1.4.1, V1.5.0, and superseded Release Candidate identities remain historical release or qualification provenance where retained in repository records. Older branding files, screenshots, reference surfaces, or changelog entries must not be interpreted as current lifecycle authority.
