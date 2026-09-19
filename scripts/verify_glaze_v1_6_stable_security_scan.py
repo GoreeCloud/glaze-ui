@@ -140,6 +140,11 @@ def main() -> int:
     ]
     require(len(ignore_entries) == 21, "Gitleaks ignore file must contain exactly the 21 reviewed fingerprints")
     require(len(set(ignore_entries)) == 21, "Gitleaks ignore fingerprints must be unique")
+    reviewed_fingerprints = false_positive_review.get("suppression", {}).get("fingerprints")
+    require(isinstance(reviewed_fingerprints, list), "Gitleaks false-positive review must bind the reviewed fingerprints")
+    require(len(reviewed_fingerprints) == 21, "Gitleaks false-positive review fingerprint count mismatch")
+    require(len(set(reviewed_fingerprints)) == 21, "Gitleaks reviewed fingerprints must be unique")
+    require(set(ignore_entries) == set(reviewed_fingerprints), ".gitleaksignore must match the exact reviewed fingerprint set")
 
     gitleaks = load_json(Path(args.gitleaks_report))
     require(isinstance(gitleaks, list), "Gitleaks JSON report must be a list")
