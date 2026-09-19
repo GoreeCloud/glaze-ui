@@ -37,7 +37,10 @@
       "contracts/v1.6/release-candidate.json",
       "js/glaze-v1.6.0-rc.1.mjs",
       "acceptance/v1.6-production-readiness-review.json"
-    ]
+    ],
+    "stableRuntimeEntrypoint": "js/glaze-v1.6.0.mjs",
+    "acceptedSourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "acceptedSourceTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268"
   },
   "deploymentApplicability": {
     "directProductionDeploymentRequired": false,
@@ -49,8 +52,12 @@
     "finalArtifactAcceptanceRequired": true,
     "directServiceDeploymentAcceptanceRequired": false,
     "downstreamConsumerProductionAcceptanceAutomatic": false,
-    "result": "applicable-at-publication-boundary",
-    "justification": "For the shared library itself, the applicable production/release acceptance boundary is the immutable Stable publication and its exact distributable source/runtime artifacts. Downstream applications and services must separately validate their own deployment and production acceptance."
+    "result": "passed-at-publication-boundary",
+    "justification": "For the shared library itself, the applicable production/release acceptance boundary is the immutable Stable publication and its exact distributable source/runtime artifacts. Downstream applications and services must separately validate their own deployment and production acceptance.",
+    "evidence": [
+      "acceptance/v1.6-final-security-acceptance.json",
+      "acceptance/v1.6-publication-readback.json"
+    ]
   },
   "requiredStablePublicationBoundary": [
     "Exact Stable source revision and release tree.",
@@ -67,11 +74,13 @@
   ],
   "currentDisposition": {
     "applicabilityResolved": true,
-    "publicationAcceptanceCompleted": false,
-    "finalArtifactAccepted": false,
-    "productionAcceptanceGranted": false,
-    "stablePromotionAuthorized": false
+    "publicationAcceptanceCompleted": true,
+    "finalArtifactAccepted": true,
+    "productionAcceptanceGranted": true,
+    "stablePromotionPreconditionsSatisfied": true,
+    "stablePromotionAuthorizedByThisRecord": false
   },
-  "downstreamBoundary": "No GoreeCloud application, service, website, device client, or other consumer inherits deployment acceptance, production acceptance, or V1.6 conformance from the shared Glaze UI release. Each consumer retains repository-local and target-environment acceptance obligations.",
-  "boundary": "This record resolves only whether an independent service-style deployment is applicable to GLAZE UI V1.6. It establishes that direct deployment is not applicable to the shared library and that immutable publication/artifact acceptance is the applicable Stable release boundary. The final artifact/provenance/publication blocker remains open until that exact release evidence exists."
+  "downstreamBoundary": "No GoreeCloud application, service, website, device client, or other consumer inherits deployment acceptance, production acceptance, or V1.6 conformance from the shared Glaze UI release. Each consumer retains repository-local adoption, target-environment validation, and production-acceptance obligations.",
+  "boundary": "The shared-library production boundary is now satisfied: exact source/artifact identity, final security acceptance, immutable v1.6.0 publication, and post-publication byte readback are verified. Direct service deployment remains not applicable. This applicability record establishes production acceptance only for the Glaze UI shared-library publication boundary and does not itself change lifecycle authority or grant downstream consumer acceptance.",
+  "reconciledAt": "2026-09-19T14:26:00-05:00"
 }
