@@ -126,8 +126,16 @@ function compareCurrentDisposition(matrix){
 
 const {external,requireComplete,compact}=parseArgs(process.argv.slice(2));
 
-assert(read('VERSION').trim()===STABLE,'Stable VERSION must remain 1.5.1');
-assert(lifecycle.currentOfficial===STABLE&&lifecycle.currentStable===STABLE,'Stable lifecycle must remain 1.5.1');
+const liveStable=read('VERSION').trim();
+assert(lifecycle.currentOfficial===liveStable&&lifecycle.currentStable===liveStable,'VERSION/current Stable authority must agree');
+const liveRelease=lifecycle.releases.find(item=>item.version===liveStable);
+assert(liveRelease&&liveRelease.status==='stable'&&liveRelease.consumerEligible===true,'live current Stable must remain a consumer-eligible Stable release');
+const liveTuple=liveStable.split('.').slice(0,3).map(Number);
+assert(liveTuple.length===3&&liveTuple.every(Number.isInteger),'live Stable must use major.minor.patch versioning');
+assert(
+  liveTuple[0]>1 || (liveTuple[0]===1 && (liveTuple[1]>5 || (liveTuple[1]===5 && liveTuple[2]>=1))),
+  'evidence reconciliation requires live Stable authority at or after frozen baseline '+STABLE
+);
 assert((lifecycle.activeCandidate===null||lifecycle.activeCandidate==='1.6.0-rc.1')&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'evidence intake must preserve Stable authority and tolerate only separately governed V1.6 RC coexistence');
 assert(intake.sourceRevision===SOURCE&&intake.acceptanceModelVersion===MODEL&&intake.stableBaseline===STABLE,'evidence intake authority binding mismatch');
 assert(intake.authority.externalEvidenceMustBeSeparatelyValidated===true,'external evidence validation must remain mandatory');
