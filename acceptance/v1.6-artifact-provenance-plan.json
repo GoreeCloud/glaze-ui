@@ -4,7 +4,7 @@
   "recordType": "stable-artifact-provenance-preparation",
   "product": "GLAZE UI V1.6",
   "candidate": "1.6.0-rc.1",
-  "status": "prepared-rehearsal-not-final",
+  "status": "prepared-release-preparation-not-final",
   "governance": {
     "stableQualification": "Standard — Stable Release Qualification v0.5",
     "mergeReleaseDeployment": "Procedure — Merge, Release, and Deployment",
@@ -19,7 +19,16 @@
     "stablePromotionAuthorized": false,
     "finalStableRevisionSelected": false,
     "dependencySupplyChainAccepted": true,
-    "dependencyRemediationEvidence": "acceptance/v1.6-dependency-vulnerability-classification.json"
+    "dependencyRemediationEvidence": "acceptance/v1.6-dependency-vulnerability-classification.json",
+    "authoritativeMainProtectionAccepted": true,
+    "authoritativeMainRulesetId": 23699829,
+    "authoritativeMainRevision": "305de8a1fe5cc7670c1e012efcc7fb55a4bcfdd6",
+    "requiredStatusChecks": [
+      "validate-v1",
+      "stable-qualification-review",
+      "stable-security-evidence",
+      "platform-contract-0-4"
+    ]
   },
   "rehearsal": {
     "workflow": ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
@@ -34,24 +43,27 @@
     "grantsStable": false
   },
   "finalStableRequirements": [
-    "Select the exact merged Stable-eligible source revision only after all prior Stable blockers close.",
-    "Produce the final Stable runtime/source artifact from that exact revision through a controlled release workflow.",
+    "Select the exact merged release-preparation revision after authoritative branch protection and dependency/supply-chain security are verified.",
+    "Build the final non-publishing candidate runtime/source artifact from that exact revision through a controlled release-preparation workflow.",
     "Record exact source commit and tree identity.",
-    "Record immutable version/tag/release identity.",
+    "Record the intended immutable version/tag/release identity without creating or publishing it before final security acceptance.",
     "Record artifact name, size, SHA-256 checksum, and supported distribution boundary.",
     "Retain an applicable CycloneDX SBOM covering the released runtime/source boundary and separately accepted build/supply-chain evidence.",
-    "Retain provenance tying the final artifact bytes to the exact approved source revision and release workflow.",
+    "Retain provenance tying the exact artifact bytes to the exact approved source revision and controlled build workflow.",
     "Retain signing or attestation evidence when required by the final release workflow or governance.",
-    "Retain final Stable security acceptance for the same exact candidate.",
+    "Complete final Stable security acceptance for the same exact source revision and artifact bytes before publication.",
     "Retain rollback binding to GLAZE UI 1.5.1.",
+    "Only after release preparation and final Stable security acceptance pass, create the immutable tag/release and publish only the accepted artifact.",
     "After publication, read back the immutable tag/release/artifact identity and verify it matches the approved revision and evidence.",
     "Update lifecycle, release, documentation, task, and consumer-target records only after the authoritative publication state is verified."
   ],
   "unresolvedPrerequisites": [
-    "Authoritative main branch protection/ruleset controls.",
-    "Final Stable release-security acceptance.",
-    "Selection of the exact Stable revision after those blockers close."
+    "Selection of the exact merged release-preparation revision after this reconciliation is governed-merged.",
+    "Final deterministic candidate artifact, checksum, SBOM, and provenance evidence for that exact revision.",
+    "Final Stable release-security acceptance for the same exact candidate before publication.",
+    "Controlled immutable publication and authoritative post-publication readback."
   ],
-  "decision": "artifact-path-prepared-final-artifact-still-blocked",
-  "boundary": "This record prepares and validates the packaging/provenance path only. Rehearsal artifacts are Release Candidate evidence, are not final Stable artifacts, and must not be tagged, published, deployed, or treated as consumer-eligible Stable output."
+  "decision": "release-preparation-path-ready-final-artifact-not-yet-built",
+  "boundary": "Authoritative main protection and dependency/supply-chain security are verified. The repository now has a governed path to select an exact merged release-preparation revision, build a deterministic final candidate artifact without publication, complete artifact/source-provenance security acceptance on those exact bytes, and only then publish and read back the immutable release. Rehearsal artifacts remain non-final and non-publishing.",
+  "reconciledAt": "2026-09-19T08:39:32-05:00"
 }
