@@ -3,7 +3,7 @@
  *
  * This module defines Glaze UI presentation semantics. It does not promote
  * the separate Glaze Motion experimental lifecycle and does not alter the
- * current Stable GLAZE UI V1.5 / 1.5.1 release.
+ * frozen V1.6 qualification baseline GLAZE UI V1.5 / 1.5.1 release.
  */
 
 const FOCUS_MODALITIES = Object.freeze([
