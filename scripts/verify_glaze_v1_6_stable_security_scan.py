@@ -88,6 +88,7 @@ def main() -> int:
     parser.add_argument("--expected-sha", required=True)
     parser.add_argument("--gitleaks-report", required=True)
     parser.add_argument("--gitleaks-exit-code", required=True)
+    parser.add_argument("--dependency-inventory", required=True)
     parser.add_argument("--osv-report", required=True)
     parser.add_argument("--osv-exit-code", required=True)
     parser.add_argument("--sbom", required=True)
@@ -181,9 +182,16 @@ def main() -> int:
         f"Gitleaks exit/report inconsistency: exit={gitleaks_exit} findings={secret_findings}",
     )
 
+    dependency_inventory = load_json(Path(args.dependency_inventory))
+    selected_package_count, inventory_vulnerability_ids = summarize_osv(dependency_inventory)
+    require(selected_package_count > 0, "selected dependency inventory is empty; coverage is not established")
+    require(
+        not inventory_vulnerability_ids,
+        "selected dependency inventory must contain package identity only, not embedded vulnerability results",
+    )
+
     osv = load_json(Path(args.osv_report))
-    package_count, vulnerability_ids = summarize_osv(osv)
-    require(package_count > 0, "OSV scan discovered zero dependency packages; coverage is not established")
+    vulnerable_package_count, vulnerability_ids = summarize_osv(osv)
     require(
         (osv_exit == 0 and not vulnerability_ids)
         or (osv_exit == 1 and bool(vulnerability_ids)),
@@ -197,7 +205,7 @@ def main() -> int:
         "live OSV advisory set differs from the governed dependency classification",
     )
     require(
-        package_count == dependency_classification.get("selectedGraphSummary", {}).get("vulnerablePackageEntryCount"),
+        vulnerable_package_count == dependency_classification.get("selectedGraphSummary", {}).get("vulnerablePackageEntryCount"),
         "live selected OSV vulnerable-package count differs from governed classification",
     )
 
@@ -261,7 +269,8 @@ def main() -> int:
             "version": args.osv_version,
             "binarySha256": args.osv_sha256,
             "input": "Gradle-selected buildEnvironment plus debugRuntimeClasspath inventory after conflict resolution",
-            "vulnerablePackageEntryCount": package_count,
+            "selectedPackageEntryCount": selected_package_count,
+            "vulnerablePackageEntryCount": vulnerable_package_count,
             "selectedCoordinateCount": dependency_classification.get("selectedGraphSummary", {}).get("distinctSelectedCoordinateCount"),
             "vulnerabilityIds": vulnerability_ids,
             "result": "passed" if not vulnerability_ids else "blocked",
@@ -308,7 +317,8 @@ def main() -> int:
     print(f"Exact revision: {head}")
     print(f"Unreviewed secret findings: {secret_findings}")
     print(f"Reviewed historical false positives: {false_positive_review.get('findingCount')}")
-    print(f"Selected vulnerable package entries reported: {package_count}")
+    print(f"Selected package entries scanned: {selected_package_count}")
+    print(f"Selected vulnerable package entries reported: {vulnerable_package_count}")
     print(f"Known selected dependency vulnerability advisories: {len(vulnerability_ids)}")
     print(f"CycloneDX components: {len(components)}")
     print("Stable promotion authorized: false")
