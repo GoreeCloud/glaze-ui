@@ -101,6 +101,32 @@ assert.equal(finalSecurity.acceptedArtifact.archive.sha256,ARCHIVE_SHA);
 assert.equal(finalSecurity.acceptedArtifact.sbom.sha256,SBOM_SHA);
 assert.equal(finalSecurity.acceptedArtifact.provenance.sha256,PROVENANCE_SHA);
 
+const drive=json('acceptance/v1.6-drive-document-reconciliation.json');
+assert.equal(drive.decision,'passed-promotion-ready');
+assert.equal(drive.taskRecord.driveFileId,'1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy');
+assert.equal(drive.taskRecord.sha256,'eaf98db0b43650059ded5173925dc16f1bc174a6e33674f4aec20158edd232e4');
+assert.equal(drive.taskRecord.pageCount,76);
+assert.equal(drive.taskRecord.structuralVerification.stablePromotionAuthorizedPresent,true);
+assert.equal(drive.changeLogRecord.driveFileId,'1p1PTyUeQ2Ht4tzibAATmrEuVctyLs8up');
+assert.equal(drive.changeLogRecord.sha256,'9d8cc11374ca7bee8c743eb46680ca7a5dc866004fca6a07fa8287925d8d552c');
+assert.equal(drive.changeLogRecord.pageCount,235);
+assert.equal(drive.changeLogRecord.structuralVerification.stablePromotionAuthorizedPresent,true);
+
+assert.equal(security.controlApplicability.evaluatedControlCount,39);
+assert.equal(security.controlApplicability.passedOrBoundedPassedCount,14);
+assert.equal(security.controlApplicability.notApplicableJustifiedCount,25);
+assert.equal(security.controlApplicability.blockedCount,0);
+assert.equal(security.controlApplicability.unknownCount,0);
+assert.equal(security.controlApplicability.exceptedCount,0);
+assert.deepEqual(security.controlApplicability.exceptions,[]);
+assert.equal(security.controlApplicability.controls.length,39);
+assert.ok(security.controlApplicability.controls.every(item =>
+  item.result==='passed' || item.result==='passed-bounded' || item.result==='not-applicable-justified'
+));
+assert.ok(security.controlApplicability.controls
+  .filter(item=>item.result==='not-applicable-justified')
+  .every(item=>typeof item.justification==='string' && item.justification.length>20));
+
 const applicability=json('acceptance/v1.6-production-applicability.json');
 assert.equal(applicability.deploymentApplicability.result,'not-applicable-justified');
 assert.equal(applicability.productionAcceptanceApplicability.result,'passed-at-controlled-publication-boundary');
