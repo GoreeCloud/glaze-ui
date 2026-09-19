@@ -355,7 +355,7 @@ def main() -> int:
     print(f"Selected vulnerable package entries reported: {vulnerable_package_count}")
     print(f"Known selected dependency vulnerability advisories: {len(vulnerability_ids)}")
     print(f"CycloneDX components: {len(components)}")
-    print("Stable promotion authorized: false")
+    print(f"Stable promotion authorized: {str(stable_promoted).lower()}")
     if output["result"] == "passed":
         if stable_promoted:
             require(
