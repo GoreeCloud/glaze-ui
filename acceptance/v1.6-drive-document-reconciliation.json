@@ -3,7 +3,7 @@
   "recordId": "goreecloud.glaze-ui.v1.6.drive-document-reconciliation",
   "recordType": "drive-document-reconciliation",
   "product": "GLAZE UI V1.6",
-  "recordedAt": "2026-09-18T20:05:00-05:00",
+  "recordedAt": "2026-09-18T20:22:00-05:00",
   "decision": "passed",
   "governance": {
     "documentFormat": "GoreeCloud Mandatory Document Format and Presentation Standard",
@@ -14,7 +14,8 @@
     "driveFileId": "1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy",
     "parentFolderId": "1VlvSTRgUd6OIZz1CcSyNBFFbPCk0PBz7",
     "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "sha256": "657c36d2271f97310482da32d0846a0b9412e6754eacba4bd5049f1480428aa8",
+    "sha256": "711bff33f5f3b479babe228efcde7571197cde82854105cc4f662ebe89074e0f",
+    "driveModifiedTime": "2026-09-19T01:07:54.770Z",
     "pageCount": 75,
     "structuralVerification": {
       "historicalRevisionSetPreserved": true,
