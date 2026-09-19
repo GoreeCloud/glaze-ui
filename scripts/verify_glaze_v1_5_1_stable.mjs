@@ -19,6 +19,38 @@ const qualifiedAnchor = '5b59d0e36950d737dba35b58ae58058684e0831b';
 const qualificationIntegrationCommit = 'f7ef915f0aabea6cf92748018f2220a99e3a9c92';
 const rcIntegrationCommit = 'a9c93506dd062d29c6c894940b71d060e8c39110';
 
+
+const currentLifecycleForHistoricalCheck = json('registry/lifecycle.json');
+if (currentLifecycleForHistoricalCheck.currentStable === '1.6.0') {
+  assert(read('VERSION').trim() === '1.6.0', 'VERSION must identify current V1.6.0 Stable');
+  assert(currentLifecycleForHistoricalCheck.currentOfficial === '1.6.0', 'current Official must be 1.6.0 after V1.6 promotion');
+  const retained = currentLifecycleForHistoricalCheck.releases.find(item => item.version === '1.5.1');
+  assert(retained?.status === 'stable', 'retained V1.5.1 lifecycle provenance must remain Stable history');
+  assert(retained?.consumerEligible === true, 'retained V1.5.1 Stable provenance must remain consumer-eligible history');
+  assert(retained?.stableBaseline === '1.5.0', 'retained V1.5.1 rollback ancestry drift');
+  assert(retained?.contract === 'GLAZE_UI_V1_5.md', 'retained V1.5.1 contract drift');
+  assert(retained?.qualification === 'contracts/v1.5.1/stable-scope.json', 'retained V1.5.1 qualification path drift');
+  assert(retained?.acceptance === 'acceptance/v1.5.1-stable.md', 'retained V1.5.1 acceptance path drift');
+  assert(retained?.runtimeEntrypoint === 'js/glaze-v1.5.1.mjs', 'retained V1.5.1 runtime path drift');
+  assert(retained?.sourceQualificationAnchor === qualifiedAnchor, 'retained V1.5.1 qualification anchor drift');
+
+  const retainedScope = json('contracts/v1.5.1/stable-scope.json');
+  assert(retainedScope.version === '1.5.1', 'retained V1.5.1 scope version drift');
+  assert(retainedScope.releaseLifecycle === 'Stable', 'retained V1.5.1 scope lifecycle drift');
+  assert(retainedScope.sourceQualificationAnchor === qualifiedAnchor, 'retained V1.5.1 scope qualification anchor drift');
+  assert(retainedScope.reviewedImplementationAnchor === reviewedImplementationAnchor, 'retained V1.5.1 reviewed implementation anchor drift');
+  assert(retainedScope.runtimeEntrypoint === 'js/glaze-v1.5.1.mjs', 'retained V1.5.1 scope runtime drift');
+
+  const retainedRuntime = read('js/glaze-v1.5.1.mjs');
+  assert(retainedRuntime.includes("version: '1.5.1'"), 'retained V1.5.1 runtime identity drift');
+  assert(retainedRuntime.includes(qualifiedAnchor), 'retained V1.5.1 runtime qualification anchor drift');
+  assert(read('acceptance/v1.5.1-stable.md').includes(qualifiedAnchor), 'retained V1.5.1 acceptance provenance drift');
+
+  console.log('GLAZE UI V1.5.1 retained Stable historical integrity: PASS');
+  console.log('Current Stable is V1.6.0; V1.5.1 remains preserved rollback provenance.');
+  process.exit(0);
+}
+
 assert(read('VERSION').trim() === '1.5.1', 'VERSION must identify GLAZE UI 1.5.1 Stable');
 
 const lifecycle = json('registry/lifecycle.json');
