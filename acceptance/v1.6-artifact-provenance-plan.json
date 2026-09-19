@@ -4,7 +4,7 @@
   "recordType": "stable-artifact-provenance-preparation",
   "product": "GLAZE UI V1.6",
   "candidate": "1.6.0-rc.1",
-  "status": "final-artifact-preparation-workflow-ready",
+  "status": "completed-controlled-publication-readback",
   "governance": {
     "stableQualification": "Standard — Stable Release Qualification v0.5",
     "mergeReleaseDeployment": "Procedure — Merge, Release, and Deployment",
@@ -16,8 +16,8 @@
     "immutablePublicationAcceptanceRequired": true,
     "currentStable": "1.5.1",
     "activeCandidate": "1.6.0-rc.1",
-    "stablePromotionAuthorized": false,
-    "finalStableRevisionSelected": false,
+    "stablePromotionAuthorized": true,
+    "finalStableRevisionSelected": true,
     "dependencySupplyChainAccepted": true,
     "dependencyRemediationEvidence": "acceptance/v1.6-dependency-vulnerability-classification.json",
     "authoritativeMainProtectionAccepted": true,
@@ -31,7 +31,9 @@
     ],
     "finalCandidateArtifactPrepared": false,
     "finalSecurityAcceptanceGranted": false,
-    "publicationAuthorized": false
+    "publicationAuthorized": false,
+    "finalStableRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "finalStableTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268"
   },
   "rehearsal": {
     "workflow": ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
@@ -60,16 +62,10 @@
     "After publication, read back the immutable tag/release/artifact identity and verify it matches the approved revision and evidence.",
     "Update lifecycle, release, documentation, task, and consumer-target records only after the authoritative publication state is verified."
   ],
-  "unresolvedPrerequisites": [
-    "Protected merge of the final-artifact preparation implementation and selection of the exact resulting main revision.",
-    "Successful exact-main final-artifact preparation workflow run producing deterministic candidate artifact, checksum, SBOM, provenance, and clean extracted-artifact secret scan.",
-    "Final Stable release-security acceptance for the same exact source revision and artifact bytes before publication.",
-    "Controlled immutable v1.6.0 publication reusing the accepted artifact bytes and authoritative post-publication readback.",
-    "Final exact-candidate Stable qualification review after publication readback."
-  ],
-  "decision": "final-artifact-workflow-ready-awaiting-exact-merged-run",
-  "boundary": "Authoritative main protection and dependency/supply-chain security are verified. The final non-publishing 1.6.0 artifact preparation workflow is implemented on this candidate branch but is not yet authoritative until governed merge. After merge, its exact main revision must produce deterministic artifact bytes, checksum/SBOM/provenance, and a clean extracted-artifact secret scan before final Stable security acceptance. Publication, Stable lifecycle, and consumer eligibility remain unauthorized.",
-  "reconciledAt": "2026-09-19T08:39:32-05:00",
+  "unresolvedPrerequisites": [],
+  "decision": "completed-controlled-publication-readback",
+  "boundary": "The final V1.6.0 source/runtime artifact was deterministically built from accepted source a7180679ea851389e0f3004515f9a25f420e716d, security-accepted, published without rebuild under controlled tag v1.6.0, and read back byte-for-byte. GitHub reports immutable=false for the optional platform feature; GoreeCloud control is instead established by exact tag/source binding, protected publication workflow, accepted SHA-256 digests, post-publication byte readback, and no-rewrite governance. The artifact/provenance/publication blocker is closed.",
+  "reconciledAt": "2026-09-19T09:20:12-05:00",
   "targetStableVersion": "1.6.0",
   "finalStablePreparation": {
     "workflow": ".github/workflows/glaze-v1.6-final-artifact-preparation.yml",
@@ -131,5 +127,31 @@
       "status": "blocked-on-post-publication-readback",
       "requirement": "Run the final exact-candidate Stable qualification review and only then reconcile Stable lifecycle and consumer-eligibility records."
     }
-  ]
+  ],
+  "finalArtifact": {
+    "workflow": ".github/workflows/glaze-v1.6-final-artifact-preparation.yml",
+    "workflowRunId": 35447623700,
+    "actionsArtifactId": 10586051196,
+    "actionsArtifactDigest": "sha256:3da50b11641d50e68b67f45eec49850723ba6bf4f74a889686bffe3648ab7f06",
+    "archiveName": "glaze-ui-v1.6.0-source-runtime.tar.gz",
+    "archiveSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+    "sbomSha256": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+    "provenanceSha256": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8",
+    "deterministicDoubleBuildPassed": true,
+    "securityAccepted": true
+  },
+  "publication": {
+    "result": "passed",
+    "workflow": ".github/workflows/glaze-v1.6-publish-accepted-artifact.yml",
+    "workflowRunId": 35448300411,
+    "publicationControlCommit": "7e8b537b9d1a123bc3e92679774a4d9cc704e03b",
+    "tag": "v1.6.0",
+    "tagTargetRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "githubReleaseId": 392095913,
+    "githubReleasePlatformImmutableFlag": false,
+    "controlMode": "exact-tag-source-binding-plus-verified-digests-plus-protected-no-rebuild-publication-plus-post-publication-byte-readback",
+    "releasedBytesMatchSecurityAcceptedBytes": true,
+    "readbackArtifactId": 10586426818,
+    "readbackArtifactDigest": "sha256:3bd8b51e82a33393c2c58c9b1dc381352b3d7355408553f11fa536384bf272bc"
+  }
 }
