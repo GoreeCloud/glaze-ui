@@ -27,13 +27,19 @@ if (version === '1.5.0') {
   assert(lifecycle.currentStable === '1.5.0', 'currentStable must remain 1.5.0 while RC is active');
   assert(lifecycle.activePatchReleaseCandidate === '1.5.1-rc.1', 'activePatchReleaseCandidate must be 1.5.1-rc.1 while RC is active');
   assert(candidate.status === 'release-candidate', 'Active 1.5.1-rc.1 must be release-candidate');
-} else if (version === '1.5.1') {
-  assert(lifecycle.currentOfficial === '1.5.1', 'currentOfficial must be 1.5.1 after Stable promotion');
-  assert(lifecycle.currentStable === '1.5.1', 'currentStable must be 1.5.1 after Stable promotion');
-  assert(lifecycle.activePatchReleaseCandidate === null, 'No patch RC may remain active after Stable promotion');
-  assert(candidate.status === 'superseded-release-candidate', '1.5.1-rc.1 must become superseded Release Candidate history after Stable promotion');
 } else {
-  throw new Error(`Unsupported lifecycle state for retained V1.5.1 RC verification: ${version}`);
+  const tuple = version.split('.').slice(0, 3).map(Number);
+  assert(tuple.length === 3 && tuple.every(Number.isInteger), 'Current Stable must use major.minor.patch versioning');
+  assert(
+    tuple[0] > 1 || (tuple[0] === 1 && (tuple[1] > 5 || (tuple[1] === 5 && tuple[2] >= 1))),
+    `Unsupported lifecycle state for retained V1.5.1 RC verification: ${version}`
+  );
+  assert(lifecycle.currentOfficial === version, 'currentOfficial must match VERSION after V1.5.1 Stable promotion');
+  assert(lifecycle.currentStable === version, 'currentStable must match VERSION after V1.5.1 Stable promotion');
+  const liveRelease = lifecycle.releases.find(item => item.version === version);
+  assert(liveRelease && liveRelease.status === 'stable' && liveRelease.consumerEligible === true, 'current lifecycle release must remain consumer-eligible Stable');
+  assert(lifecycle.activePatchReleaseCandidate === null, 'No V1.5.1 patch RC may remain active after Stable promotion');
+  assert(candidate.status === 'superseded-release-candidate', '1.5.1-rc.1 must remain superseded Release Candidate history after Stable promotion');
 }
 
 const contract = json('contracts/v1.5.1/release-candidate.json');
@@ -59,8 +65,8 @@ if (version === '1.5.0') {
   assert(consumers.officialBaseline === '1.5.0', 'Consumer official baseline must remain 1.5.0 while RC is active');
   assert(consumers.requiredConsumerVersion === '1.5.0', 'Consumer required target must remain 1.5.0 while RC is active');
 } else {
-  assert(consumers.officialBaseline === '1.5.1', 'Consumer official baseline must advance to 1.5.1 after Stable promotion');
-  assert(consumers.requiredConsumerVersion === '1.5.1', 'Consumer required target must advance to 1.5.1 after Stable promotion');
+  assert(consumers.officialBaseline === version, 'Consumer official baseline must match the governed current Stable');
+  assert(consumers.requiredConsumerVersion === version, 'Consumer required target must match the governed current Stable');
 }
 
 const acceptance = read('acceptance/v1.5.1-rc.1.md');
