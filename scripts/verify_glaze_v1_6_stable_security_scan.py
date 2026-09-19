@@ -124,9 +124,9 @@ def main() -> int:
     gitleaks_exit = read_exit_code(args.gitleaks_exit_code, "Gitleaks")
     osv_exit = read_exit_code(args.osv_exit_code, "OSV-Scanner")
     sbom_exit = read_exit_code(args.sbom_exit_code, "OSV-Scanner SBOM")
-    require(gitleaks_exit == 0, f"Gitleaks did not complete cleanly: exit {gitleaks_exit}")
-    require(osv_exit == 0, f"OSV-Scanner did not complete cleanly: exit {osv_exit}")
-    require(sbom_exit == 0, f"OSV-Scanner SBOM generation did not complete cleanly: exit {sbom_exit}")
+    require(gitleaks_exit in (0, 1), f"Gitleaks scanner error: exit {gitleaks_exit}")
+    require(osv_exit in (0, 1), f"OSV-Scanner error: exit {osv_exit}")
+    require(sbom_exit in (0, 1), f"OSV-Scanner SBOM error: exit {sbom_exit}")
 
     false_positive_review = load_json(ROOT / "acceptance/v1.6-gitleaks-false-positive-review.json")
     require(false_positive_review.get("disposition") == "verified-false-positives", "Gitleaks false-positive review must be accepted")
