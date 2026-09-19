@@ -206,29 +206,31 @@
         ".github/workflows/glaze-wear-build-toolchain-validation.yml"
       ],
       "finding": "The remediated exact selected Gradle graph contains 206 distinct Maven coordinates / 426 project package entries, a 206-component CycloneDX 1.5 SBOM, and 0 OSV advisories/vulnerabilities. Exact-head V1.2 Android and Wear build compatibility validation passes. Broader verification metadata is retained as diagnostic evidence only and cannot override the selected-version graph."
+    },
+    {
+      "id": "repository.main-branch-protection",
+      "status": "passed",
+      "evidence": [
+        "GitHub repository ruleset 23699829",
+        "authoritative main branch live protection readback"
+      ],
+      "finding": "Authoritative main is protected by active ruleset “GoreeCloud Main Branch Production” targeting the default branch. Pull-request integration, strict/up-to-date required checks, conversation resolution, deletion protection, non-fast-forward/force-push protection, merge-only integration, and no-bypass enforcement are verified live."
     }
   ],
   "blockers": [
     {
-      "id": "repository.main-branch-protection",
-      "status": "blocked",
-      "authority": "GitHub live branch state",
-      "finding": "Authoritative GitHub reports main protected=false with branch protection disabled and no required status-check contexts.",
-      "requiredResolution": "Protect the authoritative default branch with the applicable pull-request, required-check, exact-head/up-to-date, force-push, deletion, and auditable-bypass controls required by GoreeCloud repository governance, then verify the live host state."
-    },
-    {
       "id": "security.release-security-acceptance",
-      "status": "blocked-release-integrity-controls",
+      "status": "blocked-final-artifact-source-provenance",
       "authority": "Stable Release Security Blockers v1.0",
-      "finding": "Secret/Git-history scanning and the remediated selected dependency/supply-chain graph now pass. Final Stable security acceptance remains blocked because authoritative main protection is disabled and the final exact Stable artifact/source-provenance acceptance is not yet complete.",
-      "requiredResolution": "Enable and verify authoritative main branch protection with required security checks, then complete exact final artifact/source provenance and the full Stable security acceptance matrix for the same final candidate."
+      "finding": "Secret/Git-history scanning, the remediated selected dependency/supply-chain graph, and authoritative repository security-gate enforcement now pass. Final Stable security acceptance remains blocked only by final exact artifact/source-provenance acceptance for the same candidate.",
+      "requiredResolution": "Select the exact merged release-preparation revision, build the final deterministic candidate artifact and checksum/SBOM/provenance evidence from that exact revision, validate the artifact/source boundary, and complete the full Stable security acceptance matrix for that same exact candidate before publication."
     },
     {
       "id": "release.artifact-provenance-and-publication-boundary",
       "status": "blocked-prepared-awaiting-final-exact-artifact",
       "authority": "Stable Release Qualification v0.5",
-      "finding": "The shared-library Stable distribution boundary is now defined and a non-publishing exact-head rehearsal can deterministically produce a source/runtime archive, SHA-256 manifest, CycloneDX 1.5 runtime/source SBOM, and provenance record. This does not close the blocker: no exact Stable-approved source revision has been selected, no final Stable artifact has been accepted, no immutable Stable tag/release has been published, and no post-publication readback exists.",
-      "requiredResolution": "After branch protection, dependency/supply-chain security, and final Stable release-security acceptance close, select the exact Stable-eligible merged revision; produce the final deterministic artifact and applicable checksum/SBOM/provenance/signing evidence from that exact revision; create the controlled immutable release identity; then read back and verify the published tag/release/artifact before closing this blocker.",
+      "finding": "The shared-library Stable distribution boundary is defined, authoritative main protection is verified, and a deterministic non-publishing rehearsal path exists. No final exact release-preparation revision has yet been selected, no final candidate artifact/source-provenance evidence has been accepted, and no immutable Stable tag/release has been published or read back.",
+      "requiredResolution": "Select the exact merged release-preparation revision; build and verify the final deterministic candidate artifact, checksum, SBOM, and provenance from that exact revision; complete final Stable security acceptance against those exact bytes and source identity; then create the controlled immutable tag/release, publish only the accepted artifact, and read back the published identities before closing this blocker.",
       "evidence": [
         "acceptance/v1.6-artifact-provenance-plan.json",
         ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
@@ -254,7 +256,36 @@
   "productionAcceptanceGranted": false,
   "consumerEligibilityGranted": false,
   "requiredLifecycleState": "Release Candidate",
-  "nextControlledPhase": "Resolve Stable blockers and re-run an exact-candidate Stable qualification review before any Stable lifecycle transition.",
-  "boundary": "The complete V1.6 24/24 qualification matrix and governed Release Candidate review are necessary evidence but do not satisfy the higher Stable qualification standard by themselves. Stable remains blocked while any listed blocker is unresolved or unverified.",
-  "remainingBlockerCount": 3
+  "nextControlledPhase": "Select and validate the exact release-preparation revision, produce final non-publishing artifact/source-provenance evidence, complete final Stable security acceptance for the same candidate, then perform controlled immutable publication and post-publication readback before any Stable lifecycle transition.",
+  "boundary": "The complete V1.6 24/24 qualification matrix, dependency/security sub-gates, canonical documentation reconciliation, and authoritative default-branch protection are verified. Stable remains blocked while final exact artifact/source-provenance security acceptance and immutable publication/readback remain unresolved or unverified.",
+  "remainingBlockerCount": 2,
+  "reconciledAt": "2026-09-19T08:39:32-05:00",
+  "repositoryProtectionEvidence": {
+    "verifiedAt": "2026-09-19T08:39:32-05:00",
+    "repository": "GoreeCloud/goreecloud-glaze-ui",
+    "defaultBranch": "main",
+    "authoritativeMainRevision": "305de8a1fe5cc7670c1e012efcc7fb55a4bcfdd6",
+    "rulesetId": 23699829,
+    "rulesetName": "GoreeCloud Main Branch Production",
+    "enforcement": "active",
+    "target": "~DEFAULT_BRANCH",
+    "branchProtected": true,
+    "bypassActors": [],
+    "currentUserCanBypass": "never",
+    "pullRequestRequired": true,
+    "requiredApprovingReviewCount": 0,
+    "requiredReviewThreadResolution": true,
+    "allowedMergeMethods": [
+      "merge"
+    ],
+    "deletionProtection": true,
+    "forcePushProtection": true,
+    "strictRequiredStatusChecksPolicy": true,
+    "requiredStatusChecks": [
+      "validate-v1",
+      "stable-qualification-review",
+      "stable-security-evidence",
+      "platform-contract-0-4"
+    ]
+  }
 }
