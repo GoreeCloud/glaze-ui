@@ -98,12 +98,16 @@ jobs:
           status=$?
           set -e
           echo "$status" > artifacts/v1.6-security/gitleaks-exit-code.txt
-          if [ ! -s artifacts/v1.6-security/gitleaks-report.json ]; then
-            printf '[]\n' > artifacts/v1.6-security/gitleaks-report.json
-          fi
           if [ "$status" -gt 1 ]; then
             echo "Gitleaks scanner error: exit $status" >&2
             exit "$status"
+          fi
+          if [ "$status" -eq 1 ] && [ ! -s artifacts/v1.6-security/gitleaks-report.json ]; then
+            echo "Gitleaks reported findings but produced no report" >&2
+            exit 2
+          fi
+          if [ "$status" -eq 0 ] && [ ! -s artifacts/v1.6-security/gitleaks-report.json ]; then
+            printf '[]\n' > artifacts/v1.6-security/gitleaks-report.json
           fi
 
       - name: Summarize potential secret findings without secret material
