@@ -2,7 +2,7 @@
  *
  * This module is non-consumer-eligible Development source. It implements a
  * bounded presentation resolver for V1.6 loading/skeleton behavior while the
- * frozen V1.6 qualification baseline is GLAZE UI V1.5 / 1.5.1.
+ * current Stable release remains GLAZE UI V1.5 / 1.5.1.
  */
 
 const SKELETON_TYPES = Object.freeze([
