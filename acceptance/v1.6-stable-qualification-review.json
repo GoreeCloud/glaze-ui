@@ -154,6 +154,14 @@
         "CONTRIBUTING.md"
       ],
       "finding": "Repository front-door documentation was reconciled to V1.5.1 Stable and V1.6 Release Candidate truth at commit 294e721c6fc56afcde62f7fe70c96e9d711557b1."
+    },
+    {
+      "id": "drive.documentation-and-task-reconciliation",
+      "status": "passed",
+      "evidence": [
+        "acceptance/v1.6-drive-document-reconciliation.json"
+      ],
+      "finding": "Canonical Glaze UI task and changelog records are now DOCX in their governed Drive folders, raw files were read back and hashed, all rendered pages were visually reviewed, current V1.5.1 Stable / V1.6 RC / blocked-Stable state is present, and the prior current Markdown masters no longer appear as active authority."
     }
   ],
   "blockers": [
@@ -205,13 +213,6 @@
       "authority": "Stable Release Qualification v0.5",
       "finding": "The applicable deployment/production-acceptance and stabilization boundary for this shared design-system release has not been authoritatively resolved or completed for V1.6.",
       "requiredResolution": "Determine whether the shared design-system Stable boundary requires a published package/release acceptance, deployment acceptance, or a justified not-applicable disposition, then complete and retain the required evidence."
-    },
-    {
-      "id": "drive.documentation-and-task-reconciliation",
-      "status": "blocked",
-      "authority": "GoreeCloud documentation, persistence, task-management, and Stable-qualification governance",
-      "finding": "Canonical Drive Glaze UI task/changelog records remain older than the verified V1.6 Release Candidate transition and contain stale qualification language. Repository documentation is current, but the cross-system records are not yet fully reconciled.",
-      "requiredResolution": "Reconcile the canonical GoreeCloud Drive change/task records to verified V1.6 RC and Stable-review state using the required current document format, preserving unfinished blockers and avoiding duplicate tasks."
     }
   ],
   "nonBlockingBoundaries": [
@@ -233,5 +234,6 @@
   "consumerEligibilityGranted": false,
   "requiredLifecycleState": "Release Candidate",
   "nextControlledPhase": "Resolve Stable blockers and re-run an exact-candidate Stable qualification review before any Stable lifecycle transition.",
-  "boundary": "The complete V1.6 24/24 qualification matrix and governed Release Candidate review are necessary evidence but do not satisfy the higher Stable qualification standard by themselves. Stable remains blocked while any listed blocker is unresolved or unverified."
+  "boundary": "The complete V1.6 24/24 qualification matrix and governed Release Candidate review are necessary evidence but do not satisfy the higher Stable qualification standard by themselves. Stable remains blocked while any listed blocker is unresolved or unverified.",
+  "remainingBlockerCount": 7
 }
