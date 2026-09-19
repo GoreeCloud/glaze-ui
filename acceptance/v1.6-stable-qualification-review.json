@@ -42,6 +42,12 @@
       "record": "Standard — Git Branching and Branch Protection",
       "version": "v1.0",
       "authoritative": true
+    },
+    "platformContract": {
+      "record": "GoreeCloud Platform Contract",
+      "version": "0.4",
+      "repository": "GoreeCloud/GoreeCloud",
+      "scope": "Machine schema supports application and service; system-wide instructions govern additional component classes including shared library."
     }
   },
   "source": {
