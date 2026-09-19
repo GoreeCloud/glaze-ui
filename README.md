@@ -43,6 +43,10 @@ GLAZE UI V1.6 is now represented by the governed **Release Candidate `1.6.0-rc.1
 
 The RC wrapper is identity-only over the qualified V1.6 Development implementation. Qualification evidence remains bound to the actual frozen source and review records. RC status does not establish Stable, downstream consumer acceptance, deployment, production acceptance, tag publication, or GitHub Release publication.
 
+### V1.6 Stable qualification status
+
+A higher-governance Stable review is recorded in `acceptance/v1.6-stable-qualification-review.json`. The current decision is **blocked — remain Release Candidate**. The 24/24 qualification matrix is complete, but Stable still requires closure of the separate repository-protection, current Platform Contract, security/supply-chain, release-artifact/provenance, production-acceptance applicability, and canonical Drive reconciliation blockers recorded there.
+
 ## V1.6 Release Candidate and retained Development inputs
 
 The repository carries the active non-consumer V1.6 Release Candidate together with its retained frozen Development and qualification inputs, without changing the current Stable release:
