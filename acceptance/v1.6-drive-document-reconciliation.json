@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.drive-document-reconciliation",
+  "recordType": "drive-document-reconciliation",
+  "product": "GLAZE UI V1.6",
+  "recordedAt": "2026-09-18T20:05:00-05:00",
+  "decision": "passed",
+  "governance": {
+    "documentFormat": "GoreeCloud Mandatory Document Format and Presentation Standard",
+    "persistenceBoundary": "Canonical GoreeCloud Drive task and changelog locations"
+  },
+  "taskRecord": {
+    "title": "Glaze UI V1 Task List.docx",
+    "driveFileId": "1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy",
+    "parentFolderId": "1VlvSTRgUd6OIZz1CcSyNBFFbPCk0PBz7",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "sha256": "657c36d2271f97310482da32d0846a0b9412e6754eacba4bd5049f1480428aa8",
+    "pageCount": 75,
+    "structuralVerification": {
+      "historicalRevisionSetPreserved": true,
+      "currentV16RcStatePresent": true,
+      "currentStable151Present": true,
+      "stableDecisionBlockedPresent": true
+    },
+    "visualVerification": {
+      "allPagesRendered": true,
+      "allPagesReviewed": true,
+      "clippingObserved": false,
+      "overlapObserved": false,
+      "brokenPaginationObserved": false
+    }
+  },
+  "changeLogRecord": {
+    "title": "Change Log — Glaze UI.docx",
+    "driveFileId": "1p1PTyUeQ2Ht4tzibAATmrEuVctyLs8up",
+    "parentFolderId": "1cn7Z125glqKl0_ytbjIAK0U2eYW3Ug9E",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "sha256": "166ea03adcd4008d1327233fdac2b6df2922ec452e1a3baf49f493cd0039978b",
+    "pageCount": 235,
+    "structuralVerification": {
+      "currentAuthorityFrontLoaded": true,
+      "currentV16RcStatePresent": true,
+      "currentStable151Present": true,
+      "stableDecisionBlockedPresent": true,
+      "historicalChangeHistoryRetained": true
+    },
+    "visualVerification": {
+      "allPagesRendered": true,
+      "allPagesReviewed": true,
+      "clippingObserved": false,
+      "overlapObserved": false,
+      "brokenPaginationObserved": false
+    }
+  },
+  "legacyAuthorityReadback": {
+    "currentGlazeTaskMarkdownMasterPresent": false,
+    "currentGlazeChangeLogMarkdownMasterPresent": false,
+    "note": "Drive search after DOCX creation no longer returned the prior current Glaze UI task-list or changelog Markdown masters; retired/unrelated historical files do not replace the canonical DOCX records."
+  },
+  "boundary": "This record verifies canonical Drive document-format and current-state reconciliation only. It does not resolve repository branch protection, Platform Contract shared-library machine representation, security/supply-chain findings, release artifact/provenance, production-acceptance applicability, Stable promotion, publication, deployment, or downstream consumer acceptance."
+}
