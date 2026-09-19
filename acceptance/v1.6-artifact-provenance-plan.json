@@ -19,7 +19,10 @@
     "stablePromotionAuthorized": false,
     "finalStableRevisionSelected": false,
     "dependencySupplyChainAccepted": true,
-    "dependencyRemediationEvidence": "acceptance/v1.6-dependency-vulnerability-classification.json"
+    "dependencyRemediationEvidence": "acceptance/v1.6-dependency-vulnerability-classification.json",
+    "finalCandidateArtifactPrepared": false,
+    "finalSecurityAcceptanceGranted": false,
+    "publicationAuthorized": false
   },
   "rehearsal": {
     "workflow": ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
@@ -34,24 +37,68 @@
     "grantsStable": false
   },
   "finalStableRequirements": [
-    "Select the exact merged Stable-eligible source revision only after all prior Stable blockers close.",
-    "Produce the final Stable runtime/source artifact from that exact revision through a controlled release workflow.",
+    "Select the exact merged final candidate source revision after authoritative branch protection is verified; publication remains blocked.",
+    "Produce the final unpublished candidate runtime/source artifact from that exact revision through a controlled release-preparation workflow.",
     "Record exact source commit and tree identity.",
-    "Record immutable version/tag/release identity.",
+    "Record the intended immutable version/tag/release identity before publication and bind the published identity to the already accepted artifact bytes.",
     "Record artifact name, size, SHA-256 checksum, and supported distribution boundary.",
     "Retain an applicable CycloneDX SBOM covering the released runtime/source boundary and separately accepted build/supply-chain evidence.",
     "Retain provenance tying the final artifact bytes to the exact approved source revision and release workflow.",
     "Retain signing or attestation evidence when required by the final release workflow or governance.",
-    "Retain final Stable security acceptance for the same exact candidate.",
+    "Retain final Stable security acceptance for the same exact source revision and unpublished candidate artifact before publication.",
     "Retain rollback binding to GLAZE UI 1.5.1.",
-    "After publication, read back the immutable tag/release/artifact identity and verify it matches the approved revision and evidence.",
-    "Update lifecycle, release, documentation, task, and consumer-target records only after the authoritative publication state is verified."
+    "After final security acceptance, publish the already accepted artifact bytes, then read back the immutable tag/release/artifact identity and verify it matches the approved revision and evidence.",
+    "Run the final exact-candidate Stable qualification review after publication readback; update lifecycle, documentation, task, and consumer-target records only when that review passes."
   ],
   "unresolvedPrerequisites": [
     "Authoritative main branch protection/ruleset controls.",
-    "Final Stable release-security acceptance.",
-    "Selection of the exact Stable revision after those blockers close."
+    "Selection of the exact merged final candidate revision after branch protection is verified."
   ],
   "decision": "artifact-path-prepared-final-artifact-still-blocked",
-  "boundary": "This record prepares and validates the packaging/provenance path only. Rehearsal artifacts are Release Candidate evidence, are not final Stable artifacts, and must not be tagged, published, deployed, or treated as consumer-eligible Stable output."
+  "boundary": "This record prepares and validates the packaging/provenance path only. Rehearsal artifacts remain Release Candidate evidence. After branch protection is verified, a final unpublished candidate artifact may be built as release-preparation evidence before final Stable security acceptance. Tag/release publication remains blocked until that exact source plus artifact passes final security acceptance, and Stable remains blocked until post-publication readback and the final exact-candidate Stable qualification review pass.",
+  "sequenceReconciledDate": "2026-09-19",
+  "finalizationSequence": [
+    {
+      "order": 1,
+      "id": "repository-protection",
+      "status": "blocked",
+      "requirement": "Enable and authoritatively verify main branch protection/ruleset enforcement with the governed required checks and no silent bypass."
+    },
+    {
+      "order": 2,
+      "id": "exact-candidate-selection",
+      "status": "blocked-on-repository-protection",
+      "requirement": "Select the exact merged V1.6 final candidate revision after repository protection is verified; any later source change creates a new candidate."
+    },
+    {
+      "order": 3,
+      "id": "final-unpublished-artifact",
+      "status": "blocked-on-exact-candidate-selection",
+      "requirement": "Build the final unpublished candidate artifact set from the exact selected revision and record source/tree identity, artifact digest, CycloneDX SBOM, provenance, and applicable signing or attestation evidence."
+    },
+    {
+      "order": 4,
+      "id": "final-security-acceptance",
+      "status": "blocked-on-final-unpublished-artifact",
+      "requirement": "Complete final Stable security acceptance against the exact protected source and the exact unpublished candidate artifact set."
+    },
+    {
+      "order": 5,
+      "id": "immutable-publication",
+      "status": "blocked-on-final-security-acceptance",
+      "requirement": "Create the controlled immutable tag/release identity and publish only the artifact bytes already accepted by final security review; do not rebuild for publication."
+    },
+    {
+      "order": 6,
+      "id": "post-publication-readback",
+      "status": "blocked-on-immutable-publication",
+      "requirement": "Read back the published tag, release, artifact, checksum, SBOM, and provenance and verify they resolve to the accepted source revision and bytes."
+    },
+    {
+      "order": 7,
+      "id": "exact-candidate-stable-qualification",
+      "status": "blocked-on-post-publication-readback",
+      "requirement": "Run the final exact-candidate Stable qualification review and only then reconcile Stable lifecycle and consumer-eligibility records."
+    }
+  ]
 }
