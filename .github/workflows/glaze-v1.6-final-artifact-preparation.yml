@@ -1,35 +1,35 @@
-name: GLAZE UI V1.6 Final Artifact Preparation
+name: GLAZE UI V1.6 Final Artifact Integrity
 
 on:
   pull_request:
     branches: [main]
     paths:
-      - 'scripts/build_glaze_v1_6_final_artifact.py'
-      - 'scripts/verify_glaze_v1_6_stable_qualification_review.mjs'
-      - 'scripts/verify_glaze_v1_6_stable_security_scan.py'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
       - 'acceptance/v1.6-artifact-provenance-plan.json'
       - 'acceptance/v1.6-stable-qualification-review.json'
       - 'acceptance/v1.6-stable-security-review.json'
-      - 'acceptance/v1.6-dependency-vulnerability-classification.json'
-      - 'registry/lifecycle.json'
-      - 'contracts/v1.6/**'
-      - 'js/glaze-v1.6*.mjs'
+      - 'acceptance/v1.6-stable.json'
+      - 'acceptance/v1.6-final-security-acceptance.json'
+      - 'contracts/v1.6/stable-release.json'
+      - 'js/glaze-v1.6.0.mjs'
       - 'goreecloud.platform.yaml'
+      - 'scripts/verify_glaze_v1_6_stable.mjs'
       - '.github/workflows/glaze-v1.6-final-artifact-preparation.yml'
   push:
     branches: [main]
     paths:
-      - 'scripts/build_glaze_v1_6_final_artifact.py'
-      - 'scripts/verify_glaze_v1_6_stable_qualification_review.mjs'
-      - 'scripts/verify_glaze_v1_6_stable_security_scan.py'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
       - 'acceptance/v1.6-artifact-provenance-plan.json'
       - 'acceptance/v1.6-stable-qualification-review.json'
       - 'acceptance/v1.6-stable-security-review.json'
-      - 'acceptance/v1.6-dependency-vulnerability-classification.json'
-      - 'registry/lifecycle.json'
-      - 'contracts/v1.6/**'
-      - 'js/glaze-v1.6*.mjs'
+      - 'acceptance/v1.6-stable.json'
+      - 'acceptance/v1.6-final-security-acceptance.json'
+      - 'contracts/v1.6/stable-release.json'
+      - 'js/glaze-v1.6.0.mjs'
       - 'goreecloud.platform.yaml'
+      - 'scripts/verify_glaze_v1_6_stable.mjs'
       - '.github/workflows/glaze-v1.6-final-artifact-preparation.yml'
   workflow_dispatch:
 
@@ -37,174 +37,141 @@ permissions:
   contents: read
 
 concurrency:
-  group: glaze-v1.6-final-artifact-${{ github.event.pull_request.number || github.ref }}
+  group: glaze-v1.6-final-artifact-integrity-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+  ACCEPTED_SOURCE: a7180679ea851389e0f3004515f9a25f420e716d
+  ACCEPTED_TREE: 9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268
+  RELEASE_TAG: v1.6.0
+  RELEASE_ID: '392095913'
+  ARCHIVE_SHA256: 687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af
+  SBOM_SHA256: 3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82
+  PROVENANCE_SHA256: 711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8
+  SHA256SUMS_SHA256: 4f2668332c5b4f00cd3a1298eae0dd630f28d0afebc2825f87fa580d1974f956
+
 jobs:
-  final-artifact-preparation:
+  final-artifact-integrity:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 15
     env:
-      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-      GITLEAKS_VERSION: '8.30.1'
-      GITLEAKS_SHA256: '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb'
+      GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Check out exact final-artifact candidate revision
+      - name: Check out exact lifecycle revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ env.EXPECTED_SHA }}
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Verify exact revision and release-control integrity
-        shell: bash
+      - name: Verify exact Stable authority and accepted-source ancestry
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
-          python3 -m py_compile scripts/build_glaze_v1_6_final_artifact.py
-          python3 -m py_compile scripts/validate_github_actions_runtime_integrity.py
+          test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+          test "$(git rev-parse "${ACCEPTED_SOURCE}^{tree}")" = "${ACCEPTED_TREE}"
+          git merge-base --is-ancestor "${ACCEPTED_SOURCE}" HEAD
+          node --check scripts/verify_glaze_v1_6_stable.mjs
+          node scripts/verify_glaze_v1_6_stable.mjs
           python3 scripts/validate_github_actions_runtime_integrity.py
-          node scripts/verify_glaze_v1_6_release_candidate.mjs
-          node scripts/verify_glaze_v1_6_stable_qualification_review.mjs
 
-      - name: Build deterministic final artifact candidate twice
-        shell: bash
+      - name: Download exact published assets without rebuilding
         run: |
           set -euo pipefail
-          rm -rf artifacts/v1.6-final-artifact "$RUNNER_TEMP/glaze-v16-final-second"
-          mkdir -p artifacts/v1.6-final-artifact "$RUNNER_TEMP/glaze-v16-final-second"
-          python3 scripts/build_glaze_v1_6_final_artifact.py --expected-sha "$EXPECTED_SHA" --output-dir artifacts/v1.6-final-artifact
-          python3 scripts/build_glaze_v1_6_final_artifact.py --expected-sha "$EXPECTED_SHA" --output-dir "$RUNNER_TEMP/glaze-v16-final-second"
-          for name in glaze-ui-v1.6.0-source-runtime.tar.gz cyclonedx-1.5.json provenance.json SHA256SUMS final-artifact-summary.json; do
-            cmp "artifacts/v1.6-final-artifact/$name" "$RUNNER_TEMP/glaze-v16-final-second/$name"
-          done
+          release_dir="$RUNNER_TEMP/release"
+          extract_dir="$RUNNER_TEMP/extracted"
+          mkdir -p "$release_dir" "$extract_dir"
 
-      - name: Verify checksums and final archive boundary
-        shell: bash
-        run: |
-          set -euo pipefail
-          cd artifacts/v1.6-final-artifact
-          sha256sum --check --strict SHA256SUMS
-          tar -tzf glaze-ui-v1.6.0-source-runtime.tar.gz > archive-files.txt
-          test -s archive-files.txt
-          ! grep -Eq '^/' archive-files.txt
-          ! grep -Eq '(^|/)\.\.?(/|$)' archive-files.txt
-          grep -Fx 'glaze-ui-v1.6.0/VERSION' archive-files.txt >/dev/null
-          grep -Fx 'glaze-ui-v1.6.0/js/glaze-v1.6.0.mjs' archive-files.txt >/dev/null
-          grep -Fx 'glaze-ui-v1.6.0/contracts/v1.6/stable-release.json' archive-files.txt >/dev/null
-          grep -Fx 'glaze-ui-v1.6.0/SOURCE_MANIFEST.json' archive-files.txt >/dev/null
-          ! grep -F 'glaze-ui-v1.6.0/js/glaze-v1.6.0-rc.1.mjs' archive-files.txt >/dev/null
-          extract_root="$RUNNER_TEMP/glaze-v16-final-extracted"
-          rm -rf "$extract_root"
-          mkdir -p "$extract_root"
-          tar -xzf glaze-ui-v1.6.0-source-runtime.tar.gz -C "$extract_root"
-          test "$(cat "$extract_root/glaze-ui-v1.6.0/VERSION")" = '1.6.0'
-          grep -F "version: '1.6.0'" "$extract_root/glaze-ui-v1.6.0/js/glaze-v1.6.0.mjs" >/dev/null
-          grep -F "lifecycle: 'stable'" "$extract_root/glaze-ui-v1.6.0/js/glaze-v1.6.0.mjs" >/dev/null
-          grep -F 'activationRequiresImmutablePublicationReadback: true' "$extract_root/glaze-ui-v1.6.0/js/glaze-v1.6.0.mjs" >/dev/null
-          echo "EXTRACT_ROOT=$extract_root" >> "$GITHUB_ENV"
+          gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_TAG}" > "$RUNNER_TEMP/tag.json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" > "$RUNNER_TEMP/release.json"
+          gh release download "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --dir "$release_dir"
 
-      - name: Install verified Gitleaks
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl --fail --location --silent --show-error "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" --output "$RUNNER_TEMP/gitleaks.tar.gz"
-          echo "${GITLEAKS_SHA256}  $RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check --strict
-          mkdir -p "$RUNNER_TEMP/gitleaks"
-          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP/gitleaks"
-          test -x "$RUNNER_TEMP/gitleaks/gitleaks"
-          "$RUNNER_TEMP/gitleaks/gitleaks" version | tee artifacts/v1.6-final-artifact/gitleaks-version.txt
-
-      - name: Scan exact extracted final artifact for secrets
-        shell: bash
-        run: |
-          set -euo pipefail
-          set +e
-          "$RUNNER_TEMP/gitleaks/gitleaks" dir --no-banner --redact=100 --report-format=json --report-path=artifacts/v1.6-final-artifact/gitleaks-final-artifact-report.json --exit-code=1 "$EXTRACT_ROOT/glaze-ui-v1.6.0"
-          status=$?
-          set -e
-          echo "$status" > artifacts/v1.6-final-artifact/gitleaks-final-artifact-exit-code.txt
-          if [ "$status" -gt 1 ]; then
-            echo "Gitleaks final-artifact scanner error: exit $status" >&2
-            exit "$status"
-          fi
-          if [ "$status" -eq 1 ]; then
-            python3 - <<'PY'
-          import json
-          from pathlib import Path
-          report = Path("artifacts/v1.6-final-artifact/gitleaks-final-artifact-report.json")
-          findings = json.loads(report.read_text(encoding="utf-8")) if report.exists() else []
-          raise SystemExit(f"final artifact contains {len(findings)} secret finding(s)")
-          PY
-          fi
-          if [ ! -s artifacts/v1.6-final-artifact/gitleaks-final-artifact-report.json ]; then
-            printf '[]\n' > artifacts/v1.6-final-artifact/gitleaks-final-artifact-report.json
-          fi
-
-      - name: Validate exact final-artifact evidence
-        shell: bash
-        run: |
-          set -euo pipefail
           python3 - <<'PY'
-          import json
-          import os
+          import json, os
           from pathlib import Path
-
-          root = Path("artifacts/v1.6-final-artifact")
-          provenance = json.loads((root / "provenance.json").read_text(encoding="utf-8"))
-          sbom = json.loads((root / "cyclonedx-1.5.json").read_text(encoding="utf-8"))
-          summary = json.loads((root / "final-artifact-summary.json").read_text(encoding="utf-8"))
-          scan = json.loads((root / "gitleaks-final-artifact-report.json").read_text(encoding="utf-8"))
-
-          expected = os.environ["EXPECTED_SHA"]
-          assert provenance["sourceRevision"] == expected
-          assert provenance["currentRepositoryLifecycle"] == "release-candidate"
-          assert provenance["currentRepositoryVersion"] == "1.6.0-rc.1"
-          assert provenance["targetReleaseVersion"] == "1.6.0"
-          assert provenance["intendedImmutableTag"] == "v1.6.0"
-          assert provenance["finalStableArtifactCandidate"] is True
-          assert provenance["publication"]["authorized"] is False
-          assert provenance["publication"]["tagCreated"] is False
-          assert provenance["publication"]["githubReleaseCreated"] is False
-          assert provenance["publication"]["artifactPublished"] is False
-          assert provenance["publication"]["mustReuseTheseAcceptedBytes"] is True
-          assert provenance["lifecycleAuthority"]["stablePromotionAuthorized"] is False
-          assert provenance["repositoryProtection"]["rulesetId"] == 23699829
-          assert provenance["repositoryProtection"]["bypassActors"] == []
-          assert provenance["runtimeBoundary"]["externalRuntimeDependencies"] == []
-
-          assert sbom["bomFormat"] == "CycloneDX"
-          assert sbom["specVersion"] == "1.5"
-          assert sbom["metadata"]["component"]["version"] == "1.6.0"
-          assert isinstance(sbom["components"], list) and sbom["components"]
-
-          assert summary["sourceRevision"] == expected
-          assert summary["targetReleaseVersion"] == "1.6.0"
-          assert summary["publicationAuthorized"] is False
-          assert summary["stablePromotionAuthorized"] is False
-          assert summary["mustReuseAcceptedArtifactBytesForPublication"] is True
-          assert scan == []
-
-          stable_contract = json.loads(
-              (Path(os.environ["EXTRACT_ROOT"]) / "glaze-ui-v1.6.0/contracts/v1.6/stable-release.json").read_text(encoding="utf-8")
-          )
-          assert stable_contract["version"] == "1.6.0"
-          assert stable_contract["releaseLifecycle"] == "Stable"
-          assert stable_contract["authority"]["effectiveOnlyAfterImmutablePublicationReadback"] is True
-          assert stable_contract["authority"]["effectiveOnlyAfterRepositoryLifecyclePromotion"] is True
-
-          print("final-artifact-preparation: deterministic exact-head Stable-candidate artifact validated")
-          print("publication-authorized: false")
-          print("stable-promotion-authorized: false")
+          tag=json.loads(Path(os.environ["RUNNER_TEMP"],"tag.json").read_text())
+          release=json.loads(Path(os.environ["RUNNER_TEMP"],"release.json").read_text())
+          assert tag["ref"]=="refs/tags/"+os.environ["RELEASE_TAG"]
+          assert tag["object"]["type"]=="commit"
+          assert tag["object"]["sha"]==os.environ["ACCEPTED_SOURCE"]
+          assert str(release["id"])==os.environ["RELEASE_ID"]
+          assert release["tag_name"]==os.environ["RELEASE_TAG"]
+          assert release["draft"] is False
+          assert release["prerelease"] is False
+          expected={
+              "glaze-ui-v1.6.0-source-runtime.tar.gz",
+              "SHA256SUMS",
+              "cyclonedx-1.5.json",
+              "provenance.json",
+          }
+          assert {item["name"] for item in release["assets"]}==expected
           PY
 
-      - name: Verify preparation did not mutate tracked source
+          (
+            cd "$release_dir"
+            test "$(sha256sum glaze-ui-v1.6.0-source-runtime.tar.gz | awk '{print $1}')" = "${ARCHIVE_SHA256}"
+            test "$(sha256sum cyclonedx-1.5.json | awk '{print $1}')" = "${SBOM_SHA256}"
+            test "$(sha256sum provenance.json | awk '{print $1}')" = "${PROVENANCE_SHA256}"
+            test "$(sha256sum SHA256SUMS | awk '{print $1}')" = "${SHA256SUMS_SHA256}"
+            sha256sum --check --strict SHA256SUMS
+          )
+
+          tar -xzf "$release_dir/glaze-ui-v1.6.0-source-runtime.tar.gz" -C "$extract_dir"
+          cmp js/glaze-v1.6.0.mjs "$extract_dir/glaze-ui-v1.6.0/js/glaze-v1.6.0.mjs"
+          cmp contracts/v1.6/stable-release.json "$extract_dir/glaze-ui-v1.6.0/contracts/v1.6/stable-release.json"
+
+      - name: Validate published provenance and SBOM binding
+        run: |
+          set -euo pipefail
+          release_dir="$RUNNER_TEMP/release"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"],"release")
+          provenance=json.loads((root/"provenance.json").read_text())
+          sbom=json.loads((root/"cyclonedx-1.5.json").read_text())
+          assert provenance["sourceRevision"]==os.environ["ACCEPTED_SOURCE"]
+          assert provenance["sourceTree"]==os.environ["ACCEPTED_TREE"]
+          assert provenance["targetReleaseVersion"]=="1.6.0"
+          assert provenance["intendedImmutableTag"]=="v1.6.0"
+          assert provenance["archive"]["sha256"]==os.environ["ARCHIVE_SHA256"]
+          assert provenance["publication"]["mustReuseTheseAcceptedBytes"] is True
+          assert sbom["bomFormat"]=="CycloneDX"
+          assert sbom["specVersion"]=="1.5"
+          assert sbom["metadata"]["component"]["version"]=="1.6.0"
+          PY
+
+      - name: Record exact-head integrity evidence
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          out={
+            "schemaVersion":1,
+            "kind":"goreecloud-glaze-v1.6-published-artifact-integrity",
+            "result":"passed",
+            "lifecycleRevision":os.environ["EXPECTED_SHA"],
+            "acceptedSourceRevision":os.environ["ACCEPTED_SOURCE"],
+            "acceptedSourceTree":os.environ["ACCEPTED_TREE"],
+            "tag":os.environ["RELEASE_TAG"],
+            "githubReleaseId":int(os.environ["RELEASE_ID"]),
+            "archiveSha256":os.environ["ARCHIVE_SHA256"],
+            "sbomSha256":os.environ["SBOM_SHA256"],
+            "provenanceSha256":os.environ["PROVENANCE_SHA256"],
+            "sha256SumsSha256":os.environ["SHA256SUMS_SHA256"],
+            "rebuildPerformed":False,
+            "committedStableFilesMatchPublishedArchive":True,
+          }
+          Path("glaze-v1.6-published-artifact-integrity.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+
+      - name: Verify clean tree
         run: git diff --exit-code -- .
 
-      - name: Upload exact-head final artifact preparation evidence
+      - name: Upload exact-head published-artifact integrity evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: glaze-v1.6-final-artifact-${{ env.EXPECTED_SHA }}
-          path: artifacts/v1.6-final-artifact/
+          name: glaze-v1.6-published-artifact-integrity-${{ env.EXPECTED_SHA }}
+          path: glaze-v1.6-published-artifact-integrity.json
           if-no-files-found: error
           retention-days: 90

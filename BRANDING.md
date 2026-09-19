@@ -4,14 +4,13 @@
 
 - **Product name:** GLAZE UI
 - **Short product name:** Glaze UI
-- **Current Official Stable family:** GLAZE UI V1.5 — Contextual + Capability Awareness
-- **Current Stable machine version:** `1.5.1`
-- **Active successor:** GLAZE UI V1.6
-- **Active successor lifecycle:** Release Candidate
-- **Active successor machine version:** `1.6.0-rc.1`
+- **Current Official Stable family:** GLAZE UI V1.6
+- **Current Stable machine version:** `1.6.0`
+- **Immediate rollback Stable:** GLAZE UI V1.5 / `1.5.1`
+- **Retained V1.6 Release Candidate:** `1.6.0-rc.1` (superseded provenance)
 - **Repository:** `GoreeCloud/goreecloud-glaze-ui`
 
-Use **GLAZE UI V1.5** when the current Stable family identity is material. Use **GLAZE UI V1.6** only for the active Release Candidate or its retained V1.6 qualification/development provenance. Use **Glaze UI** in ordinary prose where the version is not material.
+Use **GLAZE UI V1.6** when the current Stable family identity is material. Use **GLAZE UI V1.5** only for the retained rollback/historical family where version history is material. Use **Glaze UI** in ordinary prose where the version is not material.
 
 Machine-readable version and lifecycle authority come from `VERSION` and `registry/lifecycle.json`, not from branding prose.
 
@@ -37,7 +36,7 @@ Brand expression must never override:
 - Forced Colors.
 - Producer-authoritative privacy, security, identity, policy, recovery, connectivity, capability, or operational state.
 
-V1.6 may expand the presentation system, but Release Candidate identity does not make it the consumer target until a separate governed Stable promotion changes authoritative lifecycle state.
+V1.6.0 is the current shared Stable consumer target. That shared Stable identity does not automatically migrate, qualify, deploy, or production-accept any downstream application; consumer evidence remains repository-local.
 
 ## Historical branding
 

@@ -1,8 +1,8 @@
-# GLAZE UI V1.5 — Features
+# GLAZE UI V1.6 — Features
 
 ## Status convention
 
-This file describes capabilities present in the current Stable GLAZE UI V1.5 source tree at machine version `1.5.1` or required by its active Stable contracts. V1.5.1 is the Stable qualification-hardening patch for the V1.5 Context + Capability Awareness line. Downstream adoption, release publication, deployment, and application production acceptance remain separate evidence-bound transitions.
+This file describes capabilities present in current Stable GLAZE UI V1.6 at machine version `1.6.0` or required by its active Stable contracts. The governed 24-lane qualification matrix is complete at 24/0/0. Publication, downstream adoption, deployment, and product production acceptance remain separate evidence-bound transitions.
 
 ## Design-system capabilities
 
@@ -32,33 +32,24 @@ This file describes capabilities present in the current Stable GLAZE UI V1.5 sou
 
 ## Stable qualification capabilities
 
-The current Stable V1.5.1 qualification is the governing shared qualification.
-
-It retains the sixteen accepted V1.5.0 obligations and adds two independently reviewed qualification expansions, for eighteen accepted shared obligations in total:
-
-- `performance-representative-budget` — accepted for the reviewed representative Zorin OS 17.3 / Firefox 156.0 / Lenovo IdeaPad 3 15IIL05 environment.
-- `platform-posture-continuity` — accepted for the approved Pixel Fold Android Emulator target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`.
-
-These shared qualification claims are bounded to their reviewed environments. They do not automatically establish downstream application performance, physical-device, posture, deployment, or production acceptance.
+V1.6.0 is accepted for the complete governed 24-lane shared qualification matrix: 24 verified / 0 unverified / 0 not applicable. Exact source, rendered, regression, human, assistive-technology, representative performance, security, branch-protection, artifact/provenance, controlled publication, and readback boundaries are preserved by their authoritative records.
 
 ## Stable validation and authority
 
-The repository includes fail-closed validation for the current V1.5.1 Stable authority, qualification scope, source-impact continuity, lifecycle state, consumer registry, accessibility and form-factor requirements, context/capability resolution, privacy and authority boundaries, performance qualification, posture continuity, release state, and related contracts.
-
 Current Stable authority is defined by:
 
-- `VERSION` — `1.5.1`.
-- `GLAZE_UI_V1_5.md` — current Stable family contract.
-- `contracts/v1.5.1/stable-scope.json` — exact V1.5.1 Stable qualification scope.
-- `acceptance/v1.5.1-stable.md` — Stable acceptance record.
-- `GLAZE_UI_V1_5_1_HARDENING.md` — completed V1.5.1 qualification-hardening record.
+- `VERSION` — `1.6.0`.
+- `contracts/v1.6/stable-release.json` — Stable release contract.
+- `acceptance/v1.6-stable.json` — Stable acceptance.
+- `acceptance/v1.6-stable-qualification-review.json` — complete qualification decision.
+- `js/glaze-v1.6.0.mjs` — Stable runtime.
 - `registry/lifecycle.json` — lifecycle authority.
-- `js/glaze-v1.5.1.mjs` — current Stable runtime entrypoint.
-- `css/glaze-v1.4.1.css` — inherited Stable optical/web material baseline.
-- `scripts/verify_glaze_v1_5_1_stable.mjs` — fail-closed Stable authority gate.
+- `consumers/registry.json` — downstream target/evidence authority.
 
-V1.5.0 remains the immediate known-good Stable rollback baseline.
+V1.5.1 is the immediate known-good Stable rollback baseline.
 
-## Development successor boundary
+## Retained Development and historical boundary
+
+
 
 The repository may contain Development-only successor language, contracts, tokens, validators, or reference inputs. Those artifacts do not change the current V1.5.1 Stable authority, lifecycle, runtime/web entrypoints, downstream consumer acceptance, release publication, deployment, or production status unless they complete a separate governed lifecycle promotion.

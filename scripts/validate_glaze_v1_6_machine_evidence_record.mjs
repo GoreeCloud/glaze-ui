@@ -14,8 +14,16 @@ const plan=json('contracts/v1.6/qualification.machine.plan.json');
 const lifecycle=json('registry/lifecycle.json');
 const acceptance=read('acceptance/v1.6-development.md');
 
-assert(read('VERSION').trim()==='1.5.1','Stable VERSION must remain 1.5.1');
-assert(lifecycle.currentOfficial==='1.5.1'&&lifecycle.currentStable==='1.5.1','Stable lifecycle must remain 1.5.1');
+const liveStable=read('VERSION').trim();
+assert(lifecycle.currentOfficial===liveStable&&lifecycle.currentStable===liveStable,'VERSION/current Stable authority must agree');
+const liveRelease=lifecycle.releases.find(item=>item.version===liveStable);
+assert(liveRelease&&liveRelease.status==='stable'&&liveRelease.consumerEligible===true,'live current Stable must remain a consumer-eligible Stable release');
+const liveTuple=liveStable.split('.').slice(0,3).map(Number);
+assert(liveTuple.length===3&&liveTuple.every(Number.isInteger),'live Stable must use major.minor.patch versioning');
+assert(
+  liveTuple[0]>1 || (liveTuple[0]===1 && (liveTuple[1]>5 || (liveTuple[1]===5 && liveTuple[2]>=1))),
+  'V1.6 retained qualification requires live Stable authority at or after its frozen 1.5.1 baseline'
+);
 assert((lifecycle.activeCandidate===null||lifecycle.activeCandidate==='1.6.0-rc.1')&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'machine evidence must not promote lifecycle');
 
 assert(record.sourceRevision===plan.sourceRevision,'machine evidence source revision must match qualification plan');

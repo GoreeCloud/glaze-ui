@@ -4,9 +4,9 @@ GLAZE UI is GoreeCloud's original shared visual and interaction design system. E
 
 ## Current lifecycle context
 
-- Current Official Stable: GLAZE UI V1.5 / `1.5.1`
-- Active governed successor: GLAZE UI V1.6 / `1.6.0-rc.1`
-- V1.6 consumer eligibility: No
+- Current Official Stable: GLAZE UI V1.6 / `1.6.0`
+- Immediate known-good rollback Stable: GLAZE UI V1.5 / `1.5.1`
+- Retained V1.6 Release Candidate provenance: `1.6.0-rc.1` (superseded, non-consumer-eligible)
 - Lifecycle authority: `VERSION` and `registry/lifecycle.json`
 
 ## Competitive objectives

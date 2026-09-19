@@ -2,9 +2,10 @@
 
 ## Current lifecycle
 
-- Current Official Stable: GLAZE UI V1.5 / `1.5.1`
-- Active governed successor: GLAZE UI V1.6 / `1.6.0-rc.1`
-- V1.6 consumer eligible: No
+- Current Official Stable: GLAZE UI V1.6 / `1.6.0`
+- Stable runtime: `js/glaze-v1.6.0.mjs`
+- Immediate known-good rollback Stable: GLAZE UI V1.5 / `1.5.1`
+- Retained V1.6 Release Candidate provenance: `1.6.0-rc.1` (superseded, non-consumer-eligible)
 - Lifecycle authority: `VERSION` and `registry/lifecycle.json`
 
 ## Security role
@@ -42,17 +43,17 @@ Glaze UI source and consumers must:
 - Preserve accessibility and protected semantic meaning during security, privacy, denial, recovery, or degraded-state presentation.
 - Treat downstream application security acceptance as separate from shared Glaze UI qualification.
 
-## V1.6 Release Candidate boundary
+## V1.6 Stable security acceptance
 
-The V1.6 governed qualification review records explicit Release Candidate evaluation against the nine Integral Platform Systems. That review verifies the design system's applicable authority boundaries; it does not grant Stable security qualification, production readiness, deployment acceptance, or downstream consumer security acceptance.
+Final Stable security acceptance is complete for exact accepted source `a7180679ea851389e0f3004515f9a25f420e716d` and the exact published V1.6.0 artifact bytes.
 
-Stable promotion remains subject to the current Stable Release Security Blockers standard and exact-candidate security evidence.
+Verified release-security evidence includes:
 
-## V1.6 Stable-security checkpoint
+- Complete Git-history secret scanning with 0 unreviewed findings after exact-fingerprint review of 21 retained historical false positives.
+- A remediated Gradle-selected Android/Wear build-tool graph containing 206 distinct selected Maven coordinates / 426 selected package entries, with 0 selected OSV advisories and a 206-component CycloneDX dependency SBOM with 0 vulnerabilities.
+- Deterministic final artifact preparation, SHA-256 checksum verification, CycloneDX 1.5 runtime/source SBOM, provenance bound to exact source/tree, archive-boundary validation, and an extracted-artifact Gitleaks scan with no leaks.
+- Active GitHub ruleset `23699829` on `main`, with an empty bypass list, pull-request integration, strict required checks, conversation resolution, deletion protection, and force-push protection.
+- Controlled `v1.6.0` publication without rebuild and post-publication byte readback matching the security-accepted archive, SBOM, provenance, and checksum manifest.
+- A complete Stable Release Security Blockers applicability matrix: 39 controls evaluated, 14 Passed/Passed-bounded, 25 Not Applicable with justification, 0 Blocked, 0 Unknown, 0 Excepted, and no security exceptions.
 
-The governed V1.6 security evidence now verifies two release-security sub-gates for the qualified shared-library scope:
-
-- Complete Git-history secret scanning passes with 0 unreviewed findings after exact-fingerprint review of the retained historical false positives.
-- The remediated Gradle-selected Android/Wear build-tool graph passes dependency scanning: 206 distinct selected Maven coordinates, 426 project package entries, 206 CycloneDX 1.5 components, and 0 selected OSV advisories/vulnerabilities. Exact-head Android and Wear compatibility validation passes with the remediated graph.
-
-This does **not** grant final Stable security acceptance. Authoritative `main` branch protection is still disabled, so required security gates are not yet host-enforced against bypass. The final Stable artifact/source-provenance and immutable publication boundary is also not yet accepted. Those release-integrity controls remain security blockers.
+Security acceptance closes the security gate; it does not transfer authentication, authorization, privacy, recovery, monitoring, or production authority into Glaze UI and does not automatically grant downstream application security or production acceptance.

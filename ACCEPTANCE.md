@@ -1,6 +1,16 @@
-# GLAZE UI V1.5 Acceptance
+# GLAZE UI Acceptance
 
-GLAZE UI V1.5 / `1.5.1` is the current Stable design-system release when this governed V1.5.1 promotion is authoritative on `main`. `VERSION`, `registry/lifecycle.json`, `GLAZE_UI_V1_5.md`, `contracts/v1.5.1/stable-scope.json`, and `acceptance/v1.5.1-stable.md` are the controlling repository authorities for that lifecycle state.
+## Current V1.6.0 Stable authority
+
+GLAZE UI V1.6 / `1.6.0` is the current Official Stable, consumer-eligible shared design-system release when this protected promotion becomes authoritative on `main`. The governing repository records are `VERSION`, `registry/lifecycle.json`, `contracts/v1.6/stable-release.json`, `acceptance/v1.6-stable.json`, `acceptance/v1.6-stable-qualification-review.json`, and `js/glaze-v1.6.0.mjs`.
+
+The V1.6 shared qualification matrix is complete at **24 verified / 0 unverified / 0 not applicable**. Final security acceptance is bound to exact accepted source `a7180679ea851389e0f3004515f9a25f420e716d`; controlled tag `v1.6.0` and GitHub Release `392095913` publish the exact accepted artifact bytes, and post-publication readback verifies those bytes. Direct service deployment is Not Applicable for this shared-library boundary. Downstream application adoption, deployment, accessibility, platform, and production acceptance remain separate repository-local obligations.
+
+V1.5.1 remains the immediate known-good rollback Stable. The `1.6.0-rc.1` record remains superseded, non-consumer-eligible qualification provenance.
+
+## Historical V1.5.1 Stable acceptance
+
+GLAZE UI V1.5 / `1.5.1` was the current Stable design-system release when its governed promotion became authoritative on `main`. `GLAZE_UI_V1_5.md`, `contracts/v1.5.1/stable-scope.json`, and `acceptance/v1.5.1-stable.md` remain the controlling historical authorities for that release.
 
 The reviewed V1.5 implementation remains anchored to exact Development revision `ee1032a0822ab8e103f8afe48e5c1859fde65cc9`. Sixteen V1.5.0 human/runtime/accessibility/privacy/performance-transition/platform obligations remain accepted through their existing real evidence and source-impact continuity.
 
@@ -15,6 +25,6 @@ Stable source authority includes the inherited V1.4.1 optical/web foundation, th
 
 The V1.5.1 Stable promotion carries external observations only through fail-closed source-impact continuity. It does not rebind observations to release metadata commits and does not change authorization, consent, permission, privacy, security, navigation, fallback, or consequential-execution authority.
 
-No downstream GoreeCloud application becomes `1.5.1`-conformant or production-eligible automatically. Each consumer must explicitly target the current Stable release and satisfy fresh repository-local exact-revision V1.5 adoption and acceptance evidence for its supported platforms.
+No downstream GoreeCloud application becomes `1.5.1`-conformant or production-eligible automatically. Each consumer had to explicitly target that Stable release and satisfy fresh repository-local exact-revision V1.5 adoption and acceptance evidence for its supported platforms; current consumers must follow the current V1.6.0 target in `consumers/registry.json`.
 
 This shared Stable acceptance does not establish an immutable `v1.5.1` tag, GitHub Release publication, deployment, or production acceptance. Those remain separate governed transitions.

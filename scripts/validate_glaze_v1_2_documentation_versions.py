@@ -69,6 +69,8 @@ HISTORICAL_SOURCE_PATHS = {
     "scripts/validate_glaze_v1_2_file_naming_legacy.py",
     "scripts/validate_glaze_v1_2_source_inventory_legacy.py",
     "scripts/validate_glaze_v1_2_migration_legacy.py",
+    "scripts/build_glaze_v1_6_artifact_rehearsal.py",
+    "scripts/build_glaze_v1_6_final_artifact.py",
 }
 
 HISTORICAL_QUALIFIERS = (
@@ -84,6 +86,11 @@ STRONG_CURRENT_CLAIMS = (
     "all current glaze ui work targets",
 )
 SEMVER = re.compile(r"(?<!\d)(\d+)\.(\d+)\.(\d+)(?:-[0-9a-z.-]+)?(?!\d)", re.I)
+
+V16_ACCEPTED_PUBLISHED_BLOBS = {
+    "js/glaze-v1.6-focus-motion.dev.mjs": "661a3821a43af490eaaa63d2bf9095ec9048ea62",
+    "js/glaze-v1.6-loading.dev.mjs": "8e0ab678ace5ca7dfec4e472973f73e6bb81fce3",
+}
 
 
 def fail(message: str) -> None:
@@ -133,8 +140,25 @@ def version_tuple(value: str) -> tuple[int, int, int] | None:
     return tuple(int(part) for part in match.groups())
 
 
+def matches_accepted_v16_published_source(relative: str) -> bool:
+    """Recognize only byte-identical V1.6 published-source files as historical release text."""
+    expected = V16_ACCEPTED_PUBLISHED_BLOBS.get(relative)
+    if expected is None:
+        return False
+    current = subprocess.run(
+        ["git", "hash-object", relative],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    return current == expected
+
+
 def historical_record(relative: str, text: str, current_version: str) -> bool:
     """Return whether a tracked source is explicitly retained/provenance-only."""
+    if matches_accepted_v16_published_source(relative):
+        return True
     if relative in HISTORICAL_SOURCE_PATHS or relative in RETAINED_V12_DOCS:
         return True
 

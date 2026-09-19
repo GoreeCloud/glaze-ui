@@ -3,8 +3,8 @@
   "recordId": "goreecloud.glaze-ui.v1.6.drive-document-reconciliation",
   "recordType": "drive-document-reconciliation",
   "product": "GLAZE UI V1.6",
-  "recordedAt": "2026-09-18T21:22:49-05:00",
-  "decision": "passed",
+  "recordedAt": "2026-09-19T10:00:05-05:00",
+  "decision": "passed-current-promotion-ready",
   "governance": {
     "documentFormat": "GoreeCloud Mandatory Document Format and Presentation Standard",
     "persistenceBoundary": "Canonical GoreeCloud Drive task and changelog locations"
@@ -14,18 +14,25 @@
     "driveFileId": "1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy",
     "parentFolderId": "1VlvSTRgUd6OIZz1CcSyNBFFbPCk0PBz7",
     "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "sha256": "96a7edef2fad27336178f322b2942be7af477aaa717637226342094784522fbe",
-    "driveModifiedTime": "2026-09-19T02:22:49.038Z",
+    "sha256": "eaf98db0b43650059ded5173925dc16f1bc174a6e33674f4aec20158edd232e4",
+    "driveModifiedTime": "2026-09-19T14:59:44.770Z",
+    "fileSizeBytes": 67656,
     "pageCount": 76,
     "structuralVerification": {
       "historicalRevisionSetPreserved": true,
-      "currentV16RcStatePresent": true,
       "currentStable151Present": true,
-      "stableDecisionBlockedPresent": true
+      "currentV160PublicationPresent": true,
+      "stableQualificationZeroBlockersPresent": true,
+      "protectedLifecyclePromotionPendingPresent": true,
+      "staleBlockedStableFrontMatterRemoved": true
     },
     "visualVerification": {
       "allPagesRendered": true,
-      "allPagesReviewed": true,
+      "changedPagesReviewed": [
+        1,
+        2
+      ],
+      "unchangedPagesPixelIdenticalRange": "3-76",
       "clippingObserved": false,
       "overlapObserved": false,
       "brokenPaginationObserved": false
@@ -36,18 +43,26 @@
     "driveFileId": "1p1PTyUeQ2Ht4tzibAATmrEuVctyLs8up",
     "parentFolderId": "1cn7Z125glqKl0_ytbjIAK0U2eYW3Ug9E",
     "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "sha256": "166ea03adcd4008d1327233fdac2b6df2922ec452e1a3baf49f493cd0039978b",
+    "sha256": "9d8cc11374ca7bee8c743eb46680ca7a5dc866004fca6a07fa8287925d8d552c",
+    "driveModifiedTime": "2026-09-19T14:59:52.418Z",
+    "fileSizeBytes": 218381,
     "pageCount": 235,
     "structuralVerification": {
       "currentAuthorityFrontLoaded": true,
-      "currentV16RcStatePresent": true,
       "currentStable151Present": true,
-      "stableDecisionBlockedPresent": true,
-      "historicalChangeHistoryRetained": true
+      "currentV160PublicationPresent": true,
+      "stableQualificationZeroBlockersPresent": true,
+      "protectedLifecyclePromotionPendingPresent": true,
+      "historicalChangeHistoryRetained": true,
+      "staleBlockedStableFrontMatterRemoved": true
     },
     "visualVerification": {
       "allPagesRendered": true,
-      "allPagesReviewed": true,
+      "changedPagesReviewed": [
+        1,
+        2
+      ],
+      "unchangedPagesPixelIdenticalRange": "3-235",
       "clippingObserved": false,
       "overlapObserved": false,
       "brokenPaginationObserved": false
@@ -58,5 +73,5 @@
     "currentGlazeChangeLogMarkdownMasterPresent": false,
     "note": "Drive search after DOCX creation no longer returned the prior current Glaze UI task-list or changelog Markdown masters; retired/unrelated historical files do not replace the canonical DOCX records."
   },
-  "boundary": "This record verifies canonical Drive document-format and current-state reconciliation only. Platform Contract shared-library representation, secret/Git-history scanning, and production-applicability are already closed elsewhere in authoritative repository evidence. Remaining Stable blockers are repository branch protection, dependency/supply-chain security, final release-security acceptance, and final artifact/provenance/publication acceptance. This record does not itself authorize Stable promotion, publication, deployment, or downstream consumer acceptance."
+  "boundary": "The canonical Drive task and changelog DOCX records have been updated in place and read back byte-for-byte. They truthfully represent the pre-merge transition: V1.5.1 remains current Stable until the protected lifecycle promotion lands; V1.6.0 publication/security/qualification evidence is complete with zero recorded Stable blockers, and the protected lifecycle merge plus post-merge verification remain pending. A second reconciliation is required after authoritative main becomes V1.6.0 Stable."
 }

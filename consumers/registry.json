@@ -1,28 +1,160 @@
 {
   "schemaVersion": 8,
-  "officialBaseline": "1.5.1",
-  "officialProductLabel": "GLAZE UI V1.5 — Contextual + Capability Awareness",
-  "requiredConsumerVersion": "1.5.1",
-  "auditedAt": "2026-09-16",
-  "statusVocabulary": ["adoption-required", "unverified", "accepted-v1"],
+  "officialBaseline": "1.6.0",
+  "officialProductLabel": "GLAZE UI V1.6",
+  "requiredConsumerVersion": "1.6.0",
+  "auditedAt": "2026-09-19",
+  "statusVocabulary": [
+    "adoption-required",
+    "unverified",
+    "accepted-v1"
+  ],
   "enforcement": {
     "officialCurrentRequired": true,
     "productionExceptionsAllowed": false,
-    "platformScope": ["web", "desktop", "mobile", "tablet", "tv", "smartwatch", "other-user-facing"],
-    "unsupportedPlatformRule": "A user-facing platform without applicable repository-local GLAZE UI V1.5.1 acceptance evidence is production-blocked until the required current Stable contract is implemented, validated, and accepted for that consumer."
+    "platformScope": [
+      "web",
+      "desktop",
+      "mobile",
+      "tablet",
+      "tv",
+      "smartwatch",
+      "other-user-facing"
+    ],
+    "unsupportedPlatformRule": "A user-facing platform without applicable repository-local GLAZE UI V1.6.0 acceptance evidence is production-blocked until the required current Stable contract is implemented, validated, and accepted for that consumer."
   },
   "consumers": [
-    {"name":"GoreeCloud Care","repository":"GoreeCloud/goreecloud-zorin-os","status":"adoption-required","targetVersion":"1.2.0","requiredTargetVersion":"1.5.1","referenceRevision":"bbc4779454c2887b810aa0ddc9e8a686a4c68ebd","evidence":"acceptance/goreecloud-care-v1.2-0.1.0-exact-source-bridge.json","productionEligible":false,"notes":"Historical V1.2 evidence remains recorded; fresh repository-local V1.5.1 adoption and acceptance evidence is required before current-baseline conformance may be claimed."},
-    {"name":"GoreeCloud Manager","repository":"GoreeCloud/goreecloud-manager","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Existing V1.5 Development compatibility evidence does not equal Stable consumer adoption; fresh repository-local V1.5.1 Stable acceptance is required."},
-    {"name":"GoreeCloud Website","repository":"GoreeCloud/goreecloud-website","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Fresh repository-local V1.5.1 adoption and acceptance evidence is required; canonical static-site repository placement remains separately governed."},
-    {"name":"GoreeCloud Tasks","repository":"GoreeCloud/goreecloud-tasks","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Fresh repository-local V1.5.1 adoption and acceptance evidence is required."},
-    {"name":"GoreeCloud Launcher","repository":"GoreeCloud/goreecloud-launcher","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Existing V1.5 Development compatibility evidence does not equal Stable consumer adoption; fresh repository-local V1.5.1 Stable acceptance is required."},
-    {"name":"GoreeCloud Keyboard","repository":"GoreeCloud/goreecloud-keyboard","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Fresh repository-local V1.5.1 adoption and acceptance evidence is required."},
-    {"name":"GoreeCloud Notes","repository":"GoreeCloud/goreecloud-notes","status":"unverified","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Fresh repository-local V1.5.1 adoption and acceptance evidence is required."},
-    {"name":"GoreeCloud Monitor","repository":"GoreeCloud/goreecloud-monitor","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Fresh repository-local V1.5.1 adoption and acceptance evidence is required."},
-    {"name":"GoreeCloud Browser","repository":"GoreeCloud/goreecloud-browser","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Fresh repository-local V1.5.1 adoption and acceptance evidence is required."},
-    {"name":"GoreeCloud Security Center","repository":"GoreeCloud/goreecloud-wardveil","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Fresh repository-local V1.5.1 adoption and acceptance evidence is required; Wardveil remains security-truth authority."},
-    {"name":"GoreeCloud Privacy Center","repository":"GoreeCloud/goreecloud-privacy-shield","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Fresh repository-local V1.5.1 adoption and acceptance evidence is required; Privacy Shield remains privacy-truth authority."},
-    {"name":"GoreeCloud Reader","repository":"GoreeCloud/goreecloud-reader","status":"adoption-required","targetVersion":null,"requiredTargetVersion":"1.5.1","referenceRevision":null,"evidence":null,"productionEligible":false,"notes":"Existing V1.5 Development compatibility evidence does not equal Stable consumer adoption; fresh repository-local V1.5.1 web, Android/native, accessibility, workflow, rollback, performance, and product production acceptance remain separate obligations."}
+    {
+      "name": "GoreeCloud Care",
+      "repository": "GoreeCloud/goreecloud-zorin-os",
+      "status": "adoption-required",
+      "targetVersion": "1.2.0",
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": "bbc4779454c2887b810aa0ddc9e8a686a4c68ebd",
+      "evidence": "acceptance/goreecloud-care-v1.2-0.1.0-exact-source-bridge.json",
+      "productionEligible": false,
+      "notes": "Historical V1.2 evidence remains recorded; fresh repository-local V1.6.0 adoption and acceptance evidence is required before current-baseline conformance may be claimed."
+    },
+    {
+      "name": "GoreeCloud Manager",
+      "repository": "GoreeCloud/goreecloud-manager",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Existing V1.5 Development compatibility evidence does not equal Stable consumer adoption; fresh repository-local V1.6.0 Stable acceptance is required."
+    },
+    {
+      "name": "GoreeCloud Website",
+      "repository": "GoreeCloud/goreecloud-website",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required; canonical static-site repository placement remains separately governed."
+    },
+    {
+      "name": "GoreeCloud Tasks",
+      "repository": "GoreeCloud/goreecloud-tasks",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required."
+    },
+    {
+      "name": "GoreeCloud Launcher",
+      "repository": "GoreeCloud/goreecloud-launcher",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Existing V1.5 Development compatibility evidence does not equal Stable consumer adoption; fresh repository-local V1.6.0 Stable acceptance is required."
+    },
+    {
+      "name": "GoreeCloud Keyboard",
+      "repository": "GoreeCloud/goreecloud-keyboard",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required."
+    },
+    {
+      "name": "GoreeCloud Notes",
+      "repository": "GoreeCloud/goreecloud-notes",
+      "status": "unverified",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required."
+    },
+    {
+      "name": "GoreeCloud Monitor",
+      "repository": "GoreeCloud/goreecloud-monitor",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required."
+    },
+    {
+      "name": "GoreeCloud Browser",
+      "repository": "GoreeCloud/goreecloud-browser",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required."
+    },
+    {
+      "name": "GoreeCloud Security Center",
+      "repository": "GoreeCloud/goreecloud-wardveil",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required; Wardveil remains security-truth authority."
+    },
+    {
+      "name": "GoreeCloud Privacy Center",
+      "repository": "GoreeCloud/goreecloud-privacy-shield",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required; Privacy Shield remains privacy-truth authority."
+    },
+    {
+      "name": "GoreeCloud Reader",
+      "repository": "GoreeCloud/goreecloud-reader",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Existing V1.5 Development compatibility evidence does not equal Stable consumer adoption; fresh repository-local V1.6.0 web, Android/native, accessibility, workflow, rollback, performance, and product production acceptance remain separate obligations."
+    }
   ]
 }

@@ -1,6 +1,6 @@
 # GLAZE UI Token Authority
 
-`VERSION` and `registry/lifecycle.json` are the current lifecycle identity authorities. The current Official Stable release is **GLAZE UI V1.5 / `1.5.1`**.
+`VERSION` and `registry/lifecycle.json` are the current lifecycle identity authorities. The current Official Stable release is **GLAZE UI V1.6 / `1.6.0`**; V1.5.1 is the immediate known-good rollback and frozen V1.6 qualification baseline.
 
 The token directory intentionally preserves source files from earlier Stable and Candidate qualification lines. Historical `.candidate` suffixes and older product/version fields are retained where they are part of immutable source provenance; they do not override current lifecycle authority.
 
@@ -12,7 +12,7 @@ Existing token families continue to provide value authority for color, typograph
 
 ### Retained V1.2 promoted-source compatibility
 
-Historical V1.2 qualification was developed against the **V1.1 / `1.1.0`** Stable baseline. The retained `glaze-v1.2-core.candidate.json` composition manifest remains historical source provenance and **does not duplicate raw token values**; it resolves semantic ownership into retained token authorities instead. Historical state and form-factor authorities remain in `glaze-v1.2-states.candidate.json` and `glaze-v1.2-form-factor.candidate.json`. Their Candidate-era records remain non-consumer-eligible provenance, and **capability-class selection remains platform-adapter owned**. Retained form-factor source validation **does not establish platform or form-factor acceptance**. These historical markers exist for promoted-source validation only and do not override current V1.5.1 Stable authority.
+Historical V1.2 qualification was developed against the **V1.1 / `1.1.0`** Stable baseline. The retained `glaze-v1.2-core.candidate.json` composition manifest remains historical source provenance and **does not duplicate raw token values**; it resolves semantic ownership into retained token authorities instead. Historical state and form-factor authorities remain in `glaze-v1.2-states.candidate.json` and `glaze-v1.2-form-factor.candidate.json`. Their Candidate-era records remain non-consumer-eligible provenance, and **capability-class selection remains platform-adapter owned**. Retained form-factor source validation **does not establish platform or form-factor acceptance**. These historical markers exist for promoted-source validation only and do not override current V1.6.0 Stable authority.
 
 ## Experience Language Development ownership map
 
@@ -43,7 +43,7 @@ Token presence, alias resolution, or Development source validation alone never e
 
 `tokens/glaze-v1.6-loading.dev.json` is the first V1.6-specific **Development, non-consumer-eligible semantic map**. It covers skeleton surfaces, geometry, motion modes, loading state, progress, recovery presentation, accessibility fallbacks, performance levels, and motion-fatigue protection.
 
-The map inherits Stable V1.5.1 authorities from `tokens/motion.json`, `tokens/states.json`, `tokens/layout.json`, and `tokens/materials.json` rather than replacing their current Stable values. It adds V1.6 semantic intent for the Development loading/skeleton resolver while preserving these boundaries:
+The map inherits the frozen V1.5.1 qualification-baseline token authorities from `tokens/motion.json`, `tokens/states.json`, `tokens/layout.json`, and `tokens/materials.json` rather than redefining those retained values. It adds V1.6 semantic intent for the Development loading/skeleton resolver while preserving these boundaries:
 
 - Reduced Motion maps continuous skeleton motion to `static`.
 - Reduced Transparency maps skeleton presentation to solid surfaces.
@@ -59,7 +59,7 @@ This map is Development source only. It does not change `VERSION`, lifecycle sta
 
 `tokens/glaze-v1.6-state-accessibility.dev.json` is a **Development, non-consumer-eligible semantic map** for the implemented V1.6 state/accessibility/performance foundation.
 
-It aliases existing current/historical token authorities rather than replacing Stable V1.5.1 values and establishes Development semantics for:
+It aliases retained current/historical token authorities rather than replacing the frozen V1.5.1 qualification-baseline values and establishes Development semantics for:
 
 - the 26-state V1.6 semantic state grammar;
 - protected semantic foreground/background roles;

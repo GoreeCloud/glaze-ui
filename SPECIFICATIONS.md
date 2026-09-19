@@ -1,71 +1,37 @@
-# GLAZE UI V1.5 — Specifications
+# GLAZE UI V1.6 — Specifications
 
 ## Product identity
 
-- **Official product label:** GLAZE UI V1.5 — Contextual + Capability Awareness
-- **Machine version:** `1.5.1`
+- **Official product label:** GLAZE UI V1.6
+- **Machine version:** `1.6.0`
 - **Lifecycle:** Stable
 - **Consumer eligibility:** Yes, as a shared Glaze UI Stable release
 - **Repository:** `GoreeCloud/goreecloud-glaze-ui`
-- **Authoritative family contract:** `GLAZE_UI_V1_5.md`
-- **Stable qualification scope:** `contracts/v1.5.1/stable-scope.json`
-- **Stable acceptance record:** `acceptance/v1.5.1-stable.md`
-- **Qualification-hardening record:** `GLAZE_UI_V1_5_1_HARDENING.md`
+- **Stable contract:** `contracts/v1.6/stable-release.json`
+- **Stable acceptance:** `acceptance/v1.6-stable.json`
+- **Stable qualification:** `acceptance/v1.6-stable-qualification-review.json`
 - **Lifecycle authority:** `registry/lifecycle.json`
+- **Published release:** controlled tag `v1.6.0`, GitHub Release `392095913`
+- **Immediate rollback Stable:** `1.5.1`
 
-V1.5.1 is the Stable qualification-hardening patch for the V1.5 Context + Capability Awareness line. It preserves the reviewed V1.5 presentation and authority implementation while closing the two shared qualification expansions intentionally deferred from V1.5.0.
+The V1.6 frozen qualification source is `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`; its 24-lane matrix is complete at 24 verified / 0 unverified / 0 not applicable. The security-accepted release source is `a7180679ea851389e0f3004515f9a25f420e716d`, published without rebuild and read back byte-for-byte.
 
-## Active V1.6 Release Candidate
+## Retained Release Candidate provenance
 
-The governed successor candidate is **GLAZE UI V1.6 / `1.6.0-rc.1`**.
-
-- **Internal version:** `1.6.0-rc.1`
-- **External version:** `1.6.0-rc.1`
-- **Version name:** none
-- **Lifecycle:** Release Candidate
-- **Consumer eligibility:** No
-- **Stable baseline:** `1.5.1`
-- **Qualified source:** `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`
-- **Qualification evidence integration:** `354f5759385c28596fcfec26a3ad525e89fb1c35`
-- **Evidence matrix:** 24 verified / 0 unverified / 0 not applicable
-- **Governed qualification review:** `acceptance/v1.6-qualification-review.json`
-- **Release Candidate contract:** `contracts/v1.6/release-candidate.json`
-- **Release Candidate acceptance:** `acceptance/v1.6-rc.1.json`
-- **Release Candidate runtime:** `js/glaze-v1.6.0-rc.1.mjs`
-
-The Release Candidate is an identity/governance layer over the exact qualified V1.6 Development implementation. It does not replace V1.5.1 as current Stable, does not change the required downstream consumer version, and does not authorize deployment, production acceptance, tag publication, GitHub Release publication, or Stable promotion.
+`1.6.0-rc.1` is retained as superseded, non-consumer-eligible Release Candidate provenance. Its source/evidence bindings remain auditable and do not override current Stable authority.
 
 ## Runtime and Stable entrypoints
 
 - Version authority: `VERSION`
-- Web/material entrypoint: `css/glaze-v1.4.1.css`
-- Runtime entrypoint: `js/glaze-v1.5.1.mjs`
-- Immediate known-good Stable rollback runtime: `js/glaze-v1.5.0.mjs`
-- Stable authority gate: `scripts/verify_glaze_v1_5_1_stable.mjs`
+- Web/material entrypoint: `css/glaze-v1.4.1.css` where not superseded by later semantic contracts
+- Runtime entrypoint: `js/glaze-v1.6.0.mjs`
+- Immediate known-good Stable rollback runtime: `js/glaze-v1.5.1.mjs`
+- Stable authority gate: `scripts/verify_glaze_v1_6_stable_qualification_review.mjs`
 - Consumer registry: `consumers/registry.json`
 
-The V1.5.1 runtime inherits the reviewed V1.5.0 Stable behavior and promotes Stable patch identity and qualification closure without changing the reviewed presentation or operational-authority boundary.
+## Stable V1.6 requirements
 
-## Stable V1.5 requirements
-
-V1.5 extends the inherited V1.4.1 Optical Intelligence foundation with governed Context + Capability Awareness. The Stable contract requires:
-
-- semantic context normalization across governed domains;
-- capability-state grammar with provenance;
-- explicit provider authority/domain ownership;
-- fail-closed handling of provider ownership conflicts;
-- Privacy Shield ownership of privacy/data-use authorization truth where applicable;
-- contextual composition and presentation-density adaptation;
-- accessibility precedence over visual richness;
-- runtime-pressure presentation-cost reduction without capability-truth modification;
-- connectivity, window-state, posture, and constrained-runtime continuity;
-- capability-aware navigation and controls;
-- stable primary-action ordering with predictable contextual adaptation of non-primary actions;
-- explicit unavailable/degraded explanations and recovery metadata;
-- graceful user-initiated fallback suggestions without automatic fallback execution;
-- privacy-safe explainable diagnostics;
-- inherited V1.4.1 optical-capability integration;
-- unified Context + Capability Resolution for developer-facing presentation decisions.
+V1.6 preserves the V1.5.1 authority and accessibility boundaries while extending semantic loading/skeleton behavior, motion/focus governance, state/accessibility handling, material/type/input behavior, resilience/feedback, navigation/status truth, component systems, experience governance, performance diagnostics, and conformance/adoption tooling. No presentation rule creates authorization, consent, security truth, policy truth, consequential execution authority, deployment acceptance, or downstream product acceptance.
 
 ## Authority boundary
 

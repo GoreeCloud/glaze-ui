@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "updated": "2026-09-18",
-  "officialProductLabel": "GLAZE UI V1.5 — Contextual + Capability Awareness",
-  "currentOfficial": "1.5.1",
-  "currentStable": "1.5.1",
-  "activeCandidate": "1.6.0-rc.1",
+  "updated": "2026-09-19",
+  "officialProductLabel": "GLAZE UI V1.6",
+  "currentOfficial": "1.6.0",
+  "currentStable": "1.6.0",
+  "activeCandidate": null,
   "plannedNext": null,
   "activePatchReleaseCandidate": null,
   "resetState": "stable",
@@ -147,7 +147,7 @@
       "sourceQualificationAnchor": "5b59d0e36950d737dba35b58ae58058684e0831b",
       "qualificationIntegrationCommit": "f7ef915f0aabea6cf92748018f2220a99e3a9c92",
       "releaseCandidateIntegrationCommit": "a9c93506dd062d29c6c894940b71d060e8c39110",
-      "note": "Current Official Stable qualification-hardening patch. Preserves the reviewed V1.5 presentation and authority implementation while accepting the two V1.5.1 qualification expansions for their bounded reviewed environments. Downstream acceptance, publication, deployment, and production acceptance remain separate."
+      "note": "Previous Official Stable retained as the immediate known-good rollback baseline for GLAZE UI V1.6.0. Historical V1.5.1 qualification remains exact-scope provenance and does not override current V1.6.0 authority."
     },
     {
       "version": "1.6.0-rc.1",
@@ -155,7 +155,7 @@
       "external_version": "1.6.0-rc.1",
       "version_name": null,
       "label": "GLAZE UI V1.6",
-      "status": "release-candidate",
+      "status": "superseded-release-candidate",
       "consumerEligible": false,
       "stableBaseline": "1.5.1",
       "contract": "contracts/v1.6/release-candidate.json",
@@ -164,7 +164,27 @@
       "runtimeEntrypoint": "js/glaze-v1.6.0-rc.1.mjs",
       "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
       "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
-      "note": "Active V1.6 Release Candidate established from the fully qualified 24/24 frozen-source evidence set. Current Official Stable and downstream consumer target remain 1.5.1 pending a separate governed Stable promotion."
+      "note": "Superseded V1.6 Release Candidate retained as audit provenance. Its 24/24 evidence remains bound to the frozen qualification source and feeds the separately accepted V1.6.0 Stable release."
+    },
+    {
+      "version": "1.6.0",
+      "label": "GLAZE UI V1.6",
+      "status": "stable",
+      "consumerEligible": true,
+      "stableBaseline": "1.5.1",
+      "contract": "contracts/v1.6/stable-release.json",
+      "qualification": "acceptance/v1.6-stable-qualification-review.json",
+      "acceptance": "acceptance/v1.6-stable.json",
+      "runtimeEntrypoint": "js/glaze-v1.6.0.mjs",
+      "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+      "acceptedReleaseSource": "a7180679ea851389e0f3004515f9a25f420e716d",
+      "acceptedReleaseTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+      "publicationControlCommit": "7e8b537b9d1a123bc3e92679774a4d9cc704e03b",
+      "tag": "v1.6.0",
+      "githubReleaseId": 392095913,
+      "artifactSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+      "note": "Current Official Stable shared Glaze UI release. Exact security-accepted source/artifact publication and post-publication byte readback are recorded; downstream consumers remain separately acceptance-gated."
     }
   ],
   "capabilities": {
@@ -186,9 +206,9 @@
     },
     "runtime-entrypoint": {
       "status": "stable",
-      "since": "1.5.1",
-      "implementation": "js/glaze-v1.5.1.mjs",
-      "note": "V1.5.1 promotes Stable patch identity over the unchanged reviewed V1.5.0 runtime behavior."
+      "since": "1.6.0",
+      "implementation": "js/glaze-v1.6.0.mjs",
+      "note": "V1.6.0 is the current Stable runtime entrypoint; V1.5.1 remains the known-good rollback runtime."
     },
     "adaptive-dynamic-color": {
       "status": "stable-inherited",
@@ -416,7 +436,7 @@
       "consumerEligible": true
     },
     "v1.6-release-candidate-control-plane": {
-      "status": "release-candidate",
+      "status": "superseded-release-candidate",
       "version": "1.6.0-rc.1",
       "internalVersion": "1.6.0-rc.1",
       "externalVersion": "1.6.0-rc.1",
@@ -430,6 +450,21 @@
       "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
       "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
       "consumerEligible": false
+    },
+    "v1.6-release-control-plane": {
+      "status": "stable",
+      "since": "1.6.0",
+      "version": "1.6.0",
+      "stableBaseline": "1.5.1",
+      "contract": "contracts/v1.6/stable-release.json",
+      "qualification": "acceptance/v1.6-stable-qualification-review.json",
+      "acceptance": "acceptance/v1.6-stable.json",
+      "runtimeEntrypoint": "js/glaze-v1.6.0.mjs",
+      "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "acceptedReleaseSource": "a7180679ea851389e0f3004515f9a25f420e716d",
+      "tag": "v1.6.0",
+      "githubReleaseId": 392095913,
+      "consumerEligible": true
     }
   }
 }

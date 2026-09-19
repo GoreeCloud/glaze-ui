@@ -1,22 +1,10 @@
 name: GLAZE UI V1.6 Artifact Provenance Rehearsal
 
 on:
-  pull_request:
-    paths:
-      - 'scripts/build_glaze_v1_6_artifact_rehearsal.py'
-      - 'acceptance/v1.6-artifact-provenance-plan.json'
-      - 'acceptance/v1.6-stable-qualification-review.json'
-      - 'scripts/verify_glaze_v1_6_stable_qualification_review.mjs'
-      - 'registry/lifecycle.json'
-      - 'contracts/v1.6/**'
-      - 'acceptance/v1.6-*.json'
-      - 'js/glaze-v1.6*.mjs'
-      - 'goreecloud.platform.yaml'
-      - 'GLAZE_UI_V1_6_PLANNED.md'
-      - 'VERSION'
-      - '.github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml'
   workflow_dispatch:
 
+# Historical RC artifact rehearsal retained for audit/manual reproduction only.
+# Current Stable release integrity is enforced by glaze-v1.6-final-artifact-preparation.yml.
 permissions:
   contents: read
 
