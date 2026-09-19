@@ -8,6 +8,7 @@ on:
       - 'acceptance/v1.6-stable-qualification-review.json'
       - 'acceptance/v1.6-secret-scan-finding-classification.json'
       - 'acceptance/v1.6-gitleaks-false-positive-review.json'
+      - 'acceptance/v1.6-dependency-vulnerability-classification.json'
       - '.gitleaksignore'
       - 'contracts/v1.6/**'
       - 'js/glaze-v1.6*'
