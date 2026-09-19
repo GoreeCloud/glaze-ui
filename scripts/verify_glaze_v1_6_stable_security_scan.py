@@ -131,6 +131,20 @@ def main() -> int:
     false_positive_review = load_json(ROOT / "acceptance/v1.6-gitleaks-false-positive-review.json")
     require(false_positive_review.get("disposition") == "verified-false-positives", "Gitleaks false-positive review must be accepted")
     require(false_positive_review.get("findingCount") == 21, "Gitleaks false-positive review count mismatch")
+
+    dependency_classification = load_json(ROOT / "acceptance/v1.6-dependency-vulnerability-classification.json")
+    require(
+        dependency_classification.get("decision") == "blocked-unresolved-build-tooling-vulnerabilities",
+        "dependency classification must remain blocking",
+    )
+    require(
+        dependency_classification.get("stablePromotionAuthorized") is False,
+        "dependency classification must not authorize Stable promotion",
+    )
+    prior_summary = dependency_classification.get("scanSummary", {})
+    require(prior_summary.get("osvPackageEntryCount") == 1104, "dependency classification package-count provenance mismatch")
+    require(prior_summary.get("distinctAdvisoryCount") == 50, "dependency classification advisory-count provenance mismatch")
+    require(prior_summary.get("recordedRuntimeMatchedVulnerableEntryCount") == 0, "dependency classification runtime-boundary mismatch")
     ignore_path = ROOT / ".gitleaksignore"
     require(ignore_path.is_file(), ".gitleaksignore is missing")
     ignore_entries = [
