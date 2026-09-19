@@ -36,18 +36,13 @@
     "disposition": "passed-selected-build-tooling-remediated",
     "runtimeExposure": "selected dependency graph is clean; no OSV advisory is present in the 206-component selected CycloneDX SBOM"
   },
-  "overallDecision": "blocked",
-  "stableSecurityAcceptanceGranted": false,
-  "stablePromotionAuthorized": false,
+  "overallDecision": "passed",
+  "stableSecurityAcceptanceGranted": true,
+  "stablePromotionAuthorized": true,
   "productionReadinessGranted": false,
-  "boundary": "Secret/Git-history, selected dependency/supply-chain, and authoritative repository security-gate enforcement sub-gates pass. Final Stable security acceptance remains blocked only by final exact artifact/source provenance for the same candidate. Final security acceptance requires the unpublished deterministic 1.6.0 artifact candidate, checksum/SBOM/provenance, and clean extracted-artifact secret scan before any tag or GitHub Release publication. Publication must reuse the already accepted bytes. This record does not grant Stable, publication, deployment, or downstream consumer acceptance.",
-  "remainingReleaseSecurityBlockers": [
-    {
-      "id": "final-artifact-source-provenance",
-      "reason": "The final exact release-preparation artifact, checksum/SBOM/provenance set, and artifact-to-source security acceptance are not yet complete for the exact candidate that would be published."
-    }
-  ],
-  "reconciledAt": "2026-09-19T08:39:32-05:00",
+  "boundary": "Secret/Git-history, selected dependency/supply-chain, authoritative repository gate enforcement, exact artifact/source provenance, and controlled publication/readback security controls all pass for the accepted V1.6.0 source/artifact pair. This security record removes the security blocker but does not by itself grant downstream consumer, deployment, or product production acceptance.",
+  "remainingReleaseSecurityBlockers": [],
+  "reconciledAt": "2026-09-19T09:20:12-05:00",
   "repositorySecurityGateEnforcement": {
     "result": "passed",
     "repository": "GoreeCloud/goreecloud-glaze-ui",
@@ -83,5 +78,16 @@
     "finalArtifactBuilder": "scripts/build_glaze_v1_6_final_artifact.py",
     "targetStableVersion": "1.6.0",
     "intendedImmutableTag": "v1.6.0"
+  },
+  "finalArtifactSourceProvenance": {
+    "result": "passed",
+    "acceptedSourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "acceptedSourceTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+    "finalSecurityAcceptance": "acceptance/v1.6-final-security-acceptance.json",
+    "artifactPreparationRunId": 35447623700,
+    "publicationWorkflowRunId": 35448300411,
+    "tag": "v1.6.0",
+    "githubReleaseId": 392095913,
+    "releasedBytesMatchSecurityAcceptedBytes": true
   }
 }
