@@ -71,6 +71,14 @@ assert.equal(security.stablePromotionAuthorized, false);
 assert.deepEqual(security.remainingReleaseSecurityBlockers, []);
 assert.equal(security.finalArtifactSourceProvenance.acceptedSourceRevision, RELEASE_SOURCE);
 assert.equal(security.finalArtifactSourceProvenance.releasedBytesMatchSecurityAcceptedBytes, true);
+assert.equal(security.stablePromotionAuthorized, false);
+assert.equal(security.controlApplicability.evaluatedControlCount, 39);
+assert.equal(security.controlApplicability.passedOrBoundedPassedCount, 14);
+assert.equal(security.controlApplicability.notApplicableJustifiedCount, 25);
+assert.equal(security.controlApplicability.blockedCount, 0);
+assert.equal(security.controlApplicability.unknownCount, 0);
+assert.equal(security.controlApplicability.exceptedCount, 0);
+assert.deepEqual(security.controlApplicability.exceptions, []);
 
 assert.equal(security.controlApplicability.evaluatedControlCount,39);
 assert.equal(security.controlApplicability.passedOrBoundedPassedCount,14);
@@ -109,6 +117,13 @@ assert.equal(artifact.publication.tagTargetRevision, RELEASE_SOURCE);
 assert.equal(artifact.publication.githubReleaseId, 392095913);
 assert.equal(artifact.publication.githubReleasePlatformImmutableFlag, false);
 assert.equal(artifact.publication.releasedBytesMatchSecurityAcceptedBytes, true);
+
+const drive = json('acceptance/v1.6-drive-document-reconciliation.json');
+assert.equal(drive.decision, 'passed-current-promotion-ready');
+assert.equal(drive.taskRecord.sha256, 'eaf98db0b43650059ded5173925dc16f1bc174a6e33674f4aec20158edd232e4');
+assert.equal(drive.changeLogRecord.sha256, '9d8cc11374ca7bee8c743eb46680ca7a5dc866004fca6a07fa8287925d8d552c');
+assert.equal(drive.taskRecord.structuralVerification.protectedLifecyclePromotionPendingPresent, true);
+assert.equal(drive.changeLogRecord.structuralVerification.protectedLifecyclePromotionPendingPresent, true);
 
 const applicability = json('acceptance/v1.6-production-applicability.json');
 assert.equal(applicability.componentBoundary.type, 'shared-library');
