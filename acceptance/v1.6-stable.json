@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.stable-acceptance",
+  "recordType": "stable-acceptance",
+  "product": "GLAZE UI V1.6",
+  "version": "1.6.0",
+  "lifecycleTarget": "Stable",
+  "decision": "approved-for-stable-promotion",
+  "stablePromotionAuthorized": true,
+  "consumerEligible": true,
+  "effectiveAfterProtectedMergeAndAuthoritativeMainReadback": true,
+  "reviewedReleaseCandidate": "1.6.0-rc.1",
+  "qualification": {
+    "sourceRevision": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+    "evidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+    "laneCount": 24,
+    "verifiedCount": 24,
+    "unverifiedCount": 0,
+    "notApplicableCount": 0
+  },
+  "releaseSource": {
+    "revision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "tree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+    "finalSecurityAcceptance": "acceptance/v1.6-final-security-acceptance.json",
+    "finalArtifactPreparationRunId": 35447623700,
+    "stableSecurityRunId": 35447623641
+  },
+  "repositoryProtection": {
+    "rulesetId": 23699829,
+    "rulesetName": "GoreeCloud Main Branch Production",
+    "enforcement": "active",
+    "bypassActors": [],
+    "currentUserCanBypass": "never",
+    "requiredChecks": [
+      "validate-v1",
+      "stable-qualification-review",
+      "stable-security-evidence",
+      "platform-contract-0-4"
+    ]
+  },
+  "publication": {
+    "publicationControlCommit": "7e8b537b9d1a123bc3e92679774a4d9cc704e03b",
+    "workflowRunId": 35448300411,
+    "tag": "v1.6.0",
+    "tagTargetRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "githubReleaseId": 392095913,
+    "githubReleasePlatformImmutableFlag": false,
+    "controlMode": "exact-tag-source-binding-plus-verified-digests-plus-protected-no-rebuild-publication-plus-post-publication-byte-readback",
+    "published": true,
+    "draft": false,
+    "prerelease": false,
+    "publicationReadbackArtifactId": 10586426818,
+    "publicationReadbackArtifactDigest": "sha256:3bd8b51e82a33393c2c58c9b1dc381352b3d7355408553f11fa536384bf272bc",
+    "releasedBytesMatchSecurityAcceptedBytes": true,
+    "assets": {
+      "glaze-ui-v1.6.0-source-runtime.tar.gz": "sha256:687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+      "cyclonedx-1.5.json": "sha256:3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+      "provenance.json": "sha256:711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8",
+      "SHA256SUMS": "sha256:4f2668332c5b4f00cd3a1298eae0dd630f28d0afebc2825f87fa580d1974f956"
+    }
+  },
+  "productionBoundary": {
+    "componentType": "shared-library",
+    "directServiceDeploymentApplicable": false,
+    "publicationAcceptanceApplicable": true,
+    "publicationAcceptanceCompleted": true,
+    "downstreamConsumerProductionAcceptanceAutomatic": false,
+    "evidence": "acceptance/v1.6-production-applicability.json"
+  },
+  "platformBoundary": {
+    "integralPlatformSystemsEvaluated": 9,
+    "selfAuthority": "Glaze UI",
+    "currentPlatformContract": "0.4",
+    "stableBootstrapConsumerBaseline": "1.5.1",
+    "note": "The Stable promotion is evaluated against the predecessor current Stable Glaze consumer baseline under Contract 0.4. The platform-wide current consumer target is reconciled to 1.6.0 only after this lifecycle promotion becomes authoritative."
+  },
+  "rollback": {
+    "knownGoodStable": "1.5.1",
+    "runtimeEntrypoint": "js/glaze-v1.5.1.mjs"
+  },
+  "downstreamBoundary": "No downstream GoreeCloud consumer inherits V1.6.0 conformance, deployment acceptance, production acceptance, or product Stable status. Consumers become adoption-required for the new shared Stable target and must complete repository-local exact-revision acceptance.",
+  "boundary": "This record authorizes the repository lifecycle promotion of GLAZE UI V1.6.0 to Stable because qualification, repository protection, final security acceptance, controlled publication, and post-publication byte readback are verified. The decision becomes current authority only after this promotion is protected-merged and authoritative main readback verifies the resulting lifecycle state."
+}
