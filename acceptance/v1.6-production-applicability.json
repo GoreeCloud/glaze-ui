@@ -31,12 +31,13 @@
     "containerRuntime": false,
     "networkListener": false,
     "productionDeploymentOwnedByGlazeUi": false,
-    "runtimeEntrypoint": "js/glaze-v1.6.0-rc.1.mjs",
+    "runtimeEntrypoint": "js/glaze-v1.6.0.mjs",
     "evidence": [
       "goreecloud.platform.yaml",
-      "contracts/v1.6/release-candidate.json",
-      "js/glaze-v1.6.0-rc.1.mjs",
-      "acceptance/v1.6-production-readiness-review.json"
+      "contracts/v1.6/stable-release.json",
+      "js/glaze-v1.6.0.mjs",
+      "acceptance/v1.6-stable.json",
+      "acceptance/v1.6-final-security-acceptance.json"
     ]
   },
   "deploymentApplicability": {
@@ -49,12 +50,12 @@
     "finalArtifactAcceptanceRequired": true,
     "directServiceDeploymentAcceptanceRequired": false,
     "downstreamConsumerProductionAcceptanceAutomatic": false,
-    "result": "applicable-at-publication-boundary",
+    "result": "passed-at-controlled-publication-boundary",
     "justification": "For the shared library itself, the applicable production/release acceptance boundary is the immutable Stable publication and its exact distributable source/runtime artifacts. Downstream applications and services must separately validate their own deployment and production acceptance."
   },
   "requiredStablePublicationBoundary": [
     "Exact Stable source revision and release tree.",
-    "Immutable Stable version and controlled release identifier/tag.",
+    "Controlled Stable version and release identifier/tag bound to exact source and verified asset digests.",
     "Supported source/runtime artifact set for the shared library.",
     "Artifact or source-archive SHA-256 checksum evidence.",
     "SBOM covering the applicable released dependency and build boundary.",
@@ -63,15 +64,27 @@
     "Signing or attestation evidence when required by the final release workflow.",
     "Stable acceptance record and release notes tied to the exact release.",
     "Known-good rollback target GLAZE UI 1.5.1.",
-    "Post-publication readback verifying the immutable tag/release/artifact identity."
+    "Post-publication readback verifying the controlled tag/source/release/artifact identity and exact released bytes."
   ],
   "currentDisposition": {
     "applicabilityResolved": true,
-    "publicationAcceptanceCompleted": false,
-    "finalArtifactAccepted": false,
-    "productionAcceptanceGranted": false,
-    "stablePromotionAuthorized": false
+    "publicationAcceptanceCompleted": true,
+    "finalArtifactAccepted": true,
+    "productionAcceptanceGrantedForSharedLibraryPublicationBoundary": true,
+    "directServiceDeploymentAcceptanceRequired": false,
+    "stablePromotionAuthorized": true
   },
   "downstreamBoundary": "No GoreeCloud application, service, website, device client, or other consumer inherits deployment acceptance, production acceptance, or V1.6 conformance from the shared Glaze UI release. Each consumer retains repository-local and target-environment acceptance obligations.",
-  "boundary": "This record resolves only whether an independent service-style deployment is applicable to GLAZE UI V1.6. It establishes that direct deployment is not applicable to the shared library and that immutable publication/artifact acceptance is the applicable Stable release boundary. The final artifact/provenance/publication blocker remains open until that exact release evidence exists."
+  "boundary": "Direct service deployment is not applicable to this shared library. The applicable production/release acceptance boundary is complete: the final artifact was security-accepted, published under controlled tag v1.6.0 to the exact accepted source revision, and read back byte-for-byte with verified digests. GitHub's optional immutable-release feature is not enabled; control is established by protected no-rebuild publication, exact tag/source binding, recorded digests, post-publication byte readback, and GoreeCloud no-rewrite governance. Downstream production acceptance remains separate.",
+  "targetStableVersion": "1.6.0",
+  "reconciledAt": "2026-09-19T09:20:12-05:00",
+  "publicationEvidence": {
+    "acceptedReleaseSource": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "tag": "v1.6.0",
+    "githubReleaseId": 392095913,
+    "githubReleasePlatformImmutableFlag": false,
+    "publicationWorkflowRunId": 35448300411,
+    "releasedBytesMatchSecurityAcceptedBytes": true,
+    "stableAcceptance": "acceptance/v1.6-stable.json"
+  }
 }
