@@ -203,8 +203,8 @@ const sourcePaths=[
   'contracts/v1.6/conformance-adoption.dev.json',
   'contracts/v1.6/acceptance.dev.json'
 ];
-const continuity=spawnSync('git',['diff','--quiet',QUALIFIED,'--',...sourcePaths],{cwd:root,encoding:'utf8'});
-assert.equal(continuity.status,0,'qualified V1.6 behavior/contract source changed after frozen qualification anchor');
+const continuity=spawnSync('git',['diff','--quiet',ACCEPTED_SOURCE,'--',...sourcePaths],{cwd:root,encoding:'utf8'});
+assert.equal(continuity.status,0,'accepted/published V1.6 behavior/contract source changed after release acceptance');
 
 for(const rel of ['js/glaze-v1.5.1.mjs','contracts/v1.5.1/stable-scope.json','acceptance/v1.5.1-stable.md']){
   assert.ok(fs.existsSync(path.join(root,rel)),'missing V1.5.1 rollback provenance: '+rel);
