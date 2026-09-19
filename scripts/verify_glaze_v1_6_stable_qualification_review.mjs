@@ -10,6 +10,7 @@ const readiness = readJson('acceptance/v1.6-production-readiness-review.json');
 const driveReconciliation = readJson('acceptance/v1.6-drive-document-reconciliation.json');
 const productionApplicability = readJson('acceptance/v1.6-production-applicability.json');
 const artifactPlan = readJson('acceptance/v1.6-artifact-provenance-plan.json');
+const securityReview = readJson('acceptance/v1.6-stable-security-review.json');
 
 assert.equal(fs.readFileSync(new URL('../VERSION', import.meta.url), 'utf8').trim(), '1.5.1');
 assert.equal(lifecycle.currentStable, '1.5.1');
@@ -28,6 +29,7 @@ assert.equal(review.source.qualificationSource, 'c7509c79256b04b0aa67cb9dd0737d7
 assert.equal(review.source.qualificationEvidenceIntegrationCommit, '354f5759385c28596fcfec26a3ad525e89fb1c35');
 assert.equal(review.source.releaseCandidateIntegrationCommit, '3f070f6fc01bc7904e3cd8c20851db5a0c40d539');
 assert.equal(review.source.repositoryDocumentationReconciliationCommit, '294e721c6fc56afcde62f7fe70c96e9d711557b1');
+assert.equal(review.source.protectionReadinessIntegrationCommit, '305de8a1fe5cc7670c1e012efcc7fb55a4bcfdd6');
 assert.equal(review.governance.platformContract?.version, '0.4');
 assert.match(review.governance.platformContract?.scope || '', /shared[- ]library/);
 
@@ -83,6 +85,23 @@ assert.equal(artifactPlan.currentBoundary?.finalStableRevisionSelected, false);
 assert.equal(artifactPlan.rehearsal?.publishesTag, false);
 assert.equal(artifactPlan.rehearsal?.publishesGithubRelease, false);
 assert.equal(artifactPlan.rehearsal?.grantsStable, false);
+const expectedFinalizationOrder = [
+  'repository-protection',
+  'exact-candidate-selection',
+  'final-unpublished-artifact',
+  'final-security-acceptance',
+  'immutable-publication',
+  'post-publication-readback',
+  'exact-candidate-stable-qualification',
+];
+assert.deepEqual(artifactPlan.finalizationSequence?.map(item => item.id), expectedFinalizationOrder, 'V1.6 finalization sequence must remain non-circular and fail-closed');
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresProtectedSource, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresUnpublishedFinalCandidateArtifact, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresArtifactChecksumSbomProvenance, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresPublishedTagOrRelease, false);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.publicationOccursAfterSecurityAcceptance, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.publicationMustReuseAcceptedArtifactBytes, true);
+assert.ok(review.verifiedPasses.some(item => item.id === 'repository.protection-readiness' && item.status === 'passed-preparation-only'), 'Protection-readiness preparation must be recorded without closing host protection');
 assert.equal(blockers.get('release.artifact-provenance-and-publication-boundary')?.status, 'blocked-prepared-awaiting-final-exact-artifact');
 assert.equal(review.remainingBlockerCount, 3, 'remainingBlockerCount must be three');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
