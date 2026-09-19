@@ -238,6 +238,7 @@ jobs:
           "$RUNNER_TEMP/osv-scanner" scan source \
             --lockfile "$INPUT" \
             --format cyclonedx-1-5 \
+            --all-packages \
             > artifacts/v1.6-security/selected-cyclonedx-1.5.json
           selected_sbom_status=$?
           set -e
@@ -258,12 +259,15 @@ jobs:
           import json
           from pathlib import Path
 
+          inventory = json.loads(Path("artifacts/v1.6-security/selected-dependencies.osv-scanner.json").read_text())
+          packages = sum(
+              len(result.get("packages", []))
+              for result in inventory.get("results", [])
+          )
           report = json.loads(Path("artifacts/v1.6-security/selected-osv-report.json").read_text())
           advisories = set()
-          packages = 0
           for result in report.get("results", []):
               for entry in result.get("packages", []):
-                  packages += 1
                   for vuln in entry.get("vulnerabilities", []):
                       if vuln.get("id"):
                           advisories.add(vuln["id"])
