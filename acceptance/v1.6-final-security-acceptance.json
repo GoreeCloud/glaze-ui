@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.final-stable-security-acceptance",
+  "recordType": "final-stable-security-acceptance",
+  "product": "GLAZE UI V1.6",
+  "releaseCandidate": "1.6.0-rc.1",
+  "targetReleaseVersion": "1.6.0",
+  "intendedImmutableTag": "v1.6.0",
+  "decision": "passed-for-controlled-publication",
+  "stableSecurityAcceptanceGranted": true,
+  "publicationAuthorized": true,
+  "stablePromotionAuthorized": false,
+  "productionReadinessGranted": false,
+  "productionAcceptanceGranted": false,
+  "downstreamConsumerAcceptanceGranted": false,
+  "evidenceCutoffAt": "2026-09-19T14:06:51Z",
+  "acceptedSource": {
+    "revision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "tree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+    "branch": "main",
+    "protected": true,
+    "rulesetId": 23699829,
+    "rulesetName": "GoreeCloud Main Branch Production",
+    "bypassActors": [],
+    "currentUserCanBypass": "never",
+    "exactMainPushWorkflowCount": 31,
+    "incompletePushWorkflowCount": 0,
+    "failedPushWorkflowCount": 0
+  },
+  "sourceSecurityEvidence": {
+    "workflowRunId": 35447623641,
+    "conclusion": "success",
+    "unreviewedSecretFindingCount": 0,
+    "reviewedHistoricalFalsePositiveCount": 21,
+    "selectedPackageEntryCount": 426,
+    "vulnerableSelectedPackageEntryCount": 0,
+    "distinctAdvisoryCount": 0,
+    "selectedDependencyCycloneDxComponentCount": 206,
+    "selectedDependencyCycloneDxVulnerabilityCount": 0
+  },
+  "acceptedArtifact": {
+    "preparationWorkflowRunId": 35447623700,
+    "actionsArtifactId": 10586051196,
+    "actionsArtifactName": "glaze-v1.6-final-artifact-a7180679ea851389e0f3004515f9a25f420e716d",
+    "actionsArtifactDigest": "sha256:3da50b11641d50e68b67f45eec49850723ba6bf4f74a889686bffe3648ab7f06",
+    "archive": {
+      "name": "glaze-ui-v1.6.0-source-runtime.tar.gz",
+      "sha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af"
+    },
+    "checksumManifest": "SHA256SUMS",
+    "sbom": {
+      "name": "cyclonedx-1.5.json",
+      "sha256": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+      "format": "CycloneDX",
+      "specVersion": "1.5",
+      "fileComponentCount": 35,
+      "vulnerabilityCount": 0
+    },
+    "provenance": {
+      "name": "provenance.json",
+      "sha256": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8"
+    },
+    "deterministicDoubleBuildPassed": true,
+    "sha256ManifestReadbackPassed": true,
+    "extractedArtifactSecretFindingCount": 0,
+    "externalRuntimeDependencies": []
+  },
+  "independentReadback": {
+    "actionsArtifactZipSha256": "3da50b11641d50e68b67f45eec49850723ba6bf4f74a889686bffe3648ab7f06",
+    "sha256ManifestVerified": true,
+    "generatedVersion": "1.6.0",
+    "generatedStableRuntimePresent": true,
+    "generatedStableContractPresent": true,
+    "rcRuntimeExcludedFromReleaseArchive": true,
+    "activationRequiresImmutablePublicationReadback": true,
+    "lifecyclePromotionStillRequired": true
+  },
+  "publicationConstraints": {
+    "exactSourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "exactActionsArtifactId": 10586051196,
+    "exactActionsArtifactDigest": "sha256:3da50b11641d50e68b67f45eec49850723ba6bf4f74a889686bffe3648ab7f06",
+    "reuseAcceptedArtifactBytesWithoutRebuild": true,
+    "targetTag": "v1.6.0",
+    "tagMustResolveToAcceptedSourceRevision": true,
+    "postPublicationTagReadbackRequired": true,
+    "postPublicationReleaseReadbackRequired": true,
+    "postPublicationAssetByteReadbackRequired": true,
+    "lifecyclePromotionOccursOnlyAfterReadback": true
+  },
+  "rollback": {
+    "knownGoodStable": "1.5.1",
+    "runtimeEntrypoint": "js/glaze-v1.5.1.mjs"
+  },
+  "boundary": "This record grants final Stable security acceptance only for controlled publication of the exact accepted V1.6.0 artifact bytes built from source revision a7180679ea851389e0f3004515f9a25f420e716d. It does not itself grant Stable lifecycle status, production acceptance, deployment acceptance, or downstream consumer acceptance. Publication must reuse the accepted bytes without rebuild and must be followed by authoritative tag/release/asset readback before lifecycle promotion."
+}
