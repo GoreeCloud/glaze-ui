@@ -102,7 +102,7 @@ assert.equal(finalSecurity.acceptedArtifact.sbom.sha256,SBOM_SHA);
 assert.equal(finalSecurity.acceptedArtifact.provenance.sha256,PROVENANCE_SHA);
 
 const drive=json('acceptance/v1.6-drive-document-reconciliation.json');
-assert.equal(drive.decision,'passed-promotion-ready');
+assert.equal(drive.decision,'passed-current-promotion-ready');
 assert.equal(drive.taskRecord.driveFileId,'1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy');
 assert.equal(drive.taskRecord.sha256,'eaf98db0b43650059ded5173925dc16f1bc174a6e33674f4aec20158edd232e4');
 assert.equal(drive.taskRecord.pageCount,76);
