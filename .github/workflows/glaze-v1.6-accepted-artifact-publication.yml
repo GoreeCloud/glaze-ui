@@ -300,11 +300,22 @@ jobs:
 
           if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
             gh release view "${RELEASE_TAG}" --json tagName,name,isDraft,isPrerelease
+            test "$(gh release view "${RELEASE_TAG}" --json tagName --jq .tagName)" = "${RELEASE_TAG}"
+            test "$(gh release view "${RELEASE_TAG}" --json name --jq .name)" = "${RELEASE_TITLE}"
             test "$(gh release view "${RELEASE_TAG}" --json isDraft --jq .isDraft)" = "false"
             test "$(gh release view "${RELEASE_TAG}" --json isPrerelease --jq .isPrerelease)" = "true"
           else
-            gh release create "${RELEASE_TAG}"               "$RUNNER_TEMP/accepted/glaze-ui-v1.6.0-source-runtime.tar.gz"               "$RUNNER_TEMP/accepted/SHA256SUMS"               "$RUNNER_TEMP/accepted/cyclonedx-1.5.json"               "$RUNNER_TEMP/accepted/provenance.json"               "$RUNNER_TEMP/accepted/final-artifact-summary.json"               --verify-tag               --title "${RELEASE_TITLE}"               --notes-file "$RUNNER_TEMP/release-notes.md"               --prerelease
+            gh release create "${RELEASE_TAG}" --verify-tag --title "${RELEASE_TITLE}" --notes-file "$RUNNER_TEMP/release-notes.md" --prerelease
           fi
+
+          release_id="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" --jq .id)"
+          for file in glaze-ui-v1.6.0-source-runtime.tar.gz SHA256SUMS cyclonedx-1.5.json provenance.json final-artifact-summary.json; do
+            if gh api "repos/${GITHUB_REPOSITORY}/releases/${release_id}/assets" --jq '.[].name' | grep -Fx "${file}" >/dev/null; then
+              echo "Release asset already exists; preserving published bytes: ${file}"
+            else
+              gh release upload "${RELEASE_TAG}" "$RUNNER_TEMP/accepted/${file}"
+            fi
+          done
 
       - name: Authoritative publication readback
         shell: bash
