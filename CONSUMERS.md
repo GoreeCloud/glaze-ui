@@ -1,39 +1,38 @@
-# GLAZE UI V1.5 — Contextual + Capability Awareness Consumers
+# GLAZE UI V1.6 Consumers
 
 The machine-readable consumer registry authority for current consumer state is `consumers/registry.json`.
 
-The required target for every applicable GoreeCloud user-facing consumer is **GLAZE UI V1.5 — Contextual + Capability Awareness** (`1.5.1`). Fresh repository-local V1.5 adoption and acceptance evidence is required for each consumer; prior V1.5.0, V1.4.1, V1.4.0, V1.3, V1.2, V1.1, V1.0, Candidate, Development, or pre-reset evidence does not automatically establish current conformance.
+The required target for every applicable GoreeCloud user-facing consumer is **GLAZE UI V1.6** (`1.6.0`). Fresh repository-local V1.6 adoption and acceptance evidence is required for each consumer; prior V1.5.1, V1.5.0, V1.4.1, V1.4.0, V1.3, V1.2, V1.1, V1.0, Candidate, Development, or pre-reset evidence does not automatically establish current conformance.
 
-No consumer is production-eligible merely because GLAZE UI V1.5.1 is the current Stable platform target. Each application or service must independently satisfy its applicable rendered, interaction, accessibility, native/platform, product, performance, rollback, privacy/security authority, and release acceptance gates.
+No consumer is production-eligible merely because GLAZE UI V1.6.0 is the current Stable platform target. Each application or service must independently satisfy its applicable rendered, interaction, accessibility, native/platform, product, performance, rollback, privacy/security authority, and release acceptance gates.
 
 ## Stable consumer entrypoints
 
-- Web material baseline: `css/glaze-v1.4.1.css`
-- Runtime: `js/glaze-v1.5.1.mjs`
-- Contract: `GLAZE_UI_V1_5.md`
-- Stable qualification scope: `contracts/v1.5.1/stable-scope.json`
-- Stable acceptance: `acceptance/v1.5.1-stable.md`
-- Immediate rollback baseline: `1.5.0`
+- Runtime: `js/glaze-v1.6.0.mjs`
+- Stable contract: `contracts/v1.6/stable-release.json`
+- Stable acceptance: `acceptance/v1.6-stable.json`
+- Publication readback: `acceptance/v1.6-publication-readback.json`
+- Frozen qualification source: `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`
+- Released source revision: `a7180679ea851389e0f3004515f9a25f420e716d`
+- Immediate known-good rollback baseline: `1.5.1`
 
-V1.5.1 preserves the reviewed V1.5 Context + Capability Awareness behavior while closing the two shared qualification obligations deliberately deferred from V1.5.0. Consumers may use contextual composition, capability-aware controls/navigation/actions, runtime/connectivity/window adaptation, graceful fallbacks, and privacy-safe diagnostics only within the authority boundaries of their own systems and integrations.
+V1.6.0 carries the complete 24/24 qualified shared presentation-system evidence through final security acceptance, deterministic artifact provenance, controlled publication, and byte-for-byte release readback. It remains presentation-only: consumers retain their own privacy, security, identity, policy, operational, deployment, and production-acceptance authority.
 
 ## Registry status vocabulary
 
-- `adoption-required` — the consumer has not yet supplied accepted current-Stable V1.5.1 evidence. It may retain superseded historical target/evidence fields as migration provenance, but it does not satisfy the current required target.
-- `unverified` — the current consumer state has not yet been verified against the V1.5.1 Stable target.
+- `adoption-required` — the consumer has not yet supplied accepted current-Stable V1.6.0 evidence. It may retain superseded historical target/evidence fields as migration provenance, but it does not satisfy the current required target.
+- `unverified` — the current consumer state has not yet been verified against the V1.6.0 Stable target.
 - `accepted-v1` — the consumer has completed governed product-specific acceptance for the current Stable contract at an exact 40-character source revision with an evidence reference. This state still does not make the overall product production-eligible; product lifecycle/release authority remains independent.
 
 An accepted current consumer must target exactly the current Stable version and identify the exact accepted source revision and evidence record.
 
-## V1.5.1 shared qualification boundary
+## V1.6 shared qualification boundary
 
-The shared V1.5.1 qualification contains **18 accepted obligations**. Sixteen are retained from V1.5.0 for exact reviewed implementation anchor `ee1032a0822ab8e103f8afe48e5c1859fde65cc9`. The two V1.5.1 qualification expansions are independently accepted for frozen exact Development revision `5b59d0e36950d737dba35b58ae58058684e0831b`:
+The shared V1.6 qualification contains **24 verified obligations, 0 unverified, and 0 not applicable** for the governed design-system scope. Qualification evidence remains bound to frozen source `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`; final artifact/security acceptance and publication are bound to released source `a7180679ea851389e0f3004515f9a25f420e716d`.
 
-- representative measurement against the approved Glaze UI Performance Budget v1.0 — PR #230 comment `5697516074`;
-- representative fold/unfold/posture/rotation target-runtime acceptance under `GCU-ADR-GLAZE-V151-POSTURE-TR-001` — PR #230 comment `5705230782`.
+These shared acceptances do not transfer downstream automatically. Consumer repositories must independently validate their supported platform/runtime, accessibility, privacy/security authority boundaries, integration, rollback, performance, deployment, and production-acceptance requirements.
 
-These shared acceptances are bounded to their reviewed environments. Consumer repositories supporting relevant performance or posture claims may retain stricter local requirements and must independently validate their supported platform/runtime boundary.
+Privacy Shield, Wardveil Security, GoreeCloud Identity, GoreeCloud Policy, applications, services, platforms, and other authoritative systems retain their own truth domains. Glaze UI presentation must not create consent, permission, authorization, operational authority, or automatic consequential/fallback execution.
 
-Privacy Shield, Wardveil Security, application, service, platform, policy, identity, and other authoritative systems retain their own truth domains. Glaze UI presentation must not create consent, permission, authorization, operational authority, or automatic consequential/fallback execution.
+Shared Stable promotion does not make any downstream consumer production-eligible.
 
-Shared Stable promotion also does not establish downstream deployment, production acceptance, an immutable `v1.5.1` tag, or GitHub Release publication.
