@@ -4,7 +4,7 @@
   "recordType": "stable-security-review",
   "product": "GLAZE UI V1.6",
   "candidate": "1.6.0-rc.1",
-  "reviewedAt": "2026-09-18T20:10:00-05:00",
+  "reviewedAt": "2026-09-18T21:45:00-05:00",
   "secretHistory": {
     "result": "passed",
     "reviewedFalsePositiveCount": 21,
@@ -15,18 +15,40 @@
     ]
   },
   "dependencySupplyChain": {
-    "result": "blocked",
-    "advisoryCount": 50,
+    "result": "passed",
+    "advisoryCount": 0,
+    "selectedCoordinateCount": 206,
+    "selectedPackageEntryCount": 426,
+    "cyclonedxComponentCount": 206,
+    "cyclonedxVulnerabilityCount": 0,
     "evidence": [
-      "acceptance/v1.6-dependency-vulnerability-classification.json"
+      "acceptance/v1.6-dependency-vulnerability-classification.json",
+      ".github/workflows/glaze-v1.6-stable-security-evidence.yml",
+      "scripts/generate_v1_6_selected_dependency_inventory.py",
+      "scripts/verify_glaze_v1_6_stable_security_scan.py"
     ],
-    "disposition": "build-tooling-remediation-required",
-    "runtimeExposure": "no flagged vulnerable coordinate observed in the three recorded debugRuntimeClasspath reports",
-    "buildToolingApplicable": true
+    "remediationEvidence": {
+      "experimentHead": "066a997720c75dc13a5a64ba4e1b407f9ce894a5",
+      "securityWorkflowRunId": 35416021131,
+      "androidWorkflowRunId": 35416021153,
+      "wearWorkflowRunId": 35416021105
+    },
+    "disposition": "passed-selected-build-tooling-remediated",
+    "runtimeExposure": "selected dependency graph is clean; no OSV advisory is present in the 206-component selected CycloneDX SBOM"
   },
   "overallDecision": "blocked",
   "stableSecurityAcceptanceGranted": false,
   "stablePromotionAuthorized": false,
   "productionReadinessGranted": false,
-  "boundary": "A successful evidence-collection workflow validates the accuracy of this blocked security state; it does not mean security acceptance passed. Stable remains blocked until all applicable security controls pass or have governed exceptions."
+  "boundary": "Secret/Git-history and selected dependency/supply-chain sub-gates pass. Final Stable security acceptance remains blocked by repository security-gate enforcement and final artifact/source provenance. This record does not grant Stable, publication, deployment, or downstream consumer acceptance.",
+  "remainingReleaseSecurityBlockers": [
+    {
+      "id": "security-gate-enforcement",
+      "reason": "Authoritative main is not protected; required security checks can still be bypassed outside the governed PR path."
+    },
+    {
+      "id": "final-artifact-source-provenance",
+      "reason": "The final Stable-approved artifact/release identity and exact artifact-to-source acceptance are not yet complete."
+    }
+  ]
 }
