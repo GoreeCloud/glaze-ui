@@ -1,13 +1,13 @@
 # GLAZE UI V1.0-Origin — Application and Service Icon Identity
 
 **Contract origin:** Official V1.0 reset baseline; inherited by later V1 releases unless superseded.  
-**Current Stable product authority:** GLAZE UI V1.5 / `1.5.1`.
+**Current Stable product authority:** GLAZE UI V1.6 / `1.6.0`.
 
-`tokens/icon-identity.json` retains an internal icon-identity contract revision and baseline of `1.5.0`. That value is a subsystem-contract revision only and does not define the current Glaze UI product lifecycle, consumer target, or production-acceptance state. Current product lifecycle authority is `1.5.1` and remains separate in `registry/lifecycle.json` and `VERSION`.
+`tokens/icon-identity.json` retains an internal icon-identity contract revision and baseline of `1.5.0`. That value is a subsystem-contract revision only and does not define the current Glaze UI product lifecycle, consumer target, or production-acceptance state. Current product lifecycle authority is `1.6.0` and remains separate in `registry/lifecycle.json` and `VERSION`.
 
 ## Governing principle
 
-The central identity rule is **shared DNA without shared identity**. The V1 identity grammar supplies common ecosystem structure while each product retains a distinct, memorable identity. This contract originated under GLAZE UI V1.0 and remains inherited by the current V1.5 Stable product where not superseded.
+The central identity rule is **shared DNA without shared identity**. The V1 identity grammar supplies common ecosystem structure while each product retains a distinct, memorable identity. This contract originated under GLAZE UI V1.0 and remains inherited by the current V1.6 Stable product where not superseded.
 
 ## Identity hierarchy
 
@@ -87,4 +87,4 @@ A successful identity should answer four questions quickly: What is this? What f
 
 ## V1 inheritance and Stable promotion boundary
 
-This contract originated in the official GLAZE UI V1.0 reset baseline and remains inherited through current Stable V1.5.1 where not superseded. V1.5.0 remains the immediate known-good Stable rollback baseline. The internal `1.5.0` icon-identity revision remains a subsystem revision and must not be interpreted as independent evidence of the current Glaze UI product lifecycle. Source validation proves contract consistency only. It does **not** establish production Stable acceptance for an icon implementation. Production acceptance requires fresh exact-revision ecosystem review, family review, monochrome and optical-size validation, accessibility review, state-overlay review, collision assessment, continuity assessment where applicable, and confirmation that Planned review automation is not represented as implemented.
+This contract originated in the official GLAZE UI V1.0 reset baseline and remains inherited through current Stable V1.6.0 where not superseded. V1.5.1 remains the immediate known-good Stable rollback baseline. The internal `1.5.0` icon-identity revision remains a subsystem revision and must not be interpreted as independent evidence of the current Glaze UI product lifecycle. Source validation proves contract consistency only. It does **not** establish production Stable acceptance for an icon implementation. Production acceptance requires fresh exact-revision ecosystem review, family review, monochrome and optical-size validation, accessibility review, state-overlay review, collision assessment, continuity assessment where applicable, and confirmation that Planned review automation is not represented as implemented.
