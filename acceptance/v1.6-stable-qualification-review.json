@@ -4,7 +4,7 @@
   "recordType": "stable-qualification-review",
   "product": "GLAZE UI V1.6",
   "reviewedReleaseCandidate": "1.6.0-rc.1",
-  "reviewedAt": "2026-09-18T20:35:00-05:00",
+  "reviewedAt": "2026-09-18T20:50:00-05:00",
   "reviewExecutor": "ChatGPT",
   "decisionAuthority": "GoreeCloud project-owner instruction to continue the V1.6 governed qualification review",
   "governance": {
@@ -173,6 +173,17 @@
         "acceptance/v1.6-production-readiness-review.json"
       ],
       "finding": "Central GoreeCloud Platform Contract 0.4 now authoritatively supports shared-library components at implementation commit a75ef035ca45a6043dae21e0ae006960290d485d. Glaze UI declares itself as shared-library, explicitly evaluates all nine Integral Platform Systems, and exact-head CI validates the Release Candidate declaration while Stable eligibility remains false."
+    },
+    {
+      "id": "security.secret-and-history-scan",
+      "status": "passed",
+      "evidence": [
+        "acceptance/v1.6-stable-security-review.json",
+        "acceptance/v1.6-secret-scan-finding-classification.json",
+        "acceptance/v1.6-gitleaks-false-positive-review.json",
+        ".gitleaksignore"
+      ],
+      "finding": "The exact-head V1.6 security evidence gate scans the complete fetched Git history with verified Gitleaks and records 0 unreviewed secret findings after exact-fingerprint review of 21 historical false positives. This closes only the secret/history sub-gate; dependency and final release-security acceptance remain blocked."
     }
   ],
   "blockers": [
@@ -184,25 +195,18 @@
       "requiredResolution": "Protect the authoritative default branch with the applicable pull-request, required-check, exact-head/up-to-date, force-push, deletion, and auditable-bypass controls required by GoreeCloud repository governance, then verify the live host state."
     },
     {
-      "id": "security.secret-and-history-scan",
-      "status": "blocked-unverified",
-      "authority": "Stable Release Security Blockers v1.0",
-      "finding": "No exact-candidate repository/Git-history secret scan result was verified for the V1.6 Stable decision.",
-      "requiredResolution": "Run and preserve an approved exact-candidate secret/history scan; any possible exposure must be handled through required revocation/rotation and evidence."
-    },
-    {
       "id": "security.dependency-and-supply-chain-scan",
-      "status": "blocked-unverified",
+      "status": "blocked-known-findings",
       "authority": "Stable Release Security Blockers v1.0",
-      "finding": "Immutable CI action pin integrity is verified, but no exact-candidate vulnerability report covering applicable shipped third-party components, build tooling, reference-build dependencies, and CI supply-chain risk was verified.",
-      "requiredResolution": "Determine the exact Stable distribution/build dependency boundary, run appropriate vulnerability and supply-chain checks, preserve the results, and resolve findings above the accepted threshold."
+      "finding": "Exact-candidate OSV and CycloneDX evidence is now available for the governed V1.6 security-review branch. The reviewed baseline records 50 distinct dependency vulnerability advisories across 1,104 scanned Maven package entries and 507 SBOM components, with 20 vulnerable coordinates in build tooling/reference-build dependency state and 0 matches in the three recorded debugRuntimeClasspath reports. Build tooling remains in scope under Stable Release Security Blockers v1.0, so these findings remain release-blocking pending remediation or an authorized evidence-backed disposition.",
+      "requiredResolution": "Remediate the affected build-tool dependency graph, or establish a narrow authorized exception/non-applicability disposition under Stable Release Security Blockers v1.0 and the Security Updates and Vulnerability Management standard, then rerun exact-candidate security evidence."
     },
     {
       "id": "security.release-security-acceptance",
-      "status": "blocked-unverified",
+      "status": "blocked-known-findings",
       "authority": "Stable Release Security Blockers v1.0",
-      "finding": "No V1.6 Stable release security acceptance record currently proves every applicable security control as Passed, Not Applicable with justification, or an authorized exception.",
-      "requiredResolution": "Create an exact-candidate security acceptance record after the applicable security evidence is complete. Unknown must remain blocking."
+      "finding": "A governed V1.6 Stable security review now exists and passes the secret/Git-history sub-gate, but its overall decision remains blocked because dependency and supply-chain findings are unresolved.",
+      "requiredResolution": "Close the dependency/supply-chain findings or record an authorized narrow exception, then update the exact-candidate Stable security acceptance record so every applicable control is Passed, Not Applicable with justification, or Excepted with approved evidence."
     },
     {
       "id": "release.artifact-provenance-and-publication-boundary",
@@ -239,5 +243,5 @@
   "requiredLifecycleState": "Release Candidate",
   "nextControlledPhase": "Resolve Stable blockers and re-run an exact-candidate Stable qualification review before any Stable lifecycle transition.",
   "boundary": "The complete V1.6 24/24 qualification matrix and governed Release Candidate review are necessary evidence but do not satisfy the higher Stable qualification standard by themselves. Stable remains blocked while any listed blocker is unresolved or unverified.",
-  "remainingBlockerCount": 6
+  "remainingBlockerCount": 5
 }
