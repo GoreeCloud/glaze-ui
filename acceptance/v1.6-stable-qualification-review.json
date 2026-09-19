@@ -73,14 +73,14 @@
   "verifiedPasses": [
     {
       "id": "candidate.identity",
-      "status": "passed",
+      "status": "passed-historical-continuity",
       "evidence": [
         "registry/lifecycle.json",
         "contracts/v1.6/release-candidate.json",
         "acceptance/v1.6-rc.1.json",
         "js/glaze-v1.6.0-rc.1.mjs"
       ],
-      "finding": "The active V1.6 Release Candidate identity is explicit, versioned, non-consumer-eligible, and bounded to V1.5.1 as the current Stable rollback baseline."
+      "finding": "V1.6.0-rc.1 is retained as explicit, non-consumer-eligible Release Candidate provenance. The promotion target is V1.6.0 Stable; V1.5.1 is retained as the known-good rollback baseline."
     },
     {
       "id": "qualification.matrix",
@@ -98,11 +98,11 @@
     },
     {
       "id": "production-readiness.rc-nine-system-review",
-      "status": "passed-for-release-candidate-review",
+      "status": "passed-bounded",
       "evidence": [
         "acceptance/v1.6-production-readiness-review.json"
       ],
-      "finding": "All nine Integral Platform Systems were explicitly evaluated for the shared presentation-system Release Candidate boundary. This evidence does not itself grant Stable or production readiness."
+      "finding": "All nine Integral Platform Systems were evaluated for the shared presentation-system boundary. The Release Candidate-era review remains valid evidence input; final shared-library production applicability is separately resolved by acceptance/v1.6-production-applicability.json."
     },
     {
       "id": "accessibility-and-rendering.shared-scope",
@@ -132,7 +132,7 @@
         "registry/lifecycle.json",
         "js/glaze-v1.5.1.mjs"
       ],
-      "finding": "V1.5.1 remains the verified current Stable and rollback target while V1.6 is Release Candidate."
+      "finding": "V1.5.1 is retained and verified as the immediate known-good rollback Stable for the V1.6.0 promotion."
     },
     {
       "id": "ci.external-action-integrity",
@@ -145,7 +145,7 @@
     },
     {
       "id": "repository.documentation",
-      "status": "passed-for-repository-source",
+      "status": "passed-promotion-ready",
       "evidence": [
         "README.md",
         "SPECIFICATIONS.md",
@@ -159,25 +159,25 @@
         "CHANGELOG.md",
         "CONTRIBUTING.md"
       ],
-      "finding": "Repository front-door documentation was reconciled to V1.5.1 Stable and V1.6 Release Candidate truth at commit 294e721c6fc56afcde62f7fe70c96e9d711557b1."
+      "finding": "Repository front-door documentation is reconciled on this promotion branch to V1.6.0 Stable authority, retained V1.6 RC provenance, V1.5.1 rollback, exact published release evidence, and separate downstream adoption boundaries."
     },
     {
       "id": "drive.documentation-and-task-reconciliation",
-      "status": "passed",
+      "status": "passed-promotion-ready",
       "evidence": [
         "acceptance/v1.6-drive-document-reconciliation.json"
       ],
-      "finding": "Canonical Glaze UI task and changelog records are now DOCX in their governed Drive folders, raw files were read back and hashed, all rendered pages were visually reviewed, current V1.5.1 Stable / V1.6 RC / blocked-Stable state is present, and the prior current Markdown masters no longer appear as active authority."
+      "finding": "Canonical Glaze UI task and changelog DOCX records were updated in place, raw-read back, SHA-256 verified, rendered, and visually reviewed. They truthfully preserve V1.5.1 as current Stable until protected merge while recording zero V1.6 qualification blockers, promotion authorization, and the remaining post-promotion central Platform Contract/downstream adoption work."
     },
     {
       "id": "platform-contract.current-machine-contract",
-      "status": "passed",
+      "status": "passed-promotion-bootstrap",
       "evidence": [
         "goreecloud.platform.yaml",
         ".github/workflows/glaze-platform-contract.yml",
         "acceptance/v1.6-production-readiness-review.json"
       ],
-      "finding": "Central GoreeCloud Platform Contract 0.4 now authoritatively supports shared-library components at implementation commit a75ef035ca45a6043dae21e0ae006960290d485d. Glaze UI declares itself as shared-library, explicitly evaluates all nine Integral Platform Systems, and exact-head CI validates the Release Candidate declaration while Stable eligibility remains false."
+      "finding": "Central GoreeCloud Platform Contract 0.4 at pinned implementation commit a75ef035ca45a6043dae21e0ae006960290d485d supports shared-library Stable evaluation and still defines current Glaze target 1.5.1. This promotion therefore validates V1.6.0 against the predecessor 1.5.1 self-baseline; after protected promotion becomes authoritative, the central current Glaze target must be advanced to 1.6.0 and this repository revalidated."
     },
     {
       "id": "security.secret-and-history-scan",
@@ -188,17 +188,17 @@
         "acceptance/v1.6-gitleaks-false-positive-review.json",
         ".gitleaksignore"
       ],
-      "finding": "The exact-head V1.6 security evidence gate scans the complete fetched Git history with verified Gitleaks and records 0 unreviewed secret findings after exact-fingerprint review of 21 historical false positives. This closes only the secret/history sub-gate; dependency and final release-security acceptance remain blocked."
+      "finding": "Complete fetched Git-history Gitleaks evidence records 0 unreviewed secret findings after exact-fingerprint review of 21 historical false positives. Selected dependency/supply-chain and final release-security gates are also separately verified passed."
     },
     {
       "id": "production-acceptance.applicability",
-      "status": "passed-applicability-resolved",
+      "status": "passed",
       "evidence": [
         "acceptance/v1.6-production-applicability.json",
         "goreecloud.platform.yaml",
         "acceptance/v1.6-production-readiness-review.json"
       ],
-      "finding": "The shared-library production boundary is now explicit: GLAZE UI itself has no independent service/backend deployment, so service-style deployment acceptance is not applicable. The applicable Stable acceptance boundary is immutable shared-library publication/artifact acceptance; that final artifact/provenance work remains separately blocked."
+      "finding": "GLAZE UI is a source-distributed shared library with no independent service/backend deployment. Direct service deployment acceptance is Not Applicable with justification; the applicable publication/artifact acceptance boundary is completed and downstream consumer production acceptance remains separate."
     },
     {
       "id": "security.dependency-and-supply-chain-scan",
@@ -247,11 +247,6 @@
       "id": "downstream-consumer-acceptance",
       "status": "separate",
       "finding": "No downstream application inherits V1.6 conformance, Stable status, deployment acceptance, or production eligibility from this shared review."
-    },
-    {
-      "id": "downstream-consumer-acceptance",
-      "status": "separate",
-      "finding": "No downstream application inherits V1.6.0 conformance, Stable product status, deployment acceptance, or production eligibility from this shared release."
     }
   ],
   "decision": "approved-for-stable-promotion",
@@ -260,8 +255,8 @@
   "productionAcceptanceGranted": false,
   "consumerEligibilityGranted": true,
   "requiredLifecycleState": "Stable",
-  "nextControlledPhase": "Protected-merge this exact lifecycle promotion; verify authoritative main and post-merge CI; then reconcile the platform-wide current Glaze consumer target to 1.6.0 and revalidate Contract 0.4 current-target state.",
-  "boundary": "All V1.6 shared-library Stable blockers recorded by this review are closed: 24/24 qualification, repository protection, Stable security, final artifact/source provenance, controlled publication, and post-publication byte readback are verified. Direct service deployment is not applicable to this shared-library boundary; downstream consumers remain separately gated.",
+  "nextControlledPhase": "Protected-merge this exact V1.6.0 lifecycle promotion and verify authoritative main plus post-merge required checks. Then reconcile the central GoreeCloud Platform Contract current Glaze target from 1.5.1 to 1.6.0 and revalidate this repository. Downstream consumers remain separately adoption-gated.",
+  "boundary": "All V1.6 shared-library Stable qualification blockers are closed. Stable promotion is authorized for the exact security-accepted and published V1.6.0 release, but current lifecycle authority changes only after this protected promotion is merged and authoritative main/post-merge verification succeeds. Direct service deployment is Not Applicable with justification; downstream consumers remain separately gated.",
   "remainingBlockerCount": 0,
   "reconciledAt": "2026-09-19T09:20:12-05:00",
   "repositoryProtectionEvidence": {
