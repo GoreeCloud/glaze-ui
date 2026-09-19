@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.0.publication-readback",
+  "recordType": "immutable-release-publication-readback",
+  "product": "GLAZE UI V1.6",
+  "targetVersion": "1.6.0",
+  "tag": "v1.6.0",
+  "result": "passed",
+  "verifiedAt": "2026-09-19T14:18:07Z",
+  "acceptedSource": {
+    "revision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "tree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268"
+  },
+  "publicationControl": {
+    "promotionPreparationMerge": "7e8b537b9d1a123bc3e92679774a4d9cc704e03b",
+    "publicationWorkflowRunId": 35448300411,
+    "publicationWorkflowJobId": 105910966296,
+    "workflowConclusion": "success",
+    "exactMergePushWorkflowCount": 31,
+    "exactMergePushWorkflowFailureCount": 0,
+    "readbackActionsArtifactId": 10586426818,
+    "readbackActionsArtifactName": "glaze-v1.6.0-publication-readback-7e8b537b9d1a123bc3e92679774a4d9cc704e03b",
+    "readbackActionsArtifactSha256": "3bd8b51e82a33393c2c58c9b1dc381352b3d7355408553f11fa536384bf272bc"
+  },
+  "githubRelease": {
+    "releaseId": 392095913,
+    "releaseUrl": "https://github.com/GoreeCloud/goreecloud-glaze-ui/releases/tag/v1.6.0",
+    "tagName": "v1.6.0",
+    "tagTarget": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "draft": false,
+    "prerelease": false,
+    "releaseName": "GLAZE UI V1.6.0",
+    "publishedAt": "2026-09-19T14:18:04Z",
+    "assets": [
+      {
+        "id": 574895639,
+        "name": "glaze-ui-v1.6.0-source-runtime.tar.gz",
+        "sha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+        "sizeBytes": 66384
+      },
+      {
+        "id": 574895637,
+        "name": "SHA256SUMS",
+        "sha256": "4f2668332c5b4f00cd3a1298eae0dd630f28d0afebc2825f87fa580d1974f956",
+        "sizeBytes": 271
+      },
+      {
+        "id": 574895635,
+        "name": "cyclonedx-1.5.json",
+        "sha256": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+        "sizeBytes": 12389
+      },
+      {
+        "id": 574895634,
+        "name": "provenance.json",
+        "sha256": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8",
+        "sizeBytes": 2159
+      }
+    ]
+  },
+  "acceptedArtifact": {
+    "actionsArtifactId": 10586051196,
+    "actionsArtifactSha256": "3da50b11641d50e68b67f45eec49850723ba6bf4f74a889686bffe3648ab7f06",
+    "archiveSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+    "sbomSha256": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+    "provenanceSha256": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8"
+  },
+  "verification": {
+    "tagResolvesToAcceptedSource": true,
+    "releaseAssetsExactlyExpectedSet": true,
+    "releasedBytesMatchSecurityAcceptedBytes": true,
+    "sha256ManifestVerified": true,
+    "stablePromotionAuthorizedByPublicationWorkflow": false
+  },
+  "rollback": {
+    "knownGoodStable": "1.5.1",
+    "runtimeEntrypoint": "js/glaze-v1.5.1.mjs"
+  },
+  "boundary": "This record proves immutable V1.6.0 publication and byte readback for the exact security-accepted source and artifact. Publication alone does not change repository lifecycle authority; final Stable qualification and a separate lifecycle transition remain required."
+}
