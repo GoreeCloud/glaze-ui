@@ -1,0 +1,241 @@
+name: GLAZE UI V1.6 Stable Security Evidence
+
+on:
+  pull_request:
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'acceptance/v1.6-stable-qualification-review.json'
+      - 'acceptance/v1.6-secret-scan-finding-classification.json'
+      - 'acceptance/v1.6-gitleaks-false-positive-review.json'
+      - 'acceptance/v1.6-dependency-vulnerability-classification.json'
+      - '.gitleaksignore'
+      - 'contracts/v1.6/**'
+      - 'js/glaze-v1.6*'
+      - 'reference/v1.1/native/android/**'
+      - 'reference/v1.2/native/android/**'
+      - 'reference/native/wear-os/buildable/**'
+      - 'scripts/verify_glaze_v1_6_stable_security_scan.py'
+      - 'scripts/validate_github_actions_runtime_integrity.py'
+      - '.github/workflows/**'
+  push:
+    branches: [main]
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'acceptance/v1.6-stable-qualification-review.json'
+      - 'acceptance/v1.6-gitleaks-false-positive-review.json'
+      - '.gitleaksignore'
+      - 'contracts/v1.6/**'
+      - 'js/glaze-v1.6*'
+      - 'reference/v1.1/native/android/**'
+      - 'reference/v1.2/native/android/**'
+      - 'reference/native/wear-os/buildable/**'
+      - 'scripts/verify_glaze_v1_6_stable_security_scan.py'
+      - 'scripts/validate_github_actions_runtime_integrity.py'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1.6-stable-security-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stable-security-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      GITLEAKS_VERSION: '8.30.1'
+      GITLEAKS_SHA256: '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb'
+      OSV_VERSION: '2.6.0'
+      OSV_SHA256: 'ca69b3d3cd08f889a49dc0a383122f71cc528b83803671df5fd874d97485b108'
+      GRADLE_VERSION: '9.5.0'
+      GRADLE_SHA256: '553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746'
+    steps:
+      - name: Check out exact security-review revision with full history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact revision and CI action integrity
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          python3 -m py_compile scripts/validate_github_actions_runtime_integrity.py
+          python3 scripts/validate_github_actions_runtime_integrity.py
+
+      - name: Prepare evidence directories
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/v1.6-security
+          mkdir -p "$RUNNER_TEMP/glaze-v1.6-security-dependencies"
+
+      - name: Install verified Gitleaks
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error             "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"             --output "$RUNNER_TEMP/gitleaks.tar.gz"
+          echo "${GITLEAKS_SHA256}  $RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check --strict
+          mkdir -p "$RUNNER_TEMP/gitleaks"
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP/gitleaks"
+          test -x "$RUNNER_TEMP/gitleaks/gitleaks"
+          "$RUNNER_TEMP/gitleaks/gitleaks" version | tee artifacts/v1.6-security/gitleaks-version.txt
+
+      - name: Scan complete fetched Git history for secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          "$RUNNER_TEMP/gitleaks/gitleaks" git             --no-banner             --redact=100             --report-format=json             --report-path=artifacts/v1.6-security/gitleaks-report.json             --exit-code=1             .
+          status=$?
+          set -e
+          echo "$status" > artifacts/v1.6-security/gitleaks-exit-code.txt
+          if [ "$status" -gt 1 ]; then
+            echo "Gitleaks scanner error: exit $status" >&2
+            exit "$status"
+          fi
+          if [ "$status" -eq 1 ] && [ ! -s artifacts/v1.6-security/gitleaks-report.json ]; then
+            echo "Gitleaks reported findings but produced no report" >&2
+            exit 2
+          fi
+          if [ "$status" -eq 0 ] && [ ! -s artifacts/v1.6-security/gitleaks-report.json ]; then
+            printf '[]\n' > artifacts/v1.6-security/gitleaks-report.json
+          fi
+
+      - name: Summarize potential secret findings without secret material
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          source = Path("artifacts/v1.6-security/gitleaks-report.json")
+          findings = json.loads(source.read_text(encoding="utf-8"))
+          summary = []
+          for item in findings:
+              summary.append({
+                  "ruleId": item.get("RuleID"),
+                  "file": item.get("File"),
+                  "commit": item.get("Commit"),
+                  "startLine": item.get("StartLine"),
+                  "endLine": item.get("EndLine"),
+              })
+          out = Path("artifacts/v1.6-security/gitleaks-findings-summary.json")
+          out.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          PY
+
+      - name: Install verified Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error             "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"             --output "$RUNNER_TEMP/gradle.zip"
+          echo "${GRADLE_SHA256}  $RUNNER_TEMP/gradle.zip" | sha256sum --check --strict
+          unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
+          test -x "$RUNNER_TEMP/gradle-${GRADLE_VERSION}/bin/gradle"
+          echo "$RUNNER_TEMP/gradle-${GRADLE_VERSION}/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/gradle-${GRADLE_VERSION}/bin/gradle" --version | tee artifacts/v1.6-security/gradle-version.txt
+
+      - name: Ensure Android SDK platform used by reference builds is available
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          test -n "$SDK_ROOT"
+          SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-36"
+          echo "SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
+
+      - name: Resolve reference-build dependency state and verification metadata
+        shell: bash
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
+        run: |
+          set -euo pipefail
+          SCAN_ROOT="$RUNNER_TEMP/glaze-v1.6-security-dependencies"
+
+          resolve_project() {
+            name="$1"
+            source="$2"
+            dest="$SCAN_ROOT/$name"
+            mkdir -p "$dest"
+            cp -a "$source/." "$dest/"
+            (
+              cd "$dest"
+              gradle :app:dependencies                 --configuration debugRuntimeClasspath                 --write-verification-metadata sha256                 --no-daemon                 --stacktrace                 > "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-dependencies.txt"
+            )
+            test -s "$dest/gradle/verification-metadata.xml"
+            cp "$dest/gradle/verification-metadata.xml"               "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-verification-metadata.xml"
+          }
+
+          resolve_project "v1.1-android" "reference/v1.1/native/android"
+          resolve_project "v1.2-android" "reference/v1.2/native/android"
+          resolve_project "wear-os" "reference/native/wear-os/buildable"
+
+      - name: Install verified OSV-Scanner
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error             "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64"             --output "$RUNNER_TEMP/osv-scanner"
+          echo "${OSV_SHA256}  $RUNNER_TEMP/osv-scanner" | sha256sum --check --strict
+          chmod +x "$RUNNER_TEMP/osv-scanner"
+          "$RUNNER_TEMP/osv-scanner" --version | tee artifacts/v1.6-security/osv-scanner-version.txt
+
+      - name: Scan resolved dependencies and generate CycloneDX SBOM
+        shell: bash
+        run: |
+          set -euo pipefail
+          SCAN_ROOT="$RUNNER_TEMP/glaze-v1.6-security-dependencies"
+
+          set +e
+          "$RUNNER_TEMP/osv-scanner" scan source -r "$SCAN_ROOT"             --format json             --all-packages             > artifacts/v1.6-security/osv-report.json
+          osv_status=$?
+
+          "$RUNNER_TEMP/osv-scanner" scan source -r "$SCAN_ROOT"             --format cyclonedx-1-5             --all-packages             > artifacts/v1.6-security/cyclonedx-1.5.json
+          sbom_status=$?
+          set -e
+
+          echo "$osv_status" > artifacts/v1.6-security/osv-exit-code.txt
+          echo "$sbom_status" > artifacts/v1.6-security/sbom-exit-code.txt
+
+          if [ "$osv_status" -gt 1 ]; then
+            echo "OSV-Scanner error: exit $osv_status" >&2
+            exit "$osv_status"
+          fi
+          if [ "$sbom_status" -gt 1 ]; then
+            echo "OSV-Scanner SBOM error: exit $sbom_status" >&2
+            exit "$sbom_status"
+          fi
+
+      - name: Validate governed Stable security evidence disposition
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/verify_glaze_v1_6_stable_security_scan.py
+          python3 scripts/verify_glaze_v1_6_stable_security_scan.py             --expected-sha "$EXPECTED_SHA"             --gitleaks-report artifacts/v1.6-security/gitleaks-report.json             --gitleaks-exit-code artifacts/v1.6-security/gitleaks-exit-code.txt             --osv-report artifacts/v1.6-security/osv-report.json             --osv-exit-code artifacts/v1.6-security/osv-exit-code.txt             --sbom artifacts/v1.6-security/cyclonedx-1.5.json             --sbom-exit-code artifacts/v1.6-security/sbom-exit-code.txt             --output artifacts/v1.6-security/security-evidence-summary.json             --gitleaks-version "$GITLEAKS_VERSION"             --gitleaks-sha256 "$GITLEAKS_SHA256"             --osv-version "$OSV_VERSION"             --osv-sha256 "$OSV_SHA256"             --gradle-version "$GRADLE_VERSION"             --gradle-sha256 "$GRADLE_SHA256"
+
+      - name: Verify scan did not mutate tracked source
+        run: git diff --exit-code -- .
+
+      - name: Upload exact-head security evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: glaze-v1.6-stable-security-evidence-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/v1.6-security/
+          if-no-files-found: error
+          retention-days: 90

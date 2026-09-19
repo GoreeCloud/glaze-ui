@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.stable-security-review",
+  "recordType": "stable-security-review",
+  "product": "GLAZE UI V1.6",
+  "candidate": "1.6.0-rc.1",
+  "reviewedAt": "2026-09-18T20:10:00-05:00",
+  "secretHistory": {
+    "result": "passed",
+    "reviewedFalsePositiveCount": 21,
+    "unreviewedFindingCount": 0,
+    "evidence": [
+      "acceptance/v1.6-gitleaks-false-positive-review.json",
+      ".gitleaksignore"
+    ]
+  },
+  "dependencySupplyChain": {
+    "result": "blocked",
+    "advisoryCount": 50,
+    "evidence": [
+      "acceptance/v1.6-dependency-vulnerability-classification.json"
+    ],
+    "disposition": "build-tooling-remediation-required",
+    "runtimeExposure": "no flagged vulnerable coordinate observed in the three recorded debugRuntimeClasspath reports",
+    "buildToolingApplicable": true
+  },
+  "overallDecision": "blocked",
+  "stableSecurityAcceptanceGranted": false,
+  "stablePromotionAuthorized": false,
+  "productionReadinessGranted": false,
+  "boundary": "A successful evidence-collection workflow validates the accuracy of this blocked security state; it does not mean security acceptance passed. Stable remains blocked until all applicable security controls pass or have governed exceptions."
+}

@@ -45,7 +45,7 @@ The RC wrapper is identity-only over the qualified V1.6 Development implementati
 
 ### V1.6 Stable qualification status
 
-A higher-governance Stable review is recorded in `acceptance/v1.6-stable-qualification-review.json`. The current decision is **blocked — remain Release Candidate**. The 24/24 qualification matrix is complete, but Stable still requires closure of the separate repository-protection, security/supply-chain, release-security, release-artifact/provenance, and production-acceptance applicability blockers recorded there. Platform Contract 0.4 shared-library representation and canonical Drive task/changelog reconciliation are now verified complete.
+A higher-governance Stable review is recorded in `acceptance/v1.6-stable-qualification-review.json`. The current decision is **blocked — remain Release Candidate**. The 24/24 qualification matrix is complete, but Stable still requires closure of the separate repository-protection, dependency/supply-chain, final release-security, release-artifact/provenance, and production-acceptance applicability blockers recorded there. Platform Contract 0.4 shared-library representation, canonical Drive task/changelog reconciliation, and the exact-candidate secret/Git-history scan are now verified complete.
 
 ## V1.6 Release Candidate and retained Development inputs
 

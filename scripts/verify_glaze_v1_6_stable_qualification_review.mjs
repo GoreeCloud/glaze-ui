@@ -51,7 +51,6 @@ assert.equal(driveReconciliation.changeLogRecord?.visualVerification?.allPagesRe
 
 const requiredBlockers = [
   'repository.main-branch-protection',
-  'security.secret-and-history-scan',
   'security.dependency-and-supply-chain-scan',
   'security.release-security-acceptance',
   'release.artifact-provenance-and-publication-boundary',
@@ -63,10 +62,11 @@ for (const id of requiredBlockers) {
   assert.match(blockers.get(id).status, /^blocked/, `Stable blocker must remain fail-closed: ${id}`);
 }
 
-assert.equal(review.blockers.length, 6, 'V1.6 Stable review must retain the six unresolved blockers after Platform Contract and Drive reconciliation');
+assert.equal(review.blockers.length, 5, 'V1.6 Stable review must retain the five unresolved blockers after Platform Contract, Drive, and secret-history reconciliation');
 assert.ok(review.verifiedPasses.some(item => item.id === 'drive.documentation-and-task-reconciliation' && item.status === 'passed'), 'Drive reconciliation must be a verified pass');
 assert.ok(review.verifiedPasses.some(item => item.id === 'platform-contract.current-machine-contract' && item.status === 'passed'), 'Platform Contract shared-library declaration must be a verified pass');
-assert.equal(review.remainingBlockerCount, 6, 'remainingBlockerCount must be six');
+assert.ok(review.verifiedPasses.some(item => item.id === 'security.secret-and-history-scan' && item.status === 'passed'), 'Secret/history security scan must be a verified pass');
+assert.equal(review.remainingBlockerCount, 5, 'remainingBlockerCount must be five');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
 assert.equal(review.stablePromotionAuthorized, false);
 assert.equal(review.productionReadinessGranted, false);
