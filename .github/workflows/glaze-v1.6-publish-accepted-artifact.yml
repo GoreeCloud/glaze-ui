@@ -1,0 +1,284 @@
+name: GLAZE UI V1.6 Publish Accepted Artifact
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'acceptance/v1.6-final-security-acceptance.json'
+      - '.github/workflows/glaze-v1.6-publish-accepted-artifact.yml'
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: glaze-v1.6-immutable-publication
+  cancel-in-progress: false
+
+jobs:
+  publish-accepted-artifact:
+    if: github.repository == 'GoreeCloud/goreecloud-glaze-ui'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_SHA: a7180679ea851389e0f3004515f9a25f420e716d
+      SOURCE_TREE: 9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268
+      TARGET_TAG: v1.6.0
+      TARGET_VERSION: 1.6.0
+      ARTIFACT_RUN_ID: '35447623700'
+      ACTIONS_ARTIFACT_ID: '10586051196'
+      ACTIONS_ARTIFACT_NAME: glaze-v1.6-final-artifact-a7180679ea851389e0f3004515f9a25f420e716d
+      ACTIONS_ARTIFACT_DIGEST: sha256:3da50b11641d50e68b67f45eec49850723ba6bf4f74a889686bffe3648ab7f06
+      ARCHIVE_SHA256: 687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af
+      SBOM_SHA256: 3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82
+      PROVENANCE_SHA256: 711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8
+    steps:
+      - name: Check out publication-control revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify publication control did not change accepted release source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse "${SOURCE_SHA}^{tree}")" = "${SOURCE_TREE}"
+          git merge-base --is-ancestor "${SOURCE_SHA}" HEAD
+
+          actual="$(git diff --name-only "${SOURCE_SHA}"..HEAD | sort)"
+          expected="$(printf '%s\n' \
+            '.github/workflows/glaze-v1.6-publish-accepted-artifact.yml' \
+            'acceptance/v1.6-final-security-acceptance.json' | sort)"
+          test "${actual}" = "${expected}"
+
+          test "$(cat VERSION)" = '1.5.1'
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          lifecycle = json.loads(Path("registry/lifecycle.json").read_text(encoding="utf-8"))
+          assert lifecycle["currentOfficial"] == "1.5.1"
+          assert lifecycle["currentStable"] == "1.5.1"
+          assert lifecycle["activeCandidate"] == "1.6.0-rc.1"
+
+          acceptance = json.loads(Path("acceptance/v1.6-final-security-acceptance.json").read_text(encoding="utf-8"))
+          assert acceptance["decision"] == "passed-for-controlled-publication"
+          assert acceptance["stableSecurityAcceptanceGranted"] is True
+          assert acceptance["publicationAuthorized"] is True
+          assert acceptance["stablePromotionAuthorized"] is False
+          assert acceptance["acceptedSource"]["revision"] == "a7180679ea851389e0f3004515f9a25f420e716d"
+          assert acceptance["acceptedSource"]["tree"] == "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268"
+          assert acceptance["acceptedArtifact"]["actionsArtifactId"] == 10586051196
+          assert acceptance["acceptedArtifact"]["actionsArtifactDigest"] == "sha256:3da50b11641d50e68b67f45eec49850723ba6bf4f74a889686bffe3648ab7f06"
+          assert acceptance["acceptedArtifact"]["archive"]["sha256"] == "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af"
+          assert acceptance["acceptedArtifact"]["sbom"]["sha256"] == "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82"
+          assert acceptance["acceptedArtifact"]["provenance"]["sha256"] == "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8"
+          assert acceptance["publicationConstraints"]["reuseAcceptedArtifactBytesWithoutRebuild"] is True
+          assert acceptance["publicationConstraints"]["targetTag"] == "v1.6.0"
+          assert acceptance["publicationConstraints"]["lifecyclePromotionOccursOnlyAfterReadback"] is True
+          PY
+
+          python3 -m py_compile scripts/validate_github_actions_runtime_integrity.py
+          python3 scripts/validate_github_actions_runtime_integrity.py
+
+      - name: Verify accepted GitHub Actions artifact identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          run_json="$RUNNER_TEMP/accepted-run.json"
+          artifacts_json="$RUNNER_TEMP/accepted-artifacts.json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${ARTIFACT_RUN_ID}" > "$run_json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${ARTIFACT_RUN_ID}/artifacts?per_page=100" > "$artifacts_json"
+
+          python3 - "$run_json" "$artifacts_json" <<'PY'
+          import json
+          import os
+          import sys
+
+          run = json.load(open(sys.argv[1], encoding="utf-8"))
+          artifacts = json.load(open(sys.argv[2], encoding="utf-8"))["artifacts"]
+
+          assert str(run["id"]) == os.environ["ARTIFACT_RUN_ID"]
+          assert run["head_sha"] == os.environ["SOURCE_SHA"]
+          assert run["event"] == "push"
+          assert run["status"] == "completed"
+          assert run["conclusion"] == "success"
+
+          matches = [a for a in artifacts if a["name"] == os.environ["ACTIONS_ARTIFACT_NAME"]]
+          assert len(matches) == 1
+          artifact = matches[0]
+          assert str(artifact["id"]) == os.environ["ACTIONS_ARTIFACT_ID"]
+          assert artifact["expired"] is False
+          assert artifact["digest"] == os.environ["ACTIONS_ARTIFACT_DIGEST"]
+          assert artifact["workflow_run"]["head_sha"] == os.environ["SOURCE_SHA"]
+          PY
+
+      - name: Download and verify exact security-accepted artifact bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          input="$RUNNER_TEMP/accepted-v1.6.0"
+          rm -rf "$input"
+          mkdir -p "$input"
+          gh run download "${ARTIFACT_RUN_ID}" --repo "${GITHUB_REPOSITORY}" --name "${ACTIONS_ARTIFACT_NAME}" --dir "$input"
+
+          (
+            cd "$input"
+            sha256sum --check --strict SHA256SUMS
+            test "$(sha256sum glaze-ui-v1.6.0-source-runtime.tar.gz | awk '{print $1}')" = "${ARCHIVE_SHA256}"
+            test "$(sha256sum cyclonedx-1.5.json | awk '{print $1}')" = "${SBOM_SHA256}"
+            test "$(sha256sum provenance.json | awk '{print $1}')" = "${PROVENANCE_SHA256}"
+            test "$(cat gitleaks-final-artifact-exit-code.txt)" = '0'
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          assert json.loads(Path("gitleaks-final-artifact-report.json").read_text(encoding="utf-8")) == []
+          summary = json.loads(Path("final-artifact-summary.json").read_text(encoding="utf-8"))
+          assert summary["sourceRevision"] == "a7180679ea851389e0f3004515f9a25f420e716d"
+          assert summary["targetReleaseVersion"] == "1.6.0"
+          assert summary["publicationAuthorized"] is False
+          assert summary["stablePromotionAuthorized"] is False
+          assert summary["mustReuseAcceptedArtifactBytesForPublication"] is True
+          PY
+          )
+
+          echo "ACCEPTED_INPUT=$input" >> "$GITHUB_ENV"
+
+      - name: Publish exact accepted bytes or verify an idempotent prior publication
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          tag_exists=false
+          release_exists=false
+          if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${TARGET_TAG}" >/dev/null 2>&1; then
+            tag_exists=true
+          fi
+          if gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${TARGET_TAG}" >/dev/null 2>&1; then
+            release_exists=true
+          fi
+
+          if [ "$tag_exists" != "$release_exists" ]; then
+            echo "Partial publication state detected for ${TARGET_TAG}; refusing to mutate it." >&2
+            exit 1
+          fi
+
+          if [ "$tag_exists" = false ]; then
+            notes="$RUNNER_TEMP/glaze-v1.6.0-release-notes.txt"
+            cat > "$notes" <<'EOF'
+          GLAZE UI V1.6.0
+
+          This release publishes the exact V1.6.0 artifact bytes accepted by the governed final security review.
+
+          Accepted source revision: a7180679ea851389e0f3004515f9a25f420e716d
+          Release archive SHA-256: 687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af
+          CycloneDX 1.5 SBOM SHA-256: 3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82
+          Provenance SHA-256: 711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8
+
+          No artifact rebuild is permitted at this publication boundary. The attached archive, checksum manifest, SBOM, and provenance are the accepted bytes from exact-main Final Artifact Preparation run 35447623700.
+
+          Publication is a separate lifecycle boundary. Repository Stable/Official promotion and downstream consumer eligibility remain separate until post-publication readback and final exact-candidate qualification are reconciled.
+          EOF
+
+            gh release create "${TARGET_TAG}"               --repo "${GITHUB_REPOSITORY}"               --target "${SOURCE_SHA}"               --title "GLAZE UI V1.6.0"               --notes-file "$notes"               "${ACCEPTED_INPUT}/glaze-ui-v1.6.0-source-runtime.tar.gz#GLAZE UI V1.6.0 source/runtime archive"               "${ACCEPTED_INPUT}/SHA256SUMS#SHA-256 checksum manifest"               "${ACCEPTED_INPUT}/cyclonedx-1.5.json#CycloneDX 1.5 SBOM"               "${ACCEPTED_INPUT}/provenance.json#Build provenance"
+          fi
+
+      - name: Read back immutable release identity and released bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence="artifacts/v1.6-publication-readback"
+          readback="$RUNNER_TEMP/v1.6.0-release-readback"
+          rm -rf "$evidence" "$readback"
+          mkdir -p "$evidence" "$readback"
+
+          gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${TARGET_TAG}" > "$evidence/tag.json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${TARGET_TAG}" > "$evidence/release.json"
+          gh release download "${TARGET_TAG}" --repo "${GITHUB_REPOSITORY}" --dir "$readback"
+
+          python3 - "$evidence/tag.json" "$evidence/release.json" <<'PY'
+          import json
+          import os
+          import sys
+
+          tag = json.load(open(sys.argv[1], encoding="utf-8"))
+          release = json.load(open(sys.argv[2], encoding="utf-8"))
+
+          assert tag["ref"] == "refs/tags/" + os.environ["TARGET_TAG"]
+          assert tag["object"]["type"] == "commit"
+          assert tag["object"]["sha"] == os.environ["SOURCE_SHA"]
+
+          assert release["tag_name"] == os.environ["TARGET_TAG"]
+          assert release["draft"] is False
+          assert release["prerelease"] is False
+          expected_assets = {
+              "glaze-ui-v1.6.0-source-runtime.tar.gz",
+              "SHA256SUMS",
+              "cyclonedx-1.5.json",
+              "provenance.json",
+          }
+          actual_assets = {asset["name"] for asset in release["assets"]}
+          assert actual_assets == expected_assets
+          PY
+
+          for name in glaze-ui-v1.6.0-source-runtime.tar.gz SHA256SUMS cyclonedx-1.5.json provenance.json; do
+            cmp "${ACCEPTED_INPUT}/$name" "$readback/$name"
+          done
+
+          (
+            cd "$readback"
+            sha256sum --check --strict SHA256SUMS
+            test "$(sha256sum glaze-ui-v1.6.0-source-runtime.tar.gz | awk '{print $1}')" = "${ARCHIVE_SHA256}"
+            test "$(sha256sum cyclonedx-1.5.json | awk '{print $1}')" = "${SBOM_SHA256}"
+            test "$(sha256sum provenance.json | awk '{print $1}')" = "${PROVENANCE_SHA256}"
+          )
+
+          python3 - "$evidence/release.json" > "$evidence/publication-readback.json" <<'PY'
+          import hashlib
+          import json
+          import os
+          import pathlib
+          import sys
+
+          release = json.load(open(sys.argv[1], encoding="utf-8"))
+          root = pathlib.Path(os.environ["RUNNER_TEMP"]) / "v1.6.0-release-readback"
+
+          def sha256(path):
+              h = hashlib.sha256()
+              with path.open("rb") as f:
+                  for chunk in iter(lambda: f.read(1024 * 1024), b""):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          out = {
+              "schemaVersion": 1,
+              "kind": "goreecloud-glaze-v1.6.0-publication-readback",
+              "result": "passed",
+              "sourceRevision": os.environ["SOURCE_SHA"],
+              "sourceTree": os.environ["SOURCE_TREE"],
+              "tag": os.environ["TARGET_TAG"],
+              "releaseId": release["id"],
+              "releaseUrl": release["html_url"],
+              "draft": release["draft"],
+              "prerelease": release["prerelease"],
+              "assets": {
+                  "glaze-ui-v1.6.0-source-runtime.tar.gz": sha256(root / "glaze-ui-v1.6.0-source-runtime.tar.gz"),
+                  "SHA256SUMS": sha256(root / "SHA256SUMS"),
+                  "cyclonedx-1.5.json": sha256(root / "cyclonedx-1.5.json"),
+                  "provenance.json": sha256(root / "provenance.json"),
+              },
+              "releasedBytesMatchSecurityAcceptedBytes": True,
+              "stablePromotionAuthorizedByThisWorkflow": False,
+          }
+          print(json.dumps(out, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload publication readback evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: glaze-v1.6.0-publication-readback-${{ github.sha }}
+          path: artifacts/v1.6-publication-readback/
+          if-no-files-found: error
+          retention-days: 90
