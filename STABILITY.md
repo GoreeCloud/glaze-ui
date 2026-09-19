@@ -55,8 +55,8 @@ The current fail-closed Stable review is recorded in `acceptance/v1.6-stable-qua
 
 **Current decision: blocked — remain Release Candidate.**
 
-Verified shared passes include candidate identity, 24/24 qualification evidence, the nine-system Release Candidate readiness review, rendered/human/assistive-technology evidence, bounded representative performance, rollback to V1.5.1, immutable GitHub Action pin enforcement, current repository-front-door documentation, canonical Drive task/changelog reconciliation, and the Contract 0.4 shared-library machine declaration.
+Verified shared passes include candidate identity, 24/24 qualification evidence, the nine-system Release Candidate readiness review, rendered/human/assistive-technology evidence, bounded representative performance, rollback to V1.5.1, immutable GitHub Action pin enforcement, current repository-front-door documentation, canonical Drive task/changelog reconciliation, the Contract 0.4 shared-library machine declaration, and the exact-candidate secret/Git-history scan.
 
-Stable remains blocked while the recorded unresolved controls remain open, including authoritative default-branch protection, exact-candidate secret/history acceptance on authoritative main, dependency/supply-chain security evidence, final release-security acceptance, final artifact/provenance/publication boundary, and applicable production-acceptance disposition. Platform Contract 0.4 shared-library representation and canonical Drive task/changelog reconciliation are verified complete.
+Stable remains blocked while the recorded unresolved controls remain open, including authoritative default-branch protection, dependency/supply-chain security findings, final release-security acceptance, final artifact/provenance/publication boundary, and applicable production-acceptance disposition. Platform Contract 0.4 shared-library representation, canonical Drive task/changelog reconciliation, and the exact-candidate secret/Git-history scan are verified complete.
 
 No Stable tag, GitHub Release, consumer migration, deployment, production-readiness claim, or production-acceptance claim is authorized by this review.
