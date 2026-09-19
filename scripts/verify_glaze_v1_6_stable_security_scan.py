@@ -155,7 +155,7 @@ def main() -> int:
     require(selected_summary.get("distinctAdvisoryCount") == 0, "selected advisory count must be zero")
     require(selected_summary.get("cyclonedxComponentCount") == 206, "selected CycloneDX component-count provenance mismatch")
     require(selected_summary.get("cyclonedxVulnerabilityCount") == 0, "selected CycloneDX vulnerability count must be zero")
-        require(
+    require(
         dependency_classification.get("governedScanInput")
         == "Gradle-selected buildEnvironment plus debugRuntimeClasspath dependency inventory after conflict resolution",
         "dependency classification must use the resolved selected-version boundary",
