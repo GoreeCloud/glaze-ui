@@ -52,4 +52,4 @@ V1.5.1 is the immediate known-good Stable rollback baseline.
 
 
 
-The repository may contain Development-only successor language, contracts, tokens, validators, or reference inputs. Those artifacts do not change the current V1.5.1 Stable authority, lifecycle, runtime/web entrypoints, downstream consumer acceptance, release publication, deployment, or production status unless they complete a separate governed lifecycle promotion.
+The repository may contain retained Development-only language, contracts, tokens, validators, reference inputs, or future successor work. Those artifacts do not change the current V1.6.0 Stable authority, lifecycle, runtime/web entrypoints, downstream consumer acceptance, deployment, or production status unless they complete a separate governed lifecycle promotion.
