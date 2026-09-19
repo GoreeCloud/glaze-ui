@@ -162,8 +162,8 @@
       "id": "platform-contract.current-machine-contract",
       "status": "blocked-unresolved",
       "authority": "Current GoreeCloud platform governance",
-      "finding": "The verified machine Platform Contract v0.2 task state represents the older seven-system model, while current Production Readiness and Stable qualification require all nine Integral Platform Systems. No authoritative current nine-system goreecloud.platform.yaml schema or explicit shared-design-system manifest exception was verified.",
-      "requiredResolution": "Resolve current Platform Contract applicability and machine schema for shared platform libraries/design systems. Do not create a stale seven-system manifest merely to satisfy file presence."
+      "finding": "The live central GoreeCloud Platform Contract is v0.4 and correctly represents all nine Integral Platform Systems, but its machine schema applies only to component.type application or service. Higher-authority system-wide instructions also govern shared libraries and explicitly classify Shared library as a component class. Glaze UI is a shared design-system/library, so the current machine-manifest applicability/representation for this component class remains unresolved.",
+      "requiredResolution": "Establish an authoritative v0.4-compatible representation or explicit machine-manifest applicability disposition for shared libraries/design systems. Do not misclassify Glaze UI as an application or service merely to satisfy the current schema."
     },
     {
       "id": "security.secret-and-history-scan",
