@@ -62,13 +62,9 @@
     "After publication, read back the immutable tag/release/artifact identity and verify it matches the approved revision and evidence.",
     "Update lifecycle, release, documentation, task, and consumer-target records only after the authoritative publication state is verified."
   ],
-  "unresolvedPrerequisites": [
-    "Protected merge and authoritative main readback of the V1.6.0 Stable lifecycle promotion.",
-    "Post-merge required-check verification for the exact authoritative main revision.",
-    "Central GoreeCloud Platform Contract current Glaze target reconciliation from 1.5.1 to 1.6.0 after this repository promotion becomes authoritative."
-  ],
+  "unresolvedPrerequisites": [],
   "decision": "completed-controlled-publication-readback",
-  "boundary": "The exact V1.6.0 artifact was deterministically built from accepted source a7180679ea851389e0f3004515f9a25f420e716d, passed final security acceptance, was published without rebuild under v1.6.0, and was read back byte-for-byte. The remaining transition is repository lifecycle authority: this promotion is not complete until protected merge and authoritative main/post-merge verification. Downstream consumer acceptance remains separate.",
+  "boundary": "The exact V1.6.0 artifact was deterministically built from accepted source a7180679ea851389e0f3004515f9a25f420e716d, passed final security acceptance, was published without rebuild under v1.6.0, and was read back byte-for-byte. This artifact/provenance/publication boundary is complete. Repository lifecycle Stable authority is governed separately by the final Stable qualification and protected promotion.",
   "reconciledAt": "2026-09-19T09:20:12-05:00",
   "targetStableVersion": "1.6.0",
   "finalStablePreparation": {
