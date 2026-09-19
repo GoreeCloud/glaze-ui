@@ -174,7 +174,16 @@ jobs:
             cp -a "$source/." "$dest/"
             (
               cd "$dest"
-              gradle :app:dependencies                 --configuration debugRuntimeClasspath                 --write-verification-metadata sha256                 --no-daemon                 --stacktrace                 > "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-dependencies.txt"
+              gradle buildEnvironment \
+                --no-daemon \
+                --stacktrace \
+                > "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-build-environment.txt"
+              gradle :app:dependencies \
+                --configuration debugRuntimeClasspath \
+                --write-verification-metadata sha256 \
+                --no-daemon \
+                --stacktrace \
+                > "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-dependencies.txt"
             )
             test -s "$dest/gradle/verification-metadata.xml"
             cp "$dest/gradle/verification-metadata.xml"               "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-verification-metadata.xml"
