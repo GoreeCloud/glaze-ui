@@ -4,7 +4,7 @@
   "recordType": "stable-qualification-review",
   "product": "GLAZE UI V1.6",
   "reviewedReleaseCandidate": "1.6.0-rc.1",
-  "reviewedAt": "2026-09-18T21:35:00-05:00",
+  "reviewedAt": "2026-09-18T21:45:00-05:00",
   "reviewExecutor": "ChatGPT",
   "decisionAuthority": "GoreeCloud project-owner instruction to continue the V1.6 governed qualification review",
   "governance": {
@@ -194,6 +194,18 @@
         "acceptance/v1.6-production-readiness-review.json"
       ],
       "finding": "The shared-library production boundary is now explicit: GLAZE UI itself has no independent service/backend deployment, so service-style deployment acceptance is not applicable. The applicable Stable acceptance boundary is immutable shared-library publication/artifact acceptance; that final artifact/provenance work remains separately blocked."
+    },
+    {
+      "id": "security.dependency-and-supply-chain-scan",
+      "status": "passed",
+      "evidence": [
+        "acceptance/v1.6-dependency-vulnerability-classification.json",
+        "acceptance/v1.6-stable-security-review.json",
+        ".github/workflows/glaze-v1.6-stable-security-evidence.yml",
+        ".github/workflows/glaze-v1.2-android-native.yml",
+        ".github/workflows/glaze-wear-build-toolchain-validation.yml"
+      ],
+      "finding": "The remediated exact selected Gradle graph contains 206 distinct Maven coordinates / 426 project package entries, a 206-component CycloneDX 1.5 SBOM, and 0 OSV advisories/vulnerabilities. Exact-head V1.2 Android and Wear build compatibility validation passes. Broader verification metadata is retained as diagnostic evidence only and cannot override the selected-version graph."
     }
   ],
   "blockers": [
@@ -205,18 +217,11 @@
       "requiredResolution": "Protect the authoritative default branch with the applicable pull-request, required-check, exact-head/up-to-date, force-push, deletion, and auditable-bypass controls required by GoreeCloud repository governance, then verify the live host state."
     },
     {
-      "id": "security.dependency-and-supply-chain-scan",
-      "status": "blocked-known-findings",
-      "authority": "Stable Release Security Blockers v1.0",
-      "finding": "Exact-candidate OSV and CycloneDX evidence is now available for the governed V1.6 security-review branch. The reviewed baseline records 50 distinct dependency vulnerability advisories across 1,104 scanned Maven package entries and 507 SBOM components, with 20 vulnerable coordinates in build tooling/reference-build dependency state and 0 matches in the three recorded debugRuntimeClasspath reports. Build tooling remains in scope under Stable Release Security Blockers v1.0, so these findings remain release-blocking pending remediation or an authorized evidence-backed disposition.",
-      "requiredResolution": "Remediate the affected build-tool dependency graph, or establish a narrow authorized exception/non-applicability disposition under Stable Release Security Blockers v1.0 and the Security Updates and Vulnerability Management standard, then rerun exact-candidate security evidence."
-    },
-    {
       "id": "security.release-security-acceptance",
-      "status": "blocked-known-findings",
+      "status": "blocked-release-integrity-controls",
       "authority": "Stable Release Security Blockers v1.0",
-      "finding": "A governed V1.6 Stable security review now exists and passes the secret/Git-history sub-gate, but its overall decision remains blocked because dependency and supply-chain findings are unresolved.",
-      "requiredResolution": "Close the dependency/supply-chain findings or record an authorized narrow exception, then update the exact-candidate Stable security acceptance record so every applicable control is Passed, Not Applicable with justification, or Excepted with approved evidence."
+      "finding": "Secret/Git-history scanning and the remediated selected dependency/supply-chain graph now pass. Final Stable security acceptance remains blocked because authoritative main protection is disabled and the final exact Stable artifact/source-provenance acceptance is not yet complete.",
+      "requiredResolution": "Enable and verify authoritative main branch protection with required security checks, then complete exact final artifact/source provenance and the full Stable security acceptance matrix for the same final candidate."
     },
     {
       "id": "release.artifact-provenance-and-publication-boundary",
@@ -251,5 +256,5 @@
   "requiredLifecycleState": "Release Candidate",
   "nextControlledPhase": "Resolve Stable blockers and re-run an exact-candidate Stable qualification review before any Stable lifecycle transition.",
   "boundary": "The complete V1.6 24/24 qualification matrix and governed Release Candidate review are necessary evidence but do not satisfy the higher Stable qualification standard by themselves. Stable remains blocked while any listed blocker is unresolved or unverified.",
-  "remainingBlockerCount": 4
+  "remainingBlockerCount": 3
 }
