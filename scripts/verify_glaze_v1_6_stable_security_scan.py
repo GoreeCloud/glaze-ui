@@ -107,13 +107,23 @@ def main() -> int:
     require(head == args.expected_sha, f"exact-head mismatch: checkout={head} expected={args.expected_sha}")
 
     lifecycle = load_json(ROOT / "registry/lifecycle.json")
-    require(lifecycle.get("currentStable") == "1.5.1", "current Stable must remain 1.5.1")
-    require(lifecycle.get("currentOfficial") == "1.5.1", "current Official must remain 1.5.1")
-    require(lifecycle.get("activeCandidate") == "1.6.0-rc.1", "active V1.6 candidate must remain 1.6.0-rc.1")
+    stable_promoted = lifecycle.get("currentStable") == "1.6.0"
+    if stable_promoted:
+        require(lifecycle.get("currentOfficial") == "1.6.0", "current Official must be 1.6.0 after Stable promotion")
+        require(lifecycle.get("activeCandidate") is None, "Stable 1.6.0 must not retain an active candidate")
+    else:
+        require(lifecycle.get("currentStable") == "1.5.1", "current Stable must remain 1.5.1 before V1.6 promotion")
+        require(lifecycle.get("currentOfficial") == "1.5.1", "current Official must remain 1.5.1 before V1.6 promotion")
+        require(lifecycle.get("activeCandidate") == "1.6.0-rc.1", "active V1.6 candidate must remain 1.6.0-rc.1 before promotion")
 
     review = load_json(ROOT / "acceptance/v1.6-stable-qualification-review.json")
-    require(review.get("decision") == "blocked-remain-release-candidate", "Stable review must remain blocked")
-    require(review.get("stablePromotionAuthorized") is False, "security scan must not authorize Stable promotion")
+    if stable_promoted:
+        require(review.get("decision") == "passed-approved-stable", "Stable review must approve the promoted V1.6 release")
+        require(review.get("stablePromotionAuthorized") is True, "Stable review must authorize the promoted release")
+        require(review.get("remainingBlockerCount") == 0, "Stable review must contain zero blockers")
+    else:
+        require(review.get("decision") == "blocked-remain-release-candidate", "Stable review must remain blocked before promotion")
+        require(review.get("stablePromotionAuthorized") is False, "security scan must not authorize Stable promotion before final acceptance")
 
     def read_exit_code(path: str, label: str) -> int:
         source = Path(path)
@@ -139,9 +149,20 @@ def main() -> int:
         dependency_classification.get("decision") == "passed-selected-build-tooling-remediated",
         "dependency classification must represent the remediated selected graph",
     )
-    require(security_review.get("overallDecision") == "blocked", "Stable security review must remain blocked")
-    require(security_review.get("stableSecurityAcceptanceGranted") is False, "Stable security acceptance must remain false")
-    require(security_review.get("stablePromotionAuthorized") is False, "security review must not authorize Stable promotion")
+    if stable_promoted:
+        require(security_review.get("overallDecision") == "passed", "Stable security review must pass after promotion")
+        require(security_review.get("stableSecurityAcceptanceGranted") is True, "Stable security acceptance must be granted")
+        require(security_review.get("stablePromotionAuthorized") is True, "security review must authorize the Stable lifecycle transition")
+        require(security_review.get("remainingReleaseSecurityBlockers") == [], "Stable security review must have zero remaining blockers")
+        final_security = load_json(ROOT / "acceptance/v1.6-final-security-acceptance.json")
+        publication = load_json(ROOT / "acceptance/v1.6-publication-readback.json")
+        require(final_security.get("stableSecurityAcceptanceGranted") is True, "final Stable security acceptance record must pass")
+        require(publication.get("result") == "passed", "publication readback must pass")
+        require(publication.get("releasedBytesMatchSecurityAcceptedBytes") is True, "published bytes must match the security-accepted artifact")
+    else:
+        require(security_review.get("overallDecision") == "blocked", "Stable security review must remain blocked before promotion")
+        require(security_review.get("stableSecurityAcceptanceGranted") is False, "Stable security acceptance must remain false before promotion")
+        require(security_review.get("stablePromotionAuthorized") is False, "security review must not authorize Stable promotion before final acceptance")
     require(security_review.get("secretHistory", {}).get("result") == "passed", "secret-history disposition must be passed")
     require(security_review.get("dependencySupplyChain", {}).get("result") == "passed", "dependency disposition must be passed")
     security_boundary = security_review.get("finalSecurityAcceptanceBoundary", {})
@@ -263,9 +284,9 @@ def main() -> int:
         "result": "blocked" if blocked_reasons else "passed",
         "sourceRevision": head,
         "lifecycle": {
-            "currentStable": "1.5.1",
-            "activeCandidate": "1.6.0-rc.1",
-            "stablePromotionAuthorized": False,
+            "currentStable": lifecycle.get("currentStable"),
+            "activeCandidate": lifecycle.get("activeCandidate"),
+            "stablePromotionAuthorized": stable_promoted,
         },
         "secretHistoryScan": {
             "tool": "gitleaks",
@@ -336,15 +357,26 @@ def main() -> int:
     print(f"CycloneDX components: {len(components)}")
     print("Stable promotion authorized: false")
     if output["result"] == "passed":
-        require(
-            security_review.get("overallDecision") == "blocked"
-            and security_review.get("dependencySupplyChain", {}).get("result") == "passed"
-            and security_review.get("dependencySupplyChain", {}).get("advisoryCount") == 0
-            and security_review.get("stableSecurityAcceptanceGranted") is False,
-            "clean scan is not represented by the governed partial security acceptance",
-        )
-        print("Governed evidence disposition: SECRET/HISTORY + DEPENDENCY SUB-GATES PASSED")
-        print("Final Stable security acceptance remains blocked by separate release-integrity controls.")
+        if stable_promoted:
+            require(
+                security_review.get("overallDecision") == "passed"
+                and security_review.get("dependencySupplyChain", {}).get("result") == "passed"
+                and security_review.get("dependencySupplyChain", {}).get("advisoryCount") == 0
+                and security_review.get("stableSecurityAcceptanceGranted") is True,
+                "clean scan is not represented by the final governed Stable security acceptance",
+            )
+            print("Governed evidence disposition: FINAL STABLE SECURITY ACCEPTANCE PASSED")
+            print("Stable lifecycle authority: 1.6.0")
+        else:
+            require(
+                security_review.get("overallDecision") == "blocked"
+                and security_review.get("dependencySupplyChain", {}).get("result") == "passed"
+                and security_review.get("dependencySupplyChain", {}).get("advisoryCount") == 0
+                and security_review.get("stableSecurityAcceptanceGranted") is False,
+                "clean scan is not represented by the governed partial security acceptance",
+            )
+            print("Governed evidence disposition: SECRET/HISTORY + DEPENDENCY SUB-GATES PASSED")
+            print("Final Stable security acceptance remains blocked by separate release-integrity controls.")
         return 0
 
     raise SecurityEvidenceError(
