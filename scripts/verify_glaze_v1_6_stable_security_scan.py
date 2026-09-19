@@ -141,7 +141,7 @@ def main() -> int:
     )
     require(security_review.get("overallDecision") == "passed", "Stable security review must be passed")
     require(security_review.get("stableSecurityAcceptanceGranted") is True, "Stable security acceptance must be granted")
-    require(security_review.get("stablePromotionAuthorized") is True, "security review must no longer block Stable promotion")
+    require(security_review.get("stablePromotionAuthorized") is False, "security review must not independently authorize lifecycle Stable promotion")
     require(security_review.get("remainingReleaseSecurityBlockers") == [], "Stable security review must have no remaining blockers")
     require(security_review.get("secretHistory", {}).get("result") == "passed", "secret-history disposition must be passed")
     require(security_review.get("dependencySupplyChain", {}).get("result") == "passed", "dependency disposition must be passed")
@@ -266,7 +266,7 @@ def main() -> int:
         "lifecycle": {
             "currentStable": "1.6.0",
             "activeCandidate": None,
-            "stablePromotionAuthorized": True,
+            "stablePromotionAuthorized": False,
         },
         "secretHistoryScan": {
             "tool": "gitleaks",
@@ -343,7 +343,7 @@ def main() -> int:
             and security_review.get("dependencySupplyChain", {}).get("result") == "passed"
             and security_review.get("dependencySupplyChain", {}).get("advisoryCount") == 0
             and security_review.get("stableSecurityAcceptanceGranted") is True
-            and security_review.get("stablePromotionAuthorized") is True,
+            and security_review.get("stablePromotionAuthorized") is False,
             "clean scan is not represented by the governed final Stable security acceptance",
         )
         print("Governed evidence disposition: FINAL STABLE SECURITY ACCEPTANCE PASSED")
