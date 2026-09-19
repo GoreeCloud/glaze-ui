@@ -60,7 +60,7 @@ jobs:
             --evaluator-revision "$PLATFORM_CONTRACT_SHA" \
             --output goreecloud.conformance-result.json
 
-      - name: Verify shared-library Release Candidate boundary
+      - name: Verify shared-library Stable promotion boundary
         shell: bash
         run: |
           set -euo pipefail
@@ -75,17 +75,24 @@ jobs:
 
           assert manifest["component"]["type"] == "shared-library"
           assert manifest["component"]["repository"] == "GoreeCloud/goreecloud-glaze-ui"
-          assert manifest["lifecycle"] == "release-candidate"
-          assert manifest["version"] == "1.6.0-rc.1"
-          assert manifest["conformance"]["status"] == "nonconformant"
-          assert manifest["conformance"]["validated_at"] is None
+          assert manifest["lifecycle"] == "stable"
+          assert manifest["version"] == "1.6.0"
+          assert manifest["conformance"]["status"] == "conformant"
+          assert manifest["conformance"]["validated_at"] is not None
+          assert manifest["conformance"]["blockers"] == []
           assert manifest["external_dependencies"] == []
-          assert lifecycle["currentStable"] == "1.5.1"
-          assert lifecycle["currentOfficial"] == "1.5.1"
-          assert lifecycle["activeCandidate"] == "1.6.0-rc.1"
+          assert manifest["compatibility"]["glaze_ui_required"] == "1.5.1"
+          assert manifest["platform_systems"]["glaze_ui"]["result"] == "applicable-conformant"
+          assert manifest["platform_systems"]["glaze_ui"]["version"] == "1.5.1"
+          assert lifecycle["currentStable"] == "1.6.0"
+          assert lifecycle["currentOfficial"] == "1.6.0"
+          assert lifecycle["activeCandidate"] is None
           assert result["evaluated_revision"] == __import__("os").environ["EXPECTED_SHA"]
           assert result["evaluator_revision"] == __import__("os").environ["PLATFORM_CONTRACT_SHA"]
-          assert result["stable_eligible"] is False
+          assert result["declared_conformance"] == "conformant"
+          assert result["computed_conformance"] == "conformant"
+          assert result["stable_eligible"] is True
+          assert result["blockers"] == []
 
           evidence_paths = set()
           for entry in manifest["platform_systems"].values():
@@ -100,8 +107,26 @@ jobs:
           if missing:
               raise SystemExit("missing manifest evidence paths: " + ", ".join(missing))
 
-          print("platform-contract: Glaze UI shared-library RC boundary validated")
-          print("platform-contract: Stable eligibility remains false")
+          categories = {
+              entry["category"]
+              for entry in manifest["evidence"]["acceptance_tests"]
+              if entry["result"] == "passed"
+          }
+          required = {
+              "glaze-ui",
+              "accessibility",
+              "supported-platform",
+              "security",
+              "privacy",
+              "documentation",
+              "integration",
+              "release",
+          }
+          assert required <= categories
+          assert any(entry["result"] == "published" and entry["version"] == "1.6.0" for entry in manifest["evidence"]["release"])
+
+          print("platform-contract: Glaze UI shared-library Stable promotion boundary validated")
+          print("platform-contract: Stable eligibility true under Contract 0.4 predecessor-baseline bootstrap")
           PY
 
       - name: Verify repository action integrity
