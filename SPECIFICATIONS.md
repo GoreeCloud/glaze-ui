@@ -60,19 +60,19 @@ Stable promotion preserves those evidence boundaries through fail-closed source-
 
 ## Consumer boundary
 
-V1.5.1 is the required shared Glaze UI target recorded by the current consumer registry. No downstream GoreeCloud application becomes conformant, Stable, deployed, production-eligible, or production-ready automatically.
+V1.6.0 is the required shared Glaze UI target recorded by the current consumer registry. No downstream GoreeCloud application becomes conformant, Stable, deployed, production-eligible, or production-ready automatically.
 
-Every applicable consumer must complete fresh repository-local exact-revision V1.5.1 adoption and acceptance for its supported platforms.
+Every applicable consumer must complete fresh repository-local exact-revision V1.6.0 adoption and acceptance for its supported platforms.
 
 ## Publication and deployment boundary
 
-Shared Stable source/lifecycle authority does not by itself establish an immutable `v1.5.1` tag, GitHub Release publication, deployment, production acceptance, or downstream consumer acceptance. Those remain separate governed transitions.
+GLAZE UI V1.6.0 has completed the governed shared-library publication boundary through controlled tag `v1.6.0`, GitHub Release `392095913`, exact accepted-source binding, fixed artifact digests, and post-publication byte readback. This does not establish downstream consumer deployment, production acceptance, or application conformance; those remain separate governed transitions.
 
-## V1.6 Release Candidate and retained Development boundary
+## Retained V1.6 Release Candidate and Development provenance
 
-The active V1.6 Release Candidate and its retained Development-language contracts, schemas, tokens, validators, and qualification inputs coexist with V1.5.1 Stable. The RC remains non-consumer-eligible and does not alter V1.5.1 Stable authority unless a separate governed Stable promotion is completed.
+The superseded V1.6 Release Candidate and its retained Development-language contracts, schemas, tokens, validators, and qualification inputs are preserved beneath current V1.6.0 Stable authority as audit provenance. The RC remains non-consumer-eligible historical evidence and does not override current V1.6.0 lifecycle or consumer authority.
 
-`GLAZE_UI_V1_6_PLANNED.md` records the planned V1.6 successor requirements, centered on semantic skeleton/loading behavior, state clarity, accessibility, motion, materials, responsive continuity, performance adaptation, diagnostics, conformance metadata, adoption profiles, and evidence-backed acceptance.
+`GLAZE_UI_V1_6_PLANNED.md` records the original V1.6 planned requirements provenance, centered on semantic skeleton/loading behavior, state clarity, accessibility, motion, materials, responsive continuity, performance adaptation, diagnostics, conformance metadata, adoption profiles, and evidence-backed acceptance. Current lifecycle authority is defined by the V1.6 Stable contract, acceptance records, and lifecycle registry.
 
 The first bounded V1.6 Development implementation foundation is defined by `contracts/v1.6/loading-skeleton.dev.json`, `schemas/v1.6-loading-skeleton.schema.json`, `tokens/glaze-v1.6-loading.dev.json`, and `js/glaze-v1.6-loading.dev.mjs`. It implements sections 1–4 as a non-consumer-eligible loading/skeleton source foundation with configurable loading escalation, quiet-window behavior, skeleton primitives and motion modes, accessibility precedence, truthful progress handling, stale-content preservation, bounded optimistic presentation, motion-fatigue protection, and presentation-only authority boundaries. This Development implementation does not establish Candidate or Release Candidate status, Stable qualification, consumer eligibility, downstream adoption, deployment, production acceptance, or publication.
 
