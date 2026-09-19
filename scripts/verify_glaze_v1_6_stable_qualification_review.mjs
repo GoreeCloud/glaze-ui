@@ -45,8 +45,7 @@ const requiredBlockers = [
   'security.dependency-and-supply-chain-scan',
   'security.release-security-acceptance',
   'release.artifact-provenance-and-publication-boundary',
-  'production-acceptance.applicability',
-  'drive.documentation-and-task-reconciliation'
+  'production-acceptance.applicability'
 ];
 const blockers = new Map(review.blockers.map(item => [item.id, item]));
 for (const id of requiredBlockers) {
@@ -54,6 +53,9 @@ for (const id of requiredBlockers) {
   assert.match(blockers.get(id).status, /^blocked/, `Stable blocker must remain fail-closed: ${id}`);
 }
 
+assert.equal(review.blockers.length, 7, 'V1.6 Stable review must retain the seven unresolved blockers after Drive reconciliation');
+assert.ok(review.verifiedPasses.some(item => item.id === 'drive.documentation-and-task-reconciliation' && item.status === 'passed'), 'Drive reconciliation must be a verified pass');
+assert.equal(review.remainingBlockerCount, 7, 'remainingBlockerCount must be seven');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
 assert.equal(review.stablePromotionAuthorized, false);
 assert.equal(review.productionReadinessGranted, false);
