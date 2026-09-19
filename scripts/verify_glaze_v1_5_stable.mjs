@@ -51,7 +51,10 @@ assert(scope.continuityPolicy.authorizationBehaviorChangePermittedByPromotion ==
 
 const consumerSchema = json('schemas/consumer-registry.schema.json');
 assert(consumerSchema.properties?.schemaVersion?.const === 8, 'Consumer registry schema must retain governed schema version 8');
-assert(String(consumerSchema.title).includes('V1.5'), 'Consumer registry schema title must identify V1.5');
+assert(String(consumerSchema.title).includes('Consumer Registry'), 'Consumer registry schema title must retain its governed registry identity');
+const currentConsumers=json('consumers/registry.json');
+assert(currentConsumers.officialBaseline===lifecycle.currentStable,'current consumer registry baseline must follow live Stable authority');
+assert(currentConsumers.requiredConsumerVersion===lifecycle.currentStable,'current consumer target must follow live Stable authority');
 
 const stableRuntime = read('js/glaze-v1.5.0.mjs');
 assert(stableRuntime.includes("version: '1.5.0'"), 'Historical Stable runtime must identify version 1.5.0');
