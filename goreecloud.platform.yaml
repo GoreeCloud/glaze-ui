@@ -6,8 +6,8 @@ component:
   product_name: GLAZE UI
   repository: GoreeCloud/goreecloud-glaze-ui
 
-lifecycle: release-candidate
-version: 1.6.0-rc.1
+lifecycle: stable
+version: 1.6.0
 
 supported_platforms:
   - cross-platform
@@ -21,47 +21,43 @@ platform_systems:
     result: not-applicable-justified
     version: null
     evidence:
-      - acceptance/v1.6-production-readiness-review.json
-    notes: Glaze UI is a shared presentation library and does not own or execute Manager administration, lifecycle, inventory, approval, or remediation operations. Management integration remains a downstream or publication concern where applicable.
+      - acceptance/v1.6-stable.json
+    notes: Glaze UI is a shared presentation library and does not own Manager administration, lifecycle, inventory, approval, or remediation operations.
   privacy_shield:
     result: not-applicable-justified
     version: null
     evidence:
-      - acceptance/v1.6-production-readiness-review.json
+      - acceptance/v1.6-stable.json
       - acceptance/v1.6-human-evidence.json
-    notes: The RC preserves Privacy Shield authority boundaries and privacy-safe local presentation behavior but does not operate a Privacy Shield enforcement runtime or collect privacy state as a platform service.
+    notes: The Stable runtime preserves Privacy Shield authority boundaries but does not operate a Privacy Shield enforcement runtime or collect privacy state as a platform service.
   wardveil_security:
     result: not-applicable-justified
     version: null
     evidence:
-      - acceptance/v1.6-production-readiness-review.json
+      - acceptance/v1.6-final-security-acceptance.json
       - SECURITY.md
-    notes: The RC presents supplied security states without authenticating, authorizing, protecting, or manufacturing security truth. Wardveil enforcement is outside this shared presentation runtime; Stable security qualification remains separately mandatory.
+    notes: Glaze UI presents caller-supplied security state but does not authenticate, authorize, or manufacture Wardveil security truth.
   everkeep:
     result: not-applicable-justified
     version: null
     evidence:
-      - acceptance/v1.6-production-readiness-review.json
+      - acceptance/v1.6-stable.json
       - registry/lifecycle.json
-    notes: The RC is stateless and owns no user data, durable application state, backup jobs, restore workflows, or preservation storage. Release rollback remains bound to known-good Glaze UI 1.5.1.
+    notes: The shared runtime is stateless and owns no user data, backup jobs, restore workflows, or preservation storage; rollback remains GLAZE UI 1.5.1.
   glaze_ui:
-    result: applicable-conformant
-    version: 1.6.0-rc.1
+    result: not-applicable-justified
+    version: null
     evidence:
+      - acceptance/v1.6-stable.json
       - acceptance/v1.6-qualification-review.json
-      - acceptance/v1.6-machine-evidence.json
-      - acceptance/v1.6-rendered-evidence.json
-      - acceptance/v1.6-regression-evidence.json
-      - acceptance/v1.6-human-evidence.json
-      - acceptance/v1.6-assistive-technology-evidence.json
-      - acceptance/v1.6-performance-evidence.json
-    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable for Release Candidate scope only; Stable promotion remains separately governed.
+      - acceptance/v1.6-publication-readback.json
+    notes: GLAZE UI is the authoritative producer of this design-system release and does not consume itself as an external platform dependency. Its Stable qualification is established by its repository-local acceptance and release evidence.
   mesh:
     result: not-applicable-justified
     version: null
     evidence:
-      - acceptance/v1.6-production-readiness-review.json
-    notes: The shared runtime performs no service discovery, event transport, network coordination, capability authorization, or Mesh registration. Those responsibilities remain with downstream components where applicable.
+      - acceptance/v1.6-stable.json
+    notes: The shared runtime performs no service discovery, event transport, network coordination, capability authorization, or Mesh registration.
     capabilities: []
     dependencies: []
     published_events: []
@@ -70,23 +66,22 @@ platform_systems:
     result: not-applicable-justified
     version: null
     evidence:
-      - acceptance/v1.6-production-readiness-review.json
+      - acceptance/v1.6-stable.json
       - acceptance/v1.6-human-evidence.json
-    notes: Glaze UI may present identity, permission, restricted, denied, or unavailable states but does not authenticate users, create sessions, resolve identities, or grant authorization.
+    notes: Glaze UI may present identity or permission states but does not authenticate users, create sessions, resolve identities, or grant authorization.
   policy:
     result: not-applicable-justified
     version: null
     evidence:
-      - acceptance/v1.6-production-readiness-review.json
-      - acceptance/v1.6-human-evidence.json
+      - acceptance/v1.6-stable.json
     notes: Glaze UI may present caller-supplied policy state but cannot define, evaluate, enforce, or manufacture GoreeCloud Policy decisions.
   observability:
     result: not-applicable-justified
     version: null
     evidence:
-      - acceptance/v1.6-production-readiness-review.json
+      - acceptance/v1.6-stable.json
       - acceptance/v1.6-performance-evidence.json
-    notes: V1.6 diagnostics are local-first and privacy-minimized and evaluate caller-supplied evidence. The shared runtime does not operate an Observability backend or claim production health.
+    notes: V1.6 diagnostics are local-first and privacy-minimized; the shared runtime does not operate a GoreeCloud Observability backend or claim product production health.
 
 health:
   health_endpoint: null
@@ -100,7 +95,7 @@ continuity:
   restore:
     required: false
     requirements:
-      - Release rollback uses the known-good Glaze UI 1.5.1 source/runtime baseline recorded in registry/lifecycle.json.
+      - Release rollback uses known-good GLAZE UI 1.5.1 recorded in registry/lifecycle.json.
   export:
     required: false
     requirements:
@@ -108,7 +103,7 @@ continuity:
   portability:
     required: false
     requirements:
-      - The supported RC runtime is source-distributed ES modules with repository-preserved contracts and evidence.
+      - The supported Stable runtime is source-distributed ES modules with repository-preserved contracts, checksums, SBOM, provenance, and immutable release identity.
 
 external_dependencies: []
 
@@ -118,45 +113,80 @@ compatibility:
   requires:
     - goreecloud-platform-contract==0.4
   provides:
-    - glaze-ui-runtime==1.6.0-rc.1
-    - glaze-ui-contract==1.6.0-rc.1
+    - glaze-ui-runtime==1.6.0
+    - glaze-ui-contract==1.6.0
 
 evidence:
   acceptance_tests:
-    - id: v1.6-glaze-ui-qualification
-      category: glaze-ui
+    - id: v1.6-accessibility
+      category: accessibility
+      path: acceptance/v1.6-assistive-technology-evidence.json
+      revision: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
+      result: passed
+      observed_at: "2026-09-18T23:44:00Z"
+      notes: Governed assistive-technology and accessibility evidence is accepted for the shared V1.6 scope.
+    - id: v1.6-supported-platform
+      category: supported-platform
       path: acceptance/v1.6-qualification-review.json
       revision: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
       result: passed
       observed_at: "2026-09-18T23:44:00Z"
-      notes: The frozen V1.6 source completed the governed 24-lane qualification matrix for Release Candidate scope.
-    - id: v1.6-nine-system-rc-review
-      category: integration
-      path: acceptance/v1.6-production-readiness-review.json
-      revision: 3f070f6fc01bc7904e3cd8c20851db5a0c40d539
+      notes: The cross-platform shared qualification matrix is complete at 24 verified / 0 unverified / 0 not applicable.
+    - id: v1.6-security
+      category: security
+      path: acceptance/v1.6-final-security-acceptance.json
+      revision: a7180679ea851389e0f3004515f9a25f420e716d
       result: passed
-      observed_at: "2026-09-18T23:44:00Z"
-      notes: All nine Integral Platform Systems were explicitly evaluated for the shared presentation-system Release Candidate boundary; this does not establish Stable acceptance.
+      observed_at: "2026-09-19T14:06:51Z"
+      notes: Final Stable security acceptance passed for the exact protected source and accepted artifact bytes.
+    - id: v1.6-privacy
+      category: privacy
+      path: acceptance/v1.6-stable.json
+      revision: a7180679ea851389e0f3004515f9a25f420e716d
+      result: passed
+      observed_at: "2026-09-19T14:18:07Z"
+      notes: The shared presentation-only authority and privacy boundary are retained; Glaze UI owns no protected user-data service.
+    - id: v1.6-documentation
+      category: documentation
+      path: acceptance/v1.6-stable.json
+      revision: a7180679ea851389e0f3004515f9a25f420e716d
+      result: passed
+      observed_at: "2026-09-19T14:18:07Z"
+      notes: Stable acceptance, release identity, rollback, and downstream boundaries are explicitly recorded.
+    - id: v1.6-integration
+      category: integration
+      path: acceptance/v1.6-stable.json
+      revision: a7180679ea851389e0f3004515f9a25f420e716d
+      result: passed
+      observed_at: "2026-09-19T14:18:07Z"
+      notes: All nine Integral Platform Systems were evaluated for the shared-library boundary and non-applicability is explicitly justified where applicable.
+    - id: v1.6-release-acceptance
+      category: release
+      path: acceptance/v1.6-publication-readback.json
+      revision: a7180679ea851389e0f3004515f9a25f420e716d
+      result: passed
+      observed_at: "2026-09-19T14:18:07Z"
+      notes: Tag, GitHub Release, and all published artifact bytes were authoritatively read back and matched the security-accepted source/artifact identity.
   release:
-    - id: v1.6-rc.1
-      version: 1.6.0-rc.1
-      revision: 3f070f6fc01bc7904e3cd8c20851db5a0c40d539
-      path: acceptance/v1.6-rc.1.json
-      result: candidate
-      observed_at: "2026-09-18T23:44:00Z"
-      artifact_digest: null
-      notes: Governed Release Candidate identity only; no immutable Stable release artifact, tag, or GitHub Release is implied.
+    - id: v1.6.0
+      version: 1.6.0
+      revision: a7180679ea851389e0f3004515f9a25f420e716d
+      path: acceptance/v1.6-publication-readback.json
+      result: published
+      observed_at: "2026-09-19T14:18:07Z"
+      artifact_digest: sha256:687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af
+      notes: Immutable tag v1.6.0 and GitHub Release 392095913 publish the exact final-security-accepted bytes and passed byte-for-byte readback.
 
 conformance:
-  status: nonconformant
-  validated_at: null
+  status: conformant
+  validated_at: "2026-09-19T14:18:07Z"
   evidence:
-    - acceptance/v1.6-stable-qualification-review.json
-  blockers:
-    - Final Stable release-security acceptance remains unresolved pending the exact unpublished final artifact/source-provenance evidence for the protected candidate.
-    - The final Stable release artifact acceptance, immutable publication identity, post-publication readback, and final exact-candidate Stable qualification remain unresolved.
+    - acceptance/v1.6-stable.json
+    - acceptance/v1.6-final-security-acceptance.json
+    - acceptance/v1.6-publication-readback.json
+  blockers: []
 
-# This manifest represents the governed V1.6 Release Candidate as a shared library.
-# It deliberately remains nonconformant for Stable while the listed release blockers remain open.
-# external_dependencies describes the supported RC runtime boundary; repository reference/build
-# tooling remains governed separately and is not silently excluded from Stable security review.
+# GLAZE UI is the authoritative producer of its own design-system release and therefore
+# records the Glaze self-dependency as not-applicable-justified rather than manufacturing
+# a circular external-consumer dependency. Downstream GoreeCloud consumers must target
+# the current Stable version separately and complete repository-local acceptance.
