@@ -41,7 +41,7 @@ assert.equal(readiness.reviewFindings.productionAcceptanceGranted, false);
 
 assert.equal(driveReconciliation.decision, 'passed');
 assert.equal(driveReconciliation.taskRecord?.driveFileId, '1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy');
-assert.equal(driveReconciliation.taskRecord?.sha256, '657c36d2271f97310482da32d0846a0b9412e6754eacba4bd5049f1480428aa8');
+assert.equal(driveReconciliation.taskRecord?.sha256, '711bff33f5f3b479babe228efcde7571197cde82854105cc4f662ebe89074e0f');
 assert.equal(driveReconciliation.taskRecord?.pageCount, 75);
 assert.equal(driveReconciliation.taskRecord?.visualVerification?.allPagesReviewed, true);
 assert.equal(driveReconciliation.changeLogRecord?.driveFileId, '1p1PTyUeQ2Ht4tzibAATmrEuVctyLs8up');
