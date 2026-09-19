@@ -14,7 +14,7 @@ import re
 from pathlib import Path
 
 COORDINATE = re.compile(
-    r"([A-Za-z0-9_.-]+):([A-Za-z0-9_.-]+):([^\\s]+)(?:\\s+->\\s+([^\\s]+))?"
+    r"([A-Za-z0-9_.-]+):([A-Za-z0-9_.-]+):([^\s]+)(?:\s+->\s+([^\s]+))?"
 )
 
 
@@ -47,7 +47,24 @@ def parse_report(path: Path) -> dict[tuple[str, str], str]:
     return selected
 
 
+def self_check() -> None:
+    cases = {
+        "org.example:plain:1.2.3": ("org.example", "plain", "1.2.3", None),
+        "org.example:resolved:1.0 -> 2.0": ("org.example", "resolved", "1.0", "2.0"),
+        "org.example:repeat:3.0 (*)": ("org.example", "repeat", "3.0", None),
+        "org.example:constraint:4.0 (c)": ("org.example", "constraint", "4.0", None),
+    }
+    for text, expected in cases.items():
+        match = COORDINATE.search(text)
+        if match is None or match.groups() != expected:
+            raise InventoryError(
+                f"coordinate parser self-check failed for {text!r}: "
+                f"{None if match is None else match.groups()!r} != {expected!r}"
+            )
+
+
 def main() -> int:
+    self_check()
     parser = argparse.ArgumentParser()
     parser.add_argument("--project", action="append", nargs=3, metavar=("NAME", "BUILD_ENV", "RUNTIME"), required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -91,7 +108,7 @@ def main() -> int:
             "selectedCoordinateCount": len(coordinates),
         })
 
-    args.output.write_text(json.dumps({"results": results}, indent=2, sort_keys=True) + "\\n", encoding="utf-8")
+    args.output.write_text(json.dumps({"results": results}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     args.summary.write_text(
         json.dumps(
             {
@@ -108,7 +125,7 @@ def main() -> int:
             },
             indent=2,
             sort_keys=True,
-        ) + "\\n",
+        ) + "\n",
         encoding="utf-8",
     )
     print(f"selected-dependency-inventory: {len(all_coordinates)} distinct Maven coordinates")
