@@ -1,0 +1,132 @@
+name: GLAZE UI V1.6 Stable Authority
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'acceptance/v1.6-stable.json'
+      - 'acceptance/v1.6-stable-qualification-review.json'
+      - 'acceptance/v1.6-stable-security-review.json'
+      - 'acceptance/v1.6-production-applicability.json'
+      - 'acceptance/v1.6-artifact-provenance-plan.json'
+      - 'contracts/v1.6/stable-release.json'
+      - 'js/glaze-v1.6.0.mjs'
+      - 'consumers/registry.json'
+      - 'goreecloud.platform.yaml'
+      - 'scripts/verify_glaze_v1_6_stable.mjs'
+      - '.github/workflows/glaze-v1.6-stable.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+      - 'acceptance/v1.6-stable.json'
+      - 'acceptance/v1.6-stable-qualification-review.json'
+      - 'acceptance/v1.6-stable-security-review.json'
+      - 'acceptance/v1.6-production-applicability.json'
+      - 'acceptance/v1.6-artifact-provenance-plan.json'
+      - 'contracts/v1.6/stable-release.json'
+      - 'js/glaze-v1.6.0.mjs'
+      - 'consumers/registry.json'
+      - 'goreecloud.platform.yaml'
+      - 'scripts/verify_glaze_v1_6_stable.mjs'
+      - '.github/workflows/glaze-v1.6-stable.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1.6-stable-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  ACCEPTED_SOURCE: a7180679ea851389e0f3004515f9a25f420e716d
+  ACCEPTED_TREE: 9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268
+  RELEASE_TAG: v1.6.0
+  RELEASE_ID: '392095913'
+  ARCHIVE_SHA256: 687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af
+  SBOM_SHA256: 3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82
+  PROVENANCE_SHA256: 711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8
+
+jobs:
+  stable-authority:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out exact Stable promotion revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact revision and source ancestry
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          test "$(git rev-parse "${ACCEPTED_SOURCE}^{tree}")" = "${ACCEPTED_TREE}"
+          git merge-base --is-ancestor "${ACCEPTED_SOURCE}" HEAD
+
+      - name: Verify repository Stable authority
+        run: |
+          set -euo pipefail
+          node --check scripts/verify_glaze_v1_6_stable.mjs
+          node scripts/verify_glaze_v1_6_stable.mjs
+          python3 -m json.tool acceptance/v1.6-stable.json >/dev/null
+          python3 -m json.tool contracts/v1.6/stable-release.json >/dev/null
+          node --check js/glaze-v1.6.0.mjs
+
+      - name: Read back published release identity and accepted bytes
+        run: |
+          set -euo pipefail
+          tag_json="$RUNNER_TEMP/tag.json"
+          release_json="$RUNNER_TEMP/release.json"
+          release_dir="$RUNNER_TEMP/release"
+          extract_dir="$RUNNER_TEMP/extracted"
+          mkdir -p "$release_dir" "$extract_dir"
+
+          gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_TAG}" > "$tag_json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" > "$release_json"
+          python3 - "$tag_json" "$release_json" <<'PY'
+          import json, os, sys
+          tag=json.load(open(sys.argv[1],encoding='utf-8'))
+          release=json.load(open(sys.argv[2],encoding='utf-8'))
+          assert tag['ref']=='refs/tags/'+os.environ['RELEASE_TAG']
+          assert tag['object']['type']=='commit'
+          assert tag['object']['sha']==os.environ['ACCEPTED_SOURCE']
+          assert str(release['id'])==os.environ['RELEASE_ID']
+          assert release['tag_name']==os.environ['RELEASE_TAG']
+          assert release['draft'] is False
+          assert release['prerelease'] is False
+          expected={
+            'glaze-ui-v1.6.0-source-runtime.tar.gz',
+            'SHA256SUMS',
+            'cyclonedx-1.5.json',
+            'provenance.json',
+          }
+          assert {a['name'] for a in release['assets']}==expected
+          PY
+
+          gh release download "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --dir "$release_dir"
+          (
+            cd "$release_dir"
+            sha256sum --check --strict SHA256SUMS
+            test "$(sha256sum glaze-ui-v1.6.0-source-runtime.tar.gz | awk '{print $1}')" = "${ARCHIVE_SHA256}"
+            test "$(sha256sum cyclonedx-1.5.json | awk '{print $1}')" = "${SBOM_SHA256}"
+            test "$(sha256sum provenance.json | awk '{print $1}')" = "${PROVENANCE_SHA256}"
+          )
+          tar -xzf "$release_dir/glaze-ui-v1.6.0-source-runtime.tar.gz" -C "$extract_dir"
+          cmp js/glaze-v1.6.0.mjs "$extract_dir/glaze-ui-v1.6.0/js/glaze-v1.6.0.mjs"
+          cmp contracts/v1.6/stable-release.json "$extract_dir/glaze-ui-v1.6.0/contracts/v1.6/stable-release.json"
+
+      - name: Verify immutable-action integrity and clean tree
+        run: |
+          python3 scripts/validate_github_actions_runtime_integrity.py
+          git diff --exit-code -- .
