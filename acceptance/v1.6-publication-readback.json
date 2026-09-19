@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "kind": "goreecloud-glaze-v1.6.0-publication-readback",
+  "result": "passed",
+  "publicationControlRevision": "7e8b537b9d1a123bc3e92679774a4d9cc704e03b",
+  "publicationWorkflowRunId": 35448300411,
+  "publicationReadbackArtifactId": 10586426818,
+  "publicationReadbackArtifactDigest": "sha256:3bd8b51e82a33393c2c58c9b1dc381352b3d7355408553f11fa536384bf272bc",
+  "sourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+  "sourceTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+  "tag": "v1.6.0",
+  "tagObjectType": "commit",
+  "tagTargetRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+  "releaseId": 392095913,
+  "draft": false,
+  "prerelease": false,
+  "releasedBytesMatchSecurityAcceptedBytes": true,
+  "assets": {
+    "SHA256SUMS": "4f2668332c5b4f00cd3a1298eae0dd630f28d0afebc2825f87fa580d1974f956",
+    "cyclonedx-1.5.json": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+    "glaze-ui-v1.6.0-source-runtime.tar.gz": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+    "provenance.json": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8"
+  },
+  "stablePromotionAuthorizedByPublicationWorkflow": false,
+  "boundary": "Publication and byte-for-byte readback passed for the exact final-security-accepted artifact. Stable lifecycle promotion remains a separate governed repository transition."
+}
