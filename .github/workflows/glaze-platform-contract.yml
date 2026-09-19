@@ -2,22 +2,9 @@ name: GLAZE UI Platform Contract 0.4
 
 on:
   pull_request:
-    paths:
-      - 'goreecloud.platform.yaml'
-      - '.github/workflows/glaze-platform-contract.yml'
-      - 'registry/lifecycle.json'
-      - 'acceptance/v1.6-production-readiness-review.json'
-      - 'acceptance/v1.6-qualification-review.json'
-      - 'acceptance/v1.6-stable-qualification-review.json'
+    branches: [main]
   push:
     branches: [main]
-    paths:
-      - 'goreecloud.platform.yaml'
-      - '.github/workflows/glaze-platform-contract.yml'
-      - 'registry/lifecycle.json'
-      - 'acceptance/v1.6-production-readiness-review.json'
-      - 'acceptance/v1.6-qualification-review.json'
-      - 'acceptance/v1.6-stable-qualification-review.json'
   workflow_dispatch:
 
 permissions:
@@ -28,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
+  platform-contract-0-4:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
