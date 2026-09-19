@@ -14,6 +14,67 @@ const QUALIFICATION_INTEGRATION='354f5759385c28596fcfec26a3ad525e89fb1c35';
 const RC='1.6.0-rc.1';
 const STABLE='1.5.1';
 
+
+const currentLifecycleForHistoricalCheck=json('registry/lifecycle.json');
+if(currentLifecycleForHistoricalCheck.currentStable==='1.6.0'){
+  assert(read('VERSION').trim()==='1.6.0','VERSION must identify V1.6.0 Stable');
+  assert(currentLifecycleForHistoricalCheck.currentOfficial==='1.6.0','current Official must be V1.6.0');
+  assert(currentLifecycleForHistoricalCheck.activeCandidate===null,'Stable V1.6.0 must not retain an active Candidate');
+
+  const retainedRc=currentLifecycleForHistoricalCheck.releases.find(item=>item.version===RC);
+  assert(retainedRc,'retained V1.6 RC lifecycle record missing');
+  assert(retainedRc.status==='superseded-release-candidate','V1.6 RC must be superseded after Stable promotion');
+  assert(retainedRc.consumerEligible===false,'historical V1.6 RC must remain non-consumer-eligible');
+  assert(retainedRc.promotedTo==='1.6.0','V1.6 RC promotion target mismatch');
+  assert(retainedRc.sourceQualificationAnchor===SOURCE,'historical V1.6 RC qualification anchor drift');
+  assert(retainedRc.qualificationEvidenceIntegrationCommit===QUALIFICATION_INTEGRATION,'historical V1.6 RC qualification integration drift');
+  assert(retainedRc.contract==='contracts/v1.6/release-candidate.json','historical V1.6 RC contract drift');
+  assert(retainedRc.acceptance==='acceptance/v1.6-rc.1.json','historical V1.6 RC acceptance drift');
+  assert(retainedRc.runtimeEntrypoint==='js/glaze-v1.6.0-rc.1.mjs','historical V1.6 RC runtime drift');
+
+  const stableRelease=currentLifecycleForHistoricalCheck.releases.find(item=>item.version==='1.6.0');
+  assert(stableRelease?.status==='stable'&&stableRelease?.consumerEligible===true,'V1.6.0 Stable lifecycle record missing');
+  assert(stableRelease?.stableBaseline===STABLE,'V1.6.0 Stable rollback baseline must be 1.5.1');
+
+  const historicalSourcePaths=[
+    'GLAZE_UI_V1_6_PLANNED.md',
+    'js/glaze-v1.6-development.mjs',
+    'js/glaze-v1.6-loading.dev.mjs',
+    'js/glaze-v1.6-state-accessibility.dev.mjs',
+    'js/glaze-v1.6-focus-motion.dev.mjs',
+    'js/glaze-v1.6-material-type-input.dev.mjs',
+    'js/glaze-v1.6-resilience-feedback.dev.mjs',
+    'js/glaze-v1.6-navigation-status.dev.mjs',
+    'js/glaze-v1.6-component-systems.dev.mjs',
+    'js/glaze-v1.6-experience-governance.dev.mjs',
+    'js/glaze-v1.6-performance-diagnostics.dev.mjs',
+    'js/glaze-v1.6-conformance-adoption.dev.mjs',
+    'js/glaze-v1.6-acceptance.dev.mjs',
+    'contracts/v1.6/loading-skeleton.dev.json',
+    'contracts/v1.6/state-accessibility.dev.json',
+    'contracts/v1.6/focus-motion.dev.json',
+    'contracts/v1.6/material-type-input.dev.json',
+    'contracts/v1.6/resilience-feedback.dev.json',
+    'contracts/v1.6/navigation-status.dev.json',
+    'contracts/v1.6/component-systems.dev.json',
+    'contracts/v1.6/experience-governance.dev.json',
+    'contracts/v1.6/performance-diagnostics.dev.json',
+    'contracts/v1.6/conformance-adoption.dev.json',
+    'contracts/v1.6/acceptance.dev.json'
+  ];
+  const continuity=spawnSync('git',['diff','--quiet',SOURCE,'--',...historicalSourcePaths],{cwd:root,encoding:'utf8'});
+  assert(continuity.status===0,'qualified V1.6 behavior/contract source changed after frozen qualification anchor');
+
+  const rcAcceptance=json('acceptance/v1.6-rc.1.json');
+  assert(rcAcceptance.releaseLifecycle==='Release Candidate','retained RC acceptance lifecycle drift');
+  assert(rcAcceptance.sourceQualificationAnchor===SOURCE,'retained RC acceptance source drift');
+  assert(rcAcceptance.qualificationDisposition?.verifiedCount===24&&rcAcceptance.qualificationDisposition?.unverifiedCount===0&&rcAcceptance.qualificationDisposition?.notApplicableCount===0,'retained RC qualification evidence drift');
+
+  console.log('GLAZE UI V1.6.0-rc.1 retained Release Candidate historical integrity: PASS');
+  console.log('Current Stable is 1.6.0; RC evidence remains bound to its original exact qualification source.');
+  process.exit(0);
+}
+
 assert(read('VERSION').trim()===STABLE,'VERSION must remain current Stable 1.5.1 during V1.6 RC');
 
 const lifecycle=json('registry/lifecycle.json');
