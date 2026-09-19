@@ -46,3 +46,17 @@ No downstream application or website becomes `1.5.1`-conformant merely because t
 Stable design-system authority does not automatically establish an immutable `v1.5.1` tag, GitHub Release, deployment, production acceptance, or downstream application acceptance. Those remain separate governed transitions.
 
 Glaze Motion remains separately governed unless a later Stable Glaze UI contract explicitly incorporates it.
+
+## Active V1.6 Stable qualification review
+
+GLAZE UI V1.6 / `1.6.0-rc.1` is the active governed Release Candidate. Its shared qualification matrix is complete at 24 verified / 0 unverified / 0 not applicable, but that qualification completeness does not by itself satisfy the higher Stable gate.
+
+The current fail-closed Stable review is recorded in `acceptance/v1.6-stable-qualification-review.json` and its machine gate is `scripts/verify_glaze_v1_6_stable_qualification_review.mjs`.
+
+**Current decision: blocked — remain Release Candidate.**
+
+Verified shared passes include candidate identity, 24/24 qualification evidence, the nine-system Release Candidate readiness review, rendered/human/assistive-technology evidence, bounded representative performance, rollback to V1.5.1, immutable GitHub Action pin enforcement, and current repository-front-door documentation.
+
+Stable remains blocked while the recorded unresolved controls remain open, including authoritative default-branch protection, current machine Platform Contract applicability/schema alignment, exact-candidate secret/history scanning, dependency/supply-chain security evidence, final release-security acceptance, final artifact/provenance/publication boundary, applicable production-acceptance disposition, and canonical Drive task/change-record reconciliation.
+
+No Stable tag, GitHub Release, consumer migration, deployment, production-readiness claim, or production-acceptance claim is authorized by this review.
