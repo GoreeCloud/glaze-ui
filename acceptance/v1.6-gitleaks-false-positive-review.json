@@ -50,7 +50,30 @@
     "pathWideAllowlistUsed": false,
     "futureFindingsRemainFailClosed": true,
     "fingerprintCount": 21,
-    "literalOrLineAllowlistUsed": false
+    "literalOrLineAllowlistUsed": false,
+    "fingerprints": [
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:132",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:133",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:134",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:135",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:136",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:137",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:138",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:139",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:140",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:141",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:142",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:143",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:144",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:145",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:146",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:147",
+      "99510b1d1919604a0f2fa5f4403f2b5be1e9e6d2:tokens/glaze-v1.4-optical-material.candidate.json:generic-api-key:148",
+      "f285b9145e27e6e7027b075c37299d101945c272:contracts/v1.2/artwork-imagery.candidate.json:generic-api-key:140",
+      "665e75774ca2940c677d0a35b719fac365942ece:contracts/v1.2/artwork-imagery.candidate.json:generic-api-key:140",
+      "9f92a8c7513270ecd5df9524c7e075b6112ca0f2:acceptance/2.2-stable.md:cloudflare-api-key:59",
+      "7df94942483d478fe2a082370e4b4e840232aead:acceptance/2.2-stable.md:cloudflare-api-key:59"
+    ]
   },
   "boundary": "This review classifies only the exact 21 historical fingerprints observed in the referenced run. No path-wide, rule-wide, line-wide, or literal-wide allowlist is used; future findings remain fail-closed. It does not establish dependency or overall Stable security acceptance."
 }
