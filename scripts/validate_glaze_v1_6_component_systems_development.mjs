@@ -36,9 +36,13 @@ const sections = [60,61,62,63,64,65,66,67,68,69,70];
 const requiredStates = ['default','hover','focused','pressed','selected','disabled','loading','error'];
 const saveStates = ['unsaved','saving','saved','save-failed','conflict','offline-pending'];
 
-assert(stable === '1.5.1', 'current Stable VERSION must remain 1.5.1');
-assert(lifecycle.currentOfficial === '1.5.1', 'currentOfficial must remain 1.5.1');
-assert(lifecycle.currentStable === '1.5.1', 'currentStable must remain 1.5.1');
+assert(lifecycle.currentOfficial === stable && lifecycle.currentStable === stable, 'VERSION/current Stable authority must agree');
+const stableTuple = stable.split('.').slice(0, 3).map(Number);
+assert(stableTuple.length === 3 && stableTuple.every(Number.isInteger), 'live Stable must use major.minor.patch versioning');
+assert(
+  stableTuple[0] > 1 || (stableTuple[0] === 1 && (stableTuple[1] > 5 || (stableTuple[1] === 5 && stableTuple[2] >= 1))),
+  'V1.6 retained Development validation requires live Stable authority at or after its frozen 1.5.1 baseline'
+);
 assert((lifecycle.activeCandidate === null || lifecycle.activeCandidate === '1.6.0-rc.1'), 'V1.6 Development validation permits only no active Candidate or governed 1.6.0-rc.1');
 assert(lifecycle.activePatchReleaseCandidate === null, 'V1.6 Development must not create patch RC');
 assert(lifecycle.plannedNext === null, 'V1.6 Development must not mutate plannedNext');
