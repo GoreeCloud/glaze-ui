@@ -7,6 +7,7 @@ const lifecycle = readJson('registry/lifecycle.json');
 const review = readJson('acceptance/v1.6-stable-qualification-review.json');
 const rcReview = readJson('acceptance/v1.6-qualification-review.json');
 const readiness = readJson('acceptance/v1.6-production-readiness-review.json');
+const driveReconciliation = readJson('acceptance/v1.6-drive-document-reconciliation.json');
 
 assert.equal(fs.readFileSync(new URL('../VERSION', import.meta.url), 'utf8').trim(), '1.5.1');
 assert.equal(lifecycle.currentStable, '1.5.1');
@@ -37,6 +38,16 @@ assert.equal(readiness.reviewFindings.nineSystemApplicabilityEvaluated, true);
 assert.equal(readiness.reviewFindings.qualificationEvidenceComplete, true);
 assert.equal(readiness.reviewFindings.productionReadinessGranted, false);
 assert.equal(readiness.reviewFindings.productionAcceptanceGranted, false);
+
+assert.equal(driveReconciliation.decision, 'passed');
+assert.equal(driveReconciliation.taskRecord?.driveFileId, '1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy');
+assert.equal(driveReconciliation.taskRecord?.sha256, '657c36d2271f97310482da32d0846a0b9412e6754eacba4bd5049f1480428aa8');
+assert.equal(driveReconciliation.taskRecord?.pageCount, 75);
+assert.equal(driveReconciliation.taskRecord?.visualVerification?.allPagesReviewed, true);
+assert.equal(driveReconciliation.changeLogRecord?.driveFileId, '1p1PTyUeQ2Ht4tzibAATmrEuVctyLs8up');
+assert.equal(driveReconciliation.changeLogRecord?.sha256, '166ea03adcd4008d1327233fdac2b6df2922ec452e1a3baf49f493cd0039978b');
+assert.equal(driveReconciliation.changeLogRecord?.pageCount, 235);
+assert.equal(driveReconciliation.changeLogRecord?.visualVerification?.allPagesReviewed, true);
 
 const requiredBlockers = [
   'repository.main-branch-protection',
