@@ -52,8 +52,8 @@ jobs:
       GITLEAKS_SHA256: '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb'
       OSV_VERSION: '2.6.0'
       OSV_SHA256: 'ca69b3d3cd08f889a49dc0a383122f71cc528b83803671df5fd874d97485b108'
-      GRADLE_VERSION: '9.5.0'
-      GRADLE_SHA256: '553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746'
+      GRADLE_VERSION: '9.6.0'
+      GRADLE_SHA256: 'bbaeb2fef8710818cf0e261201dab964c572f92b942812df0c3620d62a529a01'
     steps:
       - name: Check out exact security-review revision with full history
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
