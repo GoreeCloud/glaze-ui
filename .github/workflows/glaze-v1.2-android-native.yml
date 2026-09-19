@@ -69,14 +69,14 @@ jobs:
           echo "$SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
           echo "$SDK_ROOT/emulator" >> "$GITHUB_PATH"
 
-      - name: Install verified Gradle 9.5.0
+      - name: Install verified Gradle 9.6.0
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error https://services.gradle.org/distributions/gradle-9.5.0-bin.zip --output /tmp/gradle-9.5.0-bin.zip
-          echo "553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746  /tmp/gradle-9.5.0-bin.zip" | sha256sum --check --strict
-          unzip -q /tmp/gradle-9.5.0-bin.zip -d /tmp
-          echo "/tmp/gradle-9.5.0/bin" >> "$GITHUB_PATH"
+          curl --fail --location --silent --show-error https://services.gradle.org/distributions/gradle-9.6.0-bin.zip --output /tmp/gradle-9.6.0-bin.zip
+          echo "bbaeb2fef8710818cf0e261201dab964c572f92b942812df0c3620d62a529a01  /tmp/gradle-9.6.0-bin.zip" | sha256sum --check --strict
+          unzip -q /tmp/gradle-9.6.0-bin.zip -d /tmp
+          echo "/tmp/gradle-9.6.0/bin" >> "$GITHUB_PATH"
 
       - name: Build GLAZE UI V1.2 Android Native Candidate APK
         working-directory: reference/v1.2/native/android
