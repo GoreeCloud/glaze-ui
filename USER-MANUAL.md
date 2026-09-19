@@ -22,26 +22,20 @@ Do not infer lifecycle state from a filename, branch name, screenshot, historica
 
 Downstream production or Stable consumer work must use the current Stable target unless a separately governed migration or test explicitly authorizes another lifecycle state.
 
-For V1.5.1:
+For V1.6.0:
 
-1. Use the Stable contract and runtime identified by the repository front-door documentation.
+1. Use `contracts/v1.6/stable-release.json` and `js/glaze-v1.6.0.mjs` as the shared Stable contract/runtime authority.
 2. Preserve semantic tokens and authority boundaries rather than copying raw appearance values into an application-local design system.
 3. Implement application-specific states, flows, and native mappings using Glaze semantics appropriate to the supported platform.
 4. Run the consumer's own rendered/native/accessibility/platform validation.
 5. Record exact source revision and evidence in the consumer repository.
-6. Do not claim consumer conformance merely because Glaze UI itself is Stable.
+6. Do not claim consumer conformance or production eligibility merely because Glaze UI itself is Stable.
 
-## Evaluating V1.6 Release Candidate
+## Retained V1.6 Release Candidate provenance
 
-V1.6 `1.6.0-rc.1` is available for governed qualification, migration planning, and controlled evaluation. It is not the current consumer target.
+V1.6 `1.6.0-rc.1` is retained only as superseded qualification provenance. It is not the current consumer target and must not be reactivated by implication.
 
-Use the RC only when the task explicitly requires Release Candidate evaluation. Preserve these boundaries:
-
-- Do not automatically migrate production consumers.
-- Do not treat RC status as Stable.
-- Do not publish or deploy the RC as production by implication.
-- Keep qualification evidence bound to the exact source and evidence records that produced it.
-- Re-run applicable validation if the exact candidate source changes materially.
+When reviewing RC-era evidence, keep it bound to the exact source/evidence records that produced it and use the current Stable lifecycle records for present-tense product or consumer decisions.
 
 ## Authority boundaries
 
