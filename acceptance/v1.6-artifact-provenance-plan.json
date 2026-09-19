@@ -17,7 +17,9 @@
     "currentStable": "1.5.1",
     "activeCandidate": "1.6.0-rc.1",
     "stablePromotionAuthorized": false,
-    "finalStableRevisionSelected": false
+    "finalStableRevisionSelected": false,
+    "dependencySupplyChainAccepted": true,
+    "dependencyRemediationEvidence": "acceptance/v1.6-dependency-vulnerability-classification.json"
   },
   "rehearsal": {
     "workflow": ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
@@ -47,7 +49,6 @@
   ],
   "unresolvedPrerequisites": [
     "Authoritative main branch protection/ruleset controls.",
-    "Dependency and supply-chain security acceptance.",
     "Final Stable release-security acceptance.",
     "Selection of the exact Stable revision after those blockers close."
   ],
