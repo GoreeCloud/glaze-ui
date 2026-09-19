@@ -4,7 +4,7 @@
   "recordType": "stable-qualification-review",
   "product": "GLAZE UI V1.6",
   "reviewedReleaseCandidate": "1.6.0-rc.1",
-  "reviewedAt": "2026-09-18T20:50:00-05:00",
+  "reviewedAt": "2026-09-18T21:05:00-05:00",
   "reviewExecutor": "ChatGPT",
   "decisionAuthority": "GoreeCloud project-owner instruction to continue the V1.6 governed qualification review",
   "governance": {
@@ -184,6 +184,16 @@
         ".gitleaksignore"
       ],
       "finding": "The exact-head V1.6 security evidence gate scans the complete fetched Git history with verified Gitleaks and records 0 unreviewed secret findings after exact-fingerprint review of 21 historical false positives. This closes only the secret/history sub-gate; dependency and final release-security acceptance remain blocked."
+    },
+    {
+      "id": "production-acceptance.applicability",
+      "status": "passed-applicability-resolved",
+      "evidence": [
+        "acceptance/v1.6-production-applicability.json",
+        "goreecloud.platform.yaml",
+        "acceptance/v1.6-production-readiness-review.json"
+      ],
+      "finding": "The shared-library production boundary is now explicit: GLAZE UI itself has no independent service/backend deployment, so service-style deployment acceptance is not applicable. The applicable Stable acceptance boundary is immutable shared-library publication/artifact acceptance; that final artifact/provenance work remains separately blocked."
     }
   ],
   "blockers": [
@@ -214,13 +224,6 @@
       "authority": "Stable Release Qualification v0.5",
       "finding": "The Release Candidate is source-qualified, but the exact Stable artifact/package/publication boundary, checksum/SBOM/provenance requirements, and final immutable release identity have not yet been established and accepted for V1.6 Stable.",
       "requiredResolution": "Define the supported Stable distribution artifact or source-release boundary, bind it to the exact approved source, generate applicable checksum/SBOM/provenance/signing evidence, and perform the controlled release transition only after all prior blockers close."
-    },
-    {
-      "id": "production-acceptance.applicability",
-      "status": "blocked-unresolved",
-      "authority": "Stable Release Qualification v0.5",
-      "finding": "The applicable deployment/production-acceptance and stabilization boundary for this shared design-system release has not been authoritatively resolved or completed for V1.6.",
-      "requiredResolution": "Determine whether the shared design-system Stable boundary requires a published package/release acceptance, deployment acceptance, or a justified not-applicable disposition, then complete and retain the required evidence."
     }
   ],
   "nonBlockingBoundaries": [
@@ -243,5 +246,5 @@
   "requiredLifecycleState": "Release Candidate",
   "nextControlledPhase": "Resolve Stable blockers and re-run an exact-candidate Stable qualification review before any Stable lifecycle transition.",
   "boundary": "The complete V1.6 24/24 qualification matrix and governed Release Candidate review are necessary evidence but do not satisfy the higher Stable qualification standard by themselves. Stable remains blocked while any listed blocker is unresolved or unverified.",
-  "remainingBlockerCount": 5
+  "remainingBlockerCount": 4
 }
