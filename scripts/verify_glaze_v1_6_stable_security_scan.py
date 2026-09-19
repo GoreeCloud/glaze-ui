@@ -135,12 +135,13 @@ def main() -> int:
 
     dependency_classification = load_json(ROOT / "acceptance/v1.6-dependency-vulnerability-classification.json")
     security_review = load_json(ROOT / "acceptance/v1.6-stable-security-review.json")
+    final_artifact_acceptance = load_json(ROOT / "acceptance/v1.6-final-artifact-acceptance.json")
     require(
         dependency_classification.get("decision") == "passed-selected-build-tooling-remediated",
         "dependency classification must represent the remediated selected graph",
     )
-    require(security_review.get("overallDecision") == "blocked", "Stable security review must remain blocked")
-    require(security_review.get("stableSecurityAcceptanceGranted") is False, "Stable security acceptance must remain false")
+    require(security_review.get("overallDecision") == "passed", "Stable security review must remain passed after exact final-artifact acceptance")
+    require(security_review.get("stableSecurityAcceptanceGranted") is True, "Stable security acceptance must remain granted for the accepted exact artifact")
     require(security_review.get("stablePromotionAuthorized") is False, "security review must not authorize Stable promotion")
     require(security_review.get("secretHistory", {}).get("result") == "passed", "secret-history disposition must be passed")
     require(security_review.get("dependencySupplyChain", {}).get("result") == "passed", "dependency disposition must be passed")
@@ -154,6 +155,36 @@ def main() -> int:
     require(security_boundary.get("publicationMustReuseAcceptedArtifactBytes") is True, "publication must reuse security-accepted artifact bytes")
     require(security_boundary.get("targetStableVersion") == "1.6.0", "final security target Stable version mismatch")
     require(security_boundary.get("intendedImmutableTag") == "v1.6.0", "final security intended tag mismatch")
+    require(security_boundary.get("acceptanceRecord") == "acceptance/v1.6-final-artifact-acceptance.json", "final security acceptance record mismatch")
+    require(security_boundary.get("acceptedSourceRevision") == "a7180679ea851389e0f3004515f9a25f420e716d", "accepted source revision mismatch")
+
+    require(final_artifact_acceptance.get("decision") == "accepted-for-controlled-candidate-publication", "final artifact acceptance decision mismatch")
+    require(final_artifact_acceptance.get("stableStatusGranted") is False, "artifact acceptance must not grant lifecycle Stable")
+    require(final_artifact_acceptance.get("stablePromotionAuthorized") is False, "artifact acceptance must not authorize Stable promotion")
+    require(final_artifact_acceptance.get("publicationAuthorized") is True, "artifact acceptance must authorize only controlled candidate publication")
+    require(final_artifact_acceptance.get("publicationMustRemainPrereleaseUntilStablePromotion") is True, "publication must remain prerelease until Stable promotion")
+    require(final_artifact_acceptance.get("candidate", {}).get("sourceRevision") == "a7180679ea851389e0f3004515f9a25f420e716d", "final artifact source revision mismatch")
+    require(final_artifact_acceptance.get("candidate", {}).get("sourceTree") == "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268", "final artifact source tree mismatch")
+    require(final_artifact_acceptance.get("candidate", {}).get("postMergeWorkflowCount") == 31, "final candidate post-merge workflow count mismatch")
+    require(final_artifact_acceptance.get("candidate", {}).get("postMergeWorkflowFailureCount") == 0, "final candidate must have zero post-merge workflow failures")
+    require(final_artifact_acceptance.get("artifact", {}).get("workflowRunId") == 35447623700, "final artifact workflow run mismatch")
+    require(final_artifact_acceptance.get("artifact", {}).get("actionsArtifactId") == 10586051196, "final artifact Actions artifact ID mismatch")
+    require(final_artifact_acceptance.get("artifact", {}).get("archiveSha256") == "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af", "final archive digest mismatch")
+    require(final_artifact_acceptance.get("artifact", {}).get("sbomSha256") == "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82", "final SBOM digest mismatch")
+    require(final_artifact_acceptance.get("artifact", {}).get("provenanceSha256") == "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8", "final provenance digest mismatch")
+    require(final_artifact_acceptance.get("stableSecurityEvidence", {}).get("workflowRunId") == 35447623641, "final Stable security run mismatch")
+    require(final_artifact_acceptance.get("stableSecurityEvidence", {}).get("unreviewedSecretFindingCount") == 0, "accepted artifact security evidence must have zero unreviewed secrets")
+    require(final_artifact_acceptance.get("stableSecurityEvidence", {}).get("selectedAdvisoryCount") == 0, "accepted artifact security evidence must have zero selected advisories")
+    require(final_artifact_acceptance.get("stableSecurityEvidence", {}).get("cyclonedxVulnerabilityCount") == 0, "accepted artifact security evidence must have zero CycloneDX vulnerabilities")
+    require(final_artifact_acceptance.get("securityAcceptance", {}).get("finalStableSecurityAcceptanceGranted") is True, "final artifact acceptance must grant final Stable security acceptance")
+
+    accepted_source = final_artifact_acceptance.get("candidate", {}).get("sourceRevision")
+    ancestry = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", accepted_source, head],
+        cwd=ROOT,
+        check=False,
+    )
+    require(ancestry.returncode == 0, "accepted exact artifact source must be an ancestor of the reviewed checkout")
     require(
         dependency_classification.get("stablePromotionAuthorized") is False,
         "dependency classification must not authorize Stable promotion",
@@ -337,14 +368,16 @@ def main() -> int:
     print("Stable promotion authorized: false")
     if output["result"] == "passed":
         require(
-            security_review.get("overallDecision") == "blocked"
+            security_review.get("overallDecision") == "passed"
             and security_review.get("dependencySupplyChain", {}).get("result") == "passed"
             and security_review.get("dependencySupplyChain", {}).get("advisoryCount") == 0
-            and security_review.get("stableSecurityAcceptanceGranted") is False,
-            "clean scan is not represented by the governed partial security acceptance",
+            and security_review.get("stableSecurityAcceptanceGranted") is True
+            and final_artifact_acceptance.get("securityAcceptance", {}).get("finalStableSecurityAcceptanceGranted") is True,
+            "clean live scan is not represented by the governed final security acceptance",
         )
-        print("Governed evidence disposition: SECRET/HISTORY + DEPENDENCY SUB-GATES PASSED")
-        print("Final Stable security acceptance remains blocked by separate release-integrity controls.")
+        print("Governed evidence disposition: FINAL STABLE SECURITY ACCEPTANCE PASSED")
+        print("Controlled prerelease publication of the exact accepted artifact bytes is authorized.")
+        print("Lifecycle Stable promotion remains false until publication readback and final Stable qualification.")
         return 0
 
     raise SecurityEvidenceError(
