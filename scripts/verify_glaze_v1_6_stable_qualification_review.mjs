@@ -27,7 +27,7 @@ assert.equal(review.source.qualificationEvidenceIntegrationCommit, '354f5759385c
 assert.equal(review.source.releaseCandidateIntegrationCommit, '3f070f6fc01bc7904e3cd8c20851db5a0c40d539');
 assert.equal(review.source.repositoryDocumentationReconciliationCommit, '294e721c6fc56afcde62f7fe70c96e9d711557b1');
 assert.equal(review.governance.platformContract?.version, '0.4');
-assert.match(review.governance.platformContract?.scope || '', /shared library/);
+assert.match(review.governance.platformContract?.scope || '', /shared[- ]library/);
 
 assert.equal(rcReview.evidenceMatrix.verifiedCount, 24);
 assert.equal(rcReview.evidenceMatrix.unverifiedCount, 0);
@@ -51,7 +51,6 @@ assert.equal(driveReconciliation.changeLogRecord?.visualVerification?.allPagesRe
 
 const requiredBlockers = [
   'repository.main-branch-protection',
-  'platform-contract.current-machine-contract',
   'security.secret-and-history-scan',
   'security.dependency-and-supply-chain-scan',
   'security.release-security-acceptance',
@@ -64,9 +63,10 @@ for (const id of requiredBlockers) {
   assert.match(blockers.get(id).status, /^blocked/, `Stable blocker must remain fail-closed: ${id}`);
 }
 
-assert.equal(review.blockers.length, 7, 'V1.6 Stable review must retain the seven unresolved blockers after Drive reconciliation');
+assert.equal(review.blockers.length, 6, 'V1.6 Stable review must retain the six unresolved blockers after Platform Contract and Drive reconciliation');
 assert.ok(review.verifiedPasses.some(item => item.id === 'drive.documentation-and-task-reconciliation' && item.status === 'passed'), 'Drive reconciliation must be a verified pass');
-assert.equal(review.remainingBlockerCount, 7, 'remainingBlockerCount must be seven');
+assert.ok(review.verifiedPasses.some(item => item.id === 'platform-contract.current-machine-contract' && item.status === 'passed'), 'Platform Contract shared-library declaration must be a verified pass');
+assert.equal(review.remainingBlockerCount, 6, 'remainingBlockerCount must be six');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
 assert.equal(review.stablePromotionAuthorized, false);
 assert.equal(review.productionReadinessGranted, false);
