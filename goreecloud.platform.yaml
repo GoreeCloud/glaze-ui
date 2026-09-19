@@ -153,8 +153,7 @@ conformance:
   evidence:
     - acceptance/v1.6-stable-qualification-review.json
   blockers:
-    - Final Stable release-security acceptance remains unresolved pending the exact unpublished final artifact/source-provenance evidence for the protected candidate.
-    - The final Stable release artifact acceptance, immutable publication identity, post-publication readback, and final exact-candidate Stable qualification remain unresolved.
+    - Immutable v1.6.0 prerelease publication of the exact security-accepted artifact bytes, authoritative post-publication readback, and final exact-candidate Stable qualification/lifecycle promotion remain unresolved.
 
 # This manifest represents the governed V1.6 Release Candidate as a shared library.
 # It deliberately remains nonconformant for Stable while the listed release blockers remain open.
