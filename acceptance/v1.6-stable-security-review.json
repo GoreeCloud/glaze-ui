@@ -40,7 +40,7 @@
   "stableSecurityAcceptanceGranted": false,
   "stablePromotionAuthorized": false,
   "productionReadinessGranted": false,
-  "boundary": "Secret/Git-history and selected dependency/supply-chain sub-gates pass. Final Stable security acceptance remains blocked by repository security-gate enforcement and final artifact/source provenance. This record does not grant Stable, publication, deployment, or downstream consumer acceptance.",
+  "boundary": "Secret/Git-history and selected dependency/supply-chain sub-gates pass. Final Stable security acceptance remains blocked by repository security-gate enforcement and exact unpublished final-candidate artifact/source-provenance evidence. A published tag or GitHub Release is not a prerequisite to final security acceptance; publication occurs afterward using the already accepted artifact bytes. This record does not grant Stable, publication, deployment, or downstream consumer acceptance.",
   "remainingReleaseSecurityBlockers": [
     {
       "id": "security-gate-enforcement",
@@ -48,7 +48,16 @@
     },
     {
       "id": "final-artifact-source-provenance",
-      "reason": "The final Stable-approved artifact/release identity and exact artifact-to-source acceptance are not yet complete."
+      "reason": "No final unpublished candidate artifact has yet been built and bound by checksum/SBOM/provenance to the exact protected source revision. Publication/tag creation is intentionally later and is not a prerequisite to final security acceptance."
     }
-  ]
+  ],
+  "sequencingReconciledDate": "2026-09-19",
+  "finalSecurityAcceptanceBoundary": {
+    "requiresProtectedSource": true,
+    "requiresUnpublishedFinalCandidateArtifact": true,
+    "requiresArtifactChecksumSbomProvenance": true,
+    "requiresPublishedTagOrRelease": false,
+    "publicationOccursAfterSecurityAcceptance": true,
+    "publicationMustReuseAcceptedArtifactBytes": true
+  }
 }
