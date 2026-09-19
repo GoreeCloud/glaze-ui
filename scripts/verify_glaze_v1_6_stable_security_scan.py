@@ -135,7 +135,7 @@ def main() -> int:
     dependency_classification = load_json(ROOT / "acceptance/v1.6-dependency-vulnerability-classification.json")
     security_review = load_json(ROOT / "acceptance/v1.6-stable-security-review.json")
     require(
-        dependency_classification.get("decision") == "blocked-unresolved-build-tooling-vulnerabilities",
+        dependency_classification.get("decision") == "blocked-unresolved-selected-build-tooling-vulnerabilities",
         "dependency classification must remain blocking",
     )
     require(security_review.get("overallDecision") == "blocked", "Stable security review must remain blocked")
@@ -147,10 +147,16 @@ def main() -> int:
         dependency_classification.get("stablePromotionAuthorized") is False,
         "dependency classification must not authorize Stable promotion",
     )
-    prior_summary = dependency_classification.get("scanSummary", {})
-    require(prior_summary.get("osvPackageEntryCount") == 1104, "dependency classification package-count provenance mismatch")
-    require(prior_summary.get("distinctAdvisoryCount") == 50, "dependency classification advisory-count provenance mismatch")
-    require(prior_summary.get("recordedRuntimeMatchedVulnerableEntryCount") == 0, "dependency classification runtime-boundary mismatch")
+    selected_summary = dependency_classification.get("selectedGraphSummary", {})
+    require(selected_summary.get("distinctSelectedCoordinateCount") == 226, "selected dependency coordinate-count provenance mismatch")
+    require(selected_summary.get("vulnerablePackageEntryCount") == 6, "selected vulnerable-package count provenance mismatch")
+    require(selected_summary.get("distinctAdvisoryCount") == 8, "selected advisory-count provenance mismatch")
+    require(selected_summary.get("recordedRuntimeMatchedVulnerableEntryCount") == 0, "selected dependency runtime-boundary mismatch")
+    require(
+        dependency_classification.get("governedScanInput")
+        == "Gradle-selected buildEnvironment plus debugRuntimeClasspath dependency inventory after conflict resolution",
+        "dependency classification must use the resolved selected-version boundary",
+    )
     ignore_path = ROOT / ".gitleaksignore"
     require(ignore_path.is_file(), ".gitleaksignore is missing")
     ignore_entries = [
@@ -185,14 +191,14 @@ def main() -> int:
     )
     expected_advisories = dependency_classification.get("distinctAdvisoryIds")
     require(isinstance(expected_advisories, list), "dependency classification advisory set missing")
-    require(len(expected_advisories) == 50, "dependency classification must retain the reviewed 50-advisory set")
+    require(len(expected_advisories) == 8, "dependency classification must retain the reviewed 8-advisory selected set")
     require(
         vulnerability_ids == sorted(expected_advisories),
         "live OSV advisory set differs from the governed dependency classification",
     )
     require(
-        package_count == dependency_classification.get("scanSummary", {}).get("osvPackageEntryCount"),
-        "live OSV package-entry count differs from governed classification",
+        package_count == dependency_classification.get("selectedGraphSummary", {}).get("vulnerablePackageEntryCount"),
+        "live selected OSV vulnerable-package count differs from governed classification",
     )
 
     sbom = load_json(Path(args.sbom))
@@ -223,10 +229,10 @@ def main() -> int:
         blocked_reasons.append(f"CycloneDX vulnerability entries: {len(sbom_vulnerabilities)}")
 
     require(secret_findings == 0, "unreviewed secret findings are not an accepted blocked-state condition")
-    require(len(vulnerability_ids) == 50, "expected governed dependency blocker count is 50")
-    require(len(sbom_vulnerabilities) == 50, "CycloneDX vulnerability count must match the governed 50-advisory blocker")
+    require(len(vulnerability_ids) == 8, "expected governed selected dependency blocker count is 8")
+    require(len(sbom_vulnerabilities) == 8, "CycloneDX vulnerability count must match the governed 8-advisory selected blocker")
     require(
-        dependency_classification.get("scanSummary", {}).get("recordedRuntimeMatchedVulnerableEntryCount") == 0,
+        dependency_classification.get("selectedGraphSummary", {}).get("recordedRuntimeMatchedVulnerableEntryCount") == 0,
         "runtime-boundary classification must remain zero matched vulnerable entries",
     )
 
@@ -254,8 +260,9 @@ def main() -> int:
             "tool": "osv-scanner",
             "version": args.osv_version,
             "binarySha256": args.osv_sha256,
-            "input": "generated Gradle verification metadata plus recursively discovered supported lockfiles/manifests",
-            "packageCount": package_count,
+            "input": "Gradle-selected buildEnvironment plus debugRuntimeClasspath inventory after conflict resolution",
+            "vulnerablePackageEntryCount": package_count,
+            "selectedCoordinateCount": dependency_classification.get("selectedGraphSummary", {}).get("distinctSelectedCoordinateCount"),
             "vulnerabilityIds": vulnerability_ids,
             "result": "passed" if not vulnerability_ids else "blocked",
         },
@@ -279,7 +286,8 @@ def main() -> int:
         "blockedReasons": blocked_reasons,
         "limitations": [
             "This record proves the scanners completed successfully for the exact checked-out revision and their discoverable dependency inputs; it does not prove that advisory databases contain every vulnerability.",
-            "The primary Glaze UI JavaScript runtime has no npm/pnpm/yarn or Python package manifest in this repository; Android/Wear dependencies are resolved from the buildable reference projects into verification metadata for scanning.",
+            "The primary Glaze UI JavaScript runtime has no npm/pnpm/yarn or Python package manifest in this repository; Android/Wear dependencies are resolved from the buildable reference projects and scanned using versions selected by Gradle after conflict resolution.",
+            "A broader verification-metadata scan is retained as diagnostic evidence because verification metadata may preserve requested coordinates that Gradle supersedes; it is not the governed selected-version blocker set.",
             "Passing security scans do not grant Stable, production readiness, production acceptance, publication, or downstream consumer acceptance.",
         ],
         "governedDisposition": {
@@ -300,14 +308,14 @@ def main() -> int:
     print(f"Exact revision: {head}")
     print(f"Unreviewed secret findings: {secret_findings}")
     print(f"Reviewed historical false positives: {false_positive_review.get('findingCount')}")
-    print(f"Dependency packages scanned: {package_count}")
-    print(f"Known dependency vulnerability advisories: {len(vulnerability_ids)}")
+    print(f"Selected vulnerable package entries reported: {package_count}")
+    print(f"Known selected dependency vulnerability advisories: {len(vulnerability_ids)}")
     print(f"CycloneDX components: {len(components)}")
     print("Stable promotion authorized: false")
     if output["result"] == "blocked":
         require(
             security_review.get("overallDecision") == "blocked"
-            and security_review.get("dependencySupplyChain", {}).get("advisoryCount") == 50,
+            and security_review.get("dependencySupplyChain", {}).get("advisoryCount") == 8,
             "live blocked scan is not represented by the governed security review",
         )
         print("Governed evidence disposition: VALIDATED BLOCKED")
