@@ -16,6 +16,7 @@ on:
       - 'reference/v1.2/native/android/**'
       - 'reference/native/wear-os/buildable/**'
       - 'scripts/verify_glaze_v1_6_stable_security_scan.py'
+      - 'scripts/generate_v1_6_selected_dependency_inventory.py'
       - 'scripts/validate_github_actions_runtime_integrity.py'
       - '.github/workflows/**'
   push:
@@ -32,6 +33,7 @@ on:
       - 'reference/v1.2/native/android/**'
       - 'reference/native/wear-os/buildable/**'
       - 'scripts/verify_glaze_v1_6_stable_security_scan.py'
+      - 'scripts/generate_v1_6_selected_dependency_inventory.py'
       - 'scripts/validate_github_actions_runtime_integrity.py'
       - '.github/workflows/**'
   workflow_dispatch:
@@ -52,8 +54,8 @@ jobs:
       GITLEAKS_SHA256: '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb'
       OSV_VERSION: '2.6.0'
       OSV_SHA256: 'ca69b3d3cd08f889a49dc0a383122f71cc528b83803671df5fd874d97485b108'
-      GRADLE_VERSION: '9.5.0'
-      GRADLE_SHA256: '553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746'
+      GRADLE_VERSION: '9.6.0'
+      GRADLE_SHA256: 'bbaeb2fef8710818cf0e261201dab964c572f92b942812df0c3620d62a529a01'
     steps:
       - name: Check out exact security-review revision with full history
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -174,7 +176,16 @@ jobs:
             cp -a "$source/." "$dest/"
             (
               cd "$dest"
-              gradle :app:dependencies                 --configuration debugRuntimeClasspath                 --write-verification-metadata sha256                 --no-daemon                 --stacktrace                 > "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-dependencies.txt"
+              gradle buildEnvironment \
+                --no-daemon \
+                --stacktrace \
+                > "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-build-environment.txt"
+              gradle :app:dependencies \
+                --configuration debugRuntimeClasspath \
+                --write-verification-metadata sha256 \
+                --no-daemon \
+                --stacktrace \
+                > "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-dependencies.txt"
             )
             test -s "$dest/gradle/verification-metadata.xml"
             cp "$dest/gradle/verification-metadata.xml"               "$GITHUB_WORKSPACE/artifacts/v1.6-security/${name}-verification-metadata.xml"
@@ -193,7 +204,88 @@ jobs:
           chmod +x "$RUNNER_TEMP/osv-scanner"
           "$RUNNER_TEMP/osv-scanner" --version | tee artifacts/v1.6-security/osv-scanner-version.txt
 
-      - name: Scan resolved dependencies and generate CycloneDX SBOM
+      - name: Build exact selected dependency inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/generate_v1_6_selected_dependency_inventory.py
+          python3 scripts/generate_v1_6_selected_dependency_inventory.py \
+            --project v1.1-android \
+              artifacts/v1.6-security/v1.1-android-build-environment.txt \
+              artifacts/v1.6-security/v1.1-android-dependencies.txt \
+            --project v1.2-android \
+              artifacts/v1.6-security/v1.2-android-build-environment.txt \
+              artifacts/v1.6-security/v1.2-android-dependencies.txt \
+            --project wear-os \
+              artifacts/v1.6-security/wear-os-build-environment.txt \
+              artifacts/v1.6-security/wear-os-dependencies.txt \
+            --output artifacts/v1.6-security/selected-dependencies.osv-scanner.json \
+            --summary artifacts/v1.6-security/selected-dependencies-summary.json
+
+      - name: Scan exact selected Gradle dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          INPUT="osv-scanner:artifacts/v1.6-security/selected-dependencies.osv-scanner.json"
+
+          set +e
+          "$RUNNER_TEMP/osv-scanner" scan source \
+            --lockfile "$INPUT" \
+            --format json \
+            > artifacts/v1.6-security/selected-osv-report.json
+          selected_osv_status=$?
+
+          "$RUNNER_TEMP/osv-scanner" scan source \
+            --lockfile "$INPUT" \
+            --format cyclonedx-1-5 \
+            --all-packages \
+            > artifacts/v1.6-security/selected-cyclonedx-1.5.json
+          selected_sbom_status=$?
+          set -e
+
+          echo "$selected_osv_status" > artifacts/v1.6-security/selected-osv-exit-code.txt
+          echo "$selected_sbom_status" > artifacts/v1.6-security/selected-sbom-exit-code.txt
+
+          if [ "$selected_osv_status" -gt 1 ]; then
+            echo "Selected-dependency OSV-Scanner error: exit $selected_osv_status" >&2
+            exit "$selected_osv_status"
+          fi
+          if [ "$selected_sbom_status" -gt 1 ]; then
+            echo "Selected-dependency SBOM error: exit $selected_sbom_status" >&2
+            exit "$selected_sbom_status"
+          fi
+
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          inventory = json.loads(Path("artifacts/v1.6-security/selected-dependencies.osv-scanner.json").read_text())
+          packages = sum(
+              len(result.get("packages", []))
+              for result in inventory.get("results", [])
+          )
+          report = json.loads(Path("artifacts/v1.6-security/selected-osv-report.json").read_text())
+          advisories = set()
+          for result in report.get("results", []):
+              for entry in result.get("packages", []):
+                  for vuln in entry.get("vulnerabilities", []):
+                      if vuln.get("id"):
+                          advisories.add(vuln["id"])
+          sbom = json.loads(Path("artifacts/v1.6-security/selected-cyclonedx-1.5.json").read_text())
+          summary = {
+              "selectedPackageEntriesScanned": packages,
+              "distinctAdvisoryCount": len(advisories),
+              "advisoryIds": sorted(advisories),
+              "cyclonedxComponentCount": len(sbom.get("components", [])),
+              "cyclonedxVulnerabilityCount": len(sbom.get("vulnerabilities", [])),
+          }
+          Path("artifacts/v1.6-security/selected-scan-summary.json").write_text(
+              json.dumps(summary, indent=2, sort_keys=True) + "\n"
+          )
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          PY
+
+      - name: Scan broad verification metadata for diagnostic evidence
         shell: bash
         run: |
           set -euo pipefail
@@ -226,7 +318,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/verify_glaze_v1_6_stable_security_scan.py
-          python3 scripts/verify_glaze_v1_6_stable_security_scan.py             --expected-sha "$EXPECTED_SHA"             --gitleaks-report artifacts/v1.6-security/gitleaks-report.json             --gitleaks-exit-code artifacts/v1.6-security/gitleaks-exit-code.txt             --osv-report artifacts/v1.6-security/osv-report.json             --osv-exit-code artifacts/v1.6-security/osv-exit-code.txt             --sbom artifacts/v1.6-security/cyclonedx-1.5.json             --sbom-exit-code artifacts/v1.6-security/sbom-exit-code.txt             --output artifacts/v1.6-security/security-evidence-summary.json             --gitleaks-version "$GITLEAKS_VERSION"             --gitleaks-sha256 "$GITLEAKS_SHA256"             --osv-version "$OSV_VERSION"             --osv-sha256 "$OSV_SHA256"             --gradle-version "$GRADLE_VERSION"             --gradle-sha256 "$GRADLE_SHA256"
+          python3 scripts/verify_glaze_v1_6_stable_security_scan.py             --expected-sha "$EXPECTED_SHA"             --gitleaks-report artifacts/v1.6-security/gitleaks-report.json             --gitleaks-exit-code artifacts/v1.6-security/gitleaks-exit-code.txt             --dependency-inventory artifacts/v1.6-security/selected-dependencies.osv-scanner.json             --osv-report artifacts/v1.6-security/selected-osv-report.json             --osv-exit-code artifacts/v1.6-security/selected-osv-exit-code.txt             --sbom artifacts/v1.6-security/selected-cyclonedx-1.5.json             --sbom-exit-code artifacts/v1.6-security/selected-sbom-exit-code.txt             --output artifacts/v1.6-security/security-evidence-summary.json             --gitleaks-version "$GITLEAKS_VERSION"             --gitleaks-sha256 "$GITLEAKS_SHA256"             --osv-version "$OSV_VERSION"             --osv-sha256 "$OSV_SHA256"             --gradle-version "$GRADLE_VERSION"             --gradle-sha256 "$GRADLE_SHA256"
 
       - name: Verify scan did not mutate tracked source
         run: git diff --exit-code -- .

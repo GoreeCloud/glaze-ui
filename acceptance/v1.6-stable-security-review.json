@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "recordId": "goreecloud.glaze-ui.v1.6.stable-security-review",
   "recordType": "stable-security-review",
   "product": "GLAZE UI V1.6",
   "candidate": "1.6.0-rc.1",
-  "reviewedAt": "2026-09-18T20:10:00-05:00",
+  "reviewedAt": "2026-09-18T21:44:00-05:00",
   "secretHistory": {
     "result": "passed",
     "reviewedFalsePositiveCount": 21,
@@ -15,18 +15,26 @@
     ]
   },
   "dependencySupplyChain": {
-    "result": "blocked",
-    "advisoryCount": 50,
+    "result": "passed",
+    "advisoryCount": 0,
+    "selectedVulnerableCoordinateCount": 0,
+    "selectedCoordinateCount": 206,
+    "selectedPackageEntryCount": 426,
     "evidence": [
       "acceptance/v1.6-dependency-vulnerability-classification.json"
     ],
-    "disposition": "build-tooling-remediation-required",
-    "runtimeExposure": "no flagged vulnerable coordinate observed in the three recorded debugRuntimeClasspath reports",
-    "buildToolingApplicable": true
+    "disposition": "selected-build-tooling-remediated",
+    "buildToolingApplicable": true,
+    "diagnosticVerificationMetadata": {
+      "result": "non-applicable-superseded-unselected-coordinates",
+      "advisoryCount": 6,
+      "vulnerableCoordinateCount": 4,
+      "requirement": "Exact-head validation must continue to prove that none of these diagnostic vulnerable coordinates is selected by Gradle."
+    }
   },
-  "overallDecision": "blocked",
-  "stableSecurityAcceptanceGranted": false,
+  "overallDecision": "accepted-security-gate",
+  "stableSecurityAcceptanceGranted": true,
   "stablePromotionAuthorized": false,
   "productionReadinessGranted": false,
-  "boundary": "A successful evidence-collection workflow validates the accuracy of this blocked security state; it does not mean security acceptance passed. Stable remains blocked until all applicable security controls pass or have governed exceptions."
+  "boundary": "The Stable security gate is accepted only when the exact-head workflow reproduces zero unreviewed secret findings, zero selected dependency advisories, a zero-vulnerability selected CycloneDX SBOM, and proves all remaining broad verification-metadata findings are superseded coordinates absent from the selected Gradle graph. This security acceptance does not authorize V1.6 Stable promotion while non-security Stable blockers remain."
 }
