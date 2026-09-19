@@ -1,6 +1,6 @@
 # GLAZE UI V1.6 Conformance
 
-GLAZE UI V1.6 (`1.6.0`) is the current Stable Glaze UI conformance target once this governed promotion is authoritative on protected `main`. GLAZE UI `1.5.1` is the immediately preceding known-good Stable rollback baseline.
+GLAZE UI V1.6 (`1.6.0`) is the current Stable Glaze UI conformance target on protected `main`. GLAZE UI `1.5.1` is the immediately preceding known-good Stable rollback baseline.
 
 A consumer is conformant only when its exact repository revision satisfies the applicable V1.6 design, accessibility, interaction, responsive/form-factor, platform, privacy/security authority-boundary, and product release/production gates. Conformance fails closed when required evidence is missing, stale, unsupported, or bound to a different revision.
 
