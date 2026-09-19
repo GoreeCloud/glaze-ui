@@ -45,11 +45,12 @@
     }
   ],
   "suppression": {
-    "method": ".gitleaksignore exact fingerprints",
+    "method": ".gitleaksignore exact fingerprints only",
     "broadRuleDisabled": false,
     "pathWideAllowlistUsed": false,
     "futureFindingsRemainFailClosed": true,
-    "fingerprintCount": 21
+    "fingerprintCount": 21,
+    "literalOrLineAllowlistUsed": false
   },
-  "boundary": "This review classifies only the exact 21 historical fingerprints observed in the referenced run. It does not suppress future findings and does not establish dependency or overall Stable security acceptance."
+  "boundary": "This review classifies only the exact 21 historical fingerprints observed in the referenced run. No path-wide, rule-wide, line-wide, or literal-wide allowlist is used; future findings remain fail-closed. It does not establish dependency or overall Stable security acceptance."
 }
