@@ -87,10 +87,9 @@ STRONG_CURRENT_CLAIMS = (
 )
 SEMVER = re.compile(r"(?<!\d)(\d+)\.(\d+)\.(\d+)(?:-[0-9a-z.-]+)?(?!\d)", re.I)
 
-V16_ACCEPTED_RELEASE_SOURCE = "a7180679ea851389e0f3004515f9a25f420e716d"
-V16_PUBLISHED_HISTORICAL_AUTHORITY_PATHS = {
-    "js/glaze-v1.6-focus-motion.dev.mjs",
-    "js/glaze-v1.6-loading.dev.mjs",
+V16_ACCEPTED_PUBLISHED_BLOBS = {
+    "js/glaze-v1.6-focus-motion.dev.mjs": "661a3821a43af490eaaa63d2bf9095ec9048ea62",
+    "js/glaze-v1.6-loading.dev.mjs": "8e0ab678ace5ca7dfec4e472973f73e6bb81fce3",
 }
 
 
@@ -143,15 +142,9 @@ def version_tuple(value: str) -> tuple[int, int, int] | None:
 
 def matches_accepted_v16_published_source(relative: str) -> bool:
     """Recognize only byte-identical V1.6 published-source files as historical release text."""
-    if relative not in V16_PUBLISHED_HISTORICAL_AUTHORITY_PATHS:
+    expected = V16_ACCEPTED_PUBLISHED_BLOBS.get(relative)
+    if expected is None:
         return False
-    expected = subprocess.run(
-        ["git", "rev-parse", f"{V16_ACCEPTED_RELEASE_SOURCE}:{relative}"],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
     current = subprocess.run(
         ["git", "hash-object", relative],
         cwd=ROOT,
