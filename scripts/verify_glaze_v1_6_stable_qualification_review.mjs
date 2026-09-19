@@ -52,7 +52,6 @@ assert.equal(driveReconciliation.changeLogRecord?.pageCount, 235);
 assert.equal(driveReconciliation.changeLogRecord?.visualVerification?.allPagesReviewed, true);
 
 const requiredBlockers = [
-  'repository.main-branch-protection',
   'security.release-security-acceptance',
   'release.artifact-provenance-and-publication-boundary',
 ];
@@ -62,7 +61,7 @@ for (const id of requiredBlockers) {
   assert.match(blockers.get(id).status, /^blocked/, `Stable blocker must remain fail-closed: ${id}`);
 }
 
-assert.equal(review.blockers.length, 3, 'V1.6 Stable review must retain the three unresolved blockers after dependency remediation');
+assert.equal(review.blockers.length, 2, 'V1.6 Stable review must retain the two unresolved release-security/publication blockers after verified branch protection');
 assert.ok(review.verifiedPasses.some(item => item.id === 'drive.documentation-and-task-reconciliation' && item.status === 'passed'), 'Drive reconciliation must be a verified pass');
 assert.ok(review.verifiedPasses.some(item => item.id === 'platform-contract.current-machine-contract' && item.status === 'passed'), 'Platform Contract shared-library declaration must be a verified pass');
 assert.ok(review.verifiedPasses.some(item => item.id === 'security.secret-and-history-scan' && item.status === 'passed'), 'Secret/history security scan must be a verified pass');
@@ -76,15 +75,27 @@ assert.equal(productionApplicability.currentDisposition?.publicationAcceptanceCo
 assert.equal(productionApplicability.currentDisposition?.stablePromotionAuthorized, false);
 assert.ok(review.verifiedPasses.some(item => item.id === 'production-acceptance.applicability' && item.status === 'passed-applicability-resolved'), 'Production applicability must be a verified resolved boundary');
 assert.ok(review.verifiedPasses.some(item => item.id === 'security.dependency-and-supply-chain-scan' && item.status === 'passed'), 'Dependency and supply-chain scan must be a verified pass');
-assert.equal(artifactPlan.status, 'prepared-rehearsal-not-final');
-assert.equal(artifactPlan.decision, 'artifact-path-prepared-final-artifact-still-blocked');
+assert.ok(review.verifiedPasses.some(item => item.id === 'repository.main-branch-protection' && item.status === 'passed'), 'Authoritative main branch protection must be a verified pass');
+assert.equal(review.repositoryProtectionEvidence?.rulesetId, 23699829, 'Verified main ruleset ID mismatch');
+assert.equal(review.repositoryProtectionEvidence?.enforcement, 'active', 'Verified main ruleset must be active');
+assert.equal(review.repositoryProtectionEvidence?.branchProtected, true, 'Authoritative main must be protected');
+assert.deepEqual(review.repositoryProtectionEvidence?.bypassActors, [], 'Verified main ruleset bypass list must be empty');
+assert.equal(review.repositoryProtectionEvidence?.currentUserCanBypass, 'never', 'Verified main ruleset must not permit silent current-user bypass');
+assert.equal(review.repositoryProtectionEvidence?.strictRequiredStatusChecksPolicy, true, 'Required checks must use strict/up-to-date enforcement');
+assert.deepEqual(
+  [...review.repositoryProtectionEvidence.requiredStatusChecks].sort(),
+  ['platform-contract-0-4', 'stable-qualification-review', 'stable-security-evidence', 'validate-v1'].sort(),
+  'Verified main required-check set mismatch'
+);
+assert.equal(artifactPlan.status, 'prepared-release-preparation-not-final');
+assert.equal(artifactPlan.decision, 'release-preparation-path-ready-final-artifact-not-yet-built');
 assert.equal(artifactPlan.currentBoundary?.stablePromotionAuthorized, false);
 assert.equal(artifactPlan.currentBoundary?.finalStableRevisionSelected, false);
 assert.equal(artifactPlan.rehearsal?.publishesTag, false);
 assert.equal(artifactPlan.rehearsal?.publishesGithubRelease, false);
 assert.equal(artifactPlan.rehearsal?.grantsStable, false);
 assert.equal(blockers.get('release.artifact-provenance-and-publication-boundary')?.status, 'blocked-prepared-awaiting-final-exact-artifact');
-assert.equal(review.remainingBlockerCount, 3, 'remainingBlockerCount must be three');
+assert.equal(review.remainingBlockerCount, 2, 'remainingBlockerCount must be two');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
 assert.equal(review.stablePromotionAuthorized, false);
 assert.equal(review.productionReadinessGranted, false);
