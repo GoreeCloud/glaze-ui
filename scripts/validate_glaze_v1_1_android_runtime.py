@@ -68,11 +68,37 @@ def density(serial: str) -> int:
     raise SystemExit(f"could not resolve Android density: {result!r}")
 
 
-def dump_ui(serial: str) -> ET.Element:
+def dump_ui(serial: str, attempts: int = 5) -> ET.Element:
+    """Return a valid UIAutomator hierarchy, retrying only transient dump failures.
+
+    The Android emulator can briefly produce an empty or malformed hierarchy while
+    a freshly launched activity is settling.  Retrying that transport condition
+    must not weaken any semantic, geometry, or interaction assertion: this helper
+    still fails closed unless a parseable hierarchy is obtained within the bounded
+    attempt count.
+    """
     path = "/sdcard/glaze-v11.xml"
-    adb(serial, "shell", "uiautomator", "dump", path)
-    raw = adb(serial, "exec-out", "cat", path).stdout
-    return ET.fromstring(raw)
+    failures: list[str] = []
+    for attempt in range(1, attempts + 1):
+        adb(serial, "shell", "rm", "-f", path, check=False)
+        dumped = adb(serial, "shell", "uiautomator", "dump", path, check=False)
+        fetched = adb(serial, "exec-out", "cat", path, check=False)
+        raw = (fetched.stdout or "").lstrip("\ufeff\r\n\t ")
+        if dumped.returncode == 0 and fetched.returncode == 0 and raw:
+            try:
+                return ET.fromstring(raw)
+            except ET.ParseError as exc:
+                failures.append(f"attempt {attempt}: malformed XML ({exc})")
+        else:
+            failures.append(
+                f"attempt {attempt}: dump_rc={dumped.returncode} cat_rc={fetched.returncode} bytes={len(raw)}"
+            )
+        if attempt < attempts:
+            time.sleep(0.6)
+    raise SystemExit(
+        "could not obtain a valid Android UIAutomator hierarchy after "
+        f"{attempts} attempts: " + "; ".join(failures)
+    )
 
 
 def contains(root: ET.Element, fragment: str) -> bool:
