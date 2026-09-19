@@ -40,15 +40,35 @@
   "stableSecurityAcceptanceGranted": false,
   "stablePromotionAuthorized": false,
   "productionReadinessGranted": false,
-  "boundary": "Secret/Git-history and selected dependency/supply-chain sub-gates pass. Final Stable security acceptance remains blocked by repository security-gate enforcement and final artifact/source provenance. This record does not grant Stable, publication, deployment, or downstream consumer acceptance.",
+  "boundary": "Secret/Git-history, selected dependency/supply-chain, and authoritative repository security-gate enforcement sub-gates pass. Final Stable security acceptance remains blocked only by final exact artifact/source provenance for the same candidate. This record does not grant Stable, publication, deployment, or downstream consumer acceptance.",
   "remainingReleaseSecurityBlockers": [
     {
-      "id": "security-gate-enforcement",
-      "reason": "Authoritative main is not protected; required security checks can still be bypassed outside the governed PR path."
-    },
-    {
       "id": "final-artifact-source-provenance",
-      "reason": "The final Stable-approved artifact/release identity and exact artifact-to-source acceptance are not yet complete."
+      "reason": "The final exact release-preparation artifact, checksum/SBOM/provenance set, and artifact-to-source security acceptance are not yet complete for the exact candidate that would be published."
     }
-  ]
+  ],
+  "reconciledAt": "2026-09-19T08:39:32-05:00",
+  "repositorySecurityGateEnforcement": {
+    "result": "passed",
+    "repository": "GoreeCloud/goreecloud-glaze-ui",
+    "defaultBranch": "main",
+    "authoritativeMainRevision": "305de8a1fe5cc7670c1e012efcc7fb55a4bcfdd6",
+    "rulesetId": 23699829,
+    "rulesetName": "GoreeCloud Main Branch Production",
+    "enforcement": "active",
+    "branchProtected": true,
+    "bypassActors": [],
+    "currentUserCanBypass": "never",
+    "pullRequestRequired": true,
+    "strictRequiredStatusChecksPolicy": true,
+    "requiredStatusChecks": [
+      "validate-v1",
+      "stable-qualification-review",
+      "stable-security-evidence",
+      "platform-contract-0-4"
+    ],
+    "deletionProtection": true,
+    "forcePushProtection": true,
+    "verifiedAt": "2026-09-19T08:39:32-05:00"
+  }
 }
