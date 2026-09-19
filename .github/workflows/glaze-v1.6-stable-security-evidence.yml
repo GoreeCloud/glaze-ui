@@ -2,40 +2,9 @@ name: GLAZE UI V1.6 Stable Security Evidence
 
 on:
   pull_request:
-    paths:
-      - 'VERSION'
-      - 'registry/lifecycle.json'
-      - 'acceptance/v1.6-stable-qualification-review.json'
-      - 'acceptance/v1.6-secret-scan-finding-classification.json'
-      - 'acceptance/v1.6-gitleaks-false-positive-review.json'
-      - 'acceptance/v1.6-dependency-vulnerability-classification.json'
-      - '.gitleaksignore'
-      - 'contracts/v1.6/**'
-      - 'js/glaze-v1.6*'
-      - 'reference/v1.1/native/android/**'
-      - 'reference/v1.2/native/android/**'
-      - 'reference/native/wear-os/buildable/**'
-      - 'scripts/verify_glaze_v1_6_stable_security_scan.py'
-      - 'scripts/generate_v1_6_selected_dependency_inventory.py'
-      - 'scripts/validate_github_actions_runtime_integrity.py'
-      - '.github/workflows/**'
+    branches: [main]
   push:
     branches: [main]
-    paths:
-      - 'VERSION'
-      - 'registry/lifecycle.json'
-      - 'acceptance/v1.6-stable-qualification-review.json'
-      - 'acceptance/v1.6-gitleaks-false-positive-review.json'
-      - '.gitleaksignore'
-      - 'contracts/v1.6/**'
-      - 'js/glaze-v1.6*'
-      - 'reference/v1.1/native/android/**'
-      - 'reference/v1.2/native/android/**'
-      - 'reference/native/wear-os/buildable/**'
-      - 'scripts/verify_glaze_v1_6_stable_security_scan.py'
-      - 'scripts/generate_v1_6_selected_dependency_inventory.py'
-      - 'scripts/validate_github_actions_runtime_integrity.py'
-      - '.github/workflows/**'
   workflow_dispatch:
 
 permissions:
