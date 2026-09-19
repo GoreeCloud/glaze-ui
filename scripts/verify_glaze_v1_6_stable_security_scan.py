@@ -87,8 +87,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--expected-sha", required=True)
     parser.add_argument("--gitleaks-report", required=True)
+    parser.add_argument("--gitleaks-exit-code", required=True)
     parser.add_argument("--osv-report", required=True)
+    parser.add_argument("--osv-exit-code", required=True)
     parser.add_argument("--sbom", required=True)
+    parser.add_argument("--sbom-exit-code", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--gitleaks-version", required=True)
     parser.add_argument("--gitleaks-sha256", required=True)
@@ -110,6 +113,20 @@ def main() -> int:
     review = load_json(ROOT / "acceptance/v1.6-stable-qualification-review.json")
     require(review.get("decision") == "blocked-remain-release-candidate", "Stable review must remain blocked")
     require(review.get("stablePromotionAuthorized") is False, "security scan must not authorize Stable promotion")
+
+    def read_exit_code(path: str, label: str) -> int:
+        source = Path(path)
+        require(source.is_file(), f"missing {label} exit-code evidence: {source}")
+        raw = source.read_text(encoding="utf-8").strip()
+        require(re.fullmatch(r"\\d+", raw) is not None, f"{label} exit code is malformed: {raw!r}")
+        return int(raw)
+
+    gitleaks_exit = read_exit_code(args.gitleaks_exit_code, "Gitleaks")
+    osv_exit = read_exit_code(args.osv_exit_code, "OSV-Scanner")
+    sbom_exit = read_exit_code(args.sbom_exit_code, "OSV-Scanner SBOM")
+    require(gitleaks_exit == 0, f"Gitleaks did not complete cleanly: exit {gitleaks_exit}")
+    require(osv_exit == 0, f"OSV-Scanner did not complete cleanly: exit {osv_exit}")
+    require(sbom_exit == 0, f"OSV-Scanner SBOM generation did not complete cleanly: exit {sbom_exit}")
 
     gitleaks = load_json(Path(args.gitleaks_report))
     require(isinstance(gitleaks, list), "Gitleaks JSON report must be a list")
