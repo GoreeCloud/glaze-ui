@@ -101,6 +101,30 @@ jobs:
             exit "$status"
           fi
 
+      - name: Summarize potential secret findings without secret material
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          source = Path("artifacts/v1.6-security/gitleaks-report.json")
+          findings = json.loads(source.read_text(encoding="utf-8"))
+          summary = []
+          for item in findings:
+              summary.append({
+                  "ruleId": item.get("RuleID"),
+                  "file": item.get("File"),
+                  "commit": item.get("Commit"),
+                  "startLine": item.get("StartLine"),
+                  "endLine": item.get("EndLine"),
+              })
+          out = Path("artifacts/v1.6-security/gitleaks-findings-summary.json")
+          out.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          PY
+
       - name: Install verified Gradle
         shell: bash
         run: |
