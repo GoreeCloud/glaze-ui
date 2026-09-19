@@ -13,7 +13,7 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 - Controlled tag `v1.6.0` and GitHub Release `392095913` publish the exact security-accepted artifact bytes; post-publication readback verified the archive, SBOM, provenance, and checksum manifest without rebuild.
 - `VERSION` and `registry/lifecycle.json` move to `1.6.0`; `consumers/registry.json` sets `1.6.0` as the required downstream target without manufacturing downstream conformance or production eligibility.
 - Direct service deployment is Not Applicable for this source-distributed shared-library boundary. Downstream consumer migration/acceptance, deployment, product production readiness, and production acceptance remain separate controlled transitions.
-- After this repository promotion is authoritative, the central GoreeCloud Platform Contract current Glaze target must be reconciled from 1.5.1 to 1.6.0 and this repository revalidated against that updated central authority.
+- Central GoreeCloud Platform Contract PR #39 reconciled the current Glaze target to `1.6.0` at evaluator revision `e49b9afdea094c96a36a0457b1603f2fa8e8fa6b`; repository PR #299 revalidated GLAZE UI V1.6 against that authority at main revision `f93cccd1383d1e93ba0cb3955713aa64f3d7c8c3`.
 
 ### Historical namespace note
 
