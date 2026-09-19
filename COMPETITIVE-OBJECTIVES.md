@@ -1,17 +1,30 @@
-# GLAZE UI V1.0 — Competitive Objectives
+# GLAZE UI — Competitive Objectives
 
-GLAZE UI V1.0 is an original GoreeCloud design system. External products may be studied as usability or quality references, but their product identity, proprietary assets, architecture, interface structure, or implementation must not be copied.
+GLAZE UI is GoreeCloud's original shared visual and interaction design system. External products and platform design systems may be studied as usability, accessibility, quality, performance, or interaction references, but GoreeCloud must not copy proprietary product identity, protected assets, distinctive interface structure, or implementation.
 
-The V1 design system should compete on:
+## Current lifecycle context
+
+- Current Official Stable: GLAZE UI V1.5 / `1.5.1`
+- Active governed successor: GLAZE UI V1.6 / `1.6.0-rc.1`
+- V1.6 consumer eligibility: No
+- Lifecycle authority: `VERSION` and `registry/lifecycle.json`
+
+## Competitive objectives
+
+Glaze UI should compete on:
 
 - Cross-device coherence without forcing identical layouts onto every form factor.
-- Strong accessibility defaults, including keyboard, touch, contrast, motion, transparency, and text-scaling behavior.
-- Clear visual hierarchy with restrained materials, depth, motion, and adaptive color.
-- Fast and understandable navigation, search, workspace switching, and system-level interactions.
-- Reusable components and tokens that reduce inconsistency across GoreeCloud applications.
-- Evidence-backed conformance so design-system adoption can be verified automatically and visually.
-- Performance-conscious effects and motion that degrade safely on constrained devices or accessibility modes.
-- Native-platform adaptation that respects platform behavior while retaining GoreeCloud identity.
-- Maintainable contracts and reference implementations that can evolve without multiplying active product-version namespaces.
+- Strong accessibility defaults across keyboard, touch, pointer, remote, assistive technology, contrast, motion, transparency, target sizing, text scaling, and semantic-state communication.
+- Clear hierarchy with restrained material, depth, color, geometry, typography, and motion rather than decorative excess.
+- Fast, stable, and understandable navigation, search, workspace switching, loading, recovery, and system-level interaction.
+- Reusable components and semantic tokens that reduce inconsistency without flattening product personality.
+- Truthful capability-, privacy-, security-, policy-, recovery-, connectivity-, and authority-aware presentation that never manufactures favorable state.
+- Performance-conscious visual richness with explicit graceful degradation under constrained runtime, power, thermal, accessibility, or rendering conditions.
+- Native-platform adaptation that preserves appropriate platform interaction behavior while retaining GoreeCloud identity and semantics.
+- Evidence-backed conformance, including machine, rendered, human, assistive-technology, performance, and representative-environment evidence where required.
+- Local-first and privacy-conscious presentation logic that minimizes unnecessary telemetry and remote dependence.
+- Maintainable versioned contracts, migration paths, rollback provenance, and exact-revision release evidence.
 
-These are product objectives, not claims that every benchmark has already been met. Production and downstream conformance claims require the applicable V1 evidence.
+## Evaluation rule
+
+These are product objectives, not automatic claims that every external benchmark or every downstream consumer has been satisfied. Competitive, quality, Stable, deployment, and production claims require the applicable current evidence for the exact artifact and supported scope.
