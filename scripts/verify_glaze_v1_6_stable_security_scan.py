@@ -178,6 +178,35 @@ def main() -> int:
     require(final_artifact_acceptance.get("stableSecurityEvidence", {}).get("cyclonedxVulnerabilityCount") == 0, "accepted artifact security evidence must have zero CycloneDX vulnerabilities")
     require(final_artifact_acceptance.get("securityAcceptance", {}).get("finalStableSecurityAcceptanceGranted") is True, "final artifact acceptance must grant final Stable security acceptance")
 
+    require(final_artifact_acceptance.get("candidate", {}).get("postMergeWorkflowCountType") == "unique-workflow-names", "post-merge workflow count must be explicitly unique-name based")
+    require(final_artifact_acceptance.get("candidate", {}).get("postMergeRunRecordCountObservedAtAcceptance") == 73, "post-merge run-record count evidence mismatch")
+    control_matrix = final_artifact_acceptance.get("stableSecurityControlMatrix", {})
+    controls = control_matrix.get("controls", [])
+    require(control_matrix.get("standard") == "GoreeCloud — Standard — Stable Release Security Blockers", "final security control-matrix authority mismatch")
+    require(control_matrix.get("version") == "v1.0", "final security control-matrix version mismatch")
+    require(control_matrix.get("evaluatedControlCount") == 39, "final security control-matrix count mismatch")
+    require(control_matrix.get("passedOrBoundedPassedCount") == 14, "final security passed/bounded count mismatch")
+    require(control_matrix.get("notApplicableJustifiedCount") == 25, "final security not-applicable count mismatch")
+    require(control_matrix.get("blockedCount") == 0, "final security control matrix must have zero blocked controls")
+    require(control_matrix.get("unknownCount") == 0, "final security control matrix must have zero unknown controls")
+    require(control_matrix.get("exceptedCount") == 0, "final security control matrix must have zero excepted controls")
+    require(control_matrix.get("exceptions") == [], "final security acceptance must have no exceptions")
+    require(isinstance(controls, list) and len(controls) == 39, "final security control matrix must enumerate 39 controls")
+    allowed_control_results = {"passed", "passed-bounded", "not-applicable-justified"}
+    for control in controls:
+        require(isinstance(control, dict), "final security control entry must be an object")
+        require(control.get("result") in allowed_control_results, f"invalid final security control result: {control.get('id')}")
+        justification = control.get("justification")
+        require(isinstance(justification, str) and justification.strip(), f"missing final security control justification: {control.get('id')}")
+    require(final_artifact_acceptance.get("releaseSecurityAcceptanceRecord", {}).get("finalSecurityGateResult") == "passed", "release security acceptance record must pass")
+    require(final_artifact_acceptance.get("releaseSecurityAcceptanceRecord", {}).get("exceptions") == [], "release security acceptance record must contain no exceptions")
+    summary = security_review.get("controlApplicabilitySummary", {})
+    require(summary.get("evaluatedControlCount") == 39, "security review control-applicability count mismatch")
+    require(summary.get("blockedCount") == 0, "security review must have zero blocked controls")
+    require(summary.get("unknownCount") == 0, "security review must have zero unknown controls")
+    require(summary.get("exceptedCount") == 0, "security review must have zero excepted controls")
+    require(security_review.get("finalSecurityAcceptance", {}).get("controlApplicabilityMatrixAccepted") is True, "security review must accept the control applicability matrix")
+
     accepted_source = final_artifact_acceptance.get("candidate", {}).get("sourceRevision")
     ancestry = subprocess.run(
         ["git", "merge-base", "--is-ancestor", accepted_source, head],
