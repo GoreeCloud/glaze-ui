@@ -1,20 +1,21 @@
-# GLAZE UI V1.5 Acceptance
+# GLAZE UI V1.6 Acceptance
 
-GLAZE UI V1.5 / `1.5.1` is the current Stable design-system release when this governed V1.5.1 promotion is authoritative on `main`. `VERSION`, `registry/lifecycle.json`, `GLAZE_UI_V1_5.md`, `contracts/v1.5.1/stable-scope.json`, and `acceptance/v1.5.1-stable.md` are the controlling repository authorities for that lifecycle state.
+GLAZE UI V1.6 / `1.6.0` is the current Official Stable shared design-system release.
 
-The reviewed V1.5 implementation remains anchored to exact Development revision `ee1032a0822ab8e103f8afe48e5c1859fde65cc9`. Sixteen V1.5.0 human/runtime/accessibility/privacy/performance-transition/platform obligations remain accepted through their existing real evidence and source-impact continuity.
+The shared qualification matrix is **24 verified / 0 unverified / 0 not applicable**, bound to frozen qualification source `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`. Final release/security acceptance is bound to protected source `a7180679ea851389e0f3004515f9a25f420e716d` and tree `9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268`.
 
-V1.5.1 adds independently reviewed acceptance for the two qualification obligations deliberately deferred from V1.5.0, both bound to exact V1.5.1 Development revision `5b59d0e36950d737dba35b58ae58058684e0831b`:
+Final Stable security acceptance passed with zero unreviewed secret findings and zero selected dependency advisories/vulnerabilities. The deterministic source/runtime artifact, checksum manifest, CycloneDX SBOM, and provenance were published without rebuild under immutable tag `v1.6.0` / GitHub Release `392095913`, then read back byte-for-byte.
 
-- `performance-representative-budget` — accepted for the reviewed representative performance environment; PR #230 comment `5697516074`;
-- `platform-posture-continuity` — accepted for the approved Pixel Fold Android Emulator target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`; PR #230 comment `5705230782`.
+Authoritative Stable records are:
 
-The complete shared V1.5.1 qualification therefore contains **18 accepted obligations**. These acceptances remain bounded to the reviewed shared environments and do not automatically establish application-specific performance, device, posture, deployment, or production acceptance.
+- `contracts/v1.6/stable-release.json`
+- `acceptance/v1.6-stable.json`
+- `acceptance/v1.6-stable-qualification-review.json`
+- `acceptance/v1.6-final-security-acceptance.json`
+- `acceptance/v1.6-publication-readback.json`
+- `registry/lifecycle.json`
+- `js/glaze-v1.6.0.mjs`
 
-Stable source authority includes the inherited V1.4.1 optical/web foundation, the unchanged reviewed V1.5 Context + Capability Awareness behavior, the V1.5.1 Stable runtime identity entrypoint, governed provider/capability authority boundaries, contextual composition/navigation/actions/controls, accessibility precedence, constrained-runtime and connectivity continuity, explicit non-automatic fallbacks, privacy-safe diagnostics, lifecycle records, and the retained V1.5.0 rollback boundary.
+GLAZE UI `1.5.1` is the immediate known-good rollback baseline. Historical V1.5.1 and V1.6 Release Candidate evidence remains preserved and must not be rewritten.
 
-The V1.5.1 Stable promotion carries external observations only through fail-closed source-impact continuity. It does not rebind observations to release metadata commits and does not change authorization, consent, permission, privacy, security, navigation, fallback, or consequential-execution authority.
-
-No downstream GoreeCloud application becomes `1.5.1`-conformant or production-eligible automatically. Each consumer must explicitly target the current Stable release and satisfy fresh repository-local exact-revision V1.5 adoption and acceptance evidence for its supported platforms.
-
-This shared Stable acceptance does not establish an immutable `v1.5.1` tag, GitHub Release publication, deployment, or production acceptance. Those remain separate governed transitions.
+No downstream GoreeCloud application becomes `1.6.0`-conformant or production-eligible automatically. Each consumer must explicitly target the current Stable release and satisfy fresh repository-local V1.6 adoption and acceptance evidence for its supported platforms and production boundary.
