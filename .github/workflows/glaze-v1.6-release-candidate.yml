@@ -1,4 +1,4 @@
-name: GLAZE UI V1.6.0 Release Candidate Authority
+name: GLAZE UI V1.6.0 Release Candidate / Historical Integrity
 
 on:
   pull_request:
@@ -57,7 +57,7 @@ env:
 
 jobs:
   release-candidate-authority:
-    name: Verify V1.6.0-rc.1 authority and qualification continuity
+    name: Verify V1.6.0-rc.1 active authority or retained history
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -129,10 +129,10 @@ jobs:
           node scripts/validate_glaze_v1_6_conformance_adoption_development.mjs
           node scripts/validate_glaze_v1_6_acceptance_development.mjs
 
-      - name: Verify V1.6 Release Candidate authority
+      - name: Verify V1.6 Release Candidate authority or historical integrity
         run: node scripts/verify_glaze_v1_6_release_candidate.mjs
 
-      - name: Preserve V1.5.1 Stable authority
+      - name: Preserve V1.5.1 Stable historical integrity
         run: node scripts/verify_glaze_v1_5_1_stable.mjs
 
       - name: Verify RC wrapper remains identity only
