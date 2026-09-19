@@ -149,10 +149,20 @@ def main() -> int:
     gitleaks = load_json(Path(args.gitleaks_report))
     require(isinstance(gitleaks, list), "Gitleaks JSON report must be a list")
     secret_findings = len(gitleaks)
+    require(
+        (gitleaks_exit == 0 and secret_findings == 0)
+        or (gitleaks_exit == 1 and secret_findings > 0),
+        f"Gitleaks exit/report inconsistency: exit={gitleaks_exit} findings={secret_findings}",
+    )
 
     osv = load_json(Path(args.osv_report))
     package_count, vulnerability_ids = summarize_osv(osv)
     require(package_count > 0, "OSV scan discovered zero dependency packages; coverage is not established")
+    require(
+        (osv_exit == 0 and not vulnerability_ids)
+        or (osv_exit == 1 and bool(vulnerability_ids)),
+        f"OSV exit/report inconsistency: exit={osv_exit} vulnerabilities={len(vulnerability_ids)}",
+    )
 
     sbom = load_json(Path(args.sbom))
     require(sbom.get("bomFormat") == "CycloneDX", "SBOM must use CycloneDX")
@@ -161,6 +171,11 @@ def main() -> int:
     require(isinstance(components, list) and components, "CycloneDX SBOM contains no components")
     sbom_vulnerabilities = sbom.get("vulnerabilities", [])
     require(isinstance(sbom_vulnerabilities, list), "CycloneDX vulnerabilities must be a list")
+    require(
+        (sbom_exit == 0 and not sbom_vulnerabilities)
+        or (sbom_exit == 1 and bool(sbom_vulnerabilities)),
+        f"SBOM exit/report inconsistency: exit={sbom_exit} vulnerabilities={len(sbom_vulnerabilities)}",
+    )
     for label, digest in (
         ("gitleaks", args.gitleaks_sha256),
         ("osv-scanner", args.osv_sha256),
