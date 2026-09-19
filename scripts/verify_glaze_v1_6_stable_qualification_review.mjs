@@ -87,13 +87,50 @@ assert.deepEqual(
   ['platform-contract-0-4', 'stable-qualification-review', 'stable-security-evidence', 'validate-v1'].sort(),
   'Verified main required-check set mismatch'
 );
-assert.equal(artifactPlan.status, 'prepared-release-preparation-not-final');
-assert.equal(artifactPlan.decision, 'release-preparation-path-ready-final-artifact-not-yet-built');
+assert.equal(artifactPlan.status, 'final-artifact-preparation-workflow-ready');
+assert.equal(artifactPlan.decision, 'final-artifact-workflow-ready-awaiting-exact-merged-run');
 assert.equal(artifactPlan.currentBoundary?.stablePromotionAuthorized, false);
 assert.equal(artifactPlan.currentBoundary?.finalStableRevisionSelected, false);
 assert.equal(artifactPlan.rehearsal?.publishesTag, false);
 assert.equal(artifactPlan.rehearsal?.publishesGithubRelease, false);
 assert.equal(artifactPlan.rehearsal?.grantsStable, false);
+assert.equal(artifactPlan.targetStableVersion, '1.6.0');
+assert.equal(artifactPlan.finalStablePreparation?.workflow, '.github/workflows/glaze-v1.6-final-artifact-preparation.yml');
+assert.equal(artifactPlan.finalStablePreparation?.builder, 'scripts/build_glaze_v1_6_final_artifact.py');
+assert.equal(artifactPlan.finalStablePreparation?.targetVersion, '1.6.0');
+assert.equal(artifactPlan.finalStablePreparation?.intendedImmutableTag, 'v1.6.0');
+assert.equal(artifactPlan.finalStablePreparation?.outputArchive, 'glaze-ui-v1.6.0-source-runtime.tar.gz');
+assert.equal(artifactPlan.finalStablePreparation?.deterministicDoubleBuildRequired, true);
+assert.equal(artifactPlan.finalStablePreparation?.extractedArtifactSecretScanRequired, true);
+assert.equal(artifactPlan.finalStablePreparation?.publishesTag, false);
+assert.equal(artifactPlan.finalStablePreparation?.publishesGithubRelease, false);
+assert.equal(artifactPlan.finalStablePreparation?.grantsStable, false);
+const expectedFinalizationOrder = [
+  'repository-protection',
+  'exact-candidate-selection',
+  'final-unpublished-artifact',
+  'final-security-acceptance',
+  'immutable-publication',
+  'post-publication-readback',
+  'exact-candidate-stable-qualification',
+];
+assert.deepEqual(
+  artifactPlan.finalizationSequence?.map(item => item.id),
+  expectedFinalizationOrder,
+  'V1.6 finalization sequence must remain non-circular and fail-closed'
+);
+assert.equal(artifactPlan.finalizationSequence?.[0]?.status, 'passed');
+assert.equal(artifactPlan.finalizationSequence?.[1]?.status, 'pending-current-release-preparation-merge');
+const securityReview = readJson('acceptance/v1.6-stable-security-review.json');
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresProtectedSource, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresUnpublishedFinalCandidateArtifact, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresArtifactChecksumSbomProvenance, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresExtractedArtifactSecretScan, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresPublishedTagOrRelease, false);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.publicationOccursAfterSecurityAcceptance, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.publicationMustReuseAcceptedArtifactBytes, true);
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.targetStableVersion, '1.6.0');
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.intendedImmutableTag, 'v1.6.0');
 assert.equal(blockers.get('release.artifact-provenance-and-publication-boundary')?.status, 'blocked-prepared-awaiting-final-exact-artifact');
 assert.equal(review.remainingBlockerCount, 2, 'remainingBlockerCount must be two');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
