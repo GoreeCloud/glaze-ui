@@ -18,9 +18,11 @@
     "result": "blocked",
     "advisoryCount": 50,
     "evidence": [
-      "acceptance/v1.6-dependency-vulnerability-review.json"
+      "acceptance/v1.6-dependency-vulnerability-classification.json"
     ],
-    "disposition": "build-tooling-remediation-required"
+    "disposition": "build-tooling-remediation-required",
+    "runtimeExposure": "no flagged vulnerable coordinate observed in the three recorded debugRuntimeClasspath reports",
+    "buildToolingApplicable": true
   },
   "overallDecision": "blocked",
   "stableSecurityAcceptanceGranted": false,
