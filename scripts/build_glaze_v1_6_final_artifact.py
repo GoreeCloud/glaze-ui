@@ -235,7 +235,7 @@ def main() -> int:
     review = load_json("acceptance/v1.6-stable-qualification-review.json")
     require(review.get("decision") == "blocked-remain-release-candidate", "Stable review must remain blocked during artifact preparation")
     require(review.get("stablePromotionAuthorized") is False, "artifact preparation must not authorize Stable")
-    require(review.get("remainingBlockerCount") == 2, "artifact preparation expects exactly two remaining Stable blockers")
+    require(review.get("remainingBlockerCount") in (1, 2), "artifact preparation expects the governed pre- or post-security blocker count")
     protection = review.get("repositoryProtectionEvidence", {})
     require(protection.get("rulesetId") == RULESET_ID, "verified repository ruleset mismatch")
     require(protection.get("enforcement") == "active", "repository ruleset must be recorded active")
@@ -243,14 +243,30 @@ def main() -> int:
     require(protection.get("bypassActors") == [], "repository protection bypass list must be empty")
 
     security = load_json("acceptance/v1.6-stable-security-review.json")
-    require(security.get("overallDecision") == "blocked", "final Stable security review must remain blocked before artifact acceptance")
-    require(security.get("stableSecurityAcceptanceGranted") is False, "final Stable security acceptance must remain false")
     require(security.get("repositorySecurityGateEnforcement", {}).get("result") == "passed", "repository security-gate enforcement must be passed")
-    remaining_security = security.get("remainingReleaseSecurityBlockers", [])
-    require(
-        [item.get("id") for item in remaining_security] == ["final-artifact-source-provenance"],
-        "final artifact/source provenance must be the only remaining release-security blocker",
-    )
+    security_decision = security.get("overallDecision")
+    require(security_decision in ("blocked", "passed"), "final Stable security review state is unsupported")
+    selected_for_publication = False
+    if security_decision == "blocked":
+        require(security.get("stableSecurityAcceptanceGranted") is False, "pre-acceptance Stable security state must remain false")
+        remaining_security = security.get("remainingReleaseSecurityBlockers", [])
+        require(
+            [item.get("id") for item in remaining_security] == ["final-artifact-source-provenance"],
+            "pre-acceptance artifact/source provenance must be the only remaining release-security blocker",
+        )
+    else:
+        require(security.get("stableSecurityAcceptanceGranted") is True, "post-acceptance Stable security state must remain true")
+        require(security.get("remainingReleaseSecurityBlockers") == [], "post-acceptance Stable security blocker list must be empty")
+        accepted = load_json("acceptance/v1.6-final-artifact-acceptance.json")
+        accepted_source = accepted.get("candidate", {}).get("sourceRevision")
+        require(accepted_source == "a7180679ea851389e0f3004515f9a25f420e716d", "accepted publication source mismatch")
+        ancestry = subprocess.run(
+            ["git", "merge-base", "--is-ancestor", accepted_source, head],
+            cwd=ROOT,
+            check=False,
+        )
+        require(ancestry.returncode == 0, "accepted publication source must be an ancestor of this build")
+        selected_for_publication = head == accepted_source
 
     source_paths = tracked_source_paths()
     archive_files: dict[str, bytes] = {
@@ -270,6 +286,7 @@ def main() -> int:
         "sourceTree": tree,
         "sourceQualificationAnchor": QUALIFICATION_SOURCE,
         "qualificationEvidenceIntegrationCommit": QUALIFICATION_INTEGRATION,
+        "selectedForPublication": selected_for_publication,
         "trackedSources": [
             {
                 "path": rel,
@@ -346,6 +363,7 @@ def main() -> int:
         "targetReleaseVersion": TARGET_VERSION,
         "intendedImmutableTag": TARGET_TAG,
         "finalStableArtifactCandidate": True,
+        "selectedForPublication": selected_for_publication,
         "sourceRevision": head,
         "sourceTree": tree,
         "sourceQualificationAnchor": QUALIFICATION_SOURCE,
@@ -422,6 +440,7 @@ def main() -> int:
         "publicationAuthorized": False,
         "stablePromotionAuthorized": False,
         "mustReuseAcceptedArtifactBytesForPublication": True,
+        "selectedForPublication": selected_for_publication,
     }
     (args.output_dir / "final-artifact-summary.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n",
