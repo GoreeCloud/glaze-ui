@@ -40,7 +40,7 @@
   "stableSecurityAcceptanceGranted": false,
   "stablePromotionAuthorized": false,
   "productionReadinessGranted": false,
-  "boundary": "Secret/Git-history, selected dependency/supply-chain, and authoritative repository security-gate enforcement sub-gates pass. Final Stable security acceptance remains blocked only by final exact artifact/source provenance for the same candidate. This record does not grant Stable, publication, deployment, or downstream consumer acceptance.",
+  "boundary": "Secret/Git-history, selected dependency/supply-chain, and authoritative repository security-gate enforcement sub-gates pass. Final Stable security acceptance remains blocked only by final exact artifact/source provenance for the same candidate. Final security acceptance requires the unpublished deterministic 1.6.0 artifact candidate, checksum/SBOM/provenance, and clean extracted-artifact secret scan before any tag or GitHub Release publication. Publication must reuse the already accepted bytes. This record does not grant Stable, publication, deployment, or downstream consumer acceptance.",
   "remainingReleaseSecurityBlockers": [
     {
       "id": "final-artifact-source-provenance",
@@ -70,5 +70,18 @@
     "deletionProtection": true,
     "forcePushProtection": true,
     "verifiedAt": "2026-09-19T08:39:32-05:00"
+  },
+  "finalSecurityAcceptanceBoundary": {
+    "requiresProtectedSource": true,
+    "requiresUnpublishedFinalCandidateArtifact": true,
+    "requiresArtifactChecksumSbomProvenance": true,
+    "requiresExtractedArtifactSecretScan": true,
+    "requiresPublishedTagOrRelease": false,
+    "publicationOccursAfterSecurityAcceptance": true,
+    "publicationMustReuseAcceptedArtifactBytes": true,
+    "finalArtifactPreparationWorkflow": ".github/workflows/glaze-v1.6-final-artifact-preparation.yml",
+    "finalArtifactBuilder": "scripts/build_glaze_v1_6_final_artifact.py",
+    "targetStableVersion": "1.6.0",
+    "intendedImmutableTag": "v1.6.0"
   }
 }
