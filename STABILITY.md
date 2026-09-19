@@ -1,66 +1,38 @@
 # GLAZE UI Stability Contract
 
-**Current Stable authority:** GLAZE UI V1.5 — Contextual + Capability Awareness / `1.5.1`  
-**Immediate rollback baseline:** GLAZE UI V1.5 / `1.5.0`  
+**Current Stable authority:** GLAZE UI V1.6 / `1.6.0`  
+**Immediate rollback baseline:** GLAZE UI V1.5 / `1.5.1`  
 **Current lifecycle source:** `registry/lifecycle.json`
 
 ## Stability principles
 
 1. Stable behavior fails closed when required evidence is absent.
 2. Accessibility and semantic clarity outrank decorative effects.
-3. Exact-revision evidence is required for qualification claims that depend on human, runtime, device, or platform observations.
+3. Exact-revision evidence is required for qualification claims that depend on human, runtime, device, platform, security, or release observations.
 4. Lifecycle scope decisions must never manufacture missing evidence.
-5. Presentation adaptation must preserve capability truth, authorization boundaries, task continuity, and understandable state.
-6. Glaze UI must not infer authorization, grant permission or consent, or automatically execute navigation, consequential actions, or fallbacks.
-7. Platform-native claims require representative platform-native evidence.
-8. Downstream product readiness remains product-specific and repository-local.
-9. Recovery preserves previous known-good Stable releases and exact source history.
+5. Presentation adaptation preserves capability truth, authorization boundaries, task continuity, and understandable state.
+6. Glaze UI does not infer authorization, grant permission or consent, or automatically execute navigation, consequential actions, or fallbacks.
+7. Downstream product readiness remains product-specific and repository-local.
+8. Recovery preserves previous known-good Stable releases and exact source/release history.
 
-## Current V1.5.1 boundary
+## Current V1.6.0 boundary
 
-V1.5.1 is the qualification-hardening Stable patch for the reviewed Context + Capability Awareness presentation layer. The reviewed V1.5 implementation remains anchored to exact revision `ee1032a0822ab8e103f8afe48e5c1859fde65cc9`; V1.5.1 does not change its presentation or operational-authority behavior.
+GLAZE UI V1.6.0 is the current Official Stable shared presentation-system release. Its governed qualification matrix is **24 verified / 0 unverified / 0 not applicable**. Final Stable security acceptance passed for exact released source `a7180679ea851389e0f3004515f9a25f420e716d` and tree `9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268`.
 
-The governed V1.5.1 Stable scope contains **18 accepted shared qualification obligations**: the sixteen V1.5.0 obligations plus two independently reviewed V1.5.1 expansions bound to exact Development revision `5b59d0e36950d737dba35b58ae58058684e0831b`:
+Authoritative `main` is protected by active ruleset `23699829` with no bypass actors, pull-request promotion, strict/up-to-date required checks, conversation resolution, deletion protection, force-push protection, and merge-only integration.
 
-- `performance-representative-budget` — review authority PR #230 comment `5697516074`;
-- `platform-posture-continuity` — review authority PR #230 comment `5705230782`, using approved target-runtime authority `GCU-ADR-GLAZE-V151-POSTURE-TR-001`.
-
-The exact Stable boundary is recorded in `contracts/v1.5.1/stable-scope.json` and `acceptance/v1.5.1-stable.md`.
-
-## Evidence continuity
-
-The V1.5.1 performance and posture observations remain bound to the exact revision on which they were performed. Stable promotion carries those observations only through fail-closed source-impact continuity proving that qualification-sensitive sources remain byte-identical to `5b59d0e36950d737dba35b58ae58058684e0831b`.
-
-The V1.5.1 public Stable runtime entrypoint wraps the unchanged V1.5.0 Stable runtime and promotes patch identity only. It does not create new operational authority or silently rebind evidence.
+The accepted V1.6.0 source/runtime artifact was built deterministically, passed checksum/SBOM/provenance validation and extracted-artifact secret scanning, was published without rebuild under immutable tag `v1.6.0` and GitHub Release `392095913`, and passed byte-for-byte publication readback.
 
 ## Rollback and historical releases
 
-GLAZE UI V1.5 / `1.5.0` is the immediate known-good Stable rollback baseline. V1.5.1-rc.1 is retained as superseded Release Candidate provenance. V1.4.1, V1.4.0, V1.3.0, earlier Stable releases, and the V1.0 reset-era contract remain retained as historical provenance according to repository lifecycle records.
+GLAZE UI `1.5.1` is the immediate known-good Stable rollback target using `js/glaze-v1.5.1.mjs`. V1.6.0-rc.1 is retained as superseded Release Candidate provenance. V1.5.1, V1.5.0, V1.4.1, and earlier accepted releases remain preserved historical evidence for their exact scopes.
 
 ## Consumer boundary
 
-No downstream application or website becomes `1.5.1`-conformant merely because the shared design system is Stable. Each consumer must adopt the current Stable target and complete fresh repository-local V1.5 adoption and acceptance evidence appropriate to its supported platforms, runtime, accessibility, integrations, and production boundary.
+No downstream application or website becomes `1.6.0`-conformant merely because the shared design system is Stable. Each consumer must adopt the current Stable target and complete fresh repository-local V1.6 acceptance appropriate to its supported platforms, runtime, accessibility, integrations, privacy/security authority, rollback, and production boundary.
 
-## Publication and deployment boundary
+## Deployment and production boundary
 
-Stable design-system authority does not automatically establish an immutable `v1.5.1` tag, GitHub Release, deployment, production acceptance, or downstream application acceptance. Those remain separate governed transitions.
+GLAZE UI is a source-distributed shared library and has no independently deployed service/backend. Its applicable release-acceptance boundary is immutable publication and readback, which passed. Application deployment and production acceptance remain downstream product responsibilities.
 
 Glaze Motion remains separately governed unless a later Stable Glaze UI contract explicitly incorporates it.
-
-## Active V1.6 Stable qualification review
-
-GLAZE UI V1.6 / `1.6.0-rc.1` is the active governed Release Candidate. Its shared qualification matrix is complete at 24 verified / 0 unverified / 0 not applicable, but that qualification completeness does not by itself satisfy the higher Stable gate.
-
-The current fail-closed Stable review is recorded in `acceptance/v1.6-stable-qualification-review.json` and its machine gate is `scripts/verify_glaze_v1_6_stable_qualification_review.mjs`.
-
-**Current decision: blocked — remain Release Candidate.**
-
-Verified shared passes include candidate identity, 24/24 qualification evidence, the nine-system Release Candidate readiness review, rendered/human/assistive-technology evidence, bounded representative performance, rollback to V1.5.1, immutable GitHub Action pin enforcement, current repository-front-door documentation, canonical Drive task/changelog reconciliation, the Contract 0.4 shared-library machine declaration, the exact-candidate secret/Git-history scan, remediated selected dependency/supply-chain evidence, and the shared-library production-applicability disposition.
-
-Authoritative default-branch protection is now verified complete through active GitHub ruleset `23699829` (**GoreeCloud Main Branch Production**) targeting the default branch with no bypass actors, pull-request integration, strict/up-to-date required checks, conversation resolution, deletion protection, non-fast-forward/force-push protection, and merge-only integration.
-
-Stable remains blocked while two recorded controls remain open: final Stable release-security acceptance and the final artifact/provenance/publication boundary. Platform Contract 0.4 shared-library representation, canonical Drive task/changelog reconciliation, the exact-candidate secret/Git-history scan, remediated selected dependency/supply-chain evidence, production applicability, and repository security-gate enforcement are verified complete. The selected Android/Wear build-tool graph is clean and exact-head native compatibility passes.
-
-The governed next sequence is fail-closed: select the exact merged release-preparation revision; build and verify the final non-publishing candidate artifact, checksum, SBOM, and provenance from that revision; complete final Stable security acceptance against those exact bytes and source identity; then create the immutable tag/release, publish only the accepted artifact, and read back the publication before any Stable lifecycle transition.
-
-No Stable tag, GitHub Release, consumer migration, deployment, production-readiness claim, or production-acceptance claim is authorized by this review.
