@@ -1,0 +1,116 @@
+name: GLAZE UI V1.6 Artifact Provenance Rehearsal
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/build_glaze_v1_6_artifact_rehearsal.py'
+      - 'acceptance/v1.6-artifact-provenance-plan.json'
+      - 'acceptance/v1.6-stable-qualification-review.json'
+      - 'scripts/verify_glaze_v1_6_stable_qualification_review.mjs'
+      - 'registry/lifecycle.json'
+      - 'contracts/v1.6/**'
+      - 'acceptance/v1.6-*.json'
+      - 'js/glaze-v1.6*.mjs'
+      - 'goreecloud.platform.yaml'
+      - 'GLAZE_UI_V1_6_PLANNED.md'
+      - 'VERSION'
+      - '.github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1.6-artifact-rehearsal-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  artifact-provenance-rehearsal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out exact rehearsal revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact head and action integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          python3 -m py_compile scripts/build_glaze_v1_6_artifact_rehearsal.py
+          python3 -m py_compile scripts/validate_github_actions_runtime_integrity.py
+          python3 scripts/validate_github_actions_runtime_integrity.py
+
+      - name: Build deterministic rehearsal twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf artifacts/v1.6-artifact-rehearsal "$RUNNER_TEMP/glaze-v16-rehearsal-second"
+          mkdir -p artifacts/v1.6-artifact-rehearsal "$RUNNER_TEMP/glaze-v16-rehearsal-second"
+
+          python3 scripts/build_glaze_v1_6_artifact_rehearsal.py             --expected-sha "$EXPECTED_SHA"             --output-dir artifacts/v1.6-artifact-rehearsal
+
+          python3 scripts/build_glaze_v1_6_artifact_rehearsal.py             --expected-sha "$EXPECTED_SHA"             --output-dir "$RUNNER_TEMP/glaze-v16-rehearsal-second"
+
+          for name in             glaze-ui-v1.6.0-rc.1-source-runtime.tar.gz             cyclonedx-1.5.json             provenance.json             SHA256SUMS             rehearsal-summary.json; do
+            cmp "artifacts/v1.6-artifact-rehearsal/$name" "$RUNNER_TEMP/glaze-v16-rehearsal-second/$name"
+          done
+
+      - name: Verify checksums and archive boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd artifacts/v1.6-artifact-rehearsal
+          sha256sum --check --strict SHA256SUMS
+          tar -tzf glaze-ui-v1.6.0-rc.1-source-runtime.tar.gz > archive-files.txt
+          test -s archive-files.txt
+          ! grep -Eq '(^|/)\.\.?(/|$)' archive-files.txt
+          grep -Fx 'glaze-ui-v1.6.0-rc.1/js/glaze-v1.6.0-rc.1.mjs' archive-files.txt >/dev/null
+          grep -Fx 'glaze-ui-v1.6.0-rc.1/contracts/v1.6/release-candidate.json' archive-files.txt >/dev/null
+          grep -Fx 'glaze-ui-v1.6.0-rc.1/acceptance/v1.6-production-applicability.json' archive-files.txt >/dev/null
+
+      - name: Verify rehearsal stays non-publishing and non-Stable
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("artifacts/v1.6-artifact-rehearsal")
+          provenance = json.loads((root / "provenance.json").read_text())
+          sbom = json.loads((root / "cyclonedx-1.5.json").read_text())
+          summary = json.loads((root / "rehearsal-summary.json").read_text())
+
+          assert provenance["sourceRevision"] == __import__("os").environ["EXPECTED_SHA"]
+          assert provenance["lifecycle"] == "release-candidate"
+          assert provenance["rehearsal"] is True
+          assert provenance["finalStableArtifact"] is False
+          assert provenance["publication"]["tagCreated"] is False
+          assert provenance["publication"]["githubReleaseCreated"] is False
+          assert provenance["publication"]["artifactPublished"] is False
+          assert provenance["publication"]["stablePromotionAuthorized"] is False
+          assert provenance["runtimeBoundary"]["externalRuntimeDependencies"] == []
+          assert sbom["bomFormat"] == "CycloneDX"
+          assert sbom["specVersion"] == "1.5"
+          assert summary["stablePromotionAuthorized"] is False
+          assert summary["publicationAuthorized"] is False
+          print("artifact-rehearsal: deterministic exact-head non-publishing evidence validated")
+          PY
+
+      - name: Verify rehearsal did not mutate tracked source
+        run: git diff --exit-code -- .
+
+      - name: Upload exact-head rehearsal evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: glaze-v1.6-artifact-rehearsal-${{ env.EXPECTED_SHA }}
+          path: artifacts/v1.6-artifact-rehearsal/
+          if-no-files-found: error
+          retention-days: 90

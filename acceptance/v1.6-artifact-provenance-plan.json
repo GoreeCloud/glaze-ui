@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.artifact-provenance-plan",
+  "recordType": "stable-artifact-provenance-preparation",
+  "product": "GLAZE UI V1.6",
+  "candidate": "1.6.0-rc.1",
+  "status": "prepared-rehearsal-not-final",
+  "governance": {
+    "stableQualification": "Standard — Stable Release Qualification v0.5",
+    "mergeReleaseDeployment": "Procedure — Merge, Release, and Deployment",
+    "stableSecurity": "Standard — Stable Release Security Blockers v1.0"
+  },
+  "currentBoundary": {
+    "componentType": "shared-library",
+    "directServiceDeploymentApplicable": false,
+    "immutablePublicationAcceptanceRequired": true,
+    "currentStable": "1.5.1",
+    "activeCandidate": "1.6.0-rc.1",
+    "stablePromotionAuthorized": false,
+    "finalStableRevisionSelected": false
+  },
+  "rehearsal": {
+    "workflow": ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
+    "builder": "scripts/build_glaze_v1_6_artifact_rehearsal.py",
+    "outputArchive": "glaze-ui-v1.6.0-rc.1-source-runtime.tar.gz",
+    "checksumManifest": "SHA256SUMS",
+    "sbom": "cyclonedx-1.5.json",
+    "provenance": "provenance.json",
+    "deterministicDoubleBuildRequired": true,
+    "publishesTag": false,
+    "publishesGithubRelease": false,
+    "grantsStable": false
+  },
+  "finalStableRequirements": [
+    "Select the exact merged Stable-eligible source revision only after all prior Stable blockers close.",
+    "Produce the final Stable runtime/source artifact from that exact revision through a controlled release workflow.",
+    "Record exact source commit and tree identity.",
+    "Record immutable version/tag/release identity.",
+    "Record artifact name, size, SHA-256 checksum, and supported distribution boundary.",
+    "Retain an applicable CycloneDX SBOM covering the released runtime/source boundary and separately accepted build/supply-chain evidence.",
+    "Retain provenance tying the final artifact bytes to the exact approved source revision and release workflow.",
+    "Retain signing or attestation evidence when required by the final release workflow or governance.",
+    "Retain final Stable security acceptance for the same exact candidate.",
+    "Retain rollback binding to GLAZE UI 1.5.1.",
+    "After publication, read back the immutable tag/release/artifact identity and verify it matches the approved revision and evidence.",
+    "Update lifecycle, release, documentation, task, and consumer-target records only after the authoritative publication state is verified."
+  ],
+  "unresolvedPrerequisites": [
+    "Authoritative main branch protection/ruleset controls.",
+    "Dependency and supply-chain security acceptance.",
+    "Final Stable release-security acceptance.",
+    "Selection of the exact Stable revision after those blockers close."
+  ],
+  "decision": "artifact-path-prepared-final-artifact-still-blocked",
+  "boundary": "This record prepares and validates the packaging/provenance path only. Rehearsal artifacts are Release Candidate evidence, are not final Stable artifacts, and must not be tagged, published, deployed, or treated as consumer-eligible Stable output."
+}
