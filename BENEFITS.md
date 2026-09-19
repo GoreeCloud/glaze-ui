@@ -2,7 +2,7 @@
 
 ## Current lifecycle context
 
-GLAZE UI V1.5 / `1.5.1` is GoreeCloud's current Official Stable, consumer-eligible shared visual and interaction design system. GLAZE UI V1.6 / `1.6.0-rc.1` is the active governed Release Candidate and remains non-consumer-eligible pending separate Stable qualification.
+GLAZE UI V1.6 / `1.6.0` is GoreeCloud's current Official Stable, consumer-eligible shared visual and interaction design system. V1.5.1 remains the immediate known-good rollback Stable. The V1.6 `1.6.0-rc.1` record is retained only as superseded, non-consumer-eligible qualification provenance.
 
 ## Platform benefits
 
