@@ -118,7 +118,7 @@ def main() -> int:
         source = Path(path)
         require(source.is_file(), f"missing {label} exit-code evidence: {source}")
         raw = source.read_text(encoding="utf-8").strip()
-        require(re.fullmatch(r"\\d+", raw) is not None, f"{label} exit code is malformed: {raw!r}")
+        require(re.fullmatch(r"\d+", raw) is not None, f"{label} exit code is malformed: {raw!r}")
         return int(raw)
 
     gitleaks_exit = read_exit_code(args.gitleaks_exit_code, "Gitleaks")
