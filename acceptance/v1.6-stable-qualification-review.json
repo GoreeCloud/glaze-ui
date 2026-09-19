@@ -80,7 +80,7 @@
         "acceptance/v1.6-rc.1.json",
         "js/glaze-v1.6.0-rc.1.mjs"
       ],
-      "finding": "V1.6.0-rc.1 is retained as explicit, non-consumer-eligible Release Candidate provenance. The promotion target is V1.6.0 Stable; V1.5.1 is retained as the known-good rollback baseline."
+      "finding": "The superseded V1.6 Release Candidate identity is retained as non-consumer-eligible qualification provenance, while V1.6.0 is the approved Stable lifecycle target."
     },
     {
       "id": "qualification.matrix",
@@ -132,7 +132,7 @@
         "registry/lifecycle.json",
         "js/glaze-v1.5.1.mjs"
       ],
-      "finding": "V1.5.1 is retained and verified as the immediate known-good rollback Stable for the V1.6.0 promotion."
+      "finding": "V1.5.1 remains the verified immediate known-good rollback Stable while the protected V1.6.0 lifecycle promotion is integrated and read back."
     },
     {
       "id": "ci.external-action-integrity",
@@ -159,7 +159,7 @@
         "CHANGELOG.md",
         "CONTRIBUTING.md"
       ],
-      "finding": "Repository front-door documentation is reconciled on this promotion branch to V1.6.0 Stable authority, retained V1.6 RC provenance, V1.5.1 rollback, exact published release evidence, and separate downstream adoption boundaries."
+      "finding": "Repository front-door documentation on the promotion branch is reconciled to the V1.6.0 Stable target, retained V1.5.1 rollback authority, superseded RC provenance, and separate downstream acceptance boundary."
     },
     {
       "id": "drive.documentation-and-task-reconciliation",
@@ -167,7 +167,7 @@
       "evidence": [
         "acceptance/v1.6-drive-document-reconciliation.json"
       ],
-      "finding": "Canonical Glaze UI task and changelog DOCX records were updated in place, raw-read back, SHA-256 verified, rendered, and visually reviewed. They truthfully preserve V1.5.1 as current Stable until protected merge while recording zero V1.6 qualification blockers, promotion authorization, and the remaining post-promotion central Platform Contract/downstream adoption work."
+      "finding": "Canonical Drive task and changelog DOCX records were updated in place, rendered and visually checked, then read back byte-for-byte at SHA-256 eaf98db0b43650059ded5173925dc16f1bc174a6e33674f4aec20158edd232e4 and 9d8cc11374ca7bee8c743eb46680ca7a5dc866004fca6a07fa8287925d8d552c. They truthfully record the pre-merge state: V1.5.1 remains current Stable until protected lifecycle integration, while V1.6 publication/security/qualification are complete with zero recorded Stable blockers."
     },
     {
       "id": "platform-contract.current-machine-contract",
@@ -177,7 +177,7 @@
         ".github/workflows/glaze-platform-contract.yml",
         "acceptance/v1.6-production-readiness-review.json"
       ],
-      "finding": "Central GoreeCloud Platform Contract 0.4 at pinned implementation commit a75ef035ca45a6043dae21e0ae006960290d485d supports shared-library Stable evaluation and still defines current Glaze target 1.5.1. This promotion therefore validates V1.6.0 against the predecessor 1.5.1 self-baseline; after protected promotion becomes authoritative, the central current Glaze target must be advanced to 1.6.0 and this repository revalidated."
+      "finding": "Central Platform Contract 0.4 at implementation commit a75ef035ca45a6043dae21e0ae006960290d485d supports shared-library Stable evaluation and still names Glaze 1.5.1 as its current target. This promotion therefore validates against the predecessor 1.5.1 bootstrap baseline; after protected V1.6.0 promotion becomes authoritative, the central current target must be reconciled to 1.6.0 and this repository revalidated."
     },
     {
       "id": "security.secret-and-history-scan",
@@ -188,7 +188,7 @@
         "acceptance/v1.6-gitleaks-false-positive-review.json",
         ".gitleaksignore"
       ],
-      "finding": "Complete fetched Git-history Gitleaks evidence records 0 unreviewed secret findings after exact-fingerprint review of 21 historical false positives. Selected dependency/supply-chain and final release-security gates are also separately verified passed."
+      "finding": "Complete Git-history scanning records 0 unreviewed secret findings after exact-fingerprint review of 21 historical false positives. The selected dependency graph is separately accepted clean and final Stable security acceptance has passed for the exact published artifact/source pair."
     },
     {
       "id": "production-acceptance.applicability",
@@ -198,7 +198,7 @@
         "goreecloud.platform.yaml",
         "acceptance/v1.6-production-readiness-review.json"
       ],
-      "finding": "GLAZE UI is a source-distributed shared library with no independent service/backend deployment. Direct service deployment acceptance is Not Applicable with justification; the applicable publication/artifact acceptance boundary is completed and downstream consumer production acceptance remains separate."
+      "finding": "GLAZE UI is a source-distributed shared library with no independent service/backend deployment. Direct service deployment acceptance is Not Applicable with justification; the applicable shared-library publication/artifact acceptance boundary is complete, while downstream product deployment and production acceptance remain separate."
     },
     {
       "id": "security.dependency-and-supply-chain-scan",
@@ -246,7 +246,7 @@
     {
       "id": "downstream-consumer-acceptance",
       "status": "separate",
-      "finding": "No downstream application inherits V1.6 conformance, Stable status, deployment acceptance, or production eligibility from this shared review."
+      "finding": "No downstream application inherits V1.6.0 conformance, Stable product status, deployment acceptance, or production eligibility from this shared release."
     }
   ],
   "decision": "approved-for-stable-promotion",
@@ -287,5 +287,12 @@
       "platform-contract-0-4"
     ]
   },
-  "targetStableVersion": "1.6.0"
+  "targetStableVersion": "1.6.0",
+  "driveReconciliationEvidence": {
+    "record": "acceptance/v1.6-drive-document-reconciliation.json",
+    "taskRecordSha256": "eaf98db0b43650059ded5173925dc16f1bc174a6e33674f4aec20158edd232e4",
+    "changeLogSha256": "9d8cc11374ca7bee8c743eb46680ca7a5dc866004fca6a07fa8287925d8d552c",
+    "state": "promotion-ready-pre-merge",
+    "requiresPostMergeReconciliation": true
+  }
 }
