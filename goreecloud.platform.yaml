@@ -29,24 +29,24 @@ platform_systems:
     evidence:
       - acceptance/v1.6-production-readiness-review.json
       - acceptance/v1.6-human-evidence.json
-    notes: The RC preserves Privacy Shield authority boundaries and privacy-safe local presentation behavior but does not operate a Privacy Shield enforcement runtime or collect privacy state as a platform service.
+    notes: The V1.6 Stable release preserves Privacy Shield authority boundaries and privacy-safe local presentation behavior but does not operate a Privacy Shield enforcement runtime or collect privacy state as a platform service.
   wardveil_security:
     result: not-applicable-justified
     version: null
     evidence:
       - acceptance/v1.6-production-readiness-review.json
       - SECURITY.md
-    notes: The RC presents supplied security states without authenticating, authorizing, protecting, or manufacturing security truth. Wardveil enforcement is outside this shared presentation runtime; Stable security qualification remains separately mandatory.
+    notes: The V1.6 Stable release presents supplied security states without authenticating, authorizing, protecting, or manufacturing security truth. Wardveil enforcement is outside this shared presentation runtime; Stable security qualification remains separately mandatory.
   everkeep:
     result: not-applicable-justified
     version: null
     evidence:
       - acceptance/v1.6-production-readiness-review.json
       - registry/lifecycle.json
-    notes: The RC is stateless and owns no user data, durable application state, backup jobs, restore workflows, or preservation storage. Release rollback remains bound to known-good Glaze UI 1.5.1.
+    notes: The V1.6 Stable release is stateless and owns no user data, durable application state, backup jobs, restore workflows, or preservation storage. Release rollback remains bound to known-good Glaze UI 1.5.1.
   glaze_ui:
     result: applicable-conformant
-    version: 1.5.1
+    version: 1.6.0
     evidence:
       - acceptance/v1.6-qualification-review.json
       - acceptance/v1.6-machine-evidence.json
@@ -55,7 +55,7 @@ platform_systems:
       - acceptance/v1.6-human-evidence.json
       - acceptance/v1.6-assistive-technology-evidence.json
       - acceptance/v1.6-performance-evidence.json
-    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable. During the promotion bootstrap this Stable candidate is checked for compatibility with the predecessor Stable Glaze baseline 1.5.1; the component itself provides 1.6.0 after protected promotion.
+    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable. The central Platform Contract 0.4 current Stable Glaze UI consumer target is 1.6.0; this repository provides 1.6.0 and validates against the exact central evaluator revision in CI.
   mesh:
     result: not-applicable-justified
     version: null
@@ -114,10 +114,10 @@ external_dependencies: []
 
 compatibility:
   platform_contract: "0.4"
-  glaze_ui_required: 1.5.1
+  glaze_ui_required: 1.6.0
   requires:
     - goreecloud-platform-contract==0.4
-    - glaze-ui-stable-baseline==1.5.1
+    - glaze-ui-stable-baseline==1.6.0
   provides:
     - glaze-ui-runtime==1.6.0
     - glaze-ui-contract==1.6.0
@@ -208,7 +208,6 @@ conformance:
     - acceptance/v1.6-artifact-provenance-plan.json
   blockers: []
 
-# This manifest represents the governed V1.6.0 Stable promotion candidate as a shared library.
-# Contract 0.4 validates the promotion against the predecessor Stable Glaze consumer baseline 1.5.1.
-# After protected lifecycle promotion becomes authoritative, the platform-wide current consumer target
-# is reconciled separately to 1.6.0 and this repository is revalidated against that updated central authority.
+# This manifest represents the governed GLAZE UI V1.6.0 Stable shared-library authority.
+# Contract 0.4 validates this repository against the current Stable Glaze consumer target 1.6.0.
+# Downstream consumer migration, repository-local acceptance, deployment, and production acceptance remain separate obligations.
