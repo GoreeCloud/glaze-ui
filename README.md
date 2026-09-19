@@ -31,7 +31,7 @@ The retained `1.6.0-rc.1` record is superseded Release Candidate provenance. Qua
 
 ## V1.6 Stable and retained Development inputs
 
-The repository carries the active non-consumer V1.6 Release Candidate together with its retained frozen Development and qualification inputs, as retained qualification provenance beneath current Stable 1.6.0:
+The repository retains the superseded non-consumer V1.6 Release Candidate together with its frozen Development and qualification inputs as provenance beneath current Stable 1.6.0:
 
 - `GLAZE_UI_V1_6_PLANNED.md` — original V1.6 upgrade requirements source covering the semantic Skeleton Motion System, loading and recovery behavior, state clarity, accessibility expansion, motion coherence, material intelligence, interaction continuity, performance adaptation, conformance metadata, diagnostics, and acceptance requirements. It remains requirements provenance; lifecycle authority now comes from the separate RC records above.
 - `contracts/v1.6/loading-skeleton.dev.json` + `schemas/v1.6-loading-skeleton.schema.json` — first V1.6 Development machine contract for sections 1–4 and bounded supporting behavior.
