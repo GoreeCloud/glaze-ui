@@ -57,6 +57,6 @@ The current fail-closed Stable review is recorded in `acceptance/v1.6-stable-qua
 
 Verified shared passes include candidate identity, 24/24 qualification evidence, the nine-system Release Candidate readiness review, rendered/human/assistive-technology evidence, bounded representative performance, rollback to V1.5.1, immutable GitHub Action pin enforcement, and current repository-front-door documentation.
 
-Stable remains blocked while the recorded unresolved controls remain open, including authoritative default-branch protection, current machine Platform Contract applicability/schema alignment, exact-candidate secret/history scanning, dependency/supply-chain security evidence, final release-security acceptance, final artifact/provenance/publication boundary, applicable production-acceptance disposition, and canonical Drive task/change-record reconciliation.
+Stable remains blocked while the recorded unresolved controls remain open, including authoritative default-branch protection, current machine Platform Contract applicability/schema alignment, exact-candidate secret/history scanning, dependency/supply-chain security evidence, final release-security acceptance, final artifact/provenance/publication boundary, and applicable production-acceptance disposition. Canonical Drive task/changelog reconciliation is verified complete.
 
 No Stable tag, GitHub Release, consumer migration, deployment, production-readiness claim, or production-acceptance claim is authorized by this review.

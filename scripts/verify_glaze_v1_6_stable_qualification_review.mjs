@@ -7,6 +7,7 @@ const lifecycle = readJson('registry/lifecycle.json');
 const review = readJson('acceptance/v1.6-stable-qualification-review.json');
 const rcReview = readJson('acceptance/v1.6-qualification-review.json');
 const readiness = readJson('acceptance/v1.6-production-readiness-review.json');
+const driveReconciliation = readJson('acceptance/v1.6-drive-document-reconciliation.json');
 
 assert.equal(fs.readFileSync(new URL('../VERSION', import.meta.url), 'utf8').trim(), '1.5.1');
 assert.equal(lifecycle.currentStable, '1.5.1');
@@ -38,6 +39,16 @@ assert.equal(readiness.reviewFindings.qualificationEvidenceComplete, true);
 assert.equal(readiness.reviewFindings.productionReadinessGranted, false);
 assert.equal(readiness.reviewFindings.productionAcceptanceGranted, false);
 
+assert.equal(driveReconciliation.decision, 'passed');
+assert.equal(driveReconciliation.taskRecord?.driveFileId, '1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy');
+assert.equal(driveReconciliation.taskRecord?.sha256, '711bff33f5f3b479babe228efcde7571197cde82854105cc4f662ebe89074e0f');
+assert.equal(driveReconciliation.taskRecord?.pageCount, 75);
+assert.equal(driveReconciliation.taskRecord?.visualVerification?.allPagesReviewed, true);
+assert.equal(driveReconciliation.changeLogRecord?.driveFileId, '1p1PTyUeQ2Ht4tzibAATmrEuVctyLs8up');
+assert.equal(driveReconciliation.changeLogRecord?.sha256, '166ea03adcd4008d1327233fdac2b6df2922ec452e1a3baf49f493cd0039978b');
+assert.equal(driveReconciliation.changeLogRecord?.pageCount, 235);
+assert.equal(driveReconciliation.changeLogRecord?.visualVerification?.allPagesReviewed, true);
+
 const requiredBlockers = [
   'repository.main-branch-protection',
   'platform-contract.current-machine-contract',
@@ -45,8 +56,7 @@ const requiredBlockers = [
   'security.dependency-and-supply-chain-scan',
   'security.release-security-acceptance',
   'release.artifact-provenance-and-publication-boundary',
-  'production-acceptance.applicability',
-  'drive.documentation-and-task-reconciliation'
+  'production-acceptance.applicability'
 ];
 const blockers = new Map(review.blockers.map(item => [item.id, item]));
 for (const id of requiredBlockers) {
@@ -54,6 +64,9 @@ for (const id of requiredBlockers) {
   assert.match(blockers.get(id).status, /^blocked/, `Stable blocker must remain fail-closed: ${id}`);
 }
 
+assert.equal(review.blockers.length, 7, 'V1.6 Stable review must retain the seven unresolved blockers after Drive reconciliation');
+assert.ok(review.verifiedPasses.some(item => item.id === 'drive.documentation-and-task-reconciliation' && item.status === 'passed'), 'Drive reconciliation must be a verified pass');
+assert.equal(review.remainingBlockerCount, 7, 'remainingBlockerCount must be seven');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
 assert.equal(review.stablePromotionAuthorized, false);
 assert.equal(review.productionReadinessGranted, false);

@@ -8,6 +8,7 @@ on:
       - 'acceptance/v1.6-stable-qualification-review.json'
       - 'acceptance/v1.6-qualification-review.json'
       - 'acceptance/v1.6-production-readiness-review.json'
+      - 'acceptance/v1.6-drive-document-reconciliation.json'
       - 'scripts/verify_glaze_v1_6_stable_qualification_review.mjs'
       - '.github/workflows/glaze-v1.6-stable-qualification-review.yml'
   push:
@@ -18,6 +19,7 @@ on:
       - 'acceptance/v1.6-stable-qualification-review.json'
       - 'acceptance/v1.6-qualification-review.json'
       - 'acceptance/v1.6-production-readiness-review.json'
+      - 'acceptance/v1.6-drive-document-reconciliation.json'
       - 'scripts/verify_glaze_v1_6_stable_qualification_review.mjs'
       - '.github/workflows/glaze-v1.6-stable-qualification-review.yml'
 
