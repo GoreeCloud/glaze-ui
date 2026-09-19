@@ -2,6 +2,22 @@
 
 All notable changes to the Glaze UI reference implementation are recorded here.
 
+
+## Current lifecycle authority — 2026-09-18
+
+- Current Official Stable is **GLAZE UI V1.5 / `1.5.1`**.
+- Active governed successor is **GLAZE UI V1.6 / `1.6.0-rc.1`**, non-consumer-eligible.
+- The V1.6 qualification matrix is complete at **24 verified / 0 unverified / 0 not applicable** for frozen source `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`.
+- Governed Release Candidate qualification and Production Readiness v2.0 nine-system review are recorded in `acceptance/v1.6-qualification-review.json` and `acceptance/v1.6-production-readiness-review.json`.
+- PR #275 established the V1.6 Release Candidate on authoritative `main`; PR #265 subsequently repaired stale V1.1 historical validation and hardened transient Android UIAutomator evidence capture without changing V1.6 behavior or lifecycle authority.
+- `VERSION` remains `1.5.1`; `registry/lifecycle.json` records `activeCandidate: 1.6.0-rc.1`.
+- Stable promotion, immutable tag/GitHub Release publication, downstream consumer migration/acceptance, deployment, production readiness, and production acceptance remain separate controlled transitions.
+
+### Historical namespace note
+
+Entries below that describe earlier 1.x or 2.x releases as current or Stable are retained as historical pre-reset/release provenance. They do **not** override current lifecycle authority. Current truth is determined by `VERSION`, `registry/lifecycle.json`, and the current front-door release records.
+
+
 ## 2.2.0 — Stable — 2026-09-01
 
 - Promoted the accepted Glaze UI 2.2 Candidate design-system surface to `2.2.0` Stable without rewriting the human-reviewed Candidate presentation or its immutable provenance.
