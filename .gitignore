@@ -1,0 +1,50 @@
+# Operating-system and editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Node / JavaScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build and validation artifacts
+build/
+dist/
+out/
+coverage/
+.artifacts/
+*.log
+
+# Android / Gradle reference builds
+.gradle/
+local.properties
+**/build/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Temporary files
+*.tmp
+*.temp
