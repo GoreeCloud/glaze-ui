@@ -87,6 +87,12 @@ STRONG_CURRENT_CLAIMS = (
 )
 SEMVER = re.compile(r"(?<!\d)(\d+)\.(\d+)\.(\d+)(?:-[0-9a-z.-]+)?(?!\d)", re.I)
 
+V16_ACCEPTED_RELEASE_SOURCE = "a7180679ea851389e0f3004515f9a25f420e716d"
+V16_PUBLISHED_HISTORICAL_AUTHORITY_PATHS = {
+    "js/glaze-v1.6-focus-motion.dev.mjs",
+    "js/glaze-v1.6-loading.dev.mjs",
+}
+
 
 def fail(message: str) -> None:
     raise SystemExit(f"lifecycle-version-integrity: {message}")
@@ -135,8 +141,31 @@ def version_tuple(value: str) -> tuple[int, int, int] | None:
     return tuple(int(part) for part in match.groups())
 
 
+def matches_accepted_v16_published_source(relative: str) -> bool:
+    """Recognize only byte-identical V1.6 published-source files as historical release text."""
+    if relative not in V16_PUBLISHED_HISTORICAL_AUTHORITY_PATHS:
+        return False
+    expected = subprocess.run(
+        ["git", "rev-parse", f"{V16_ACCEPTED_RELEASE_SOURCE}:{relative}"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    current = subprocess.run(
+        ["git", "hash-object", relative],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    return current == expected
+
+
 def historical_record(relative: str, text: str, current_version: str) -> bool:
     """Return whether a tracked source is explicitly retained/provenance-only."""
+    if matches_accepted_v16_published_source(relative):
+        return True
     if relative in HISTORICAL_SOURCE_PATHS or relative in RETAINED_V12_DOCS:
         return True
 
