@@ -1,0 +1,131 @@
+name: GLAZE UI Platform Contract 0.4
+
+on:
+  pull_request:
+    paths:
+      - 'goreecloud.platform.yaml'
+      - '.github/workflows/glaze-platform-contract.yml'
+      - 'registry/lifecycle.json'
+      - 'acceptance/v1.6-production-readiness-review.json'
+      - 'acceptance/v1.6-qualification-review.json'
+      - 'acceptance/v1.6-stable-qualification-review.json'
+  push:
+    branches: [main]
+    paths:
+      - 'goreecloud.platform.yaml'
+      - '.github/workflows/glaze-platform-contract.yml'
+      - 'registry/lifecycle.json'
+      - 'acceptance/v1.6-production-readiness-review.json'
+      - 'acceptance/v1.6-qualification-review.json'
+      - 'acceptance/v1.6-stable-qualification-review.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-platform-contract-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      PLATFORM_CONTRACT_SHA: a75ef035ca45a6043dae21e0ae006960290d485d
+    steps:
+      - name: Check out exact Glaze UI revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          persist-credentials: false
+
+      - name: Verify exact caller revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+
+      - name: Fetch exact GoreeCloud Platform Contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="$RUNNER_TEMP/goreecloud-platform-contract"
+          git init "$target"
+          git -C "$target" remote add origin https://github.com/GoreeCloud/GoreeCloud.git
+          git -C "$target" fetch --depth=1 origin "$PLATFORM_CONTRACT_SHA"
+          git -C "$target" checkout --detach FETCH_HEAD
+          test "$(git -C "$target" rev-parse HEAD)" = "$PLATFORM_CONTRACT_SHA"
+          echo "PLATFORM_CONTRACT_ROOT=$target" >> "$GITHUB_ENV"
+
+      - name: Install validator dependencies
+        run: python3 -m pip install --disable-pip-version-check PyYAML==6.0.2 jsonschema==4.25.1
+
+      - name: Validate Contract 0.4 declaration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 "$PLATFORM_CONTRACT_ROOT/scripts/validate_platform_manifest.py" goreecloud.platform.yaml
+          python3 "$PLATFORM_CONTRACT_ROOT/scripts/evaluate_platform_conformance.py" \
+            goreecloud.platform.yaml \
+            --revision "$EXPECTED_SHA" \
+            --evaluator-revision "$PLATFORM_CONTRACT_SHA" \
+            --output goreecloud.conformance-result.json
+
+      - name: Verify shared-library Release Candidate boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          import yaml
+
+          manifest = yaml.safe_load(Path("goreecloud.platform.yaml").read_text(encoding="utf-8"))
+          lifecycle = json.loads(Path("registry/lifecycle.json").read_text(encoding="utf-8"))
+          result = json.loads(Path("goreecloud.conformance-result.json").read_text(encoding="utf-8"))
+
+          assert manifest["component"]["type"] == "shared-library"
+          assert manifest["component"]["repository"] == "GoreeCloud/goreecloud-glaze-ui"
+          assert manifest["lifecycle"] == "release-candidate"
+          assert manifest["version"] == "1.6.0-rc.1"
+          assert manifest["conformance"]["status"] == "nonconformant"
+          assert manifest["conformance"]["validated_at"] is None
+          assert manifest["external_dependencies"] == []
+          assert lifecycle["currentStable"] == "1.5.1"
+          assert lifecycle["currentOfficial"] == "1.5.1"
+          assert lifecycle["activeCandidate"] == "1.6.0-rc.1"
+          assert result["evaluated_revision"] == __import__("os").environ["EXPECTED_SHA"]
+          assert result["evaluator_revision"] == __import__("os").environ["PLATFORM_CONTRACT_SHA"]
+          assert result["stable_eligible"] is False
+
+          evidence_paths = set()
+          for entry in manifest["platform_systems"].values():
+              evidence_paths.update(entry.get("evidence", []))
+          for entry in manifest["evidence"]["acceptance_tests"]:
+              evidence_paths.add(entry["path"])
+          for entry in manifest["evidence"]["release"]:
+              evidence_paths.add(entry["path"])
+          evidence_paths.update(manifest["conformance"]["evidence"])
+
+          missing = sorted(path for path in evidence_paths if not Path(path).is_file())
+          if missing:
+              raise SystemExit("missing manifest evidence paths: " + ", ".join(missing))
+
+          print("platform-contract: Glaze UI shared-library RC boundary validated")
+          print("platform-contract: Stable eligibility remains false")
+          PY
+
+      - name: Verify repository action integrity
+        run: |
+          python3 -m py_compile scripts/validate_github_actions_runtime_integrity.py
+          python3 scripts/validate_github_actions_runtime_integrity.py
+
+      - name: Upload exact-head Platform Contract evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: glaze-platform-contract-${{ env.EXPECTED_SHA }}
+          path: goreecloud.conformance-result.json
+          if-no-files-found: error
+          retention-days: 90
