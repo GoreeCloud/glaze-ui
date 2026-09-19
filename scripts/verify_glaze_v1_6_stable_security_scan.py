@@ -128,18 +128,26 @@ def main() -> int:
     require(osv_exit == 0, f"OSV-Scanner did not complete cleanly: exit {osv_exit}")
     require(sbom_exit == 0, f"OSV-Scanner SBOM generation did not complete cleanly: exit {sbom_exit}")
 
+    false_positive_review = load_json(ROOT / "acceptance/v1.6-gitleaks-false-positive-review.json")
+    require(false_positive_review.get("disposition") == "verified-false-positives", "Gitleaks false-positive review must be accepted")
+    require(false_positive_review.get("findingCount") == 21, "Gitleaks false-positive review count mismatch")
+    ignore_path = ROOT / ".gitleaksignore"
+    require(ignore_path.is_file(), ".gitleaksignore is missing")
+    ignore_entries = [
+        line.strip()
+        for line in ignore_path.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    require(len(ignore_entries) == 21, "Gitleaks ignore file must contain exactly the 21 reviewed fingerprints")
+    require(len(set(ignore_entries)) == 21, "Gitleaks ignore fingerprints must be unique")
+
     gitleaks = load_json(Path(args.gitleaks_report))
     require(isinstance(gitleaks, list), "Gitleaks JSON report must be a list")
     secret_findings = len(gitleaks)
-    require(secret_findings == 0, f"Gitleaks found {secret_findings} potential secret finding(s)")
 
     osv = load_json(Path(args.osv_report))
     package_count, vulnerability_ids = summarize_osv(osv)
     require(package_count > 0, "OSV scan discovered zero dependency packages; coverage is not established")
-    require(
-        not vulnerability_ids,
-        "known dependency vulnerabilities found: " + ", ".join(vulnerability_ids),
-    )
 
     sbom = load_json(Path(args.sbom))
     require(sbom.get("bomFormat") == "CycloneDX", "SBOM must use CycloneDX")
@@ -148,8 +156,6 @@ def main() -> int:
     require(isinstance(components, list) and components, "CycloneDX SBOM contains no components")
     sbom_vulnerabilities = sbom.get("vulnerabilities", [])
     require(isinstance(sbom_vulnerabilities, list), "CycloneDX vulnerabilities must be a list")
-    require(not sbom_vulnerabilities, "CycloneDX SBOM reports known vulnerabilities")
-
     for label, digest in (
         ("gitleaks", args.gitleaks_sha256),
         ("osv-scanner", args.osv_sha256),
@@ -157,10 +163,18 @@ def main() -> int:
     ):
         require(re.fullmatch(r"[0-9a-f]{64}", digest) is not None, f"{label} SHA-256 must be lowercase hex")
 
+    blocked_reasons = []
+    if secret_findings:
+        blocked_reasons.append(f"unreviewed secret findings: {secret_findings}")
+    if vulnerability_ids:
+        blocked_reasons.append(f"known dependency vulnerability advisories: {len(vulnerability_ids)}")
+    if sbom_vulnerabilities:
+        blocked_reasons.append(f"CycloneDX vulnerability entries: {len(sbom_vulnerabilities)}")
+
     output = {
         "schemaVersion": 1,
         "kind": "goreecloud-glaze-v1.6-stable-security-scan-evidence",
-        "result": "passed",
+        "result": "blocked" if blocked_reasons else "passed",
         "sourceRevision": head,
         "lifecycle": {
             "currentStable": "1.5.1",
@@ -173,7 +187,9 @@ def main() -> int:
             "binarySha256": args.gitleaks_sha256,
             "scope": "complete fetched Git history for the exact repository checkout",
             "findingCount": secret_findings,
-            "result": "passed",
+            "reviewedHistoricalFalsePositiveCount": false_positive_review.get("findingCount"),
+            "suppressionMethod": false_positive_review.get("suppression", {}).get("method"),
+            "result": "passed" if secret_findings == 0 else "blocked",
         },
         "dependencyVulnerabilityScan": {
             "tool": "osv-scanner",
@@ -182,14 +198,14 @@ def main() -> int:
             "input": "generated Gradle verification metadata plus recursively discovered supported lockfiles/manifests",
             "packageCount": package_count,
             "vulnerabilityIds": vulnerability_ids,
-            "result": "passed",
+            "result": "passed" if not vulnerability_ids else "blocked",
         },
         "sbom": {
             "format": "CycloneDX",
             "specVersion": "1.5",
             "componentCount": len(components),
             "vulnerabilityCount": len(sbom_vulnerabilities),
-            "result": "passed",
+            "result": "passed" if not sbom_vulnerabilities else "blocked",
         },
         "dependencyResolution": {
             "tool": "Gradle",
@@ -201,6 +217,7 @@ def main() -> int:
                 "reference/native/wear-os/buildable",
             ],
         },
+        "blockedReasons": blocked_reasons,
         "limitations": [
             "This record proves the scanners completed successfully for the exact checked-out revision and their discoverable dependency inputs; it does not prove that advisory databases contain every vulnerability.",
             "The primary Glaze UI JavaScript runtime has no npm/pnpm/yarn or Python package manifest in this repository; Android/Wear dependencies are resolved from the buildable reference projects into verification metadata for scanning.",
@@ -213,13 +230,16 @@ def main() -> int:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(output, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
-    print("GLAZE UI V1.6 Stable security scan evidence: PASS")
+    print(f"GLAZE UI V1.6 Stable security scan evidence: {output['result'].upper()}")
     print(f"Exact revision: {head}")
-    print(f"Secret findings: {secret_findings}")
+    print(f"Unreviewed secret findings: {secret_findings}")
+    print(f"Reviewed historical false positives: {false_positive_review.get('findingCount')}")
     print(f"Dependency packages scanned: {package_count}")
-    print("Known dependency vulnerabilities: 0")
+    print(f"Known dependency vulnerability advisories: {len(vulnerability_ids)}")
     print(f"CycloneDX components: {len(components)}")
     print("Stable promotion authorized: false")
+    if blocked_reasons:
+        raise SecurityEvidenceError("; ".join(blocked_reasons))
     return 0
 
 
