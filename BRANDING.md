@@ -36,7 +36,7 @@ Brand expression must never override:
 - Forced Colors.
 - Producer-authoritative privacy, security, identity, policy, recovery, connectivity, capability, or operational state.
 
-V1.6 may expand the presentation system, but Release Candidate identity does not make it the consumer target until a separate governed Stable promotion changes authoritative lifecycle state.
+V1.6.0 is the current shared Stable consumer target. That shared Stable identity does not automatically migrate, qualify, deploy, or production-accept any downstream application; consumer evidence remains repository-local.
 
 ## Historical branding
 
