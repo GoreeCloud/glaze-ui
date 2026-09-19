@@ -133,10 +133,16 @@ def main() -> int:
     require(false_positive_review.get("findingCount") == 21, "Gitleaks false-positive review count mismatch")
 
     dependency_classification = load_json(ROOT / "acceptance/v1.6-dependency-vulnerability-classification.json")
+    security_review = load_json(ROOT / "acceptance/v1.6-stable-security-review.json")
     require(
         dependency_classification.get("decision") == "blocked-unresolved-build-tooling-vulnerabilities",
         "dependency classification must remain blocking",
     )
+    require(security_review.get("overallDecision") == "blocked", "Stable security review must remain blocked")
+    require(security_review.get("stableSecurityAcceptanceGranted") is False, "Stable security acceptance must remain false")
+    require(security_review.get("stablePromotionAuthorized") is False, "security review must not authorize Stable promotion")
+    require(security_review.get("secretHistory", {}).get("result") == "passed", "secret-history disposition must be passed")
+    require(security_review.get("dependencySupplyChain", {}).get("result") == "blocked", "dependency disposition must remain blocked")
     require(
         dependency_classification.get("stablePromotionAuthorized") is False,
         "dependency classification must not authorize Stable promotion",
@@ -177,6 +183,17 @@ def main() -> int:
         or (osv_exit == 1 and bool(vulnerability_ids)),
         f"OSV exit/report inconsistency: exit={osv_exit} vulnerabilities={len(vulnerability_ids)}",
     )
+    expected_advisories = dependency_classification.get("distinctAdvisoryIds")
+    require(isinstance(expected_advisories, list), "dependency classification advisory set missing")
+    require(len(expected_advisories) == 50, "dependency classification must retain the reviewed 50-advisory set")
+    require(
+        vulnerability_ids == sorted(expected_advisories),
+        "live OSV advisory set differs from the governed dependency classification",
+    )
+    require(
+        package_count == dependency_classification.get("scanSummary", {}).get("osvPackageEntryCount"),
+        "live OSV package-entry count differs from governed classification",
+    )
 
     sbom = load_json(Path(args.sbom))
     require(sbom.get("bomFormat") == "CycloneDX", "SBOM must use CycloneDX")
@@ -204,6 +221,14 @@ def main() -> int:
         blocked_reasons.append(f"known dependency vulnerability advisories: {len(vulnerability_ids)}")
     if sbom_vulnerabilities:
         blocked_reasons.append(f"CycloneDX vulnerability entries: {len(sbom_vulnerabilities)}")
+
+    require(secret_findings == 0, "unreviewed secret findings are not an accepted blocked-state condition")
+    require(len(vulnerability_ids) == 50, "expected governed dependency blocker count is 50")
+    require(len(sbom_vulnerabilities) == 50, "CycloneDX vulnerability count must match the governed 50-advisory blocker")
+    require(
+        dependency_classification.get("scanSummary", {}).get("recordedRuntimeMatchedVulnerableEntryCount") == 0,
+        "runtime-boundary classification must remain zero matched vulnerable entries",
+    )
 
     output = {
         "schemaVersion": 1,
@@ -257,6 +282,13 @@ def main() -> int:
             "The primary Glaze UI JavaScript runtime has no npm/pnpm/yarn or Python package manifest in this repository; Android/Wear dependencies are resolved from the buildable reference projects into verification metadata for scanning.",
             "Passing security scans do not grant Stable, production readiness, production acceptance, publication, or downstream consumer acceptance.",
         ],
+        "governedDisposition": {
+            "securityReview": "acceptance/v1.6-stable-security-review.json",
+            "dependencyClassification": "acceptance/v1.6-dependency-vulnerability-classification.json",
+            "overallDecision": security_review.get("overallDecision"),
+            "stableSecurityAcceptanceGranted": security_review.get("stableSecurityAcceptanceGranted"),
+            "evidenceCollectionValidated": True,
+        },
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     }
 
@@ -272,9 +304,18 @@ def main() -> int:
     print(f"Known dependency vulnerability advisories: {len(vulnerability_ids)}")
     print(f"CycloneDX components: {len(components)}")
     print("Stable promotion authorized: false")
-    if blocked_reasons:
-        raise SecurityEvidenceError("; ".join(blocked_reasons))
-    return 0
+    if output["result"] == "blocked":
+        require(
+            security_review.get("overallDecision") == "blocked"
+            and security_review.get("dependencySupplyChain", {}).get("advisoryCount") == 50,
+            "live blocked scan is not represented by the governed security review",
+        )
+        print("Governed evidence disposition: VALIDATED BLOCKED")
+        return 0
+
+    raise SecurityEvidenceError(
+        "security scan no longer matches the governed blocked review; update the security review before acceptance"
+    )
 
 
 if __name__ == "__main__":
