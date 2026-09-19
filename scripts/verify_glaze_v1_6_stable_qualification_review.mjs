@@ -9,6 +9,7 @@ const rcReview = readJson('acceptance/v1.6-qualification-review.json');
 const readiness = readJson('acceptance/v1.6-production-readiness-review.json');
 const driveReconciliation = readJson('acceptance/v1.6-drive-document-reconciliation.json');
 const productionApplicability = readJson('acceptance/v1.6-production-applicability.json');
+const artifactPlan = readJson('acceptance/v1.6-artifact-provenance-plan.json');
 
 assert.equal(fs.readFileSync(new URL('../VERSION', import.meta.url), 'utf8').trim(), '1.5.1');
 assert.equal(lifecycle.currentStable, '1.5.1');
@@ -75,6 +76,14 @@ assert.equal(productionApplicability.productionAcceptanceApplicability?.finalArt
 assert.equal(productionApplicability.currentDisposition?.publicationAcceptanceCompleted, false);
 assert.equal(productionApplicability.currentDisposition?.stablePromotionAuthorized, false);
 assert.ok(review.verifiedPasses.some(item => item.id === 'production-acceptance.applicability' && item.status === 'passed-applicability-resolved'), 'Production applicability must be a verified resolved boundary');
+assert.equal(artifactPlan.status, 'prepared-rehearsal-not-final');
+assert.equal(artifactPlan.decision, 'artifact-path-prepared-final-artifact-still-blocked');
+assert.equal(artifactPlan.currentBoundary?.stablePromotionAuthorized, false);
+assert.equal(artifactPlan.currentBoundary?.finalStableRevisionSelected, false);
+assert.equal(artifactPlan.rehearsal?.publishesTag, false);
+assert.equal(artifactPlan.rehearsal?.publishesGithubRelease, false);
+assert.equal(artifactPlan.rehearsal?.grantsStable, false);
+assert.equal(blockers.get('release.artifact-provenance-and-publication-boundary')?.status, 'blocked-prepared-awaiting-final-exact-artifact');
 assert.equal(review.remainingBlockerCount, 4, 'remainingBlockerCount must be four');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
 assert.equal(review.stablePromotionAuthorized, false);
