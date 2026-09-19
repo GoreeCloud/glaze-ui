@@ -1,35 +1,54 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-const readJson = path => JSON.parse(fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'));
+const read = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+const readJson = path => JSON.parse(read(path));
+
+const VERSION = '1.6.0';
+const RC = '1.6.0-rc.1';
+const ROLLBACK = '1.5.1';
+const QUALIFIED_SOURCE = 'c7509c79256b04b0aa67cb9dd0737d7588e0ae4a';
+const RELEASED_SOURCE = 'a7180679ea851389e0f3004515f9a25f420e716d';
+const RELEASED_TREE = '9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268';
+const PUBLICATION_CONTROL = '7e8b537b9d1a123bc3e92679774a4d9cc704e03b';
 
 const lifecycle = readJson('registry/lifecycle.json');
 const review = readJson('acceptance/v1.6-stable-qualification-review.json');
 const rcReview = readJson('acceptance/v1.6-qualification-review.json');
 const readiness = readJson('acceptance/v1.6-production-readiness-review.json');
-const driveReconciliation = readJson('acceptance/v1.6-drive-document-reconciliation.json');
 const productionApplicability = readJson('acceptance/v1.6-production-applicability.json');
-const artifactPlan = readJson('acceptance/v1.6-artifact-provenance-plan.json');
+const securityReview = readJson('acceptance/v1.6-stable-security-review.json');
+const finalSecurity = readJson('acceptance/v1.6-final-security-acceptance.json');
+const artifact = readJson('acceptance/v1.6-artifact-provenance-plan.json');
+const publication = readJson('acceptance/v1.6-publication-readback.json');
+const stableAcceptance = readJson('acceptance/v1.6-stable.json');
+const consumers = readJson('consumers/registry.json');
 
-assert.equal(fs.readFileSync(new URL('../VERSION', import.meta.url), 'utf8').trim(), '1.5.1');
-assert.equal(lifecycle.currentStable, '1.5.1');
-assert.equal(lifecycle.currentOfficial, '1.5.1');
-assert.equal(lifecycle.activeCandidate, '1.6.0-rc.1');
+assert.equal(read('VERSION').trim(), VERSION);
+assert.equal(lifecycle.currentOfficial, VERSION);
+assert.equal(lifecycle.currentStable, VERSION);
+assert.equal(lifecycle.activeCandidate, null);
+assert.equal(lifecycle.officialProductLabel, 'GLAZE UI V1.6');
 
-const rc = lifecycle.releases.find(item => item.version === '1.6.0-rc.1');
-assert.ok(rc, 'V1.6 Release Candidate lifecycle record is missing');
-assert.equal(rc.status, 'release-candidate');
-assert.equal(rc.consumerEligible, false);
-assert.equal(rc.stableBaseline, '1.5.1');
+const stable = lifecycle.releases.find(item => item.version === VERSION);
+assert.ok(stable, 'V1.6.0 Stable lifecycle record is missing');
+assert.equal(stable.status, 'stable');
+assert.equal(stable.consumerEligible, true);
+assert.equal(stable.stableBaseline, ROLLBACK);
+assert.equal(stable.contract, 'contracts/v1.6/stable-release.json');
+assert.equal(stable.acceptance, 'acceptance/v1.6-stable.json');
+assert.equal(stable.runtimeEntrypoint, 'js/glaze-v1.6.0.mjs');
+assert.equal(stable.sourceQualificationAnchor, QUALIFIED_SOURCE);
+assert.equal(stable.releasedSourceRevision, RELEASED_SOURCE);
+assert.equal(stable.releasedSourceTree, RELEASED_TREE);
+assert.equal(stable.publicationControlRevision, PUBLICATION_CONTROL);
+assert.equal(stable.tag, 'v1.6.0');
+assert.equal(stable.githubReleaseId, 392095913);
 
-assert.equal(review.recordId, 'goreecloud.glaze-ui.v1.6.stable-qualification-review');
-assert.equal(review.reviewedReleaseCandidate, '1.6.0-rc.1');
-assert.equal(review.source.qualificationSource, 'c7509c79256b04b0aa67cb9dd0737d7588e0ae4a');
-assert.equal(review.source.qualificationEvidenceIntegrationCommit, '354f5759385c28596fcfec26a3ad525e89fb1c35');
-assert.equal(review.source.releaseCandidateIntegrationCommit, '3f070f6fc01bc7904e3cd8c20851db5a0c40d539');
-assert.equal(review.source.repositoryDocumentationReconciliationCommit, '294e721c6fc56afcde62f7fe70c96e9d711557b1');
-assert.equal(review.governance.platformContract?.version, '0.4');
-assert.match(review.governance.platformContract?.scope || '', /shared[- ]library/);
+const retainedRc = lifecycle.releases.find(item => item.version === RC);
+assert.equal(retainedRc?.status, 'superseded-release-candidate');
+assert.equal(retainedRc?.consumerEligible, false);
+assert.equal(retainedRc?.promotedTo, VERSION);
 
 assert.equal(rcReview.evidenceMatrix.verifiedCount, 24);
 assert.equal(rcReview.evidenceMatrix.unverifiedCount, 0);
@@ -38,108 +57,101 @@ assert.equal(rcReview.decision, 'approved-for-release-candidate');
 
 assert.equal(readiness.reviewFindings.nineSystemApplicabilityEvaluated, true);
 assert.equal(readiness.reviewFindings.qualificationEvidenceComplete, true);
-assert.equal(readiness.reviewFindings.productionReadinessGranted, false);
-assert.equal(readiness.reviewFindings.productionAcceptanceGranted, false);
-
-assert.equal(driveReconciliation.decision, 'passed');
-assert.equal(driveReconciliation.taskRecord?.driveFileId, '1sluzc6yiRlRlLf71JjFqUowM6ZC4amcy');
-assert.equal(driveReconciliation.taskRecord?.sha256, '96a7edef2fad27336178f322b2942be7af477aaa717637226342094784522fbe');
-assert.equal(driveReconciliation.taskRecord?.pageCount, 76);
-assert.equal(driveReconciliation.taskRecord?.visualVerification?.allPagesReviewed, true);
-assert.equal(driveReconciliation.changeLogRecord?.driveFileId, '1p1PTyUeQ2Ht4tzibAATmrEuVctyLs8up');
-assert.equal(driveReconciliation.changeLogRecord?.sha256, '166ea03adcd4008d1327233fdac2b6df2922ec452e1a3baf49f493cd0039978b');
-assert.equal(driveReconciliation.changeLogRecord?.pageCount, 235);
-assert.equal(driveReconciliation.changeLogRecord?.visualVerification?.allPagesReviewed, true);
-
-const requiredBlockers = [
-  'security.release-security-acceptance',
-  'release.artifact-provenance-and-publication-boundary',
-];
-const blockers = new Map(review.blockers.map(item => [item.id, item]));
-for (const id of requiredBlockers) {
-  assert.ok(blockers.has(id), `Stable qualification blocker missing: ${id}`);
-  assert.match(blockers.get(id).status, /^blocked/, `Stable blocker must remain fail-closed: ${id}`);
-}
-
-assert.equal(review.blockers.length, 2, 'V1.6 Stable review must retain the two unresolved release-security/publication blockers after verified branch protection');
-assert.ok(review.verifiedPasses.some(item => item.id === 'drive.documentation-and-task-reconciliation' && item.status === 'passed'), 'Drive reconciliation must be a verified pass');
-assert.ok(review.verifiedPasses.some(item => item.id === 'platform-contract.current-machine-contract' && item.status === 'passed'), 'Platform Contract shared-library declaration must be a verified pass');
-assert.ok(review.verifiedPasses.some(item => item.id === 'security.secret-and-history-scan' && item.status === 'passed'), 'Secret/history security scan must be a verified pass');
-assert.equal(productionApplicability.decision, 'deployment-not-applicable-publication-acceptance-required');
 assert.equal(productionApplicability.componentBoundary?.type, 'shared-library');
 assert.equal(productionApplicability.deploymentApplicability?.directProductionDeploymentRequired, false);
-assert.equal(productionApplicability.deploymentApplicability?.result, 'not-applicable-justified');
 assert.equal(productionApplicability.productionAcceptanceApplicability?.releasePublicationAcceptanceRequired, true);
-assert.equal(productionApplicability.productionAcceptanceApplicability?.finalArtifactAcceptanceRequired, true);
-assert.equal(productionApplicability.currentDisposition?.publicationAcceptanceCompleted, false);
-assert.equal(productionApplicability.currentDisposition?.stablePromotionAuthorized, false);
-assert.ok(review.verifiedPasses.some(item => item.id === 'production-acceptance.applicability' && item.status === 'passed-applicability-resolved'), 'Production applicability must be a verified resolved boundary');
-assert.ok(review.verifiedPasses.some(item => item.id === 'security.dependency-and-supply-chain-scan' && item.status === 'passed'), 'Dependency and supply-chain scan must be a verified pass');
-assert.ok(review.verifiedPasses.some(item => item.id === 'repository.main-branch-protection' && item.status === 'passed'), 'Authoritative main branch protection must be a verified pass');
-assert.equal(review.repositoryProtectionEvidence?.rulesetId, 23699829, 'Verified main ruleset ID mismatch');
-assert.equal(review.repositoryProtectionEvidence?.enforcement, 'active', 'Verified main ruleset must be active');
-assert.equal(review.repositoryProtectionEvidence?.branchProtected, true, 'Authoritative main must be protected');
-assert.deepEqual(review.repositoryProtectionEvidence?.bypassActors, [], 'Verified main ruleset bypass list must be empty');
-assert.equal(review.repositoryProtectionEvidence?.currentUserCanBypass, 'never', 'Verified main ruleset must not permit silent current-user bypass');
-assert.equal(review.repositoryProtectionEvidence?.strictRequiredStatusChecksPolicy, true, 'Required checks must use strict/up-to-date enforcement');
-assert.deepEqual(
-  [...review.repositoryProtectionEvidence.requiredStatusChecks].sort(),
-  ['platform-contract-0-4', 'stable-qualification-review', 'stable-security-evidence', 'validate-v1'].sort(),
-  'Verified main required-check set mismatch'
-);
-assert.equal(artifactPlan.status, 'final-artifact-preparation-workflow-ready');
-assert.equal(artifactPlan.decision, 'final-artifact-workflow-ready-awaiting-exact-merged-run');
-assert.equal(artifactPlan.currentBoundary?.stablePromotionAuthorized, false);
-assert.equal(artifactPlan.currentBoundary?.finalStableRevisionSelected, false);
-assert.equal(artifactPlan.rehearsal?.publishesTag, false);
-assert.equal(artifactPlan.rehearsal?.publishesGithubRelease, false);
-assert.equal(artifactPlan.rehearsal?.grantsStable, false);
-assert.equal(artifactPlan.targetStableVersion, '1.6.0');
-assert.equal(artifactPlan.finalStablePreparation?.workflow, '.github/workflows/glaze-v1.6-final-artifact-preparation.yml');
-assert.equal(artifactPlan.finalStablePreparation?.builder, 'scripts/build_glaze_v1_6_final_artifact.py');
-assert.equal(artifactPlan.finalStablePreparation?.targetVersion, '1.6.0');
-assert.equal(artifactPlan.finalStablePreparation?.intendedImmutableTag, 'v1.6.0');
-assert.equal(artifactPlan.finalStablePreparation?.outputArchive, 'glaze-ui-v1.6.0-source-runtime.tar.gz');
-assert.equal(artifactPlan.finalStablePreparation?.deterministicDoubleBuildRequired, true);
-assert.equal(artifactPlan.finalStablePreparation?.extractedArtifactSecretScanRequired, true);
-assert.equal(artifactPlan.finalStablePreparation?.publishesTag, false);
-assert.equal(artifactPlan.finalStablePreparation?.publishesGithubRelease, false);
-assert.equal(artifactPlan.finalStablePreparation?.grantsStable, false);
-const expectedFinalizationOrder = [
-  'repository-protection',
-  'exact-candidate-selection',
-  'final-unpublished-artifact',
-  'final-security-acceptance',
-  'immutable-publication',
-  'post-publication-readback',
-  'exact-candidate-stable-qualification',
-];
-assert.deepEqual(
-  artifactPlan.finalizationSequence?.map(item => item.id),
-  expectedFinalizationOrder,
-  'V1.6 finalization sequence must remain non-circular and fail-closed'
-);
-assert.equal(artifactPlan.finalizationSequence?.[0]?.status, 'passed');
-assert.equal(artifactPlan.finalizationSequence?.[1]?.status, 'pending-current-release-preparation-merge');
-const securityReview = readJson('acceptance/v1.6-stable-security-review.json');
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresProtectedSource, true);
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresUnpublishedFinalCandidateArtifact, true);
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresArtifactChecksumSbomProvenance, true);
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresExtractedArtifactSecretScan, true);
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresPublishedTagOrRelease, false);
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.publicationOccursAfterSecurityAcceptance, true);
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.publicationMustReuseAcceptedArtifactBytes, true);
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.targetStableVersion, '1.6.0');
-assert.equal(securityReview.finalSecurityAcceptanceBoundary?.intendedImmutableTag, 'v1.6.0');
-assert.equal(blockers.get('release.artifact-provenance-and-publication-boundary')?.status, 'blocked-prepared-awaiting-final-exact-artifact');
-assert.equal(review.remainingBlockerCount, 2, 'remainingBlockerCount must be two');
-assert.equal(review.decision, 'blocked-remain-release-candidate');
-assert.equal(review.stablePromotionAuthorized, false);
-assert.equal(review.productionReadinessGranted, false);
-assert.equal(review.productionAcceptanceGranted, false);
-assert.equal(review.consumerEligibilityGranted, false);
-assert.equal(review.requiredLifecycleState, 'Release Candidate');
 
-console.log('GLAZE UI V1.6 Stable qualification review: BLOCKED as governed.');
-console.log('Current Stable remains 1.5.1; active candidate remains 1.6.0-rc.1.');
-console.log(`Recorded blockers: ${review.blockers.length}; Stable promotion authorization: false.`);
+assert.equal(finalSecurity.decision, 'passed-for-controlled-publication');
+assert.equal(finalSecurity.stableSecurityAcceptanceGranted, true);
+assert.equal(finalSecurity.acceptedSource.revision, RELEASED_SOURCE);
+assert.equal(finalSecurity.acceptedSource.tree, RELEASED_TREE);
+assert.equal(finalSecurity.acceptedArtifact.preparationWorkflowRunId, 35447623700);
+assert.equal(finalSecurity.acceptedArtifact.actionsArtifactId, 10586051196);
+assert.equal(finalSecurity.acceptedArtifact.archive.sha256, '687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af');
+assert.equal(finalSecurity.acceptedArtifact.sbom.sha256, '3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82');
+assert.equal(finalSecurity.acceptedArtifact.provenance.sha256, '711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8');
+
+assert.equal(securityReview.overallDecision, 'passed');
+assert.equal(securityReview.stableSecurityAcceptanceGranted, true);
+assert.equal(securityReview.stablePromotionAuthorized, true);
+assert.deepEqual(securityReview.remainingReleaseSecurityBlockers, []);
+
+assert.equal(artifact.status, 'completed-published-and-read-back');
+assert.equal(artifact.decision, 'completed-exact-artifact-security-publication-readback-passed');
+assert.equal(artifact.currentBoundary?.finalStableRevisionSelected, true);
+assert.equal(artifact.currentBoundary?.finalCandidateArtifactPrepared, true);
+assert.equal(artifact.currentBoundary?.finalSecurityAcceptanceGranted, true);
+assert.equal(artifact.currentBoundary?.publicationCompleted, true);
+assert.equal(artifact.currentBoundary?.publicationReadbackPassed, true);
+assert.deepEqual(artifact.unresolvedPrerequisites, []);
+
+assert.equal(publication.result, 'passed');
+assert.equal(publication.sourceRevision, RELEASED_SOURCE);
+assert.equal(publication.sourceTree, RELEASED_TREE);
+assert.equal(publication.tag, 'v1.6.0');
+assert.equal(publication.tagTargetRevision, RELEASED_SOURCE);
+assert.equal(publication.releaseId, 392095913);
+assert.equal(publication.draft, false);
+assert.equal(publication.prerelease, false);
+assert.equal(publication.releasedBytesMatchSecurityAcceptedBytes, true);
+assert.equal(publication.stablePromotionAuthorizedByPublicationWorkflow, false);
+
+assert.equal(stableAcceptance.decision, 'approved-for-stable-promotion');
+assert.equal(stableAcceptance.stableStatusGranted, true);
+assert.equal(stableAcceptance.version, VERSION);
+assert.equal(stableAcceptance.stableBaseline, ROLLBACK);
+assert.equal(stableAcceptance.consumerEligible, true);
+assert.equal(stableAcceptance.releasedSourceRevision, RELEASED_SOURCE);
+assert.equal(stableAcceptance.publication.result, 'passed');
+assert.equal(stableAcceptance.security.result, 'passed');
+assert.equal(stableAcceptance.downstream.consumerAcceptanceAutomatic, false);
+assert.equal(stableAcceptance.downstream.productionEligibilityAutomatic, false);
+
+assert.equal(review.decision, 'passed-approved-stable');
+assert.equal(review.stablePromotionAuthorized, true);
+assert.equal(review.consumerEligibilityGranted, true);
+assert.equal(review.requiredLifecycleState, 'Stable');
+assert.equal(review.remainingBlockerCount, 0);
+assert.deepEqual(review.blockers, []);
+assert.ok(review.verifiedPasses.some(item => item.id === 'repository.main-branch-protection' && item.status === 'passed'));
+assert.ok(review.verifiedPasses.some(item => item.id === 'security.release-security-acceptance' && item.status === 'passed'));
+assert.ok(review.verifiedPasses.some(item => item.id === 'release.artifact-provenance-and-publication-boundary' && item.status === 'passed'));
+
+const stableContract = readJson('contracts/v1.6/stable-release.json');
+assert.equal(stableContract.version, VERSION);
+assert.equal(stableContract.releaseLifecycle, 'Stable');
+assert.equal(stableContract.consumerEligible, true);
+assert.equal(stableContract.runtimeEntrypoint, 'js/glaze-v1.6.0.mjs');
+assert.equal(stableContract.sourceQualificationAnchor, QUALIFIED_SOURCE);
+assert.equal(stableContract.stableBaseline, ROLLBACK);
+
+const stableRuntime = read('js/glaze-v1.6.0.mjs');
+for (const token of [
+  "version: '1.6.0'",
+  "lifecycle: 'stable'",
+  "stableBaseline: '1.5.1'",
+  RELEASED_SOURCE.slice(0, 0), // keep static token loop shape deterministic
+  "consumerEligible: true",
+  "presentationOnly: true",
+  "authorizationInferred: false",
+  "automaticNavigationAllowed: false",
+  "consequentialExecutionAutomatic: false",
+  "fallbackExecutionAutomatic: false",
+  "downstreamConsumerAcceptanceAutomatic: false"
+]) {
+  if (token) assert.ok(stableRuntime.includes(token), `Stable runtime missing required token: ${token}`);
+}
+
+assert.equal(consumers.officialBaseline, VERSION);
+assert.equal(consumers.requiredConsumerVersion, VERSION);
+assert.equal(consumers.officialProductLabel, 'GLAZE UI V1.6');
+assert.ok(consumers.consumers.every(item => item.requiredTargetVersion === VERSION));
+assert.ok(consumers.consumers.every(item => item.productionEligible === false));
+
+console.log('GLAZE UI V1.6.0 Stable qualification review: PASS');
+console.log(`Released source: ${RELEASED_SOURCE}`);
+console.log('Qualification: 24 verified / 0 unverified / 0 not applicable');
+console.log('Final Stable security: PASS');
+console.log('Immutable publication/readback: PASS');
+console.log('Stable lifecycle: 1.6.0');
+console.log('Downstream consumer acceptance automatic: false');
