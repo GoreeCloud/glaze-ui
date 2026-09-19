@@ -8,12 +8,12 @@ Glaze UI is a shared design-system and interaction runtime, not an end-user appl
 
 ## Current lifecycle
 
-- **Current Official Stable:** GLAZE UI V1.5 / `1.5.1`
-- **Stable runtime:** `js/glaze-v1.5.1.mjs`
-- **Stable web/material baseline:** `css/glaze-v1.4.1.css`
-- **Active Release Candidate:** GLAZE UI V1.6 / `1.6.0-rc.1`
-- **V1.6 RC runtime:** `js/glaze-v1.6.0-rc.1.mjs`
-- **Current consumer target:** `1.5.1`
+- **Current Official Stable:** GLAZE UI V1.6 / `1.6.0`
+- **Stable runtime:** `js/glaze-v1.6.0.mjs`
+- **Stable web/material baseline:** `css/glaze-v1.4.1.css` where not superseded by V1.6 semantic contracts
+- **Immediate rollback Stable:** GLAZE UI V1.5 / `1.5.1`
+- **Retained Release Candidate provenance:** `1.6.0-rc.1` (superseded, non-consumer-eligible)
+- **Current consumer target:** `1.6.0`
 - **Lifecycle authority:** `VERSION` and `registry/lifecycle.json`
 
 Do not infer lifecycle state from a filename, branch name, screenshot, historical changelog entry, or retained Candidate/Development record.
