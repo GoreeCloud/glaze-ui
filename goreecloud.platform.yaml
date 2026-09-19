@@ -153,9 +153,8 @@ conformance:
   evidence:
     - acceptance/v1.6-stable-qualification-review.json
   blockers:
-    - Authoritative default-branch protection is not enabled on goreecloud-glaze-ui main.
-    - Final Stable release-security acceptance remains unresolved pending protected security-gate enforcement and final artifact/source provenance.
-    - The final Stable release artifact, checksum, SBOM, provenance, signing, immutable publication identity, and post-publication readback remain unresolved.
+    - Final Stable release-security acceptance remains unresolved pending the exact unpublished final artifact/source-provenance evidence for the protected candidate.
+    - The final Stable release artifact acceptance, immutable publication identity, post-publication readback, and final exact-candidate Stable qualification remain unresolved.
 
 # This manifest represents the governed V1.6 Release Candidate as a shared library.
 # It deliberately remains nonconformant for Stable while the listed release blockers remain open.
