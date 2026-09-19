@@ -67,7 +67,7 @@ assert.deepEqual(qualification.evidenceMatrix.blockingLaneIds, []);
 const security = json('acceptance/v1.6-stable-security-review.json');
 assert.equal(security.overallDecision, 'passed');
 assert.equal(security.stableSecurityAcceptanceGranted, true);
-assert.equal(security.stablePromotionAuthorized, true);
+assert.equal(security.stablePromotionAuthorized, false);
 assert.deepEqual(security.remainingReleaseSecurityBlockers, []);
 assert.equal(security.finalArtifactSourceProvenance.acceptedSourceRevision, RELEASE_SOURCE);
 assert.equal(security.finalArtifactSourceProvenance.releasedBytesMatchSecurityAcceptedBytes, true);
