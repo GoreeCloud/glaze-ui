@@ -91,6 +91,16 @@ jobs:
           assert accepted["artifact"]["provenanceSha256"] == "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8"
           assert accepted["publicationBoundary"]["mustPublishOnlyAcceptedArtifactBytes"] is True
           assert accepted["publicationBoundary"]["rebuildForPublicationProhibited"] is True
+          matrix = accepted["stableSecurityControlMatrix"]
+          assert matrix["evaluatedControlCount"] == 39
+          assert matrix["passedOrBoundedPassedCount"] == 14
+          assert matrix["notApplicableJustifiedCount"] == 25
+          assert matrix["blockedCount"] == 0
+          assert matrix["unknownCount"] == 0
+          assert matrix["exceptedCount"] == 0
+          assert matrix["exceptions"] == []
+          assert accepted["releaseSecurityAcceptanceRecord"]["finalSecurityGateResult"] == "passed"
+          assert accepted["releaseSecurityAcceptanceRecord"]["exceptions"] == []
 
           assert security["overallDecision"] == "passed"
           assert security["stableSecurityAcceptanceGranted"] is True
