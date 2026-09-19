@@ -55,7 +55,7 @@ platform_systems:
       - acceptance/v1.6-human-evidence.json
       - acceptance/v1.6-assistive-technology-evidence.json
       - acceptance/v1.6-performance-evidence.json
-    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable. During the promotion bootstrap this Stable candidate is checked for compatibility with the predecessor current Stable Glaze baseline 1.5.1; the component itself provides 1.6.0 after protected promotion.
+    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable. During the promotion bootstrap this Stable candidate is checked for compatibility with the predecessor Stable Glaze baseline 1.5.1; the component itself provides 1.6.0 after protected promotion.
   mesh:
     result: not-applicable-justified
     version: null
