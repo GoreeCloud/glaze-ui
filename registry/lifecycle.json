@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "updated": "2026-09-18",
-  "officialProductLabel": "GLAZE UI V1.5 — Contextual + Capability Awareness",
-  "currentOfficial": "1.5.1",
-  "currentStable": "1.5.1",
-  "activeCandidate": "1.6.0-rc.1",
+  "updated": "2026-09-19",
+  "officialProductLabel": "GLAZE UI V1.6",
+  "currentOfficial": "1.6.0",
+  "currentStable": "1.6.0",
+  "activeCandidate": null,
   "plannedNext": null,
   "activePatchReleaseCandidate": null,
   "resetState": "stable",
@@ -155,7 +155,7 @@
       "external_version": "1.6.0-rc.1",
       "version_name": null,
       "label": "GLAZE UI V1.6",
-      "status": "release-candidate",
+      "status": "superseded-release-candidate",
       "consumerEligible": false,
       "stableBaseline": "1.5.1",
       "contract": "contracts/v1.6/release-candidate.json",
@@ -164,7 +164,28 @@
       "runtimeEntrypoint": "js/glaze-v1.6.0-rc.1.mjs",
       "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
       "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
-      "note": "Active V1.6 Release Candidate established from the fully qualified 24/24 frozen-source evidence set. Current Official Stable and downstream consumer target remain 1.5.1 pending a separate governed Stable promotion."
+      "note": "Historical V1.6 Release Candidate retained as exact qualification provenance after governed promotion to 1.6.0 Stable. It is not consumer-eligible.",
+      "promotedTo": "1.6.0"
+    },
+    {
+      "version": "1.6.0",
+      "label": "GLAZE UI V1.6",
+      "status": "stable",
+      "consumerEligible": true,
+      "stableBaseline": "1.5.1",
+      "contract": "contracts/v1.6/stable-release.json",
+      "qualification": "acceptance/v1.6-stable-qualification-review.json",
+      "acceptance": "acceptance/v1.6-stable.json",
+      "runtimeEntrypoint": "js/glaze-v1.6.0.mjs",
+      "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+      "releasedSourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+      "releasedSourceTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+      "publicationControlRevision": "7e8b537b9d1a123bc3e92679774a4d9cc704e03b",
+      "tag": "v1.6.0",
+      "githubReleaseId": 392095913,
+      "archiveSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+      "note": "Current Official Stable shared Glaze UI release. Publication bytes are bound to the final security-accepted source and verified by post-publication readback. Downstream consumers require fresh repository-local V1.6 adoption and acceptance."
     }
   ],
   "capabilities": {
@@ -186,9 +207,9 @@
     },
     "runtime-entrypoint": {
       "status": "stable",
-      "since": "1.5.1",
-      "implementation": "js/glaze-v1.5.1.mjs",
-      "note": "V1.5.1 promotes Stable patch identity over the unchanged reviewed V1.5.0 runtime behavior."
+      "since": "1.6.0",
+      "implementation": "js/glaze-v1.6.0.mjs",
+      "note": "GLAZE UI 1.6.0 Stable runtime identity is the exact wrapper published and read back under v1.6.0; downstream adoption remains repository-local."
     },
     "adaptive-dynamic-color": {
       "status": "stable-inherited",
@@ -416,7 +437,7 @@
       "consumerEligible": true
     },
     "v1.6-release-candidate-control-plane": {
-      "status": "release-candidate",
+      "status": "superseded-release-candidate",
       "version": "1.6.0-rc.1",
       "internalVersion": "1.6.0-rc.1",
       "externalVersion": "1.6.0-rc.1",
@@ -429,7 +450,21 @@
       "verification": "scripts/verify_glaze_v1_6_release_candidate.mjs",
       "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
       "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
-      "consumerEligible": false
+      "consumerEligible": false,
+      "promotedTo": "1.6.0"
+    },
+    "v1.6-release-control-plane": {
+      "status": "stable",
+      "version": "1.6.0",
+      "stableBaseline": "1.5.1",
+      "contract": "contracts/v1.6/stable-release.json",
+      "qualification": "acceptance/v1.6-stable-qualification-review.json",
+      "acceptance": "acceptance/v1.6-stable.json",
+      "runtimeEntrypoint": "js/glaze-v1.6.0.mjs",
+      "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+      "releasedSourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+      "publicationReadback": "acceptance/v1.6-publication-readback.json",
+      "consumerEligible": true
     }
   }
 }
