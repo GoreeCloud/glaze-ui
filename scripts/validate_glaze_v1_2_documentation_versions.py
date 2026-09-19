@@ -69,6 +69,8 @@ HISTORICAL_SOURCE_PATHS = {
     "scripts/validate_glaze_v1_2_file_naming_legacy.py",
     "scripts/validate_glaze_v1_2_source_inventory_legacy.py",
     "scripts/validate_glaze_v1_2_migration_legacy.py",
+    "scripts/build_glaze_v1_6_artifact_rehearsal.py",
+    "scripts/build_glaze_v1_6_final_artifact.py",
 }
 
 HISTORICAL_QUALIFIERS = (
