@@ -15,8 +15,16 @@ const lifecycle=json('registry/lifecycle.json');
 const harness=read('reference/v1.6/assistive-technology-qualification.html');
 const prepare=read('scripts/prepare_glaze_v1_6_assistive_technology_qualification.py');
 
-assert(read('VERSION').trim()==='1.5.1','Stable VERSION must remain 1.5.1');
-assert(lifecycle.currentOfficial==='1.5.1'&&lifecycle.currentStable==='1.5.1','Stable lifecycle must remain 1.5.1');
+const liveStable=read('VERSION').trim();
+assert(lifecycle.currentOfficial===liveStable&&lifecycle.currentStable===liveStable,'VERSION/current Stable authority must agree');
+const liveRelease=lifecycle.releases.find(item=>item.version===liveStable);
+assert(liveRelease&&liveRelease.status==='stable'&&liveRelease.consumerEligible===true,'live current Stable must remain a consumer-eligible Stable release');
+const liveTuple=liveStable.split('.').slice(0,3).map(Number);
+assert(liveTuple.length===3&&liveTuple.every(Number.isInteger),'live Stable must use major.minor.patch versioning');
+assert(
+  liveTuple[0]>1 || (liveTuple[0]===1 && (liveTuple[1]>5 || (liveTuple[1]===5 && liveTuple[2]>=1))),
+  'V1.6 retained qualification requires live Stable authority at or after its frozen 1.5.1 baseline'
+);
 assert((lifecycle.activeCandidate===null||lifecycle.activeCandidate==='1.6.0-rc.1')&&lifecycle.plannedNext===null&&lifecycle.activePatchReleaseCandidate===null,'assistive-technology tooling must preserve Stable authority and tolerate only separately governed V1.6 RC coexistence');
 assert(schema.$schema==='https://json-schema.org/draft/2020-12/schema','schema dialect mismatch');
 assert(plan.planId==='goreecloud.glaze-ui.v1.6.assistive-technology-qualification','plan ID mismatch');
