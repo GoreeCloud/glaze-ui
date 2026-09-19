@@ -182,6 +182,29 @@ assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.unreviewedSecretFin
 assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.selectedAdvisoryCount, 0);
 assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.cyclonedxVulnerabilityCount, 0);
 assert.equal(finalArtifactAcceptance.securityAcceptance?.finalStableSecurityAcceptanceGranted, true);
+assert.equal(finalArtifactAcceptance.candidate?.postMergeWorkflowCountType, 'unique-workflow-names');
+assert.equal(finalArtifactAcceptance.candidate?.postMergeRunRecordCountObservedAtAcceptance, 73);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.standard, 'GoreeCloud — Standard — Stable Release Security Blockers');
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.version, 'v1.0');
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.evaluatedControlCount, 39);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.passedOrBoundedPassedCount, 14);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.notApplicableJustifiedCount, 25);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.blockedCount, 0);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.unknownCount, 0);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.exceptedCount, 0);
+assert.deepEqual(finalArtifactAcceptance.stableSecurityControlMatrix?.exceptions, []);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.controls?.length, 39);
+for (const control of finalArtifactAcceptance.stableSecurityControlMatrix.controls) {
+  assert.ok(['passed', 'passed-bounded', 'not-applicable-justified'].includes(control.result), `invalid final security control disposition: ${control.id}`);
+  assert.ok(typeof control.justification === 'string' && control.justification.length > 0, `missing final security control justification: ${control.id}`);
+}
+assert.equal(finalArtifactAcceptance.releaseSecurityAcceptanceRecord?.finalSecurityGateResult, 'passed');
+assert.deepEqual(finalArtifactAcceptance.releaseSecurityAcceptanceRecord?.exceptions, []);
+assert.equal(securityReview.controlApplicabilitySummary?.evaluatedControlCount, 39);
+assert.equal(securityReview.controlApplicabilitySummary?.blockedCount, 0);
+assert.equal(securityReview.controlApplicabilitySummary?.unknownCount, 0);
+assert.equal(securityReview.controlApplicabilitySummary?.exceptedCount, 0);
+assert.equal(securityReview.finalSecurityAcceptance?.controlApplicabilityMatrixAccepted, true);
 assert.equal(blockers.get('release.artifact-provenance-and-publication-boundary')?.status, 'blocked-security-accepted-awaiting-publication-readback');
 assert.equal(review.remainingBlockerCount, 1, 'remainingBlockerCount must be one');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
