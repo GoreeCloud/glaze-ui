@@ -144,6 +144,16 @@ def main() -> int:
     require(security_review.get("stablePromotionAuthorized") is False, "security review must not authorize Stable promotion")
     require(security_review.get("secretHistory", {}).get("result") == "passed", "secret-history disposition must be passed")
     require(security_review.get("dependencySupplyChain", {}).get("result") == "passed", "dependency disposition must be passed")
+    security_boundary = security_review.get("finalSecurityAcceptanceBoundary", {})
+    require(security_boundary.get("requiresProtectedSource") is True, "final security acceptance must require protected source")
+    require(security_boundary.get("requiresUnpublishedFinalCandidateArtifact") is True, "final security acceptance must require an unpublished final candidate artifact")
+    require(security_boundary.get("requiresArtifactChecksumSbomProvenance") is True, "final security acceptance must require checksum/SBOM/provenance evidence")
+    require(security_boundary.get("requiresExtractedArtifactSecretScan") is True, "final security acceptance must require an extracted-artifact secret scan")
+    require(security_boundary.get("requiresPublishedTagOrRelease") is False, "publication must not be a prerequisite to final security acceptance")
+    require(security_boundary.get("publicationOccursAfterSecurityAcceptance") is True, "publication must occur after final security acceptance")
+    require(security_boundary.get("publicationMustReuseAcceptedArtifactBytes") is True, "publication must reuse security-accepted artifact bytes")
+    require(security_boundary.get("targetStableVersion") == "1.6.0", "final security target Stable version mismatch")
+    require(security_boundary.get("intendedImmutableTag") == "v1.6.0", "final security intended tag mismatch")
     require(
         dependency_classification.get("stablePromotionAuthorized") is False,
         "dependency classification must not authorize Stable promotion",
