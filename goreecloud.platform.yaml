@@ -6,8 +6,8 @@ component:
   product_name: GLAZE UI
   repository: GoreeCloud/goreecloud-glaze-ui
 
-lifecycle: release-candidate
-version: 1.6.0-rc.1
+lifecycle: stable
+version: 1.6.0
 
 supported_platforms:
   - cross-platform
@@ -46,7 +46,7 @@ platform_systems:
     notes: The RC is stateless and owns no user data, durable application state, backup jobs, restore workflows, or preservation storage. Release rollback remains bound to known-good Glaze UI 1.5.1.
   glaze_ui:
     result: applicable-conformant
-    version: 1.6.0-rc.1
+    version: 1.5.1
     evidence:
       - acceptance/v1.6-qualification-review.json
       - acceptance/v1.6-machine-evidence.json
@@ -55,7 +55,7 @@ platform_systems:
       - acceptance/v1.6-human-evidence.json
       - acceptance/v1.6-assistive-technology-evidence.json
       - acceptance/v1.6-performance-evidence.json
-    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable for Release Candidate scope only; Stable promotion remains separately governed.
+    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable. During the promotion bootstrap this Stable candidate is checked for compatibility with the predecessor current Stable Glaze baseline 1.5.1; the component itself provides 1.6.0 after protected promotion.
   mesh:
     result: not-applicable-justified
     version: null
@@ -108,18 +108,19 @@ continuity:
   portability:
     required: false
     requirements:
-      - The supported RC runtime is source-distributed ES modules with repository-preserved contracts and evidence.
+      - The supported Stable runtime is source-distributed ES modules with repository-preserved contracts and evidence.
 
 external_dependencies: []
 
 compatibility:
   platform_contract: "0.4"
-  glaze_ui_required: null
+  glaze_ui_required: 1.5.1
   requires:
     - goreecloud-platform-contract==0.4
+    - glaze-ui-stable-baseline==1.5.1
   provides:
-    - glaze-ui-runtime==1.6.0-rc.1
-    - glaze-ui-contract==1.6.0-rc.1
+    - glaze-ui-runtime==1.6.0
+    - glaze-ui-contract==1.6.0
 
 evidence:
   acceptance_tests:
@@ -129,14 +130,56 @@ evidence:
       revision: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
       result: passed
       observed_at: "2026-09-18T23:44:00Z"
-      notes: The frozen V1.6 source completed the governed 24-lane qualification matrix for Release Candidate scope.
-    - id: v1.6-nine-system-rc-review
+      notes: The frozen V1.6 source completed the governed 24-lane qualification matrix.
+    - id: v1.6-accessibility
+      category: accessibility
+      path: acceptance/v1.6-assistive-technology-evidence.json
+      revision: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
+      result: passed
+      observed_at: "2026-09-18T23:44:00Z"
+      notes: Applicable assistive-technology, keyboard, reduced-motion, contrast, and semantic-state evidence is accepted for the qualified shared scope.
+    - id: v1.6-supported-platform
+      category: supported-platform
+      path: acceptance/v1.6-rendered-evidence.json
+      revision: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
+      result: passed
+      observed_at: "2026-09-18T23:44:00Z"
+      notes: Representative cross-platform rendered and form-factor evidence is accepted for the qualified shared-library boundary.
+    - id: v1.6-security
+      category: security
+      path: acceptance/v1.6-final-security-acceptance.json
+      revision: a7180679ea851389e0f3004515f9a25f420e716d
+      result: passed
+      observed_at: "2026-09-19T14:10:55Z"
+      notes: Final Stable security acceptance passes for the exact published source/artifact pair.
+    - id: v1.6-privacy
+      category: privacy
+      path: acceptance/v1.6-human-evidence.json
+      revision: c7509c79256b04b0aa67cb9dd0737d7588e0ae4a
+      result: passed
+      observed_at: "2026-09-18T23:44:00Z"
+      notes: Privacy and operational-authority boundaries are accepted for the presentation-only shared scope.
+    - id: v1.6-documentation
+      category: documentation
+      path: acceptance/v1.6-stable-qualification-review.json
+      revision: 7e8b537b9d1a123bc3e92679774a4d9cc704e03b
+      result: passed
+      observed_at: "2026-09-19T14:20:12Z"
+      notes: Canonical repository and Drive reconciliation evidence is retained and this protected promotion reconciles current Stable authority surfaces.
+    - id: v1.6-nine-system-review
       category: integration
       path: acceptance/v1.6-production-readiness-review.json
       revision: 3f070f6fc01bc7904e3cd8c20851db5a0c40d539
       result: passed
       observed_at: "2026-09-18T23:44:00Z"
-      notes: All nine Integral Platform Systems were explicitly evaluated for the shared presentation-system Release Candidate boundary; this does not establish Stable acceptance.
+      notes: All nine Integral Platform Systems were evaluated for the shared presentation-system boundary and current applicability remains valid.
+    - id: v1.6-release-publication
+      category: release
+      path: acceptance/v1.6-artifact-provenance-plan.json
+      revision: 7e8b537b9d1a123bc3e92679774a4d9cc704e03b
+      result: passed
+      observed_at: "2026-09-19T14:20:12Z"
+      notes: Controlled v1.6.0 publication and post-publication byte readback match the security-accepted artifact.
   release:
     - id: v1.6-rc.1
       version: 1.6.0-rc.1
@@ -145,18 +188,27 @@ evidence:
       result: candidate
       observed_at: "2026-09-18T23:44:00Z"
       artifact_digest: null
-      notes: Governed Release Candidate identity only; no immutable Stable release artifact, tag, or GitHub Release is implied.
+      notes: Historical Release Candidate retained as provenance.
+    - id: v1.6.0
+      version: 1.6.0
+      revision: a7180679ea851389e0f3004515f9a25f420e716d
+      path: acceptance/v1.6-stable.json
+      result: published
+      observed_at: "2026-09-19T14:18:04Z"
+      artifact_digest: "sha256:687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af"
+      notes: Published GitHub Release 392095913 under controlled tag v1.6.0; released bytes match final Stable security-accepted bytes.
 
 conformance:
-  status: nonconformant
-  validated_at: null
+  status: conformant
+  validated_at: "2026-09-19T14:20:12Z"
   evidence:
+    - acceptance/v1.6-stable.json
     - acceptance/v1.6-stable-qualification-review.json
-  blockers:
-    - Final Stable release-security acceptance remains unresolved pending the exact unpublished final artifact/source-provenance evidence for the protected candidate.
-    - The final Stable release artifact acceptance, immutable publication identity, post-publication readback, and final exact-candidate Stable qualification remain unresolved.
+    - acceptance/v1.6-final-security-acceptance.json
+    - acceptance/v1.6-artifact-provenance-plan.json
+  blockers: []
 
-# This manifest represents the governed V1.6 Release Candidate as a shared library.
-# It deliberately remains nonconformant for Stable while the listed release blockers remain open.
-# external_dependencies describes the supported RC runtime boundary; repository reference/build
-# tooling remains governed separately and is not silently excluded from Stable security review.
+# This manifest represents the governed V1.6.0 Stable promotion candidate as a shared library.
+# Contract 0.4 validates the promotion against the predecessor Stable Glaze consumer baseline 1.5.1.
+# After protected lifecycle promotion becomes authoritative, the platform-wide current consumer target
+# is reconciled separately to 1.6.0 and this repository is revalidated against that updated central authority.
