@@ -1,55 +1,39 @@
-# GLAZE UI V1.5 — Contextual + Capability Awareness
+# GLAZE UI V1.6
 
-GLAZE UI V1.5 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, and adaptive presentation must remain truthful.** Machine version: **1.5.1**.
+GLAZE UI V1.6 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, and adaptive presentation must remain truthful.** Machine version: **1.6.0**.
 
 ## Core rules
 
 **Glaze UI may adapt presentation from authoritative context and capability truth, but it must never manufacture that truth or expand operational authority.**
 
-V1.5 builds on the complete V1.4.1 Optical Intelligence foundation with governed Context + Capability Awareness: provider authority ownership, contextual composition, accessibility precedence, runtime/connectivity/window continuity, capability-aware navigation and controls, predictable adaptive actions, explicit graceful fallbacks, privacy-safe diagnostics, and a unified presentation resolver.
+V1.6 extends the retained V1.5 Context + Capability Awareness foundation with the fully qualified V1.6 loading, state/accessibility, focus/motion, material/type/input, resilience/feedback, navigation/status, component-system, experience-governance, performance/diagnostics, conformance/adoption, and acceptance-control foundations. The shared qualification matrix is **24 verified / 0 unverified / 0 not applicable**.
 
 ## Stable source authority
 
-- `VERSION` — `1.5.1`
-- `GLAZE_UI_V1_5.md` — current Stable family contract
-- `contracts/v1.5.1/stable-scope.json` — V1.5.1 Stable qualification scope
-- `acceptance/v1.5.1-stable.md` — current Stable acceptance/scope record
+- `VERSION` — `1.6.0`
 - `registry/lifecycle.json` — lifecycle authority
-- `css/glaze-v1.4.1.css` — inherited Stable optical/web material baseline
-- `js/glaze-v1.5.1.mjs` — current Stable runtime entrypoint
-- `GLAZE_UI_V1_5_1_HARDENING.md` — completed V1.5.1 qualification record
-- `consumers/registry.json` — current consumer target and adoption state
-- `scripts/verify_glaze_v1_5_1_stable.mjs` — fail-closed V1.5.1 Stable authority gate
+- `contracts/v1.6/stable-release.json` — Stable release contract
+- `acceptance/v1.6-stable.json` — Stable acceptance
+- `acceptance/v1.6-stable-qualification-review.json` — final Stable qualification
+- `acceptance/v1.6-final-security-acceptance.json` — final Stable security acceptance
+- `acceptance/v1.6-publication-readback.json` — immutable publication/readback evidence
+- `js/glaze-v1.6.0.mjs` — current Stable runtime entrypoint
+- `consumers/registry.json` — current downstream target/adoption authority
+- `scripts/verify_glaze_v1_6_stable_qualification_review.mjs` — fail-closed V1.6 Stable authority gate
 
-V1.5.0 remains the immediate known-good Stable rollback baseline.
+The released source is `a7180679ea851389e0f3004515f9a25f420e716d`, published under immutable tag `v1.6.0` and GitHub Release `392095913`. The published archive, checksum manifest, CycloneDX SBOM, and provenance were read back byte-for-byte against the final-security-accepted artifact.
 
-## Active V1.6 Release Candidate
+GLAZE UI `1.5.1` remains the immediate known-good Stable rollback baseline and preserved historical Stable provenance.
 
-GLAZE UI V1.6 is now represented by the governed **Release Candidate `1.6.0-rc.1`** while V1.5.1 remains the current Official Stable and downstream consumer baseline.
+## Stable qualification and publication status
 
-- **Internal version:** `1.6.0-rc.1`
-- **External version:** `1.6.0-rc.1`
-- **Version name:** none
-- **Lifecycle:** Release Candidate
-- **Consumer eligible:** No
-- **Frozen qualification source:** `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`
-- **Qualification evidence integration:** `354f5759385c28596fcfec26a3ad525e89fb1c35`
-- **Qualification disposition:** 24 verified / 0 unverified / 0 not applicable
-- **Governed review:** `acceptance/v1.6-qualification-review.json`
-- **RC contract:** `contracts/v1.6/release-candidate.json`
-- **RC acceptance:** `acceptance/v1.6-rc.1.json`
-- **RC runtime identity:** `js/glaze-v1.6.0-rc.1.mjs`
-- **RC authority gate:** `scripts/verify_glaze_v1_6_release_candidate.mjs`
+The governed V1.6 qualification matrix is complete at **24/24**, authoritative `main` is protected by active ruleset `23699829`, final Stable security acceptance passed, deterministic artifact/provenance evidence passed, immutable publication completed, and post-publication readback passed. The final Stable qualification review contains **0 blockers**.
 
-The RC wrapper is identity-only over the qualified V1.6 Development implementation. Qualification evidence remains bound to the actual frozen source and review records. RC status does not establish Stable, downstream consumer acceptance, deployment, production acceptance, tag publication, or GitHub Release publication.
+This Stable classification applies to the shared GLAZE UI release only. It does **not** automatically grant any downstream GoreeCloud application V1.6 conformance, deployment acceptance, production acceptance, or production eligibility. Each consumer must complete fresh repository-local V1.6 adoption and acceptance.
 
-### V1.6 Stable qualification status
+## Retained V1.6 Release Candidate and Development provenance
 
-A higher-governance Stable review is recorded in `acceptance/v1.6-stable-qualification-review.json`. The current decision is **blocked — remain Release Candidate**. The 24/24 qualification matrix is complete, but Stable still requires closure of three separate blockers: authoritative `main` branch protection, final Stable security acceptance, and final release-artifact/provenance/publication acceptance. Platform Contract 0.4 shared-library representation, canonical Drive task/changelog reconciliation, the exact-candidate secret/Git-history scan, remediated dependency/supply-chain evidence, and the shared-library production-applicability disposition are verified complete. The selected Android/Wear build-tool graph is clean at 206 distinct Maven coordinates / 426 project package entries with a 206-component CycloneDX 1.5 SBOM and zero OSV advisories; exact-head Android and Wear compatibility validation passes. The final artifact boundary is prepared through a non-publishing deterministic rehearsal, but remains a blocker until the exact Stable-approved revision is packaged, accepted, published under a controlled immutable identity, and read back. Final Stable security acceptance remains false until protected security-gate enforcement and final artifact/source provenance are complete.
-
-## V1.6 Release Candidate and retained Development inputs
-
-The repository carries the active non-consumer V1.6 Release Candidate together with its retained frozen Development and qualification inputs, without changing the current Stable release:
+The repository retains the superseded V1.6 Release Candidate together with its frozen Development and qualification inputs as immutable provenance beneath the current V1.6.0 Stable authority:
 
 - `GLAZE_UI_V1_6_PLANNED.md` — original V1.6 upgrade requirements source covering the semantic Skeleton Motion System, loading and recovery behavior, state clarity, accessibility expansion, motion coherence, material intelligence, interaction continuity, performance adaptation, conformance metadata, diagnostics, and acceptance requirements. It remains requirements provenance; lifecycle authority now comes from the separate RC records above.
 - `contracts/v1.6/loading-skeleton.dev.json` + `schemas/v1.6-loading-skeleton.schema.json` — first V1.6 Development machine contract for sections 1–4 and bounded supporting behavior.
