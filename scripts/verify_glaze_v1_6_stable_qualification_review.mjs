@@ -182,6 +182,15 @@ assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.unreviewedSecretFin
 assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.selectedAdvisoryCount, 0);
 assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.cyclonedxVulnerabilityCount, 0);
 assert.equal(finalArtifactAcceptance.securityAcceptance?.finalStableSecurityAcceptanceGranted, true);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.evaluatedControlCount, 39);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.passedOrBoundedPassedCount, 14);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.notApplicableJustifiedCount, 25);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.blockedCount, 0);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.unknownCount, 0);
+assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.exceptedCount, 0);
+assert.deepEqual(finalArtifactAcceptance.stableSecurityControlMatrix?.exceptions, []);
+assert.equal(finalArtifactAcceptance.releaseSecurityAcceptanceRecord?.finalSecurityGateResult, 'passed');
+assert.deepEqual(finalArtifactAcceptance.releaseSecurityAcceptanceRecord?.exceptions, []);
 assert.equal(finalArtifactAcceptance.candidate?.postMergeWorkflowCountType, 'unique-workflow-names');
 assert.equal(finalArtifactAcceptance.candidate?.postMergeRunRecordCountObservedAtAcceptance, 73);
 assert.equal(finalArtifactAcceptance.stableSecurityControlMatrix?.standard, 'GoreeCloud — Standard — Stable Release Security Blockers');
