@@ -63,7 +63,8 @@
       "currentStable": "1.5.1",
       "activeCandidate": "1.6.0-rc.1",
       "candidateConsumerEligible": false
-    }
+    },
+    "protectionReadinessIntegrationCommit": "305de8a1fe5cc7670c1e012efcc7fb55a4bcfdd6"
   },
   "verifiedPasses": [
     {
@@ -206,6 +207,17 @@
         ".github/workflows/glaze-wear-build-toolchain-validation.yml"
       ],
       "finding": "The remediated exact selected Gradle graph contains 206 distinct Maven coordinates / 426 project package entries, a 206-component CycloneDX 1.5 SBOM, and 0 OSV advisories/vulnerabilities. Exact-head V1.2 Android and Wear build compatibility validation passes. Broader verification metadata is retained as diagnostic evidence only and cannot override the selected-version graph."
+    },
+    {
+      "id": "repository.protection-readiness",
+      "status": "passed-preparation-only",
+      "evidence": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/glaze-v1.6-stable-security-evidence.yml",
+        ".github/workflows/glaze-v1.6-stable-qualification-review.yml",
+        ".github/workflows/glaze-platform-contract.yml"
+      ],
+      "finding": "PR #291 merged as 305de8a1fe5cc7670c1e012efcc7fb55a4bcfdd6 after all 30 exact-head workflows passed; all 29 post-merge push workflows also passed. The four intended required checks now run on every pull request to main with unique names: validate-v1, stable-security-evidence, stable-qualification-review, and platform-contract-0-4. This prepares host protection but does not itself enable or satisfy it."
     }
   ],
   "blockers": [
@@ -220,15 +232,15 @@
       "id": "security.release-security-acceptance",
       "status": "blocked-release-integrity-controls",
       "authority": "Stable Release Security Blockers v1.0",
-      "finding": "Secret/Git-history scanning and the remediated selected dependency/supply-chain graph now pass. Final Stable security acceptance remains blocked because authoritative main protection is disabled and the final exact Stable artifact/source-provenance acceptance is not yet complete.",
-      "requiredResolution": "Enable and verify authoritative main branch protection with required security checks, then complete exact final artifact/source provenance and the full Stable security acceptance matrix for the same final candidate."
+      "finding": "Secret/Git-history scanning and the remediated selected dependency/supply-chain graph pass. Final Stable security acceptance remains blocked because authoritative main protection is disabled and no final unpublished candidate artifact has yet been bound by checksum/SBOM/provenance to the exact protected source.",
+      "requiredResolution": "Enable and verify authoritative main branch protection with the prepared required checks; select the exact final candidate revision; build the final unpublished candidate artifact and checksum/SBOM/provenance evidence from that exact revision; then complete the full Stable security acceptance matrix before publication."
     },
     {
       "id": "release.artifact-provenance-and-publication-boundary",
       "status": "blocked-prepared-awaiting-final-exact-artifact",
       "authority": "Stable Release Qualification v0.5",
-      "finding": "The shared-library Stable distribution boundary is now defined and a non-publishing exact-head rehearsal can deterministically produce a source/runtime archive, SHA-256 manifest, CycloneDX 1.5 runtime/source SBOM, and provenance record. This does not close the blocker: no exact Stable-approved source revision has been selected, no final Stable artifact has been accepted, no immutable Stable tag/release has been published, and no post-publication readback exists.",
-      "requiredResolution": "After branch protection, dependency/supply-chain security, and final Stable release-security acceptance close, select the exact Stable-eligible merged revision; produce the final deterministic artifact and applicable checksum/SBOM/provenance/signing evidence from that exact revision; create the controlled immutable release identity; then read back and verify the published tag/release/artifact before closing this blocker.",
+      "finding": "The shared-library Stable distribution boundary is defined and a non-publishing exact-head rehearsal deterministically produces a source/runtime archive, SHA-256 manifest, CycloneDX 1.5 runtime/source SBOM, and provenance record. No exact protected final candidate has yet been selected, no final unpublished candidate artifact has been accepted, no immutable Stable tag/release has been published, and no post-publication readback exists.",
+      "requiredResolution": "After branch protection is verified, select the exact merged final candidate revision and produce the final unpublished deterministic artifact plus checksum/SBOM/provenance/signing evidence. Complete final Stable security acceptance against that same source and artifact. Only then create the controlled immutable release identity and publish the already accepted bytes; read back and verify the published tag/release/artifact before the final exact-candidate Stable qualification review.",
       "evidence": [
         "acceptance/v1.6-artifact-provenance-plan.json",
         ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
@@ -254,7 +266,8 @@
   "productionAcceptanceGranted": false,
   "consumerEligibilityGranted": false,
   "requiredLifecycleState": "Release Candidate",
-  "nextControlledPhase": "Resolve Stable blockers and re-run an exact-candidate Stable qualification review before any Stable lifecycle transition.",
+  "nextControlledPhase": "Enable and verify main branch protection; select the exact merged final candidate; build the final unpublished candidate artifact and provenance set; complete final Stable security acceptance on that same source and artifact; publish and read back the immutable release identity; then re-run the exact-candidate Stable qualification review before any Stable lifecycle transition.",
   "boundary": "The complete V1.6 24/24 qualification matrix and governed Release Candidate review are necessary evidence but do not satisfy the higher Stable qualification standard by themselves. Stable remains blocked while any listed blocker is unresolved or unverified.",
-  "remainingBlockerCount": 3
+  "remainingBlockerCount": 3,
+  "sequencingReconciledDate": "2026-09-19"
 }
