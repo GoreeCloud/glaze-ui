@@ -130,11 +130,11 @@ Accessibility has presentation precedence over visual richness. Reduced Motion, 
 
 ## Consumer boundary
 
-V1.5.1 is the required shared Glaze UI target once this governed Stable promotion is authoritative on `main`. No downstream GoreeCloud application becomes conformant, Stable, deployed, or production-ready automatically. Every user-facing consumer must migrate and establish fresh repository-local exact-revision V1.5 adoption and acceptance evidence for its supported platforms.
+V1.6.0 is the current required shared Glaze UI target. No downstream GoreeCloud application becomes conformant, Stable, deployed, or production-ready automatically. Every applicable user-facing consumer must migrate to 1.6.0 and establish fresh repository-local exact-revision V1.6 adoption and acceptance evidence for its supported platforms.
 
 ## Publication and deployment boundary
 
-Shared Stable promotion does not establish an immutable `v1.5.1` tag, GitHub Release publication, deployment, production acceptance, or downstream consumer acceptance. Those remain separate governed transitions.
+GLAZE UI V1.6.0 has completed the governed shared-library publication boundary: controlled tag `v1.6.0` and GitHub Release `392095913` publish the exact security-accepted artifact bytes with post-publication byte readback. This shared-library publication does not establish downstream consumer deployment, production acceptance, or application conformance; those remain separate governed transitions.
 
 ## License
 
