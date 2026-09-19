@@ -3,15 +3,17 @@
 All notable changes to the Glaze UI reference implementation are recorded here.
 
 
-## Current lifecycle authority — 2026-09-18
+## Current lifecycle authority — 2026-09-19
 
-- Current Official Stable is **GLAZE UI V1.5 / `1.5.1`**.
-- Active governed successor is **GLAZE UI V1.6 / `1.6.0-rc.1`**, non-consumer-eligible.
-- The V1.6 qualification matrix is complete at **24 verified / 0 unverified / 0 not applicable** for frozen source `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`.
-- Governed Release Candidate qualification and Production Readiness v2.0 nine-system review are recorded in `acceptance/v1.6-qualification-review.json` and `acceptance/v1.6-production-readiness-review.json`.
-- PR #275 established the V1.6 Release Candidate on authoritative `main`; PR #265 subsequently repaired stale V1.1 historical validation and hardened transient Android UIAutomator evidence capture without changing V1.6 behavior or lifecycle authority.
-- `VERSION` remains `1.5.1`; `registry/lifecycle.json` records `activeCandidate: 1.6.0-rc.1`.
-- Stable promotion, immutable tag/GitHub Release publication, downstream consumer migration/acceptance, deployment, production readiness, and production acceptance remain separate controlled transitions.
+- This promotion establishes **GLAZE UI V1.6 / `1.6.0`** as the current Official Stable, consumer-eligible shared design-system release after protected merge and authoritative `main` readback.
+- V1.5.1 remains the immediate known-good rollback Stable.
+- The retained `1.6.0-rc.1` record is superseded, non-consumer-eligible qualification provenance.
+- The V1.6 qualification matrix is complete at **24 verified / 0 unverified / 0 not applicable** for frozen qualification source `c7509c79256b04b0aa67cb9dd0737d7588e0ae4a`.
+- Final Stable security acceptance is complete for exact accepted release source `a7180679ea851389e0f3004515f9a25f420e716d`; the complete Stable Release Security Blockers applicability matrix contains 39 evaluated controls, 14 Passed/Passed-bounded, 25 Not Applicable with justification, 0 Blocked, 0 Unknown, 0 Excepted, and no security exceptions.
+- Controlled tag `v1.6.0` and GitHub Release `392095913` publish the exact security-accepted artifact bytes; post-publication readback verified the archive, SBOM, provenance, and checksum manifest without rebuild.
+- `VERSION` and `registry/lifecycle.json` move to `1.6.0`; `consumers/registry.json` sets `1.6.0` as the required downstream target without manufacturing downstream conformance or production eligibility.
+- Direct service deployment is Not Applicable for this source-distributed shared-library boundary. Downstream consumer migration/acceptance, deployment, product production readiness, and production acceptance remain separate controlled transitions.
+- After this repository promotion is authoritative, the central GoreeCloud Platform Contract current Glaze target must be reconciled from 1.5.1 to 1.6.0 and this repository revalidated against that updated central authority.
 
 ### Historical namespace note
 
