@@ -102,6 +102,19 @@
     "cyclonedxComponentCount": 206,
     "cyclonedxVulnerabilityCount": 0,
     "publicationAuthorized": true,
-    "publicationMustRemainPrereleaseUntilStablePromotion": true
+    "publicationMustRemainPrereleaseUntilStablePromotion": true,
+    "controlApplicabilityMatrixAccepted": true,
+    "controlApplicabilityMatrixRecord": "acceptance/v1.6-final-artifact-acceptance.json"
+  },
+  "controlApplicabilitySummary": {
+    "acceptanceRecord": "acceptance/v1.6-final-artifact-acceptance.json",
+    "evaluatedControlCount": 39,
+    "passedOrBoundedPassedCount": 14,
+    "notApplicableJustifiedCount": 25,
+    "blockedCount": 0,
+    "unknownCount": 0,
+    "exceptedCount": 0,
+    "exceptions": [],
+    "disposition": "complete-no-unknown-or-excepted-controls"
   }
 }
