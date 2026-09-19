@@ -14,8 +14,8 @@
     "componentType": "shared-library",
     "directServiceDeploymentApplicable": false,
     "immutablePublicationAcceptanceRequired": true,
-    "currentStable": "1.5.1",
-    "activeCandidate": "1.6.0-rc.1",
+    "currentStable": "1.6.0",
+    "activeCandidate": null,
     "stablePromotionAuthorized": true,
     "finalStableRevisionSelected": true,
     "dependencySupplyChainAccepted": true,
@@ -29,9 +29,9 @@
       "stable-security-evidence",
       "platform-contract-0-4"
     ],
-    "finalCandidateArtifactPrepared": false,
-    "finalSecurityAcceptanceGranted": false,
-    "publicationAuthorized": false,
+    "finalCandidateArtifactPrepared": true,
+    "finalSecurityAcceptanceGranted": true,
+    "publicationAuthorized": true,
     "finalStableRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
     "finalStableTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268"
   },
@@ -62,9 +62,13 @@
     "After publication, read back the immutable tag/release/artifact identity and verify it matches the approved revision and evidence.",
     "Update lifecycle, release, documentation, task, and consumer-target records only after the authoritative publication state is verified."
   ],
-  "unresolvedPrerequisites": [],
+  "unresolvedPrerequisites": [
+    "Protected merge and authoritative main readback of the V1.6.0 Stable lifecycle promotion.",
+    "Post-merge required-check verification for the exact authoritative main revision.",
+    "Central GoreeCloud Platform Contract current Glaze target reconciliation from 1.5.1 to 1.6.0 after this repository promotion becomes authoritative."
+  ],
   "decision": "completed-controlled-publication-readback",
-  "boundary": "The final V1.6.0 source/runtime artifact was deterministically built from accepted source a7180679ea851389e0f3004515f9a25f420e716d, security-accepted, published without rebuild under controlled tag v1.6.0, and read back byte-for-byte. GitHub reports immutable=false for the optional platform feature; GoreeCloud control is instead established by exact tag/source binding, protected publication workflow, accepted SHA-256 digests, post-publication byte readback, and no-rewrite governance. The artifact/provenance/publication blocker is closed.",
+  "boundary": "The exact V1.6.0 artifact was deterministically built from accepted source a7180679ea851389e0f3004515f9a25f420e716d, passed final security acceptance, was published without rebuild under v1.6.0, and was read back byte-for-byte. The remaining transition is repository lifecycle authority: this promotion is not complete until protected merge and authoritative main/post-merge verification. Downstream consumer acceptance remains separate.",
   "reconciledAt": "2026-09-19T09:20:12-05:00",
   "targetStableVersion": "1.6.0",
   "finalStablePreparation": {
@@ -82,7 +86,14 @@
     "publishesTag": false,
     "publishesGithubRelease": false,
     "grantsStable": false,
-    "status": "implemented-awaiting-exact-merged-main-run"
+    "status": "passed-exact-main",
+    "selectedSourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "selectedSourceTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+    "workflowRunId": 35447623700,
+    "actionsArtifactId": 10586051196,
+    "archiveSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+    "sbomSha256": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+    "provenanceSha256": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8"
   },
   "finalizationSequence": [
     {
@@ -94,37 +105,37 @@
     {
       "order": 2,
       "id": "exact-candidate-selection",
-      "status": "pending-current-release-preparation-merge",
+      "status": "passed",
       "requirement": "Merge the final-artifact preparation implementation through protected main and select that exact resulting main revision; any later release-boundary source change creates a new candidate."
     },
     {
       "order": 3,
       "id": "final-unpublished-artifact",
-      "status": "blocked-on-exact-candidate-selection",
+      "status": "passed",
       "requirement": "Run the final-artifact preparation workflow on the exact selected main revision; require deterministic double-build equality, SHA-256 manifest, CycloneDX 1.5 SBOM, provenance, archive-boundary validation, and extracted-artifact secret scan."
     },
     {
       "order": 4,
       "id": "final-security-acceptance",
-      "status": "blocked-on-final-unpublished-artifact",
+      "status": "passed",
       "requirement": "Complete final Stable security acceptance against the exact protected source revision and the exact unpublished candidate artifact bytes."
     },
     {
       "order": 5,
       "id": "immutable-publication",
-      "status": "blocked-on-final-security-acceptance",
+      "status": "passed",
       "requirement": "Create the controlled immutable v1.6.0 release identity and publish only the artifact bytes already accepted by final security review; do not rebuild for publication."
     },
     {
       "order": 6,
       "id": "post-publication-readback",
-      "status": "blocked-on-immutable-publication",
+      "status": "passed",
       "requirement": "Read back the published tag, release, artifact, checksum, SBOM, and provenance and verify they resolve to the accepted source revision and bytes."
     },
     {
       "order": 7,
       "id": "exact-candidate-stable-qualification",
-      "status": "blocked-on-post-publication-readback",
+      "status": "authorized-pending-protected-lifecycle-promotion",
       "requirement": "Run the final exact-candidate Stable qualification review and only then reconcile Stable lifecycle and consumer-eligibility records."
     }
   ],
