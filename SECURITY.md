@@ -2,9 +2,10 @@
 
 ## Current lifecycle
 
-- Current Official Stable: GLAZE UI V1.5 / `1.5.1`
-- Active governed successor: GLAZE UI V1.6 / `1.6.0-rc.1`
-- V1.6 consumer eligible: No
+- Current Official Stable: GLAZE UI V1.6 / `1.6.0`
+- Stable runtime: `js/glaze-v1.6.0.mjs`
+- Immediate known-good rollback Stable: GLAZE UI V1.5 / `1.5.1`
+- Retained V1.6 Release Candidate provenance: `1.6.0-rc.1` (superseded, non-consumer-eligible)
 - Lifecycle authority: `VERSION` and `registry/lifecycle.json`
 
 ## Security role
