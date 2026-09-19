@@ -37,15 +37,17 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Validate Stable qualification review record
+      - name: Validate complete V1.6 Stable authority
         run: |
           node --check scripts/verify_glaze_v1_6_stable_qualification_review.mjs
           node scripts/verify_glaze_v1_6_stable_qualification_review.mjs
+          node --check scripts/verify_glaze_v1_6_stable.mjs
+          node scripts/verify_glaze_v1_6_stable.mjs
 
-      - name: Preserve V1.6 Release Candidate authority
+      - name: Preserve superseded V1.6 Release Candidate provenance
         run: node scripts/verify_glaze_v1_6_release_candidate.mjs
 
-      - name: Preserve V1.5.1 Stable authority
+      - name: Preserve V1.5.1 rollback Stable provenance
         run: node scripts/verify_glaze_v1_5_1_stable.mjs
 
       - name: Verify validation did not mutate tracked source
