@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.stable-acceptance",
+  "recordType": "stable-acceptance",
+  "product": "GLAZE UI V1.6",
+  "version": "1.6.0",
+  "releaseLifecycle": "Stable",
+  "stableBaseline": "1.5.1",
+  "consumerEligible": true,
+  "sourceQualificationAnchor": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+  "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+  "releasedSourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+  "releasedSourceTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+  "publicationControlRevision": "7e8b537b9d1a123bc3e92679774a4d9cc704e03b",
+  "immutableReleaseIdentity": {
+    "tag": "v1.6.0",
+    "releaseId": 392095913
+  },
+  "qualification": {
+    "verifiedCount": 24,
+    "unverifiedCount": 0,
+    "notApplicableCount": 0,
+    "evidenceComplete": true
+  },
+  "security": {
+    "result": "passed",
+    "record": "acceptance/v1.6-final-security-acceptance.json",
+    "sourceSecurityWorkflowRunId": 35447623641,
+    "finalArtifactWorkflowRunId": 35447623700,
+    "unreviewedSecretFindings": 0,
+    "selectedDependencyAdvisories": 0,
+    "dependencyCycloneDxVulnerabilities": 0,
+    "extractedArtifactSecretFindings": 0
+  },
+  "publication": {
+    "result": "passed",
+    "record": "acceptance/v1.6-publication-readback.json",
+    "workflowRunId": 35448300411,
+    "releasedBytesMatchSecurityAcceptedBytes": true,
+    "archiveSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+    "sbomSha256": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+    "provenanceSha256": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8"
+  },
+  "productionBoundary": {
+    "componentType": "shared-library",
+    "directServiceDeploymentApplicable": false,
+    "directServiceProductionAcceptanceApplicable": false,
+    "sharedLibraryPublicationAcceptanceRequired": true,
+    "sharedLibraryPublicationAcceptanceResult": "passed"
+  },
+  "integralPlatformSystems": {
+    "evaluatedCount": 9,
+    "selfGlazeDependency": "not-applicable-justified",
+    "boundary": "All nine systems are evaluated for the shared-library scope. Glaze UI is the authoritative producer of this design-system release and does not consume itself as an external platform dependency."
+  },
+  "rollback": {
+    "knownGoodStable": "1.5.1",
+    "runtimeEntrypoint": "js/glaze-v1.5.1.mjs"
+  },
+  "downstream": {
+    "consumerAcceptanceAutomatic": false,
+    "productionEligibilityAutomatic": false,
+    "repositoryLocalAdoptionRequired": true
+  },
+  "decision": "approved-for-stable-promotion",
+  "stableStatusGranted": true,
+  "boundary": "This acceptance grants Stable only to the shared GLAZE UI 1.6.0 release after exact-candidate qualification, final security acceptance, controlled publication, and byte-for-byte publication readback. It does not grant downstream application conformance, deployment acceptance, or production eligibility."
+}
