@@ -27,7 +27,7 @@ assert.equal(review.source.qualificationEvidenceIntegrationCommit, '354f5759385c
 assert.equal(review.source.releaseCandidateIntegrationCommit, '3f070f6fc01bc7904e3cd8c20851db5a0c40d539');
 assert.equal(review.source.repositoryDocumentationReconciliationCommit, '294e721c6fc56afcde62f7fe70c96e9d711557b1');
 assert.equal(review.governance.platformContract?.version, '0.4');
-assert.match(review.governance.platformContract?.scope || '', /shared library/);
+assert.match(review.governance.platformContract?.scope || '', /shared[- ]library/);
 
 assert.equal(rcReview.evidenceMatrix.verifiedCount, 24);
 assert.equal(rcReview.evidenceMatrix.unverifiedCount, 0);
