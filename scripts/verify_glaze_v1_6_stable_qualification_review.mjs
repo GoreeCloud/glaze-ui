@@ -10,6 +10,8 @@ const readiness = readJson('acceptance/v1.6-production-readiness-review.json');
 const driveReconciliation = readJson('acceptance/v1.6-drive-document-reconciliation.json');
 const productionApplicability = readJson('acceptance/v1.6-production-applicability.json');
 const artifactPlan = readJson('acceptance/v1.6-artifact-provenance-plan.json');
+const finalArtifactAcceptance = readJson('acceptance/v1.6-final-artifact-acceptance.json');
+const securityReview = readJson('acceptance/v1.6-stable-security-review.json');
 
 assert.equal(fs.readFileSync(new URL('../VERSION', import.meta.url), 'utf8').trim(), '1.5.1');
 assert.equal(lifecycle.currentStable, '1.5.1');
@@ -52,7 +54,6 @@ assert.equal(driveReconciliation.changeLogRecord?.pageCount, 235);
 assert.equal(driveReconciliation.changeLogRecord?.visualVerification?.allPagesReviewed, true);
 
 const requiredBlockers = [
-  'security.release-security-acceptance',
   'release.artifact-provenance-and-publication-boundary',
 ];
 const blockers = new Map(review.blockers.map(item => [item.id, item]));
@@ -61,7 +62,7 @@ for (const id of requiredBlockers) {
   assert.match(blockers.get(id).status, /^blocked/, `Stable blocker must remain fail-closed: ${id}`);
 }
 
-assert.equal(review.blockers.length, 2, 'V1.6 Stable review must retain the two unresolved release-security/publication blockers after verified branch protection');
+assert.equal(review.blockers.length, 1, 'V1.6 Stable review must retain only the publication/readback blocker after final security acceptance');
 assert.ok(review.verifiedPasses.some(item => item.id === 'drive.documentation-and-task-reconciliation' && item.status === 'passed'), 'Drive reconciliation must be a verified pass');
 assert.ok(review.verifiedPasses.some(item => item.id === 'platform-contract.current-machine-contract' && item.status === 'passed'), 'Platform Contract shared-library declaration must be a verified pass');
 assert.ok(review.verifiedPasses.some(item => item.id === 'security.secret-and-history-scan' && item.status === 'passed'), 'Secret/history security scan must be a verified pass');
@@ -75,6 +76,9 @@ assert.equal(productionApplicability.currentDisposition?.publicationAcceptanceCo
 assert.equal(productionApplicability.currentDisposition?.stablePromotionAuthorized, false);
 assert.ok(review.verifiedPasses.some(item => item.id === 'production-acceptance.applicability' && item.status === 'passed-applicability-resolved'), 'Production applicability must be a verified resolved boundary');
 assert.ok(review.verifiedPasses.some(item => item.id === 'security.dependency-and-supply-chain-scan' && item.status === 'passed'), 'Dependency and supply-chain scan must be a verified pass');
+assert.ok(review.verifiedPasses.some(item => item.id === 'security.release-security-acceptance' && item.status === 'passed'), 'Final Stable security acceptance must be a verified pass');
+assert.equal(review.source.finalArtifactCandidateSource, 'a7180679ea851389e0f3004515f9a25f420e716d');
+assert.equal(review.source.finalArtifactCandidateTree, '9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268');
 assert.ok(review.verifiedPasses.some(item => item.id === 'repository.main-branch-protection' && item.status === 'passed'), 'Authoritative main branch protection must be a verified pass');
 assert.equal(review.repositoryProtectionEvidence?.rulesetId, 23699829, 'Verified main ruleset ID mismatch');
 assert.equal(review.repositoryProtectionEvidence?.enforcement, 'active', 'Verified main ruleset must be active');
@@ -87,10 +91,14 @@ assert.deepEqual(
   ['platform-contract-0-4', 'stable-qualification-review', 'stable-security-evidence', 'validate-v1'].sort(),
   'Verified main required-check set mismatch'
 );
-assert.equal(artifactPlan.status, 'final-artifact-preparation-workflow-ready');
-assert.equal(artifactPlan.decision, 'final-artifact-workflow-ready-awaiting-exact-merged-run');
+assert.equal(artifactPlan.status, 'final-artifact-security-accepted-awaiting-publication');
+assert.equal(artifactPlan.decision, 'final-security-accepted-prerelease-publication-authorized');
 assert.equal(artifactPlan.currentBoundary?.stablePromotionAuthorized, false);
-assert.equal(artifactPlan.currentBoundary?.finalStableRevisionSelected, false);
+assert.equal(artifactPlan.currentBoundary?.finalStableRevisionSelected, true);
+assert.equal(artifactPlan.currentBoundary?.finalCandidateArtifactPrepared, true);
+assert.equal(artifactPlan.currentBoundary?.finalSecurityAcceptanceGranted, true);
+assert.equal(artifactPlan.currentBoundary?.publicationAuthorized, true);
+assert.equal(artifactPlan.currentBoundary?.authoritativeMainRevision, 'a7180679ea851389e0f3004515f9a25f420e716d');
 assert.equal(artifactPlan.rehearsal?.publishesTag, false);
 assert.equal(artifactPlan.rehearsal?.publishesGithubRelease, false);
 assert.equal(artifactPlan.rehearsal?.grantsStable, false);
@@ -105,6 +113,14 @@ assert.equal(artifactPlan.finalStablePreparation?.extractedArtifactSecretScanReq
 assert.equal(artifactPlan.finalStablePreparation?.publishesTag, false);
 assert.equal(artifactPlan.finalStablePreparation?.publishesGithubRelease, false);
 assert.equal(artifactPlan.finalStablePreparation?.grantsStable, false);
+assert.equal(artifactPlan.finalStablePreparation?.status, 'passed-exact-main');
+assert.equal(artifactPlan.finalStablePreparation?.selectedSourceRevision, 'a7180679ea851389e0f3004515f9a25f420e716d');
+assert.equal(artifactPlan.finalStablePreparation?.selectedSourceTree, '9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268');
+assert.equal(artifactPlan.finalStablePreparation?.workflowRunId, 35447623700);
+assert.equal(artifactPlan.finalStablePreparation?.actionsArtifactId, 10586051196);
+assert.equal(artifactPlan.finalStablePreparation?.archiveSha256, '687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af');
+assert.equal(artifactPlan.finalStablePreparation?.sbomSha256, '3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82');
+assert.equal(artifactPlan.finalStablePreparation?.provenanceSha256, '711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8');
 const expectedFinalizationOrder = [
   'repository-protection',
   'exact-candidate-selection',
@@ -120,8 +136,21 @@ assert.deepEqual(
   'V1.6 finalization sequence must remain non-circular and fail-closed'
 );
 assert.equal(artifactPlan.finalizationSequence?.[0]?.status, 'passed');
-assert.equal(artifactPlan.finalizationSequence?.[1]?.status, 'pending-current-release-preparation-merge');
-const securityReview = readJson('acceptance/v1.6-stable-security-review.json');
+assert.equal(artifactPlan.finalizationSequence?.[1]?.status, 'passed');
+assert.equal(artifactPlan.finalizationSequence?.[2]?.status, 'passed');
+assert.equal(artifactPlan.finalizationSequence?.[3]?.status, 'passed');
+assert.equal(artifactPlan.finalizationSequence?.[4]?.status, 'authorized-pending');
+assert.equal(artifactPlan.finalizationSequence?.[5]?.status, 'blocked-on-immutable-publication');
+assert.equal(artifactPlan.finalizationSequence?.[6]?.status, 'blocked-on-post-publication-readback');
+assert.equal(securityReview.overallDecision, 'passed');
+assert.equal(securityReview.stableSecurityAcceptanceGranted, true);
+assert.equal(securityReview.stablePromotionAuthorized, false);
+assert.deepEqual(securityReview.remainingReleaseSecurityBlockers, []);
+assert.equal(securityReview.finalSecurityAcceptance?.result, 'passed');
+assert.equal(securityReview.finalSecurityAcceptance?.sourceRevision, 'a7180679ea851389e0f3004515f9a25f420e716d');
+assert.equal(securityReview.finalSecurityAcceptance?.finalArtifactWorkflowRunId, 35447623700);
+assert.equal(securityReview.finalSecurityAcceptance?.stableSecurityWorkflowRunId, 35447623641);
+assert.equal(securityReview.finalSecurityAcceptance?.publicationAuthorized, true);
 assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresProtectedSource, true);
 assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresUnpublishedFinalCandidateArtifact, true);
 assert.equal(securityReview.finalSecurityAcceptanceBoundary?.requiresArtifactChecksumSbomProvenance, true);
@@ -131,8 +160,30 @@ assert.equal(securityReview.finalSecurityAcceptanceBoundary?.publicationOccursAf
 assert.equal(securityReview.finalSecurityAcceptanceBoundary?.publicationMustReuseAcceptedArtifactBytes, true);
 assert.equal(securityReview.finalSecurityAcceptanceBoundary?.targetStableVersion, '1.6.0');
 assert.equal(securityReview.finalSecurityAcceptanceBoundary?.intendedImmutableTag, 'v1.6.0');
-assert.equal(blockers.get('release.artifact-provenance-and-publication-boundary')?.status, 'blocked-prepared-awaiting-final-exact-artifact');
-assert.equal(review.remainingBlockerCount, 2, 'remainingBlockerCount must be two');
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.acceptanceRecord, 'acceptance/v1.6-final-artifact-acceptance.json');
+assert.equal(securityReview.finalSecurityAcceptanceBoundary?.acceptedSourceRevision, 'a7180679ea851389e0f3004515f9a25f420e716d');
+
+assert.equal(finalArtifactAcceptance.decision, 'accepted-for-controlled-candidate-publication');
+assert.equal(finalArtifactAcceptance.stableStatusGranted, false);
+assert.equal(finalArtifactAcceptance.stablePromotionAuthorized, false);
+assert.equal(finalArtifactAcceptance.publicationAuthorized, true);
+assert.equal(finalArtifactAcceptance.publicationMustRemainPrereleaseUntilStablePromotion, true);
+assert.equal(finalArtifactAcceptance.candidate?.sourceRevision, 'a7180679ea851389e0f3004515f9a25f420e716d');
+assert.equal(finalArtifactAcceptance.candidate?.sourceTree, '9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268');
+assert.equal(finalArtifactAcceptance.candidate?.postMergeWorkflowCount, 31);
+assert.equal(finalArtifactAcceptance.candidate?.postMergeWorkflowFailureCount, 0);
+assert.equal(finalArtifactAcceptance.artifact?.workflowRunId, 35447623700);
+assert.equal(finalArtifactAcceptance.artifact?.actionsArtifactId, 10586051196);
+assert.equal(finalArtifactAcceptance.artifact?.archiveSha256, '687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af');
+assert.equal(finalArtifactAcceptance.artifact?.sbomSha256, '3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82');
+assert.equal(finalArtifactAcceptance.artifact?.provenanceSha256, '711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8');
+assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.workflowRunId, 35447623641);
+assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.unreviewedSecretFindingCount, 0);
+assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.selectedAdvisoryCount, 0);
+assert.equal(finalArtifactAcceptance.stableSecurityEvidence?.cyclonedxVulnerabilityCount, 0);
+assert.equal(finalArtifactAcceptance.securityAcceptance?.finalStableSecurityAcceptanceGranted, true);
+assert.equal(blockers.get('release.artifact-provenance-and-publication-boundary')?.status, 'blocked-security-accepted-awaiting-publication-readback');
+assert.equal(review.remainingBlockerCount, 1, 'remainingBlockerCount must be one');
 assert.equal(review.decision, 'blocked-remain-release-candidate');
 assert.equal(review.stablePromotionAuthorized, false);
 assert.equal(review.productionReadinessGranted, false);
@@ -142,4 +193,4 @@ assert.equal(review.requiredLifecycleState, 'Release Candidate');
 
 console.log('GLAZE UI V1.6 Stable qualification review: BLOCKED as governed.');
 console.log('Current Stable remains 1.5.1; active candidate remains 1.6.0-rc.1.');
-console.log(`Recorded blockers: ${review.blockers.length}; Stable promotion authorization: false.`);
+console.log(`Recorded blockers: ${review.blockers.length}; final security acceptance: passed; Stable promotion authorization: false.`);
