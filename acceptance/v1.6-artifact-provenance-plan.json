@@ -4,7 +4,7 @@
   "recordType": "stable-artifact-provenance-preparation",
   "product": "GLAZE UI V1.6",
   "candidate": "1.6.0-rc.1",
-  "status": "final-artifact-preparation-workflow-ready",
+  "status": "completed-published-and-read-back",
   "governance": {
     "stableQualification": "Standard — Stable Release Qualification v0.5",
     "mergeReleaseDeployment": "Procedure — Merge, Release, and Deployment",
@@ -14,10 +14,10 @@
     "componentType": "shared-library",
     "directServiceDeploymentApplicable": false,
     "immutablePublicationAcceptanceRequired": true,
-    "currentStable": "1.5.1",
-    "activeCandidate": "1.6.0-rc.1",
-    "stablePromotionAuthorized": false,
-    "finalStableRevisionSelected": false,
+    "currentStable": "1.6.0",
+    "activeCandidate": null,
+    "stablePromotionAuthorized": true,
+    "finalStableRevisionSelected": true,
     "dependencySupplyChainAccepted": true,
     "dependencyRemediationEvidence": "acceptance/v1.6-dependency-vulnerability-classification.json",
     "authoritativeMainProtectionAccepted": true,
@@ -29,9 +29,11 @@
       "stable-security-evidence",
       "platform-contract-0-4"
     ],
-    "finalCandidateArtifactPrepared": false,
-    "finalSecurityAcceptanceGranted": false,
-    "publicationAuthorized": false
+    "finalCandidateArtifactPrepared": true,
+    "finalSecurityAcceptanceGranted": true,
+    "publicationAuthorized": true,
+    "publicationCompleted": true,
+    "publicationReadbackPassed": true
   },
   "rehearsal": {
     "workflow": ".github/workflows/glaze-v1.6-artifact-provenance-rehearsal.yml",
@@ -60,15 +62,9 @@
     "After publication, read back the immutable tag/release/artifact identity and verify it matches the approved revision and evidence.",
     "Update lifecycle, release, documentation, task, and consumer-target records only after the authoritative publication state is verified."
   ],
-  "unresolvedPrerequisites": [
-    "Protected merge of the final-artifact preparation implementation and selection of the exact resulting main revision.",
-    "Successful exact-main final-artifact preparation workflow run producing deterministic candidate artifact, checksum, SBOM, provenance, and clean extracted-artifact secret scan.",
-    "Final Stable release-security acceptance for the same exact source revision and artifact bytes before publication.",
-    "Controlled immutable v1.6.0 publication reusing the accepted artifact bytes and authoritative post-publication readback.",
-    "Final exact-candidate Stable qualification review after publication readback."
-  ],
-  "decision": "final-artifact-workflow-ready-awaiting-exact-merged-run",
-  "boundary": "Authoritative main protection and dependency/supply-chain security are verified. The final non-publishing 1.6.0 artifact preparation workflow is implemented on this candidate branch but is not yet authoritative until governed merge. After merge, its exact main revision must produce deterministic artifact bytes, checksum/SBOM/provenance, and a clean extracted-artifact secret scan before final Stable security acceptance. Publication, Stable lifecycle, and consumer eligibility remain unauthorized.",
+  "unresolvedPrerequisites": [],
+  "decision": "completed-exact-artifact-security-publication-readback-passed",
+  "boundary": "The exact V1.6.0 source/runtime artifact was deterministically built from protected source a7180679ea851389e0f3004515f9a25f420e716d, passed final security acceptance, was published under immutable tag v1.6.0 without rebuild, and was read back byte-for-byte. Downstream application adoption and production acceptance remain separate.",
   "reconciledAt": "2026-09-19T08:39:32-05:00",
   "targetStableVersion": "1.6.0",
   "finalStablePreparation": {
@@ -86,7 +82,23 @@
     "publishesTag": false,
     "publishesGithubRelease": false,
     "grantsStable": false,
-    "status": "implemented-awaiting-exact-merged-main-run"
+    "status": "completed",
+    "selectedSourceRevision": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "selectedSourceTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+    "workflowRunId": 35447623700,
+    "actionsArtifactId": 10586051196,
+    "actionsArtifactDigest": "sha256:3da50b11641d50e68b67f45eec49850723ba6bf4f74a889686bffe3648ab7f06",
+    "archiveSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+    "sbomSha256": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+    "provenanceSha256": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8",
+    "deterministicDoubleBuildPassed": true,
+    "extractedArtifactSecretScanPassed": true,
+    "publicationTag": "v1.6.0",
+    "publicationReleaseId": 392095913,
+    "publicationWorkflowRunId": 35448300411,
+    "publicationReadbackArtifactId": 10586426818,
+    "publicationReadbackPassed": true,
+    "publishedBytesMatchAcceptedBytes": true
   },
   "finalizationSequence": [
     {
@@ -98,37 +110,37 @@
     {
       "order": 2,
       "id": "exact-candidate-selection",
-      "status": "pending-current-release-preparation-merge",
+      "status": "passed",
       "requirement": "Merge the final-artifact preparation implementation through protected main and select that exact resulting main revision; any later release-boundary source change creates a new candidate."
     },
     {
       "order": 3,
       "id": "final-unpublished-artifact",
-      "status": "blocked-on-exact-candidate-selection",
+      "status": "passed",
       "requirement": "Run the final-artifact preparation workflow on the exact selected main revision; require deterministic double-build equality, SHA-256 manifest, CycloneDX 1.5 SBOM, provenance, archive-boundary validation, and extracted-artifact secret scan."
     },
     {
       "order": 4,
       "id": "final-security-acceptance",
-      "status": "blocked-on-final-unpublished-artifact",
+      "status": "passed",
       "requirement": "Complete final Stable security acceptance against the exact protected source revision and the exact unpublished candidate artifact bytes."
     },
     {
       "order": 5,
       "id": "immutable-publication",
-      "status": "blocked-on-final-security-acceptance",
+      "status": "passed",
       "requirement": "Create the controlled immutable v1.6.0 release identity and publish only the artifact bytes already accepted by final security review; do not rebuild for publication."
     },
     {
       "order": 6,
       "id": "post-publication-readback",
-      "status": "blocked-on-immutable-publication",
+      "status": "passed",
       "requirement": "Read back the published tag, release, artifact, checksum, SBOM, and provenance and verify they resolve to the accepted source revision and bytes."
     },
     {
       "order": 7,
       "id": "exact-candidate-stable-qualification",
-      "status": "blocked-on-post-publication-readback",
+      "status": "passed",
       "requirement": "Run the final exact-candidate Stable qualification review and only then reconcile Stable lifecycle and consumer-eligibility records."
     }
   ]
