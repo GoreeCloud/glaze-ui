@@ -3,7 +3,7 @@
   "officialBaseline": "1.6.0",
   "officialProductLabel": "GLAZE UI V1.6",
   "requiredConsumerVersion": "1.6.0",
-  "auditedAt": "2026-09-19",
+  "auditedAt": "2026-09-20",
   "statusVocabulary": [
     "adoption-required",
     "unverified",
@@ -48,14 +48,14 @@
     },
     {
       "name": "GoreeCloud Website",
-      "repository": "GoreeCloud/goreecloud-website",
+      "repository": "GoreeCloud/static-websites",
       "status": "adoption-required",
       "targetVersion": null,
       "requiredTargetVersion": "1.6.0",
       "referenceRevision": null,
       "evidence": null,
       "productionEligible": false,
-      "notes": "Fresh repository-local V1.6.0 adoption and acceptance evidence is required; canonical static-site repository placement remains separately governed."
+      "notes": "Canonical website source is GoreeCloud/static-websites. Fresh repository-local V1.6.0 adoption and acceptance evidence is still required before the website consumer may advance from adoption-required; this registry correction does not grant consumer acceptance or production eligibility."
     },
     {
       "name": "GoreeCloud Tasks",
