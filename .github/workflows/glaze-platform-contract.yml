@@ -74,7 +74,7 @@ jobs:
           result = json.loads(Path("goreecloud.conformance-result.json").read_text(encoding="utf-8"))
 
           assert manifest["component"]["type"] == "shared-library"
-          assert manifest["component"]["repository"] == "GoreeCloud/goreecloud-glaze-ui"
+          assert manifest["component"]["repository"] == "GoreeCloud/glaze-ui"
           assert manifest["lifecycle"] == "stable"
           assert manifest["version"] == "1.6.0"
           assert manifest["conformance"]["status"] == "conformant"
