@@ -4,7 +4,7 @@ component:
   type: shared-library
   id: goreecloud-glaze-ui
   product_name: GLAZE UI
-  repository: GoreeCloud/goreecloud-glaze-ui
+  repository: GoreeCloud/glaze-ui
 
 lifecycle: stable
 version: 1.6.0
