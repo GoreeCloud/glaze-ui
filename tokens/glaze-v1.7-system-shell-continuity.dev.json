@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.7 System Shell Continuity Development Semantic Map",
+  "version": "1.7.0-dev.6",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "contracts/v1.2/system-shell-navigation.candidate.json",
+    "contracts/v1.2/system-shell-materials.candidate.json",
+    "tokens/glaze-v1.2-navigation.candidate.json",
+    "tokens/glaze-v1.6-navigation-status.dev.json",
+    "tokens/glaze-v1.7-task-continuity.dev.json",
+    "tokens/glaze-v1.7-adaptive-input.dev.json",
+    "tokens/glaze-v1.7-form-factor-profiles.dev.json",
+    "tokens/glaze-v1.7-command-surface.dev.json",
+    "tokens/glaze-v1.7-personalization.dev.json"
+  ],
+  "shellRegions": {
+    "workspace":"shell.region.workspace",
+    "navigation":"shell.region.navigation",
+    "universal-search":"shell.region.search",
+    "control-center":"shell.region.control-center",
+    "notification-activity":"shell.region.notification-activity",
+    "critical-system":"shell.region.critical-system"
+  },
+  "transitionKinds": {
+    "compact-expanded-navigation":"shell.transition.compact-expanded-navigation",
+    "split-view":"shell.transition.split-view",
+    "multi-window":"shell.transition.multi-window",
+    "window-restoration":"shell.transition.window-restoration",
+    "application-system-handoff":"shell.transition.application-system-handoff",
+    "task-switch":"shell.transition.task-switch",
+    "shell-overlay":"shell.transition.overlay",
+    "control-center":"shell.transition.control-center",
+    "search-continuity":"shell.transition.search"
+  },
+  "profilePresentations": {
+    "mobile":"shell.presentation.compact-stack",
+    "tablet":"shell.presentation.adaptive-split",
+    "desktop":"shell.presentation.workspace-multi-window",
+    "foldable":"shell.presentation.posture-aware",
+    "tv":"shell.presentation.far-view",
+    "wearable":"shell.presentation.glanceable"
+  },
+  "capabilityRoles": {
+    "available":"capability.available",
+    "unavailable":"capability.unavailable",
+    "unsupported":"capability.unsupported",
+    "restricted":"capability.restricted",
+    "permission-required":"capability.permission-required",
+    "temporarily-unavailable":"capability.temporarily-unavailable",
+    "unknown":"capability.unknown"
+  },
+  "continuity": {
+    "activeTask":"continuity.shell.active-task",
+    "navigation":"continuity.navigation.destination",
+    "focus":"continuity.focus.current",
+    "selection":"continuity.selection.current",
+    "drafts":"continuity.draft.recoverable",
+    "query":"continuity.query.current",
+    "filters":"continuity.filters.current",
+    "paneWindowContext":"continuity.shell.pane-window-context",
+    "pendingInteractions":"continuity.pending.safe",
+    "providerTruth":"continuity.provider.truth",
+    "shellReconfigurationMayResetTaskByItself": false,
+    "transitionsPredictable": true,
+    "transitionsReversible": true
+  },
+  "controlCenter": {
+    "layoutIdentity":"control-center.layout.identity",
+    "moduleOrder":"control-center.layout.module-order",
+    "persistentLayoutRequiresPlatformSupport": true,
+    "persistencePerformedByGlaze": false,
+    "crossDeviceSyncEstablished": false
+  },
+  "notificationActivity": {
+    "shellPresentation":"activity.shell-presentation",
+    "source":"activity.source",
+    "event":"activity.event",
+    "priority":"activity.priority",
+    "fullSection8ComponentSystemEstablished": false,
+    "truthGeneratedByGlaze": false,
+    "priorityInventedByGlaze": false
+  },
+  "boundaries": {
+    "shellConfigurationOwnedByApplicationOrPlatform": true,
+    "platformCapabilityOwnedByApplicationOrPlatform": true,
+    "windowingSupportCreatedByGlaze": false,
+    "systemPrivilegeGrantedByGlaze": false,
+    "notificationTruthCreatedByGlaze": false,
+    "searchAuthorityCreatedByGlaze": false,
+    "navigationExecutedByGlaze": false,
+    "handoffExecutedByGlaze": false,
+    "windowRestorationExecutedByGlaze": false,
+    "taskSwitchExecutedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "boundary": "Development semantic mapping only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable; System Shell Continuity remains non-consumer-eligible and does not establish native shell parity or section 8 component completion."
+}
