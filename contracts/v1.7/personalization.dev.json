@@ -1,0 +1,93 @@
+{
+  "$schema": "../../schemas/v1.7-personalization.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.personalization",
+  "name": "Glaze UI V1.7 Personalization 2.0 Development Contract",
+  "version": "1.7.0-dev.5",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [6],
+  "appearanceModes": ["light","dark","deep-dark"],
+  "accentFamilies": ["glaze-default","user-accent","wallpaper-derived","application-identity"],
+  "materialIntensityLevels": ["subdued","standard","expressive"],
+  "densityLevels": ["compact","standard","comfortable"],
+  "geometryPreferences": ["compact","balanced","rounded"],
+  "motionIntensityLevels": ["minimal","standard","expressive"],
+  "actions": ["preview","apply","reset","undo"],
+  "protectedSemanticRoles": [
+    "security",
+    "privacy",
+    "warning",
+    "critical",
+    "destructive",
+    "restricted",
+    "protected",
+    "success"
+  ],
+  "authorityPrecedence": [
+    "accessibility",
+    "semantic",
+    "application-identity",
+    "user-accent",
+    "wallpaper-derived",
+    "glaze-default"
+  ],
+  "accessibility": {
+    "overridesAestheticPersonalization": true,
+    "forcedColorsMayOverrideAppearancePigments": true,
+    "increasedContrastMayOverrideAccentAndMaterialIntensity": true,
+    "reducedTransparencyMayForceSolidOrSubduedMaterial": true,
+    "reducedMotionMayForceMinimalMotion": true,
+    "largeTextMayOverrideDensityAndGeometry": true,
+    "touchAssistanceMayOverrideDensityAndTargetSpacing": true,
+    "protectedSemanticRolesRemainProtected": true
+  },
+  "localFirst": {
+    "networkRequired": false,
+    "telemetryRequired": false,
+    "advertisingDependencyAllowed": false,
+    "remoteFontsRequired": false,
+    "remoteVisualDependenciesRequired": false,
+    "sensitiveContentAnalysisRequired": false,
+    "directWallpaperPixelAcquisitionAuthority": false,
+    "contextInputsCallerOrPlatformSupplied": true
+  },
+  "wallpaperInfluence": {
+    "decorativeOnly": true,
+    "maximumInfluence": 0.08,
+    "authoritativeCallerOrPlatformSummaryRequired": true,
+    "privateContentInspectionAllowed": false
+  },
+  "applicationIdentity": {
+    "preservedThroughPersonalization": true,
+    "authoritativeCallerOrRegistryInputRequired": true,
+    "mayRedefineProtectedSemanticRoles": false,
+    "userAccentMayEraseApplicationIdentity": false
+  },
+  "session": {
+    "previewBeforeApplySupported": true,
+    "explicitUserIntentRequiredForApplyResetUndo": true,
+    "resetSupported": true,
+    "undoSupported": true,
+    "perDeviceAdaptationSupported": true,
+    "crossDeviceSyncEstablished": false,
+    "persistenceAutomatic": false,
+    "callerOwnsPersistence": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "personalizationStateOwnedByUserAndCaller": true,
+    "sourceAuthorityInferredByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "capabilityCreatedByGlaze": false,
+    "telemetryAuthorizedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-personalization.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-personalization.dev.json",
+  "boundary": "Development foundation only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable. Personalization 2.0 does not establish consumer eligibility, native/rendered acceptance, persistence/synchronization authority, deployment, release, or production acceptance."
+}
