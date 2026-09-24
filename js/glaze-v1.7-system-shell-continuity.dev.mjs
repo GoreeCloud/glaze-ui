@@ -59,6 +59,8 @@ const CAPABILITY_BY_AREA = Object.freeze({
   'contextual-command-surfaces': 'contextual-command-surfaces'
 });
 
+const KNOWN_CAPABILITIES = Object.freeze([...new Set(Object.values(CAPABILITY_BY_AREA))]);
+
 const PROFILE_PRESENTATION = Object.freeze({
   mobile: 'compact-shell',
   tablet: 'adaptive-pane-shell',
@@ -174,6 +176,9 @@ export function resolveGlazeShellCapability(input = {}) {
 
   const capability = semanticId(input.capability);
   if (!capability) throw new TypeError('capability is required');
+  if (!KNOWN_CAPABILITIES.includes(capability)) {
+    throw new RangeError(`Unsupported System Shell capability: ${capability}`);
+  }
   const requestedState = validateMember(
     input.state,
     CAPABILITY_STATES,
@@ -373,6 +378,7 @@ export const glazeV17SystemShellContinuityDevelopmentContract = Object.freeze({
   shellAreas: SHELL_AREAS,
   transitionKinds: TRANSITION_KINDS,
   capabilityStates: CAPABILITY_STATES,
+  knownCapabilities: KNOWN_CAPABILITIES,
   shellContextFields: SHELL_CONTEXT_FIELDS,
   presentationByProfile: PROFILE_PRESENTATION,
   taskContinuityRequired: true,
