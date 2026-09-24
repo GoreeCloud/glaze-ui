@@ -65,6 +65,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "foundationalComponent",
         "profiles",
         "presentations",
         "semanticIdentityPreserved",
@@ -74,6 +75,7 @@
         "widthAloneIsAuthority"
       ],
       "properties": {
+        "foundationalComponent": {"const": "GlzAdaptivePane"},
         "profiles": {
           "const": ["mobile", "tablet", "desktop", "foldable", "tv", "wearable"]
         },
