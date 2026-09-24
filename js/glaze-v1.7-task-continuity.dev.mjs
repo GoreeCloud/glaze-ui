@@ -408,6 +408,52 @@ export function resolveGlazeAdaptiveComposition(input = {}) {
   });
 }
 
+
+export function resolveGlzAdaptivePane(input = {}) {
+  if (!plainObject(input)) throw new TypeError('GlzAdaptivePane input must be a plain object');
+
+  const composition = resolveGlazeAdaptiveComposition(input);
+  const continuity = resolveGlazeTaskContinuity({
+    environmentChange: input.environmentChange ?? 'form-factor',
+    previous: input.previousTaskState,
+    incoming: input.incomingTaskState,
+    stateClasses: input.stateClasses,
+    clearFields: input.clearFields,
+    clearAuthoritative: input.clearAuthoritative,
+    temporaryDisposableFields: input.temporaryDisposableFields,
+    lossDirectedFields: input.lossDirectedFields,
+    providerAuthoritativeFields: input.providerAuthoritativeFields,
+    recoveryStateFields: input.recoveryStateFields
+  });
+
+  return Object.freeze({
+    version: '1.7.0-dev.1',
+    lifecycle: 'development',
+    stableBaseline: '1.6.0',
+    component: 'GlzAdaptivePane',
+    semanticSurfaceId: composition.semanticSurfaceId,
+    profile: composition.profile,
+    presentation: composition.presentation,
+    posture: composition.posture,
+    taskState: continuity.state,
+    stateClasses: continuity.stateClasses,
+    preservation: composition.preservation,
+    continuity: continuity.continuity,
+    decisions: continuity.decisions,
+    authority: Object.freeze({
+      presentationOnly: true,
+      taskTruthOwnedByApplication: true,
+      providerTruthOwnedByProvider: true,
+      providerTruthManufactured: false,
+      authorizationGrantedByGlaze: false,
+      permissionGrantedByGlaze: false,
+      consentGrantedByGlaze: false,
+      navigationExecutedByGlaze: false,
+      consequentialExecutionAutomatic: false
+    })
+  });
+}
+
 export const glazeV17TaskContinuityDevelopmentContract = Object.freeze({
   version: '1.7.0-dev.1',
   lifecycle: 'development',
@@ -419,6 +465,7 @@ export const glazeV17TaskContinuityDevelopmentContract = Object.freeze({
   environmentChanges: ENVIRONMENT_CHANGES,
   profiles: PROFILES,
   presentations: PRESENTATIONS,
+  foundationalComponent: 'GlzAdaptivePane',
   presentationOnly: true,
   taskStateResetOnRecompositionAllowed: false,
   providerTruthManufactured: false,
