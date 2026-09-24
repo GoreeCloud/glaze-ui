@@ -6,15 +6,17 @@
 
 export * from './glaze-v1.7-task-continuity.dev.mjs';
 export * from './glaze-v1.7-adaptive-input.dev.mjs';
+export * from './glaze-v1.7-form-factor-profiles.dev.mjs';
 
 export const glazeV17Development = Object.freeze({
-  version: '1.7.0-dev.2',
+  version: '1.7.0-dev.3',
   lifecycle: 'development',
   stableBaseline: '1.6.0',
   consumerEligible: false,
-  implementedSpecificationSections: Object.freeze([1, 2, 4]),
+  implementedSpecificationSections: Object.freeze([1, 2, 3, 4]),
   taskContinuityFoundation: 'js/glaze-v1.7-task-continuity.dev.mjs',
   adaptiveInputFoundation: 'js/glaze-v1.7-adaptive-input.dev.mjs',
+  formFactorProfilesFoundation: 'js/glaze-v1.7-form-factor-profiles.dev.mjs',
   presentationOnly: true,
   accessibilityPrecedence: true,
   providerTruthManufactured: false,

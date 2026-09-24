@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.7 First-Class Form-Factor Profiles Development Semantic Map",
+  "version": "1.7.0-dev.3",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "FORM_FACTORS.md",
+    "tokens/glaze-v1.2-form-factor.candidate.json",
+    "tokens/glaze-v1.6-navigation-status.dev.json",
+    "tokens/glaze-v1.7-task-continuity.dev.json",
+    "tokens/glaze-v1.7-adaptive-input.dev.json"
+  ],
+  "profiles": {
+    "mobile": "profile.mobile",
+    "tablet": "profile.tablet",
+    "desktop": "profile.desktop",
+    "foldable": "profile.foldable",
+    "tv": "profile.tv-far-view",
+    "wearable": "profile.wearable"
+  },
+  "priority": {
+    "mobile": "first",
+    "tablet": "first",
+    "desktop": "standard",
+    "foldable": "standard",
+    "tv": "standard",
+    "wearable": "standard"
+  },
+  "dimensions": {
+    "navigation": "profile.dimension.navigation",
+    "reachability": "profile.dimension.reachability",
+    "density": "profile.dimension.density",
+    "safe-areas": "profile.dimension.safe-area",
+    "viewing-distance": "profile.dimension.viewing-distance",
+    "primary-input": "profile.dimension.primary-input",
+    "typography": "profile.dimension.typography",
+    "action-placement": "profile.dimension.action-placement",
+    "information-hierarchy": "profile.dimension.information-hierarchy",
+    "pane-behavior": "profile.dimension.pane-behavior",
+    "overlay-behavior": "profile.dimension.overlay-behavior",
+    "motion": "profile.dimension.motion",
+    "interaction-targets": "profile.dimension.interaction-targets"
+  },
+  "profileRoles": {
+    "mobile": {
+      "navigation":"navigation.bottom-or-compact",
+      "reachability":"reachability.primary-zone",
+      "density":"density.comfortable",
+      "viewingDistance":"viewing.near",
+      "paneBehavior":"pane.single",
+      "overlayBehavior":"overlay.sheet-or-full-screen",
+      "targets":"target.touch-floor"
+    },
+    "tablet": {
+      "navigation":"navigation.rail-or-compact-sidebar",
+      "reachability":"reachability.touch-pointer",
+      "density":"density.standard",
+      "viewingDistance":"viewing.near",
+      "paneBehavior":"pane.dual",
+      "overlayBehavior":"overlay.sheet-or-side-pane",
+      "targets":"target.touch-floor"
+    },
+    "desktop": {
+      "navigation":"navigation.workspace",
+      "reachability":"reachability.mixed-input",
+      "density":"density.standard",
+      "viewingDistance":"viewing.near",
+      "paneBehavior":"pane.multi",
+      "overlayBehavior":"overlay.popover-dialog-floating",
+      "targets":"target.mixed-input-floor"
+    },
+    "foldable": {
+      "navigation":"navigation.posture-aware",
+      "reachability":"reachability.posture-aware",
+      "density":"density.standard",
+      "viewingDistance":"viewing.near",
+      "paneBehavior":"pane.posture-aware",
+      "overlayBehavior":"overlay.posture-aware",
+      "targets":"target.touch-floor"
+    },
+    "tv": {
+      "navigation":"navigation.directional-focus",
+      "reachability":"reachability.far-view",
+      "density":"density.comfortable",
+      "viewingDistance":"viewing.far",
+      "paneBehavior":"pane.large-task-dependent",
+      "overlayBehavior":"overlay.far-view-panel-or-dialog",
+      "targets":"target.far-view-floor"
+    },
+    "wearable": {
+      "navigation":"navigation.shallow-glanceable",
+      "reachability":"reachability.single-focus",
+      "density":"density.comfortable",
+      "viewingDistance":"viewing.near-glance",
+      "paneBehavior":"pane.single",
+      "overlayBehavior":"overlay.full-screen-or-native",
+      "targets":"target.wearable-platform-floor"
+    }
+  },
+  "safeAreaPolicy": {
+    "platformProvidedInsetsRequired": true,
+    "hardCodedDeviceCutoutInsetsAllowed": false,
+    "unsafeRegionsRespected": true
+  },
+  "accessibility": {
+    "mayOverrideDensity": true,
+    "mayReducePaneCount": true,
+    "targetSizeMayShrinkToPreservePaneCount": false,
+    "semanticHierarchyPreserved": true
+  },
+  "wearable": {
+    "governedProfileDefined": true,
+    "nativeDeviceAcceptanceImplied": false,
+    "productionSupportImplied": false
+  },
+  "spatial": {
+    "status": "experimental",
+    "firstClassConsumerEligible": false,
+    "separateEvidenceRequired": true
+  },
+  "boundaries": {
+    "widthAloneIsProfileAuthority": false,
+    "deviceBrandBreakpointAuthority": false,
+    "profileSelectedByCallerOrPlatform": true,
+    "inputCapabilityCreatedByGlaze": false,
+    "safeAreaCreatedByGlaze": false,
+    "consumerSupportCreatedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "boundary": "Development semantic mapping only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable; profile definitions do not establish native-device, downstream-consumer, release, deployment, or production acceptance."
+}

@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.7-form-factor-profiles.schema.json",
+  "title": "Glaze UI V1.7 First-Class Form-Factor Profiles Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline",
+    "consumerEligible","implementedSpecificationSections","profiles","priorityProfiles",
+    "profileAuthorityInputs","profileDimensions","profileDefinitions","adaptation",
+    "wearableBoundary","experimentalProfiles","authority","runtimeEntrypoint",
+    "developmentAggregateEntrypoint","tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-form-factor-profiles.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.form-factor-profiles"},
+    "name": {"const": "Glaze UI V1.7 First-Class Form-Factor Profiles Development Contract"},
+    "version": {"const": "1.7.0-dev.3"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {"const": [3]},
+    "profiles": {"const": ["mobile","tablet","desktop","foldable","tv","wearable"]},
+    "priorityProfiles": {"const": ["mobile","tablet"]},
+    "profileAuthorityInputs": {
+      "const": [
+        "application-window","viewing-distance","primary-input","posture",
+        "platform-conventions","application-task","accessibility","safe-area"
+      ]
+    },
+    "profileDimensions": {
+      "const": [
+        "navigation","reachability","density","safe-areas","viewing-distance",
+        "primary-input","typography","action-placement","information-hierarchy",
+        "pane-behavior","overlay-behavior","motion","interaction-targets"
+      ]
+    },
+    "profileDefinitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mobile","tablet","desktop","foldable","tv","wearable"],
+      "properties": {
+        "mobile": {"type":"object","minProperties":13},
+        "tablet": {"type":"object","minProperties":13},
+        "desktop": {"type":"object","minProperties":13},
+        "foldable": {"type":"object","minProperties":13},
+        "tv": {"type":"object","minProperties":13},
+        "wearable": {"type":"object","minProperties":13}
+      }
+    },
+    "adaptation": {
+      "type":"object",
+      "additionalProperties": false,
+      "required":[
+        "widthAloneIsProfileAuthority","deviceBrandBreakpointAuthority",
+        "semanticMeaningPreservedAcrossProfileChange","taskContinuityRequired",
+        "accessibilityMayOverrideDensity","accessibilityMayReducePaneCount",
+        "targetSizeMayShrinkToPreservePaneCount","safeAreasOwnedByPlatform",
+        "hardCodedCutoutInsetsAllowed"
+      ],
+      "properties":{
+        "widthAloneIsProfileAuthority":{"const":false},
+        "deviceBrandBreakpointAuthority":{"const":false},
+        "semanticMeaningPreservedAcrossProfileChange":{"const":true},
+        "taskContinuityRequired":{"const":true},
+        "accessibilityMayOverrideDensity":{"const":true},
+        "accessibilityMayReducePaneCount":{"const":true},
+        "targetSizeMayShrinkToPreservePaneCount":{"const":false},
+        "safeAreasOwnedByPlatform":{"const":true},
+        "hardCodedCutoutInsetsAllowed":{"const":false}
+      }
+    },
+    "wearableBoundary": {
+      "type":"object",
+      "additionalProperties": false,
+      "required":["governedProfileDefined","nativeDeviceAcceptanceImplied","productionSupportImplied"],
+      "properties":{
+        "governedProfileDefined":{"const":true},
+        "nativeDeviceAcceptanceImplied":{"const":false},
+        "productionSupportImplied":{"const":false}
+      }
+    },
+    "experimentalProfiles": {
+      "type":"object",
+      "additionalProperties": false,
+      "required":["spatial"],
+      "properties":{
+        "spatial":{
+          "type":"object",
+          "additionalProperties":false,
+          "required":[
+            "status","firstClassConsumerEligible","requiresSeparateNativePlatformEvidence",
+            "requiresSeparateAccessibilityEvidence","requiresSeparateInteractionEvidence",
+            "requiresSeparatePerformanceEvidence","requiresSeparateRepresentativeDeviceEvidence"
+          ],
+          "properties":{
+            "status":{"const":"experimental"},
+            "firstClassConsumerEligible":{"const":false},
+            "requiresSeparateNativePlatformEvidence":{"const":true},
+            "requiresSeparateAccessibilityEvidence":{"const":true},
+            "requiresSeparateInteractionEvidence":{"const":true},
+            "requiresSeparatePerformanceEvidence":{"const":true},
+            "requiresSeparateRepresentativeDeviceEvidence":{"const":true}
+          }
+        }
+      }
+    },
+    "authority": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "boundary","profileSelectedByCallerOrPlatform","inputCapabilityCreatedByGlaze",
+        "hardwareCapabilityCreatedByGlaze","safeAreaCreatedByGlaze",
+        "authorizationGrantedByGlaze","permissionGrantedByGlaze",
+        "consumerSupportCreatedByGlaze","consequentialExecutionAutomatic"
+      ],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "profileSelectedByCallerOrPlatform":{"const":true},
+        "inputCapabilityCreatedByGlaze":{"const":false},
+        "hardwareCapabilityCreatedByGlaze":{"const":false},
+        "safeAreaCreatedByGlaze":{"const":false},
+        "authorizationGrantedByGlaze":{"const":false},
+        "permissionGrantedByGlaze":{"const":false},
+        "consumerSupportCreatedByGlaze":{"const":false},
+        "consequentialExecutionAutomatic":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.7-form-factor-profiles.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.7-form-factor-profiles.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}
