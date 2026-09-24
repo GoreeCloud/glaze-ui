@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.7-system-shell-continuity.schema.json",
+  "title": "Glaze UI V1.7 System Shell Continuity Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline",
+    "consumerEligible","implementedSpecificationSections","shellAreas","transitionKinds",
+    "capabilityStates","continuityRequirements","shellContextFields","integrationFoundations",
+    "controlCenter","notificationActivityBoundary","authority","runtimeEntrypoint",
+    "developmentAggregateEntrypoint","tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-system-shell-continuity.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.system-shell-continuity"},
+    "name": {"const": "Glaze UI V1.7 System Shell Continuity Development Contract"},
+    "version": {"const": "1.7.0-dev.6"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {"const": [7]},
+    "shellAreas": {
+      "const": [
+        "notification-activity-presentation",
+        "control-center",
+        "persistent-control-center-layout",
+        "multi-window",
+        "split-view",
+        "compact-expanded-navigation",
+        "window-restoration",
+        "application-system-handoff",
+        "task-switching",
+        "shell-overlays",
+        "search-continuity",
+        "contextual-command-surfaces"
+      ]
+    },
+    "transitionKinds": {
+      "const": [
+        "notification-activity-presentation",
+        "control-center-layout",
+        "multi-window-change",
+        "split-view-change",
+        "compact-expanded-navigation",
+        "window-restoration",
+        "application-system-handoff",
+        "task-switching",
+        "shell-overlay",
+        "search-continuity",
+        "contextual-command-surface"
+      ]
+    },
+    "capabilityStates": {"const": ["available","unavailable","unknown"]},
+    "continuityRequirements": {
+      "const": [
+        "navigation-destination",
+        "focus",
+        "selection",
+        "drafts",
+        "query-filter-context",
+        "pane-window-state",
+        "safe-pending-interactions",
+        "provider-owned-truth"
+      ]
+    },
+    "shellContextFields": {
+      "const": [
+        "window-state",
+        "control-center-layout",
+        "active-overlay",
+        "search-scope",
+        "command-context",
+        "notification-activity-context"
+      ]
+    },
+    "integrationFoundations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taskContinuity","adaptiveInput","formFactorProfiles","adaptiveComposition","commandSurface","personalization"],
+      "properties": {
+        "taskContinuity": {"const": "js/glaze-v1.7-task-continuity.dev.mjs"},
+        "adaptiveInput": {"const": "js/glaze-v1.7-adaptive-input.dev.mjs"},
+        "formFactorProfiles": {"const": "js/glaze-v1.7-form-factor-profiles.dev.mjs"},
+        "adaptiveComposition": {"const": "js/glaze-v1.7-task-continuity.dev.mjs"},
+        "commandSurface": {"const": "js/glaze-v1.7-command-surface.dev.mjs"},
+        "personalization": {"const": "js/glaze-v1.7-personalization.dev.mjs"}
+      }
+    },
+    "controlCenter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "persistentLayoutSupportedWhenPlatformCapabilityAvailable","layoutPersistenceAutomatic",
+        "layoutPersistenceOwnedByCallerOrPlatform","crossDeviceSyncEstablished"
+      ],
+      "properties": {
+        "persistentLayoutSupportedWhenPlatformCapabilityAvailable": {"const": true},
+        "layoutPersistenceAutomatic": {"const": false},
+        "layoutPersistenceOwnedByCallerOrPlatform": {"const": true},
+        "crossDeviceSyncEstablished": {"const": false}
+      }
+    },
+    "notificationActivityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "presentationContinuityIncluded","notificationTruthOwnedByProvider",
+        "activityTruthOwnedByProvider","section8ComponentCatalogImplemented"
+      ],
+      "properties": {
+        "presentationContinuityIncluded": {"const": true},
+        "notificationTruthOwnedByProvider": {"const": true},
+        "activityTruthOwnedByProvider": {"const": true},
+        "section8ComponentCatalogImplemented": {"const": false}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary","shellConfigurationOwnedByCallerOrPlatform","capabilityAuthorityRequired",
+        "windowingSupportCreatedByGlaze","systemPrivilegesGrantedByGlaze",
+        "notificationTruthCreatedByGlaze","activityTruthCreatedByGlaze",
+        "searchAuthorityCreatedByGlaze","navigationAuthorityCreatedByGlaze",
+        "executionAuthorityCreatedByGlaze","persistencePerformedByGlaze",
+        "consequentialExecutionAutomatic"
+      ],
+      "properties": {
+        "boundary": {"const": "presentation-only"},
+        "shellConfigurationOwnedByCallerOrPlatform": {"const": true},
+        "capabilityAuthorityRequired": {"const": true},
+        "windowingSupportCreatedByGlaze": {"const": false},
+        "systemPrivilegesGrantedByGlaze": {"const": false},
+        "notificationTruthCreatedByGlaze": {"const": false},
+        "activityTruthCreatedByGlaze": {"const": false},
+        "searchAuthorityCreatedByGlaze": {"const": false},
+        "navigationAuthorityCreatedByGlaze": {"const": false},
+        "executionAuthorityCreatedByGlaze": {"const": false},
+        "persistencePerformedByGlaze": {"const": false},
+        "consequentialExecutionAutomatic": {"const": false}
+      }
+    },
+    "runtimeEntrypoint": {"const": "js/glaze-v1.7-system-shell-continuity.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const": "js/glaze-v1.7-development.mjs"},
+    "tokenMap": {"const": "tokens/glaze-v1.7-system-shell-continuity.dev.json"},
+    "boundary": {"type":"string","minLength":1}
+  }
+}

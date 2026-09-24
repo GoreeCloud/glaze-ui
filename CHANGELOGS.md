@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.6` System Shell Continuity source foundation for specification section 7, covering notification/activity presentation continuity, Control Center continuity, persistent layout where supported, multi-window, split-view, compact/expanded navigation, restoration, application/system handoff, task switching, shell overlays, search continuity, and contextual command surfaces.
+- Shell capability and configuration truth now fails closed unless supplied authoritatively by the caller/platform; Glaze does not create windowing support, grant system privileges, generate notification/activity truth, create search/navigation authority, persist shell state, or execute consequential shell transitions.
+- System-shell recomposition reuses Task Continuity and the existing V1.7 input/profile/composition/command/personalization foundations to preserve active task, navigation, focus, selection, drafts, query/filter context, pane/window context, safe pending interactions, and provider-owned truth across predictable, reversible presentation changes.
+- Kept Section 8 Notification and Activity Surfaces explicitly separate: dev.6 covers presentation continuity only and does not claim the notification/activity component catalog, native shell parity, cross-device sync, or production acceptance.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.6` while retaining dev.1–dev.5 as regression foundations. V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
+
 - Added the bounded `1.7.0-dev.5` Personalization 2.0 source foundation for specification section 6, covering Light, Dark, Deep Dark, accent families, material intensity, density, geometry, motion intensity, local wallpaper/application-identity influence, and per-device Development scope semantics.
 - Accessibility now has explicit precedence over aesthetic personalization, while Security, Privacy, Warning, Critical, Destructive, Restricted, Protected, and Success roles reject arbitrary personalization remapping.
 - Added local-first source-authority boundaries and an 8% decorative wallpaper-influence ceiling; Glaze does not inspect wallpaper/private content, require network/telemetry/advertising/remote fonts, or invent source authority.

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.7 System Shell Continuity Development Semantic Map",
+  "version": "1.7.0-dev.6",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/glaze-v1.7-task-continuity.dev.json",
+    "tokens/glaze-v1.7-adaptive-input.dev.json",
+    "tokens/glaze-v1.7-form-factor-profiles.dev.json",
+    "tokens/glaze-v1.7-command-surface.dev.json",
+    "tokens/glaze-v1.7-personalization.dev.json"
+  ],
+  "shellAreas": {
+    "notification-activity-presentation": "shell.notification-activity.presentation",
+    "control-center": "shell.control-center",
+    "persistent-control-center-layout": "shell.control-center.layout.persistent",
+    "multi-window": "shell.window.multi",
+    "split-view": "shell.window.split",
+    "compact-expanded-navigation": "shell.navigation.compact-expanded",
+    "window-restoration": "shell.window.restoration",
+    "application-system-handoff": "shell.handoff.application-system",
+    "task-switching": "shell.task-switching",
+    "shell-overlays": "shell.overlay",
+    "search-continuity": "shell.search.continuity",
+    "contextual-command-surfaces": "shell.command.contextual"
+  },
+  "transitionRoles": {
+    "notification-activity-presentation": "shell.transition.notification-activity",
+    "control-center-layout": "shell.transition.control-center-layout",
+    "multi-window-change": "shell.transition.multi-window",
+    "split-view-change": "shell.transition.split-view",
+    "compact-expanded-navigation": "shell.transition.compact-expanded",
+    "window-restoration": "shell.transition.restoration",
+    "application-system-handoff": "shell.transition.handoff",
+    "task-switching": "shell.transition.task-switching",
+    "shell-overlay": "shell.transition.overlay",
+    "search-continuity": "shell.transition.search",
+    "contextual-command-surface": "shell.transition.command"
+  },
+  "presentationByProfile": {
+    "mobile": "compact-shell",
+    "tablet": "adaptive-pane-shell",
+    "desktop": "multi-window-capable-shell",
+    "foldable": "posture-aware-shell",
+    "tv": "far-view-shell",
+    "wearable": "shallow-shell"
+  },
+  "continuity": {
+    "navigationDestination": "continuity.navigation",
+    "focus": "continuity.focus",
+    "selection": "continuity.selection",
+    "drafts": "continuity.drafts",
+    "queryFilterContext": "continuity.query-filter",
+    "paneWindowState": "continuity.pane-window",
+    "safePendingInteractions": "continuity.pending-safe",
+    "providerOwnedTruth": "continuity.provider-truth"
+  },
+  "authority": {
+    "capabilityUnknown": "authority.capability.unknown",
+    "capabilityAvailable": "authority.capability.available",
+    "capabilityUnavailable": "authority.capability.unavailable",
+    "callerPlatformOwned": "authority.caller-platform",
+    "providerOwnedTruth": "authority.provider"
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "capabilityAuthorityRequired": true,
+    "windowingSupportCreatedByGlaze": false,
+    "systemPrivilegesGrantedByGlaze": false,
+    "notificationTruthCreatedByGlaze": false,
+    "activityTruthCreatedByGlaze": false,
+    "searchAuthorityCreatedByGlaze": false,
+    "navigationAuthorityCreatedByGlaze": false,
+    "executionAuthorityCreatedByGlaze": false,
+    "layoutPersistencePerformedByGlaze": false,
+    "crossDeviceSyncEstablished": false,
+    "section8ComponentCatalogImplemented": false
+  },
+  "boundary": "Development semantic mapping for V1.7 specification section 7 only. V1.6 / 1.6.0 remains current Official Stable; V1.7 remains non-consumer-eligible."
+}
