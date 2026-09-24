@@ -1,0 +1,37 @@
+# Glaze UI — Implemented Features
+
+**Status:** Active implemented-feature control  
+**As of:** 2026-09-23  
+**Canonical lifecycle authority:** `registry/lifecycle.json`  
+**Canonical repository:** `GoreeCloud/glaze-ui`  
+**Current Official Stable:** GLAZE UI V1.6 / `1.6.0`
+
+## Purpose
+
+This file records verified implemented Glaze UI feature and lifecycle obligations migrated from the retired mixed-state feature roadmap. It does not replace exact-revision source, acceptance records, release artifacts, lifecycle registry authority, or downstream consumer acceptance.
+
+## Verified Implemented / Historical Obligations
+
+| ID | Feature / obligation | Priority | Verified disposition |
+| --- | --- | --- | --- |
+| FR-004 | Preserve GLAZE UI V1.6 / `1.6.0` as current Official Stable authority and `1.5.1` as the immediate rollback baseline. | P0 | Verified Stable invariant; current lifecycle authority is `1.6.0`. |
+| FR-005 | Preserve the V1.5 Context + Capability Resolution architecture and its fail-closed authority, accessibility, continuity, diagnostics, degradation, and truth-preservation invariants. | P0 | Stable invariant; regression protection remains mandatory. |
+| FR-006 | Maintain presentation-only authority boundaries so Glaze never creates consent, grants permissions, invents provider precedence, executes consequential operations, or upgrades Privacy Shield, Wardveil Security, Everkeep, Mesh, or application truth. | P0 | Stable invariant; V1.5.1 promotion preserves it. |
+| FR-007 | Complete V1.5.1 representative performance qualification against the approved budget using exact-revision, privacy-minimized evidence from a representative reviewed environment. | P0 | Accepted — exact revision `5b59d0e36950d737dba35b58ae58058684e0831b`; PR #230 comment `5697516074`. |
+| FR-008 | Complete V1.5.1 platform/posture continuity qualification using a representative physical device or approved target runtime for every claimed applicable transition family. | P0 | Accepted — approved Pixel Fold target runtime under `GCU-ADR-GLAZE-V151-POSTURE-TR-001`; PR #230 comment `5705230782`. |
+| FR-009 | Complete the governed V1.5.1 lifecycle transition through Release Candidate and separate Stable promotion with exact-head and post-merge verification. | P0 | Completed historically for shared source/lifecycle authority; V1.5.1 is retained as the immediate known-good rollback Stable beneath current V1.6.0. |
+| FR-012 | Preserve V1.5.0 and earlier release evidence as historical rollback/audit provenance without conflating it with current V1.6.0 Stable authority. | High | Historical/rollback control. |
+| FR-013 | Implement the V1.6 Glaze Skeleton Motion System and intelligent loading decision/escalation foundation. | P0 | Completed in the qualified V1.6.0 Stable shared scope; future changes require a new governed lifecycle. |
+| FR-014 | Expand V1.6 semantic loading/skeleton tokens, accessibility fallbacks, motion-fatigue controls, and configurable thresholds through governed machine contracts. | P0 | Completed for the accepted V1.6.0 shared scope and covered by qualification evidence. |
+| FR-015 | Expand V1.6 across semantic states, accessibility, focus, motion, materials, typography, density, responsive behavior, recovery, diagnostics, and conformance metadata. | P0 | Completed for the accepted V1.6.0 shared scope; aggregate implementation remains traceable to the frozen qualification source. |
+| FR-016 | Complete the governed V1.6 section 98 acceptance matrix and Stable release gates. | P0 | Completed — 24 verified / 0 unverified / 0 not applicable; final security, publication, and readback complete; V1.6.0 Stable promotion authorized. |
+
+## Current Verified Stable Boundary
+
+GLAZE UI V1.6 / `1.6.0` is the current Official Stable shared target. The accepted release source remains `a7180679ea851389e0f3004515f9a25f420e716d`; the frozen V1.6 qualification matrix remains 24 verified / 0 unverified / 0 not applicable. V1.5.1 remains the immediate known-good Stable rollback baseline.
+
+Downstream consumer adoption, rendered/native application acceptance, deployment, and production acceptance remain separately governed and are not inherited from the shared Glaze UI Stable state.
+
+## Evidence Boundary
+
+Implementation and Stable claims in this register are summaries of repository evidence, not replacements for it. Exact qualification, release, security, publication, and provenance authority remains in the applicable contracts, acceptance records, Git history, release/tag state, and `registry/lifecycle.json`.
