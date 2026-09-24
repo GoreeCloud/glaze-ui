@@ -1,0 +1,60 @@
+{
+  "version": "1.7.0-dev.8",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "platformRoles": {
+    "android-compose": "native.android.compose",
+    "apple-swiftui": "native.apple.swiftui",
+    "web": "native.web",
+    "linux-native": "native.linux"
+  },
+  "semanticRoles": {
+    "surface": "glaze.surface",
+    "action": "glaze.action",
+    "navigation": "glaze.navigation",
+    "focus": "glaze.focus",
+    "input": "glaze.input",
+    "state": "glaze.state",
+    "progress": "glaze.progress",
+    "recovery": "glaze.recovery",
+    "privacy": "glaze.privacy",
+    "security": "glaze.security"
+  },
+  "mappingPolicy": {
+    "semanticVocabulary": "preserve",
+    "nativeControlPreference": "prefer-when-semantics-preserved",
+    "accessibilityPrecedence": "required",
+    "taskContinuity": "required",
+    "adaptiveInputContinuity": "required",
+    "formFactorContinuity": "required",
+    "crossPlatformVisualImitation": "not-required"
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "platformCapabilityAuthorityRequired": true,
+    "nativeControlMappingAuthorityRequired": true,
+    "privacyAuthorityRequired": true,
+    "securityAuthorityRequired": true,
+    "permissionAuthorityRequired": true,
+    "consentAuthorityRequired": true,
+    "availabilityAuthorityRequired": true,
+    "executionAuthorityRequired": true,
+    "platformCapabilityCreatedByGlaze": false,
+    "nativeControlAvailabilityCreatedByGlaze": false,
+    "privacyTruthCreatedByGlaze": false,
+    "securityTruthCreatedByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "availabilityTruthCreatedByGlaze": false,
+    "actionExecutionPerformedByGlaze": false,
+    "nativeCertificationImplied": false,
+    "downstreamAdoptionAutomatic": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "contracts/v1.7/native-glaze-kits.dev.json",
+    "schemas/v1.7-native-glaze-kits.schema.json"
+  ]
+}
