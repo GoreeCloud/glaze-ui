@@ -177,6 +177,46 @@ const providerClear = resolveGlazeTaskContinuity({
 assert(providerClear.state.workingContext.source === 'provider', 'Glaze must not clear provider-owned truth');
 assert(providerClear.continuity.blockedByContinuityRisk === true, 'provider-owned clear must expose continuity risk');
 
+const providerReplacementRejected = resolveGlazeTaskContinuity({
+  environmentChange: 'connectivity',
+  previous: {workingContext: {source: 'provider-a'}},
+  incoming: {workingContext: {source: 'untrusted-b'}},
+  stateClasses: {workingContext: 'provider-owned'}
+});
+assert(providerReplacementRejected.state.workingContext.source === 'provider-a', 'provider-owned state must reject unmarked incoming replacement');
+assert(providerReplacementRejected.decisions.workingContext === 'rejected-provider-input-not-authoritative', 'provider-owned rejection decision mismatch');
+assert(providerReplacementRejected.continuity.providerOwnedReplacementRequiresExplicitAuthority === true, 'provider replacement authority invariant missing');
+
+const providerReplacementAccepted = resolveGlazeTaskContinuity({
+  environmentChange: 'connectivity',
+  previous: {workingContext: {source: 'provider-a'}},
+  incoming: {workingContext: {source: 'provider-b'}},
+  providerAuthoritativeFields: ['workingContext'],
+  stateClasses: {workingContext: 'provider-owned'}
+});
+assert(providerReplacementAccepted.state.workingContext.source === 'provider-b', 'explicit provider-authoritative input should replace provider-owned state');
+assert(providerReplacementAccepted.decisions.workingContext === 'accepted-authoritative-provider-input', 'provider-owned accepted decision mismatch');
+
+const recoveryReplacementRejected = resolveGlazeTaskContinuity({
+  environmentChange: 'device-rotation',
+  previous: {draftText: 'existing draft'},
+  incoming: {draftText: 'undeclared replacement'},
+  stateClasses: {draftText: 'recoverable'}
+});
+assert(recoveryReplacementRejected.state.draftText === 'existing draft', 'recoverable state must reject undeclared recovery input');
+assert(recoveryReplacementRejected.decisions.draftText === 'rejected-recovery-input-not-declared', 'recoverable rejection decision mismatch');
+assert(recoveryReplacementRejected.continuity.recoverableReplacementRequiresExplicitRecoveryState === true, 'recoverable restoration invariant missing');
+
+const recoveryReplacementAccepted = resolveGlazeTaskContinuity({
+  environmentChange: 'device-rotation',
+  previous: {draftText: 'existing draft'},
+  incoming: {draftText: 'restored draft'},
+  recoveryStateFields: ['draftText'],
+  stateClasses: {draftText: 'recoverable'}
+});
+assert(recoveryReplacementAccepted.state.draftText === 'restored draft', 'declared caller recovery state should replace recoverable state');
+assert(recoveryReplacementAccepted.decisions.draftText === 'accepted-caller-recovery-state', 'recoverable accepted decision mismatch');
+
 const temporaryProtected = resolveGlazeTaskContinuity({
   environmentChange: 'input-method',
   previous: {pendingInteractions: ['safe-pending-action']},
