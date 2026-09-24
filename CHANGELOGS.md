@@ -4,6 +4,11 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.6` System Shell Continuity source foundation for specification section 7, covering six shell regions, six form-factor shell presentations, nine shell-transition families, and fail-closed platform capability presentation.
+- Shell reconfiguration now preserves the active task unless an authoritative caller/platform task change is supplied, while retaining navigation, focus, selection, drafts, query/filter state, pane/window context, safe pending interactions, and provider-owned truth through predictable reversible transitions.
+- Added Control Center layout continuity with authoritative reordering, platform-gated persistent-layout presentation, caller/platform-owned persistence, and no cross-device-sync claim.
+- Added bounded notification/activity shell presentation that requires caller/provider truth and explicitly does not establish the full section 8 notification/activity component system or native shell parity.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.6` while retaining dev.1–dev.5 as regression foundations. V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
 - Added the bounded `1.7.0-dev.5` Personalization 2.0 source foundation for specification section 6, covering Light, Dark, Deep Dark, accent families, material intensity, density, geometry, motion intensity, local wallpaper/application-identity influence, and per-device Development scope semantics.
 - Accessibility now has explicit precedence over aesthetic personalization, while Security, Privacy, Warning, Critical, Destructive, Restricted, Protected, and Success roles reject arbitrary personalization remapping.
 - Added local-first source-authority boundaries and an 8% decorative wallpaper-influence ceiling; Glaze does not inspect wallpaper/private content, require network/telemetry/advertising/remote fonts, or invent source authority.
