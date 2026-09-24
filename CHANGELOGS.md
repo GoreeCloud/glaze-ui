@@ -4,6 +4,10 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.3` First-Class Form-Factor Profiles source foundation for specification section 3, with governed Mobile, Tablet, Desktop, Foldable/posture-aware, TV/far-view, and Wearable profile semantics across thirteen profile dimensions.
+- Mobile and Tablet are explicitly first-priority Development profiles; profile selection is not derived from width or device brand alone, safe areas remain platform-owned, and accessibility may reduce density/pane count without shrinking interaction targets to preserve composition.
+- Added continuity-preserving transitions across all six profile families, a governed Wearable profile that does not imply native-device or production acceptance, and an explicit Spatial Experimental boundary requiring separate native-platform, accessibility, interaction, performance, and representative-device evidence.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.3` while retaining dev.1 Task Continuity/Adaptive Composition and dev.2 Adaptive Input as regression foundations. V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
 - Added the bounded `1.7.0-dev.2` Adaptive Input 2.0 source foundation for specification section 2, covering nine input models, authoritative semantic-action availability, input-specific presentation bindings, and Task Continuity-backed input-method changes.
 - Added fail-closed semantic alternatives for drag, swipe, hover, long-press, precision-pointer, and multi-touch dependencies so unavailable or unsuitable techniques do not become the sole path to meaning or action.
 - Advanced the V1.7 Development aggregate to `1.7.0-dev.2` while retaining dev.1 Task Continuity and `GlzAdaptivePane` as required regression foundations; V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
