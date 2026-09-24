@@ -1,0 +1,95 @@
+{
+  "$schema": "../../schemas/v1.7-system-shell-continuity.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.system-shell-continuity",
+  "name": "Glaze UI V1.7 System Shell Continuity Development Contract",
+  "version": "1.7.0-dev.6",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [7],
+  "shellAreas": [
+    "notification-activity-presentation",
+    "control-center",
+    "persistent-control-center-layout",
+    "multi-window",
+    "split-view",
+    "compact-expanded-navigation",
+    "window-restoration",
+    "application-system-handoff",
+    "task-switching",
+    "shell-overlays",
+    "search-continuity",
+    "contextual-command-surfaces"
+  ],
+  "transitionKinds": [
+    "notification-activity-presentation",
+    "control-center-layout",
+    "multi-window-change",
+    "split-view-change",
+    "compact-expanded-navigation",
+    "window-restoration",
+    "application-system-handoff",
+    "task-switching",
+    "shell-overlay",
+    "search-continuity",
+    "contextual-command-surface"
+  ],
+  "capabilityStates": ["available", "unavailable", "unknown"],
+  "continuityRequirements": [
+    "navigation-destination",
+    "focus",
+    "selection",
+    "drafts",
+    "query-filter-context",
+    "pane-window-state",
+    "safe-pending-interactions",
+    "provider-owned-truth"
+  ],
+  "shellContextFields": [
+    "window-state",
+    "control-center-layout",
+    "active-overlay",
+    "search-scope",
+    "command-context",
+    "notification-activity-context"
+  ],
+  "integrationFoundations": {
+    "taskContinuity": "js/glaze-v1.7-task-continuity.dev.mjs",
+    "adaptiveInput": "js/glaze-v1.7-adaptive-input.dev.mjs",
+    "formFactorProfiles": "js/glaze-v1.7-form-factor-profiles.dev.mjs",
+    "adaptiveComposition": "js/glaze-v1.7-task-continuity.dev.mjs",
+    "commandSurface": "js/glaze-v1.7-command-surface.dev.mjs",
+    "personalization": "js/glaze-v1.7-personalization.dev.mjs"
+  },
+  "controlCenter": {
+    "persistentLayoutSupportedWhenPlatformCapabilityAvailable": true,
+    "layoutPersistenceAutomatic": false,
+    "layoutPersistenceOwnedByCallerOrPlatform": true,
+    "crossDeviceSyncEstablished": false
+  },
+  "notificationActivityBoundary": {
+    "presentationContinuityIncluded": true,
+    "notificationTruthOwnedByProvider": true,
+    "activityTruthOwnedByProvider": true,
+    "section8ComponentCatalogImplemented": false
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "shellConfigurationOwnedByCallerOrPlatform": true,
+    "capabilityAuthorityRequired": true,
+    "windowingSupportCreatedByGlaze": false,
+    "systemPrivilegesGrantedByGlaze": false,
+    "notificationTruthCreatedByGlaze": false,
+    "activityTruthCreatedByGlaze": false,
+    "searchAuthorityCreatedByGlaze": false,
+    "navigationAuthorityCreatedByGlaze": false,
+    "executionAuthorityCreatedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-system-shell-continuity.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-system-shell-continuity.dev.json",
+  "boundary": "Development foundation for specification section 7 only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable. This tranche does not establish Section 8 notification/activity components, native shell acceptance, persistent storage, cross-device sync, consumer eligibility, release, deployment, or production acceptance."
+}
