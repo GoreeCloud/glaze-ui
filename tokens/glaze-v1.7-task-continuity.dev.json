@@ -48,6 +48,9 @@
     "multi-pane-recomposition": "environment.layout.multi-pane",
     "form-factor": "environment.form-factor"
   },
+  "adaptiveComponents": {
+    "GlzAdaptivePane": "component.adaptive-pane"
+  },
   "compositionRoles": {
     "bottom-sheet": "composition.bottom-sheet",
     "side-pane": "composition.side-pane",
