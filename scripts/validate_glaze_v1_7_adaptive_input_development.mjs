@@ -246,11 +246,23 @@ assert(glazeV17AdaptiveInputDevelopmentContract.interactionDependencies.length =
 assert(glazeV17AdaptiveInputDevelopmentContract.taskLossAllowed === false, 'runtime must prohibit task loss');
 assert(glazeV17AdaptiveInputDevelopmentContract.executionAuthorityCreatedByGlaze === false, 'runtime must not create execution authority');
 
-assert(glazeV17Development.version === '1.7.0-dev.2', 'aggregate version mismatch');
+const aggregateVersionParts = String(glazeV17Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.7.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 2,
+  'aggregate Development version must retain or advance beyond dev.2'
+);
 assert(glazeV17Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV17Development.stableBaseline === '1.6.0', 'aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
-assert(JSON.stringify(glazeV17Development.implementedSpecificationSections) === JSON.stringify([1,2,4]), 'aggregate section set mismatch');
+for (const retainedSection of [1,2,4]) {
+  assert(
+    glazeV17Development.implementedSpecificationSections.includes(retainedSection),
+    `aggregate lost Adaptive Input prerequisite section ${retainedSection}`
+  );
+}
 assert(glazeV17Development.taskContinuityFoundation === 'js/glaze-v1.7-task-continuity.dev.mjs', 'aggregate lost Task Continuity foundation');
 assert(glazeV17Development.adaptiveInputFoundation === 'js/glaze-v1.7-adaptive-input.dev.mjs', 'aggregate missing Adaptive Input foundation');
 
