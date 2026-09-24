@@ -7,6 +7,7 @@ import {
   classifyGlazeTaskState,
   resolveGlazeTaskContinuity,
   resolveGlazeAdaptiveComposition,
+  resolveGlzAdaptivePane,
   glazeV17TaskContinuityDevelopmentContract
 } from '../js/glaze-v1.7-task-continuity.dev.mjs';
 import {glazeV17Development} from '../js/glaze-v1.7-development.mjs';
@@ -73,6 +74,7 @@ assert(contract.consumerEligible === false, 'contract must remain non-consumer-e
 assert(JSON.stringify(contract.implementedSpecificationSections) === JSON.stringify([1,4]), 'implemented section set mismatch');
 assert(JSON.stringify(contract.stateClasses) === JSON.stringify(stateClasses), 'state class set mismatch');
 assert(JSON.stringify(contract.environmentChanges) === JSON.stringify(environmentChanges), 'environment change set mismatch');
+assert(contract.adaptiveComposition.foundationalComponent === 'GlzAdaptivePane', 'adaptive composition must expose GlzAdaptivePane');
 assert(contract.adaptiveComposition.semanticIdentityPreserved === true, 'semantic identity must be preserved');
 assert(contract.adaptiveComposition.taskStateResetOnRecompositionAllowed === false, 'recomposition must not reset task state');
 assert(contract.adaptiveComposition.accessibilitySemanticsPreserved === true, 'accessibility semantics must be preserved');
@@ -94,6 +96,7 @@ assert(tokens.consumerEligible === false, 'token map must remain non-consumer-el
 assert(Object.keys(tokens.stateClasses).length === 7, 'token map must expose seven state classes');
 assert(Object.keys(tokens.continuityFields).length === 13, 'token map must expose thirteen continuity fields');
 assert(Object.keys(tokens.environmentChanges).length === 11, 'token map must expose eleven environment changes');
+assert(tokens.adaptiveComponents.GlzAdaptivePane === 'component.adaptive-pane', 'token map must expose GlzAdaptivePane');
 assert(Object.keys(tokens.compositionRoles).length === 6, 'token map must expose six composition roles');
 assert(Object.keys(tokens.profiles).length === 6, 'token map must expose six form-factor profiles');
 assert(tokens.invariants.taskStateResetOnRecompositionAllowed === false, 'token map must prohibit task reset on recomposition');
@@ -297,9 +300,34 @@ const largeText = resolveGlazeAdaptiveComposition({
 assert(largeText.presentation === 'full-screen-step', 'large text may simplify composition to full-screen');
 assert(largeText.preservation.accessibilitySemanticsPreserved === true, 'accessibility semantics must survive composition change');
 
+const adaptivePane = resolveGlzAdaptivePane({
+  profile: 'tablet',
+  semanticSurfaceId: 'memo-detail',
+  surfaceRole: 'detail',
+  environmentChange: 'compact-expanded-layout',
+  previousTaskState: {
+    navigationDestination: 'memos/detail',
+    focusId: 'memo-title',
+    draftText: 'draft survives'
+  },
+  stateClasses: {
+    navigationDestination: 'durable',
+    focusId: 'session-scoped',
+    draftText: 'recoverable'
+  }
+});
+assert(adaptivePane.component === 'GlzAdaptivePane', 'adaptive pane component identity mismatch');
+assert(adaptivePane.presentation === 'side-pane', 'tablet adaptive pane presentation mismatch');
+assert(adaptivePane.taskState.navigationDestination === 'memos/detail', 'adaptive pane lost navigation state');
+assert(adaptivePane.taskState.focusId === 'memo-title', 'adaptive pane lost focus state');
+assert(adaptivePane.taskState.draftText === 'draft survives', 'adaptive pane lost draft state');
+assert(adaptivePane.continuity.taskStateResetOnRecompositionAllowed === false, 'adaptive pane must not permit task reset');
+assert(adaptivePane.authority.providerTruthManufactured === false, 'adaptive pane must not manufacture provider truth');
+
 assert(glazeV17TaskContinuityDevelopmentContract.version === '1.7.0-dev.1', 'runtime contract version mismatch');
 assert(glazeV17TaskContinuityDevelopmentContract.stableBaseline === '1.6.0', 'runtime Stable baseline mismatch');
 assert(glazeV17TaskContinuityDevelopmentContract.consumerEligible === false, 'runtime must remain non-consumer-eligible');
+assert(glazeV17TaskContinuityDevelopmentContract.foundationalComponent === 'GlzAdaptivePane', 'runtime must expose GlzAdaptivePane');
 assert(glazeV17TaskContinuityDevelopmentContract.taskStateResetOnRecompositionAllowed === false, 'runtime must prohibit task-state reset');
 assert(glazeV17TaskContinuityDevelopmentContract.providerTruthManufactured === false, 'runtime must not manufacture provider truth');
 
