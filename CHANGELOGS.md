@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.9` Native Glaze Kits Development source-mapping foundation for the expanded V1.7 v1.1 Section 24.
+- Added semantic bridge mappings for Android / Jetpack Compose, Apple / SwiftUI, Web, and supported Linux native environments across accessibility, input, rendering, system appearance, color capability, and performance characteristics while preserving one Glaze semantic vocabulary.
+- Integrated the dev.8 Theme and Semantic Color foundation so native mappings preserve semantic themes, semantic color roles, protected semantic precedence, and fail-closed provider/caller truth rather than translating Glaze into pixel-identical cross-platform surfaces.
+- Kept platform capability, native-control availability, appearance/color capability, privacy/security state, permissions, consent, availability, and consequential execution outside Glaze authority; dev.9 does not claim finished native reference implementations, Section 24 completion, native-device/rendered/assistive-technology/performance acceptance, consumer eligibility, release, deployment, or production acceptance.
+- Advanced the bounded Development aggregate to `1.7.0-dev.9` while preserving V1.6 / `1.6.0` as Official Stable and the dev.8 theme/color foundation as regression authority.
+
 - Added the bounded `1.7.0-dev.8` Theme and Semantic Color Reconciliation Development foundation against the expanded V1.7 v1.1 plan.
 - Added explicit theme-layer precedence (Accessibility → Protected Semantic State → Product Identity → User Theme → Contextual Accent → Glaze Default), protected semantic role override rejection, semantic prominence controls that prevent ordinary information from escalating to Critical, and fail-closed provider/caller semantic truth handling.
 - Added local deterministic palette generation, Theme Color Roles, WCAG-oriented text/focus contrast diagnostics, and Theme Safety fallback to `glaze-default` when a custom theme is unsafe; palette generation requires no network, telemetry, wallpaper upload, remote fonts, or remote visual dependencies.

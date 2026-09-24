@@ -164,13 +164,15 @@ assert(glazeV17ThemeSemanticColorDevelopmentContract.consumerEligible===false,'r
 assert(glazeV17ThemeSemanticColorDevelopmentContract.providerTruthManufactured===false,'runtime must preserve provider truth boundary');
 assert(glazeV17ThemeSemanticColorDevelopmentContract.protectedSemanticOverrideAllowed===false,'runtime must protect semantic colors');
 
-assert(glazeV17Development.version==='1.7.0-dev.8','aggregate version mismatch');
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\.7\.0-dev\.(\d+)$/)?.[1]);
+assert(Number.isInteger(aggregateOrdinal) && aggregateOrdinal>=8,'aggregate must retain dev.8 or a later bounded Development revision');
 assert(glazeV17Development.lifecycle==='development','aggregate must remain Development');
 assert(glazeV17Development.stableBaseline==='1.6.0','aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible===false,'aggregate must remain non-consumer-eligible');
 assert(glazeV17Development.implementedSpecificationSectionsPlanVersion==='v1.0-historical-numbering','aggregate must explicitly retain historical numbering provenance');
 assert(glazeV17Development.planVersion==='v1.1','aggregate current plan version mismatch');
 assert(glazeV17Development.themeSemanticColorFoundation==='js/glaze-v1.7-theme-semantic-color.dev.mjs','aggregate missing dev.8 foundation');
+for(const section of [7,8,9,10,11,12,13,18,19,21]) assert(glazeV17Development.planV11FoundationSections.includes(section),`aggregate lost dev.8 v1.1 foundation section: ${section}`);
 assert(glazeV17Development.providerTruthManufactured===false,'aggregate provider-truth boundary weakened');
 
 assert(planned.includes('1.7.0-dev.8') && planned.includes('Theme and Semantic Color Reconciliation'),'planned-feature control missing dev.8 state');
