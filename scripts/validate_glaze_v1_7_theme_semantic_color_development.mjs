@@ -164,7 +164,7 @@ assert(glazeV17ThemeSemanticColorDevelopmentContract.consumerEligible===false,'r
 assert(glazeV17ThemeSemanticColorDevelopmentContract.providerTruthManufactured===false,'runtime must preserve provider truth boundary');
 assert(glazeV17ThemeSemanticColorDevelopmentContract.protectedSemanticOverrideAllowed===false,'runtime must protect semantic colors');
 
-const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\\.7\\.0-dev\\.(\\d+)$/)?.[1]);
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\.7\.0-dev\.(\d+)$/)?.[1]);
 assert(Number.isInteger(aggregateOrdinal) && aggregateOrdinal>=8,'aggregate must retain dev.8 or a later bounded Development revision');
 assert(glazeV17Development.lifecycle==='development','aggregate must remain Development');
 assert(glazeV17Development.stableBaseline==='1.6.0','aggregate Stable baseline mismatch');
