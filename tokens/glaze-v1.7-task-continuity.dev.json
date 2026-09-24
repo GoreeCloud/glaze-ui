@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.7 Task Continuity Development Semantic Map",
+  "version": "1.7.0-dev.1",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/layout.json",
+    "tokens/states.json",
+    "tokens/semantic-colors.json",
+    "tokens/glaze-v1.6-navigation-status.dev.json"
+  ],
+  "stateClasses": {
+    "durable": "continuity.state.durable",
+    "session-scoped": "continuity.state.session",
+    "presentation-only": "continuity.state.presentation",
+    "provider-owned": "continuity.state.provider",
+    "temporary": "continuity.state.temporary",
+    "recoverable": "continuity.state.recoverable",
+    "non-restorable": "continuity.state.non-restorable"
+  },
+  "continuityFields": {
+    "navigationDestination": "continuity.navigation.destination",
+    "focusId": "continuity.focus.current",
+    "selectionIds": "continuity.selection.current",
+    "scrollPositionKey": "continuity.scroll.position",
+    "expandedRegionIds": "continuity.expansion.current",
+    "draftText": "continuity.draft.current",
+    "formState": "continuity.form.current",
+    "activeFilters": "continuity.filters.current",
+    "query": "continuity.query.current",
+    "paneState": "continuity.pane.current",
+    "mediaState": "continuity.media.current",
+    "pendingInteractions": "continuity.interactions.pending-safe",
+    "workingContext": "continuity.context.current"
+  },
+  "environmentChanges": {
+    "window-resize": "environment.window.resize",
+    "device-rotation": "environment.device.rotation",
+    "foldable-posture": "environment.foldable.posture",
+    "compact-expanded-layout": "environment.layout.compact-expanded",
+    "input-method": "environment.input.method",
+    "accessibility-mode": "environment.accessibility.mode",
+    "appearance": "environment.appearance",
+    "capability-degradation": "environment.capability.degradation",
+    "connectivity": "environment.connectivity",
+    "multi-pane-recomposition": "environment.layout.multi-pane",
+    "form-factor": "environment.form-factor"
+  },
+  "compositionRoles": {
+    "bottom-sheet": "composition.bottom-sheet",
+    "side-pane": "composition.side-pane",
+    "secondary-pane": "composition.secondary-pane",
+    "floating-panel": "composition.floating-panel",
+    "full-screen-step": "composition.full-screen-step",
+    "far-view-panel": "composition.far-view-panel"
+  },
+  "profiles": {
+    "mobile": "profile.mobile",
+    "tablet": "profile.tablet",
+    "desktop": "profile.desktop",
+    "foldable": "profile.foldable",
+    "tv": "profile.tv",
+    "wearable": "profile.wearable"
+  },
+  "invariants": {
+    "semanticIdentityPreserved": true,
+    "taskStateResetOnRecompositionAllowed": false,
+    "providerTruthManufactured": false,
+    "authorizationGrantedByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "widthAloneIsAuthority": false
+  },
+  "boundary": "Development semantic mapping only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable; retained V1.6 Development token maps are predecessor provenance inputs and are not re-promoted by this file."
+}
