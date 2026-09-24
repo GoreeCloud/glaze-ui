@@ -51,6 +51,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - name: Validate JSON syntax
         run: |
           python -m json.tool contracts/v1.7/task-continuity.dev.json >/dev/null
@@ -72,6 +73,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - name: Verify V1.6 Stable qualification authority
         run: node scripts/verify_glaze_v1_6_stable_qualification_review.mjs
       - name: Verify V1.6 Stable publication boundary
@@ -85,5 +87,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - name: Verify V1.5.1 retained Stable authority
         run: node scripts/verify_glaze_v1_5_1_stable.mjs
