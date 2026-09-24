@@ -1,0 +1,72 @@
+{
+  "version": "1.7.0-dev.9",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "v11SpecificationSections": [24],
+  "platformRoles": {
+    "android-compose": "native.android.compose",
+    "apple-swiftui": "native.apple.swiftui",
+    "web": "native.web",
+    "linux-native": "native.linux"
+  },
+  "semanticRoles": {
+    "surface": "glaze.surface",
+    "action": "glaze.action",
+    "navigation": "glaze.navigation",
+    "focus": "glaze.focus",
+    "input": "glaze.input",
+    "state": "glaze.state",
+    "progress": "glaze.progress",
+    "recovery": "glaze.recovery",
+    "privacy": "glaze.privacy",
+    "security": "glaze.security"
+  },
+  "bridgeRoles": [
+    "accessibility",
+    "input",
+    "rendering",
+    "system-appearance",
+    "color-api",
+    "performance"
+  ],
+  "mappingPolicy": {
+    "semanticVocabulary": "preserve",
+    "semanticThemes": "preserve",
+    "semanticColorRoles": "preserve",
+    "nativeControlPreference": "prefer-when-semantics-preserved",
+    "accessibilityPrecedence": "required",
+    "taskContinuity": "required",
+    "adaptiveInputContinuity": "required",
+    "formFactorContinuity": "required",
+    "crossPlatformPixelIdentity": "not-required"
+  },
+  "themeIntegration": {
+    "themeSemanticColorFoundation": "js/glaze-v1.7-theme-semantic-color.dev.mjs",
+    "protectedSemanticOverrideAllowed": false,
+    "providerSemanticTruthRequired": true,
+    "systemAppearanceTruthCreatedByGlaze": false,
+    "platformColorCapabilityCreatedByGlaze": false
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "sourceMappingOnly": true,
+    "nativeCertificationImplied": false,
+    "nativeReferenceImplementationAcceptanceAutomatic": false,
+    "nativeDeviceAcceptanceAutomatic": false,
+    "renderedAcceptanceAutomatic": false,
+    "assistiveTechnologyAcceptanceAutomatic": false,
+    "performanceAcceptanceAutomatic": false,
+    "downstreamAdoptionAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "contracts/v1.7/native-glaze-kits.dev.json",
+    "schemas/v1.7-native-glaze-kits.schema.json",
+    "js/glaze-v1.7-theme-semantic-color.dev.mjs"
+  ]
+}

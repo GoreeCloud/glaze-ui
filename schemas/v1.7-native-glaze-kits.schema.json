@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-native-glaze-kits.schema.json",
+  "title": "Glaze UI V1.7 Native Glaze Kits Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline",
+    "consumerEligible","planVersion","foundationScope","v11SpecificationSections","platforms",
+    "semanticVocabulary","platformMappings","mappingRequirements","authority","acceptanceBoundary",
+    "integrationFoundations","completionClaims","runtimeEntrypoint","developmentAggregateEntrypoint",
+    "tokenMap","sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-native-glaze-kits.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.native-glaze-kits"},
+    "name": {"const": "Glaze UI V1.7 Native Glaze Kits Development Contract"},
+    "version": {"const": "1.7.0-dev.9"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "planVersion": {"const": "v1.1"},
+    "foundationScope": {"type":"array","minItems":10,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "v11SpecificationSections": {"const":[24]},
+    "platforms": {"const":["android-compose","apple-swiftui","web","linux-native"]},
+    "semanticVocabulary": {
+      "type":"array","minItems":10,"maxItems":10,"uniqueItems":true,
+      "items":{"enum":["surface","action","navigation","focus","input","state","progress","recovery","privacy","security"]}
+    },
+    "platformMappings": {
+      "type":"object","additionalProperties":false,
+      "required":["android-compose","apple-swiftui","web","linux-native"],
+      "properties":{
+        "android-compose":{"$ref":"#/$defs/platformMapping"},
+        "apple-swiftui":{"$ref":"#/$defs/platformMapping"},
+        "web":{"$ref":"#/$defs/platformMapping"},
+        "linux-native":{"$ref":"#/$defs/platformMapping"}
+      }
+    },
+    "mappingRequirements":{"type":"array","minItems":12,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "authority":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "boundary","platformCapabilityAuthorityRequired","nativeControlMappingAuthorityRequired",
+        "systemAppearanceAuthorityRequired","platformColorCapabilityAuthorityRequired",
+        "privacyAuthorityRequired","securityAuthorityRequired","permissionAuthorityRequired",
+        "consentAuthorityRequired","availabilityAuthorityRequired","executionAuthorityRequired",
+        "platformCapabilityCreatedByGlaze","nativeControlAvailabilityCreatedByGlaze",
+        "systemAppearanceTruthCreatedByGlaze","platformColorCapabilityCreatedByGlaze",
+        "privacyTruthCreatedByGlaze","securityTruthCreatedByGlaze","permissionGrantedByGlaze",
+        "consentGrantedByGlaze","availabilityTruthCreatedByGlaze","actionExecutionPerformedByGlaze",
+        "nativeCertificationImplied","downstreamAdoptionAutomatic","consequentialExecutionAutomatic"
+      ],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "platformCapabilityAuthorityRequired":{"const":true},
+        "nativeControlMappingAuthorityRequired":{"const":true},
+        "systemAppearanceAuthorityRequired":{"const":true},
+        "platformColorCapabilityAuthorityRequired":{"const":true},
+        "privacyAuthorityRequired":{"const":true},
+        "securityAuthorityRequired":{"const":true},
+        "permissionAuthorityRequired":{"const":true},
+        "consentAuthorityRequired":{"const":true},
+        "availabilityAuthorityRequired":{"const":true},
+        "executionAuthorityRequired":{"const":true},
+        "platformCapabilityCreatedByGlaze":{"const":false},
+        "nativeControlAvailabilityCreatedByGlaze":{"const":false},
+        "systemAppearanceTruthCreatedByGlaze":{"const":false},
+        "platformColorCapabilityCreatedByGlaze":{"const":false},
+        "privacyTruthCreatedByGlaze":{"const":false},
+        "securityTruthCreatedByGlaze":{"const":false},
+        "permissionGrantedByGlaze":{"const":false},
+        "consentGrantedByGlaze":{"const":false},
+        "availabilityTruthCreatedByGlaze":{"const":false},
+        "actionExecutionPerformedByGlaze":{"const":false},
+        "nativeCertificationImplied":{"const":false},
+        "downstreamAdoptionAutomatic":{"const":false},
+        "consequentialExecutionAutomatic":{"const":false}
+      }
+    },
+    "acceptanceBoundary":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "sourceMappingOnly","nativeReferenceImplementationAcceptanceRequired","nativeDeviceAcceptanceRequired",
+        "renderedAcceptanceRequired","assistiveTechnologyAcceptanceRequired","performanceAcceptanceRequired",
+        "downstreamConsumerAcceptanceAutomatic","deploymentAcceptanceAutomatic","productionAcceptanceAutomatic"
+      ],
+      "properties":{
+        "sourceMappingOnly":{"const":true},
+        "nativeReferenceImplementationAcceptanceRequired":{"const":true},
+        "nativeDeviceAcceptanceRequired":{"const":true},
+        "renderedAcceptanceRequired":{"const":true},
+        "assistiveTechnologyAcceptanceRequired":{"const":true},
+        "performanceAcceptanceRequired":{"const":true},
+        "downstreamConsumerAcceptanceAutomatic":{"const":false},
+        "deploymentAcceptanceAutomatic":{"const":false},
+        "productionAcceptanceAutomatic":{"const":false}
+      }
+    },
+    "integrationFoundations":{
+      "type":"object","additionalProperties":false,
+      "required":["taskContinuity","adaptiveInput","formFactorProfiles","themeSemanticColor"],
+      "properties":{
+        "taskContinuity":{"const":"js/glaze-v1.7-task-continuity.dev.mjs"},
+        "adaptiveInput":{"const":"js/glaze-v1.7-adaptive-input.dev.mjs"},
+        "formFactorProfiles":{"const":"js/glaze-v1.7-form-factor-profiles.dev.mjs"},
+        "themeSemanticColor":{"const":"js/glaze-v1.7-theme-semantic-color.dev.mjs"}
+      }
+    },
+    "completionClaims":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "v11Section24Complete","nativeReferenceImplementationsComplete","nativeDeviceAcceptance",
+        "renderedAcceptance","assistiveTechnologyAcceptance","performanceAcceptance","consumerEligibility",
+        "releaseCandidate","stable","deployed","productionAccepted"
+      ],
+      "properties":{
+        "v11Section24Complete":{"const":false},
+        "nativeReferenceImplementationsComplete":{"const":false},
+        "nativeDeviceAcceptance":{"const":false},
+        "renderedAcceptance":{"const":false},
+        "assistiveTechnologyAcceptance":{"const":false},
+        "performanceAcceptance":{"const":false},
+        "consumerEligibility":{"const":false},
+        "releaseCandidate":{"const":false},
+        "stable":{"const":false},
+        "deployed":{"const":false},
+        "productionAccepted":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.7-native-glaze-kits.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.7-native-glaze-kits.dev.json"},
+    "sourceAuthorities":{"type":"array","minItems":4,"uniqueItems":true,"items":{"type":"string","minLength":1}}
+  },
+  "$defs":{
+    "platformMapping":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "framework","controlPolicy","accessibilityBridge","inputBridge","renderingBridge",
+        "appearanceBridge","colorBridge","performanceBridge","supportedProfiles"
+      ],
+      "properties":{
+        "framework":{"type":"string","minLength":1},
+        "controlPolicy":{"type":"string","minLength":1},
+        "accessibilityBridge":{"type":"string","minLength":1},
+        "inputBridge":{"type":"string","minLength":1},
+        "renderingBridge":{"type":"string","minLength":1},
+        "appearanceBridge":{"type":"string","minLength":1},
+        "colorBridge":{"type":"string","minLength":1},
+        "performanceBridge":{"type":"string","minLength":1},
+        "supportedProfiles":{
+          "type":"array","minItems":1,"uniqueItems":true,
+          "items":{"enum":["mobile","tablet","desktop","foldable","tv","wearable"]}
+        }
+      }
+    }
+  }
+}
