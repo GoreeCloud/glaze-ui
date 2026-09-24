@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.7-system-shell-continuity.schema.json",
+  "title": "Glaze UI V1.7 System Shell Continuity Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline",
+    "consumerEligible","implementedSpecificationSections","shellRegions","transitionKinds",
+    "platformCapabilities","capabilityStates","profilePresentations","continuity","controlCenter",
+    "notificationActivityBoundary","authority","runtimeEntrypoint","developmentAggregateEntrypoint",
+    "tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema":{"const":"../../schemas/v1.7-system-shell-continuity.schema.json"},
+    "schemaVersion":{"const":1},
+    "contractId":{"const":"goreecloud.glaze-ui.v1.7.system-shell-continuity"},
+    "name":{"const":"Glaze UI V1.7 System Shell Continuity Development Contract"},
+    "version":{"const":"1.7.0-dev.6"},
+    "lifecycle":{"const":"Development"},
+    "stableBaseline":{"const":"1.6.0"},
+    "consumerEligible":{"const":false},
+    "implementedSpecificationSections":{"const":[7]},
+    "shellRegions":{"const":["workspace","navigation","universal-search","control-center","notification-activity","critical-system"]},
+    "transitionKinds":{"const":["compact-expanded-navigation","split-view","multi-window","window-restoration","application-system-handoff","task-switch","shell-overlay","control-center","search-continuity"]},
+    "platformCapabilities":{"const":["multi-window","split-view","window-restoration","application-system-handoff","task-switch","shell-overlay","persistent-control-center-layout","system-search","notification-activity"]},
+    "capabilityStates":{"const":["available","unavailable","unsupported","restricted","permission-required","temporarily-unavailable","unknown"]},
+    "profilePresentations":{
+      "type":"object","additionalProperties":false,
+      "required":["mobile","tablet","desktop","foldable","tv","wearable"],
+      "properties":{
+        "mobile":{"const":"compact-shell-stack"},
+        "tablet":{"const":"adaptive-split-shell"},
+        "desktop":{"const":"workspace-multi-window-shell"},
+        "foldable":{"const":"posture-aware-shell"},
+        "tv":{"const":"far-view-shell"},
+        "wearable":{"const":"glanceable-shell"}
+      }
+    },
+    "continuity":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "taskContinuityContract","adaptiveInputContract","formFactorContract","commandSurfaceContract",
+        "personalizationContract","activeTaskPreservedUnlessAuthoritativeTaskChange","navigationPreserved",
+        "focusPreserved","selectionPreserved","draftsPreserved","queryAndFiltersPreserved",
+        "paneAndWindowContextPreserved","safePendingInteractionsPreserved","providerOwnedTruthPreserved",
+        "shellReconfigurationMayResetTaskByItself","transitionsPredictable","transitionsReversible"
+      ],
+      "properties":{
+        "taskContinuityContract":{"const":"contracts/v1.7/task-continuity.dev.json"},
+        "adaptiveInputContract":{"const":"contracts/v1.7/adaptive-input.dev.json"},
+        "formFactorContract":{"const":"contracts/v1.7/form-factor-profiles.dev.json"},
+        "commandSurfaceContract":{"const":"contracts/v1.7/command-surface.dev.json"},
+        "personalizationContract":{"const":"contracts/v1.7/personalization.dev.json"},
+        "activeTaskPreservedUnlessAuthoritativeTaskChange":{"const":true},
+        "navigationPreserved":{"const":true},
+        "focusPreserved":{"const":true},
+        "selectionPreserved":{"const":true},
+        "draftsPreserved":{"const":true},
+        "queryAndFiltersPreserved":{"const":true},
+        "paneAndWindowContextPreserved":{"const":true},
+        "safePendingInteractionsPreserved":{"const":true},
+        "providerOwnedTruthPreserved":{"const":true},
+        "shellReconfigurationMayResetTaskByItself":{"const":false},
+        "transitionsPredictable":{"const":true},
+        "transitionsReversible":{"const":true}
+      }
+    },
+    "controlCenter":{
+      "type":"object","additionalProperties":false,
+      "required":["layoutIdentityStable","moduleOrderStableUnlessAuthoritativeLayoutChange","persistentLayoutOnlyWherePlatformSupportsIt","persistencePerformedByGlaze","crossDeviceSyncEstablished"],
+      "properties":{
+        "layoutIdentityStable":{"const":true},
+        "moduleOrderStableUnlessAuthoritativeLayoutChange":{"const":true},
+        "persistentLayoutOnlyWherePlatformSupportsIt":{"const":true},
+        "persistencePerformedByGlaze":{"const":false},
+        "crossDeviceSyncEstablished":{"const":false}
+      }
+    },
+    "notificationActivityBoundary":{
+      "type":"object","additionalProperties":false,
+      "required":["shellPresentationSupported","fullSection8ComponentSystemEstablished","truthOwnedByCallerOrProvider","truthGeneratedByGlaze","priorityInventedByGlaze","criticalStateRequiresAuthoritativeSource"],
+      "properties":{
+        "shellPresentationSupported":{"const":true},
+        "fullSection8ComponentSystemEstablished":{"const":false},
+        "truthOwnedByCallerOrProvider":{"const":true},
+        "truthGeneratedByGlaze":{"const":false},
+        "priorityInventedByGlaze":{"const":false},
+        "criticalStateRequiresAuthoritativeSource":{"const":true}
+      }
+    },
+    "authority":{
+      "type":"object","additionalProperties":false,
+      "required":["boundary","shellConfigurationOwnedByApplicationOrPlatform","platformCapabilityOwnedByApplicationOrPlatform","windowingSupportCreatedByGlaze","systemPrivilegeGrantedByGlaze","notificationTruthCreatedByGlaze","searchAuthorityCreatedByGlaze","navigationExecutedByGlaze","handoffExecutedByGlaze","windowRestorationExecutedByGlaze","taskSwitchExecutedByGlaze","persistencePerformedByGlaze","consequentialExecutionAutomatic"],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "shellConfigurationOwnedByApplicationOrPlatform":{"const":true},
+        "platformCapabilityOwnedByApplicationOrPlatform":{"const":true},
+        "windowingSupportCreatedByGlaze":{"const":false},
+        "systemPrivilegeGrantedByGlaze":{"const":false},
+        "notificationTruthCreatedByGlaze":{"const":false},
+        "searchAuthorityCreatedByGlaze":{"const":false},
+        "navigationExecutedByGlaze":{"const":false},
+        "handoffExecutedByGlaze":{"const":false},
+        "windowRestorationExecutedByGlaze":{"const":false},
+        "taskSwitchExecutedByGlaze":{"const":false},
+        "persistencePerformedByGlaze":{"const":false},
+        "consequentialExecutionAutomatic":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.7-system-shell-continuity.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.7-system-shell-continuity.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}
