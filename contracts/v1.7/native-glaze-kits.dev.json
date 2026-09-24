@@ -1,0 +1,131 @@
+{
+  "$schema": "../../schemas/v1.7-native-glaze-kits.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.native-glaze-kits",
+  "name": "Glaze UI V1.7 Native Glaze Kits Development Contract",
+  "version": "1.7.0-dev.8",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [
+    9
+  ],
+  "platforms": [
+    "android-compose",
+    "apple-swiftui",
+    "web",
+    "linux-native"
+  ],
+  "semanticVocabulary": [
+    "surface",
+    "action",
+    "navigation",
+    "focus",
+    "input",
+    "state",
+    "progress",
+    "recovery",
+    "privacy",
+    "security"
+  ],
+  "platformMappings": {
+    "android-compose": {
+      "framework": "Jetpack Compose",
+      "controlPolicy": "platform-native-first-when-semantics-preserved",
+      "accessibilityBridge": "compose-semantics-and-android-accessibility-services",
+      "supportedProfiles": [
+        "mobile",
+        "tablet",
+        "foldable",
+        "tv",
+        "wearable"
+      ]
+    },
+    "apple-swiftui": {
+      "framework": "SwiftUI",
+      "controlPolicy": "platform-native-first-when-semantics-preserved",
+      "accessibilityBridge": "swiftui-accessibility-and-platform-services",
+      "supportedProfiles": [
+        "mobile",
+        "tablet",
+        "desktop",
+        "tv",
+        "wearable"
+      ]
+    },
+    "web": {
+      "framework": "Web Platform",
+      "controlPolicy": "semantic-web-platform-first",
+      "accessibilityBridge": "semantic-html-and-accessibility-tree",
+      "supportedProfiles": [
+        "mobile",
+        "tablet",
+        "desktop",
+        "foldable",
+        "tv"
+      ]
+    },
+    "linux-native": {
+      "framework": "Supported Linux native UI toolkit",
+      "controlPolicy": "platform-native-first-when-semantics-preserved",
+      "accessibilityBridge": "native-toolkit-accessibility-and-platform-services",
+      "supportedProfiles": [
+        "desktop"
+      ]
+    }
+  },
+  "mappingRequirements": [
+    "semantic-vocabulary-preserved",
+    "platform-native-controls-preferred-when-beneficial",
+    "accessibility-precedence",
+    "task-continuity",
+    "adaptive-input-continuity",
+    "form-factor-continuity",
+    "native-behavior-over-cross-platform-visual-imitation"
+  ],
+  "authority": {
+    "boundary": "presentation-only",
+    "platformCapabilityAuthorityRequired": true,
+    "nativeControlMappingAuthorityRequired": true,
+    "privacyAuthorityRequired": true,
+    "securityAuthorityRequired": true,
+    "permissionAuthorityRequired": true,
+    "consentAuthorityRequired": true,
+    "availabilityAuthorityRequired": true,
+    "executionAuthorityRequired": true,
+    "platformCapabilityCreatedByGlaze": false,
+    "nativeControlAvailabilityCreatedByGlaze": false,
+    "privacyTruthCreatedByGlaze": false,
+    "securityTruthCreatedByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "availabilityTruthCreatedByGlaze": false,
+    "actionExecutionPerformedByGlaze": false,
+    "nativeCertificationImplied": false,
+    "downstreamAdoptionAutomatic": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "acceptanceBoundary": {
+    "sourceMappingOnly": true,
+    "nativeDeviceAcceptanceRequired": true,
+    "renderedAcceptanceRequired": true,
+    "assistiveTechnologyAcceptanceRequired": true,
+    "performanceAcceptanceRequired": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "integrationFoundations": {
+    "taskContinuity": "js/glaze-v1.7-task-continuity.dev.mjs",
+    "adaptiveInput": "js/glaze-v1.7-adaptive-input.dev.mjs",
+    "formFactorProfiles": "js/glaze-v1.7-form-factor-profiles.dev.mjs"
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-native-glaze-kits.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}
