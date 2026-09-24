@@ -1,0 +1,92 @@
+{
+  "$schema": "../../schemas/v1.7-task-continuity.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.task-continuity",
+  "name": "Glaze UI V1.7 Task Continuity and Adaptive Composition Development Contract",
+  "version": "1.7.0-dev.1",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [1, 4],
+  "stateClasses": [
+    "durable",
+    "session-scoped",
+    "presentation-only",
+    "provider-owned",
+    "temporary",
+    "recoverable",
+    "non-restorable"
+  ],
+  "continuityFields": [
+    "navigationDestination",
+    "focusId",
+    "selectionIds",
+    "scrollPositionKey",
+    "expandedRegionIds",
+    "draftText",
+    "formState",
+    "activeFilters",
+    "query",
+    "paneState",
+    "mediaState",
+    "pendingInteractions",
+    "workingContext"
+  ],
+  "environmentChanges": [
+    "window-resize",
+    "device-rotation",
+    "foldable-posture",
+    "compact-expanded-layout",
+    "input-method",
+    "accessibility-mode",
+    "appearance",
+    "capability-degradation",
+    "connectivity",
+    "multi-pane-recomposition",
+    "form-factor"
+  ],
+  "adaptiveComposition": {
+    "profiles": ["mobile", "tablet", "desktop", "foldable", "tv", "wearable"],
+    "presentations": [
+      "bottom-sheet",
+      "side-pane",
+      "secondary-pane",
+      "floating-panel",
+      "full-screen-step",
+      "far-view-panel"
+    ],
+    "semanticIdentityPreserved": true,
+    "taskStateResetOnRecompositionAllowed": false,
+    "accessibilitySemanticsPreserved": true,
+    "providerTruthPreserved": true,
+    "widthAloneIsAuthority": false
+  },
+  "restoration": {
+    "durableRestoredAcrossEnvironmentChanges": true,
+    "sessionScopedRestoredWithinSession": true,
+    "presentationOnlyMayRecomputeWithoutChangingTaskTruth": true,
+    "providerOwnedMayBeReplacedOnlyByAuthoritativeProviderInput": true,
+    "temporaryMayBeDiscardedOnlyWhenExplicitlyDisposable": true,
+    "recoverableRequiresCallerSuppliedRecoveryState": true,
+    "nonRestorableLossMustBeExplicit": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "taskTruthOwnedByApplication": true,
+    "providerTruthOwnedByProvider": true,
+    "accessibilityTruthOwnedByPlatformOrCaller": true,
+    "capabilityTruthOwnedByProvider": true,
+    "connectivityTruthOwnedByProvider": true,
+    "securityTruthOwnedByProvider": true,
+    "privacyTruthOwnedByProvider": true,
+    "authorizationGrantedByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "providerTruthManufactured": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-task-continuity.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-task-continuity.dev.json",
+  "boundary": "Development foundation only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable. This contract does not alter VERSION, registry lifecycle authority, Stable runtime entrypoints, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}
