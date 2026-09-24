@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.7 Notification and Activity Surfaces Development Semantic Map",
+  "version": "1.7.0-dev.7",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "components": {
+    "GlzNotificationSurface": "activity.component.notification",
+    "GlzActivityItem": "activity.component.item",
+    "GlzActivityGroup": "activity.component.group",
+    "GlzStatusFeed": "activity.component.status-feed",
+    "GlzBackgroundTask": "activity.component.background-task",
+    "GlzProgressSurface": "activity.component.progress"
+  },
+  "semanticStates": {
+    "informational-activity": "activity.state.informational",
+    "background-work": "activity.state.background-work",
+    "required-attention": "activity.state.attention",
+    "warning": "activity.state.warning",
+    "critical-state": "activity.state.critical",
+    "user-requested-progress": "activity.state.user-progress",
+    "recoverable-failure": "activity.state.recoverable-failure",
+    "security-state": "activity.state.security",
+    "privacy-state": "activity.state.privacy"
+  },
+  "attentionRoles": {
+    "passive": "activity.attention.passive",
+    "ongoing": "activity.attention.ongoing",
+    "attention": "activity.attention.required",
+    "warning": "activity.attention.warning",
+    "critical": "activity.attention.critical"
+  },
+  "presentationByProfile": {
+    "mobile": "compact-notification-activity",
+    "tablet": "adaptive-notification-activity",
+    "desktop": "windowed-notification-activity",
+    "foldable": "posture-aware-notification-activity",
+    "tv": "far-view-notification-activity",
+    "wearable": "glanceable-notification-activity"
+  },
+  "accessibility": {
+    "readableTextRequired": true,
+    "colorAloneSufficient": false,
+    "stateNameExposed": true,
+    "progressMeaningExposed": true,
+    "actionsExposeAvailability": true
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "providerTruthRequired": true,
+    "sourceIdentityRequired": true,
+    "notificationPostedByGlaze": false,
+    "activityGeneratedByGlaze": false,
+    "backgroundExecutionPerformedByGlaze": false,
+    "progressGeneratedByGlaze": false,
+    "securityPrivacyTruthInferredByGlaze": false,
+    "actionExecutedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "crossDeviceSyncEstablished": false
+  },
+  "sourceAuthorities": [
+    "tokens/glaze-v1.7-task-continuity.dev.json",
+    "tokens/glaze-v1.7-form-factor-profiles.dev.json",
+    "tokens/glaze-v1.7-personalization.dev.json",
+    "tokens/glaze-v1.7-system-shell-continuity.dev.json"
+  ],
+  "boundary": "Development semantic mapping for V1.7 specification section 8 only. V1.6 / 1.6.0 remains current Official Stable; V1.7 remains non-consumer-eligible."
+}
