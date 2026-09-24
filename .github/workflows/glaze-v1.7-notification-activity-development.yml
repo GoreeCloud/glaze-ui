@@ -1,0 +1,130 @@
+name: Glaze UI V1.7 Notification and Activity Surfaces Development
+
+on:
+  pull_request:
+    paths:
+      - 'GLAZE_UI_V1_7_PLANNED.md'
+      - 'contracts/v1.7/notification-activity.dev.json'
+      - 'schemas/v1.7-notification-activity.schema.json'
+      - 'tokens/glaze-v1.7-notification-activity.dev.json'
+      - 'js/glaze-v1.7-notification-activity.dev.mjs'
+      - 'js/glaze-v1.7-development.mjs'
+      - 'scripts/validate_glaze_v1_7_notification_activity_development.mjs'
+      - 'scripts/validate_glaze_v1_7_system_shell_continuity_development.mjs'
+      - '.github/workflows/glaze-v1.7-notification-activity-development.yml'
+      - 'PLANNED-FEATURES.md'
+      - 'IMPLEMENTED-FEATURES.md'
+      - 'CHANGELOGS.md'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  push:
+    branches:
+      - main
+    paths:
+      - 'GLAZE_UI_V1_7_PLANNED.md'
+      - 'contracts/v1.7/notification-activity.dev.json'
+      - 'schemas/v1.7-notification-activity.schema.json'
+      - 'tokens/glaze-v1.7-notification-activity.dev.json'
+      - 'js/glaze-v1.7-notification-activity.dev.mjs'
+      - 'js/glaze-v1.7-development.mjs'
+      - 'scripts/validate_glaze_v1_7_notification_activity_development.mjs'
+      - 'scripts/validate_glaze_v1_7_system_shell_continuity_development.mjs'
+      - '.github/workflows/glaze-v1.7-notification-activity-development.yml'
+      - 'PLANNED-FEATURES.md'
+      - 'IMPLEMENTED-FEATURES.md'
+      - 'CHANGELOGS.md'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glaze-v1-7-notification-activity-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  notification-activity-development:
+    name: Validate V1.7 Notification and Activity Development foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Validate JSON syntax
+        run: |
+          python -m json.tool contracts/v1.7/notification-activity.dev.json >/dev/null
+          python -m json.tool schemas/v1.7-notification-activity.schema.json >/dev/null
+          python -m json.tool tokens/glaze-v1.7-notification-activity.dev.json >/dev/null
+      - name: Validate JavaScript syntax
+        run: |
+          node --check js/glaze-v1.7-notification-activity.dev.mjs
+          node --check js/glaze-v1.7-development.mjs
+          node --check scripts/validate_glaze_v1_7_notification_activity_development.mjs
+      - name: Validate V1.7 Notification and Activity Development foundation
+        run: node scripts/validate_glaze_v1_7_notification_activity_development.mjs
+
+  system-shell-regression:
+    name: Preserve V1.7 System Shell dev.6 foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify V1.7 System Shell foundation
+        run: node scripts/validate_glaze_v1_7_system_shell_continuity_development.mjs
+
+  personalization-regression:
+    name: Preserve V1.7 Personalization dev.5 foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify V1.7 Personalization foundation
+        run: node scripts/validate_glaze_v1_7_personalization_development.mjs
+
+  task-continuity-regression:
+    name: Preserve V1.7 Task Continuity dev.1 foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify V1.7 Task Continuity foundation
+        run: node scripts/validate_glaze_v1_7_task_continuity_development.mjs
+
+  v1-6-stable-authority:
+    name: Preserve GLAZE UI V1.6 Stable authority
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify V1.6 Stable qualification authority
+        run: node scripts/verify_glaze_v1_6_stable_qualification_review.mjs
+      - name: Verify V1.6 Stable publication boundary
+        run: node scripts/verify_glaze_v1_6_stable.mjs
+
+  v1-5-1-rollback-integrity:
+    name: Preserve V1.5.1 rollback Stable integrity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify V1.5.1 retained Stable authority
+        run: node scripts/verify_glaze_v1_5_1_stable.mjs
