@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.7 Personalization 2.0 Development Semantic Map",
+  "version": "1.7.0-dev.5",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/glaze-v1.3-color.candidate.json",
+    "contracts/v1.3/dynamic-color.candidate.json",
+    "tokens/adaptive-colors.json",
+    "tokens/semantic-colors.json",
+    "tokens/materials.json",
+    "tokens/motion.json",
+    "tokens/glaze-v1.6-state-accessibility.dev.json"
+  ],
+  "appearanceModes": {
+    "light": "appearance.light",
+    "dark": "appearance.dark",
+    "deep-dark": "appearance.deep-dark"
+  },
+  "accentFamilies": {
+    "glaze-default": "accent.glaze-default",
+    "user-accent": "accent.user",
+    "wallpaper-derived": "accent.wallpaper-local",
+    "application-identity": "accent.application-identity"
+  },
+  "materialIntensity": {
+    "subdued": "material.intensity.subdued",
+    "standard": "material.intensity.standard",
+    "expressive": "material.intensity.expressive"
+  },
+  "density": {
+    "compact": "density.compact",
+    "standard": "density.standard",
+    "comfortable": "density.comfortable"
+  },
+  "geometry": {
+    "compact": "geometry.compact",
+    "balanced": "geometry.balanced",
+    "rounded": "geometry.rounded"
+  },
+  "motionIntensity": {
+    "minimal": "motion.intensity.minimal",
+    "standard": "motion.intensity.standard",
+    "expressive": "motion.intensity.expressive"
+  },
+  "actions": {
+    "preview": "personalization.action.preview",
+    "apply": "personalization.action.apply",
+    "reset": "personalization.action.reset",
+    "undo": "personalization.action.undo"
+  },
+  "protectedSemanticRoles": {
+    "security": "semantic.security",
+    "privacy": "semantic.privacy",
+    "warning": "semantic.warning",
+    "critical": "semantic.critical",
+    "destructive": "semantic.danger",
+    "restricted": "semantic.restricted",
+    "protected": "semantic.protected",
+    "success": "semantic.success"
+  },
+  "precedence": [
+    "accessibility",
+    "semantic",
+    "application-identity",
+    "user-accent",
+    "wallpaper-derived",
+    "glaze-default"
+  ],
+  "accessibilityOverrides": {
+    "forced-colors": ["appearance-pigments","accent","material"],
+    "increased-contrast": ["accent","material","focus"],
+    "reduced-transparency": ["material","blur","opacity"],
+    "reduced-motion": ["motion"],
+    "large-text": ["density","geometry","layout"],
+    "extra-large-text": ["density","geometry","layout"],
+    "touch-assistance": ["density","spacing","interaction-targets"],
+    "simplified-visual-effects": ["material","motion","blur","shadow"]
+  },
+  "wallpaperInfluence": {
+    "decorativeOnly": true,
+    "maximumInfluence": 0.08,
+    "sourceSummaryRequired": true,
+    "rawWallpaperPixelsRequired": false
+  },
+  "localFirst": {
+    "networkRequired": false,
+    "telemetryRequired": false,
+    "advertisingDependencyAllowed": false,
+    "remoteFontsRequired": false,
+    "remoteVisualDependenciesRequired": false,
+    "sensitiveContentAnalysisRequired": false
+  },
+  "session": {
+    "previewBeforeApplySupported": true,
+    "resetSupported": true,
+    "undoSupported": true,
+    "perDeviceAdaptationSupported": true,
+    "crossDeviceSyncEstablished": false,
+    "persistenceAutomatic": false
+  },
+  "boundaries": {
+    "personalizationMayRedefineProtectedSemanticRoles": false,
+    "applicationIdentityMayRedefineProtectedSemanticRoles": false,
+    "wallpaperInfluenceMayRedefineProtectedSemanticRoles": false,
+    "sourceAuthorityInferredByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "capabilityCreatedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "boundary": "Development semantic mapping only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable; Personalization 2.0 remains non-consumer-eligible and presentation-only."
+}
