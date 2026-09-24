@@ -2,14 +2,14 @@
 title: "Glaze UI V1.7 — Planned Upgrade"
 document_type: "Planned Design-System Upgrade Specification"
 status: "Planned"
-document_version: "v1.0"
+document_version: "v1.1"
 product: "GLAZE UI"
 planned_family: "GLAZE UI V1.7"
-planned_theme: "Interaction Continuity"
+planned_theme: "Interaction Continuity + Personal Expression"
 current_stable_predecessor: "GLAZE UI V1.6 / 1.6.0"
 canonical_repository: "GoreeCloud/glaze-ui"
 consumer_eligible: false
-last_updated: "2026-09-23"
+last_updated: "2026-09-24"
 authoritative_scope: "Planned V1.7 upgrade requirements; does not alter current Stable release authority"
 ---
 
@@ -17,588 +17,538 @@ authoritative_scope: "Planned V1.7 upgrade requirements; does not alter current 
 
 ## Authority Boundary
 
-This document records the planned successor direction for **GLAZE UI V1.7**. It is a planning and requirements artifact, not implementation, qualification, release, deployment, or consumer-acceptance evidence.
+This document records the planned direction for **GLAZE UI V1.7**. It is a planning and requirements artifact. It does not by itself establish implementation, qualification, release, deployment, consumer eligibility, or production acceptance.
 
-The current verified Official Stable authority remains **GLAZE UI V1.6 / 1.6.0**. Nothing in this document changes `VERSION`, `registry/lifecycle.json`, the V1.6 Stable runtime, current release tags or artifacts, downstream consumer eligibility, or any provider-owned security, privacy, permission, capability, connectivity, recovery, or authorization state.
+The current verified Official Stable authority remains **GLAZE UI V1.6 / 1.6.0**.
 
-V1.7 is **not consumer-eligible** until it is separately implemented, exact-revision qualified, reviewed, promoted, and published through the governed Glaze UI lifecycle.
+As of 2026-09-24, the canonical repository contains bounded V1.7 Development foundations through **1.7.0-dev.7** for specification sections 1–8. Those Development implementations remain non-consumer-eligible and do not convert the remaining planned requirements in this document into implemented state.
+
+Nothing in this document independently changes VERSION, registry/lifecycle.json, V1.6 Stable runtime or release evidence, downstream consumer eligibility, or provider-owned security, privacy, permission, capability, connectivity, recovery, identity, consent, authorization, or availability truth.
 
 ## Overview
 
-Glaze UI V1.7 is planned as the next major evolution of the GoreeCloud visual and interaction design system following Glaze UI V1.6.
+Glaze UI V1.7 is planned as the next major evolution of the GoreeCloud visual and interaction design system.
 
-V1.6 established a mature foundation for semantic loading, state presentation, accessibility, focus and motion governance, material behavior, responsive navigation, resilience, performance diagnostics, component governance, and downstream conformance.
+V1.7 should build upon the established Glaze foundations for adaptive presentation, semantic state, accessibility, material behavior, dynamic color, personalization, motion, responsive composition, resilience, performance, and conformance.
 
-V1.7 should build on that foundation by focusing on **Interaction Continuity**: allowing GoreeCloud interfaces to adapt intelligently across devices, form factors, input methods, accessibility configurations, and runtime conditions without disrupting the user's task, intent, context, or authoritative system state.
+The release should focus on three major areas:
 
-The core principle for V1.7 is:
+**Interaction Continuity. Advanced Personalization. Semantic Color Intelligence.**
 
-> **The interface may change shape, material, density, input mapping, or composition as the environment changes; the user's task, intent, accessibility, and authoritative system truth must remain continuous.**
+The governing V1.7 principle is:
 
-Glaze UI must continue to remain presentation-focused. Adaptation must never manufacture capability, authorization, privacy state, security state, permission, consent, availability, or other provider-owned truth.
+> **The interface may change shape, material, density, color, input mapping, or composition as the environment changes; the user's task, intent, accessibility, identity, and authoritative system truth must remain continuous.**
+
+Glaze UI remains a presentation system. It may visually represent supplied context and state, but it must never manufacture authorization, capability, security, privacy, permission, consent, availability, or other provider-owned truth.
 
 ---
 
 ## 1. Task Continuity System
 
-V1.7 should introduce a first-class Task Continuity contract governing how interface state survives changes to presentation and environment.
+V1.7 should introduce a first-class Task Continuity contract governing how interface state survives changes in environment and presentation.
 
-Continuity should cover:
+Continuity should preserve appropriate navigation destination, focus, selection, scroll position, expanded state, drafts, form input, active filters, search queries, pane state, media state, and safe pending interactions.
 
-- Current navigation destination
-- Focus
-- Selection
-- Scroll position
-- Expanded and collapsed regions
-- Draft text and form state
-- Active filters and queries
-- Pane state
-- Media state
-- Safe pending interactions
-- Current working context
+These states should survive changes such as window resizing, rotation, foldable posture transitions, compact-to-expanded layouts, input changes, accessibility changes, theme changes, appearance changes, temporary capability degradation, connectivity changes, and multi-pane recomposition.
 
-Task state should remain stable through:
+Components should distinguish durable state, session state, presentation-only state, provider-owned state, recoverable state, and intentionally non-restorable state.
 
-- Window resizing
-- Device rotation
-- Foldable posture changes
-- Compact-to-expanded layout changes
-- Input-method changes
-- Accessibility-mode changes
-- Appearance changes
-- Temporary capability degradation
-- Connectivity changes
-- Multi-pane recomposition
-
-Components should be able to declare whether their state is:
-
-- Durable
-- Session-scoped
-- Presentation-only
-- Provider-owned
-- Temporary
-- Recoverable
-- Non-restorable
-
-Presentation recomposition must not silently reset the user's task.
+A presentation change must not silently become a task reset.
 
 ---
 
 ## 2. Adaptive Input 2.0
 
-Glaze UI V1.7 should introduce a unified semantic interaction model capable of mapping the same action appropriately across different input systems.
+Glaze UI V1.7 should define one semantic interaction model capable of mapping appropriately to touch, pointer, keyboard, stylus, remote/D-pad, rotary input, switch access, voice access, and other supported assistive input systems.
 
-Supported interaction models should include:
+Actions should be defined by intent rather than by a specific gesture.
 
-- Touch
-- Pointer
-- Keyboard
-- Stylus
-- Remote and D-pad
-- Rotary input
-- Switch access
-- Voice access
-- Assistive input systems
+Features dependent on drag, swipe, hover, long press, precision pointing, or multi-touch must provide suitable alternatives when the corresponding input is unavailable or inappropriate.
 
-Actions should be defined semantically rather than around a particular gesture.
-
-Interactions that depend on:
-
-- Drag
-- Swipe
-- Hover
-- Long press
-- Precision pointer movement
-- Multi-touch gestures
-
-must provide an appropriate alternative whenever those interaction methods are unavailable or unsuitable.
-
-Input changes should not cause task loss, navigation resets, or inconsistent command availability.
+Changing input methods must not alter the meaning of commands or cause unnecessary loss of task state.
 
 ---
 
 ## 3. First-Class Form-Factor Profiles
 
-V1.7 should strengthen form-factor support by defining reusable composition profiles rather than treating responsive behavior primarily as resizing.
+V1.7 should formalize reusable composition profiles for Mobile, Tablet, Desktop, Foldable/Posture-aware environments, TV/Far-view, and Wearable experiences.
 
-First-class profiles should include:
+Mobile and Tablet should continue to receive first design, implementation, optimization, and validation priority wherever those form factors are supported.
 
-- Mobile
-- Tablet
-- Desktop
-- Foldable and posture-aware devices
-- TV and far-view environments
-- Wearables
+Each profile should intentionally define navigation, reachability, density, typography, safe areas, viewing distance, action placement, pane behavior, overlay behavior, input assumptions, target sizing, and motion behavior.
 
-Mobile and Tablet should continue to receive first design, implementation, optimization, and validation priority where supported.
+A Mobile experience must not be a compressed Desktop interface. A Tablet experience must not simply stretch Mobile. A TV interface must not rely on touch or pointer assumptions. A Wearable interface must prioritize glanceability and minimal interaction depth.
 
-Each profile should define appropriate expectations for:
+V1.7 should work toward completing the first-class Wearable contract.
 
-- Navigation
-- Reachability
-- Density
-- Safe areas
-- Viewing distance
-- Primary input
-- Typography
-- Action placement
-- Information hierarchy
-- Pane behavior
-- Overlay behavior
-- Motion
-- Interaction targets
-
-Wearable support should move toward a complete governed Glaze UI form-factor contract rather than remaining only a developmental foundation.
-
-Spatial interfaces should remain experimental until sufficient native-platform, accessibility, interaction, performance, and representative-device evidence exists.
+Spatial presentation should remain separately governed until sufficient platform, accessibility, performance, interaction, and representative-device evidence exists.
 
 ---
 
 ## 4. Adaptive Composition
 
-V1.7 should establish adaptive composition as a core Glaze capability.
+V1.7 should make adaptive composition a core Glaze capability.
 
-A semantic surface should be capable of changing its physical presentation while preserving its purpose and identity.
+A semantic surface should be able to change physical presentation while retaining its role and state.
 
-For example, a single detail or task surface might become:
+The same task surface may become a bottom sheet on Mobile, side pane on Tablet, secondary pane on Desktop, constrained full-screen experience on a smaller device, or far-view panel on TV.
 
-- A bottom sheet on Mobile
-- A side pane on Tablet
-- A secondary pane on Desktop
-- A floating panel in an appropriate large-canvas environment
-- A full-screen step on a constrained device
-- A far-view panel on TV
+A new **GlzAdaptivePane** component should provide governed mappings between these forms.
 
-The component remains semantically the same even when its composition changes.
-
-A new foundational component such as **GlzAdaptivePane** should provide governed mappings between these presentation forms.
-
-Recomposition must preserve appropriate:
-
-- Focus
-- Selection
-- Scroll state
-- Navigation state
-- Draft state
-- Accessibility semantics
-- Provider-authoritative information
+Recomposition should preserve focus, selection, scroll position, navigation state, draft state, semantic state, accessibility relationships, and authoritative information whenever applicable.
 
 ---
 
 ## 5. Glaze Command Surface
 
-V1.7 should introduce a unified command interaction concept such as **GlzCommandSurface**.
+V1.7 should introduce **GlzCommandSurface** as a shared semantic foundation for Universal Search, application search, commands, actions, contextual actions, navigation shortcuts, command palettes, touch search interfaces, and remote-friendly command selection.
 
-The Command Surface would provide a semantic foundation for:
+Its visual composition may differ between platforms while retaining a consistent semantic model.
 
-- Universal Search
-- Application search
-- Commands
-- Actions
-- Contextual actions
-- Navigation shortcuts
-- Keyboard command palettes
-- Touch-oriented search and action interfaces
-- Remote-friendly command selection
+Mobile might use a reachable floating or sheet-based surface. Tablet could use an expanded search-and-command pane. Desktop could emphasize keyboard invocation. TV could use large directional command groups.
 
-Its presentation should adapt to platform and input model without turning each implementation into a separate interaction concept.
-
-For example:
-
-- Mobile may use a reachable floating or sheet-based search surface.
-- Tablet may use an expanded search-and-command pane.
-- Desktop may support keyboard-first command invocation.
-- TV may provide directional command selection.
-
-Provider scope, source identity, availability, and authority must remain explicit.
+Search scope, provider identity, provenance, availability, permissions, and authority must remain explicit.
 
 ---
 
-## 6. Personalization 2.0
+## 6. Advanced Theme Manager 2.0
 
-V1.7 should expand Glaze personalization into a complete governed system.
+V1.7 should introduce a significantly more capable **Glaze Theme Manager**.
 
-Personalization may include:
+The Theme Manager should be the central GoreeCloud interface for managing visual personalization across supported applications and system surfaces.
 
-- Light
-- Dark
-- Deep Dark
-- Accent families
-- Material intensity
-- Interface density
-- Geometry preferences
-- Motion intensity
-- Wallpaper-derived local palette influence
-- Application identity expression
-- Preview-before-Apply
-- Reset
-- Undo
-- Per-device adaptation
+It should move beyond selecting Light or Dark mode and choosing a single accent color.
 
-Accessibility settings must override purely aesthetic personalization where necessary.
+The Theme Manager should support:
 
-Protected semantic roles must not be arbitrarily redefined through personalization.
+- Light, Dark, Deep Dark, and Follow System appearance.
+- GoreeCloud-provided theme presets.
+- User-created custom themes.
+- Accent palette selection.
+- Multi-color palette creation.
+- Primary, secondary, tertiary, and supporting accent families.
+- Surface and canvas atmosphere selection.
+- Material intensity profiles.
+- Glaze clarity preferences.
+- Calm, Balanced, and Expressive presentation profiles.
+- Comfortable, Standard, and Compact density profiles where appropriate.
+- Shape and geometry profiles within governed limits.
+- Motion-expression preferences.
+- Wallpaper-derived palettes.
+- Application-identity-aware themes.
+- Per-application theme overrides where supported.
+- Per-device theme overrides.
+- Preview-before-Apply.
+- Live component preview.
+- Light/Dark/Deep Dark preview comparison.
+- Mobile, Tablet, Desktop, TV, and Wearable previews.
+- Accessibility preview modes.
+- Contrast diagnostics.
+- Color-vision simulation.
+- Grayscale preview.
+- Reduced Transparency preview.
+- Increased Contrast preview.
+- Forced Colors compatibility inspection.
+- Reset to GoreeCloud defaults.
+- Undo and theme history.
+- Theme duplication and editing.
+- Safe theme import and export.
+- Versioned theme packages.
+- Optional governed synchronization through a separately authorized GoreeCloud preference-sync system.
 
-This includes:
+Theme editing should operate primarily on semantic and bounded design roles rather than arbitrary internal implementation values.
 
-- Security
-- Privacy
-- Warning
-- Critical
-- Destructive
-- Restricted
-- Protected
-- Success
-
-Personalization should remain local-first and should not require telemetry, advertising systems, remote fonts, remote visual dependencies, or sensitive-content analysis.
-
----
-
-## 7. System Shell Continuity
-
-V1.7 should strengthen the Glaze UI System Shell around persistent user context.
-
-Planned areas should include:
-
-- Notification and activity presentation
-- Control Center continuity
-- Persistent Control Center layout where supported
-- Multi-window behavior
-- Split-view behavior
-- Compact-to-expanded navigation
-- Window restoration
-- Application-to-system handoff
-- Task switching
-- Shell overlays
-- Search continuity
-- Contextual command surfaces
-
-A transition between shell configurations must not unnecessarily alter the active task.
-
-Navigation and system-shell recomposition must remain predictable and reversible.
+A user should be able to create a highly distinctive interface without being able to break critical semantic meaning or accessibility requirements.
 
 ---
 
-## 8. Notification and Activity Surfaces
+## 7. Theme Architecture
 
-V1.7 should introduce standardized Glaze components for notification and activity presentation.
+V1.7 should define themes as structured layers rather than one flat collection of colors.
 
-Potential components include:
+The proposed resolution order should conceptually preserve:
 
-- GlzNotificationSurface
-- GlzActivityItem
-- GlzActivityGroup
-- GlzStatusFeed
-- GlzBackgroundTask
-- GlzProgressSurface
+**Accessibility → Protected Semantic State → Product Identity → User Theme → Contextual Accent → Glaze Default**
 
-These components should clearly distinguish:
+Accessibility has the highest presentation priority.
 
-- Informational activity
-- Background work
-- Required attention
-- Warning
-- Critical state
-- User-requested progress
-- Recoverable failure
-- Security state
-- Privacy state
+Protected semantic state must override personalization where necessary.
 
-Glaze UI must present supplied notification or activity truth without becoming the authority that generates that truth.
+Product identity should remain recognizable.
+
+User themes should control permitted expressive areas.
+
+Contextual colors may provide temporary environmental influence without rewriting durable theme or semantic state.
+
+The default Glaze presentation remains the final fallback.
+
+This architecture allows themes to become dramatically more expressive while retaining predictable GoreeCloud behavior.
 
 ---
 
-## 9. Native Glaze Kits
+## 8. Semantic Color System 2.0
 
-V1.7 should reduce the amount of design-system interpretation required by individual GoreeCloud applications.
+V1.7 should make semantic color-coding a more visible and comprehensive part of Glaze UI.
 
-Reference implementations or integration kits should be developed for applicable supported platforms, including:
+Color should function as an information system rather than decoration.
 
-- Android / Jetpack Compose
-- Apple / SwiftUI
-- Web
-- Supported Linux native UI environments
+Glaze should provide coordinated semantic families for states including information, success, warning, danger, error, critical, destructive, privacy, security, protected, restricted, trusted, unverified, online, offline, connecting, synchronizing, pending, unavailable, active, selected, focused, disabled, attention, recovery, and other governed states.
 
-Native Glaze implementations should preserve the same semantic vocabulary while using platform-native controls and behaviors where they improve:
+Each semantic family should support appropriate variants for text, symbols, icons, borders, surfaces, Glaze materials, badges, progress, selection treatments, elevated surfaces, and high-prominence conditions.
 
-- Accessibility
-- Performance
-- Input behavior
-- Integration
-- Ergonomics
-- Platform consistency
-
-A native implementation is a mapping of Glaze semantics rather than a visual imitation of another platform.
+Semantic meaning remains constant even when its exact tone changes between Light, Dark, Deep Dark, Increased Contrast, Forced Colors, Reduced Transparency, or other presentation environments.
 
 ---
 
-## 10. Expanded Component System
+## 9. Semantic Color Prominence
 
-V1.7 should extend the Glaze component catalog selectively rather than expanding it merely for component count.
+V1.7 should formally preserve the GoreeCloud semantic prominence hierarchy:
 
-Potential new or substantially expanded components include:
+**Subtle → Standard → Prominent → Critical**
 
-- GlzAdaptivePane
-- GlzCommandSurface
-- GlzActivitySurface
-- GlzNotificationSurface
-- GlzAdaptiveToolbar
-- GlzActionCluster
-- GlzRecoverySurface
-- GlzProgressSurface
-- GlzPreferenceGroup
-- GlzAppearancePicker
-- GlzAdaptiveSplitView
+Subtle treatment should support low-priority information without dominating the experience.
 
-New components must support the same state, accessibility, resilience, form-factor, and authority requirements expected throughout Glaze UI.
+Standard treatment should cover ordinary interaction, state, progress, selection, availability, and routine system information.
+
+Prominent treatment should communicate meaningful warnings, conflicts, significant failures, degraded operation, important privacy or security awareness, and conditions requiring user attention.
+
+Critical presentation must remain reserved for genuinely consequential conditions such as serious security risk, privacy risk, protection failure, data-loss risk, recovery failure, account compromise, or major system failure.
+
+Ordinary activity must never be escalated to Critical simply to attract attention.
 
 ---
 
-## 11. Glaze Inspector
+## 10. Protected Semantic Colors
 
-V1.7 should evolve existing conformance and diagnostic systems into a practical Glaze Inspector.
+Protected semantic meaning must remain outside Theme Manager customization.
 
-The Inspector should help designers, developers, reviewers, and downstream GoreeCloud products understand how an interface resolves its presentation.
+Themes, accent colors, wallpaper palettes, application identity colors, contextual color, and user-created theme packs must not redefine protected semantic states.
 
-Capabilities could include:
+A custom purple theme cannot make destructive actions indistinguishable from ordinary actions.
 
-- Component-state inspection
-- Semantic-token inspection
-- Token provenance
-- Material hierarchy inspection
-- Focus inspection
-- Input-model simulation
-- Form-factor previews
-- Accessibility previews
-- Reduced Motion simulation
-- Reduced Transparency simulation
-- Increased Contrast simulation
-- Forced Colors inspection
-- Large-text inspection
-- RTL inspection
-- Material-budget warnings
-- Nested-transparency warnings
-- Target-size checks
-- Semantic-state validation
-- Authority-boundary diagnostics
-- Migration diagnostics
+A red user accent cannot cause routine controls to look like errors.
 
-The Inspector should consume supplied state and evidence. It must not invent measurements, system state, permissions, security status, or acceptance results.
+A green application identity must not automatically make ordinary application states resemble success or verified security.
+
+A custom theme cannot make a Privacy Shield warning appear neutral.
+
+A theme cannot make an unprotected Wardveil condition appear protected.
+
+Personalization may change expression.
+
+Personalization must not change truth.
 
 ---
 
-## 12. Glaze Studio
+## 11. Semantic Color Layering
 
-A higher-level visual environment may be developed alongside Glaze Inspector as **Glaze Studio**.
+Application identity and semantic state should coexist rather than replace one another.
 
-Glaze Studio could provide interactive previews of:
+An application experiencing an error should remain recognizable as that application while receiving the Glaze error treatment.
 
-- Components
-- Form factors
-- Appearance modes
-- Expression profiles
-- Personalization
-- Adaptive layouts
-- Input mappings
-- Semantic states
-- Loading behavior
-- Error and recovery behavior
-- Motion
-- Accessibility configurations
+A security warning should retain the identity of the affected application or service while clearly communicating the security state.
 
-It should function as a development, design, review, and qualification aid rather than replacing repository-governed contracts or consumer acceptance.
+A synchronization problem should not recolor the entire application unnecessarily.
+
+V1.7 should establish clearer compositional rules for layering identity, selection, interaction, state, and severity without stacking excessive colored borders, badges, backgrounds, and effects.
+
+Compound states should be resolved through governed priority.
 
 ---
 
-## 13. Continuity-Aware Motion
+## 12. Intelligent Palette Generation
 
-V1.7 motion should primarily communicate continuity.
+V1.7 Theme Manager should include a more sophisticated palette-generation engine.
 
-Motion should help users understand:
+The existing perceptual dynamic-color approach should be extended to generate coordinated tonal families rather than treating an accent as a single color.
 
-- Where content moved
-- Why a surface changed shape
-- Which object retained identity
-- Which pane became primary
-- Where focus moved
-- How navigation changed
-- How a compact layout became expanded
+A user-selected color, wallpaper-derived seed, GoreeCloud preset, or approved application identity may generate related primary, secondary, tertiary, subtle, container, foreground, focus, selection, and material tones.
 
-Connected Transformation should be particularly useful during adaptive composition.
+Generation should remain perceptually coherent and contrast-aware.
 
-Reduced Motion must preserve the semantic relationship through non-travel alternatives such as:
+Colors outside supported display gamut should degrade gracefully.
 
-- Crossfade
-- State substitution
-- Highlight
-- Instant structural recomposition
+Accessibility validation should occur after palette generation.
 
-Task completion and semantic state must never depend on an animation completing.
+Generated colors must never replace protected semantic palettes merely because they visually coordinate with the theme.
 
 ---
 
-## 14. Accessibility Continuity
+## 13. Theme Color Roles
 
-Accessibility should be treated as a continuity requirement, not a separate presentation mode.
+Theme Manager should expose understandable roles instead of requiring users to manipulate implementation tokens.
 
-Changes involving:
+For example, users could conceptually control areas such as primary accent, secondary accent, tertiary accent, canvas atmosphere, interactive highlight, selection appearance, non-semantic decorative tint, material atmosphere, application-identity integration, and wallpaper influence.
 
-- Large text
-- Reduced Motion
-- Reduced Transparency
-- Increased Contrast
-- Forced Colors
-- Screen readers
-- Switch access
-- Voice access
-- Touch Assistance
-- Keyboard navigation
+Advanced users may be given greater control, but raw internal semantic-token editing should not become the normal customization model.
 
-must preserve the user's current task wherever technically possible.
-
-Switching accessibility configuration must not unnecessarily discard:
-
-- Drafts
-- Focus
-- Selection
-- Navigation position
-- Active content
-- Unsaved work
-
-Accessibility remains higher priority than visual richness.
+Critical GoreeCloud roles remain protected.
 
 ---
 
-## 15. Cross-Device Consistency Without Uniformity
+## 14. Color-Coded Navigation and Interaction
 
-V1.7 should make GoreeCloud interfaces feel clearly related without forcing every platform to look identical.
+V1.7 should use color more consistently to help users understand interaction and spatial state.
 
-The design language should maintain shared:
+Color may reinforce current destination, active workspace, selected objects, focus, editing mode, drag state, synchronized state, current profile, active filters, search scope, and related information groups.
 
-- Semantics
-- Component roles
-- State vocabulary
-- Identity
-- Interaction principles
-- Accessibility expectations
-- Material hierarchy
-- Motion meaning
-- System truth boundaries
+Selection and focus must remain distinguishable when they occur simultaneously.
 
-while allowing native implementations to differ appropriately.
-
-A wearable should feel like Glaze UI designed for a wearable.
-
-A TV interface should feel like Glaze UI designed for a television.
-
-A Desktop application should feel like Glaze UI designed for a desktop workspace.
-
-A Mobile application should feel intentionally Mobile rather than like compressed Desktop UI.
+Color must never be the sole indication of focus, selection, profile, or consequential state.
 
 ---
 
-## 16. Visual Direction
+## 15. Color-Coded System State
 
-V1.7 should not be defined primarily by adding additional glass, blur, gradients, glow, or visual effects.
+V1.7 should improve shared color treatment across GoreeCloud system states.
 
-The recognizable visual improvement should instead come from:
+Wardveil Security remains authoritative for security and protection truth.
 
-- Better adaptive composition
-- More coherent transitions
-- Better hierarchy
-- Stronger platform-specific layouts
-- Consistent command surfaces
-- More sophisticated personalization
-- Improved system-shell behavior
-- Higher-quality native component mapping
+Privacy Shield remains authoritative for privacy and consent truth.
 
-The existing Glaze material hierarchy should remain restrained.
+Everkeep remains authoritative for backup, preservation, recovery, resilience, and continuity truth.
 
-Solid or near-solid surfaces remain appropriate for durable reading, consequential decisions, dense information, and accessibility-sensitive presentation.
+GoreeCloud Identity remains authoritative for identity, authentication, credential, session, and authorization-related truth.
+
+Other providers retain authority for their own state.
+
+Glaze UI should provide consistent visual mappings for the supplied state without independently deciding whether something is secure, private, protected, synchronized, recoverable, trusted, authenticated, or available.
 
 ---
 
-## 17. Privacy and Authority Boundaries
+## 16. Color-Coded Connectivity and Synchronization
 
-All V1.7 adaptation must remain privacy-conscious and authority-safe.
+Connectivity and synchronization should receive clearer shared visual language.
 
-Glaze UI may consume explicitly supplied context necessary for presentation.
+Online, Offline, Connecting, Limited Connectivity, Synchronized, Synchronizing, Changes Pending, Paused, Conflict, Unavailable, and Failed states should remain distinguishable.
 
-It must not independently claim authority over:
+Network connectivity and service synchronization must not be visually conflated.
 
-- Authentication
-- Authorization
-- Security state
-- Privacy state
-- Consent
-- Permissions
-- Device policy
-- Connectivity truth
-- Application capability
-- Data integrity
-- Recovery state
+A device may be online while a service remains unavailable.
 
-The systems responsible for those domains remain authoritative.
+A service may be synchronized while another provider has pending changes.
 
-Glaze UI determines **how supplied truth is presented**, not what that truth is.
+Color should reinforce these distinctions while labels, symbols, and accessibility semantics preserve meaning independently from color.
 
 ---
 
-## 18. Performance and Energy Awareness
+## 17. Color-Coded Data Visualization
 
-Adaptive composition and richer native behavior must remain performance-conscious.
+V1.7 should introduce stronger rules and reusable palette support for charts, analytics, timelines, calendars, maps, dashboards, and other information visualizations.
 
-Optional visual complexity should degrade gracefully under:
+Theme Manager should be capable of generating theme-compatible categorical palettes without allowing ordinary data-series colors to become confused with Warning, Error, Critical, Privacy, Security, or other protected semantic roles.
 
-- Constrained hardware
-- Thermal pressure
-- Power-saving conditions
-- Reduced GPU capability
-- Low refresh conditions
-- Reduced transparency
-- Reduced motion
-- Platform limitations
+Large datasets should receive sufficiently distinct categories.
 
-Semantic information, accessibility, task continuity, and user control must survive removal of optional visual effects.
+Labels, markers, patterns, position, symbols, or other non-color techniques should reinforce important distinctions.
+
+Themes should remain usable in grayscale and under common color-vision differences.
 
 ---
 
-## 19. V1.7 Acceptance
+## 18. Theme Accessibility Engine
 
-V1.7 should retain the evidence-driven acceptance model established by earlier Glaze UI releases.
+Every custom theme should be evaluated before application.
 
-Qualification should include appropriate evidence for:
+The Theme Manager should warn when a theme introduces inadequate text contrast, poor focus visibility, indistinguishable semantic states, overly similar categorical colors, excessive chromatic density, unreadable Glaze surfaces, weak selected states, inaccessible disabled states, or other serious visual problems.
 
-- Source validation
-- Semantic correctness
-- Accessibility
-- Keyboard navigation
-- Touch
-- Pointer
-- Alternative input
-- Adaptive composition
-- Mobile
-- Tablet
-- Desktop
-- Foldable/posture
-- TV/far-view
-- Wearable where claimed
-- Reduced Motion
-- Reduced Transparency
-- Increased Contrast
-- Forced Colors
-- Large text
-- RTL
-- Task continuity
-- Representative rendering
-- Performance
-- Native platform behavior
-- Regression
-- Human review
-- Assistive technology
-- Security boundaries
-- Privacy boundaries
-- Artifact provenance
+Where safe, Glaze may automatically adjust tone, chroma, foreground selection, material opacity, or other presentation details to maintain accessibility.
+
+Automatic repair must not silently change semantic meaning.
+
+Users should be able to preview why an adjustment was required.
+
+---
+
+## 19. Theme Safety Mode
+
+V1.7 should include a fail-safe theme mechanism.
+
+If a custom, imported, corrupted, incompatible, or outdated theme cannot produce a conformant interface, Glaze should safely fall back to an appropriate GoreeCloud default or partially disable unsafe theme properties.
+
+Theme failure must never make essential controls unreadable or inaccessible.
+
+A broken custom theme must not prevent a user from reaching Theme Manager and restoring a valid configuration.
+
+---
+
+## 20. Theme Packages
+
+V1.7 may define a portable **Glaze Theme Package** format.
+
+Theme packages should be versioned, declarative, inspectable, and bounded.
+
+Packages may describe allowed appearance, accent, palette, material, geometry, density, and presentation preferences without containing executable code.
+
+Imported themes should not gain authority to execute scripts, load arbitrary remote resources, redefine security/privacy truth, replace protected semantic mappings, or bypass accessibility requirements.
+
+Remote fonts, trackers, analytics dependencies, or external runtime visual dependencies should not be required.
+
+---
+
+## 21. Local-First Theme Generation
+
+Theme and palette generation should remain local-first.
+
+Wallpaper-derived themes should use locally provided or locally derived summaries where possible.
+
+Glaze UI itself should not require uploading wallpaper images, screenshots, user content, or environmental images merely to construct a palette.
+
+Theme generation should not require telemetry.
+
+A fully functional default and custom Theme Manager should remain available without network access.
+
+---
+
+## 22. System Shell Continuity
+
+V1.7 should strengthen the Glaze System Shell around persistent user context.
+
+This should include notification/activity presentation, Control Center continuity, persistent layouts where governed, multi-window behavior, split view, compact-to-expanded navigation, window restoration, application-to-system handoff, task switching, overlays, Universal Search continuity, and contextual command surfaces.
+
+Theme changes should not reset shell state or active user tasks.
+
+---
+
+## 23. Notification and Activity Surfaces
+
+V1.7 should standardize activity and notification presentation through components such as GlzNotificationSurface, GlzActivityItem, GlzActivityGroup, GlzStatusFeed, GlzBackgroundTask, and GlzProgressSurface.
+
+Color coding should clearly reinforce informational activity, background work, attention, warnings, critical state, requested progress, recoverable failure, security state, privacy state, and other supplied semantic conditions.
+
+Color should reinforce these states rather than replace symbols, text, or accessible descriptions.
+
+---
+
+## 24. Native Glaze Kits
+
+V1.7 should reduce repeated interpretation work by providing stronger native integration kits or reference implementations for supported Android/Jetpack Compose, Apple/SwiftUI, Web, and Linux native environments.
+
+Native implementations should preserve semantic themes and color roles while appropriately integrating platform-native accessibility, input, rendering, system appearance, color APIs, and performance characteristics.
+
+The goal is semantic consistency, not pixel-identical interfaces.
+
+---
+
+## 25. Expanded Component System
+
+V1.7 should selectively extend the component system with adaptive and personalization-oriented components such as GlzAdaptivePane, GlzCommandSurface, GlzActivitySurface, GlzNotificationSurface, GlzAdaptiveToolbar, GlzActionCluster, GlzRecoverySurface, GlzProgressSurface, GlzPreferenceGroup, GlzAppearancePicker, GlzThemePreview, GlzColorRolePicker, GlzPalettePreview, and GlzAdaptiveSplitView.
+
+Components should expose semantic color roles rather than assuming literal color values.
+
+---
+
+## 26. Glaze Inspector
+
+V1.7 should evolve current conformance tooling into a practical **Glaze Inspector**.
+
+The Inspector should expose component state, token provenance, semantic color resolution, theme resolution, material hierarchy, accessibility overrides, focus behavior, input mapping, adaptive layout resolution, form-factor previews, target sizes, authority boundaries, and migration state.
+
+A developer should be able to inspect why an element received a particular color and determine whether it came from semantic state, product identity, the user theme, context, accessibility, or a Glaze fallback.
+
+This would be particularly useful for debugging theme and semantic-color conflicts.
+
+---
+
+## 27. Glaze Studio
+
+A higher-level **Glaze Studio** should provide interactive design and review capabilities.
+
+Studio should allow designers and developers to explore components, semantic states, theme presets, user-created themes, color families, appearance modes, expression modes, form factors, adaptive layouts, motion, loading behavior, error states, accessibility configurations, and platform mappings.
+
+Theme creation could occur directly within Glaze Studio while Theme Manager remains the end-user personalization interface.
+
+Studio is a development and qualification tool and does not replace repository-governed contracts.
+
+---
+
+## 28. Continuity-Aware Motion
+
+V1.7 motion should primarily explain continuity.
+
+Motion should help users understand where a surface moved, why a composition changed, which object retained identity, where focus moved, which pane became primary, or how an interface changed between compact and expanded presentation.
+
+Theme changes may transition color and material where useful, but large continuous rainbow effects, unnecessary chromatic movement, or decorative animation should not become defaults.
+
+Reduced Motion must provide equivalent static or minimally animated state transitions.
+
+---
+
+## 29. Accessibility Continuity
+
+Accessibility should be treated as a continuity requirement.
+
+Changes involving large text, Reduced Motion, Reduced Transparency, Increased Contrast, Forced Colors, screen readers, switch access, voice access, Touch Assistance, keyboard navigation, or color-vision accommodations should preserve the active task wherever technically possible.
+
+Changing an accessibility setting must not unnecessarily discard drafts, focus, selection, navigation state, active content, or unsaved work.
+
+Accessibility outranks visual richness and user theme preferences.
+
+---
+
+## 30. Cross-Device Consistency Without Uniformity
+
+V1.7 should make GoreeCloud experiences feel related without requiring every platform to look identical.
+
+Shared semantics, color roles, state vocabulary, interaction principles, accessibility expectations, material hierarchy, theme architecture, motion meaning, and authority boundaries should remain consistent.
+
+Their physical presentation should adapt to the platform.
+
+A Mobile Glaze experience should feel designed for Mobile.
+
+A Tablet experience should feel designed for Tablet.
+
+Desktop should behave like a real Desktop environment.
+
+TV should feel intentionally far-view.
+
+Wearables should remain glanceable and concise.
+
+---
+
+## 31. Visual Direction
+
+V1.7 should not be defined simply by adding more blur, glass, saturation, gradients, or glow.
+
+Its visual advancement should come from better adaptive composition, richer but controlled personalization, stronger color hierarchy, more useful semantic color coding, sophisticated theme generation, coherent native implementation, and improved continuity.
+
+Color should become more expressive while simultaneously becoming more disciplined.
+
+Strong color should have a reason.
+
+If everything is emphasized, nothing is emphasized.
+
+---
+
+## 32. Privacy and Authority Boundaries
+
+Glaze UI may consume explicitly supplied information required for presentation.
+
+It must not independently claim authority over authentication, authorization, security state, privacy state, consent, permissions, device policy, connectivity truth, application capability, recovery status, backup state, or other provider-owned truth.
+
+Theme Manager and color adaptation must not infer sensitive facts merely to create visual effects.
+
+Presentation follows authoritative state.
+
+It does not create it.
+
+---
+
+## 33. Performance and Energy Awareness
+
+Advanced themes, dynamic materials, palette transitions, adaptive composition, and richer native presentation must remain performance-conscious.
+
+Optional visual complexity should degrade gracefully under constrained hardware, thermal pressure, power-saving conditions, reduced GPU capability, low refresh conditions, Reduced Transparency, Reduced Motion, or platform limitations.
+
+Theme fidelity must never outrank usability, accessibility, system responsiveness, or truthful state.
+
+---
+
+## 34. V1.7 Acceptance
+
+V1.7 should retain Glaze UI's evidence-driven acceptance model.
+
+Qualification should cover source validation, semantic correctness, theme safety, custom-theme accessibility, protected semantic color enforcement, palette generation, contrast, grayscale, color-vision differentiation, Forced Colors, Increased Contrast, Reduced Transparency, Light/Dark/Deep Dark, Mobile, Tablet, Desktop, Foldable, TV, Wearable where claimed, touch, keyboard, pointer, alternative input, task continuity, adaptive composition, native behavior, representative rendering, performance, regression, human review, assistive technology, privacy boundaries, security boundaries, and artifact provenance.
 
 Mobile and Tablet should be reviewed first when supported, followed by every other claimed form factor.
 
@@ -606,28 +556,34 @@ Passing automated validation alone must not establish complete V1.7 acceptance.
 
 ---
 
-## 20. Proposed V1.7 Identity
+## 35. Proposed V1.7 Identity
 
 **Product:** GLAZE UI  
 **Version:** V1.7  
-**Planned theme:** Interaction Continuity  
+**Planned theme:** Interaction Continuity + Personal Expression  
 **Lifecycle:** Planned  
-**Stable baseline:** GLAZE UI V1.6 / 1.6.0  
+**Stable baseline:** Current governed Glaze Stable baseline at V1.7 development start  
 **Consumer eligibility:** No until separately implemented, qualified, and promoted  
-**Primary objective:** Preserve user task and intent while Glaze UI adapts across form factors, inputs, accessibility configurations, platform conditions, and presentation modes.
+**Primary objective:** Preserve user task and authoritative meaning while allowing Glaze UI to adapt more deeply across themes, colors, form factors, input systems, accessibility configurations, platforms, and presentation environments.
 
 ---
 
 ## Final Direction
 
-Glaze UI V1.7 should move GoreeCloud beyond a design system that merely makes applications visually consistent.
+Glaze UI V1.7 should move GoreeCloud beyond a shared visual design language.
 
-It should become a system that makes interaction itself coherent.
+It should become a coherent adaptive presentation system in which interaction, color, material, identity, personalization, accessibility, and semantic state work together.
 
-A GoreeCloud interface should be capable of moving from phone to tablet layout, folded to unfolded posture, touch to keyboard, normal presentation to accessibility presentation, or compact to multi-pane composition without making the user feel that the application has changed underneath them.
+Users should have substantially more freedom to make GoreeCloud feel like their own environment.
 
-Glaze UI V1.7 should therefore be defined by four qualities:
+Developers should have substantially stronger semantic tools for communicating state.
 
-**Continuous. Adaptive. Native. Truthful.**
+Applications should remain recognizably part of the same ecosystem.
 
-The result should remain recognizably Glaze UI while becoming substantially better at following the user, their task, their device, and their accessibility needs.
+Protected meaning should remain stable regardless of theme.
+
+A GoreeCloud interface should be capable of moving from phone to tablet, folded to unfolded, touch to keyboard, Light to Deep Dark, default theme to a highly personalized custom theme, or ordinary presentation to an accessibility configuration without losing the user's task or corrupting the meaning of what they see.
+
+The defining qualities of Glaze UI V1.7 should therefore be:
+
+**Continuous. Adaptive. Expressive. Accessible. Semantic. Native. Truthful.**
