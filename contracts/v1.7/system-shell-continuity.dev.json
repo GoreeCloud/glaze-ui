@@ -1,0 +1,111 @@
+{
+  "$schema": "../../schemas/v1.7-system-shell-continuity.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.system-shell-continuity",
+  "name": "Glaze UI V1.7 System Shell Continuity Development Contract",
+  "version": "1.7.0-dev.6",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [7],
+  "shellRegions": [
+    "workspace",
+    "navigation",
+    "universal-search",
+    "control-center",
+    "notification-activity",
+    "critical-system"
+  ],
+  "transitionKinds": [
+    "compact-expanded-navigation",
+    "split-view",
+    "multi-window",
+    "window-restoration",
+    "application-system-handoff",
+    "task-switch",
+    "shell-overlay",
+    "control-center",
+    "search-continuity"
+  ],
+  "platformCapabilities": [
+    "multi-window",
+    "split-view",
+    "window-restoration",
+    "application-system-handoff",
+    "task-switch",
+    "shell-overlay",
+    "persistent-control-center-layout",
+    "system-search",
+    "notification-activity"
+  ],
+  "capabilityStates": [
+    "available",
+    "unavailable",
+    "unsupported",
+    "restricted",
+    "permission-required",
+    "temporarily-unavailable",
+    "unknown"
+  ],
+  "profilePresentations": {
+    "mobile": "compact-shell-stack",
+    "tablet": "adaptive-split-shell",
+    "desktop": "workspace-multi-window-shell",
+    "foldable": "posture-aware-shell",
+    "tv": "far-view-shell",
+    "wearable": "glanceable-shell"
+  },
+  "continuity": {
+    "taskContinuityContract": "contracts/v1.7/task-continuity.dev.json",
+    "adaptiveInputContract": "contracts/v1.7/adaptive-input.dev.json",
+    "formFactorContract": "contracts/v1.7/form-factor-profiles.dev.json",
+    "commandSurfaceContract": "contracts/v1.7/command-surface.dev.json",
+    "personalizationContract": "contracts/v1.7/personalization.dev.json",
+    "activeTaskPreservedUnlessAuthoritativeTaskChange": true,
+    "navigationPreserved": true,
+    "focusPreserved": true,
+    "selectionPreserved": true,
+    "draftsPreserved": true,
+    "queryAndFiltersPreserved": true,
+    "paneAndWindowContextPreserved": true,
+    "safePendingInteractionsPreserved": true,
+    "providerOwnedTruthPreserved": true,
+    "shellReconfigurationMayResetTaskByItself": false,
+    "transitionsPredictable": true,
+    "transitionsReversible": true
+  },
+  "controlCenter": {
+    "layoutIdentityStable": true,
+    "moduleOrderStableUnlessAuthoritativeLayoutChange": true,
+    "persistentLayoutOnlyWherePlatformSupportsIt": true,
+    "persistencePerformedByGlaze": false,
+    "crossDeviceSyncEstablished": false
+  },
+  "notificationActivityBoundary": {
+    "shellPresentationSupported": true,
+    "fullSection8ComponentSystemEstablished": false,
+    "truthOwnedByCallerOrProvider": true,
+    "truthGeneratedByGlaze": false,
+    "priorityInventedByGlaze": false,
+    "criticalStateRequiresAuthoritativeSource": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "shellConfigurationOwnedByApplicationOrPlatform": true,
+    "platformCapabilityOwnedByApplicationOrPlatform": true,
+    "windowingSupportCreatedByGlaze": false,
+    "systemPrivilegeGrantedByGlaze": false,
+    "notificationTruthCreatedByGlaze": false,
+    "searchAuthorityCreatedByGlaze": false,
+    "navigationExecutedByGlaze": false,
+    "handoffExecutedByGlaze": false,
+    "windowRestorationExecutedByGlaze": false,
+    "taskSwitchExecutedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-system-shell-continuity.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-system-shell-continuity.dev.json",
+  "boundary": "Development foundation only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable. System Shell Continuity does not establish native shell parity, platform capability, full section 8 notification/activity components, consumer eligibility, deployment, release, or production acceptance."
+}
