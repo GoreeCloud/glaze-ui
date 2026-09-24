@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.7-task-continuity.schema.json",
+  "title": "Glaze UI V1.7 Task Continuity Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "implementedSpecificationSections",
+    "stateClasses",
+    "continuityFields",
+    "environmentChanges",
+    "adaptiveComposition",
+    "restoration",
+    "authority",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "tokenMap",
+    "boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-task-continuity.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.task-continuity"},
+    "name": {"const": "Glaze UI V1.7 Task Continuity and Adaptive Composition Development Contract"},
+    "version": {"const": "1.7.0-dev.1"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {
+      "const": [1, 4]
+    },
+    "stateClasses": {
+      "type": "array",
+      "const": [
+        "durable",
+        "session-scoped",
+        "presentation-only",
+        "provider-owned",
+        "temporary",
+        "recoverable",
+        "non-restorable"
+      ]
+    },
+    "continuityFields": {
+      "type": "array",
+      "minItems": 13,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "environmentChanges": {
+      "type": "array",
+      "minItems": 11,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "adaptiveComposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profiles",
+        "presentations",
+        "semanticIdentityPreserved",
+        "taskStateResetOnRecompositionAllowed",
+        "accessibilitySemanticsPreserved",
+        "providerTruthPreserved",
+        "widthAloneIsAuthority"
+      ],
+      "properties": {
+        "profiles": {
+          "const": ["mobile", "tablet", "desktop", "foldable", "tv", "wearable"]
+        },
+        "presentations": {
+          "const": [
+            "bottom-sheet",
+            "side-pane",
+            "secondary-pane",
+            "floating-panel",
+            "full-screen-step",
+            "far-view-panel"
+          ]
+        },
+        "semanticIdentityPreserved": {"const": true},
+        "taskStateResetOnRecompositionAllowed": {"const": false},
+        "accessibilitySemanticsPreserved": {"const": true},
+        "providerTruthPreserved": {"const": true},
+        "widthAloneIsAuthority": {"const": false}
+      }
+    },
+    "restoration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "durableRestoredAcrossEnvironmentChanges",
+        "sessionScopedRestoredWithinSession",
+        "presentationOnlyMayRecomputeWithoutChangingTaskTruth",
+        "providerOwnedMayBeReplacedOnlyByAuthoritativeProviderInput",
+        "temporaryMayBeDiscardedOnlyWhenExplicitlyDisposable",
+        "recoverableRequiresCallerSuppliedRecoveryState",
+        "nonRestorableLossMustBeExplicit"
+      ],
+      "properties": {
+        "durableRestoredAcrossEnvironmentChanges": {"const": true},
+        "sessionScopedRestoredWithinSession": {"const": true},
+        "presentationOnlyMayRecomputeWithoutChangingTaskTruth": {"const": true},
+        "providerOwnedMayBeReplacedOnlyByAuthoritativeProviderInput": {"const": true},
+        "temporaryMayBeDiscardedOnlyWhenExplicitlyDisposable": {"const": true},
+        "recoverableRequiresCallerSuppliedRecoveryState": {"const": true},
+        "nonRestorableLossMustBeExplicit": {"const": true}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary",
+        "taskTruthOwnedByApplication",
+        "providerTruthOwnedByProvider",
+        "accessibilityTruthOwnedByPlatformOrCaller",
+        "capabilityTruthOwnedByProvider",
+        "connectivityTruthOwnedByProvider",
+        "securityTruthOwnedByProvider",
+        "privacyTruthOwnedByProvider",
+        "authorizationGrantedByGlaze",
+        "permissionGrantedByGlaze",
+        "consentGrantedByGlaze",
+        "providerTruthManufactured",
+        "consequentialExecutionAutomatic"
+      ],
+      "properties": {
+        "boundary": {"const": "presentation-only"},
+        "taskTruthOwnedByApplication": {"const": true},
+        "providerTruthOwnedByProvider": {"const": true},
+        "accessibilityTruthOwnedByPlatformOrCaller": {"const": true},
+        "capabilityTruthOwnedByProvider": {"const": true},
+        "connectivityTruthOwnedByProvider": {"const": true},
+        "securityTruthOwnedByProvider": {"const": true},
+        "privacyTruthOwnedByProvider": {"const": true},
+        "authorizationGrantedByGlaze": {"const": false},
+        "permissionGrantedByGlaze": {"const": false},
+        "consentGrantedByGlaze": {"const": false},
+        "providerTruthManufactured": {"const": false},
+        "consequentialExecutionAutomatic": {"const": false}
+      }
+    },
+    "runtimeEntrypoint": {"const": "js/glaze-v1.7-task-continuity.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const": "js/glaze-v1.7-development.mjs"},
+    "tokenMap": {"const": "tokens/glaze-v1.7-task-continuity.dev.json"},
+    "boundary": {"type": "string", "minLength": 1}
+  }
+}
