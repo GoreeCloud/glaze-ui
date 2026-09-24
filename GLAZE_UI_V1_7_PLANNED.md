@@ -21,7 +21,7 @@ This document records the planned direction for **GLAZE UI V1.7**. It is a plann
 
 The current verified Official Stable authority remains **GLAZE UI V1.6 / 1.6.0**.
 
-As of 2026-09-24, the canonical repository contains bounded V1.7 Development foundations through **1.7.0-dev.7** for specification sections 1–8. Those Development implementations remain non-consumer-eligible and do not convert the remaining planned requirements in this document into implemented state.
+As of 2026-09-24, the canonical repository contains bounded V1.7 Development foundations through **1.7.0-dev.7**. Those tranches implement Task Continuity and Adaptive Composition, Adaptive Input 2.0, First-Class Form-Factor Profiles, GlzCommandSurface, an earlier Personalization 2.0 foundation, System Shell Continuity, and Notification and Activity Surfaces. Because this v1.1 plan expands and renumbers the specification, earlier Development tranche numbers must not be interpreted as direct evidence that the correspondingly numbered v1.1 sections are complete. In particular, Advanced Theme Manager 2.0, Theme Architecture, Semantic Color System 2.0, and the added color/theme requirements require fresh scope reconciliation and implementation evidence. All V1.7 Development work remains non-consumer-eligible.
 
 Nothing in this document independently changes VERSION, registry/lifecycle.json, V1.6 Stable runtime or release evidence, downstream consumer eligibility, or provider-owned security, privacy, permission, capability, connectivity, recovery, identity, consent, authorization, or availability truth.
 
