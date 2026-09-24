@@ -334,6 +334,12 @@ try {
 } catch { invalidCapabilityState=true; }
 assert(invalidCapabilityState, 'unknown capability state must fail closed');
 
+let invalidCapability=false;
+try {
+  resolveGlazeShellCapability({capability:'invented-windowing-mode',state:'available',authoritative:true});
+} catch { invalidCapability=true; }
+assert(invalidCapability, 'unknown shell capability must fail closed');
+
 console.log('GLAZE UI V1.7 System Shell Continuity Development foundation: PASS');
 console.log('Implemented section: 7');
 console.log('Shell areas: 12');
