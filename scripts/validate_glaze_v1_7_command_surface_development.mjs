@@ -65,10 +65,10 @@ for (const phrase of [
   'Universal Search',
   'application search',
   'commands',
-  'Contextual actions',
-  'Navigation shortcuts',
+  'contextual actions',
+  'navigation shortcuts',
   'command palettes',
-  'Remote-friendly command selection'
+  'remote-friendly command selection'
 ]) {
   assert(spec.includes(phrase), `V1.7 specification missing command-surface requirement: ${phrase}`);
 }
