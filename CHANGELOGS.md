@@ -4,6 +4,10 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.4` `GlzCommandSurface` source foundation for specification section 5, unifying Universal Search, application search, commands, actions, contextual actions, navigation shortcuts, keyboard-first palettes, touch-oriented command/search surfaces, and remote-friendly selection under one semantic component.
+- Provider scope, source identity, and action availability now fail closed independently; command items cannot be presented as executable until all applicable authority is explicit, and Glaze never performs command, navigation, permission, authorization, or consequential execution automatically.
+- Added profile-specific command presentations for Mobile, Tablet, Desktop, Foldable, TV/far-view, and Wearable while preserving one semantic command identity, query/filter/selection/focus/navigation context, stable partial-result ordering, and provider-owned source/scope truth across adaptive presentation.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.4` while retaining dev.1–dev.3 as regression foundations. V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
 - Added the bounded `1.7.0-dev.3` First-Class Form-Factor Profiles source foundation for specification section 3, with governed Mobile, Tablet, Desktop, Foldable/posture-aware, TV/far-view, and Wearable profile semantics across thirteen profile dimensions.
 - Mobile and Tablet are explicitly first-priority Development profiles; profile selection is not derived from width or device brand alone, safe areas remain platform-owned, and accessibility may reduce density/pane count without shrinking interaction targets to preserve composition.
 - Added continuity-preserving transitions across all six profile families, a governed Wearable profile that does not imply native-device or production acceptance, and an explicit Spatial Experimental boundary requiring separate native-platform, accessibility, interaction, performance, and representative-device evidence.

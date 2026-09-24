@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.7-command-surface.schema.json",
+  "title": "Glaze UI V1.7 GlzCommandSurface Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline",
+    "consumerEligible","implementedSpecificationSections","component","interactionConcepts",
+    "providerScopes","sourceKinds","surfacePhases","presentationMappings","semanticIdentity",
+    "continuity","ordering","authority","runtimeEntrypoint","developmentAggregateEntrypoint",
+    "tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-command-surface.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.command-surface"},
+    "name": {"const": "Glaze UI V1.7 GlzCommandSurface Development Contract"},
+    "version": {"const": "1.7.0-dev.4"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {"const": [5]},
+    "component": {"const": "GlzCommandSurface"},
+    "interactionConcepts": {
+      "const": [
+        "universal-search",
+        "application-search",
+        "command",
+        "action",
+        "contextual-action",
+        "navigation-shortcut"
+      ]
+    },
+    "providerScopes": {
+      "const": [
+        "universal",
+        "application",
+        "contextual",
+        "navigation",
+        "system",
+        "unknown"
+      ]
+    },
+    "sourceKinds": {
+      "const": [
+        "local",
+        "goreecloud-service",
+        "remote",
+        "cached",
+        "synchronized",
+        "imported",
+        "unknown"
+      ]
+    },
+    "surfacePhases": {
+      "const": [
+        "closed",
+        "initial",
+        "typing",
+        "suggestions",
+        "loading",
+        "partial-results",
+        "results",
+        "no-results",
+        "filters",
+        "history",
+        "error"
+      ]
+    },
+    "presentationMappings": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":["mobile","tablet","desktop","foldable","tv","wearable"],
+      "properties":{
+        "mobile":{"const":"reachable-sheet"},
+        "tablet":{"const":"expanded-search-command-pane"},
+        "desktop":{"const":"keyboard-first-command-palette"},
+        "foldable":{"const":"posture-aware-command-pane"},
+        "tv":{"const":"directional-command-panel"},
+        "wearable":{"const":"glanceable-command-list"}
+      }
+    },
+    "semanticIdentity": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "oneCommandConceptAcrossProfiles","oneCommandConceptAcrossInputModels",
+        "physicalPresentationMayChange","commandIdentityMayChangeFromPresentationAlone"
+      ],
+      "properties":{
+        "oneCommandConceptAcrossProfiles":{"const":true},
+        "oneCommandConceptAcrossInputModels":{"const":true},
+        "physicalPresentationMayChange":{"const":true},
+        "commandIdentityMayChangeFromPresentationAlone":{"const":false}
+      }
+    },
+    "continuity": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "taskContinuityContract","adaptiveInputContract","formFactorContract",
+        "queryPreserved","filtersPreserved","selectionPreservedWhenValid",
+        "focusPreserved","navigationContextPreserved","providerScopePreserved",
+        "sourceIdentityPreserved","presentationChangeMayResetTask"
+      ],
+      "properties":{
+        "taskContinuityContract":{"const":"contracts/v1.7/task-continuity.dev.json"},
+        "adaptiveInputContract":{"const":"contracts/v1.7/adaptive-input.dev.json"},
+        "formFactorContract":{"const":"contracts/v1.7/form-factor-profiles.dev.json"},
+        "queryPreserved":{"const":true},
+        "filtersPreserved":{"const":true},
+        "selectionPreservedWhenValid":{"const":true},
+        "focusPreserved":{"const":true},
+        "navigationContextPreserved":{"const":true},
+        "providerScopePreserved":{"const":true},
+        "sourceIdentityPreserved":{"const":true},
+        "presentationChangeMayResetTask":{"const":false}
+      }
+    },
+    "ordering": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "providerArrivalMayArbitrarilyReorderExistingItems",
+        "providerPrecedenceInferredByGlaze",
+        "rankingInventedByGlaze"
+      ],
+      "properties":{
+        "providerArrivalMayArbitrarilyReorderExistingItems":{"const":false},
+        "providerPrecedenceInferredByGlaze":{"const":false},
+        "rankingInventedByGlaze":{"const":false}
+      }
+    },
+    "authority": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "boundary","providerScopeOwnedByCallerOrProvider","sourceIdentityOwnedByCallerOrProvider",
+        "availabilityOwnedByCallerOrProvider","providerScopeInferredByGlaze",
+        "sourceIdentityInferredByGlaze","capabilityCreatedByGlaze",
+        "authorizationGrantedByGlaze","permissionGrantedByGlaze",
+        "consentGrantedByGlaze","navigationExecutedByGlaze",
+        "commandExecutionAutomatic","consequentialExecutionAutomatic"
+      ],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "providerScopeOwnedByCallerOrProvider":{"const":true},
+        "sourceIdentityOwnedByCallerOrProvider":{"const":true},
+        "availabilityOwnedByCallerOrProvider":{"const":true},
+        "providerScopeInferredByGlaze":{"const":false},
+        "sourceIdentityInferredByGlaze":{"const":false},
+        "capabilityCreatedByGlaze":{"const":false},
+        "authorizationGrantedByGlaze":{"const":false},
+        "permissionGrantedByGlaze":{"const":false},
+        "consentGrantedByGlaze":{"const":false},
+        "navigationExecutedByGlaze":{"const":false},
+        "commandExecutionAutomatic":{"const":false},
+        "consequentialExecutionAutomatic":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.7-command-surface.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.7-command-surface.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.7 GlzCommandSurface Development Semantic Map",
+  "version": "1.7.0-dev.4",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/glaze-v1.6-navigation-status.dev.json",
+    "tokens/glaze-v1.7-task-continuity.dev.json",
+    "tokens/glaze-v1.7-adaptive-input.dev.json",
+    "tokens/glaze-v1.7-form-factor-profiles.dev.json"
+  ],
+  "component": {
+    "GlzCommandSurface": "component.command-surface"
+  },
+  "interactionConcepts": {
+    "universal-search": "command.universal-search",
+    "application-search": "command.application-search",
+    "command": "command.command",
+    "action": "command.action",
+    "contextual-action": "command.contextual-action",
+    "navigation-shortcut": "command.navigation-shortcut"
+  },
+  "providerScopes": {
+    "universal": "provider.scope.universal",
+    "application": "provider.scope.application",
+    "contextual": "provider.scope.contextual",
+    "navigation": "provider.scope.navigation",
+    "system": "provider.scope.system",
+    "unknown": "provider.scope.unknown"
+  },
+  "sourceKinds": {
+    "local": "source.local",
+    "goreecloud-service": "source.goreecloud-service",
+    "remote": "source.remote",
+    "cached": "source.cached",
+    "synchronized": "source.synchronized",
+    "imported": "source.imported",
+    "unknown": "source.unknown"
+  },
+  "surfacePhases": {
+    "closed": "command.phase.closed",
+    "initial": "command.phase.initial",
+    "typing": "command.phase.typing",
+    "suggestions": "command.phase.suggestions",
+    "loading": "command.phase.loading",
+    "partial-results": "command.phase.partial-results",
+    "results": "command.phase.results",
+    "no-results": "command.phase.no-results",
+    "filters": "command.phase.filters",
+    "history": "command.phase.history",
+    "error": "command.phase.error"
+  },
+  "presentations": {
+    "mobile": "command.presentation.reachable-sheet",
+    "tablet": "command.presentation.expanded-search-command-pane",
+    "desktop": "command.presentation.keyboard-first-command-palette",
+    "foldable": "command.presentation.posture-aware-command-pane",
+    "tv": "command.presentation.directional-command-panel",
+    "wearable": "command.presentation.glanceable-command-list"
+  },
+  "continuity": {
+    "query": "continuity.query.current",
+    "filters": "continuity.filters.current",
+    "selection": "continuity.selection.current",
+    "focus": "continuity.focus.current",
+    "navigation": "continuity.navigation.destination",
+    "providerScope": "continuity.provider.scope",
+    "sourceIdentity": "continuity.source.identity",
+    "presentationChangeMayResetTask": false
+  },
+  "ordering": {
+    "providerArrivalMayArbitrarilyReorderExistingItems": false,
+    "providerPrecedenceInferredByGlaze": false,
+    "rankingInventedByGlaze": false
+  },
+  "boundaries": {
+    "providerScopeRequiresAuthority": true,
+    "sourceIdentityRequiresAuthority": true,
+    "availabilityRequiresAuthority": true,
+    "providerScopeInferredByGlaze": false,
+    "sourceIdentityInferredByGlaze": false,
+    "capabilityCreatedByGlaze": false,
+    "authorizationGrantedByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "navigationExecutedByGlaze": false,
+    "commandExecutionAutomatic": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "boundary": "Development semantic mapping only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable; GlzCommandSurface is non-consumer-eligible and does not create command authority or execution authority."
+}

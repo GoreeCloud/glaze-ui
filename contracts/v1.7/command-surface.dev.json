@@ -1,0 +1,101 @@
+{
+  "$schema": "../../schemas/v1.7-command-surface.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.command-surface",
+  "name": "Glaze UI V1.7 GlzCommandSurface Development Contract",
+  "version": "1.7.0-dev.4",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [5],
+  "component": "GlzCommandSurface",
+  "interactionConcepts": [
+    "universal-search",
+    "application-search",
+    "command",
+    "action",
+    "contextual-action",
+    "navigation-shortcut"
+  ],
+  "providerScopes": [
+    "universal",
+    "application",
+    "contextual",
+    "navigation",
+    "system",
+    "unknown"
+  ],
+  "sourceKinds": [
+    "local",
+    "goreecloud-service",
+    "remote",
+    "cached",
+    "synchronized",
+    "imported",
+    "unknown"
+  ],
+  "surfacePhases": [
+    "closed",
+    "initial",
+    "typing",
+    "suggestions",
+    "loading",
+    "partial-results",
+    "results",
+    "no-results",
+    "filters",
+    "history",
+    "error"
+  ],
+  "presentationMappings": {
+    "mobile": "reachable-sheet",
+    "tablet": "expanded-search-command-pane",
+    "desktop": "keyboard-first-command-palette",
+    "foldable": "posture-aware-command-pane",
+    "tv": "directional-command-panel",
+    "wearable": "glanceable-command-list"
+  },
+  "semanticIdentity": {
+    "oneCommandConceptAcrossProfiles": true,
+    "oneCommandConceptAcrossInputModels": true,
+    "physicalPresentationMayChange": true,
+    "commandIdentityMayChangeFromPresentationAlone": false
+  },
+  "continuity": {
+    "taskContinuityContract": "contracts/v1.7/task-continuity.dev.json",
+    "adaptiveInputContract": "contracts/v1.7/adaptive-input.dev.json",
+    "formFactorContract": "contracts/v1.7/form-factor-profiles.dev.json",
+    "queryPreserved": true,
+    "filtersPreserved": true,
+    "selectionPreservedWhenValid": true,
+    "focusPreserved": true,
+    "navigationContextPreserved": true,
+    "providerScopePreserved": true,
+    "sourceIdentityPreserved": true,
+    "presentationChangeMayResetTask": false
+  },
+  "ordering": {
+    "providerArrivalMayArbitrarilyReorderExistingItems": false,
+    "providerPrecedenceInferredByGlaze": false,
+    "rankingInventedByGlaze": false
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "providerScopeOwnedByCallerOrProvider": true,
+    "sourceIdentityOwnedByCallerOrProvider": true,
+    "availabilityOwnedByCallerOrProvider": true,
+    "providerScopeInferredByGlaze": false,
+    "sourceIdentityInferredByGlaze": false,
+    "capabilityCreatedByGlaze": false,
+    "authorizationGrantedByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "navigationExecutedByGlaze": false,
+    "commandExecutionAutomatic": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-command-surface.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-command-surface.dev.json",
+  "boundary": "Development foundation only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable. GlzCommandSurface presents authoritative command/search state but does not create provider scope, source identity, availability, capability, authorization, permission, navigation, execution authority, downstream acceptance, release, deployment, or production state."
+}
