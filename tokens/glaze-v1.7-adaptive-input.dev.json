@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "name": "Glaze UI V1.7 Adaptive Input 2.0 Development Semantic Map",
+  "version": "1.7.0-dev.2",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "sourceAuthorities": [
+    "tokens/glaze-v1.6-material-type-input.dev.json",
+    "tokens/glaze-v1.7-task-continuity.dev.json",
+    "tokens/states.json",
+    "tokens/layout.json"
+  ],
+  "inputModels": {
+    "touch": "input.touch",
+    "pointer": "input.pointer",
+    "keyboard": "input.keyboard",
+    "stylus": "input.stylus",
+    "remote-dpad": "input.remote-dpad",
+    "rotary": "input.rotary",
+    "switch-access": "input.switch-access",
+    "voice-access": "input.voice-access",
+    "assistive-input": "input.assistive"
+  },
+  "actionAvailability": {
+    "available": "action.available",
+    "unavailable": "action.unavailable",
+    "unsupported": "action.unsupported",
+    "restricted": "action.restricted",
+    "permission-required": "action.permission-required",
+    "temporarily-unavailable": "action.temporarily-unavailable",
+    "unknown": "action.unknown"
+  },
+  "interactionDependencies": {
+    "drag": "interaction.dependency.drag",
+    "swipe": "interaction.dependency.swipe",
+    "hover": "interaction.dependency.hover",
+    "long-press": "interaction.dependency.long-press",
+    "precision-pointer": "interaction.dependency.precision-pointer",
+    "multi-touch": "interaction.dependency.multi-touch"
+  },
+  "semanticAlternatives": {
+    "drag": ["action.move-before", "action.move-after", "action.move-by-step"],
+    "swipe": ["action.previous", "action.next", "action.dismiss"],
+    "hover": ["action.focus", "action.explicit-info"],
+    "long-press": ["action.open-context", "action.explicit-more-actions"],
+    "precision-pointer": ["action.coarse-step", "action.direct-value-entry"],
+    "multi-touch": ["action.zoom-in", "action.zoom-out", "action.zoom-reset"]
+  },
+  "bindingRoles": {
+    "touch": "binding.touch",
+    "pointer": "binding.pointer",
+    "keyboard": "binding.keyboard",
+    "stylus": "binding.stylus",
+    "remote-dpad": "binding.remote-dpad",
+    "rotary": "binding.rotary",
+    "switch-access": "binding.switch-access",
+    "voice-access": "binding.voice-access",
+    "assistive-input": "binding.assistive"
+  },
+  "continuity": {
+    "inputChange": "continuity.environment.input-method",
+    "taskStateResetAllowed": false,
+    "navigationResetAllowed": false,
+    "focusResetAllowed": false,
+    "selectionResetAllowed": false,
+    "draftResetAllowed": false,
+    "commandAvailabilityMayVaryOnlyFromInputChange": false
+  },
+  "boundaries": {
+    "physicalBindingCreatesSemanticAuthority": false,
+    "actionAvailabilityRequiresAuthority": true,
+    "permissionGrantedByGlaze": false,
+    "authorizationGrantedByGlaze": false,
+    "capabilityCreatedByGlaze": false,
+    "executionAuthorityCreatedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "boundary": "Development semantic mapping only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable; V1.7 Adaptive Input 2.0 remains non-consumer-eligible."
+}
