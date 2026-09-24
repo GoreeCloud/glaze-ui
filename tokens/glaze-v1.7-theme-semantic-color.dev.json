@@ -1,0 +1,51 @@
+{
+  "version": "1.7.0-dev.8",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "themeLayerPrecedence": {
+    "accessibility": 600,
+    "protected-semantic-state": 500,
+    "product-identity": 400,
+    "user-theme": 300,
+    "contextual-accent": 200,
+    "glaze-default": 100
+  },
+  "prominence": {
+    "subtle": {"emphasis": 0.35},
+    "standard": {"emphasis": 0.60},
+    "prominent": {"emphasis": 0.82},
+    "critical": {"emphasis": 1.00}
+  },
+  "semanticChannels": ["text","symbol","icon","border","surface","material","badge","progress","selection","elevated"],
+  "themeColorRoles": [
+    "primary-accent",
+    "secondary-accent",
+    "tertiary-accent",
+    "canvas-atmosphere",
+    "interactive-highlight",
+    "selection",
+    "decorative-tint",
+    "material-atmosphere",
+    "application-identity",
+    "wallpaper-influence"
+  ],
+  "accessibilityThresholds": {
+    "normalText": 4.5,
+    "largeText": 3.0,
+    "focusIndicator": 3.0
+  },
+  "safety": {
+    "unsafeThemeFallback": "glaze-default",
+    "semanticMeaningMayBeAutoRewritten": false,
+    "protectedSemanticOverrideAllowed": false,
+    "colorOnlyMeaningAllowed": false
+  },
+  "localFirst": {
+    "paletteGeneration": true,
+    "networkRequired": false,
+    "telemetryRequired": false,
+    "wallpaperUploadRequired": false
+  }
+}

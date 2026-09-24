@@ -4,6 +4,11 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.8` Theme and Semantic Color Reconciliation Development foundation against the expanded V1.7 v1.1 plan.
+- Added explicit theme-layer precedence (Accessibility → Protected Semantic State → Product Identity → User Theme → Contextual Accent → Glaze Default), protected semantic role override rejection, semantic prominence controls that prevent ordinary information from escalating to Critical, and fail-closed provider/caller semantic truth handling.
+- Added local deterministic palette generation, Theme Color Roles, WCAG-oriented text/focus contrast diagnostics, and Theme Safety fallback to `glaze-default` when a custom theme is unsafe; palette generation requires no network, telemetry, wallpaper upload, remote fonts, or remote visual dependencies.
+- Advanced the Development aggregate to `1.7.0-dev.8` and added explicit provenance that the retained dev.1–dev.7 `implementedSpecificationSections` numbering belongs to the historical v1.0 plan. dev.8 is a bounded v1.1 foundation and does not claim complete v1.1 sections, Advanced Theme Manager completion, Theme Packages, native/rendered acceptance, consumer eligibility, release, deployment, or production acceptance.
+
 - Added the bounded `1.7.0-dev.7` Notification and Activity Surfaces source foundation for specification section 8, with `GlzNotificationSurface`, `GlzActivityItem`, `GlzActivityGroup`, `GlzStatusFeed`, `GlzBackgroundTask`, and `GlzProgressSurface`.
 - Notification/activity kind, progress, and action availability now fail closed unless supplied with the applicable provider authority; Glaze presents the supplied truth but does not generate security/privacy state, system-notification permission, background-task execution, or action authority.
 - Added profile-aware presentation and Task Continuity integration so notification/activity surfaces can adapt across Mobile, Tablet, Desktop, Foldable, TV/far-view, and Wearable without resetting the active task, focus, navigation, drafts, or provider-owned state.
