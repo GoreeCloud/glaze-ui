@@ -1,0 +1,83 @@
+{
+  "$schema": "../../schemas/v1.7-adaptive-input.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.adaptive-input",
+  "name": "Glaze UI V1.7 Adaptive Input 2.0 Development Contract",
+  "version": "1.7.0-dev.2",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [2],
+  "inputModels": [
+    "touch",
+    "pointer",
+    "keyboard",
+    "stylus",
+    "remote-dpad",
+    "rotary",
+    "switch-access",
+    "voice-access",
+    "assistive-input"
+  ],
+  "semanticActions": {
+    "actionIdRequired": true,
+    "actionDefinedIndependentlyFromPhysicalBinding": true,
+    "availabilityStates": [
+      "available",
+      "unavailable",
+      "unsupported",
+      "restricted",
+      "permission-required",
+      "temporarily-unavailable",
+      "unknown"
+    ],
+    "positiveAvailabilityRequiresExplicitAuthority": true,
+    "inputMethodChangeMayChangeAvailabilityByItself": false,
+    "physicalKeyOrGestureIsSemanticAuthority": false
+  },
+  "interactionDependencies": {
+    "dependencies": [
+      "drag",
+      "swipe",
+      "hover",
+      "long-press",
+      "precision-pointer",
+      "multi-touch"
+    ],
+    "alternativeRequiredWhenUnavailableOrUnsuitable": true,
+    "alternatives": {
+      "drag": ["move-before", "move-after", "move-by-step"],
+      "swipe": ["previous", "next", "dismiss"],
+      "hover": ["focus", "explicit-info"],
+      "long-press": ["open-context", "explicit-more-actions"],
+      "precision-pointer": ["coarse-step", "direct-value-entry"],
+      "multi-touch": ["zoom-in", "zoom-out", "zoom-reset"]
+    }
+  },
+  "continuity": {
+    "taskContinuityContract": "contracts/v1.7/task-continuity.dev.json",
+    "inputChangeUsesEnvironmentChange": "input-method",
+    "taskLossAllowed": false,
+    "navigationResetAllowed": false,
+    "focusResetAllowed": false,
+    "selectionResetAllowed": false,
+    "draftResetAllowed": false,
+    "commandAvailabilityMayVaryOnlyFromInputChange": false
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "inputModelOwnedByCallerOrPlatform": true,
+    "actionAvailabilityOwnedByApplicationOrProvider": true,
+    "hardwareCapabilityOwnedByPlatform": true,
+    "authorizationGrantedByGlaze": false,
+    "permissionGrantedByGlaze": false,
+    "consentGrantedByGlaze": false,
+    "capabilityCreatedByGlaze": false,
+    "executionAuthorityCreatedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-adaptive-input.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-adaptive-input.dev.json",
+  "boundary": "Development foundation only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable. This contract does not alter Stable runtime entrypoints, lifecycle authority, consumer eligibility, downstream acceptance, release publication, deployment, or production state."
+}

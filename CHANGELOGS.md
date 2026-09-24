@@ -4,6 +4,9 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.2` Adaptive Input 2.0 source foundation for specification section 2, covering nine input models, authoritative semantic-action availability, input-specific presentation bindings, and Task Continuity-backed input-method changes.
+- Added fail-closed semantic alternatives for drag, swipe, hover, long-press, precision-pointer, and multi-touch dependencies so unavailable or unsuitable techniques do not become the sole path to meaning or action.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.2` while retaining dev.1 Task Continuity and `GlzAdaptivePane` as required regression foundations; V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
 - Added the bounded `1.7.0-dev.1` Task Continuity and Adaptive Composition source foundation for specification sections 1 and 4: machine contract, fail-closed schema, semantic token map, Development runtime resolver, aggregate entrypoint, and exact-source validator.
 - Task continuity now models seven governed state classes—durable, session-scoped, presentation-only, provider-owned, temporary, recoverable, and non-restorable—and preserves navigation, focus, selection, scroll position, expansion, drafts/forms, filters/query, pane/media state, safe pending interactions, and working context across governed environment changes unless an authoritative caller explicitly supplies a valid replacement or loss instruction.
 - Adaptive composition maps one semantic surface across Mobile, Tablet, Desktop, Foldable, TV/far-view, and Wearable presentation forms while preserving semantic identity, accessibility semantics, task state, and provider-owned truth. Width alone is not treated as composition authority.
