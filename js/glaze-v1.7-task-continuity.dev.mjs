@@ -233,6 +233,8 @@ export function resolveGlazeTaskContinuity(input = {}) {
   const clearAuthoritative = input.clearAuthoritative === true;
   const temporaryDisposableFields = new Set(uniqueStrings(input.temporaryDisposableFields, CONTINUITY_FIELDS.length));
   const lossDirectedFields = new Set(uniqueStrings(input.lossDirectedFields, CONTINUITY_FIELDS.length));
+  const providerAuthoritativeFields = new Set(uniqueStrings(input.providerAuthoritativeFields, CONTINUITY_FIELDS.length));
+  const recoveryStateFields = new Set(uniqueStrings(input.recoveryStateFields, CONTINUITY_FIELDS.length));
 
   const resolved = {};
   const decisions = {};
@@ -273,10 +275,24 @@ export function resolveGlazeTaskContinuity(input = {}) {
     }
 
     if (hasIncoming) {
+      if (stateClass === 'provider-owned' && !providerAuthoritativeFields.has(field)) {
+        if (hasPrevious) resolved[field] = previous[field];
+        decisions[field] = 'rejected-provider-input-not-authoritative';
+        blockedByContinuityRisk = true;
+        continue;
+      }
+      if (stateClass === 'recoverable' && !recoveryStateFields.has(field)) {
+        if (hasPrevious) resolved[field] = previous[field];
+        decisions[field] = 'rejected-recovery-input-not-declared';
+        blockedByContinuityRisk = true;
+        continue;
+      }
       resolved[field] = incoming[field];
       decisions[field] = stateClass === 'provider-owned'
         ? 'accepted-authoritative-provider-input'
-        : 'accepted-caller-input';
+        : stateClass === 'recoverable'
+          ? 'accepted-caller-recovery-state'
+          : 'accepted-caller-input';
       continue;
     }
 
@@ -304,6 +320,8 @@ export function resolveGlazeTaskContinuity(input = {}) {
       preserveWhenIncomingStateIsAbsent: true,
       clearRequiresAuthoritativeCallerDirection: true,
       providerOwnedClearAllowedByGlaze: false,
+      providerOwnedReplacementRequiresExplicitAuthority: true,
+      recoverableReplacementRequiresExplicitRecoveryState: true,
       blockedByContinuityRisk
     }),
     authority: Object.freeze({
