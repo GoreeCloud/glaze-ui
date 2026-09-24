@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.7-theme-semantic-color.schema.json",
+  "title": "Glaze UI V1.7 Theme and Semantic Color Reconciliation Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline",
+    "consumerEligible","planVersion","foundationScope","v11SpecificationSections",
+    "themeLayerPrecedence","semanticRoles","prominenceLevels","protectedSemanticRoles",
+    "criticalProminenceRoles","themeColorRoles","accessibility","localFirst","authority",
+    "completionClaims","runtimeEntrypoint","developmentAggregateEntrypoint","tokenMap","sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-theme-semantic-color.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.theme-semantic-color"},
+    "name": {"const": "Glaze UI V1.7 Theme and Semantic Color Reconciliation Development Contract"},
+    "version": {"const": "1.7.0-dev.8"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "planVersion": {"const": "v1.1"},
+    "foundationScope": {"type":"array","minItems":10,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "v11SpecificationSections": {
+      "type":"array","const":[7,8,9,10,11,12,13,18,19,21]
+    },
+    "themeLayerPrecedence": {
+      "type":"array",
+      "const":["accessibility","protected-semantic-state","product-identity","user-theme","contextual-accent","glaze-default"]
+    },
+    "semanticRoles": {"type":"array","minItems":25,"uniqueItems":true,"items":{"type":"string"}},
+    "prominenceLevels": {"type":"array","const":["subtle","standard","prominent","critical"]},
+    "protectedSemanticRoles": {"type":"array","minItems":10,"uniqueItems":true,"items":{"type":"string"}},
+    "criticalProminenceRoles": {"type":"array","minItems":5,"uniqueItems":true,"items":{"type":"string"}},
+    "themeColorRoles": {"type":"array","minItems":10,"uniqueItems":true,"items":{"type":"string"}},
+    "accessibility": {
+      "type":"object","additionalProperties":false,
+      "required":["precedence","normalTextContrastMinimum","largeTextContrastMinimum","focusContrastMinimum","colorOnlyMeaningAllowed","automaticRepairMayChangeSemanticMeaning"],
+      "properties":{
+        "precedence":{"const":true},
+        "normalTextContrastMinimum":{"const":4.5},
+        "largeTextContrastMinimum":{"const":3},
+        "focusContrastMinimum":{"const":3},
+        "colorOnlyMeaningAllowed":{"const":false},
+        "automaticRepairMayChangeSemanticMeaning":{"const":false}
+      }
+    },
+    "localFirst": {
+      "type":"object","additionalProperties":false,
+      "required":["networkRequired","telemetryRequired","wallpaperUploadRequired","remoteFontsRequired","remoteVisualDependenciesRequired"],
+      "properties":{
+        "networkRequired":{"const":false},
+        "telemetryRequired":{"const":false},
+        "wallpaperUploadRequired":{"const":false},
+        "remoteFontsRequired":{"const":false},
+        "remoteVisualDependenciesRequired":{"const":false}
+      }
+    },
+    "authority": {
+      "type":"object","additionalProperties":false,
+      "required":["boundary","providerSemanticTruthRequired","securityTruthCreatedByGlaze","privacyTruthCreatedByGlaze","protectionTruthCreatedByGlaze","connectivityTruthCreatedByGlaze","synchronizationTruthCreatedByGlaze","recoveryTruthCreatedByGlaze","trustTruthCreatedByGlaze"],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "providerSemanticTruthRequired":{"const":true},
+        "securityTruthCreatedByGlaze":{"const":false},
+        "privacyTruthCreatedByGlaze":{"const":false},
+        "protectionTruthCreatedByGlaze":{"const":false},
+        "connectivityTruthCreatedByGlaze":{"const":false},
+        "synchronizationTruthCreatedByGlaze":{"const":false},
+        "recoveryTruthCreatedByGlaze":{"const":false},
+        "trustTruthCreatedByGlaze":{"const":false}
+      }
+    },
+    "completionClaims": {
+      "type":"object","additionalProperties":false,
+      "required":["v11SectionsComplete","advancedThemeManagerComplete","themePackagesComplete","nativeRenderedAcceptance","assistiveTechnologyAcceptance","representativeDeviceAcceptance","consumerEligibility","releaseCandidate","stable","deployed","productionAccepted"],
+      "properties":{
+        "v11SectionsComplete":{"const":false},
+        "advancedThemeManagerComplete":{"const":false},
+        "themePackagesComplete":{"const":false},
+        "nativeRenderedAcceptance":{"const":false},
+        "assistiveTechnologyAcceptance":{"const":false},
+        "representativeDeviceAcceptance":{"const":false},
+        "consumerEligibility":{"const":false},
+        "releaseCandidate":{"const":false},
+        "stable":{"const":false},
+        "deployed":{"const":false},
+        "productionAccepted":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.7-theme-semantic-color.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.7-theme-semantic-color.dev.json"},
+    "sourceAuthorities":{"type":"array","minItems":4,"uniqueItems":true,"items":{"type":"string"}}
+  }
+}
