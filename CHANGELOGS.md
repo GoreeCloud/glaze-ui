@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.7` Notification and Activity Surfaces source foundation for specification section 8 with `GlzNotificationSurface`, `GlzActivityItem`, `GlzActivityGroup`, `GlzStatusFeed`, `GlzBackgroundTask`, and `GlzProgressSurface`.
+- Added nine explicit semantic states for informational activity, background work, required attention, warning, critical state, user-requested progress, recoverable failure, security state, and privacy state, with readable state identity rather than color-only meaning.
+- Provider/source truth is mandatory and fail-closed; progress, action availability, and dismissal availability require their own explicit authority. Security and privacy state are supplied facts and are never inferred by Glaze.
+- Preserved the presentation-only authority boundary: Glaze does not post notifications, generate activity truth, start/stop background work, execute actions/dismissal, persist provider state, or establish cross-device sync.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.7` while retaining dev.1–dev.6 as regression foundations. V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
+
 - Added the bounded `1.7.0-dev.6` System Shell Continuity source foundation for specification section 7, covering notification/activity presentation continuity, Control Center continuity, persistent layout where supported, multi-window, split-view, compact/expanded navigation, restoration, application/system handoff, task switching, shell overlays, search continuity, and contextual command surfaces.
 - Shell capability and configuration truth now fails closed unless supplied authoritatively by the caller/platform; Glaze does not create windowing support, grant system privileges, generate notification/activity truth, create search/navigation authority, persist shell state, or execute consequential shell transitions.
 - System-shell recomposition reuses Task Continuity and the existing V1.7 input/profile/composition/command/personalization foundations to preserve active task, navigation, focus, selection, drafts, query/filter context, pane/window context, safe pending interactions, and provider-owned truth across predictable, reversible presentation changes.
