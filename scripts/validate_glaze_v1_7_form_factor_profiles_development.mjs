@@ -51,7 +51,7 @@ assert(spec.includes('## 3. First-Class Form-Factor Profiles'), 'V1.7 specificat
 for (const label of ['Mobile','Tablet','Desktop','Foldable','TV','Wearables']) {
   assert(spec.includes(label), `V1.7 specification missing profile requirement: ${label}`);
 }
-assert(spec.includes('Spatial interfaces should remain experimental'), 'V1.7 specification missing spatial experimental boundary');
+assert(spec.includes('Spatial presentation should remain separately governed'), 'V1.7 specification missing spatial governance boundary');
 
 assert(fs.existsSync(path.join(root, 'IMPLEMENTED-FEATURES.md')), 'IMPLEMENTED-FEATURES.md is required');
 assert(fs.existsSync(path.join(root, 'PLANNED-FEATURES.md')), 'PLANNED-FEATURES.md is required');

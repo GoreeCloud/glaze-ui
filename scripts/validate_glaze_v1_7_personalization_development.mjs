@@ -38,29 +38,27 @@ assert(lifecycle.activeCandidate === null, 'V1.7 dev.5 must not create an active
 assert(lifecycle.activePatchReleaseCandidate === null, 'V1.7 dev.5 must not create a patch RC');
 assert(lifecycle.plannedNext === null, 'V1.7 dev.5 must not mutate lifecycle plannedNext');
 
-assert(spec.includes('## 6. Personalization 2.0'), 'V1.7 specification missing Personalization 2.0 section');
+assert(spec.includes('## 6. Advanced Theme Manager 2.0'), 'V1.7 specification missing Advanced Theme Manager 2.0 section');
 for (const phrase of [
-  'Light',
-  'Dark',
-  'Deep Dark',
-  'Accent families',
-  'Material intensity',
-  'Interface density',
-  'Geometry preferences',
-  'Motion intensity',
-  'Wallpaper-derived local palette influence',
-  'Application identity expression',
+  'Light, Dark, Deep Dark, and Follow System appearance',
+  'Accent palette selection',
+  'Material intensity profiles',
+  'density profiles',
+  'Shape and geometry profiles',
+  'Motion-expression preferences',
+  'Wallpaper-derived palettes',
+  'Application-identity-aware themes',
   'Preview-before-Apply',
-  'Reset',
-  'Undo',
-  'Per-device adaptation'
+  'Reset to GoreeCloud defaults',
+  'Undo and theme history',
+  'Per-device theme overrides'
 ]) {
   assert(spec.includes(phrase), `V1.7 specification missing personalization requirement: ${phrase}`);
 }
-for (const role of ['Security','Privacy','Warning','Critical','Destructive','Restricted','Protected','Success']) {
-  assert(spec.includes(role), `V1.7 specification missing protected role: ${role}`);
+for (const role of ['security','privacy','warning','critical','destructive','restricted','protected','success']) {
+  assert(spec.toLowerCase().includes(role), `V1.7 specification missing protected role: ${role}`);
 }
-assert(spec.includes('Personalization should remain local-first'), 'V1.7 specification missing local-first personalization requirement');
+assert(spec.includes('Theme and palette generation should remain local-first'), 'V1.7 specification missing local-first theme-generation requirement');
 
 assert(fs.existsSync(path.join(root, 'IMPLEMENTED-FEATURES.md')), 'IMPLEMENTED-FEATURES.md is required');
 assert(fs.existsSync(path.join(root, 'PLANNED-FEATURES.md')), 'PLANNED-FEATURES.md is required');

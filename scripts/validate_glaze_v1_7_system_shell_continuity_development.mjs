@@ -59,26 +59,25 @@ assert(lifecycle.activeCandidate === null, 'V1.7 dev.6 must not create an active
 assert(lifecycle.activePatchReleaseCandidate === null, 'V1.7 dev.6 must not create a patch RC');
 assert(lifecycle.plannedNext === null, 'V1.7 dev.6 must not mutate lifecycle plannedNext');
 
-assert(spec.includes('## 7. System Shell Continuity'), 'V1.7 specification missing System Shell Continuity section');
+assert(spec.includes('## 22. System Shell Continuity'), 'V1.7 v1.1 specification missing System Shell Continuity section');
 for (const phrase of [
-  'Notification and activity presentation',
+  'notification/activity presentation',
   'Control Center continuity',
-  'Persistent Control Center layout where supported',
-  'Multi-window behavior',
-  'Split-view behavior',
-  'Compact-to-expanded navigation',
-  'Window restoration',
-  'Application-to-system handoff',
-  'Task switching',
-  'Shell overlays',
-  'Search continuity',
-  'Contextual command surfaces',
-  'must not unnecessarily alter the active task',
-  'predictable and reversible'
+  'persistent layouts where governed',
+  'multi-window behavior',
+  'split view',
+  'compact-to-expanded navigation',
+  'window restoration',
+  'application-to-system handoff',
+  'task switching',
+  'overlays',
+  'Universal Search continuity',
+  'contextual command surfaces',
+  'Theme changes should not reset shell state or active user tasks'
 ]) {
-  assert(spec.includes(phrase), `V1.7 specification missing System Shell requirement: ${phrase}`);
+  assert(spec.includes(phrase), `V1.7 v1.1 specification missing System Shell requirement: ${phrase}`);
 }
-assert(spec.includes('## 8. Notification and Activity Surfaces'), 'V1.7 specification must retain separate Section 8 component obligation');
+assert(spec.includes('## 23. Notification and Activity Surfaces'), 'V1.7 v1.1 specification must retain the separate Notification and Activity Surfaces obligation');
 
 assert(fs.existsSync(path.join(root, 'IMPLEMENTED-FEATURES.md')), 'IMPLEMENTED-FEATURES.md is required');
 assert(fs.existsSync(path.join(root, 'PLANNED-FEATURES.md')), 'PLANNED-FEATURES.md is required');
@@ -299,7 +298,14 @@ assert(glazeV17SystemShellContinuityDevelopmentContract.section8ComponentCatalog
 assert(glazeV17SystemShellContinuityDevelopmentContract.persistentLayoutAutomatic === false, 'runtime must not auto-persist shell layout');
 assert(glazeV17SystemShellContinuityDevelopmentContract.crossDeviceSyncEstablished === false, 'runtime must not claim cross-device sync');
 
-assert(glazeV17Development.version === '1.7.0-dev.7', 'aggregate version mismatch');
+const aggregateVersionParts = String(glazeV17Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.7.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 6,
+  'aggregate Development version must retain or advance beyond System Shell dev.6'
+);
 assert(glazeV17Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV17Development.stableBaseline === '1.6.0', 'aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');

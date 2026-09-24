@@ -57,7 +57,7 @@ assert(lifecycle.plannedNext === null, 'V1.7 dev.1 must not mutate lifecycle pla
 
 assert(spec.includes('## 1. Task Continuity System'), 'V1.7 specification missing Task Continuity section');
 assert(spec.includes('## 4. Adaptive Composition'), 'V1.7 specification missing Adaptive Composition section');
-assert(spec.includes('Continuous. Adaptive. Native. Truthful.'), 'V1.7 final direction missing');
+assert(spec.includes('Continuous. Adaptive. Expressive. Accessible. Semantic. Native. Truthful.'), 'V1.7 final direction missing');
 
 assert(fs.existsSync(path.join(root, 'IMPLEMENTED-FEATURES.md')), 'IMPLEMENTED-FEATURES.md is required');
 assert(fs.existsSync(path.join(root, 'PLANNED-FEATURES.md')), 'PLANNED-FEATURES.md is required');
