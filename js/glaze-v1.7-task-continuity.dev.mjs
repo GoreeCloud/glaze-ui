@@ -14,7 +14,7 @@ const STATE_CLASSES = Object.freeze([
   'non-restorable'
 ]);
 
-const CONTINUITY_FIELDS = Object.freeze([
+const STATE_ROLES = Object.freeze({\n  'durable': 'continuity.state.durable',\n  'session-scoped': 'continuity.state.session',\n  'presentation-only': 'continuity.state.presentation',\n  'provider-owned': 'continuity.state.provider',\n  'temporary': 'continuity.state.temporary',\n  'recoverable': 'continuity.state.recoverable',\n  'non-restorable': 'continuity.state.non-restorable'\n});\n\nconst CONTINUITY_FIELDS = Object.freeze([
   'navigationDestination',
   'focusId',
   'selectionIds',
@@ -182,7 +182,7 @@ export function classifyGlazeTaskState(input = {}) {
     lifecycle: 'development',
     stableBaseline: '1.6.0',
     stateClass,
-    semanticRole: `continuity.state.${stateClass}`,
+    semanticRole: STATE_ROLES[stateClass],
     restoration: policy,
     safeguards: Object.freeze({
       explicitDisposableRequiredForTemporaryDiscard: stateClass === 'temporary',
