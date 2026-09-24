@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-notification-activity.schema.json",
+  "title": "Glaze UI V1.7 Notification and Activity Surfaces Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "implementedSpecificationSections",
+    "components",
+    "semanticStates",
+    "protectedSemanticStates",
+    "truthRequirements",
+    "presentationRules",
+    "integrationFoundations",
+    "authority",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "tokenMap",
+    "boundary"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.notification-activity"},
+    "name": {"type": "string", "minLength": 1},
+    "version": {"const": "1.7.0-dev.7"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {
+      "type": "array",
+      "prefixItems": [{"const": 8}],
+      "items": false,
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "components": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "GlzNotificationSurface",
+          "GlzActivityItem",
+          "GlzActivityGroup",
+          "GlzStatusFeed",
+          "GlzBackgroundTask",
+          "GlzProgressSurface"
+        ]
+      }
+    },
+    "semanticStates": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "informational-activity",
+          "background-work",
+          "required-attention",
+          "warning",
+          "critical-state",
+          "user-requested-progress",
+          "recoverable-failure",
+          "security-state",
+          "privacy-state"
+        ]
+      }
+    },
+    "protectedSemanticStates": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {"enum": ["warning", "critical-state", "security-state", "privacy-state"]}
+    },
+    "truthRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "providerTruthRequired",
+        "sourceIdentityRequired",
+        "semanticStateAuthorityRequired",
+        "progressAuthorityRequiredWhenProgressPresented",
+        "actionAvailabilityAuthorityRequiredWhenActionsPresented",
+        "securityStateMustBeSupplied",
+        "privacyStateMustBeSupplied"
+      ],
+      "properties": {
+        "providerTruthRequired": {"const": true},
+        "sourceIdentityRequired": {"const": true},
+        "semanticStateAuthorityRequired": {"const": true},
+        "progressAuthorityRequiredWhenProgressPresented": {"const": true},
+        "actionAvailabilityAuthorityRequiredWhenActionsPresented": {"const": true},
+        "securityStateMustBeSupplied": {"const": true},
+        "privacyStateMustBeSupplied": {"const": true}
+      }
+    },
+    "presentationRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "colorAloneSufficient",
+        "readableTextRequired",
+        "semanticIdentityPreservedAcrossProfiles",
+        "groupingMayChangeProviderTruth",
+        "progressMayExceedAuthoritativeValue",
+        "dismissalMayBePresentedOnlyWhenAuthoritativelyAvailable",
+        "actionsMayBePresentedOnlyWhenAuthoritativelyAvailable"
+      ],
+      "properties": {
+        "colorAloneSufficient": {"const": false},
+        "readableTextRequired": {"const": true},
+        "semanticIdentityPreservedAcrossProfiles": {"const": true},
+        "groupingMayChangeProviderTruth": {"const": false},
+        "progressMayExceedAuthoritativeValue": {"const": false},
+        "dismissalMayBePresentedOnlyWhenAuthoritativelyAvailable": {"const": true},
+        "actionsMayBePresentedOnlyWhenAuthoritativelyAvailable": {"const": true}
+      }
+    },
+    "integrationFoundations": {
+      "type": "object",
+      "minProperties": 6,
+      "additionalProperties": {"type": "string", "minLength": 1}
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary",
+        "notificationTruthOwnedByProvider",
+        "activityTruthOwnedByProvider",
+        "securityTruthOwnedByProvider",
+        "privacyTruthOwnedByProvider",
+        "notificationPostedByGlaze",
+        "activityGeneratedByGlaze",
+        "backgroundWorkStartedByGlaze",
+        "backgroundWorkStoppedByGlaze",
+        "progressGeneratedByGlaze",
+        "securityStateInferredByGlaze",
+        "privacyStateInferredByGlaze",
+        "dismissalExecutedByGlaze",
+        "actionExecutedByGlaze",
+        "persistencePerformedByGlaze",
+        "crossDeviceSyncEstablished",
+        "consequentialExecutionAutomatic"
+      ],
+      "properties": {
+        "boundary": {"const": "presentation-only"},
+        "notificationTruthOwnedByProvider": {"const": true},
+        "activityTruthOwnedByProvider": {"const": true},
+        "securityTruthOwnedByProvider": {"const": true},
+        "privacyTruthOwnedByProvider": {"const": true},
+        "notificationPostedByGlaze": {"const": false},
+        "activityGeneratedByGlaze": {"const": false},
+        "backgroundWorkStartedByGlaze": {"const": false},
+        "backgroundWorkStoppedByGlaze": {"const": false},
+        "progressGeneratedByGlaze": {"const": false},
+        "securityStateInferredByGlaze": {"const": false},
+        "privacyStateInferredByGlaze": {"const": false},
+        "dismissalExecutedByGlaze": {"const": false},
+        "actionExecutedByGlaze": {"const": false},
+        "persistencePerformedByGlaze": {"const": false},
+        "crossDeviceSyncEstablished": {"const": false},
+        "consequentialExecutionAutomatic": {"const": false}
+      }
+    },
+    "runtimeEntrypoint": {"const": "js/glaze-v1.7-notification-activity.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const": "js/glaze-v1.7-development.mjs"},
+    "tokenMap": {"const": "tokens/glaze-v1.7-notification-activity.dev.json"},
+    "boundary": {"type": "string", "minLength": 1}
+  }
+}
