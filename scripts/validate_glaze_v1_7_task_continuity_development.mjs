@@ -331,11 +331,23 @@ assert(glazeV17TaskContinuityDevelopmentContract.foundationalComponent === 'GlzA
 assert(glazeV17TaskContinuityDevelopmentContract.taskStateResetOnRecompositionAllowed === false, 'runtime must prohibit task-state reset');
 assert(glazeV17TaskContinuityDevelopmentContract.providerTruthManufactured === false, 'runtime must not manufacture provider truth');
 
-assert(glazeV17Development.version === '1.7.0-dev.1', 'aggregate version mismatch');
+const aggregateVersionParts = String(glazeV17Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.7.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 1,
+  'aggregate Development version must retain or advance beyond dev.1'
+);
 assert(glazeV17Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV17Development.stableBaseline === '1.6.0', 'aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
-assert(JSON.stringify(glazeV17Development.implementedSpecificationSections) === JSON.stringify([1,4]), 'aggregate section set mismatch');
+for (const retainedSection of [1,4]) {
+  assert(
+    glazeV17Development.implementedSpecificationSections.includes(retainedSection),
+    `aggregate lost Task Continuity section ${retainedSection}`
+  );
+}
 
 let invalidClass = false;
 try { classifyGlazeTaskState({stateClass: 'magical'}); } catch { invalidClass = true; }
