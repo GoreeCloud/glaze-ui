@@ -14,7 +14,17 @@ const STATE_CLASSES = Object.freeze([
   'non-restorable'
 ]);
 
-const STATE_ROLES = Object.freeze({\n  'durable': 'continuity.state.durable',\n  'session-scoped': 'continuity.state.session',\n  'presentation-only': 'continuity.state.presentation',\n  'provider-owned': 'continuity.state.provider',\n  'temporary': 'continuity.state.temporary',\n  'recoverable': 'continuity.state.recoverable',\n  'non-restorable': 'continuity.state.non-restorable'\n});\n\nconst CONTINUITY_FIELDS = Object.freeze([
+const STATE_ROLES = Object.freeze({
+  'durable': 'continuity.state.durable',
+  'session-scoped': 'continuity.state.session',
+  'presentation-only': 'continuity.state.presentation',
+  'provider-owned': 'continuity.state.provider',
+  'temporary': 'continuity.state.temporary',
+  'recoverable': 'continuity.state.recoverable',
+  'non-restorable': 'continuity.state.non-restorable'
+});
+
+const CONTINUITY_FIELDS = Object.freeze([
   'navigationDestination',
   'focusId',
   'selectionIds',
