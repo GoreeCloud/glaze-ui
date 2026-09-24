@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-notification-activity-surfaces.schema.json",
+  "title": "Glaze UI V1.7 Notification and Activity Surfaces Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "implementedSpecificationSections",
+    "components",
+    "activityKinds",
+    "fallbackActivityKind",
+    "progressModes",
+    "availabilityStates",
+    "presentationByProfile",
+    "continuityRequirements",
+    "authority",
+    "integrationFoundations",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../schemas/v1.7-notification-activity-surfaces.schema.json"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "contractId": {
+      "const": "goreecloud.glaze-ui.v1.7.notification-activity-surfaces"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "const": "1.7.0-dev.7"
+    },
+    "lifecycle": {
+      "const": "Development"
+    },
+    "stableBaseline": {
+      "const": "1.6.0"
+    },
+    "consumerEligible": {
+      "const": false
+    },
+    "implementedSpecificationSections": {
+      "const": [
+        8
+      ]
+    },
+    "components": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "GlzNotificationSurface",
+          "GlzActivityItem",
+          "GlzActivityGroup",
+          "GlzStatusFeed",
+          "GlzBackgroundTask",
+          "GlzProgressSurface"
+        ]
+      }
+    },
+    "activityKinds": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "informational-activity",
+          "background-work",
+          "required-attention",
+          "warning",
+          "critical",
+          "user-requested-progress",
+          "recoverable-failure",
+          "security-state",
+          "privacy-state"
+        ]
+      }
+    },
+    "fallbackActivityKind": {
+      "const": "unknown"
+    },
+    "progressModes": {
+      "const": [
+        "none",
+        "determinate",
+        "indeterminate",
+        "unknown"
+      ]
+    },
+    "availabilityStates": {
+      "const": [
+        "available",
+        "unavailable",
+        "unknown"
+      ]
+    },
+    "presentationByProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mobile",
+        "tablet",
+        "desktop",
+        "foldable",
+        "tv",
+        "wearable"
+      ],
+      "properties": {
+        "mobile": {
+          "const": "stacked-notification-activity"
+        },
+        "tablet": {
+          "const": "adaptive-pane-notification-activity"
+        },
+        "desktop": {
+          "const": "workspace-notification-activity"
+        },
+        "foldable": {
+          "const": "posture-aware-notification-activity"
+        },
+        "tv": {
+          "const": "far-view-notification-activity"
+        },
+        "wearable": {
+          "const": "shallow-notification-activity"
+        }
+      }
+    },
+    "continuityRequirements": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "authority": {
+      "type": "object"
+    },
+    "integrationFoundations": {
+      "type": "object"
+    },
+    "runtimeEntrypoint": {
+      "const": "js/glaze-v1.7-notification-activity-surfaces.dev.mjs"
+    },
+    "developmentAggregateEntrypoint": {
+      "const": "js/glaze-v1.7-development.mjs"
+    },
+    "sourceAuthorities": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

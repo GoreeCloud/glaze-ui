@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/v1.7-notification-activity-surfaces.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.notification-activity-surfaces",
+  "name": "Glaze UI V1.7 Notification and Activity Surfaces Development Contract",
+  "version": "1.7.0-dev.7",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [
+    8
+  ],
+  "components": [
+    "GlzNotificationSurface",
+    "GlzActivityItem",
+    "GlzActivityGroup",
+    "GlzStatusFeed",
+    "GlzBackgroundTask",
+    "GlzProgressSurface"
+  ],
+  "activityKinds": [
+    "informational-activity",
+    "background-work",
+    "required-attention",
+    "warning",
+    "critical",
+    "user-requested-progress",
+    "recoverable-failure",
+    "security-state",
+    "privacy-state"
+  ],
+  "fallbackActivityKind": "unknown",
+  "progressModes": [
+    "none",
+    "determinate",
+    "indeterminate",
+    "unknown"
+  ],
+  "availabilityStates": [
+    "available",
+    "unavailable",
+    "unknown"
+  ],
+  "presentationByProfile": {
+    "mobile": "stacked-notification-activity",
+    "tablet": "adaptive-pane-notification-activity",
+    "desktop": "workspace-notification-activity",
+    "foldable": "posture-aware-notification-activity",
+    "tv": "far-view-notification-activity",
+    "wearable": "shallow-notification-activity"
+  },
+  "continuityRequirements": [
+    "active-task",
+    "navigation",
+    "focus",
+    "drafts",
+    "provider-owned-truth"
+  ],
+  "authority": {
+    "boundary": "presentation-only",
+    "providerTruthAuthorityRequired": true,
+    "progressAuthorityRequired": true,
+    "actionAvailabilityAuthorityRequired": true,
+    "notificationTruthCreatedByGlaze": false,
+    "activityTruthCreatedByGlaze": false,
+    "progressTruthCreatedByGlaze": false,
+    "securityAuthorityCreatedByGlaze": false,
+    "privacyAuthorityCreatedByGlaze": false,
+    "systemNotificationPermissionGrantedByGlaze": false,
+    "backgroundTaskExecutionPerformedByGlaze": false,
+    "actionExecutionPerformedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "crossDeviceSyncEstablished": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "integrationFoundations": {
+    "taskContinuity": "js/glaze-v1.7-task-continuity.dev.mjs",
+    "formFactorProfiles": "js/glaze-v1.7-form-factor-profiles.dev.mjs",
+    "systemShellContinuity": "js/glaze-v1.7-system-shell-continuity.dev.mjs"
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-notification-activity-surfaces.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}
