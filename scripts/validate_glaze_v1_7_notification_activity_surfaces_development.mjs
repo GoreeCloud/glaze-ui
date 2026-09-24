@@ -38,9 +38,9 @@ assert(lifecycle.activeCandidate === null, 'V1.7 dev.7 must not create an active
 assert(lifecycle.activePatchReleaseCandidate === null, 'V1.7 dev.7 must not create a patch RC');
 assert(lifecycle.plannedNext === null, 'V1.7 dev.7 must not mutate lifecycle plannedNext');
 
-assert(spec.includes('## 8. Notification and Activity Surfaces'), 'V1.7 specification missing Notification and Activity Surfaces section');
-for (const phrase of ['GlzNotificationSurface','GlzActivityItem','GlzActivityGroup','GlzStatusFeed','GlzBackgroundTask','GlzProgressSurface','Informational activity','Background work','Required attention','Warning','Critical state','User-requested progress','Recoverable failure','Security state','Privacy state','without becoming the authority that generates that truth']) {
-  assert(spec.includes(phrase), `V1.7 specification missing Section 8 requirement: ${phrase}`);
+assert(spec.includes('## 23. Notification and Activity Surfaces'), 'V1.7 v1.1 specification missing Notification and Activity Surfaces section');
+for (const phrase of ['GlzNotificationSurface','GlzActivityItem','GlzActivityGroup','GlzStatusFeed','GlzBackgroundTask','GlzProgressSurface','informational activity','background work','attention','warnings','critical state','requested progress','recoverable failure','security state','privacy state','Color should reinforce these states rather than replace symbols, text, or accessible descriptions']) {
+  assert(spec.includes(phrase), `V1.7 v1.1 specification missing Notification and Activity Surfaces requirement: ${phrase}`);
 }
 
 assert(schema.$schema === 'https://json-schema.org/draft/2020-12/schema', 'schema must use JSON Schema 2020-12');
@@ -139,7 +139,14 @@ assert(glazeV17NotificationActivitySurfacesDevelopmentContract.consumerEligible 
 assert(JSON.stringify(glazeV17NotificationActivitySurfacesDevelopmentContract.components) === JSON.stringify(components), 'runtime component set mismatch');
 assert(JSON.stringify(glazeV17NotificationActivitySurfacesDevelopmentContract.activityKinds) === JSON.stringify(kinds), 'runtime activity kind set mismatch');
 
-assert(glazeV17Development.version === '1.7.0-dev.7', 'aggregate version mismatch');
+const aggregateVersionParts = String(glazeV17Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.7.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 7,
+  'aggregate Development version must retain or advance beyond Notification and Activity Surfaces dev.7'
+);
 assert(glazeV17Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV17Development.stableBaseline === '1.6.0', 'aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
@@ -147,7 +154,7 @@ assert(JSON.stringify(glazeV17Development.implementedSpecificationSections) === 
 assert(glazeV17Development.notificationActivitySurfacesFoundation === 'js/glaze-v1.7-notification-activity-surfaces.dev.mjs', 'aggregate missing Section 8 foundation');
 assert(glazeV17Development.providerTruthManufactured === false, 'aggregate must preserve provider-truth boundary');
 
-assert(planned.includes('1.7.0-dev.7') && planned.includes('sections to 1–8'), 'planned-feature control must describe dev.7 state');
+assert(planned.includes('1.7.0-dev.7') && planned.includes('historical dev tranche numbers'), 'planned-feature control must preserve dev.7 state and v1.1 provenance boundary');
 assert(implemented.includes('Notification and Activity Surfaces — `1.7.0-dev.7`'), 'implemented-feature control missing dev.7');
 assert(changelog.includes('1.7.0-dev.7') && changelog.includes('Notification and Activity Surfaces'), 'changelog missing dev.7');
 
