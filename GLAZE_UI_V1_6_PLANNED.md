@@ -6,7 +6,7 @@ document_version: "v1.0"
 product: "Glaze UI"
 planned_family: "GLAZE UI V1.6"
 current_stable_predecessor: "GLAZE UI V1.5 / 1.5.1"
-canonical_repository: "GoreeCloud/goreecloud-glaze-ui"
+canonical_repository: "GoreeCloud/glaze-ui"
 consumer_eligible: false
 last_updated: "2026-09-18"
 authoritative_scope: "Planned V1.6 upgrade requirements; does not alter current Stable release authority"
