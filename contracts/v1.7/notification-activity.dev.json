@@ -1,0 +1,85 @@
+{
+  "$schema": "../../schemas/v1.7-notification-activity.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.notification-activity",
+  "name": "Glaze UI V1.7 Notification and Activity Surfaces Development Contract",
+  "version": "1.7.0-dev.7",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "implementedSpecificationSections": [8],
+  "components": [
+    "GlzNotificationSurface",
+    "GlzActivityItem",
+    "GlzActivityGroup",
+    "GlzStatusFeed",
+    "GlzBackgroundTask",
+    "GlzProgressSurface"
+  ],
+  "semanticStates": [
+    "informational-activity",
+    "background-work",
+    "required-attention",
+    "warning",
+    "critical-state",
+    "user-requested-progress",
+    "recoverable-failure",
+    "security-state",
+    "privacy-state"
+  ],
+  "protectedSemanticStates": [
+    "warning",
+    "critical-state",
+    "security-state",
+    "privacy-state"
+  ],
+  "truthRequirements": {
+    "providerTruthRequired": true,
+    "sourceIdentityRequired": true,
+    "semanticStateAuthorityRequired": true,
+    "progressAuthorityRequiredWhenProgressPresented": true,
+    "actionAvailabilityAuthorityRequiredWhenActionsPresented": true,
+    "securityStateMustBeSupplied": true,
+    "privacyStateMustBeSupplied": true
+  },
+  "presentationRules": {
+    "colorAloneSufficient": false,
+    "readableTextRequired": true,
+    "semanticIdentityPreservedAcrossProfiles": true,
+    "groupingMayChangeProviderTruth": false,
+    "progressMayExceedAuthoritativeValue": false,
+    "dismissalMayBePresentedOnlyWhenAuthoritativelyAvailable": true,
+    "actionsMayBePresentedOnlyWhenAuthoritativelyAvailable": true
+  },
+  "integrationFoundations": {
+    "taskContinuity": "js/glaze-v1.7-task-continuity.dev.mjs",
+    "adaptiveInput": "js/glaze-v1.7-adaptive-input.dev.mjs",
+    "formFactorProfiles": "js/glaze-v1.7-form-factor-profiles.dev.mjs",
+    "commandSurface": "js/glaze-v1.7-command-surface.dev.mjs",
+    "personalization": "js/glaze-v1.7-personalization.dev.mjs",
+    "systemShellContinuity": "js/glaze-v1.7-system-shell-continuity.dev.mjs"
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "notificationTruthOwnedByProvider": true,
+    "activityTruthOwnedByProvider": true,
+    "securityTruthOwnedByProvider": true,
+    "privacyTruthOwnedByProvider": true,
+    "notificationPostedByGlaze": false,
+    "activityGeneratedByGlaze": false,
+    "backgroundWorkStartedByGlaze": false,
+    "backgroundWorkStoppedByGlaze": false,
+    "progressGeneratedByGlaze": false,
+    "securityStateInferredByGlaze": false,
+    "privacyStateInferredByGlaze": false,
+    "dismissalExecutedByGlaze": false,
+    "actionExecutedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "crossDeviceSyncEstablished": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-notification-activity.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-notification-activity.dev.json",
+  "boundary": "Development foundation for specification section 8 only. GLAZE UI V1.6 / 1.6.0 remains current Official Stable. This tranche does not establish native notification posting, background execution, provider truth generation, cross-device sync, consumer eligibility, release, deployment, or production acceptance."
+}
