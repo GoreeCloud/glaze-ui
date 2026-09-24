@@ -158,7 +158,14 @@ for (const retainedSection of [1,2,3,4,5,6,7,8]) {
 assert(glazeV17Development.notificationActivitySurfacesFoundation === 'js/glaze-v1.7-notification-activity-surfaces.dev.mjs', 'aggregate missing Section 8 foundation');
 assert(glazeV17Development.providerTruthManufactured === false, 'aggregate must preserve provider-truth boundary');
 
-assert(planned.includes('1.7.0-dev.7') && planned.includes('sections to 1–8'), 'planned-feature control must describe dev.7 state');
+const plannedDevelopmentOrdinals = [...planned.matchAll(/1\\.7\\.0-dev\\.(\\d+)/g)]
+  .map(match => Number(match[1]))
+  .filter(Number.isInteger);
+assert(
+  plannedDevelopmentOrdinals.some(ordinal => ordinal >= 7) &&
+    planned.includes('Notification and Activity Surfaces'),
+  'planned-feature control must retain Notification and Activity Surfaces dev.7 or later'
+);
 assert(implemented.includes('Notification and Activity Surfaces — `1.7.0-dev.7`'), 'implemented-feature control missing dev.7');
 assert(changelog.includes('1.7.0-dev.7') && changelog.includes('Notification and Activity Surfaces'), 'changelog missing dev.7');
 
