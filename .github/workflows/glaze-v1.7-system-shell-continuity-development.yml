@@ -34,7 +34,7 @@ on:
       - 'scripts/validate_glaze_v1_7_system_shell_continuity_development.mjs'
       - 'scripts/validate_glaze_v1_7_personalization_development.mjs'
       - 'scripts/validate_glaze_v1_7_command_surface_development.mjs'
-      - 'scripts/validate_glaze_v1_7_form-factor-profiles_development.mjs'
+      - 'scripts/validate_glaze_v1_7_form_factor_profiles_development.mjs'
       - 'scripts/validate_glaze_v1_7_adaptive_input_development.mjs'
       - 'scripts/validate_glaze_v1_7_task_continuity_development.mjs'
       - '.github/workflows/glaze-v1.7-system-shell-continuity-development.yml'
