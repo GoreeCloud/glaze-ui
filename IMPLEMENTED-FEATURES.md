@@ -1,7 +1,7 @@
 # Glaze UI — Implemented Features
 
 **Status:** Active implemented-feature control  
-**As of:** 2026-09-23  
+**As of:** 2026-09-24  
 **Canonical lifecycle authority:** `registry/lifecycle.json`  
 **Canonical repository:** `GoreeCloud/glaze-ui`  
 **Current Official Stable:** GLAZE UI V1.6 / `1.6.0`
@@ -25,6 +25,12 @@ This file records verified implemented Glaze UI feature and lifecycle obligation
 | FR-014 | Expand V1.6 semantic loading/skeleton tokens, accessibility fallbacks, motion-fatigue controls, and configurable thresholds through governed machine contracts. | P0 | Completed for the accepted V1.6.0 shared scope and covered by qualification evidence. |
 | FR-015 | Expand V1.6 across semantic states, accessibility, focus, motion, materials, typography, density, responsive behavior, recovery, diagnostics, and conformance metadata. | P0 | Completed for the accepted V1.6.0 shared scope; aggregate implementation remains traceable to the frozen qualification source. |
 | FR-016 | Complete the governed V1.6 section 98 acceptance matrix and Stable release gates. | P0 | Completed — 24 verified / 0 unverified / 0 not applicable; final security, publication, and readback complete; V1.6.0 Stable promotion authorized. |
+
+## V1.7 Development Foundations
+
+| Feature / capability | State | Scope and limitations |
+| --- | --- | --- |
+| Task Continuity and Adaptive Composition — `1.7.0-dev.1` | Development source implemented | Implements specification sections 1 and 4 through `contracts/v1.7/task-continuity.dev.json`, `schemas/v1.7-task-continuity.schema.json`, `tokens/glaze-v1.7-task-continuity.dev.json`, `js/glaze-v1.7-task-continuity.dev.mjs`, `js/glaze-v1.7-development.mjs`, and the exact-source validator. This is a bounded Development foundation only: no consumer eligibility, representative-device acceptance, full accessibility qualification, release promotion, deployment, or production acceptance is implied. V1.6 / `1.6.0` remains Official Stable. |
 
 ## Current Verified Stable Boundary
 

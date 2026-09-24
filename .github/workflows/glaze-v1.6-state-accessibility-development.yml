@@ -14,7 +14,9 @@ on:
       - '.github/workflows/glaze-v1.6-state-accessibility-development.yml'
       - 'README.md'
       - 'SPECIFICATIONS.md'
-      - 'FEATURE-ROADMAP.md'
+      - 'PLANNED-FEATURES.md'
+      - 'IMPLEMENTED-FEATURES.md'
+      - 'CHANGELOGS.md'
       - 'VERSION'
       - 'registry/lifecycle.json'
   push:
@@ -32,7 +34,9 @@ on:
       - '.github/workflows/glaze-v1.6-state-accessibility-development.yml'
       - 'README.md'
       - 'SPECIFICATIONS.md'
-      - 'FEATURE-ROADMAP.md'
+      - 'PLANNED-FEATURES.md'
+      - 'IMPLEMENTED-FEATURES.md'
+      - 'CHANGELOGS.md'
       - 'VERSION'
       - 'registry/lifecycle.json'
   workflow_dispatch:

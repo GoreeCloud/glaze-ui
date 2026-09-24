@@ -1,6 +1,15 @@
-# Changelog
+# Changelogs
 
 All notable changes to the Glaze UI reference implementation are recorded here.
+
+## Unreleased — GLAZE UI V1.7 Development
+
+- Added the bounded `1.7.0-dev.1` Task Continuity and Adaptive Composition source foundation for specification sections 1 and 4: machine contract, fail-closed schema, semantic token map, Development runtime resolver, aggregate entrypoint, and exact-source validator.
+- Task continuity now models seven governed state classes—durable, session-scoped, presentation-only, provider-owned, temporary, recoverable, and non-restorable—and preserves navigation, focus, selection, scroll position, expansion, drafts/forms, filters/query, pane/media state, safe pending interactions, and working context across governed environment changes unless an authoritative caller explicitly supplies a valid replacement or loss instruction.
+- Adaptive composition maps one semantic surface across Mobile, Tablet, Desktop, Foldable, TV/far-view, and Wearable presentation forms while preserving semantic identity, accessibility semantics, task state, and provider-owned truth. Width alone is not treated as composition authority.
+- The Development foundation remains presentation-only and non-consumer-eligible. It does not change `VERSION`, `registry/lifecycle.json`, Stable runtime entrypoints, V1.6 accepted evidence, downstream consumer status, release publication, deployment, or production acceptance. GLAZE UI V1.6 / `1.6.0` remains current Official Stable.
+- Migrated the repository changelog authority from the retired singular `CHANGELOG.md` filename to mandatory root-level `CHANGELOGS.md` without dropping historical entries.
+
 
 
 ## Current lifecycle authority — 2026-09-19
