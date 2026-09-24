@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-native-glaze-kits.schema.json",
+  "title": "Glaze UI V1.7 Native Glaze Kits Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "implementedSpecificationSections",
+    "platforms",
+    "semanticVocabulary",
+    "platformMappings",
+    "mappingRequirements",
+    "authority",
+    "acceptanceBoundary",
+    "integrationFoundations",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../schemas/v1.7-native-glaze-kits.schema.json"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "contractId": {
+      "const": "goreecloud.glaze-ui.v1.7.native-glaze-kits"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "const": "1.7.0-dev.8"
+    },
+    "lifecycle": {
+      "const": "Development"
+    },
+    "stableBaseline": {
+      "const": "1.6.0"
+    },
+    "consumerEligible": {
+      "const": false
+    },
+    "implementedSpecificationSections": {
+      "const": [
+        9
+      ]
+    },
+    "platforms": {
+      "const": [
+        "android-compose",
+        "apple-swiftui",
+        "web",
+        "linux-native"
+      ]
+    },
+    "semanticVocabulary": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "surface",
+          "action",
+          "navigation",
+          "focus",
+          "input",
+          "state",
+          "progress",
+          "recovery",
+          "privacy",
+          "security"
+        ]
+      }
+    },
+    "platformMappings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "android-compose",
+        "apple-swiftui",
+        "web",
+        "linux-native"
+      ],
+      "properties": {
+        "android-compose": {
+          "$ref": "#/$defs/platformMapping"
+        },
+        "apple-swiftui": {
+          "$ref": "#/$defs/platformMapping"
+        },
+        "web": {
+          "$ref": "#/$defs/platformMapping"
+        },
+        "linux-native": {
+          "$ref": "#/$defs/platformMapping"
+        }
+      }
+    },
+    "mappingRequirements": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "authority": {
+      "type": "object"
+    },
+    "acceptanceBoundary": {
+      "type": "object"
+    },
+    "integrationFoundations": {
+      "type": "object"
+    },
+    "runtimeEntrypoint": {
+      "const": "js/glaze-v1.7-native-glaze-kits.dev.mjs"
+    },
+    "developmentAggregateEntrypoint": {
+      "const": "js/glaze-v1.7-development.mjs"
+    },
+    "sourceAuthorities": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "platformMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "framework",
+        "controlPolicy",
+        "accessibilityBridge",
+        "supportedProfiles"
+      ],
+      "properties": {
+        "framework": {
+          "type": "string",
+          "minLength": 1
+        },
+        "controlPolicy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "accessibilityBridge": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supportedProfiles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "mobile",
+              "tablet",
+              "desktop",
+              "foldable",
+              "tv",
+              "wearable"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
