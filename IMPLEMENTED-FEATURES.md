@@ -31,6 +31,7 @@ This file records verified implemented Glaze UI feature and lifecycle obligation
 | Feature / capability | State | Scope and limitations |
 | --- | --- | --- |
 | Task Continuity and Adaptive Composition — `1.7.0-dev.1` | Development source implemented | Implements specification sections 1 and 4 through `contracts/v1.7/task-continuity.dev.json`, `schemas/v1.7-task-continuity.schema.json`, `tokens/glaze-v1.7-task-continuity.dev.json`, `js/glaze-v1.7-task-continuity.dev.mjs`, `js/glaze-v1.7-development.mjs`, and the exact-source validator. This is a bounded Development foundation only: no consumer eligibility, representative-device acceptance, full accessibility qualification, release promotion, deployment, or production acceptance is implied. V1.6 / `1.6.0` remains Official Stable. |
+| Adaptive Input 2.0 — `1.7.0-dev.2` | Development source implemented | Implements specification section 2 through `contracts/v1.7/adaptive-input.dev.json`, `schemas/v1.7-adaptive-input.schema.json`, `tokens/glaze-v1.7-adaptive-input.dev.json`, `js/glaze-v1.7-adaptive-input.dev.mjs`, and exact-source validation. The source models nine input systems, authoritative semantic-action availability, mandatory alternatives for drag/swipe/hover/long-press/precision-pointer/multi-touch dependencies, and Task Continuity-backed input transitions. This remains Development-only and does not establish representative-device, assistive-technology, release, deployment, consumer, or production acceptance. |
 
 ## Current Verified Stable Boundary
 
