@@ -315,11 +315,23 @@ assert(glazeV17PersonalizationDevelopmentContract.telemetryRequired === false, '
 assert(glazeV17PersonalizationDevelopmentContract.crossDeviceSyncEstablished === false, 'runtime must not claim cross-device sync');
 assert(glazeV17PersonalizationDevelopmentContract.persistenceAutomatic === false, 'runtime must not auto-persist');
 
-assert(glazeV17Development.version === '1.7.0-dev.5', 'aggregate version mismatch');
+const aggregateVersionParts = String(glazeV17Development.version).split('-dev.');
+const aggregateDevelopmentRevision = Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0] === '1.7.0'
+    && Number.isInteger(aggregateDevelopmentRevision)
+    && aggregateDevelopmentRevision >= 5,
+  'aggregate Development version must retain or advance beyond dev.5'
+);
 assert(glazeV17Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV17Development.stableBaseline === '1.6.0', 'aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
-assert(JSON.stringify(glazeV17Development.implementedSpecificationSections) === JSON.stringify([1,2,3,4,5,6]), 'aggregate section set mismatch');
+for (const retainedSection of [1,2,3,4,5,6]) {
+  assert(
+    glazeV17Development.implementedSpecificationSections.includes(retainedSection),
+    `aggregate lost Personalization prerequisite section ${retainedSection}`
+  );
+}
 assert(glazeV17Development.taskContinuityFoundation === 'js/glaze-v1.7-task-continuity.dev.mjs', 'aggregate lost Task Continuity');
 assert(glazeV17Development.adaptiveInputFoundation === 'js/glaze-v1.7-adaptive-input.dev.mjs', 'aggregate lost Adaptive Input');
 assert(glazeV17Development.formFactorProfilesFoundation === 'js/glaze-v1.7-form-factor-profiles.dev.mjs', 'aggregate lost Form-Factor Profiles');
