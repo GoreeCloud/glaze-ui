@@ -1,7 +1,7 @@
 # Glaze UI — Planned Features
 
 **Status:** Active planned-feature control  
-**As of:** 2026-09-23  
+**As of:** 2026-09-24  
 **Canonical lifecycle authority:** `registry/lifecycle.json`  
 **Canonical repository:** `GoreeCloud/glaze-ui`  
 **Current Official Stable:** GLAZE UI V1.6 / `1.6.0`
@@ -22,7 +22,7 @@ The detailed planned successor specification for V1.7 is `GLAZE_UI_V1_7_PLANNED.
 | FR-010 | Drive current-Stable adoption across GoreeCloud-controlled user-facing consumers without allowing platform-level Stable status to imply application-level acceptance. | P0 | Ongoing consumer migration/acceptance work; required target is `1.6.0`, while consumers remain separately evidence-gated. |
 | FR-011 | Reconcile stale historical documentation and roadmap records that still identify older Glaze releases as current, without rewriting immutable historical evidence. | High | Active documentation-control work; current repository authority surfaces are reconciled for V1.6.0 while older records remain historical provenance. |
 | FR-017 | Establish downstream V1.6 application adoption profiles only after shared V1.6 lifecycle and acceptance state make consumer migration valid. | High | Active — shared V1.6.0 is Stable; every consumer now requires fresh repository-local adoption and acceptance evidence. |
-| FR-018 | Design and implement GLAZE UI V1.7 around the planned Interaction Continuity contract, including task continuity, Adaptive Input 2.0, first-class form-factor profiles, adaptive composition, command surfaces, Personalization 2.0, shell continuity, notification/activity surfaces, native Glaze kits, expanded adaptive components, Glaze Inspector/Studio, continuity-aware motion, accessibility continuity, native cross-device consistency, performance/energy awareness, and evidence-driven V1.7 acceptance. | P0 | Planned only — requirements source is `GLAZE_UI_V1_7_PLANNED.md`; no implementation, lifecycle promotion, consumer eligibility, or release status is established. |
+| FR-018 | Design and implement GLAZE UI V1.7 around the planned Interaction Continuity contract, including task continuity, Adaptive Input 2.0, first-class form-factor profiles, adaptive composition, command surfaces, Personalization 2.0, shell continuity, notification/activity surfaces, native Glaze kits, expanded adaptive components, Glaze Inspector/Studio, continuity-aware motion, accessibility continuity, native cross-device consistency, performance/energy awareness, and evidence-driven V1.7 acceptance. | P0 | In progress — `1.7.0-dev.1` implements the bounded Task Continuity and Adaptive Composition source foundation for sections 1 and 4. The overall V1.7 obligation remains open; no Candidate/RC/Stable promotion, consumer eligibility, deployment, or production acceptance is established. |
 
 ## V1.7 Planning Boundary
 
