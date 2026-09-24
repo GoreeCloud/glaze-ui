@@ -4,6 +4,11 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.5` Personalization 2.0 source foundation for specification section 6, covering Light, Dark, Deep Dark, accent families, material intensity, density, geometry, motion intensity, local wallpaper/application-identity influence, and per-device Development scope semantics.
+- Accessibility now has explicit precedence over aesthetic personalization, while Security, Privacy, Warning, Critical, Destructive, Restricted, Protected, and Success roles reject arbitrary personalization remapping.
+- Added local-first source-authority boundaries and an 8% decorative wallpaper-influence ceiling; Glaze does not inspect wallpaper/private content, require network/telemetry/advertising/remote fonts, or invent source authority.
+- Added Preview/Apply/Reset/Undo proposal semantics with explicit user intent for Apply/Reset/Undo, caller-owned persistence, no automatic cross-device sync, and no automatic consequential execution.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.5` while retaining dev.1–dev.4 as regression foundations. V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
 - Added the bounded `1.7.0-dev.4` `GlzCommandSurface` source foundation for specification section 5, unifying Universal Search, application search, commands, actions, contextual actions, navigation shortcuts, keyboard-first palettes, touch-oriented command/search surfaces, and remote-friendly selection under one semantic component.
 - Provider scope, source identity, and action availability now fail closed independently; command items cannot be presented as executable until all applicable authority is explicit, and Glaze never performs command, navigation, permission, authorization, or consequential execution automatically.
 - Added profile-specific command presentations for Mobile, Tablet, Desktop, Foldable, TV/far-view, and Wearable while preserving one semantic command identity, query/filter/selection/focus/navigation context, stable partial-result ordering, and provider-owned source/scope truth across adaptive presentation.
