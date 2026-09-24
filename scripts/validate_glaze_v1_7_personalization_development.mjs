@@ -315,7 +315,7 @@ assert(glazeV17PersonalizationDevelopmentContract.telemetryRequired === false, '
 assert(glazeV17PersonalizationDevelopmentContract.crossDeviceSyncEstablished === false, 'runtime must not claim cross-device sync');
 assert(glazeV17PersonalizationDevelopmentContract.persistenceAutomatic === false, 'runtime must not auto-persist');
 
-const aggregateVersionParts = glazeV17Development.version.split('.dev.');
+const aggregateVersionParts = glazeV17Development.version.split('-dev.');
 assert(
   aggregateVersionParts.length === 2 && aggregateVersionParts[0] === '1.7.0',
   'aggregate version format mismatch'
