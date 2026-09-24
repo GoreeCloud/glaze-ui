@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.7-personalization.schema.json",
+  "title": "Glaze UI V1.7 Personalization 2.0 Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline",
+    "consumerEligible","implementedSpecificationSections","appearanceModes","accentFamilies",
+    "materialIntensityLevels","densityLevels","geometryPreferences","motionIntensityLevels",
+    "actions","protectedSemanticRoles","authorityPrecedence","accessibility","localFirst",
+    "wallpaperInfluence","applicationIdentity","session","authority","runtimeEntrypoint",
+    "developmentAggregateEntrypoint","tokenMap","boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-personalization.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.personalization"},
+    "name": {"const": "Glaze UI V1.7 Personalization 2.0 Development Contract"},
+    "version": {"const": "1.7.0-dev.5"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {"const": [6]},
+    "appearanceModes": {"const": ["light","dark","deep-dark"]},
+    "accentFamilies": {"const": ["glaze-default","user-accent","wallpaper-derived","application-identity"]},
+    "materialIntensityLevels": {"const": ["subdued","standard","expressive"]},
+    "densityLevels": {"const": ["compact","standard","comfortable"]},
+    "geometryPreferences": {"const": ["compact","balanced","rounded"]},
+    "motionIntensityLevels": {"const": ["minimal","standard","expressive"]},
+    "actions": {"const": ["preview","apply","reset","undo"]},
+    "protectedSemanticRoles": {
+      "const": ["security","privacy","warning","critical","destructive","restricted","protected","success"]
+    },
+    "authorityPrecedence": {
+      "const": ["accessibility","semantic","application-identity","user-accent","wallpaper-derived","glaze-default"]
+    },
+    "accessibility": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "overridesAestheticPersonalization","forcedColorsMayOverrideAppearancePigments",
+        "increasedContrastMayOverrideAccentAndMaterialIntensity",
+        "reducedTransparencyMayForceSolidOrSubduedMaterial",
+        "reducedMotionMayForceMinimalMotion","largeTextMayOverrideDensityAndGeometry",
+        "touchAssistanceMayOverrideDensityAndTargetSpacing","protectedSemanticRolesRemainProtected"
+      ],
+      "properties":{
+        "overridesAestheticPersonalization":{"const":true},
+        "forcedColorsMayOverrideAppearancePigments":{"const":true},
+        "increasedContrastMayOverrideAccentAndMaterialIntensity":{"const":true},
+        "reducedTransparencyMayForceSolidOrSubduedMaterial":{"const":true},
+        "reducedMotionMayForceMinimalMotion":{"const":true},
+        "largeTextMayOverrideDensityAndGeometry":{"const":true},
+        "touchAssistanceMayOverrideDensityAndTargetSpacing":{"const":true},
+        "protectedSemanticRolesRemainProtected":{"const":true}
+      }
+    },
+    "localFirst": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "networkRequired","telemetryRequired","advertisingDependencyAllowed","remoteFontsRequired",
+        "remoteVisualDependenciesRequired","sensitiveContentAnalysisRequired",
+        "directWallpaperPixelAcquisitionAuthority","contextInputsCallerOrPlatformSupplied"
+      ],
+      "properties":{
+        "networkRequired":{"const":false},
+        "telemetryRequired":{"const":false},
+        "advertisingDependencyAllowed":{"const":false},
+        "remoteFontsRequired":{"const":false},
+        "remoteVisualDependenciesRequired":{"const":false},
+        "sensitiveContentAnalysisRequired":{"const":false},
+        "directWallpaperPixelAcquisitionAuthority":{"const":false},
+        "contextInputsCallerOrPlatformSupplied":{"const":true}
+      }
+    },
+    "wallpaperInfluence": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "decorativeOnly","maximumInfluence","authoritativeCallerOrPlatformSummaryRequired",
+        "privateContentInspectionAllowed"
+      ],
+      "properties":{
+        "decorativeOnly":{"const":true},
+        "maximumInfluence":{"const":0.08},
+        "authoritativeCallerOrPlatformSummaryRequired":{"const":true},
+        "privateContentInspectionAllowed":{"const":false}
+      }
+    },
+    "applicationIdentity": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "preservedThroughPersonalization","authoritativeCallerOrRegistryInputRequired",
+        "mayRedefineProtectedSemanticRoles","userAccentMayEraseApplicationIdentity"
+      ],
+      "properties":{
+        "preservedThroughPersonalization":{"const":true},
+        "authoritativeCallerOrRegistryInputRequired":{"const":true},
+        "mayRedefineProtectedSemanticRoles":{"const":false},
+        "userAccentMayEraseApplicationIdentity":{"const":false}
+      }
+    },
+    "session": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "previewBeforeApplySupported","explicitUserIntentRequiredForApplyResetUndo",
+        "resetSupported","undoSupported","perDeviceAdaptationSupported",
+        "crossDeviceSyncEstablished","persistenceAutomatic","callerOwnsPersistence"
+      ],
+      "properties":{
+        "previewBeforeApplySupported":{"const":true},
+        "explicitUserIntentRequiredForApplyResetUndo":{"const":true},
+        "resetSupported":{"const":true},
+        "undoSupported":{"const":true},
+        "perDeviceAdaptationSupported":{"const":true},
+        "crossDeviceSyncEstablished":{"const":false},
+        "persistenceAutomatic":{"const":false},
+        "callerOwnsPersistence":{"const":true}
+      }
+    },
+    "authority": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":[
+        "boundary","personalizationStateOwnedByUserAndCaller","sourceAuthorityInferredByGlaze",
+        "permissionGrantedByGlaze","consentGrantedByGlaze","capabilityCreatedByGlaze",
+        "telemetryAuthorizedByGlaze","persistencePerformedByGlaze","consequentialExecutionAutomatic"
+      ],
+      "properties":{
+        "boundary":{"const":"presentation-only"},
+        "personalizationStateOwnedByUserAndCaller":{"const":true},
+        "sourceAuthorityInferredByGlaze":{"const":false},
+        "permissionGrantedByGlaze":{"const":false},
+        "consentGrantedByGlaze":{"const":false},
+        "capabilityCreatedByGlaze":{"const":false},
+        "telemetryAuthorizedByGlaze":{"const":false},
+        "persistencePerformedByGlaze":{"const":false},
+        "consequentialExecutionAutomatic":{"const":false}
+      }
+    },
+    "runtimeEntrypoint":{"const":"js/glaze-v1.7-personalization.dev.mjs"},
+    "developmentAggregateEntrypoint":{"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap":{"const":"tokens/glaze-v1.7-personalization.dev.json"},
+    "boundary":{"type":"string","minLength":1}
+  }
+}
