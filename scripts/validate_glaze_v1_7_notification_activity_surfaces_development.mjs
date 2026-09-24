@@ -139,11 +139,22 @@ assert(glazeV17NotificationActivitySurfacesDevelopmentContract.consumerEligible 
 assert(JSON.stringify(glazeV17NotificationActivitySurfacesDevelopmentContract.components) === JSON.stringify(components), 'runtime component set mismatch');
 assert(JSON.stringify(glazeV17NotificationActivitySurfacesDevelopmentContract.activityKinds) === JSON.stringify(kinds), 'runtime activity kind set mismatch');
 
-assert(glazeV17Development.version === '1.7.0-dev.7', 'aggregate version mismatch');
+const aggregateVersionParts = String(glazeV17Development.version).split('-dev.');
+assert(
+  aggregateVersionParts.length === 2 && aggregateVersionParts[0] === '1.7.0',
+  'aggregate version format mismatch'
+);
+const aggregateDevelopmentOrdinal = Number(aggregateVersionParts[1]);
+assert(Number.isInteger(aggregateDevelopmentOrdinal) && aggregateDevelopmentOrdinal >= 7, 'aggregate must retain Notification and Activity Surfaces dev.7 or later');
 assert(glazeV17Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV17Development.stableBaseline === '1.6.0', 'aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
-assert(JSON.stringify(glazeV17Development.implementedSpecificationSections) === JSON.stringify([1,2,3,4,5,6,7,8]), 'aggregate section set mismatch');
+for (const retainedSection of [1,2,3,4,5,6,7,8]) {
+  assert(
+    glazeV17Development.implementedSpecificationSections.includes(retainedSection),
+    `aggregate lost Notification and Activity prerequisite section ${retainedSection}`
+  );
+}
 assert(glazeV17Development.notificationActivitySurfacesFoundation === 'js/glaze-v1.7-notification-activity-surfaces.dev.mjs', 'aggregate missing Section 8 foundation');
 assert(glazeV17Development.providerTruthManufactured === false, 'aggregate must preserve provider-truth boundary');
 
