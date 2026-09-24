@@ -4,6 +4,11 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.8` Native Glaze Kits source foundation for specification section 9, with source-governed mappings for Android / Jetpack Compose, Apple / SwiftUI, Web, and supported Linux native UI environments.
+- Added one shared native semantic vocabulary for surface, action, navigation, focus, input, state, progress, recovery, privacy, and security roles while allowing platform-native controls and behavior when semantics, accessibility, task continuity, and authority boundaries are preserved.
+- Native capability and control availability fail closed without explicit caller/platform authority; Glaze does not grant permissions or consent, manufacture Privacy Shield/Wardveil truth, invent availability, execute application actions, or imply native-device certification.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.8` and implemented sections 1–9 while retaining dev.1–dev.7 and V1.6 Stable/V1.5.1 rollback regression gates. V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
+
 - Added the bounded `1.7.0-dev.7` Notification and Activity Surfaces source foundation for specification section 8, with `GlzNotificationSurface`, `GlzActivityItem`, `GlzActivityGroup`, `GlzStatusFeed`, `GlzBackgroundTask`, and `GlzProgressSurface`.
 - Notification/activity kind, progress, and action availability now fail closed unless supplied with the applicable provider authority; Glaze presents the supplied truth but does not generate security/privacy state, system-notification permission, background-task execution, or action authority.
 - Added profile-aware presentation and Task Continuity integration so notification/activity surfaces can adapt across Mobile, Tablet, Desktop, Foldable, TV/far-view, and Wearable without resetting the active task, focus, navigation, drafts, or provider-owned state.
