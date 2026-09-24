@@ -46,6 +46,7 @@
     "form-factor"
   ],
   "adaptiveComposition": {
+    "foundationalComponent": "GlzAdaptivePane",
     "profiles": ["mobile", "tablet", "desktop", "foldable", "tv", "wearable"],
     "presentations": [
       "bottom-sheet",
