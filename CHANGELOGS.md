@@ -4,6 +4,11 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.7` Notification and Activity Surfaces source foundation for specification section 8, with `GlzNotificationSurface`, `GlzActivityItem`, `GlzActivityGroup`, `GlzStatusFeed`, `GlzBackgroundTask`, and `GlzProgressSurface`.
+- Notification/activity kind, progress, and action availability now fail closed unless supplied with the applicable provider authority; Glaze presents the supplied truth but does not generate security/privacy state, system-notification permission, background-task execution, or action authority.
+- Added profile-aware presentation and Task Continuity integration so notification/activity surfaces can adapt across Mobile, Tablet, Desktop, Foldable, TV/far-view, and Wearable without resetting the active task, focus, navigation, drafts, or provider-owned state.
+- Advanced the V1.7 Development aggregate to `1.7.0-dev.7` while retaining dev.1–dev.6 and V1.6 Stable regression gates. V1.6 / `1.6.0` remains Official Stable and V1.7 remains non-consumer-eligible.
+
 - Added the bounded `1.7.0-dev.6` System Shell Continuity source foundation for specification section 7, covering notification/activity presentation continuity, Control Center continuity, persistent layout where supported, multi-window, split-view, compact/expanded navigation, restoration, application/system handoff, task switching, shell overlays, search continuity, and contextual command surfaces.
 - Shell capability and configuration truth now fails closed unless supplied authoritatively by the caller/platform; Glaze does not create windowing support, grant system privileges, generate notification/activity truth, create search/navigation authority, persist shell state, or execute consequential shell transitions.
 - System-shell recomposition reuses Task Continuity and the existing V1.7 input/profile/composition/command/personalization foundations to preserve active task, navigation, focus, selection, drafts, query/filter context, pane/window context, safe pending interactions, and provider-owned truth across predictable, reversible presentation changes.

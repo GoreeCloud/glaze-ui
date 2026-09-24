@@ -299,17 +299,18 @@ assert(glazeV17SystemShellContinuityDevelopmentContract.section8ComponentCatalog
 assert(glazeV17SystemShellContinuityDevelopmentContract.persistentLayoutAutomatic === false, 'runtime must not auto-persist shell layout');
 assert(glazeV17SystemShellContinuityDevelopmentContract.crossDeviceSyncEstablished === false, 'runtime must not claim cross-device sync');
 
-assert(glazeV17Development.version === '1.7.0-dev.6', 'aggregate version mismatch');
+assert(glazeV17Development.version === '1.7.0-dev.7', 'aggregate version mismatch');
 assert(glazeV17Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV17Development.stableBaseline === '1.6.0', 'aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible === false, 'aggregate must remain non-consumer-eligible');
-assert(JSON.stringify(glazeV17Development.implementedSpecificationSections) === JSON.stringify([1,2,3,4,5,6,7]), 'aggregate section set mismatch');
+assert(JSON.stringify(glazeV17Development.implementedSpecificationSections) === JSON.stringify([1,2,3,4,5,6,7,8]), 'aggregate section set mismatch');
 assert(glazeV17Development.taskContinuityFoundation === 'js/glaze-v1.7-task-continuity.dev.mjs', 'aggregate lost Task Continuity');
 assert(glazeV17Development.adaptiveInputFoundation === 'js/glaze-v1.7-adaptive-input.dev.mjs', 'aggregate lost Adaptive Input');
 assert(glazeV17Development.formFactorProfilesFoundation === 'js/glaze-v1.7-form-factor-profiles.dev.mjs', 'aggregate lost Form-Factor Profiles');
 assert(glazeV17Development.commandSurfaceFoundation === 'js/glaze-v1.7-command-surface.dev.mjs', 'aggregate lost Command Surface');
 assert(glazeV17Development.personalizationFoundation === 'js/glaze-v1.7-personalization.dev.mjs', 'aggregate lost Personalization');
 assert(glazeV17Development.systemShellContinuityFoundation === 'js/glaze-v1.7-system-shell-continuity.dev.mjs', 'aggregate missing System Shell Continuity');
+assert(glazeV17Development.notificationActivitySurfacesFoundation === 'js/glaze-v1.7-notification-activity-surfaces.dev.mjs', 'aggregate missing Notification and Activity Surfaces');
 
 for (const [field,value] of [
   ['shellArea','made-up-shell'],

@@ -1,0 +1,67 @@
+{
+  "version": "1.7.0-dev.7",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "components": {
+    "GlzNotificationSurface": "notification-surface",
+    "GlzActivityItem": "activity-item",
+    "GlzActivityGroup": "activity-group",
+    "GlzStatusFeed": "status-feed",
+    "GlzBackgroundTask": "background-task",
+    "GlzProgressSurface": "progress-surface"
+  },
+  "activityRoles": {
+    "informational-activity": "information",
+    "background-work": "background",
+    "required-attention": "attention",
+    "warning": "warning",
+    "critical": "critical",
+    "user-requested-progress": "progress",
+    "recoverable-failure": "recoverable-failure",
+    "security-state": "security",
+    "privacy-state": "privacy"
+  },
+  "progressRoles": {
+    "none": "none",
+    "determinate": "determinate",
+    "indeterminate": "indeterminate",
+    "unknown": "unknown"
+  },
+  "presentationByProfile": {
+    "mobile": "stacked-notification-activity",
+    "tablet": "adaptive-pane-notification-activity",
+    "desktop": "workspace-notification-activity",
+    "foldable": "posture-aware-notification-activity",
+    "tv": "far-view-notification-activity",
+    "wearable": "shallow-notification-activity"
+  },
+  "continuity": {
+    "activeTask": "preserve",
+    "navigation": "preserve",
+    "focus": "preserve",
+    "drafts": "preserve",
+    "providerOwnedTruth": "preserve"
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "providerTruthAuthorityRequired": true,
+    "progressAuthorityRequired": true,
+    "actionAvailabilityAuthorityRequired": true,
+    "notificationTruthCreatedByGlaze": false,
+    "activityTruthCreatedByGlaze": false,
+    "securityAuthorityCreatedByGlaze": false,
+    "privacyAuthorityCreatedByGlaze": false,
+    "systemNotificationPermissionGrantedByGlaze": false,
+    "backgroundTaskExecutionPerformedByGlaze": false,
+    "actionExecutionPerformedByGlaze": false,
+    "persistencePerformedByGlaze": false,
+    "crossDeviceSyncEstablished": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "contracts/v1.7/notification-activity-surfaces.dev.json",
+    "schemas/v1.7-notification-activity-surfaces.schema.json"
+  ]
+}
