@@ -315,8 +315,12 @@ assert(glazeV17PersonalizationDevelopmentContract.telemetryRequired === false, '
 assert(glazeV17PersonalizationDevelopmentContract.crossDeviceSyncEstablished === false, 'runtime must not claim cross-device sync');
 assert(glazeV17PersonalizationDevelopmentContract.persistenceAutomatic === false, 'runtime must not auto-persist');
 
-assert(/^1\\.7\\.0-dev\\.\\d+$/.test(glazeV17Development.version), 'aggregate version format mismatch');
-const aggregateDevelopmentOrdinal = Number(glazeV17Development.version.split('.dev.')[1]);
+const aggregateVersionParts = glazeV17Development.version.split('.dev.');
+assert(
+  aggregateVersionParts.length === 2 && aggregateVersionParts[0] === '1.7.0',
+  'aggregate version format mismatch'
+);
+const aggregateDevelopmentOrdinal = Number(aggregateVersionParts[1]);
 assert(Number.isInteger(aggregateDevelopmentOrdinal) && aggregateDevelopmentOrdinal >= 5, 'aggregate must retain Personalization dev.5 or later');
 assert(glazeV17Development.lifecycle === 'development', 'aggregate must remain Development');
 assert(glazeV17Development.stableBaseline === '1.6.0', 'aggregate Stable baseline mismatch');
