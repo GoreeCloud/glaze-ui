@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.dev/schemas/glaze-ui/v1.7-adaptive-input.schema.json",
+  "title": "Glaze UI V1.7 Adaptive Input 2.0 Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "implementedSpecificationSections",
+    "inputModels",
+    "semanticActions",
+    "interactionDependencies",
+    "continuity",
+    "authority",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "tokenMap",
+    "boundary"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-adaptive-input.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.adaptive-input"},
+    "name": {"const": "Glaze UI V1.7 Adaptive Input 2.0 Development Contract"},
+    "version": {"const": "1.7.0-dev.2"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "implementedSpecificationSections": {"const": [2]},
+    "inputModels": {
+      "const": [
+        "touch",
+        "pointer",
+        "keyboard",
+        "stylus",
+        "remote-dpad",
+        "rotary",
+        "switch-access",
+        "voice-access",
+        "assistive-input"
+      ]
+    },
+    "semanticActions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actionIdRequired",
+        "actionDefinedIndependentlyFromPhysicalBinding",
+        "availabilityStates",
+        "positiveAvailabilityRequiresExplicitAuthority",
+        "inputMethodChangeMayChangeAvailabilityByItself",
+        "physicalKeyOrGestureIsSemanticAuthority"
+      ],
+      "properties": {
+        "actionIdRequired": {"const": true},
+        "actionDefinedIndependentlyFromPhysicalBinding": {"const": true},
+        "availabilityStates": {
+          "const": [
+            "available",
+            "unavailable",
+            "unsupported",
+            "restricted",
+            "permission-required",
+            "temporarily-unavailable",
+            "unknown"
+          ]
+        },
+        "positiveAvailabilityRequiresExplicitAuthority": {"const": true},
+        "inputMethodChangeMayChangeAvailabilityByItself": {"const": false},
+        "physicalKeyOrGestureIsSemanticAuthority": {"const": false}
+      }
+    },
+    "interactionDependencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dependencies", "alternativeRequiredWhenUnavailableOrUnsuitable", "alternatives"],
+      "properties": {
+        "dependencies": {
+          "const": [
+            "drag",
+            "swipe",
+            "hover",
+            "long-press",
+            "precision-pointer",
+            "multi-touch"
+          ]
+        },
+        "alternativeRequiredWhenUnavailableOrUnsuitable": {"const": true},
+        "alternatives": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["drag", "swipe", "hover", "long-press", "precision-pointer", "multi-touch"],
+          "properties": {
+            "drag": {"const": ["move-before", "move-after", "move-by-step"]},
+            "swipe": {"const": ["previous", "next", "dismiss"]},
+            "hover": {"const": ["focus", "explicit-info"]},
+            "long-press": {"const": ["open-context", "explicit-more-actions"]},
+            "precision-pointer": {"const": ["coarse-step", "direct-value-entry"]},
+            "multi-touch": {"const": ["zoom-in", "zoom-out", "zoom-reset"]}
+          }
+        }
+      }
+    },
+    "continuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "taskContinuityContract",
+        "inputChangeUsesEnvironmentChange",
+        "taskLossAllowed",
+        "navigationResetAllowed",
+        "focusResetAllowed",
+        "selectionResetAllowed",
+        "draftResetAllowed",
+        "commandAvailabilityMayVaryOnlyFromInputChange"
+      ],
+      "properties": {
+        "taskContinuityContract": {"const": "contracts/v1.7/task-continuity.dev.json"},
+        "inputChangeUsesEnvironmentChange": {"const": "input-method"},
+        "taskLossAllowed": {"const": false},
+        "navigationResetAllowed": {"const": false},
+        "focusResetAllowed": {"const": false},
+        "selectionResetAllowed": {"const": false},
+        "draftResetAllowed": {"const": false},
+        "commandAvailabilityMayVaryOnlyFromInputChange": {"const": false}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary",
+        "inputModelOwnedByCallerOrPlatform",
+        "actionAvailabilityOwnedByApplicationOrProvider",
+        "hardwareCapabilityOwnedByPlatform",
+        "authorizationGrantedByGlaze",
+        "permissionGrantedByGlaze",
+        "consentGrantedByGlaze",
+        "capabilityCreatedByGlaze",
+        "executionAuthorityCreatedByGlaze",
+        "consequentialExecutionAutomatic"
+      ],
+      "properties": {
+        "boundary": {"const": "presentation-only"},
+        "inputModelOwnedByCallerOrPlatform": {"const": true},
+        "actionAvailabilityOwnedByApplicationOrProvider": {"const": true},
+        "hardwareCapabilityOwnedByPlatform": {"const": true},
+        "authorizationGrantedByGlaze": {"const": false},
+        "permissionGrantedByGlaze": {"const": false},
+        "consentGrantedByGlaze": {"const": false},
+        "capabilityCreatedByGlaze": {"const": false},
+        "executionAuthorityCreatedByGlaze": {"const": false},
+        "consequentialExecutionAutomatic": {"const": false}
+      }
+    },
+    "runtimeEntrypoint": {"const": "js/glaze-v1.7-adaptive-input.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const": "js/glaze-v1.7-development.mjs"},
+    "tokenMap": {"const": "tokens/glaze-v1.7-adaptive-input.dev.json"},
+    "boundary": {"type": "string", "minLength": 1}
+  }
+}
