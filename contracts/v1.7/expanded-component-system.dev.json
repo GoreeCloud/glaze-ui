@@ -1,0 +1,125 @@
+{
+  "$schema": "../../schemas/v1.7-expanded-component-system.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.expanded-component-system",
+  "name": "Glaze UI V1.7 Expanded Component System Development Contract",
+  "version": "1.7.0-dev.10",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "v11SpecificationSections": [
+    25
+  ],
+  "componentCatalog": [
+    "GlzAdaptivePane",
+    "GlzCommandSurface",
+    "GlzActivitySurface",
+    "GlzNotificationSurface",
+    "GlzAdaptiveToolbar",
+    "GlzActionCluster",
+    "GlzRecoverySurface",
+    "GlzProgressSurface",
+    "GlzPreferenceGroup",
+    "GlzAppearancePicker",
+    "GlzThemePreview",
+    "GlzColorRolePicker",
+    "GlzPalettePreview",
+    "GlzAdaptiveSplitView"
+  ],
+  "inheritedComponents": {
+    "GlzAdaptivePane": "js/glaze-v1.7-task-continuity.dev.mjs",
+    "GlzCommandSurface": "js/glaze-v1.7-command-surface.dev.mjs",
+    "GlzNotificationSurface": "js/glaze-v1.7-notification-activity-surfaces.dev.mjs",
+    "GlzProgressSurface": "js/glaze-v1.7-notification-activity-surfaces.dev.mjs"
+  },
+  "newComponentFoundations": [
+    "GlzActivitySurface",
+    "GlzAdaptiveToolbar",
+    "GlzActionCluster",
+    "GlzRecoverySurface",
+    "GlzPreferenceGroup",
+    "GlzAppearancePicker",
+    "GlzThemePreview",
+    "GlzColorRolePicker",
+    "GlzPalettePreview",
+    "GlzAdaptiveSplitView"
+  ],
+  "semanticRequirements": {
+    "literalColorInputsAllowed": false,
+    "semanticColorRolesRequired": true,
+    "protectedSemanticOverridesAllowed": false,
+    "colorOnlyMeaningAllowed": false,
+    "accessibilityPrecedence": true,
+    "taskContinuityRequired": true,
+    "providerTruthRequiredForProviderOwnedState": true,
+    "nativeMappingFoundationPreserved": true
+  },
+  "componentFamilies": {
+    "adaptive": [
+      "GlzAdaptivePane",
+      "GlzAdaptiveToolbar",
+      "GlzAdaptiveSplitView"
+    ],
+    "commandAndAction": [
+      "GlzCommandSurface",
+      "GlzActionCluster"
+    ],
+    "activityAndRecovery": [
+      "GlzActivitySurface",
+      "GlzNotificationSurface",
+      "GlzRecoverySurface",
+      "GlzProgressSurface"
+    ],
+    "personalization": [
+      "GlzPreferenceGroup",
+      "GlzAppearancePicker",
+      "GlzThemePreview",
+      "GlzColorRolePicker",
+      "GlzPalettePreview"
+    ]
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "providerStateAuthorityRequired": true,
+    "progressAuthorityRequired": true,
+    "recoveryAuthorityRequired": true,
+    "themeAuthorityRequired": true,
+    "semanticColorAuthorityRequired": true,
+    "providerTruthCreatedByGlaze": false,
+    "progressTruthCreatedByGlaze": false,
+    "recoveryTruthCreatedByGlaze": false,
+    "themePersistencePerformedByGlaze": false,
+    "actionExecutionPerformedByGlaze": false,
+    "navigationExecutionPerformedByGlaze": false,
+    "consequentialExecutionAutomatic": false
+  },
+  "acceptanceBoundary": {
+    "sourceFoundationOnly": true,
+    "section25Complete": false,
+    "nativeDeviceAcceptanceRequired": true,
+    "renderedAcceptanceRequired": true,
+    "assistiveTechnologyAcceptanceRequired": true,
+    "performanceAcceptanceRequired": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "integrationFoundations": {
+    "taskContinuity": "js/glaze-v1.7-task-continuity.dev.mjs",
+    "commandSurface": "js/glaze-v1.7-command-surface.dev.mjs",
+    "notificationActivity": "js/glaze-v1.7-notification-activity-surfaces.dev.mjs",
+    "themeSemanticColor": "js/glaze-v1.7-theme-semantic-color.dev.mjs",
+    "nativeGlazeKits": "js/glaze-v1.7-native-glaze-kits.dev.mjs"
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-expanded-component-system.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-expanded-component-system.dev.json",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}
