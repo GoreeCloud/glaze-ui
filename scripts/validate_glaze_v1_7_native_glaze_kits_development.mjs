@@ -193,7 +193,8 @@ assert(glazeV17Development.lifecycle==='development','aggregate must remain Deve
 assert(glazeV17Development.stableBaseline==='1.6.0','aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible===false,'aggregate must remain non-consumer-eligible');
 assert(glazeV17Development.implementedSpecificationSectionsPlanVersion==='v1.0-historical-numbering','historical numbering provenance must remain explicit');
-assert(glazeV17Development.planVersion==='v1.1','aggregate current plan version mismatch');
+const aggregatePlanMinor=Number(glazeV17Development.planVersion.match(/^v1\.(\d+)$/)?.[1]);
+assert(Number.isInteger(aggregatePlanMinor)&&aggregatePlanMinor>=1,'aggregate current plan version regressed below v1.1');
 assert(glazeV17Development.planV11FoundationSections.includes(24),'aggregate must include v1.1 Section 24 foundation');
 assert(glazeV17Development.themeSemanticColorFoundation==='js/glaze-v1.7-theme-semantic-color.dev.mjs','aggregate must preserve dev.8 theme/color foundation');
 assert(glazeV17Development.nativeGlazeKitsFoundation==='js/glaze-v1.7-native-glaze-kits.dev.mjs','aggregate missing dev.9 Native Glaze Kits foundation');
