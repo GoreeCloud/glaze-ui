@@ -136,6 +136,15 @@ V1.6.0 is the current required shared Glaze UI target. No downstream GoreeCloud 
 
 GLAZE UI V1.6.0 has completed the governed shared-library publication boundary: controlled tag `v1.6.0` and GitHub Release `392095913` publish the exact security-accepted artifact bytes with post-publication byte readback. This shared-library publication does not establish downstream consumer deployment, production acceptance, or application conformance; those remain separate governed transitions.
 
+## Project governance
+
+Long-lived project requirements and significant project history are repository-local:
+
+- [PROJECT-SPECIFICATIONS.md](PROJECT-SPECIFICATIONS.md)
+- [PROJECT-RECORD.md](PROJECT-RECORD.md)
+
+Current lifecycle authority remains in [VERSION](VERSION) and [registry/lifecycle.json](registry/lifecycle.json). Current implemented/open feature state remains in [IMPLEMENTED-FEATURES.md](IMPLEMENTED-FEATURES.md) and [PLANNED-FEATURES.md](PLANNED-FEATURES.md); chronology remains in [CHANGELOGS.md](CHANGELOGS.md). Historical Drive project specifications are migration provenance only after the governed migration is accepted and verified.
+
 ## License
 
 MIT. GoreeCloud branding and product identity remain subject to applicable project policies.

@@ -3,7 +3,8 @@
 
 This validator originated while V1.2 was globally current. It now serves as a
 retained-release integrity check: live current authority is derived from
-`registry/lifecycle.json`/`VERSION`, while prior release documentation and
+`registry/lifecycle.json`/`VERSION`, while canonical project governance lives
+in `PROJECT-SPECIFICATIONS.md` and `PROJECT-RECORD.md`, and prior release documentation and
 source remain historical Stable provenance. It must never move global authority
 back to an older release.
 """
@@ -23,7 +24,8 @@ VERSION = ROOT / "VERSION"
 CURRENT_AUTHORITY_DOCS = {
     "README.md": ("current Official", "Stable"),
     "FEATURES.md": ("Stable",),
-    "SPECIFICATIONS.md": ("Stable",),
+    "PROJECT-SPECIFICATIONS.md": ("Stable",),
+    "PROJECT-RECORD.md": ("Stable",),
     "CONTRIBUTING.md": ("Stable",),
     "CONFORMANCE.md": ("conformance",),
     "ACCEPTANCE.md": ("Stable",),
