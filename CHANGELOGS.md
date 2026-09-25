@@ -4,6 +4,8 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Require a supplied non-empty object identity as well as caller authority before applying Glaze Bloom or Glaze Trace. Missing, null, empty, and whitespace-only identities fall back to standard replacement without asserting object continuity. Added regression cases to the existing Signature Motion validator; V1.7 remains Development and consumer-ineligible.
+
 - Migrated the current GLAZE UI V1.6 / 1.6.0 release from legacy Stable lifecycle vocabulary to canonical **Anchor** under GoreeCloud Platform Contract 2.0 after a current-governance reclassification review confirmed the exact accepted release still has complete qualification, final security acceptance, controlled publication/readback, justified shared-library production applicability, all nine Integral Platform Systems evaluated, a known-good rollback target, and zero qualification blockers. Released V1.6 bytes and historical Stable evidence were not rewritten; downstream consumer acceptance remains separate.
 
 - Reconciled V1.6 consumer-registry notes with current downstream source state: Launcher, Monitor, and Wardveil carry bounded V1.6.0 source mappings while remaining acceptance-blocked; Privacy Center still carries a pre-reset 2.1.0 implementation and remains migration-required. No consumer status or production eligibility was promoted.
