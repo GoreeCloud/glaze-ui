@@ -56,21 +56,21 @@ platform_systems:
     evidence:
       - acceptance/v1.6-production-readiness-review.json
       - acceptance/v1.6-human-evidence.json
-    notes: The V1.6 Stable release preserves Privacy Shield authority boundaries and privacy-safe local presentation behavior but does not operate a Privacy Shield enforcement runtime or collect privacy state as a platform service.
+    notes: The V1.6 Anchor release preserves Privacy Shield authority boundaries and privacy-safe local presentation behavior but does not operate a Privacy Shield enforcement runtime or collect privacy state as a platform service.
   wardveil_security:
     result: not-applicable-justified
     version: null
     evidence:
       - acceptance/v1.6-production-readiness-review.json
       - SECURITY.md
-    notes: The V1.6 Stable release presents supplied security states without authenticating, authorizing, protecting, or manufacturing security truth. Wardveil enforcement is outside this shared presentation runtime; Stable security qualification remains separately mandatory.
+    notes: The V1.6 Anchor release presents supplied security states without authenticating, authorizing, protecting, or manufacturing security truth. Wardveil enforcement is outside this shared presentation runtime; retained Stable-era final security acceptance is part of the evidence supporting current Anchor qualification.
   everkeep:
     result: not-applicable-justified
     version: null
     evidence:
       - acceptance/v1.6-production-readiness-review.json
       - registry/lifecycle.json
-    notes: The V1.6 Stable release is stateless and owns no user data, durable application state, backup jobs, restore workflows, or preservation storage. Release rollback remains bound to known-good Glaze UI 1.5.1.
+    notes: The V1.6 Anchor release is stateless and owns no user data, durable application state, backup jobs, restore workflows, or preservation storage. Release rollback remains bound to known-good Glaze UI 1.5.1.
   glaze_ui:
     result: applicable-conformant
     version: 1.6.0
@@ -82,7 +82,7 @@ platform_systems:
       - acceptance/v1.6-human-evidence.json
       - acceptance/v1.6-assistive-technology-evidence.json
       - acceptance/v1.6-performance-evidence.json
-    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable. The central Platform Contract 0.4 current Stable Glaze UI consumer target is 1.6.0; this repository provides 1.6.0 and validates against the exact central evaluator revision in CI.
+    notes: Glaze UI is the self-authority for this shared design-system release. The frozen V1.6 qualification matrix is 24 verified / 0 unverified / 0 not applicable. Platform Contract 2.0 recognizes this exact 1.6.0 shared-library release as canonical Anchor; the retained currentStable field continues to identify the consumer release channel for compatibility, and CI validates the exact Contract 2.0 evaluator revision.
   mesh:
     result: not-applicable-justified
     version: null
@@ -135,7 +135,7 @@ continuity:
   portability:
     required: false
     requirements:
-      - The supported Stable runtime is source-distributed ES modules with repository-preserved contracts and evidence.
+      - The supported Anchor runtime is source-distributed ES modules with repository-preserved contracts and retained Stable-era qualification evidence.
 
 external_dependencies: []
 
