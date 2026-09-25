@@ -1,0 +1,94 @@
+name: Glaze UI V1.7 Glaze Studio Development
+on:
+  pull_request:
+    paths:
+      - 'GLAZE_UI_V1_7_PLANNED.md'
+      - 'contracts/v1.7/studio.dev.json'
+      - 'schemas/v1.7-glaze-studio.schema.json'
+      - 'tokens/glaze-v1.7-studio.dev.json'
+      - 'js/glaze-v1.7-studio.dev.mjs'
+      - 'js/glaze-v1.7-development.mjs'
+      - 'scripts/validate_glaze_v1_7_studio_development.mjs'
+      - 'scripts/validate_glaze_v1_7_inspector_development.mjs'
+      - '.github/workflows/glaze-v1.7-studio-development.yml'
+      - 'PLANNED-FEATURES.md'
+      - 'IMPLEMENTED-FEATURES.md'
+      - 'CHANGELOGS.md'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  push:
+    branches: [main]
+    paths:
+      - 'GLAZE_UI_V1_7_PLANNED.md'
+      - 'contracts/v1.7/studio.dev.json'
+      - 'schemas/v1.7-glaze-studio.schema.json'
+      - 'tokens/glaze-v1.7-studio.dev.json'
+      - 'js/glaze-v1.7-studio.dev.mjs'
+      - 'js/glaze-v1.7-development.mjs'
+      - 'scripts/validate_glaze_v1_7_studio_development.mjs'
+      - 'scripts/validate_glaze_v1_7_inspector_development.mjs'
+      - '.github/workflows/glaze-v1.7-studio-development.yml'
+      - 'PLANNED-FEATURES.md'
+      - 'IMPLEMENTED-FEATURES.md'
+      - 'CHANGELOGS.md'
+      - 'VERSION'
+      - 'registry/lifecycle.json'
+  workflow_dispatch:
+permissions: {contents: read}
+concurrency:
+  group: glaze-v1-7-studio-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  studio-development:
+    name: Validate V1.7 Glaze Studio Development foundation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: "${{ github.event.pull_request.head.sha || github.sha }}", fetch-depth: 0}
+      - name: Validate JSON syntax
+        run: |
+          python -m json.tool contracts/v1.7/studio.dev.json >/dev/null
+          python -m json.tool schemas/v1.7-glaze-studio.schema.json >/dev/null
+          python -m json.tool tokens/glaze-v1.7-studio.dev.json >/dev/null
+      - name: Validate JavaScript syntax
+        run: |
+          node --check js/glaze-v1.7-studio.dev.mjs
+          node --check js/glaze-v1.7-development.mjs
+          node --check scripts/validate_glaze_v1_7_studio_development.mjs
+          node --check scripts/validate_glaze_v1_7_inspector_development.mjs
+      - name: Validate V1.7 Glaze Studio Development foundation
+        run: node scripts/validate_glaze_v1_7_studio_development.mjs
+  v1-7-regression:
+    name: Preserve V1.7 dev.1-dev.11 foundations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: "${{ github.event.pull_request.head.sha || github.sha }}", fetch-depth: 0}
+      - name: Verify prior V1.7 Development foundations
+        run: |
+          node scripts/validate_glaze_v1_7_task_continuity_development.mjs
+          node scripts/validate_glaze_v1_7_adaptive_input_development.mjs
+          node scripts/validate_glaze_v1_7_form_factor_profiles_development.mjs
+          node scripts/validate_glaze_v1_7_command_surface_development.mjs
+          node scripts/validate_glaze_v1_7_personalization_development.mjs
+          node scripts/validate_glaze_v1_7_system_shell_continuity_development.mjs
+          node scripts/validate_glaze_v1_7_notification_activity_surfaces_development.mjs
+          node scripts/validate_glaze_v1_7_theme_semantic_color_development.mjs
+          node scripts/validate_glaze_v1_7_native_glaze_kits_development.mjs
+          node scripts/validate_glaze_v1_7_expanded_component_system_development.mjs
+          node scripts/validate_glaze_v1_7_inspector_development.mjs
+  v1-6-stable-authority:
+    name: Preserve GLAZE UI V1.6 Stable authority
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: "${{ github.event.pull_request.head.sha || github.sha }}", fetch-depth: 0}
+      - run: node scripts/verify_glaze_v1_6_stable_qualification_review.mjs
+      - run: node scripts/verify_glaze_v1_6_stable.mjs
+  v1-5-1-rollback-integrity:
+    name: Preserve V1.5.1 rollback Stable integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: "${{ github.event.pull_request.head.sha || github.sha }}", fetch-depth: 0}
+      - run: node scripts/verify_glaze_v1_5_1_stable.mjs

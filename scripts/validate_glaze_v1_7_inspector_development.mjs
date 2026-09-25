@@ -159,7 +159,12 @@ assert(glazeV17InspectorDevelopmentContract.section26Complete===false,'runtime m
 assert(glazeV17InspectorDevelopmentContract.sourceMutationAllowed===false,'runtime source mutation boundary weakened');
 assert(glazeV17InspectorDevelopmentContract.acceptanceGrantedByInspector===false,'runtime acceptance boundary weakened');
 
-assert(glazeV17Development.version==='1.7.0-dev.11','aggregate version mismatch');
+const aggregateVersionParts=String(glazeV17Development.version).split('-dev.');
+const aggregateDevelopmentRevision=Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0]==='1.7.0' && Number.isInteger(aggregateDevelopmentRevision) && aggregateDevelopmentRevision>=11,
+  'aggregate Development version must retain or advance beyond Glaze Inspector dev.11'
+);
 assert(glazeV17Development.lifecycle==='development'&&glazeV17Development.stableBaseline==='1.6.0'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 for(const n of [7,8,9,10,11,12,13,18,19,21,24,25,26])assert(glazeV17Development.planV11FoundationSections.includes(n),`aggregate missing v1.1 foundation ${n}`);
 assert(glazeV17Development.inspectorFoundation==='js/glaze-v1.7-inspector.dev.mjs','aggregate missing dev.11 Inspector foundation');
