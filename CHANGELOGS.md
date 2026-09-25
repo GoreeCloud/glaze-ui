@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.13` Continuity-Aware Motion Development foundation for V1.7 v1.1 Section 28.
+- Extended the retained V1.6 focus/motion resolver with continuity events for surface relocation, composition change, retained object identity, focus movement, pane primacy changes, compact/expanded transitions, and bounded theme changes.
+- Added continuity explanations and Task Continuity preservation while requiring authoritative object-identity, focus-target, and pane-primacy claims instead of inventing them.
+- Required Reduced Motion to provide equivalent static or minimally animated transitions and kept continuous rainbow effects, unnecessary chromatic movement, and decorative animation out of defaults.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.13` while retaining V1.6 / `1.6.0` as Official Stable and keeping Section 28 incomplete pending separate qualification.
+
 - Added the bounded `1.7.0-dev.12` Glaze Studio Development foundation for V1.7 v1.1 Section 27.
 - Added local design/review sessions, Inspector-backed scene exploration, preview-only theme drafts, and bounded comparisons across components, semantic states, appearance/expression modes, form factors, adaptive layouts, motion, loading/error states, accessibility configurations, and platform mappings.
 - Added optional Native Glaze Kit mapping previews while marking simulated Studio states as non-authoritative and preserving provider/platform truth ownership.

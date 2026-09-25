@@ -16,16 +16,17 @@ export * from './glaze-v1.7-native-glaze-kits.dev.mjs';
 export * from './glaze-v1.7-expanded-component-system.dev.mjs';
 export * from './glaze-v1.7-inspector.dev.mjs';
 export * from './glaze-v1.7-studio.dev.mjs';
+export * from './glaze-v1.7-continuity-aware-motion.dev.mjs';
 
 export const glazeV17Development = Object.freeze({
-  version: '1.7.0-dev.12',
+  version: '1.7.0-dev.13',
   lifecycle: 'development',
   stableBaseline: '1.6.0',
   consumerEligible: false,
   implementedSpecificationSections: Object.freeze([1, 2, 3, 4, 5, 6, 7, 8]),
   implementedSpecificationSectionsPlanVersion: 'v1.0-historical-numbering',
   planVersion: 'v1.1',
-  planV11FoundationSections: Object.freeze([7, 8, 9, 10, 11, 12, 13, 18, 19, 21, 24, 25, 26, 27]),
+  planV11FoundationSections: Object.freeze([7, 8, 9, 10, 11, 12, 13, 18, 19, 21, 24, 25, 26, 27, 28]),
   taskContinuityFoundation: 'js/glaze-v1.7-task-continuity.dev.mjs',
   adaptiveInputFoundation: 'js/glaze-v1.7-adaptive-input.dev.mjs',
   formFactorProfilesFoundation: 'js/glaze-v1.7-form-factor-profiles.dev.mjs',
@@ -38,6 +39,7 @@ export const glazeV17Development = Object.freeze({
   expandedComponentSystemFoundation: 'js/glaze-v1.7-expanded-component-system.dev.mjs',
   inspectorFoundation: 'js/glaze-v1.7-inspector.dev.mjs',
   studioFoundation: 'js/glaze-v1.7-studio.dev.mjs',
+  continuityAwareMotionFoundation: 'js/glaze-v1.7-continuity-aware-motion.dev.mjs',
   presentationOnly: true,
   accessibilityPrecedence: true,
   providerTruthManufactured: false,

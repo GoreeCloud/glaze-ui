@@ -1,0 +1,84 @@
+{
+  "$schema": "../../schemas/v1.7-continuity-aware-motion.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.continuity-aware-motion",
+  "name": "Glaze UI V1.7 Continuity-Aware Motion Development Contract",
+  "version": "1.7.0-dev.13",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "v11SpecificationSections": [
+    28
+  ],
+  "continuityEvents": [
+    "surface-relocation",
+    "composition-change",
+    "retained-object-identity",
+    "focus-movement",
+    "pane-primacy-change",
+    "compact-expanded-transition",
+    "theme-change"
+  ],
+  "principles": {
+    "primaryPurpose": "explain-continuity",
+    "finalStateDependsOnAnimationCompletion": false,
+    "userInteractionMayBeBlockedByMotion": false,
+    "reducedMotionEquivalentRequired": true,
+    "largeContinuousRainbowEffectsDefault": false,
+    "unnecessaryChromaticMovementDefault": false,
+    "decorativeAnimationDefault": false,
+    "themeColorMaterialTransitionAllowedWhenUseful": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "taskStateAuthorityRequired": true,
+    "objectIdentityAuthorityRequired": true,
+    "focusMovementAuthorityRequired": true,
+    "panePrimacyAuthorityRequired": true,
+    "providerTruthCreatedByMotion": false,
+    "objectIdentityCreatedByMotion": false,
+    "focusTargetCreatedByMotion": false,
+    "panePrimacyCreatedByMotion": false,
+    "actionExecutedByMotion": false,
+    "navigationExecutedByMotion": false,
+    "lifecyclePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "reducedMotionFallbackRequired": true,
+    "staticOrMinimalEquivalentRequired": true,
+    "accessibilityOutranksVisualRichness": true
+  },
+  "acceptanceBoundary": {
+    "sourceFoundationOnly": true,
+    "section28Complete": false,
+    "renderedAcceptanceRequired": true,
+    "assistiveTechnologyAcceptanceRequired": true,
+    "representativePlatformAcceptanceRequired": true,
+    "performanceAcceptanceRequired": true,
+    "motionFatigueAcceptanceRequired": true,
+    "humanReviewRequired": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "integrationFoundations": {
+    "retainedFocusMotion": "js/glaze-v1.6-focus-motion.dev.mjs",
+    "taskContinuity": "js/glaze-v1.7-task-continuity.dev.mjs",
+    "themeSemanticColor": "js/glaze-v1.7-theme-semantic-color.dev.mjs",
+    "studio": "js/glaze-v1.7-studio.dev.mjs"
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-continuity-aware-motion.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-continuity-aware-motion.dev.json",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-continuity-aware-motion.schema.json",
+  "title": "Glaze UI V1.7 Continuity-Aware Motion Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "planVersion",
+    "v11SpecificationSections",
+    "continuityEvents",
+    "principles",
+    "authority",
+    "accessibility",
+    "acceptanceBoundary",
+    "integrationFoundations",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "tokenMap",
+    "sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../schemas/v1.7-continuity-aware-motion.schema.json"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "contractId": {
+      "const": "goreecloud.glaze-ui.v1.7.continuity-aware-motion"
+    },
+    "name": {
+      "const": "Glaze UI V1.7 Continuity-Aware Motion Development Contract"
+    },
+    "version": {
+      "const": "1.7.0-dev.13"
+    },
+    "lifecycle": {
+      "const": "Development"
+    },
+    "stableBaseline": {
+      "const": "1.6.0"
+    },
+    "consumerEligible": {
+      "const": false
+    },
+    "planVersion": {
+      "const": "v1.1"
+    },
+    "v11SpecificationSections": {
+      "const": [
+        28
+      ]
+    },
+    "continuityEvents": {
+      "const": [
+        "surface-relocation",
+        "composition-change",
+        "retained-object-identity",
+        "focus-movement",
+        "pane-primacy-change",
+        "compact-expanded-transition",
+        "theme-change"
+      ]
+    },
+    "principles": {
+      "type": "object",
+      "minProperties": 8
+    },
+    "authority": {
+      "type": "object",
+      "minProperties": 13
+    },
+    "accessibility": {
+      "type": "object",
+      "minProperties": 4
+    },
+    "acceptanceBoundary": {
+      "type": "object",
+      "minProperties": 12
+    },
+    "integrationFoundations": {
+      "type": "object",
+      "minProperties": 4
+    },
+    "runtimeEntrypoint": {
+      "const": "js/glaze-v1.7-continuity-aware-motion.dev.mjs"
+    },
+    "developmentAggregateEntrypoint": {
+      "const": "js/glaze-v1.7-development.mjs"
+    },
+    "tokenMap": {
+      "const": "tokens/glaze-v1.7-continuity-aware-motion.dev.json"
+    },
+    "sourceAuthorities": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

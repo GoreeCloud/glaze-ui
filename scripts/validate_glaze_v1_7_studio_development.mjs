@@ -126,7 +126,12 @@ assert(glazeV17StudioDevelopmentContract.version==='1.7.0-dev.12','runtime contr
 assert(glazeV17StudioDevelopmentContract.section27Complete===false&&glazeV17StudioDevelopmentContract.consumerEligible===false,'runtime lifecycle overclaim');
 assert(glazeV17StudioDevelopmentContract.themeDraftPersistence===false&&glazeV17StudioDevelopmentContract.repositoryContractsReplaced===false,'runtime Studio boundary weakened');
 
-assert(glazeV17Development.version==='1.7.0-dev.12','aggregate version mismatch');
+const aggregateVersionParts=String(glazeV17Development.version).split('-dev.');
+const aggregateDevelopmentRevision=Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0]==='1.7.0' && Number.isInteger(aggregateDevelopmentRevision) && aggregateDevelopmentRevision>=12,
+  'aggregate Development version must retain or advance beyond Glaze Studio dev.12'
+);
 assert(glazeV17Development.lifecycle==='development'&&glazeV17Development.stableBaseline==='1.6.0'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 for(const n of [7,8,9,10,11,12,13,18,19,21,24,25,26,27])assert(glazeV17Development.planV11FoundationSections.includes(n),`aggregate missing v1.1 foundation ${n}`);
 assert(glazeV17Development.studioFoundation==='js/glaze-v1.7-studio.dev.mjs','aggregate missing dev.12 Studio foundation');
