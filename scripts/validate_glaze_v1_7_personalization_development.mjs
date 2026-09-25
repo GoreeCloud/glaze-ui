@@ -40,25 +40,28 @@ assert(lifecycle.plannedNext === null, 'V1.7 dev.5 must not mutate lifecycle pla
 
 assert(spec.includes('## 6. Advanced Theme Manager 2.0'), 'V1.7 specification missing Advanced Theme Manager 2.0 section');
 for (const phrase of [
-  'Light, Dark, Deep Dark, and Follow System appearance',
-  'Accent palette selection',
-  'Material intensity profiles',
-  'density profiles',
-  'Shape and geometry profiles',
-  'Motion-expression preferences',
+  'Follow System',
+  'Light',
+  'Dark',
+  'Deep Dark',
+  'Accent palettes',
+  'Material intensity',
+  'Density profiles',
+  'Governed geometry profiles',
+  'Motion-expression profiles',
   'Wallpaper-derived palettes',
-  'Application-identity-aware themes',
+  'Application-aware themes',
   'Preview-before-Apply',
-  'Reset to GoreeCloud defaults',
-  'Undo and theme history',
-  'Per-device theme overrides'
+  'Theme history',
+  'Undo',
+  'Per-device preferences'
 ]) {
-  assert(spec.includes(phrase), `V1.7 specification missing personalization requirement: ${phrase}`);
+  assert(spec.includes(phrase), `V1.7 v1.2 specification missing personalization requirement: ${phrase}`);
 }
 for (const role of ['security','privacy','warning','critical','destructive','restricted','protected','success']) {
   assert(spec.toLowerCase().includes(role), `V1.7 specification missing protected role: ${role}`);
 }
-assert(spec.includes('Theme and palette generation should remain local-first'), 'V1.7 specification missing local-first theme-generation requirement');
+assert(spec.includes('Theme generation should remain local-first.'), 'V1.7 v1.2 specification missing local-first theme-generation requirement');
 
 assert(fs.existsSync(path.join(root, 'IMPLEMENTED-FEATURES.md')), 'IMPLEMENTED-FEATURES.md is required');
 assert(fs.existsSync(path.join(root, 'PLANNED-FEATURES.md')), 'PLANNED-FEATURES.md is required');

@@ -63,16 +63,18 @@ assert(lifecycle.plannedNext === null, 'V1.7 dev.4 must not mutate lifecycle pla
 assert(spec.includes('## 5. Glaze Command Surface'), 'V1.7 specification missing Glaze Command Surface section');
 for (const phrase of [
   'Universal Search',
-  'application search',
-  'commands',
-  'contextual actions',
-  'navigation shortcuts',
-  'command palettes',
-  'remote-friendly command selection'
+  'Application search',
+  'Commands',
+  'Actions',
+  'Contextual actions',
+  'Navigation shortcuts',
+  'Keyboard command palettes',
+  'Touch search',
+  'Remote-friendly command selection'
 ]) {
-  assert(spec.includes(phrase), `V1.7 specification missing command-surface requirement: ${phrase}`);
+  assert(spec.includes(phrase), `V1.7 v1.2 specification missing command-surface requirement: ${phrase}`);
 }
-assert(spec.includes('Search scope, provider identity, provenance, availability, permissions, and authority must remain explicit.'), 'V1.7 command authority sentence missing');
+assert(spec.includes('Search scope, source, availability, provenance, and authority must remain explicit.'), 'V1.7 v1.2 command authority sentence missing');
 
 assert(fs.existsSync(path.join(root, 'IMPLEMENTED-FEATURES.md')), 'IMPLEMENTED-FEATURES.md is required');
 assert(fs.existsSync(path.join(root, 'PLANNED-FEATURES.md')), 'PLANNED-FEATURES.md is required');

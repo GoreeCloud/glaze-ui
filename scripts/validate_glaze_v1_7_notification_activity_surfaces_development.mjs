@@ -38,10 +38,11 @@ assert(lifecycle.activeCandidate === null, 'V1.7 dev.7 must not create an active
 assert(lifecycle.activePatchReleaseCandidate === null, 'V1.7 dev.7 must not create a patch RC');
 assert(lifecycle.plannedNext === null, 'V1.7 dev.7 must not mutate lifecycle plannedNext');
 
-assert(spec.includes('## 23. Notification and Activity Surfaces'), 'V1.7 v1.1 specification missing Notification and Activity Surfaces section');
-for (const phrase of ['GlzNotificationSurface','GlzActivityItem','GlzActivityGroup','GlzStatusFeed','GlzBackgroundTask','GlzProgressSurface','informational activity','background work','attention','warnings','critical state','requested progress','recoverable failure','security state','privacy state','Color should reinforce these states rather than replace symbols, text, or accessible descriptions']) {
-  assert(spec.includes(phrase), `V1.7 v1.1 specification missing Notification and Activity Surfaces requirement: ${phrase}`);
+assert(spec.includes('## 36. Notification and Activity Surfaces'), 'V1.7 v1.2 specification missing Notification and Activity Surfaces section');
+for (const phrase of ['GlzNotificationSurface','GlzActivityItem','GlzActivityGroup','GlzStatusFeed','GlzBackgroundTask','GlzProgressSurface']) {
+  assert(spec.includes(phrase), `V1.7 v1.2 specification missing Notification and Activity Surfaces component: ${phrase}`);
 }
+assert(spec.includes('Persistent pulsing should not become the default way to communicate attention.'), 'V1.7 v1.2 notification motion-fatigue boundary missing');
 
 assert(schema.$schema === 'https://json-schema.org/draft/2020-12/schema', 'schema must use JSON Schema 2020-12');
 assert(contract.$schema === '../../schemas/v1.7-notification-activity-surfaces.schema.json', 'contract schema binding mismatch');

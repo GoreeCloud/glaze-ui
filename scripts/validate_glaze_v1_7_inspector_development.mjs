@@ -28,13 +28,11 @@ assert(lifecycle.currentOfficial===stable&&lifecycle.currentStable===stable,'Sta
 assert(lifecycle.activeCandidate===null&&lifecycle.activePatchReleaseCandidate===null,'dev.11 must not create Candidate state');
 assert(lifecycle.plannedNext===null,'dev.11 must not mutate plannedNext');
 
-assert(spec.includes('## 26. Glaze Inspector'),'V1.7 v1.1 specification missing Glaze Inspector Section 26');
-for(const phrase of [
-  'component state','token provenance','semantic color resolution','theme resolution','material hierarchy',
-  'accessibility overrides','focus behavior','input mapping','adaptive layout resolution','form-factor previews',
-  'target sizes','authority boundaries','migration state',
-  'semantic state, product identity, the user theme, context, accessibility, or a Glaze fallback'
-]) assert(spec.includes(phrase),`Section 26 requirement missing: ${phrase}`);
+assert(spec.includes('## 39. Glaze Inspector'),'V1.7 v1.2 specification missing Glaze Inspector Section 39');
+assert(spec.includes('dev.8–dev.13 use the prior v1.1 35-section numbering'),'v1.2 plan must preserve v1.1 implementation-numbering provenance');
+for(const phrase of ['Theme resolution','Semantic color resolution','Material resolution','Focus state','Accessibility overrides']) {
+  assert(spec.includes(phrase),`V1.7 v1.2 Inspector requirement missing: ${phrase}`);
+}
 
 assert(schema.$schema==='https://json-schema.org/draft/2020-12/schema','schema version mismatch');
 assert(contract.version==='1.7.0-dev.11'&&contract.lifecycle==='Development'&&contract.consumerEligible===false,'contract lifecycle mismatch');

@@ -4,6 +4,11 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Expanded `GLAZE_UI_V1_7_PLANNED.md` to planning revision v1.2 with 47 sections and the theme **Interaction Continuity + Personal Expression + Signature Motion**.
+- Added the Glaze Signature Motion System, ten named transition families (Bloom, Flow, Lift, Veil, Fold, Trace, Settle, Focus Transfer, Color Shift, Material Shift), Connected Transformation 2.0, adaptive-composition motion, signature microinteractions, theme transitions, motion-expression profiles, Reduced Motion equivalents, motion-fatigue protection, motion performance, and explicit Glaze Motion lifecycle reconciliation.
+- Added a strict numbering-provenance boundary: dev.1–dev.7 remain v1.0-plan evidence and dev.8–dev.13 remain v1.1-plan evidence. Historical dev.13 “v1.1 Section 28 Continuity-Aware Motion” must not be reinterpreted as v1.2 Section 28 Theme Transition System or as completion of newly added Signature Motion requirements.
+- Preserved GLAZE UI V1.6 / `1.6.0` as current Official Stable; the planning expansion does not change lifecycle state, consumer eligibility, release evidence, deployment, or production acceptance.
+
 - Added the bounded `1.7.0-dev.13` Continuity-Aware Motion Development foundation for V1.7 v1.1 Section 28.
 - Extended the retained V1.6 focus/motion resolver with continuity events for surface relocation, composition change, retained object identity, focus movement, pane primacy changes, compact/expanded transitions, and bounded theme changes.
 - Added continuity explanations and Task Continuity preservation while requiring authoritative object-identity, focus-target, and pane-primacy claims instead of inventing them.

@@ -27,20 +27,11 @@ assert(lifecycle.currentOfficial===stable&&lifecycle.currentStable===stable,'Sta
 assert(lifecycle.activeCandidate===null&&lifecycle.activePatchReleaseCandidate===null,'dev.13 must not create Candidate state');
 assert(lifecycle.plannedNext===null,'dev.13 must not mutate plannedNext');
 
-assert(spec.includes('## 28. Continuity-Aware Motion'),'V1.7 v1.1 specification missing Continuity-Aware Motion Section 28');
-for(const phrase of [
-  'motion should primarily explain continuity',
-  'where a surface moved',
-  'why a composition changed',
-  'which object retained identity',
-  'where focus moved',
-  'which pane became primary',
-  'compact and expanded presentation',
-  'Theme changes may transition color and material where useful',
-  'large continuous rainbow effects',
-  'decorative animation should not become defaults',
-  'Reduced Motion must provide equivalent static or minimally animated state transitions'
-]) assert(spec.includes(phrase),`Section 28 requirement missing: ${phrase}`);
+assert(spec.includes('dev.13\'s “v1.1 Section 28 Continuity-Aware Motion” is historical implementation provenance'),'v1.2 plan must preserve dev.13 v1.1 provenance');
+for(const heading of ['## 22. Glaze Signature Motion System','## 26. Adaptive Composition Motion','## 28. Theme Transition System','## 31. Reduced Motion Equivalents','## 34. Glaze Motion Lifecycle']) {
+  assert(spec.includes(heading),`V1.7 v1.2 motion reconciliation area missing: ${heading}`);
+}
+assert(spec.includes('### Glaze Focus Transfer'),'V1.7 v1.2 must retain focus-transfer motion semantics');
 
 assert(schema.$schema==='https://json-schema.org/draft/2020-12/schema','schema version mismatch');
 assert(contract.version==='1.7.0-dev.13'&&contract.lifecycle==='Development'&&contract.consumerEligible===false,'contract lifecycle mismatch');

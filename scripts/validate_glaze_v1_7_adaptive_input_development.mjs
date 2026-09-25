@@ -61,12 +61,9 @@ assert(lifecycle.activePatchReleaseCandidate === null, 'V1.7 dev.2 must not crea
 assert(lifecycle.plannedNext === null, 'V1.7 dev.2 must not mutate lifecycle plannedNext');
 
 assert(spec.includes('## 2. Adaptive Input 2.0'), 'V1.7 specification missing Adaptive Input 2.0 section');
-assert(spec.includes('touch, pointer, keyboard, stylus'), 'V1.7 specification missing touch/input requirement');
-assert(spec.includes('remote/D-pad'), 'V1.7 specification missing remote/D-pad requirement');
-assert(spec.includes('rotary input'), 'V1.7 specification missing rotary input requirement');
-assert(spec.includes('switch access'), 'V1.7 specification missing switch-access requirement');
-assert(spec.includes('voice access'), 'V1.7 specification missing voice-access requirement');
-assert(spec.includes('assistive input systems'), 'V1.7 specification missing assistive-input requirement');
+for (const inputLabel of ['Touch','Pointer','Keyboard','Stylus','Remote/D-pad','Rotary input','Switch access','Voice access','Assistive input systems']) {
+  assert(spec.includes(inputLabel), `V1.7 v1.2 specification missing input requirement: ${inputLabel}`);
+}
 
 assert(fs.existsSync(path.join(root, 'IMPLEMENTED-FEATURES.md')), 'IMPLEMENTED-FEATURES.md is required');
 assert(fs.existsSync(path.join(root, 'PLANNED-FEATURES.md')), 'PLANNED-FEATURES.md is required');
