@@ -1,0 +1,63 @@
+{
+  "version": "1.7.0-dev.14",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [22],
+  "motionPillars": [
+    "continuity",
+    "depth",
+    "material",
+    "precision",
+    "quiet-settling"
+  ],
+  "relationshipDefaults": {
+    "same-object-expansion": {"signatureFamily": "Glaze Bloom", "baseFamily": "expand", "magnitude": "medium", "hierarchy": "primary", "requiresObjectIdentityAuthority": true},
+    "workspace-recomposition": {"signatureFamily": "Glaze Flow", "baseFamily": "move", "magnitude": "medium", "hierarchy": "primary", "requiresObjectIdentityAuthority": false},
+    "transient-elevation": {"signatureFamily": "Glaze Lift", "baseFamily": "enter", "magnitude": "small", "hierarchy": "secondary", "requiresObjectIdentityAuthority": false},
+    "context-overlay": {"signatureFamily": "Glaze Veil", "baseFamily": "enter", "magnitude": "medium", "hierarchy": "primary", "requiresObjectIdentityAuthority": false},
+    "posture-partition": {"signatureFamily": "Glaze Fold", "baseFamily": "reorder", "magnitude": "medium", "hierarchy": "primary", "requiresObjectIdentityAuthority": false},
+    "source-destination-continuity": {"signatureFamily": "Glaze Trace", "baseFamily": "move", "magnitude": "small", "hierarchy": "secondary", "requiresObjectIdentityAuthority": true},
+    "direct-manipulation-settle": {"signatureFamily": "Glaze Settle", "baseFamily": "move", "magnitude": "small", "hierarchy": "secondary", "requiresObjectIdentityAuthority": false},
+    "focus-transfer": {"signatureFamily": "Glaze Focus Transfer", "baseFamily": "focus", "magnitude": "micro", "hierarchy": "primary", "requiresObjectIdentityAuthority": false},
+    "color-state-change": {"signatureFamily": "Glaze Color Shift", "baseFamily": "replace", "magnitude": "micro", "hierarchy": "secondary", "requiresObjectIdentityAuthority": false},
+    "material-role-change": {"signatureFamily": "Glaze Material Shift", "baseFamily": "replace", "magnitude": "small", "hierarchy": "secondary", "requiresObjectIdentityAuthority": false}
+  },
+  "requestPolicy": {
+    "semanticRelationshipRequired": true,
+    "semanticRelationshipAuthorityRequired": true,
+    "arbitraryFamilyInputAllowed": false,
+    "rawDurationInputAllowed": false,
+    "rawEasingInputAllowed": false,
+    "rawSpringInputAllowed": false,
+    "rawPhysicsInputAllowed": false
+  },
+  "fallback": {
+    "signatureFamily": "Standard transition",
+    "baseFamily": "replace",
+    "magnitude": "micro",
+    "hierarchy": "secondary",
+    "reason": "unconfirmed-semantic-relationship"
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "equivalentPresentationRequired": true,
+    "directManipulationTrackingPreserved": true,
+    "motionRequiredToUnderstandState": false
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "providerTruthCreatedByGlaze": false,
+    "relationshipCreatedByGlaze": false,
+    "objectIdentityCreatedByGlaze": false,
+    "stateDependsOnAnimationCompletion": false,
+    "glazeMotionExperimentalLifecyclePromoted": false,
+    "section22Complete": false,
+    "section23Complete": false,
+    "section24ChoreographyComplete": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  }
+}
