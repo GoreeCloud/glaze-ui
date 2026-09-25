@@ -128,6 +128,19 @@ const untrustedIdentity=resolveGlazeSignatureMotion({
 assert(untrustedIdentity.signature.signatureFamilyApplied===false,'connected identity motion must require authoritative identity');
 assert(untrustedIdentity.request.objectIdentity.accepted===null&&untrustedIdentity.request.objectIdentity.withheldWithoutAuthority===true,'untrusted object identity must be withheld');
 
+for(const relationship of identityRelationships){
+  for(const objectIdentity of [undefined,null,'','   ']){
+    const missingIdentity=resolveGlazeSignatureMotion({
+      relationship,relationshipAuthoritative:true,
+      objectIdentity,objectIdentityAuthoritative:true
+    });
+    assert(missingIdentity.signature.signatureFamilyApplied===false,'missing identity must not receive connected Signature Motion');
+    assert(missingIdentity.request.acceptedRelationship===null,'missing identity must withhold the connected relationship');
+    assert(missingIdentity.motion.family==='replace','missing identity must use standard replacement');
+    assert(missingIdentity.continuity.conceptualIdentitySame===false,'missing identity must not assert object continuity');
+  }
+}
+
 const reduced=resolveGlazeSignatureMotion({
   relationship:'same-object-expansion',
   relationshipAuthoritative:true,
