@@ -92,6 +92,8 @@ jobs:
           assert manifest["platform_systems"]["glaze_ui"]["version"] == "1.6.0"
           assert lifecycle["currentStable"] == "1.6.0"
           assert lifecycle["currentOfficial"] == "1.6.0"
+          assert lifecycle["currentLifecycle"] == "anchor"
+          assert lifecycle["lifecycleVocabulary"] == "goreecloud-release-lifecycle/v0.7"
           assert lifecycle["activeCandidate"] is None
           assert result["evaluated_revision"] == __import__("os").environ["EXPECTED_SHA"]
           assert result["evaluator_revision"] == __import__("os").environ["PLATFORM_CONTRACT_SHA"]
@@ -109,6 +111,7 @@ jobs:
           for entry in manifest["evidence"]["release"]:
               evidence_paths.add(entry["path"])
           evidence_paths.update(manifest["conformance"]["evidence"])
+          evidence_paths.update(manifest["lifecycle_metadata"]["evidence"])
 
           missing = sorted(path for path in evidence_paths if not Path(path).is_file())
           if missing:
