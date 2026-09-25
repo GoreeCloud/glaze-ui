@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-glaze-studio.schema.json",
+  "title": "Glaze UI V1.7 Glaze Studio Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline","consumerEligible",
+    "planVersion","v11SpecificationSections","explorationAxes","sessionRoles","appearanceModes",
+    "expressionModes","sceneStates","studioCapabilities","authority","privacy","acceptanceBoundary",
+    "integrationFoundations","runtimeEntrypoint","developmentAggregateEntrypoint","tokenMap","sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-glaze-studio.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.glaze-studio"},
+    "name": {"const": "Glaze UI V1.7 Glaze Studio Development Contract"},
+    "version": {"const": "1.7.0-dev.12"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "planVersion": {"const": "v1.1"},
+    "v11SpecificationSections": {"const": [27]},
+    "explorationAxes": {"type":"array","minItems":14,"maxItems":14,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "sessionRoles": {"type":"array","minItems":3,"maxItems":3,"uniqueItems":true,"items":{"type":"string"}},
+    "appearanceModes": {"type":"array","minItems":4,"uniqueItems":true,"items":{"type":"string"}},
+    "expressionModes": {"type":"array","minItems":3,"uniqueItems":true,"items":{"type":"string"}},
+    "sceneStates": {"type":"array","minItems":8,"uniqueItems":true,"items":{"type":"string"}},
+    "studioCapabilities": {"type":"object","minProperties":20},
+    "authority": {"type":"object","minProperties":13},
+    "privacy": {"type":"object","minProperties":7},
+    "acceptanceBoundary": {"type":"object","minProperties":11},
+    "integrationFoundations": {"type":"object","minProperties":5},
+    "runtimeEntrypoint": {"const":"js/glaze-v1.7-studio.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap": {"const":"tokens/glaze-v1.7-studio.dev.json"},
+    "sourceAuthorities": {"type":"array","minItems":4,"uniqueItems":true,"items":{"type":"string","minLength":1}}
+  }
+}

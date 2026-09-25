@@ -1,0 +1,56 @@
+{
+  "version": "1.7.0-dev.12",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "v11SpecificationSections": [27],
+  "explorationAxes": [
+    "components",
+    "semantic-states",
+    "theme-presets",
+    "user-created-themes",
+    "color-families",
+    "appearance-modes",
+    "expression-modes",
+    "form-factors",
+    "adaptive-layouts",
+    "motion",
+    "loading-behavior",
+    "error-states",
+    "accessibility-configurations",
+    "platform-mappings"
+  ],
+  "sessionRoles": ["designer", "developer", "reviewer"],
+  "appearanceModes": ["light", "dark", "deep-dark", "follow-system"],
+  "expressionModes": ["calm", "balanced", "expressive"],
+  "sceneStates": ["default", "loading", "error", "warning", "success", "disabled", "selected", "focused"],
+  "themeDraft": {
+    "localOnly": true,
+    "executableCodeAllowed": false,
+    "remoteTrackersAllowed": false,
+    "protectedSemanticOverrideAllowed": false,
+    "persistenceAutomatic": false,
+    "applyAutomatic": false
+  },
+  "preview": {
+    "renderedEvidenceClaimed": false,
+    "nativeAcceptanceClaimed": false,
+    "assistiveTechnologyAcceptanceClaimed": false,
+    "performanceAcceptanceClaimed": false,
+    "humanReviewClaimed": false
+  },
+  "boundaries": {
+    "advisoryOnly": true,
+    "sourceMutationAutomatic": false,
+    "themePersistenceAutomatic": false,
+    "providerTruthInvented": false,
+    "themeManagerReplaced": false,
+    "repositoryContractsReplaced": false,
+    "section27Complete": false,
+    "consumerEligibilityAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  }
+}

@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.12` Glaze Studio Development foundation for V1.7 v1.1 Section 27.
+- Added local design/review sessions, Inspector-backed scene exploration, preview-only theme drafts, and bounded comparisons across components, semantic states, appearance/expression modes, form factors, adaptive layouts, motion, loading/error states, accessibility configurations, and platform mappings.
+- Added optional Native Glaze Kit mapping previews while marking simulated Studio states as non-authoritative and preserving provider/platform truth ownership.
+- Kept Theme Manager as the end-user personalization interface and repository contracts as authority; Studio does not persist/apply theme drafts automatically, mutate source, execute application actions, grant acceptance, or claim rendered/native/assistive-technology/performance/human-review evidence.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.12` while retaining V1.6 / `1.6.0` as Official Stable and keeping Section 27 incomplete pending separate qualification.
+
 - Added the bounded `1.7.0-dev.11` Glaze Inspector Development foundation for V1.7 v1.1 Section 26.
 - Added explainable inspection across component state, token provenance, semantic color/theme resolution, material hierarchy, accessibility overrides, focus/input mapping, adaptive layout, form-factor previews, supplied target-size evidence, authority boundaries, and migration state.
 - Added six resolution-provenance sources—semantic state, product identity, user theme, context, accessibility, and Glaze fallback—without creating provider truth or mutating source.
