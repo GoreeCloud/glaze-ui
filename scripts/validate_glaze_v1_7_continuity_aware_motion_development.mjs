@@ -114,7 +114,8 @@ assert(glazeV17ContinuityAwareMotionDevelopmentContract.version==='1.7.0-dev.13'
 assert(glazeV17ContinuityAwareMotionDevelopmentContract.section28Complete===false&&glazeV17ContinuityAwareMotionDevelopmentContract.consumerEligible===false,'runtime lifecycle overclaim');
 assert(glazeV17ContinuityAwareMotionDevelopmentContract.reducedMotionPrecedence===true,'runtime Reduced Motion boundary weakened');
 
-assert(glazeV17Development.version==='1.7.0-dev.13','aggregate version mismatch');
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\\.7\\.0-dev\\.(\\d+)$/)?.[1]);
+assert(Number.isInteger(aggregateOrdinal)&&aggregateOrdinal>=13,'aggregate version regressed below dev.13');
 assert(glazeV17Development.lifecycle==='development'&&glazeV17Development.stableBaseline==='1.6.0'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 for(const n of [7,8,9,10,11,12,13,18,19,21,24,25,26,27,28])assert(glazeV17Development.planV11FoundationSections.includes(n),`aggregate missing v1.1 foundation ${n}`);
 assert(glazeV17Development.continuityAwareMotionFoundation==='js/glaze-v1.7-continuity-aware-motion.dev.mjs','aggregate missing dev.13 motion foundation');
