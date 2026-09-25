@@ -1,4 +1,4 @@
-schema_version: "0.4"
+schema_version: "2.0"
 
 component:
   type: shared-library
@@ -6,7 +6,34 @@ component:
   product_name: GLAZE UI
   repository: GoreeCloud/glaze-ui
 
-lifecycle: stable
+lifecycle: anchor
+lifecycle_metadata:
+  flags: []
+  deployment_state: normal-production
+  qualification_state: passed
+  next_gate: sunset
+  candidate_identity:
+    source_revision: a7180679ea851389e0f3004515f9a25f420e716d
+    review_identity: "1.6.0-rc.1 / acceptance/v1.6-stable-qualification-review.json"
+    build_identity: "GitHub Actions run 35447623700"
+    artifact_name: glaze-ui-v1.6.0-source-runtime.tar.gz
+    artifact_digest: "sha256:687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af"
+    container_digest: null
+    package_identity: "GitHub Release 392095913 / tag v1.6.0"
+    sbom_identity: "cyclonedx-1.5.json sha256:3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82"
+    schema_migration_identity: null
+    configuration_boundary: "source-distributed shared-library publication boundary"
+    dependency_state: "selected 206-component dependency graph accepted with 0 OSV advisories"
+    previous_known_good: "1.5.1"
+    rollback_target: "glaze-ui==1.5.1"
+  last_transition: "2026-09-19T14:20:12Z"
+  evidence:
+    - acceptance/v1.6-anchor-reclassification-review.json
+    - acceptance/v1.6-stable.json
+    - acceptance/v1.6-stable-qualification-review.json
+    - acceptance/v1.6-final-security-acceptance.json
+    - acceptance/v1.6-production-applicability.json
+    - acceptance/v1.6-artifact-provenance-plan.json
 version: 1.6.0
 
 supported_platforms:
@@ -113,10 +140,10 @@ continuity:
 external_dependencies: []
 
 compatibility:
-  platform_contract: "0.4"
+  platform_contract: "2.0"
   glaze_ui_required: 1.6.0
   requires:
-    - goreecloud-platform-contract==0.4
+    - goreecloud-platform-contract==2.0
     - glaze-ui-stable-baseline==1.6.0
   provides:
     - glaze-ui-runtime==1.6.0
@@ -202,12 +229,14 @@ conformance:
   status: conformant
   validated_at: "2026-09-19T14:20:12Z"
   evidence:
+    - acceptance/v1.6-anchor-reclassification-review.json
     - acceptance/v1.6-stable.json
     - acceptance/v1.6-stable-qualification-review.json
     - acceptance/v1.6-final-security-acceptance.json
     - acceptance/v1.6-artifact-provenance-plan.json
   blockers: []
 
-# This manifest represents the governed GLAZE UI V1.6.0 Stable shared-library authority.
-# Contract 0.4 validates this repository against the current Stable Glaze consumer target 1.6.0.
+# This manifest represents the governed GLAZE UI V1.6.0 Anchor shared-library authority.
+# Platform Contract 2.0 records the canonical Anchor lifecycle while retaining legacy Stable evidence as provenance.
+# The currentStable field and Stable-named evidence remain compatibility/history records and do not replace canonical lifecycle.
 # Downstream consumer migration, repository-local acceptance, deployment, and production acceptance remain separate obligations.
