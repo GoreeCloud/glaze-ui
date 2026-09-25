@@ -4,6 +4,8 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Reconciled V1.6 consumer-registry notes with current downstream source state: Launcher, Monitor, and Wardveil carry bounded V1.6.0 source mappings while remaining acceptance-blocked; Privacy Center still carries a pre-reset 2.1.0 implementation and remains migration-required. No consumer status or production eligibility was promoted.
+
 - Reconciled the V1.6 consumer registry to the live `GoreeCloud/launcher`, `GoreeCloud/monitor`, `GoreeCloud/wardveil`, and `GoreeCloud/privacy-shield` repository identities and added Gallery, Notify, and Since as `adoption-required` / production-ineligible consumers; no downstream acceptance or lifecycle promotion is implied.
 
 - Added the bounded `1.7.0-dev.14` Glaze Signature Motion System Development foundation as the first V1.7 source tranche explicitly bound to plan v1.2, covering Section 22 only.
