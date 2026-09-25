@@ -19,11 +19,14 @@ assert.equal(read('VERSION').trim(), VERSION);
 const lifecycle = json('registry/lifecycle.json');
 assert.equal(lifecycle.currentOfficial, VERSION);
 assert.equal(lifecycle.currentStable, VERSION);
+assert.equal(lifecycle.currentLifecycle, 'anchor');
+assert.equal(lifecycle.lifecycleVocabulary, 'goreecloud-release-lifecycle/v0.7');
 assert.equal(lifecycle.activeCandidate, null);
 
 const stable = lifecycle.releases.find(item => item.version === VERSION);
 assert.ok(stable);
 assert.equal(stable.status, 'stable');
+assert.equal(stable.lifecycle, 'anchor');
 assert.equal(stable.consumerEligible, true);
 assert.equal(stable.stableBaseline, ROLLBACK);
 assert.equal(stable.contract, 'contracts/v1.6/stable-release.json');
@@ -42,6 +45,14 @@ assert.ok(rc);
 assert.equal(rc.status, 'superseded-release-candidate');
 assert.equal(rc.consumerEligible, false);
 assert.equal(rc.sourceQualificationAnchor, QUALIFIED);
+
+const anchorReview = json('acceptance/v1.6-anchor-reclassification-review.json');
+assert.equal(anchorReview.decision, 'approved-for-anchor-reclassification');
+assert.equal(anchorReview.canonicalLifecycle, 'anchor');
+assert.equal(anchorReview.qualificationState, 'passed');
+assert.deepEqual(anchorReview.blockers, []);
+assert.equal(anchorReview.exactReleaseIdentity.acceptedReleaseSource, RELEASE_SOURCE);
+assert.equal(anchorReview.exactReleaseIdentity.acceptedReleaseTree, RELEASE_TREE);
 
 const review = json('acceptance/v1.6-stable-qualification-review.json');
 assert.equal(review.targetStableVersion, VERSION);
@@ -169,7 +180,10 @@ assert.ok(consumers.consumers.every(item => item.requiredTargetVersion === VERSI
 assert.ok(consumers.consumers.every(item => item.productionEligible === false));
 
 const manifest = read('goreecloud.platform.yaml');
-assert.ok(manifest.includes('lifecycle: stable'));
+assert.ok(manifest.includes('schema_version: "2.0"'));
+assert.ok(manifest.includes('lifecycle: anchor'));
+assert.ok(manifest.includes('qualification_state: passed'));
+assert.ok(manifest.includes('goreecloud-platform-contract==2.0'));
 assert.ok(manifest.includes('version: 1.6.0'));
 assert.ok(manifest.includes('status: conformant'));
 assert.ok(manifest.includes('result: published'));
