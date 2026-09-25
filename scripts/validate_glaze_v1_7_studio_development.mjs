@@ -27,9 +27,10 @@ assert(lifecycle.currentOfficial===stable&&lifecycle.currentStable===stable,'Sta
 assert(lifecycle.activeCandidate===null&&lifecycle.activePatchReleaseCandidate===null,'dev.12 must not create Candidate state');
 assert(lifecycle.plannedNext===null,'dev.12 must not mutate plannedNext');
 
-assert(spec.includes('## 27. Glaze Studio'),'V1.7 v1.1 specification missing Glaze Studio Section 27');
-for(const phrase of ['interactive design and review capabilities','theme presets','user-created themes','appearance modes','expression modes','adaptive layouts','loading behavior','error states','accessibility configurations','platform mappings','Theme Manager remains the end-user personalization interface','does not replace repository-governed contracts']){
-  assert(spec.includes(phrase),`Section 27 requirement missing: ${phrase}`);
+assert(spec.includes('## 40. Glaze Studio'),'V1.7 v1.2 specification missing Glaze Studio Section 40');
+assert(spec.includes('dev.8–dev.13 use the prior v1.1 35-section numbering'),'v1.2 plan must preserve v1.1 implementation-numbering provenance');
+for(const phrase of ['Signature transitions','Motion profiles','Components','Themes','Accessibility modes','Input models','Semantic states']) {
+  assert(spec.includes(phrase),`V1.7 v1.2 Studio requirement missing: ${phrase}`);
 }
 
 assert(schema.$schema==='https://json-schema.org/draft/2020-12/schema','schema version mismatch');
