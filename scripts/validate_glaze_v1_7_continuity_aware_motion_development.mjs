@@ -27,7 +27,7 @@ assert(lifecycle.currentOfficial===stable&&lifecycle.currentStable===stable,'Sta
 assert(lifecycle.activeCandidate===null&&lifecycle.activePatchReleaseCandidate===null,'dev.13 must not create Candidate state');
 assert(lifecycle.plannedNext===null,'dev.13 must not mutate plannedNext');
 
-assert(spec.includes('dev.13\'s “v1.1 Section 28 Continuity-Aware Motion” is historical implementation provenance'),'v1.2 plan must preserve dev.13 v1.1 provenance');
+assert(spec.includes("dev.13's “v1.1 Section 28 Continuity-Aware Motion”")&&spec.includes('must **not** be reinterpreted as v1.2 Section 28 Theme Transition System'),'v1.2 plan must preserve dev.13 v1.1 provenance');
 for(const heading of ['## 22. Glaze Signature Motion System','## 26. Adaptive Composition Motion','## 28. Theme Transition System','## 31. Reduced Motion Equivalents','## 34. Glaze Motion Lifecycle']) {
   assert(spec.includes(heading),`V1.7 v1.2 motion reconciliation area missing: ${heading}`);
 }
@@ -114,7 +114,7 @@ assert(glazeV17ContinuityAwareMotionDevelopmentContract.version==='1.7.0-dev.13'
 assert(glazeV17ContinuityAwareMotionDevelopmentContract.section28Complete===false&&glazeV17ContinuityAwareMotionDevelopmentContract.consumerEligible===false,'runtime lifecycle overclaim');
 assert(glazeV17ContinuityAwareMotionDevelopmentContract.reducedMotionPrecedence===true,'runtime Reduced Motion boundary weakened');
 
-const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\\.7\\.0-dev\\.(\\d+)$/)?.[1]);
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\.7\.0-dev\.(\d+)$/)?.[1]);
 assert(Number.isInteger(aggregateOrdinal)&&aggregateOrdinal>=13,'aggregate version regressed below dev.13');
 assert(glazeV17Development.lifecycle==='development'&&glazeV17Development.stableBaseline==='1.6.0'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 for(const n of [7,8,9,10,11,12,13,18,19,21,24,25,26,27,28])assert(glazeV17Development.planV11FoundationSections.includes(n),`aggregate missing v1.1 foundation ${n}`);
