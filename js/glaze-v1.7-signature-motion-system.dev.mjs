@@ -95,7 +95,8 @@ export function resolveGlazeSignatureMotion(input={}){
   const {relationship,definition}=relationshipEntry(input.relationship);
   const relationshipAuthoritative=input.relationshipAuthoritative===true;
   const objectIdentity=supplied(bounded(input.objectIdentity),input.objectIdentityAuthoritative);
-  const identityAuthoritySatisfied=!definition.requiresObjectIdentityAuthority||objectIdentity.authoritative;
+  const identityAuthoritySatisfied=!definition.requiresObjectIdentityAuthority
+    ||(objectIdentity.authoritative&&objectIdentity.accepted!==null);
   const signatureFamilyApplied=relationshipAuthoritative&&identityAuthoritySatisfied;
 
   const baseFamily=signatureFamilyApplied?definition.baseFamily:'replace';
