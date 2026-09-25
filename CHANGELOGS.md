@@ -4,6 +4,8 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Reconciled the V1.6 consumer registry to the live `GoreeCloud/launcher`, `GoreeCloud/monitor`, `GoreeCloud/wardveil`, and `GoreeCloud/privacy-shield` repository identities and added Gallery, Notify, and Since as `adoption-required` / production-ineligible consumers; no downstream acceptance or lifecycle promotion is implied.
+
 - Added the bounded `1.7.0-dev.14` Glaze Signature Motion System Development foundation as the first V1.7 source tranche explicitly bound to plan v1.2, covering Section 22 only.
 - Added ten authoritative semantic relationship requests mapped to the ten named Signature Motion families—Bloom, Flow, Lift, Veil, Fold, Trace, Settle, Focus Transfer, Color Shift, and Material Shift—while rejecting arbitrary raw family, duration, easing, spring, physics, and keyframe inputs.
 - Preserved fail-closed relationship/object-identity authority, Reduced Motion precedence, direct-manipulation tracking, retained V1.6 motion-budget protection, non-blocking final state, and presentation-only authority.
