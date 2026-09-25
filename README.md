@@ -1,6 +1,8 @@
 # GLAZE UI V1.6
 
-GLAZE UI V1.6 is GoreeCloud's current Official, Stable, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, and adaptive presentation must remain truthful.** Machine version: **1.6.0**.
+GLAZE UI V1.6 is GoreeCloud's current Official, **Anchor**, consumer-eligible shared visual and interaction design system. **Beauty is a requirement, and adaptive presentation must remain truthful.** Machine version: **1.6.0**.
+
+The canonical GoreeCloud lifecycle for the exact 1.6.0 release is **Anchor** under Platform Contract 2.0. Stable-named V1.6 evidence files, the `currentStable` compatibility field, and historical Stable wording are retained as release-channel/provenance records from the qualification that established this exact release; they are not a second current lifecycle.
 
 ## Core rules
 
@@ -8,7 +10,7 @@ GLAZE UI V1.6 is GoreeCloud's current Official, Stable, consumer-eligible shared
 
 V1.6 builds on the complete V1.5.1 Stable baseline with qualified semantic loading and Skeleton Motion, expanded state/accessibility behavior, focus and motion governance, material/type/input refinement, resilience and feedback, navigation/status truth, component systems, experience governance, performance diagnostics, and conformance/adoption controls. The frozen V1.6 qualification matrix is complete at **24 verified / 0 unverified / 0 not applicable**.
 
-## Stable source authority
+## Anchor source authority — retained Stable qualification evidence
 
 - `VERSION` — `1.6.0`
 - `contracts/v1.6/stable-release.json` — current Stable release contract

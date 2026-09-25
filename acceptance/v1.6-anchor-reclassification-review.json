@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "recordId": "goreecloud.glaze-ui.v1.6.anchor-reclassification-review",
+  "recordType": "anchor-lifecycle-reclassification-review",
+  "product": "GLAZE UI V1.6",
+  "version": "1.6.0",
+  "reviewedOn": "2026-09-25",
+  "decision": "approved-for-anchor-reclassification",
+  "canonicalLifecycle": "anchor",
+  "qualificationState": "passed",
+  "migrationNature": "terminology-and-platform-contract-migration-only",
+  "governance": {
+    "releaseLifecycle": {
+      "record": "Standard — Application and Service Release Lifecycle",
+      "version": "v0.7",
+      "canonicalLifecycle": [
+        "seed",
+        "lab",
+        "forge",
+        "weave",
+        "seal",
+        "anchor",
+        "sunset",
+        "archive"
+      ]
+    },
+    "anchorQualification": {
+      "record": "Standard — Anchor Release Qualification",
+      "version": "v0.6",
+      "status": "Draft",
+      "authoritative": true
+    },
+    "platformContract": {
+      "record": "Instructions — System-Wide Platform Contract",
+      "version": "v2.0",
+      "implementationRepository": "GoreeCloud/GoreeCloud",
+      "implementationRevision": "32cfe6395f6e4bc4872a99e8d0c666ea0b1ed7b8"
+    }
+  },
+  "reviewedRepositoryState": {
+    "repository": "GoreeCloud/glaze-ui",
+    "authoritativeBranch": "main",
+    "reviewedMainRevision": "6204616779b33b36175c1b396fdf69db526167c7",
+    "currentVersion": "1.6.0",
+    "legacyLifecycleDeclaration": "stable",
+    "currentOfficial": "1.6.0",
+    "currentStableCompatibilityField": "1.6.0",
+    "activeCandidate": null
+  },
+  "exactReleaseIdentity": {
+    "retainedSealEquivalent": "1.6.0-rc.1",
+    "qualificationSource": "c7509c79256b04b0aa67cb9dd0737d7588e0ae4a",
+    "qualificationEvidenceIntegrationCommit": "354f5759385c28596fcfec26a3ad525e89fb1c35",
+    "acceptedReleaseSource": "a7180679ea851389e0f3004515f9a25f420e716d",
+    "acceptedReleaseTree": "9ff0bf7a5f9d64f109d99bf4b76b81bd2a162268",
+    "tag": "v1.6.0",
+    "githubReleaseId": 392095913,
+    "artifact": "glaze-ui-v1.6.0-source-runtime.tar.gz",
+    "artifactSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
+    "sbomSha256": "3ffbb8bfe372d20642cd58f34fc0faaec2a74657d90e10742b75c5adf52dde82",
+    "provenanceSha256": "711b58d5854085fb104dbae8bb5e7f7cfe4e8846e2e1fb314441c5212821ddd8",
+    "rollbackTarget": "1.5.1"
+  },
+  "currentEvidenceReview": {
+    "qualificationMatrix": {
+      "verified": 24,
+      "unverified": 0,
+      "notApplicable": 0,
+      "result": "passed"
+    },
+    "stableQualificationReview": {
+      "record": "acceptance/v1.6-stable-qualification-review.json",
+      "remainingBlockers": 0,
+      "result": "passed"
+    },
+    "finalSecurityAcceptance": {
+      "record": "acceptance/v1.6-final-security-acceptance.json",
+      "result": "passed"
+    },
+    "publicationReadback": {
+      "record": "acceptance/v1.6-stable.json",
+      "result": "passed"
+    },
+    "productionApplicability": {
+      "record": "acceptance/v1.6-production-applicability.json",
+      "result": "passed-shared-library-publication-boundary"
+    },
+    "nineIntegralPlatformSystems": {
+      "evaluated": true,
+      "result": "passed-or-justified-not-applicable"
+    },
+    "conformance": {
+      "status": "conformant",
+      "blockers": []
+    }
+  },
+  "livePublicationReadback": {
+    "tagResolvedToAcceptedSource": true,
+    "githubReleasePresent": true,
+    "releaseDraft": false,
+    "releasePrerelease": false,
+    "assetDigestsMatchRetainedAcceptance": true
+  },
+  "authorityBoundary": {
+    "directServiceDeploymentApplicable": false,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "downstreamProductionAcceptanceAutomatic": false,
+    "runtimeOrArtifactBytesChangedByThisMigration": false,
+    "historicalStableEvidenceRewritten": false,
+    "legacyStableCompatibilityFieldsRetained": true
+  },
+  "blockers": [],
+  "decisionRationale": "GLAZE UI V1.6.0 has an exact retained Release Candidate/Seal-equivalent identity, complete qualification evidence, final security acceptance, controlled publication and byte readback, justified shared-library production applicability, all nine Integral Platform Systems evaluated, a known-good rollback target, current conformant status, and no unresolved release qualification blockers. The September 25 lifecycle migration therefore reclassifies the already accepted exact release from the legacy Stable vocabulary to canonical Anchor without changing released bytes or granting any downstream consumer acceptance.",
+  "requiredControlledChanges": [
+    "Migrate goreecloud.platform.yaml to Platform Contract 2.0 and lifecycle anchor with qualification_state passed and traceable evidence.",
+    "Record canonical Anchor lifecycle in registry/lifecycle.json while retaining currentStable and historical Stable records as compatibility/provenance fields.",
+    "Revalidate the exact migration candidate against the central Platform Contract 2.0 evaluator and existing V1.6 qualification/security gates.",
+    "Protected-merge only after all required checks pass; then read back authoritative main and post-merge checks."
+  ]
+}
