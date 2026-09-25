@@ -188,7 +188,12 @@ assert(glazeV17NativeGlazeKitsDevelopmentContract.v11Section24Complete===false,'
 assert(glazeV17NativeGlazeKitsDevelopmentContract.themeSemanticColorVersion==='1.7.0-dev.8','dev.9 must build on dev.8 theme/color foundation');
 assert(glazeV17NativeGlazeKitsDevelopmentContract.consumerEligible===false,'runtime must remain non-consumer-eligible');
 
-assert(glazeV17Development.version==='1.7.0-dev.9','aggregate version mismatch');
+const aggregateVersionParts=String(glazeV17Development.version).split('-dev.');
+const aggregateDevelopmentRevision=Number(aggregateVersionParts[1]);
+assert(
+  aggregateVersionParts[0]==='1.7.0' && Number.isInteger(aggregateDevelopmentRevision) && aggregateDevelopmentRevision>=9,
+  'aggregate Development version must retain or advance beyond Native Glaze Kits dev.9'
+);
 assert(glazeV17Development.lifecycle==='development','aggregate must remain Development');
 assert(glazeV17Development.stableBaseline==='1.6.0','aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible===false,'aggregate must remain non-consumer-eligible');

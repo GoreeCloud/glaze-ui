@@ -1,0 +1,73 @@
+{
+  "version": "1.7.0-dev.10",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "v11SpecificationSections": [
+    25
+  ],
+  "componentCatalog": [
+    "GlzAdaptivePane",
+    "GlzCommandSurface",
+    "GlzActivitySurface",
+    "GlzNotificationSurface",
+    "GlzAdaptiveToolbar",
+    "GlzActionCluster",
+    "GlzRecoverySurface",
+    "GlzProgressSurface",
+    "GlzPreferenceGroup",
+    "GlzAppearancePicker",
+    "GlzThemePreview",
+    "GlzColorRolePicker",
+    "GlzPalettePreview",
+    "GlzAdaptiveSplitView"
+  ],
+  "semanticColorPolicy": {
+    "literalColorInputsAllowed": false,
+    "semanticColorRolesRequired": true,
+    "protectedSemanticOverrideAllowed": false,
+    "colorOnlyMeaningAllowed": false
+  },
+  "componentDefaults": {
+    "semanticProminence": "standard",
+    "themeFallback": "glaze-default",
+    "continuityEnvironmentChange": "multi-pane-recomposition"
+  },
+  "families": {
+    "adaptive": [
+      "GlzAdaptivePane",
+      "GlzAdaptiveToolbar",
+      "GlzAdaptiveSplitView"
+    ],
+    "commandAndAction": [
+      "GlzCommandSurface",
+      "GlzActionCluster"
+    ],
+    "activityAndRecovery": [
+      "GlzActivitySurface",
+      "GlzNotificationSurface",
+      "GlzRecoverySurface",
+      "GlzProgressSurface"
+    ],
+    "personalization": [
+      "GlzPreferenceGroup",
+      "GlzAppearancePicker",
+      "GlzThemePreview",
+      "GlzColorRolePicker",
+      "GlzPalettePreview"
+    ]
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "section25Complete": false,
+    "nativeDeviceAcceptanceAutomatic": false,
+    "renderedAcceptanceAutomatic": false,
+    "assistiveTechnologyAcceptanceAutomatic": false,
+    "performanceAcceptanceAutomatic": false,
+    "downstreamAdoptionAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  }
+}

@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.10` Expanded Component System Development foundation for V1.7 v1.1 Section 25.
+- Added a 14-component semantic catalog with 10 new adaptive/personalization-oriented source foundations while preserving inherited V1.7 component identities.
+- Enforced semantic color roles instead of literal color values, retained accessibility precedence and Task Continuity, and preserved dev.8 Theme/Semantic Color plus dev.9 Native Glaze Kits boundaries.
+- Kept provider-owned activity and recovery state fail closed; dev.10 does not claim Section 25 completion, native/rendered/device/assistive-technology/performance acceptance, consumer eligibility, release promotion, deployment, or production acceptance.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.10` while retaining V1.6 / `1.6.0` as Official Stable.
+
 - Added the bounded `1.7.0-dev.9` Native Glaze Kits Development source-mapping foundation for the expanded V1.7 v1.1 Section 24.
 - Added semantic bridge mappings for Android / Jetpack Compose, Apple / SwiftUI, Web, and supported Linux native environments across accessibility, input, rendering, system appearance, color capability, and performance characteristics while preserving one Glaze semantic vocabulary.
 - Integrated the dev.8 Theme and Semantic Color foundation so native mappings preserve semantic themes, semantic color roles, protected semantic precedence, and fail-closed provider/caller truth rather than translating Glaze into pixel-identical cross-platform surfaces.
