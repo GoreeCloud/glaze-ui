@@ -1,4 +1,4 @@
-name: GLAZE UI Platform Contract 0.4
+name: GLAZE UI Platform Contract 2.0
 
 on:
   pull_request:
@@ -15,12 +15,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Legacy job id retained temporarily because the protected-main ruleset requires this exact status-check context.
+  # The job now validates Platform Contract 2.0 and canonical Anchor semantics.
   platform-contract-0-4:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
       EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-      PLATFORM_CONTRACT_SHA: e49b9afdea094c96a36a0457b1603f2fa8e8fa6b
+      PLATFORM_CONTRACT_SHA: 32cfe6395f6e4bc4872a99e8d0c666ea0b1ed7b8
     steps:
       - name: Check out exact Glaze UI revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -49,7 +51,7 @@ jobs:
       - name: Install validator dependencies
         run: python3 -m pip install --disable-pip-version-check PyYAML==6.0.2 jsonschema==4.25.1
 
-      - name: Validate Contract 0.4 declaration
+      - name: Validate Contract 2.0 declaration
         shell: bash
         run: |
           set -euo pipefail
@@ -60,7 +62,7 @@ jobs:
             --evaluator-revision "$PLATFORM_CONTRACT_SHA" \
             --output goreecloud.conformance-result.json
 
-      - name: Verify shared-library Stable current-authority boundary
+      - name: Verify shared-library Anchor current-authority boundary
         shell: bash
         run: |
           set -euo pipefail
@@ -75,7 +77,11 @@ jobs:
 
           assert manifest["component"]["type"] == "shared-library"
           assert manifest["component"]["repository"] == "GoreeCloud/glaze-ui"
-          assert manifest["lifecycle"] == "stable"
+          assert manifest["schema_version"] == "2.0"
+          assert manifest["lifecycle"] == "anchor"
+          assert manifest["lifecycle_metadata"]["qualification_state"] == "passed"
+          assert manifest["lifecycle_metadata"]["next_gate"] == "sunset"
+          assert "acceptance/v1.6-anchor-reclassification-review.json" in manifest["lifecycle_metadata"]["evidence"]
           assert manifest["version"] == "1.6.0"
           assert manifest["conformance"]["status"] == "conformant"
           assert manifest["conformance"]["validated_at"] is not None
@@ -91,7 +97,8 @@ jobs:
           assert result["evaluator_revision"] == __import__("os").environ["PLATFORM_CONTRACT_SHA"]
           assert result["declared_conformance"] == "conformant"
           assert result["computed_conformance"] == "conformant"
-          assert result["stable_eligible"] is True
+          assert result["anchor_eligible"] is True
+          assert "stable_eligible" not in result
           assert result["blockers"] == []
 
           evidence_paths = set()
@@ -125,8 +132,8 @@ jobs:
           assert required <= categories
           assert any(entry["result"] == "published" and entry["version"] == "1.6.0" for entry in manifest["evidence"]["release"])
 
-          print("platform-contract: Glaze UI shared-library Stable current-authority boundary validated")
-          print("platform-contract: Stable eligibility true under Contract 0.4 current Glaze target 1.6.0")
+          print("platform-contract: Glaze UI shared-library Anchor current-authority boundary validated")
+          print("platform-contract: Anchor eligibility true under Contract 2.0 current Glaze target 1.6.0")
           PY
 
       - name: Verify repository action integrity
