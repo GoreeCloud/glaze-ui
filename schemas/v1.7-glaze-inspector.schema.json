@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-glaze-inspector.schema.json",
+  "title": "Glaze UI V1.7 Glaze Inspector Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "planVersion",
+    "v11SpecificationSections",
+    "inspectionDomains",
+    "provenanceSources",
+    "resolutionRequirements",
+    "authority",
+    "privacy",
+    "acceptanceBoundary",
+    "integrationFoundations",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "tokenMap",
+    "sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../schemas/v1.7-glaze-inspector.schema.json"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "contractId": {
+      "const": "goreecloud.glaze-ui.v1.7.glaze-inspector"
+    },
+    "name": {
+      "const": "Glaze UI V1.7 Glaze Inspector Development Contract"
+    },
+    "version": {
+      "const": "1.7.0-dev.11"
+    },
+    "lifecycle": {
+      "const": "Development"
+    },
+    "stableBaseline": {
+      "const": "1.6.0"
+    },
+    "consumerEligible": {
+      "const": false
+    },
+    "planVersion": {
+      "const": "v1.1"
+    },
+    "v11SpecificationSections": {
+      "const": [
+        26
+      ]
+    },
+    "inspectionDomains": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "provenanceSources": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "resolutionRequirements": {
+      "type": "object",
+      "minProperties": 16
+    },
+    "authority": {
+      "type": "object",
+      "minProperties": 12
+    },
+    "privacy": {
+      "type": "object",
+      "minProperties": 5
+    },
+    "acceptanceBoundary": {
+      "type": "object",
+      "minProperties": 10
+    },
+    "integrationFoundations": {
+      "type": "object",
+      "minProperties": 5
+    },
+    "runtimeEntrypoint": {
+      "const": "js/glaze-v1.7-inspector.dev.mjs"
+    },
+    "developmentAggregateEntrypoint": {
+      "const": "js/glaze-v1.7-development.mjs"
+    },
+    "tokenMap": {
+      "const": "tokens/glaze-v1.7-inspector.dev.json"
+    },
+    "sourceAuthorities": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

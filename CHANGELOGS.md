@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added the bounded `1.7.0-dev.11` Glaze Inspector Development foundation for V1.7 v1.1 Section 26.
+- Added explainable inspection across component state, token provenance, semantic color/theme resolution, material hierarchy, accessibility overrides, focus/input mapping, adaptive layout, form-factor previews, supplied target-size evidence, authority boundaries, and migration state.
+- Added six resolution-provenance sources—semantic state, product identity, user theme, context, accessibility, and Glaze fallback—without creating provider truth or mutating source.
+- Reused existing V1.6 conformance/developer-diagnostic machinery as advisory evidence while preserving dev.8 theme/color, dev.9 native mappings, and dev.10 expanded-component boundaries.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.11` while retaining V1.6 / `1.6.0` as Official Stable and keeping Section 26 incomplete pending separate acceptance.
+
 - Added the bounded `1.7.0-dev.10` Expanded Component System Development foundation for V1.7 v1.1 Section 25.
 - Added a 14-component semantic catalog with 10 new adaptive/personalization-oriented source foundations while preserving inherited V1.7 component identities.
 - Enforced semantic color roles instead of literal color values, retained accessibility precedence and Task Continuity, and preserved dev.8 Theme/Semantic Color plus dev.9 Native Glaze Kits boundaries.

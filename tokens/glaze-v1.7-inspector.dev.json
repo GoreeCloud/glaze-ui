@@ -1,0 +1,65 @@
+{
+  "version": "1.7.0-dev.11",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "v11SpecificationSections": [
+    26
+  ],
+  "inspectionDomains": [
+    "component-state",
+    "token-provenance",
+    "semantic-color-resolution",
+    "theme-resolution",
+    "material-hierarchy",
+    "accessibility-overrides",
+    "focus-behavior",
+    "input-mapping",
+    "adaptive-layout-resolution",
+    "form-factor-previews",
+    "target-sizes",
+    "authority-boundaries",
+    "migration-state"
+  ],
+  "provenanceSources": [
+    "semantic-state",
+    "product-identity",
+    "user-theme",
+    "context",
+    "accessibility",
+    "glaze-fallback"
+  ],
+  "themeLayerToProvenance": {
+    "accessibility": "accessibility",
+    "protected-semantic-state": "semantic-state",
+    "product-identity": "product-identity",
+    "user-theme": "user-theme",
+    "contextual-accent": "context",
+    "glaze-default": "glaze-fallback"
+  },
+  "evidenceStates": [
+    "pass",
+    "fail",
+    "unverified"
+  ],
+  "migrationStates": [
+    "current",
+    "migration-required",
+    "partial",
+    "blocked",
+    "unknown"
+  ],
+  "boundaries": {
+    "advisoryOnly": true,
+    "sourceMutationAutomatic": false,
+    "providerTruthInvented": false,
+    "privateContentRequired": false,
+    "telemetryRequired": false,
+    "section26Complete": false,
+    "consumerEligibilityAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  }
+}

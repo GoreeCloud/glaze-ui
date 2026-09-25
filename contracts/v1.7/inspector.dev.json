@@ -1,0 +1,105 @@
+{
+  "$schema": "../../schemas/v1.7-glaze-inspector.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.glaze-inspector",
+  "name": "Glaze UI V1.7 Glaze Inspector Development Contract",
+  "version": "1.7.0-dev.11",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "v11SpecificationSections": [
+    26
+  ],
+  "inspectionDomains": [
+    "component-state",
+    "token-provenance",
+    "semantic-color-resolution",
+    "theme-resolution",
+    "material-hierarchy",
+    "accessibility-overrides",
+    "focus-behavior",
+    "input-mapping",
+    "adaptive-layout-resolution",
+    "form-factor-previews",
+    "target-sizes",
+    "authority-boundaries",
+    "migration-state"
+  ],
+  "provenanceSources": [
+    "semantic-state",
+    "product-identity",
+    "user-theme",
+    "context",
+    "accessibility",
+    "glaze-fallback"
+  ],
+  "resolutionRequirements": {
+    "componentStateInspectable": true,
+    "tokenProvenanceInspectable": true,
+    "semanticColorResolutionInspectable": true,
+    "themeResolutionInspectable": true,
+    "materialHierarchyInspectable": true,
+    "accessibilityOverridesInspectable": true,
+    "focusBehaviorInspectable": true,
+    "inputMappingInspectable": true,
+    "adaptiveLayoutResolutionInspectable": true,
+    "formFactorPreviewInspectable": true,
+    "targetSizesInspectable": true,
+    "authorityBoundariesInspectable": true,
+    "migrationStateInspectable": true,
+    "colorResolutionExplainable": true,
+    "sourceMutationAllowed": false,
+    "missingEvidenceMayInferPass": false
+  },
+  "authority": {
+    "boundary": "development-inspection-support-only",
+    "advisoryOnly": true,
+    "sourceModifiedAutomatically": false,
+    "providerTruthCreatedByInspector": false,
+    "semanticTruthCreatedByInspector": false,
+    "accessibilityStateCreatedByInspector": false,
+    "focusStateCreatedByInspector": false,
+    "inputMappingCreatedByInspector": false,
+    "migrationStateCreatedByInspector": false,
+    "acceptanceGrantedByInspector": false,
+    "lifecyclePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "privacy": {
+    "privateContentRequired": false,
+    "diagnosticPayloadMinimized": true,
+    "telemetryRequired": false,
+    "networkRequired": false,
+    "rawUserContentCapturedByDefault": false
+  },
+  "acceptanceBoundary": {
+    "sourceFoundationOnly": true,
+    "section26Complete": false,
+    "renderedAcceptanceRequired": true,
+    "assistiveTechnologyAcceptanceRequired": true,
+    "representativePlatformAcceptanceRequired": true,
+    "performanceAcceptanceRequired": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "integrationFoundations": {
+    "conformance": "js/glaze-v1.6-conformance-adoption.dev.mjs",
+    "diagnostics": "js/glaze-v1.6-performance-diagnostics.dev.mjs",
+    "themeSemanticColor": "js/glaze-v1.7-theme-semantic-color.dev.mjs",
+    "expandedComponents": "js/glaze-v1.7-expanded-component-system.dev.mjs",
+    "nativeGlazeKits": "js/glaze-v1.7-native-glaze-kits.dev.mjs"
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-inspector.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-inspector.dev.json",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}
