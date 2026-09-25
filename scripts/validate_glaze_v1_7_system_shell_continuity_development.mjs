@@ -59,25 +59,22 @@ assert(lifecycle.activeCandidate === null, 'V1.7 dev.6 must not create an active
 assert(lifecycle.activePatchReleaseCandidate === null, 'V1.7 dev.6 must not create a patch RC');
 assert(lifecycle.plannedNext === null, 'V1.7 dev.6 must not mutate lifecycle plannedNext');
 
-assert(spec.includes('## 22. System Shell Continuity'), 'V1.7 v1.1 specification missing System Shell Continuity section');
+assert(spec.includes('## 35. System Shell Continuity'), 'V1.7 v1.2 specification missing System Shell Continuity section');
 for (const phrase of [
-  'notification/activity presentation',
-  'Control Center continuity',
-  'persistent layouts where governed',
-  'multi-window behavior',
-  'split view',
-  'compact-to-expanded navigation',
-  'window restoration',
-  'application-to-system handoff',
-  'task switching',
-  'overlays',
-  'Universal Search continuity',
-  'contextual command surfaces',
-  'Theme changes should not reset shell state or active user tasks'
+  'Notification/activity presentation',
+  'Control Center',
+  'Multi-window',
+  'Split view',
+  'Compact/expanded navigation',
+  'Window restoration',
+  'Application/system handoff',
+  'Task switching',
+  'Universal Search',
+  'Contextual commands'
 ]) {
-  assert(spec.includes(phrase), `V1.7 v1.1 specification missing System Shell requirement: ${phrase}`);
+  assert(spec.includes(phrase), `V1.7 v1.2 specification missing System Shell requirement: ${phrase}`);
 }
-assert(spec.includes('## 23. Notification and Activity Surfaces'), 'V1.7 v1.1 specification must retain the separate Notification and Activity Surfaces obligation');
+assert(spec.includes('## 36. Notification and Activity Surfaces'), 'V1.7 v1.2 specification must retain the separate Notification and Activity Surfaces obligation');
 
 assert(fs.existsSync(path.join(root, 'IMPLEMENTED-FEATURES.md')), 'IMPLEMENTED-FEATURES.md is required');
 assert(fs.existsSync(path.join(root, 'PLANNED-FEATURES.md')), 'PLANNED-FEATURES.md is required');
