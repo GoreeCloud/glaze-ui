@@ -184,7 +184,8 @@
       "tag": "v1.6.0",
       "githubReleaseId": 392095913,
       "artifactSha256": "687268b5eb76917eccae9d935ffa1bead333d5dee50b6098e996a3f44cee50af",
-      "note": "Current Official Stable shared Glaze UI release. Exact security-accepted source/artifact publication and post-publication byte readback are recorded; downstream consumers remain separately acceptance-gated."
+      "note": "Current Official Anchor shared Glaze UI release. The retained status=stable and currentStable fields are compatibility/release-channel vocabulary preserved for existing consumer tooling and historical evidence; canonical GoreeCloud lifecycle is Anchor. Exact security-accepted source/artifact publication and post-publication byte readback are recorded; downstream consumers remain separately acceptance-gated.",
+      "lifecycle": "anchor"
     }
   ],
   "capabilities": {
@@ -466,5 +467,8 @@
       "githubReleaseId": 392095913,
       "consumerEligible": true
     }
-  }
+  },
+  "lifecycleVocabulary": "goreecloud-release-lifecycle/v0.7",
+  "currentLifecycle": "anchor",
+  "lifecycleMigrationUpdated": "2026-09-25"
 }
