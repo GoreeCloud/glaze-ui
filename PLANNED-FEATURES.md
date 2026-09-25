@@ -27,7 +27,7 @@ The detailed planned successor specification for V1.7 is `GLAZE_UI_V1_7_PLANNED.
 
 ## V1.7 Development Provenance
 
-Historical dev tranche numbers remain bound to the plan revision under which they were implemented. `1.7.0-dev.7` is retained as historical v1.0-plan provenance. The v1.1 foundations are retained as: `1.7.0-dev.8` Theme and Semantic Color Reconciliation; `1.7.0-dev.9` Native Glaze Kits; `1.7.0-dev.10` Expanded Component System; `1.7.0-dev.11` Glaze Inspector; `1.7.0-dev.12` Glaze Studio; and `1.7.0-dev.13` Continuity-Aware Motion. These names and numbers preserve implementation evidence only. They do not establish completion of equivalently numbered or similarly named v1.2 sections.
+The historical dev tranche numbers remain bound to the plan revision under which they were implemented. `1.7.0-dev.7` is retained as historical v1.0-plan provenance. The v1.1 foundations are retained as: `1.7.0-dev.8` Theme and Semantic Color Reconciliation; `1.7.0-dev.9` Native Glaze Kits; `1.7.0-dev.10` Expanded Component System; `1.7.0-dev.11` Glaze Inspector; `1.7.0-dev.12` Glaze Studio; and `1.7.0-dev.13` Continuity-Aware Motion. These names and numbers preserve implementation evidence only. They do not establish completion of equivalently numbered or similarly named v1.2 sections.
 
 ## V1.7 Planning Boundary
 
