@@ -1,0 +1,82 @@
+{
+  "version": "1.7.0-dev.13",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.1",
+  "v11SpecificationSections": [
+    28
+  ],
+  "continuityEvents": [
+    "surface-relocation",
+    "composition-change",
+    "retained-object-identity",
+    "focus-movement",
+    "pane-primacy-change",
+    "compact-expanded-transition",
+    "theme-change"
+  ],
+  "eventMotionDefaults": {
+    "surface-relocation": {
+      "family": "move",
+      "magnitude": "medium",
+      "hierarchy": "primary"
+    },
+    "composition-change": {
+      "family": "replace",
+      "magnitude": "small",
+      "hierarchy": "primary"
+    },
+    "retained-object-identity": {
+      "family": "move",
+      "magnitude": "small",
+      "hierarchy": "secondary"
+    },
+    "focus-movement": {
+      "family": "focus",
+      "magnitude": "micro",
+      "hierarchy": "primary"
+    },
+    "pane-primacy-change": {
+      "family": "reorder",
+      "magnitude": "medium",
+      "hierarchy": "navigation"
+    },
+    "compact-expanded-transition": {
+      "family": "expand",
+      "magnitude": "medium",
+      "hierarchy": "primary"
+    },
+    "theme-change": {
+      "family": "replace",
+      "magnitude": "micro",
+      "hierarchy": "secondary"
+    }
+  },
+  "reducedMotion": {
+    "precedence": true,
+    "equivalentRequired": true,
+    "allowedFallbacks": [
+      "opacity-or-immediate",
+      "immediate-state-change",
+      "static-state-indicator",
+      "short-opacity-transition"
+    ]
+  },
+  "chromaticPolicy": {
+    "themeColorMaterialTransitionAllowedWhenUseful": true,
+    "continuousRainbowDefault": false,
+    "unnecessaryChromaticMovementDefault": false,
+    "decorativeAnimationDefault": false
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "taskStateChangedByMotion": false,
+    "providerTruthCreatedByMotion": false,
+    "finalStateDependsOnAnimationCompletion": false,
+    "section28Complete": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  }
+}
