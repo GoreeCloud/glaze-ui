@@ -3,7 +3,7 @@
   "officialBaseline": "1.6.0",
   "officialProductLabel": "GLAZE UI V1.6",
   "requiredConsumerVersion": "1.6.0",
-  "auditedAt": "2026-09-20",
+  "auditedAt": "2026-09-25",
   "statusVocabulary": [
     "adoption-required",
     "unverified",
@@ -70,7 +70,7 @@
     },
     {
       "name": "GoreeCloud Launcher",
-      "repository": "GoreeCloud/goreecloud-launcher",
+      "repository": "GoreeCloud/launcher",
       "status": "adoption-required",
       "targetVersion": null,
       "requiredTargetVersion": "1.6.0",
@@ -103,7 +103,7 @@
     },
     {
       "name": "GoreeCloud Monitor",
-      "repository": "GoreeCloud/goreecloud-monitor",
+      "repository": "GoreeCloud/monitor",
       "status": "adoption-required",
       "targetVersion": null,
       "requiredTargetVersion": "1.6.0",
@@ -125,7 +125,7 @@
     },
     {
       "name": "GoreeCloud Security Center",
-      "repository": "GoreeCloud/goreecloud-wardveil",
+      "repository": "GoreeCloud/wardveil",
       "status": "adoption-required",
       "targetVersion": null,
       "requiredTargetVersion": "1.6.0",
@@ -136,7 +136,7 @@
     },
     {
       "name": "GoreeCloud Privacy Center",
-      "repository": "GoreeCloud/goreecloud-privacy-shield",
+      "repository": "GoreeCloud/privacy-shield",
       "status": "adoption-required",
       "targetVersion": null,
       "requiredTargetVersion": "1.6.0",
@@ -155,6 +155,39 @@
       "evidence": null,
       "productionEligible": false,
       "notes": "Existing V1.5 Development compatibility evidence does not equal Stable consumer adoption; fresh repository-local V1.6.0 web, Android/native, accessibility, workflow, rollback, performance, and product production acceptance remain separate obligations."
+    },
+    {
+      "name": "GoreeCloud Gallery",
+      "repository": "GoreeCloud/gallery",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Gallery carries current V1.6.0 source mapping, but fresh repository-local whole-application Glaze acceptance remains open; shared Glaze stability does not grant Gallery consumer or production acceptance."
+    },
+    {
+      "name": "GoreeCloud Notify",
+      "repository": "GoreeCloud/notify",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Notify carries current V1.6.0 source mapping, but fresh repository-local web/native/accessibility and product acceptance remains open; production eligibility is false."
+    },
+    {
+      "name": "GoreeCloud Since",
+      "repository": "GoreeCloud/android-app-defaults",
+      "status": "adoption-required",
+      "targetVersion": null,
+      "requiredTargetVersion": "1.6.0",
+      "referenceRevision": null,
+      "evidence": null,
+      "productionEligible": false,
+      "notes": "Since has application-local theme behavior but no accepted repository-local V1.6.0 consumer evidence; fresh downstream Glaze acceptance remains required."
     }
   ]
 }
