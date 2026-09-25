@@ -35,16 +35,11 @@ assert(lifecycle.activeCandidate===null,'V1.7 dev.9 must not create an active Ca
 assert(lifecycle.activePatchReleaseCandidate===null,'V1.7 dev.9 must not create a patch RC');
 assert(lifecycle.plannedNext===null,'V1.7 dev.9 must not mutate lifecycle plannedNext');
 
-assert(spec.includes('## 24. Native Glaze Kits'),'V1.7 v1.1 specification missing Native Glaze Kits Section 24');
-for(const phrase of [
-  'Android/Jetpack Compose',
-  'Apple/SwiftUI',
-  'Web',
-  'Linux native environments',
-  'preserve semantic themes and color roles',
-  'platform-native accessibility, input, rendering, system appearance, color APIs, and performance characteristics',
-  'semantic consistency, not pixel-identical interfaces'
-]) assert(spec.includes(phrase),`V1.7 v1.1 Section 24 requirement missing: ${phrase}`);
+assert(spec.includes('## 37. Native Glaze Kits'),'V1.7 v1.2 specification missing Native Glaze Kits Section 37');
+assert(spec.includes('dev.8–dev.13 use the prior v1.1 35-section numbering'),'v1.2 plan must preserve v1.1 implementation-numbering provenance');
+for(const phrase of ['Android / Jetpack Compose','Apple / SwiftUI','Web','Linux native environments']) {
+  assert(spec.includes(phrase),`V1.7 v1.2 Native Glaze Kits platform missing: ${phrase}`);
+}
 
 assert(schema.$schema==='https://json-schema.org/draft/2020-12/schema','schema must use JSON Schema 2020-12');
 assert(contract.version==='1.7.0-dev.9','contract version mismatch');
