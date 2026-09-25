@@ -114,7 +114,7 @@
     },
     {
       "name": "GoreeCloud Browser",
-      "repository": "GoreeCloud/goreecloud-browser",
+      "repository": "GoreeCloud/browser",
       "status": "adoption-required",
       "targetVersion": null,
       "requiredTargetVersion": "1.6.0",
