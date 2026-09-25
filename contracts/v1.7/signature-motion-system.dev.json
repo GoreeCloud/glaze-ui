@@ -1,0 +1,127 @@
+{
+  "$schema": "../../schemas/v1.7-signature-motion-system.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.signature-motion-system",
+  "name": "Glaze UI V1.7 Signature Motion System Development Contract",
+  "version": "1.7.0-dev.14",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [22],
+  "motionPillars": [
+    "continuity",
+    "depth",
+    "material",
+    "precision",
+    "quiet-settling"
+  ],
+  "semanticRelationships": [
+    "same-object-expansion",
+    "workspace-recomposition",
+    "transient-elevation",
+    "context-overlay",
+    "posture-partition",
+    "source-destination-continuity",
+    "direct-manipulation-settle",
+    "focus-transfer",
+    "color-state-change",
+    "material-role-change"
+  ],
+  "signatureFamilies": [
+    "Glaze Bloom",
+    "Glaze Flow",
+    "Glaze Lift",
+    "Glaze Veil",
+    "Glaze Fold",
+    "Glaze Trace",
+    "Glaze Settle",
+    "Glaze Focus Transfer",
+    "Glaze Color Shift",
+    "Glaze Material Shift"
+  ],
+  "relationshipToFamily": {
+    "same-object-expansion": "Glaze Bloom",
+    "workspace-recomposition": "Glaze Flow",
+    "transient-elevation": "Glaze Lift",
+    "context-overlay": "Glaze Veil",
+    "posture-partition": "Glaze Fold",
+    "source-destination-continuity": "Glaze Trace",
+    "direct-manipulation-settle": "Glaze Settle",
+    "focus-transfer": "Glaze Focus Transfer",
+    "color-state-change": "Glaze Color Shift",
+    "material-role-change": "Glaze Material Shift"
+  },
+  "principles": {
+    "semanticIntentRequired": true,
+    "arbitraryAnimationRequestsAccepted": false,
+    "rawDurationControlAccepted": false,
+    "rawEasingControlAccepted": false,
+    "rawSpringControlAccepted": false,
+    "recognizableVocabularyRequired": true,
+    "namedReusableFamiliesRequired": true,
+    "finalStateDependsOnAnimationCompletion": false,
+    "motionMayBlockInteraction": false,
+    "reducedMotionPrecedence": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "semanticRelationshipAuthorityRequired": true,
+    "objectIdentityAuthorityRequiredForConnectedIdentity": true,
+    "semanticRelationshipCreatedByGlaze": false,
+    "objectIdentityCreatedByGlaze": false,
+    "providerTruthCreatedByGlaze": false,
+    "securityTruthCreatedByGlaze": false,
+    "privacyTruthCreatedByGlaze": false,
+    "stateChangedByMotion": false,
+    "actionExecutedByMotion": false,
+    "navigationExecutedByMotion": false,
+    "permissionGrantedByMotion": false,
+    "consentCreatedByMotion": false
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "equivalentPresentationRequired": true,
+    "directManipulationTrackingPreserved": true,
+    "motionRequiredToUnderstandState": false,
+    "accessibilityOutranksExpression": true
+  },
+  "glazeMotionBoundary": {
+    "experimentalFoundationVersion": "0.6.0",
+    "runtimeCompatibilityBaseline": "0.4.0",
+    "experimentalLifecyclePromoted": false,
+    "motionStudioPromoted": false,
+    "motionSpatialPromoted": false
+  },
+  "acceptanceBoundary": {
+    "sourceFoundationOnly": true,
+    "section22Complete": false,
+    "section23PrinciplesComplete": false,
+    "section24ChoreographyComplete": false,
+    "renderedAcceptanceRequired": true,
+    "nativePlatformAcceptanceRequired": true,
+    "assistiveTechnologyAcceptanceRequired": true,
+    "performanceAcceptanceRequired": true,
+    "motionFatigueAcceptanceRequired": true,
+    "humanMotionReviewRequired": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "integrationFoundations": {
+    "retainedFocusMotion": "js/glaze-v1.6-focus-motion.dev.mjs",
+    "continuityAwareMotion": "js/glaze-v1.7-continuity-aware-motion.dev.mjs",
+    "experimentalGlazeMotionTokens": "tokens/glaze-motion.json",
+    "experimentalGlazeMotionDocument": "GLAZE_MOTION.md"
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-signature-motion-system.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-signature-motion-system.dev.json",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}
