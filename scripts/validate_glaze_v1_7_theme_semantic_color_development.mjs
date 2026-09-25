@@ -170,7 +170,7 @@ assert(glazeV17Development.lifecycle==='development','aggregate must remain Deve
 assert(glazeV17Development.stableBaseline==='1.6.0','aggregate Stable baseline mismatch');
 assert(glazeV17Development.consumerEligible===false,'aggregate must remain non-consumer-eligible');
 assert(glazeV17Development.implementedSpecificationSectionsPlanVersion==='v1.0-historical-numbering','aggregate must explicitly retain historical numbering provenance');
-const aggregatePlanMinor=Number(glazeV17Development.planVersion.match(/^v1\\.(\\d+)$/)?.[1]);
+const aggregatePlanMinor=Number(glazeV17Development.planVersion.match(/^v1\.(\d+)$/)?.[1]);
 assert(Number.isInteger(aggregatePlanMinor)&&aggregatePlanMinor>=1,'aggregate current plan version regressed below v1.1');
 assert(glazeV17Development.themeSemanticColorFoundation==='js/glaze-v1.7-theme-semantic-color.dev.mjs','aggregate missing dev.8 foundation');
 for(const section of [7,8,9,10,11,12,13,18,19,21]) assert(glazeV17Development.planV11FoundationSections.includes(section),`aggregate lost dev.8 v1.1 foundation section: ${section}`);
