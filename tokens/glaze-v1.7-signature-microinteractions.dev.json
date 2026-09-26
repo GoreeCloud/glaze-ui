@@ -1,0 +1,51 @@
+{
+  "version": "1.7.0-dev.19",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [27],
+  "actions": {
+    "toggle": {"category":"state-control","channels":["geometry","color","icon-transformation"]},
+    "select": {"category":"state-control","channels":["color","material","opacity"]},
+    "favorite": {"category":"state-control","channels":["icon-transformation","color","bounded-scale"]},
+    "save": {"category":"command","channels":["icon-transformation","material","opacity"]},
+    "copy": {"category":"command","channels":["icon-transformation","material","opacity"]},
+    "pin": {"category":"state-control","channels":["icon-transformation","color","bounded-scale"]},
+    "expand": {"category":"disclosure","channels":["geometry","position","opacity"]},
+    "collapse": {"category":"disclosure","channels":["geometry","position","opacity"]},
+    "refresh": {"category":"command","channels":["icon-transformation","opacity","material"]},
+    "retry": {"category":"recovery-command","channels":["icon-transformation","material","opacity"]},
+    "send": {"category":"transfer-command","channels":["position","icon-transformation","opacity"]},
+    "download": {"category":"transfer-command","channels":["position","icon-transformation","opacity"]},
+    "upload": {"category":"transfer-command","channels":["position","icon-transformation","opacity"]},
+    "completion": {"category":"result-state","channels":["icon-transformation","color","material"]},
+    "reorder": {"category":"direct-manipulation","channels":["position","geometry","material"]}
+  },
+  "phases": ["intent","result"],
+  "resultStates": ["confirmed","failed","cancelled","unchanged"],
+  "fallbacks": {
+    "untrustedAction": "static-control-state",
+    "missingControlIdentity": "static-control-state",
+    "untrustedResult": "intent-only-no-result-claim",
+    "reducedMotion": "immediate-state-feedback",
+    "repeatedAction": "quiet-feedback-no-travel-scale-or-icon-motion",
+    "performancePressure": "state-first-reduced-motion"
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "hardcodedDurationExposed": false,
+    "hardcodedEasingExposed": false,
+    "rawPhysicsExposed": false,
+    "operationExecutedByGlaze": false,
+    "providerResultCreatedByGlaze": false,
+    "section27Complete": false,
+    "glazeMotionExperimentalLifecyclePromoted": false,
+    "renderedAcceptanceEstablished": false,
+    "nativePlatformAcceptanceEstablished": false,
+    "assistiveTechnologyAcceptanceEstablished": false,
+    "performanceAcceptanceEstablished": false,
+    "motionFatigueAcceptanceEstablished": false,
+    "humanMotionReviewEstablished": false
+  }
+}
