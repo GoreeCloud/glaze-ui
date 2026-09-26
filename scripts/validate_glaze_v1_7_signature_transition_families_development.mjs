@@ -103,7 +103,7 @@ assert(glazeMotion.glazeMotion.version==='0.6.0'&&glazeMotion.glazeMotion.status
 assert(glazeV17SignatureTransitionFamiliesDevelopmentContract.version==='1.7.0-dev.16','runtime contract version mismatch');
 assert(glazeV17SignatureTransitionFamiliesDevelopmentContract.section24Complete===false,'runtime contract completion overclaim');
 
-const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\\.7\\.0-dev\\.(\\d+)$/)?.[1]);
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\.7\.0-dev\.(\d+)$/)?.[1]);
 assert(Number.isInteger(aggregateOrdinal)&&aggregateOrdinal>=16,'aggregate version regressed below dev.16');
 assert(glazeV17Development.planVersion==='v1.2'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 for(const section of [22,23,24])assert(glazeV17Development.planV12FoundationSections.includes(section),'aggregate missing v1.2 section '+section);
