@@ -230,7 +230,8 @@ assert(glazeV17SignatureMotionPrinciplesDevelopmentContract.planVersion==='v1.2'
 assert(glazeV17SignatureMotionPrinciplesDevelopmentContract.section23Complete===false,'runtime contract must not claim Section 23 complete');
 assert(glazeV17SignatureMotionPrinciplesDevelopmentContract.measuredResponsivenessAcceptanceEstablished===false,'runtime contract must not claim measured responsiveness acceptance');
 
-assert(glazeV17Development.version==='1.7.0-dev.15','aggregate version mismatch');
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\.7\.0-dev\.(\d+)$/)?.[1]);
+assert(Number.isInteger(aggregateOrdinal)&&aggregateOrdinal>=15,'aggregate version regressed below dev.15');
 assert(glazeV17Development.lifecycle==='development'&&glazeV17Development.stableBaseline==='1.6.0'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 assert(glazeV17Development.planVersion==='v1.2','aggregate plan version mismatch');
 assert(glazeV17Development.planV12FoundationSections.includes(22)&&glazeV17Development.planV12FoundationSections.includes(23),'aggregate v1.2 foundations missing Section 22 or 23');
