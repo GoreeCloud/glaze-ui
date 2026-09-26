@@ -1,0 +1,66 @@
+{
+  "version": "1.7.0-dev.16",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [24],
+  "familyOrder": [
+    "Glaze Bloom","Glaze Flow","Glaze Lift","Glaze Veil","Glaze Fold",
+    "Glaze Trace","Glaze Settle","Glaze Focus Transfer","Glaze Color Shift","Glaze Material Shift"
+  ],
+  "families": {
+    "Glaze Bloom": {"relationship":"same-object-expansion","intent":"same-thing-expanded","channels":["shape","position","material","content-hierarchy"],"reducedMotion":"state-preserving-crossfade"},
+    "Glaze Flow": {"relationship":"workspace-recomposition","intent":"workspace-changed-task-preserved","channels":["position","pane-geometry","hierarchy"],"reducedMotion":"instant-recomposition-with-focus-continuity"},
+    "Glaze Lift": {"relationship":"transient-elevation","intent":"transient-hierarchy-emerged","channels":["depth","material","opacity","position"],"reducedMotion":"opacity-and-hierarchy-state"},
+    "Glaze Veil": {"relationship":"context-overlay","intent":"context-remains-attention-moved-above","channels":["scrim","foreground-material","hierarchy","opacity"],"reducedMotion":"immediate-hierarchy-with-restrained-opacity"},
+    "Glaze Fold": {"relationship":"posture-partition","intent":"workspace-partition-changed","channels":["pane-geometry","position","hierarchy"],"reducedMotion":"instant-partition-with-task-continuity"},
+    "Glaze Trace": {"relationship":"source-destination-continuity","intent":"source-connected-to-destination","channels":["position","highlight","material","edge-emphasis"],"reducedMotion":"source-destination-emphasis"},
+    "Glaze Settle": {"relationship":"direct-manipulation-settle","intent":"manipulation-resolved-precisely","channels":["position","geometry"],"reducedMotion":"direct-tracking-then-immediate-rest"},
+    "Glaze Focus Transfer": {"relationship":"focus-transfer","intent":"focus-moved-between-related-regions","channels":["focus-emphasis","edge-emphasis","material"],"reducedMotion":"immediate-focus-state-with-emphasis"},
+    "Glaze Color Shift": {"relationship":"color-state-change","intent":"color-context-changed-coherently","channels":["semantic-color","accent","atmosphere"],"reducedMotion":"immediate-semantic-color-with-optional-restrained-fade"},
+    "Glaze Material Shift": {"relationship":"material-role-change","intent":"surface-material-role-changed","channels":["material","tint","border","luminosity","depth"],"reducedMotion":"immediate-material-role-state"}
+  },
+  "fallbacks": {
+    "unacceptedRelationship": "Standard transition",
+    "missingConnectedIdentity": "Standard transition",
+    "reducedTransparencyMaterial": "solid-fallback",
+    "criticalVeil": "certainty-first-solid-capable",
+    "unsupportedChoreography": "state-first-standard-transition"
+  },
+  "prohibitedRequestKeys": [
+    "family","signatureFamily","duration","durationMs","easing","spring","physics","keyframes",
+    "path","travelPx","distance","rotation","overshoot","bounce","wobble"
+  ],
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "reducedTransparencyPrecedence": true,
+    "equivalentPresentationRequired": true,
+    "directManipulationTrackingPreserved": true,
+    "focusStateIndependentOfAnimation": true,
+    "protectedSemanticMeaningImmediate": true,
+    "motionRequiredToUnderstandState": false
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "providerTruthCreatedByGlaze": false,
+    "objectIdentityCreatedByGlaze": false,
+    "criticalityCreatedByGlaze": false,
+    "semanticColorMeaningCreatedByGlaze": false,
+    "materialRoleCreatedByGlaze": false,
+    "stateDependsOnAnimationCompletion": false,
+    "glazeMotionExperimentalLifecyclePromoted": false,
+    "section22Complete": false,
+    "section23Complete": false,
+    "section24Complete": false,
+    "renderedChoreographyAcceptanceEstablished": false,
+    "nativePlatformAcceptanceEstablished": false,
+    "assistiveTechnologyAcceptanceEstablished": false,
+    "performanceAcceptanceEstablished": false,
+    "motionFatigueAcceptanceEstablished": false,
+    "humanMotionReviewEstablished": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  }
+}

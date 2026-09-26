@@ -19,9 +19,10 @@ export * from './glaze-v1.7-studio.dev.mjs';
 export * from './glaze-v1.7-continuity-aware-motion.dev.mjs';
 export * from './glaze-v1.7-signature-motion-system.dev.mjs';
 export * from './glaze-v1.7-signature-motion-principles.dev.mjs';
+export * from './glaze-v1.7-signature-transition-families.dev.mjs';
 
 export const glazeV17Development = Object.freeze({
-  version: '1.7.0-dev.15',
+  version: '1.7.0-dev.16',
   lifecycle: 'development',
   stableBaseline: '1.6.0',
   consumerEligible: false,
@@ -29,7 +30,7 @@ export const glazeV17Development = Object.freeze({
   implementedSpecificationSectionsPlanVersion: 'v1.0-historical-numbering',
   planVersion: 'v1.2',
   planV11FoundationSections: Object.freeze([7, 8, 9, 10, 11, 12, 13, 18, 19, 21, 24, 25, 26, 27, 28]),
-  planV12FoundationSections: Object.freeze([22, 23]),
+  planV12FoundationSections: Object.freeze([22, 23, 24]),
   taskContinuityFoundation: 'js/glaze-v1.7-task-continuity.dev.mjs',
   adaptiveInputFoundation: 'js/glaze-v1.7-adaptive-input.dev.mjs',
   formFactorProfilesFoundation: 'js/glaze-v1.7-form-factor-profiles.dev.mjs',
@@ -45,6 +46,7 @@ export const glazeV17Development = Object.freeze({
   continuityAwareMotionFoundation: 'js/glaze-v1.7-continuity-aware-motion.dev.mjs',
   signatureMotionSystemFoundation: 'js/glaze-v1.7-signature-motion-system.dev.mjs',
   signatureMotionPrinciplesFoundation: 'js/glaze-v1.7-signature-motion-principles.dev.mjs',
+  signatureTransitionFamiliesFoundation: 'js/glaze-v1.7-signature-transition-families.dev.mjs',
   glazeMotionExperimentalLifecyclePromoted: false,
   presentationOnly: true,
   accessibilityPrecedence: true,

@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added bounded `1.7.0-dev.16` **Signature Transition Families** Development source for V1.7 v1.2 Section 24.
+- Added semantic choreography descriptors for all ten named families—Bloom, Flow, Lift, Veil, Fold, Trace, Settle, Focus Transfer, Color Shift, and Material Shift—while preserving dev.14 relationship/identity authority and dev.15 motion principles.
+- Added Reduced Motion family equivalents, Reduced Transparency solid fallback for Material Shift, certainty-first critical Veil behavior, protected semantic-color continuity, focus-state independence, and explicit anti-decoration rules for Fold, Trace, and Settle.
+- Rejected raw family, duration, easing, spring, physics, keyframe, path, distance, rotation, overshoot, bounce, and wobble controls so applications continue to request motion by semantic intent rather than invent choreography parameters.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.16` with v1.2 foundation sections 22–24 while keeping Sections 22–24 acceptance incomplete, rendered/native choreography acceptance unestablished, Glaze Motion 0.6 Experimental, V1.6 / `1.6.0` as Official Anchor, and V1.7 non-consumer-eligible.
+
 - Added bounded `1.7.0-dev.15` **Signature Motion Principles** Development source for V1.7 v1.2 Section 23.
 - Made all eight Section 23 principles machine-verifiable: immediate acknowledgement policy, purposeful semantic motion, authoritative identity preservation, meaningful depth, quiet settling, user-controlled interruptibility, non-blocking state, and accessibility/Reduced Motion precedence.
 - Added fail-closed raw depth/bounce/wobble rejection and explicit relationship interpretation for purpose, depth role, identity mode, and settling role without adding Section 24 choreography.
