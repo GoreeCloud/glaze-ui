@@ -188,17 +188,18 @@ assert(glazeV17SignatureMotionSystemDevelopmentContract.planVersion==='v1.2','ru
 assert(glazeV17SignatureMotionSystemDevelopmentContract.glazeMotionExperimentalLifecyclePromoted===false,'runtime must not promote Glaze Motion');
 assert(glazeV17SignatureMotionSystemDevelopmentContract.section22Complete===false,'runtime must not claim Section 22 complete');
 
-assert(glazeV17Development.version==='1.7.0-dev.14','aggregate version mismatch');
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\.7\.0-dev\.(\d+)$/)?.[1]);
+assert(Number.isInteger(aggregateOrdinal)&&aggregateOrdinal>=14,'aggregate version regressed below dev.14');
 assert(glazeV17Development.lifecycle==='development'&&glazeV17Development.stableBaseline==='1.6.0'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 assert(glazeV17Development.planVersion==='v1.2','aggregate must expose current V1.7 plan v1.2');
-assert(JSON.stringify(glazeV17Development.planV12FoundationSections)===JSON.stringify([22]),'aggregate v1.2 foundation set mismatch');
+assert(glazeV17Development.planV12FoundationSections.includes(22),'aggregate lost v1.2 Section 22 foundation');
 for(const n of [7,8,9,10,11,12,13,18,19,21,24,25,26,27,28]) assert(glazeV17Development.planV11FoundationSections.includes(n),`aggregate lost historical v1.1 foundation ${n}`);
 assert(glazeV17Development.signatureMotionSystemFoundation==='js/glaze-v1.7-signature-motion-system.dev.mjs','aggregate missing dev.14 Signature Motion foundation');
 assert(glazeV17Development.continuityAwareMotionFoundation==='js/glaze-v1.7-continuity-aware-motion.dev.mjs','aggregate lost dev.13 Continuity-Aware Motion');
 assert(glazeV17Development.glazeMotionExperimentalLifecyclePromoted===false,'aggregate must keep Glaze Motion Experimental');
 assert(glazeV17Development.providerTruthManufactured===false,'aggregate provider-truth boundary weakened');
 
-assert(spec.includes('1.7.0-dev.14'),'V1.7 plan authority boundary missing dev.14 source state');
+assert(spec.includes('dev.14 is the first explicitly v1.2-bound source foundation for **Section 22 — Glaze Signature Motion System**')&&spec.includes('dev.14 does **not** establish Section 22 completion'),'V1.7 plan authority boundary missing dev.14 Section 22 provenance');
 assert(planned.includes('1.7.0-dev.14')&&planned.includes('Glaze Signature Motion System'),'planned-feature control missing dev.14 state');
 assert(implemented.includes('Glaze Signature Motion System — `1.7.0-dev.14`'),'implemented-feature control missing dev.14');
 assert(changelog.includes('1.7.0-dev.14')&&changelog.includes('Glaze Signature Motion System'),'changelog missing dev.14');

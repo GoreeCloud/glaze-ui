@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-signature-motion-principles.schema.json",
+  "title": "Glaze UI V1.7 Signature Motion Principles Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "planVersion",
+    "v12SpecificationSections",
+    "dependsOn",
+    "principleOrder",
+    "principlePolicy",
+    "relationshipInterpretation",
+    "authority",
+    "accessibility",
+    "glazeMotionBoundary",
+    "acceptanceBoundary",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "tokenMap",
+    "sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {"const": "../../schemas/v1.7-signature-motion-principles.schema.json"},
+    "schemaVersion": {"const": 1},
+    "contractId": {"const": "goreecloud.glaze-ui.v1.7.signature-motion-principles"},
+    "name": {"const": "Glaze UI V1.7 Signature Motion Principles Development Contract"},
+    "version": {"const": "1.7.0-dev.15"},
+    "lifecycle": {"const": "Development"},
+    "stableBaseline": {"const": "1.6.0"},
+    "consumerEligible": {"const": false},
+    "planVersion": {"const": "v1.2"},
+    "v12SpecificationSections": {"const": [23]},
+    "dependsOn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signatureMotionSystemVersion", "signatureMotionSystemRuntime", "signatureMotionSystemSection"],
+      "properties": {
+        "signatureMotionSystemVersion": {"const": "1.7.0-dev.14"},
+        "signatureMotionSystemRuntime": {"const": "js/glaze-v1.7-signature-motion-system.dev.mjs"},
+        "signatureMotionSystemSection": {"const": 22}
+      }
+    },
+    "principleOrder": {
+      "const": [
+        "respond-immediately",
+        "move-with-purpose",
+        "preserve-identity",
+        "use-depth-meaningfully",
+        "settle-quietly",
+        "remain-interruptible",
+        "never-block-state",
+        "respect-accessibility"
+      ]
+    },
+    "principlePolicy": {"type": "object", "minProperties": 8},
+    "relationshipInterpretation": {"type": "object", "minProperties": 10},
+    "authority": {"type": "object", "minProperties": 11},
+    "accessibility": {"type": "object", "minProperties": 5},
+    "glazeMotionBoundary": {"type": "object", "minProperties": 5},
+    "acceptanceBoundary": {"type": "object", "minProperties": 15},
+    "runtimeEntrypoint": {"const": "js/glaze-v1.7-signature-motion-principles.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const": "js/glaze-v1.7-development.mjs"},
+    "tokenMap": {"const": "tokens/glaze-v1.7-signature-motion-principles.dev.json"},
+    "sourceAuthorities": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

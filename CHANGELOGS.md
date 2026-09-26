@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added bounded `1.7.0-dev.15` **Signature Motion Principles** Development source for V1.7 v1.2 Section 23.
+- Made all eight Section 23 principles machine-verifiable: immediate acknowledgement policy, purposeful semantic motion, authoritative identity preservation, meaningful depth, quiet settling, user-controlled interruptibility, non-blocking state, and accessibility/Reduced Motion precedence.
+- Added fail-closed raw depth/bounce/wobble rejection and explicit relationship interpretation for purpose, depth role, identity mode, and settling role without adding Section 24 choreography.
+- Preserved dev.14 Signature Motion System semantics, connected-identity fallback, V1.6 motion-budget behavior, Experimental Glaze Motion 0.6, and V1.6 / `1.6.0` as the Official Anchor.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.15` with v1.2 foundation sections 22 and 23 while keeping Section 22 and Section 23 acceptance incomplete, Section 24 choreography open, measured responsiveness unaccepted, and V1.7 non-consumer-eligible.
+
 - Require a supplied non-empty object identity as well as caller authority before applying Glaze Bloom or Glaze Trace. Missing, null, empty, and whitespace-only identities fall back to standard replacement without asserting object continuity. Added regression cases to the existing Signature Motion validator; V1.7 remains Development and consumer-ineligible.
 
 - Migrated the current GLAZE UI V1.6 / 1.6.0 release from legacy Stable lifecycle vocabulary to canonical **Anchor** under GoreeCloud Platform Contract 2.0 after a current-governance reclassification review confirmed the exact accepted release still has complete qualification, final security acceptance, controlled publication/readback, justified shared-library production applicability, all nine Integral Platform Systems evaluated, a known-good rollback target, and zero qualification blockers. Released V1.6 bytes and historical Stable evidence were not rewritten; downstream consumer acceptance remains separate.

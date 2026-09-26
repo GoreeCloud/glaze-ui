@@ -6,11 +6,11 @@ document_version: "v1.2"
 product: "GLAZE UI"
 planned_family: "GLAZE UI V1.7"
 planned_theme: "Interaction Continuity + Personal Expression + Signature Motion"
-current_stable_predecessor: "GLAZE UI V1.6 / 1.6.0"
+current_stable_predecessor: "GLAZE UI V1.6 / 1.6.0 (Official Anchor; Stable compatibility channel)"
 canonical_repository: "GoreeCloud/glaze-ui"
 consumer_eligible: false
-last_updated: "2026-09-24"
-authoritative_scope: "Planned V1.7 upgrade requirements; does not alter current Stable release authority"
+last_updated: "2026-09-26"
+authoritative_scope: "Planned V1.7 upgrade requirements; does not alter current Anchor release authority"
 ---
 
 # Glaze UI V1.7 Planned Upgrade
@@ -19,11 +19,11 @@ authoritative_scope: "Planned V1.7 upgrade requirements; does not alter current 
 
 This document records the planned direction for **GLAZE UI V1.7**. It is a planning and requirements artifact. It does not by itself establish implementation, qualification, release, deployment, consumer eligibility, or production acceptance.
 
-The current verified Official Stable authority remains **GLAZE UI V1.6 / 1.6.0**.
+The current verified Official Anchor authority remains **GLAZE UI V1.6 / 1.6.0**. Stable compatibility fields remain in the lifecycle registry for existing tooling and historical evidence.
 
-As of 2026-09-24, the canonical repository contains bounded V1.7 Development foundations through **1.7.0-dev.14**. Historical implementation references remain bound to the plan revision they were built against: dev.1–dev.7 use the earlier v1.0 numbering, dev.8–dev.13 use the prior v1.1 35-section numbering, and dev.14 is the first explicitly v1.2-bound source foundation. dev.14 establishes a bounded source implementation for **v1.2 Section 22 — Glaze Signature Motion System**: semantic relationship requests map to the ten named Signature Motion families while raw arbitrary animation parameters fail closed, Reduced Motion and motion-budget behavior are inherited from governed foundations, and the separate Glaze Motion 0.6 lifecycle remains Experimental. dev.14 does **not** establish Section 22 completion, Section 23 principles completion, Section 24 choreography completion, any later v1.2 motion section, consumer eligibility, Release Candidate, Stable, deployment, or production acceptance. dev.13's “v1.1 Section 28 Continuity-Aware Motion” remains historical implementation provenance and must **not** be reinterpreted as v1.2 Section 28 Theme Transition System.
+As of 2026-09-26, the canonical repository contains bounded V1.7 Development foundations through **1.7.0-dev.15**. Historical implementation references remain bound to the plan revision they were built against: dev.1–dev.7 use the earlier v1.0 numbering, dev.8–dev.13 use the prior v1.1 35-section numbering, dev.14 is the first explicitly v1.2-bound source foundation for **Section 22 — Glaze Signature Motion System**, and dev.15 adds a bounded **Section 23 — Signature Motion Principles** source layer. dev.15 makes the eight Section 23 principles machine-verifiable—respond immediately, move with purpose, preserve identity, use depth meaningfully, settle quietly, remain interruptible, never block state, and respect accessibility—while retaining dev.14 semantic relationship authority, fail-closed connected identity, Reduced Motion precedence, non-blocking state, and the separate Experimental Glaze Motion 0.6 lifecycle. dev.14 does **not** establish Section 22 completion, and dev.15 does **not** establish Section 23 completion, measured responsiveness acceptance, Section 24 choreography completion, any later v1.2 motion section, consumer eligibility, Release Candidate, Anchor, deployment, or production acceptance. dev.13's “v1.1 Section 28 Continuity-Aware Motion” remains historical implementation provenance and must **not** be reinterpreted as v1.2 Section 28 Theme Transition System.
 
-All V1.7 Development work remains non-consumer-eligible. Nothing in this document independently changes `VERSION`, `registry/lifecycle.json`, the V1.6 Stable runtime or release evidence, downstream consumer eligibility, or provider-owned security, privacy, permission, capability, connectivity, recovery, identity, consent, authorization, or availability truth.
+All V1.7 Development work remains non-consumer-eligible. Nothing in this document independently changes `VERSION`, `registry/lifecycle.json`, the V1.6 Anchor runtime or release evidence, downstream consumer eligibility, or provider-owned security, privacy, permission, capability, connectivity, recovery, identity, consent, authorization, or availability truth.
 
 ### Overview
 

@@ -1,0 +1,138 @@
+{
+  "$schema": "../../schemas/v1.7-signature-motion-principles.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.signature-motion-principles",
+  "name": "Glaze UI V1.7 Signature Motion Principles Development Contract",
+  "version": "1.7.0-dev.15",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [23],
+  "dependsOn": {
+    "signatureMotionSystemVersion": "1.7.0-dev.14",
+    "signatureMotionSystemRuntime": "js/glaze-v1.7-signature-motion-system.dev.mjs",
+    "signatureMotionSystemSection": 22
+  },
+  "principleOrder": [
+    "respond-immediately",
+    "move-with-purpose",
+    "preserve-identity",
+    "use-depth-meaningfully",
+    "settle-quietly",
+    "remain-interruptible",
+    "never-block-state",
+    "respect-accessibility"
+  ],
+  "principlePolicy": {
+    "respond-immediately": {
+      "artificialDelayAllowed": false,
+      "interactionAcknowledgement": "state-first",
+      "feedbackMayWaitForAnimationCompletion": false,
+      "measuredResponsivenessAcceptanceEstablished": false
+    },
+    "move-with-purpose": {
+      "semanticRelationshipRequired": true,
+      "decorativeOnlyMotionDefault": false,
+      "arbitraryAnimationAccepted": false
+    },
+    "preserve-identity": {
+      "authoritativeIdentityRequiredForConnectedIdentity": true,
+      "identityMayBeInferredByGlaze": false,
+      "sameObjectClaimRequiresAcceptedIdentity": true
+    },
+    "use-depth-meaningfully": {
+      "depthMustCommunicateHierarchy": true,
+      "spectacleOnlyDepthAllowed": false,
+      "rawDepthControlAccepted": false
+    },
+    "settle-quietly": {
+      "routineBounceAllowed": false,
+      "routineWobbleAllowed": false,
+      "repetitiveOvershootAllowed": false,
+      "restrainedSettlingRequired": true
+    },
+    "remain-interruptible": {
+      "userControlledTransitionsInterruptible": true,
+      "reversalMayBeBlockedByAnimation": false
+    },
+    "never-block-state": {
+      "finalStateDependsOnAnimationCompletion": false,
+      "focusBlockedByAnimation": false,
+      "navigationBlockedByAnimation": false,
+      "closeBlockedByAnimation": false,
+      "taskCompletionBlockedByAnimation": false
+    },
+    "respect-accessibility": {
+      "accessibilityPrecedence": true,
+      "reducedMotionPrecedence": true,
+      "equivalentPresentationRequired": true,
+      "expressionMayOverrideAccessibility": false
+    }
+  },
+  "relationshipInterpretation": {
+    "same-object-expansion": {"purpose": "state-relationship", "depthRole": "none", "identityMode": "authoritative-required", "settlingRole": "quiet"},
+    "workspace-recomposition": {"purpose": "task-continuity", "depthRole": "none", "identityMode": "task-preserving", "settlingRole": "quiet"},
+    "transient-elevation": {"purpose": "hierarchy-change", "depthRole": "transient-hierarchy", "identityMode": "none", "settlingRole": "quiet"},
+    "context-overlay": {"purpose": "attention-hierarchy", "depthRole": "overlay-hierarchy", "identityMode": "none", "settlingRole": "quiet"},
+    "posture-partition": {"purpose": "workspace-structure", "depthRole": "none", "identityMode": "task-preserving", "settlingRole": "quiet"},
+    "source-destination-continuity": {"purpose": "source-destination", "depthRole": "none", "identityMode": "authoritative-required", "settlingRole": "quiet"},
+    "direct-manipulation-settle": {"purpose": "direct-manipulation", "depthRole": "none", "identityMode": "none", "settlingRole": "precise"},
+    "focus-transfer": {"purpose": "focus-relationship", "depthRole": "none", "identityMode": "focus-preserving", "settlingRole": "quiet"},
+    "color-state-change": {"purpose": "state-change", "depthRole": "none", "identityMode": "none", "settlingRole": "quiet"},
+    "material-role-change": {"purpose": "material-hierarchy", "depthRole": "material-hierarchy", "identityMode": "none", "settlingRole": "quiet"}
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "relationshipAuthorityInheritedFromDev14": true,
+    "identityAuthorityInheritedFromDev14": true,
+    "providerTruthCreatedByGlaze": false,
+    "objectIdentityCreatedByGlaze": false,
+    "hierarchyTruthCreatedByGlaze": false,
+    "stateChangedByMotion": false,
+    "actionExecutedByMotion": false,
+    "navigationExecutedByMotion": false,
+    "permissionGrantedByMotion": false,
+    "consentCreatedByMotion": false
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "equivalentPresentationRequired": true,
+    "directManipulationTrackingPreserved": true,
+    "motionRequiredToUnderstandState": false,
+    "accessibilityOutranksExpression": true
+  },
+  "glazeMotionBoundary": {
+    "experimentalFoundationVersion": "0.6.0",
+    "runtimeCompatibilityBaseline": "0.4.0",
+    "experimentalLifecyclePromoted": false,
+    "motionStudioPromoted": false,
+    "motionSpatialPromoted": false
+  },
+  "acceptanceBoundary": {
+    "sourceFoundationOnly": true,
+    "section22Complete": false,
+    "section23Complete": false,
+    "section24ChoreographyComplete": false,
+    "measuredResponsivenessAcceptanceEstablished": false,
+    "renderedAcceptanceRequired": true,
+    "nativePlatformAcceptanceRequired": true,
+    "assistiveTechnologyAcceptanceRequired": true,
+    "performanceAcceptanceRequired": true,
+    "motionFatigueAcceptanceRequired": true,
+    "humanMotionReviewRequired": true,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-signature-motion-principles.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-signature-motion-principles.dev.json",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}
