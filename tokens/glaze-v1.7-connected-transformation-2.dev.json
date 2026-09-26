@@ -1,0 +1,149 @@
+{
+  "version": "1.7.0-dev.17",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [
+    25
+  ],
+  "connections": {
+    "search-control-to-search-interface": {
+      "identityKind": "object",
+      "relationship": "same-object-expansion",
+      "family": "Glaze Bloom",
+      "platformAppropriatenessRequired": false
+    },
+    "navigation-item-to-destination": {
+      "identityKind": "task",
+      "relationship": "source-destination-continuity",
+      "family": "Glaze Trace",
+      "platformAppropriatenessRequired": false
+    },
+    "app-icon-to-application-surface": {
+      "identityKind": "task",
+      "relationship": "source-destination-continuity",
+      "family": "Glaze Trace",
+      "platformAppropriatenessRequired": true
+    },
+    "card-to-detail-view": {
+      "identityKind": "object",
+      "relationship": "same-object-expansion",
+      "family": "Glaze Bloom",
+      "platformAppropriatenessRequired": false
+    },
+    "thumbnail-to-viewer": {
+      "identityKind": "object",
+      "relationship": "same-object-expansion",
+      "family": "Glaze Bloom",
+      "platformAppropriatenessRequired": false
+    },
+    "quick-setting-to-expanded-setting": {
+      "identityKind": "object",
+      "relationship": "same-object-expansion",
+      "family": "Glaze Bloom",
+      "platformAppropriatenessRequired": false
+    },
+    "compact-player-to-full-player": {
+      "identityKind": "object",
+      "relationship": "same-object-expansion",
+      "family": "Glaze Bloom",
+      "platformAppropriatenessRequired": false
+    },
+    "folder-to-folder-contents": {
+      "identityKind": "task",
+      "relationship": "source-destination-continuity",
+      "family": "Glaze Trace",
+      "platformAppropriatenessRequired": false
+    },
+    "notification-to-related-event": {
+      "identityKind": "task",
+      "relationship": "source-destination-continuity",
+      "family": "Glaze Trace",
+      "platformAppropriatenessRequired": false
+    },
+    "widget-to-expanded-experience": {
+      "identityKind": "object",
+      "relationship": "same-object-expansion",
+      "family": "Glaze Bloom",
+      "platformAppropriatenessRequired": false
+    },
+    "command-result-to-resulting-interface": {
+      "identityKind": "task",
+      "relationship": "source-destination-continuity",
+      "family": "Glaze Trace",
+      "platformAppropriatenessRequired": false
+    },
+    "compact-pane-to-expanded-pane": {
+      "identityKind": "object",
+      "relationship": "same-object-expansion",
+      "family": "Glaze Bloom",
+      "platformAppropriatenessRequired": false
+    }
+  },
+  "fallbacks": {
+    "untrustedConnection": "standard-transition",
+    "missingConnectionIdentity": "standard-transition",
+    "unsupportedPlatformConnection": "standard-transition",
+    "reducedMotion": "state-preserving-equivalent",
+    "performancePressure": "state-first-standard-transition"
+  },
+  "prohibitedRequestKeys": [
+    "relationship",
+    "relationshipAuthoritative",
+    "objectIdentity",
+    "objectIdentityAuthoritative",
+    "family",
+    "signatureFamily",
+    "requestedFamily",
+    "duration",
+    "durationMs",
+    "easing",
+    "spring",
+    "physics",
+    "keyframes",
+    "path",
+    "travelPx",
+    "distance",
+    "rotation",
+    "overshoot",
+    "bounce",
+    "wobble"
+  ],
+  "continuity": {
+    "preserveIdentityPreferentially": true,
+    "unclearIdentityFallsBack": true,
+    "focusOrderPreserved": true,
+    "readingOrderPreserved": true,
+    "stateDependsOnAnimationCompletion": false,
+    "navigationDependsOnAnimationCompletion": false,
+    "taskCompletionDependsOnAnimationCompletion": false
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "equivalentPresentationRequired": true,
+    "focusStateIndependentOfAnimation": true,
+    "motionRequiredToUnderstandRelationship": false
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "connectionRelationshipCreatedByGlaze": false,
+    "connectionIdentityCreatedByGlaze": false,
+    "platformSupportCreatedByGlaze": false,
+    "providerTruthCreatedByGlaze": false,
+    "glazeMotionExperimentalLifecyclePromoted": false,
+    "section22Complete": false,
+    "section23Complete": false,
+    "section24Complete": false,
+    "section25Complete": false,
+    "renderedAcceptanceEstablished": false,
+    "nativePlatformAcceptanceEstablished": false,
+    "assistiveTechnologyAcceptanceEstablished": false,
+    "performanceAcceptanceEstablished": false,
+    "motionFatigueAcceptanceEstablished": false,
+    "humanMotionReviewEstablished": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  }
+}
