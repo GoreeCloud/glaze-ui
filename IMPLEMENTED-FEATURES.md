@@ -1,10 +1,10 @@
 # Glaze UI — Implemented Features
 
 **Status:** Active implemented-feature control  
-**As of:** 2026-09-24  
+**As of:** 2026-09-26  
 **Canonical lifecycle authority:** `registry/lifecycle.json`  
 **Canonical repository:** `GoreeCloud/glaze-ui`  
-**Current Official Stable:** GLAZE UI V1.6 / `1.6.0`
+**Current Official Anchor:** GLAZE UI V1.6 / `1.6.0` (Stable compatibility channel)
 
 ## Purpose
 
@@ -14,7 +14,7 @@ This file records verified implemented Glaze UI feature and lifecycle obligation
 
 | ID | Feature / obligation | Priority | Verified disposition |
 | --- | --- | --- | --- |
-| FR-004 | Preserve GLAZE UI V1.6 / `1.6.0` as current Official Stable authority and `1.5.1` as the immediate rollback baseline. | P0 | Verified Stable invariant; current lifecycle authority is `1.6.0`. |
+| FR-004 | Preserve GLAZE UI V1.6 / `1.6.0` as current Official Anchor authority and `1.5.1` as the immediate rollback baseline. | P0 | Verified Anchor invariant; current lifecycle authority is `1.6.0`, with Stable compatibility fields retained for existing tooling and historical evidence. |
 | FR-005 | Preserve the V1.5 Context + Capability Resolution architecture and its fail-closed authority, accessibility, continuity, diagnostics, degradation, and truth-preservation invariants. | P0 | Stable invariant; regression protection remains mandatory. |
 | FR-006 | Maintain presentation-only authority boundaries so Glaze never creates consent, grants permissions, invents provider precedence, executes consequential operations, or upgrades Privacy Shield, Wardveil Security, Everkeep, Mesh, or application truth. | P0 | Stable invariant; V1.5.1 promotion preserves it. |
 | FR-007 | Complete V1.5.1 representative performance qualification against the approved budget using exact-revision, privacy-minimized evidence from a representative reviewed environment. | P0 | Accepted — exact revision `5b59d0e36950d737dba35b58ae58058684e0831b`; PR #230 comment `5697516074`. |
@@ -28,7 +28,7 @@ This file records verified implemented Glaze UI feature and lifecycle obligation
 
 ## V1.7 Development Foundations
 
-**Numbering provenance:** dev.1–dev.7 were implemented against the earlier V1.7 v1.0 plan. dev.8–dev.13 were implemented against the v1.1 35-section plan. dev.14 is the first explicitly v1.2-bound tranche. Historical “specification section” references below remain provenance and must not be read as completion claims for equivalently numbered sections in the current v1.2 47-section plan. Every Development tranche states its governing plan revision and bounded scope explicitly.
+**Numbering provenance:** dev.1–dev.7 were implemented against the earlier V1.7 v1.0 plan. dev.8–dev.13 were implemented against the v1.1 35-section plan. dev.14 is the first explicitly v1.2-bound tranche for Section 22, and dev.15 is the bounded v1.2 Section 23 Signature Motion Principles tranche. Historical “specification section” references below remain provenance and must not be read as completion claims for equivalently numbered sections in the current v1.2 47-section plan. Every Development tranche states its governing plan revision and bounded scope explicitly.
 
 **v1.2 renumbering boundary:** The v1.2 plan introduces a distinct Signature Motion system and substantially renumbers motion-related requirements. In particular, `1.7.0-dev.13` remains historical **v1.1 Section 28 Continuity-Aware Motion** evidence; it does not establish v1.2 Section 28 Theme Transition System or automatically satisfy any newly added v1.2 Signature Motion section.
 
@@ -56,6 +56,8 @@ This file records verified implemented Glaze UI feature and lifecycle obligation
 | Continuity-Aware Motion — `1.7.0-dev.13` | Development source implemented | Adds a bounded **v1.1 Section 28** source foundation through `contracts/v1.7/continuity-aware-motion.dev.json`, `schemas/v1.7-continuity-aware-motion.schema.json`, `tokens/glaze-v1.7-continuity-aware-motion.dev.json`, `js/glaze-v1.7-continuity-aware-motion.dev.mjs`, and exact-source validation. It extends the retained V1.6 motion/focus resolver with seven continuity events covering surface relocation, composition change, retained object identity, focus movement, pane primacy, compact/expanded transitions, and bounded theme changes. Motion is explanatory and non-blocking; task state is preserved through V1.7 Task Continuity; caller-supplied identity/focus/pane truth fails closed without authority; Reduced Motion requires equivalent static or minimal transitions; continuous rainbow, unnecessary chromatic movement, and decorative animation remain non-default. This does **not** establish v1.1 Section 28 completion, v1.2 Section 28 Theme Transition System, any newly added v1.2 Signature Motion section, rendered/native/assistive-technology/performance/motion-fatigue/human-review acceptance, consumer eligibility, Release Candidate, Stable, deployment, or production acceptance. |
 
 | Glaze Signature Motion System — `1.7.0-dev.14` | Development source implemented | Adds the first explicitly **v1.2-bound** V1.7 source foundation for **Section 22** through `contracts/v1.7/signature-motion-system.dev.json`, `schemas/v1.7-signature-motion-system.schema.json`, `tokens/glaze-v1.7-signature-motion-system.dev.json`, `js/glaze-v1.7-signature-motion-system.dev.mjs`, and exact-source validation. The foundation defines the five Signature Motion pillars—Continuity, Depth, Material, Precision, Quiet settling—and maps ten authoritative semantic relationships to the ten named Signature Motion families: Glaze Bloom, Flow, Lift, Veil, Fold, Trace, Settle, Focus Transfer, Color Shift, and Material Shift. Applications request semantic relationship intent rather than raw family/duration/easing/spring/physics parameters; untrusted relationships and identity-sensitive mappings fail closed to a standard transition; Reduced Motion, direct-manipulation tracking, motion-budget protection, non-blocking final state, and presentation-only authority are preserved. The separate Glaze Motion 0.6 foundation remains Experimental with Motion Core 0.4 runtime compatibility and Motion Studio/Spatial still Planned. This does **not** establish Section 22 completion, Section 23 completion, Section 24 choreography completion, rendered/native/assistive-technology/performance/motion-fatigue/human-review acceptance, consumer eligibility, Release Candidate, Stable, deployment, or production acceptance. |
+
+| Signature Motion Principles — `1.7.0-dev.15` | Development source implemented | Adds a bounded **v1.2 Section 23** source layer through `contracts/v1.7/signature-motion-principles.dev.json`, `schemas/v1.7-signature-motion-principles.schema.json`, `tokens/glaze-v1.7-signature-motion-principles.dev.json`, `js/glaze-v1.7-signature-motion-principles.dev.mjs`, and exact-source validation. The layer makes all eight Section 23 principles explicit and machine-verifiable: respond immediately, move with purpose, preserve identity, use depth meaningfully, settle quietly, remain interruptible, never block state, and respect accessibility. It inherits dev.14 semantic relationship and identity authority, rejects raw depth/bounce/wobble controls, prevents decorative-only depth and routine overshoot, requires user-controlled transitions to remain interruptible, keeps final state/navigation/close/task completion independent of animation completion, and gives Reduced Motion/accessibility precedence over expression. The source policy explicitly does **not** claim measured responsiveness acceptance. Section 22 remains incomplete, Section 23 remains incomplete pending measured/rendered/native/assistive-technology/performance/motion-fatigue/human-review evidence, Section 24 choreography remains open, Glaze Motion 0.6 remains Experimental, and no consumer eligibility, Release Candidate, Anchor, deployment, or production acceptance is established. |
 
 ## Current Verified Stable Boundary
 
