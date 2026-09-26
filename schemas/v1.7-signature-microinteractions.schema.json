@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-signature-microinteractions.schema.json",
+  "title": "Glaze UI V1.7 Signature Microinteractions Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline","consumerEligible",
+    "planVersion","v12SpecificationSections","dependsOn","actionOrder","actionPolicy","requestPolicy",
+    "microinteractionPolicy","authority","accessibility","fatigue","performance","glazeMotionBoundary",
+    "acceptanceBoundary","runtimeEntrypoint","developmentAggregateEntrypoint","tokenMap","researchRecord","sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.7-signature-microinteractions.schema.json"},
+    "schemaVersion": {"const":1},
+    "contractId": {"const":"goreecloud.glaze-ui.v1.7.signature-microinteractions"},
+    "name": {"const":"Glaze UI V1.7 Signature Microinteractions Development Contract"},
+    "version": {"const":"1.7.0-dev.19"},
+    "lifecycle": {"const":"Development"},
+    "stableBaseline": {"const":"1.6.0"},
+    "consumerEligible": {"const":false},
+    "planVersion": {"const":"v1.2"},
+    "v12SpecificationSections": {"const":[27]},
+    "dependsOn": {"type":"object","minProperties":4},
+    "actionOrder": {"type":"array","minItems":15,"maxItems":15,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "actionPolicy": {"type":"object","minProperties":15,"maxProperties":15},
+    "requestPolicy": {"type":"object","minProperties":11},
+    "microinteractionPolicy": {"type":"object","minProperties":8},
+    "authority": {"type":"object","minProperties":8},
+    "accessibility": {"type":"object","minProperties":6},
+    "fatigue": {"type":"object","minProperties":5},
+    "performance": {"type":"object","minProperties":4},
+    "glazeMotionBoundary": {"type":"object","minProperties":5},
+    "acceptanceBoundary": {"type":"object","minProperties":18},
+    "runtimeEntrypoint": {"const":"js/glaze-v1.7-signature-microinteractions.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap": {"const":"tokens/glaze-v1.7-signature-microinteractions.dev.json"},
+    "researchRecord": {"const":"docs/development/v1.7-signature-microinteractions-open-source-research-20260926.md"},
+    "sourceAuthorities": {"type":"array","minItems":4,"uniqueItems":true,"items":{"type":"string","minLength":1}}
+  }
+}
