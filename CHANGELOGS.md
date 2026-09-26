@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added bounded `1.7.0-dev.18` **Adaptive Composition Motion** Development source for V1.7 v1.2 Section 26.
+- Added governed adaptive recomposition for reposition, resize, hierarchy change, movement between panes, merge, separate, reorder, and material-level change through Glaze Flow, Glaze Fold, and Glaze Material Shift semantics.
+- Require authoritative composition-change truth, a supplied non-empty authoritative composition identity, and explicit from/to composition states. Missing or untrusted composition identity falls back to the immediate final composition instead of inventing continuity.
+- Preserve spatial understanding, task and element continuity, focus/reading order, selection, navigation context, Reduced Motion immediate recomposition, and performance-pressure degradation that may remove optional interpolation but never final composition correctness.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.18` with v1.2 foundation sections 22–26 while keeping Sections 22–26 acceptance incomplete, Glaze Motion 0.6 Experimental, V1.6 / `1.6.0` as Official Anchor, and V1.7 non-consumer-eligible.
+
 - Added bounded `1.7.0-dev.17` **Connected Transformation 2.0** Development source for V1.7 v1.2 Section 25.
 - Added twelve governed connected object/task relationships covering search control → search interface, navigation item → destination, app icon → application surface where platform appropriate, card → detail, thumbnail → viewer, quick setting → expanded setting, compact player → full player, folder → contents, notification → related event, widget → expanded experience, command result → resulting interface, and compact pane → expanded pane.
 - Require authoritative connection truth plus a supplied non-empty authoritative connection identity before connected continuity is applied; app-icon → application-surface continuity additionally requires authoritative platform support. Unclear, untrusted, or unsupported identity falls back to a standard transition without inventing a relationship.

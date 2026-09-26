@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-adaptive-composition-motion.schema.json",
+  "title": "Glaze UI V1.7 Adaptive Composition Motion Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema","schemaVersion","contractId","name","version","lifecycle","stableBaseline","consumerEligible",
+    "planVersion","v12SpecificationSections","dependsOn","compositionChangeOrder","compositionPolicy",
+    "supportedAdaptiveContexts","requestPolicy","continuity","authority","accessibility","performance",
+    "glazeMotionBoundary","acceptanceBoundary","runtimeEntrypoint","developmentAggregateEntrypoint","tokenMap","sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {"const":"../../schemas/v1.7-adaptive-composition-motion.schema.json"},
+    "schemaVersion": {"const":1},
+    "contractId": {"const":"goreecloud.glaze-ui.v1.7.adaptive-composition-motion"},
+    "name": {"const":"Glaze UI V1.7 Adaptive Composition Motion Development Contract"},
+    "version": {"const":"1.7.0-dev.18"},
+    "lifecycle": {"const":"Development"},
+    "stableBaseline": {"const":"1.6.0"},
+    "consumerEligible": {"const":false},
+    "planVersion": {"const":"v1.2"},
+    "v12SpecificationSections": {"const":[26]},
+    "dependsOn": {"type":"object","minProperties":4},
+    "compositionChangeOrder": {"type":"array","minItems":8,"maxItems":8,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "compositionPolicy": {"type":"object","minProperties":8,"maxProperties":8},
+    "supportedAdaptiveContexts": {"type":"array","minItems":4,"uniqueItems":true},
+    "requestPolicy": {"type":"object","minProperties":9},
+    "continuity": {"type":"object","minProperties":12},
+    "authority": {"type":"object","minProperties":10},
+    "accessibility": {"type":"object","minProperties":6},
+    "performance": {"type":"object","minProperties":5},
+    "glazeMotionBoundary": {"type":"object","minProperties":5},
+    "acceptanceBoundary": {"type":"object","minProperties":17},
+    "runtimeEntrypoint": {"const":"js/glaze-v1.7-adaptive-composition-motion.dev.mjs"},
+    "developmentAggregateEntrypoint": {"const":"js/glaze-v1.7-development.mjs"},
+    "tokenMap": {"const":"tokens/glaze-v1.7-adaptive-composition-motion.dev.json"},
+    "sourceAuthorities": {"type":"array","minItems":4,"uniqueItems":true,"items":{"type":"string","minLength":1}}
+  }
+}

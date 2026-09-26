@@ -1,0 +1,72 @@
+{
+  "version": "1.7.0-dev.18",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [26],
+  "compositionChanges": {
+    "reposition": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"element-set"},
+    "resize": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"element-set"},
+    "hierarchy-change": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"task-and-element-set"},
+    "move-between-panes": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"task-and-element-set"},
+    "merge": {"relationship":"posture-partition","family":"Glaze Fold","identityMode":"task-and-element-set"},
+    "separate": {"relationship":"posture-partition","family":"Glaze Fold","identityMode":"task-and-element-set"},
+    "reorder": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"element-set"},
+    "material-level-change": {"relationship":"material-role-change","family":"Glaze Material Shift","identityMode":"element-set"}
+  },
+  "adaptiveContexts": [
+    "mobile-tablet-recomposition",
+    "foldable-posture-change",
+    "desktop-window-resize",
+    "multi-pane-workspace"
+  ],
+  "fallbacks": {
+    "untrustedComposition": "immediate-final-composition",
+    "missingCompositionIdentity": "immediate-final-composition",
+    "reducedMotion": "immediate-recomposition-with-focus-continuity",
+    "performancePressure": "state-first-reduced-interpolation"
+  },
+  "prohibitedRequestKeys": [
+    "relationship","relationshipAuthoritative","family","signatureFamily","requestedFamily",
+    "duration","durationMs","easing","spring","physics","keyframes","path","travelPx","distance",
+    "rotation","overshoot","bounce","wobble"
+  ],
+  "continuity": {
+    "spatialUnderstandingPreserved": true,
+    "taskIdentityPreserved": true,
+    "focusOrderPreserved": true,
+    "readingOrderPreserved": true,
+    "selectionPreserved": true,
+    "navigationContextPreserved": true,
+    "unnecessaryDisappearReappearAllowed": false,
+    "layoutCommitDependsOnAnimationCompletion": false
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "immediateRecompositionEquivalent": true,
+    "focusStateIndependentOfAnimation": true,
+    "motionRequiredToUnderstandComposition": false
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "compositionChangeCreatedByGlaze": false,
+    "compositionIdentityCreatedByGlaze": false,
+    "providerTruthCreatedByGlaze": false,
+    "glazeMotionExperimentalLifecyclePromoted": false,
+    "section22Complete": false,
+    "section23Complete": false,
+    "section24Complete": false,
+    "section25Complete": false,
+    "section26Complete": false,
+    "renderedAcceptanceEstablished": false,
+    "nativePlatformAcceptanceEstablished": false,
+    "assistiveTechnologyAcceptanceEstablished": false,
+    "performanceAcceptanceEstablished": false,
+    "motionFatigueAcceptanceEstablished": false,
+    "humanMotionReviewEstablished": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  }
+}
