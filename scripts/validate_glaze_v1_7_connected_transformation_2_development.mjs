@@ -207,13 +207,14 @@ assert(glazeMotion.glazeMotion.version==='0.6.0'&&glazeMotion.glazeMotion.status
 
 assert(glazeV17ConnectedTransformation2DevelopmentContract.version==='1.7.0-dev.17','runtime contract version mismatch');
 assert(glazeV17ConnectedTransformation2DevelopmentContract.section25Complete===false,'runtime contract completion overclaim');
-assert(glazeV17Development.version==='1.7.0-dev.17','aggregate version mismatch');
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\\.7\\.0-dev\\.(\\d+)$/)?.[1]);
+assert(Number.isInteger(aggregateOrdinal)&&aggregateOrdinal>=17,'aggregate version regressed below dev.17');
 assert(glazeV17Development.planVersion==='v1.2'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 for(const section of [22,23,24,25])assert(glazeV17Development.planV12FoundationSections.includes(section),'aggregate missing v1.2 section '+section);
 assert(glazeV17Development.connectedTransformation2Foundation==='js/glaze-v1.7-connected-transformation-2.dev.mjs','aggregate missing dev.17 foundation');
 assert(glazeV17Development.glazeMotionExperimentalLifecyclePromoted===false,'aggregate promoted Glaze Motion');
 
-assert(spec.includes('1.7.0-dev.17')&&spec.includes('Connected Transformation 2.0'),'plan authority boundary missing dev.17');
+assert(spec.includes('dev.17 adds the bounded **Section 25 — Connected Transformation 2.0** source layer')&&spec.includes('dev.17 does **not** establish Section 25 completion'),'plan authority boundary missing dev.17 Section 25 provenance');
 assert(planned.includes('1.7.0-dev.17')&&planned.includes('Connected Transformation 2.0'),'planned-feature control missing dev.17');
 assert(implemented.includes('Connected Transformation 2.0 — `1.7.0-dev.17`'),'implemented-feature control missing dev.17');
 assert(changelog.includes('1.7.0-dev.17')&&changelog.includes('Connected Transformation 2.0'),'changelog missing dev.17');
