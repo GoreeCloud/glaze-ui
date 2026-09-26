@@ -1,0 +1,132 @@
+{
+  "$schema": "../../schemas/v1.7-adaptive-composition-motion.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.adaptive-composition-motion",
+  "name": "Glaze UI V1.7 Adaptive Composition Motion Development Contract",
+  "version": "1.7.0-dev.18",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [26],
+  "dependsOn": {
+    "connectedTransformationVersion": "1.7.0-dev.17",
+    "connectedTransformationRuntime": "js/glaze-v1.7-connected-transformation-2.dev.mjs",
+    "signatureTransitionFamiliesVersion": "1.7.0-dev.16",
+    "signatureTransitionFamiliesRuntime": "js/glaze-v1.7-signature-transition-families.dev.mjs"
+  },
+  "compositionChangeOrder": [
+    "reposition",
+    "resize",
+    "hierarchy-change",
+    "move-between-panes",
+    "merge",
+    "separate",
+    "reorder",
+    "material-level-change"
+  ],
+  "compositionPolicy": {
+    "reposition": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"element-set"},
+    "resize": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"element-set"},
+    "hierarchy-change": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"task-and-element-set"},
+    "move-between-panes": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"task-and-element-set"},
+    "merge": {"relationship":"posture-partition","family":"Glaze Fold","identityMode":"task-and-element-set"},
+    "separate": {"relationship":"posture-partition","family":"Glaze Fold","identityMode":"task-and-element-set"},
+    "reorder": {"relationship":"workspace-recomposition","family":"Glaze Flow","identityMode":"element-set"},
+    "material-level-change": {"relationship":"material-role-change","family":"Glaze Material Shift","identityMode":"element-set"}
+  },
+  "supportedAdaptiveContexts": [
+    "mobile-tablet-recomposition",
+    "foldable-posture-change",
+    "desktop-window-resize",
+    "multi-pane-workspace"
+  ],
+  "requestPolicy": {
+    "governedCompositionChangeRequired": true,
+    "compositionAuthorityRequired": true,
+    "compositionIdentityRequired": true,
+    "compositionIdentityAuthorityRequired": true,
+    "fromCompositionRequired": true,
+    "toCompositionRequired": true,
+    "arbitraryRelationshipRequestAccepted": false,
+    "directFamilyRequestAccepted": false,
+    "rawChoreographyControlAccepted": false
+  },
+  "continuity": {
+    "preserveSpatialUnderstanding": true,
+    "preserveElementIdentityWherePossible": true,
+    "preserveTaskIdentity": true,
+    "preserveFocusOrder": true,
+    "preserveReadingOrder": true,
+    "preserveSelection": true,
+    "preserveNavigationContext": true,
+    "unnecessaryDisappearReappearAllowed": false,
+    "stateDependsOnAnimationCompletion": false,
+    "layoutCommitDependsOnAnimationCompletion": false,
+    "taskCompletionDependsOnAnimationCompletion": false,
+    "interruptibleWhereUserControlled": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "compositionChangeCreatedByGlaze": false,
+    "compositionIdentityCreatedByGlaze": false,
+    "formFactorTruthCreatedByGlaze": false,
+    "windowStateCreatedByGlaze": false,
+    "paneStateCreatedByGlaze": false,
+    "providerTruthCreatedByGlaze": false,
+    "navigationAuthorityCreatedByGlaze": false,
+    "focusAuthorityCreatedByGlaze": false,
+    "stateChangedByMotion": false,
+    "layoutAuthorityCreatedByMotion": false
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "reducedMotionUsesImmediateRecomposition": true,
+    "motionRequiredToUnderstandComposition": false,
+    "focusStateIndependentOfAnimation": true,
+    "assistiveTechnologyOrderPreserved": true,
+    "accessibilityOutranksExpression": true
+  },
+  "performance": {
+    "progressiveComplexityRequired": true,
+    "optionalInterpolationMayDegrade": true,
+    "finalCompositionMustRemainCorrect": true,
+    "degradationMayRemoveRequiredSemantics": false,
+    "measuredPerformanceAcceptanceEstablished": false
+  },
+  "glazeMotionBoundary": {
+    "experimentalFoundationVersion": "0.6.0",
+    "runtimeCompatibilityBaseline": "0.4.0",
+    "experimentalLifecyclePromoted": false,
+    "motionStudioPromoted": false,
+    "motionSpatialPromoted": false
+  },
+  "acceptanceBoundary": {
+    "sourceFoundationOnly": true,
+    "section22Complete": false,
+    "section23Complete": false,
+    "section24Complete": false,
+    "section25Complete": false,
+    "section26Complete": false,
+    "adaptiveCompositionCatalogImplemented": true,
+    "renderedAcceptanceEstablished": false,
+    "nativePlatformAcceptanceEstablished": false,
+    "assistiveTechnologyAcceptanceEstablished": false,
+    "performanceAcceptanceEstablished": false,
+    "motionFatigueAcceptanceEstablished": false,
+    "humanMotionReviewEstablished": false,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-adaptive-composition-motion.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-adaptive-composition-motion.dev.json",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}
