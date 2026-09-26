@@ -4,6 +4,12 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+- Added bounded `1.7.0-dev.17` **Connected Transformation 2.0** Development source for V1.7 v1.2 Section 25.
+- Added twelve governed connected object/task relationships covering search control → search interface, navigation item → destination, app icon → application surface where platform appropriate, card → detail, thumbnail → viewer, quick setting → expanded setting, compact player → full player, folder → contents, notification → related event, widget → expanded experience, command result → resulting interface, and compact pane → expanded pane.
+- Require authoritative connection truth plus a supplied non-empty authoritative connection identity before connected continuity is applied; app-icon → application-surface continuity additionally requires authoritative platform support. Unclear, untrusted, or unsupported identity falls back to a standard transition without inventing a relationship.
+- Preserve Reduced Motion equivalents, focus/reading order, task continuity, interruption/state integrity, presentation-only authority, and performance degradation that may simplify optional motion but never required semantics.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.17` with v1.2 foundation sections 22–25 while keeping Sections 22–25 acceptance incomplete, Glaze Motion 0.6 Experimental, V1.6 / `1.6.0` as Official Anchor, and V1.7 non-consumer-eligible.
+
 - Added bounded `1.7.0-dev.16` **Signature Transition Families** Development source for V1.7 v1.2 Section 24.
 - Added semantic choreography descriptors for all ten named families—Bloom, Flow, Lift, Veil, Fold, Trace, Settle, Focus Transfer, Color Shift, and Material Shift—while preserving dev.14 relationship/identity authority and dev.15 motion principles.
 - Added Reduced Motion family equivalents, Reduced Transparency solid fallback for Material Shift, certainty-first critical Veil behavior, protected semantic-color continuity, focus-state independence, and explicit anti-decoration rules for Fold, Trace, and Settle.
