@@ -1,0 +1,48 @@
+{
+  "version": "1.7.0-dev.20",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [28],
+  "properties": {
+    "canvas-color": "color-shift",
+    "surface-color": "color-shift",
+    "accent-families": "color-shift",
+    "material-atmosphere": "material-shift",
+    "icon-tint": "icon-tint-shift",
+    "selection-color": "selection-color-shift",
+    "decorative-color": "decorative-color-shift",
+    "appearance-mode": "appearance-mode-crossfade"
+  },
+  "modes": ["preview", "apply"],
+  "phases": ["intent", "result"],
+  "previewResultStates": ["cancelled", "unchanged"],
+  "applyResultStates": ["committed", "failed", "cancelled", "unchanged"],
+  "fallbacks": {
+    "untrustedThemeChange": "static-authoritative-theme",
+    "unclearThemeIdentity": "static-authoritative-theme",
+    "untrustedChangedProperties": "static-authoritative-theme",
+    "untrustedResult": "pending-or-source-theme-no-commit-claim",
+    "reducedMotion": "immediate-theme-replacement",
+    "reducedTransparency": "solid-material-equivalent",
+    "performancePressure": "state-first-reduced-interpolation"
+  },
+  "boundaries": {
+    "presentationOnly": true,
+    "fullScreenSpectacleAllowed": false,
+    "geometryTravelAllowedByDefault": false,
+    "hardcodedDurationExposed": false,
+    "hardcodedEasingExposed": false,
+    "rawPhysicsExposed": false,
+    "themeCommitCreatedByGlaze": false,
+    "section28Complete": false,
+    "glazeMotionExperimentalLifecyclePromoted": false,
+    "renderedAcceptanceEstablished": false,
+    "nativePlatformAcceptanceEstablished": false,
+    "assistiveTechnologyAcceptanceEstablished": false,
+    "performanceAcceptanceEstablished": false,
+    "motionFatigueAcceptanceEstablished": false,
+    "humanMotionReviewEstablished": false
+  }
+}
