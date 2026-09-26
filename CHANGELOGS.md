@@ -4,6 +4,15 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 
 ## Unreleased — GLAZE UI V1.7 Development
 
+
+- Added bounded `1.7.0-dev.19` **Signature Microinteractions** Development source for V1.7 v1.2 Section 27.
+- Added governed semantic microinteraction feedback for Toggle, Select, Favorite, Save, Copy, Pin, Expand, Collapse, Refresh, Retry, Send, Download, Upload, Completion, and Reorder, with no more than three semantic motion-property channels per action and no application-facing raw timing/easing/physics controls.
+- Separated authoritative action intent from authoritative result feedback: Glaze may present bounded intent acknowledgement, but confirmed/failed/cancelled/unchanged result feedback requires provider/application-owned result authority; Glaze does not execute commands, transfers, state mutation, or manufacture completion truth.
+- Added Reduced Motion immediate-state equivalents, Reduced Transparency solid-material equivalents, rapid-repetition fatigue suppression for travel/scale/icon motion, and performance-pressure degradation that removes optional motion without changing authoritative state.
+- Recorded Material, Carbon, and Fluent open-source motion research as Reforge provenance without copying upstream source, timing values, easing curves, components, or visual identity.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.19` with v1.2 foundation sections 22–27 while keeping Sections 22–27 acceptance incomplete, Glaze Motion 0.6 Experimental, V1.6 / `1.6.0` as Official Anchor, and V1.7 non-consumer-eligible.
+
+
 - Added bounded `1.7.0-dev.18` **Adaptive Composition Motion** Development source for V1.7 v1.2 Section 26.
 - Added governed adaptive recomposition for reposition, resize, hierarchy change, movement between panes, merge, separate, reorder, and material-level change through Glaze Flow, Glaze Fold, and Glaze Material Shift semantics.
 - Require authoritative composition-change truth, a supplied non-empty authoritative composition identity, and explicit from/to composition states. Missing or untrusted composition identity falls back to the immediate final composition instead of inventing continuity.

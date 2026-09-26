@@ -1,0 +1,132 @@
+{
+  "$schema": "../../schemas/v1.7-signature-microinteractions.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.signature-microinteractions",
+  "name": "Glaze UI V1.7 Signature Microinteractions Development Contract",
+  "version": "1.7.0-dev.19",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [27],
+  "dependsOn": {
+    "adaptiveCompositionMotionVersion": "1.7.0-dev.18",
+    "adaptiveCompositionMotionRuntime": "js/glaze-v1.7-adaptive-composition-motion.dev.mjs",
+    "signatureTransitionFamiliesVersion": "1.7.0-dev.16",
+    "signatureMotionPrinciplesVersion": "1.7.0-dev.15"
+  },
+  "actionOrder": [
+    "toggle","select","favorite","save","copy","pin","expand","collapse",
+    "refresh","retry","send","download","upload","completion","reorder"
+  ],
+  "actionPolicy": {
+    "toggle": {"category":"state-control","channels":["geometry","color","icon-transformation"]},
+    "select": {"category":"state-control","channels":["color","material","opacity"]},
+    "favorite": {"category":"state-control","channels":["icon-transformation","color","bounded-scale"]},
+    "save": {"category":"command","channels":["icon-transformation","material","opacity"]},
+    "copy": {"category":"command","channels":["icon-transformation","material","opacity"]},
+    "pin": {"category":"state-control","channels":["icon-transformation","color","bounded-scale"]},
+    "expand": {"category":"disclosure","channels":["geometry","position","opacity"]},
+    "collapse": {"category":"disclosure","channels":["geometry","position","opacity"]},
+    "refresh": {"category":"command","channels":["icon-transformation","opacity","material"]},
+    "retry": {"category":"recovery-command","channels":["icon-transformation","material","opacity"]},
+    "send": {"category":"transfer-command","channels":["position","icon-transformation","opacity"]},
+    "download": {"category":"transfer-command","channels":["position","icon-transformation","opacity"]},
+    "upload": {"category":"transfer-command","channels":["position","icon-transformation","opacity"]},
+    "completion": {"category":"result-state","channels":["icon-transformation","color","material"]},
+    "reorder": {"category":"direct-manipulation","channels":["position","geometry","material"]}
+  },
+  "requestPolicy": {
+    "governedActionRequired": true,
+    "actionAuthorityRequired": true,
+    "controlIdentityRequired": true,
+    "controlIdentityAuthorityRequired": true,
+    "phaseRequired": true,
+    "supportedPhases": ["intent","result"],
+    "resultAuthorityRequiredForResultPhase": true,
+    "supportedResultStates": ["confirmed","failed","cancelled","unchanged"],
+    "directExecutionAccepted": false,
+    "rawTimingAccepted": false,
+    "rawChoreographyAccepted": false
+  },
+  "microinteractionPolicy": {
+    "maximumMotionChannels": 3,
+    "quickReadableNonDisruptive": true,
+    "intentFeedbackMayPrecedeOperationCompletion": true,
+    "resultFeedbackRequiresAuthoritativeResult": true,
+    "stateMutationPerformedByGlaze": false,
+    "operationExecutionPerformedByGlaze": false,
+    "successGeneratedByGlaze": false,
+    "failureGeneratedByGlaze": false,
+    "repeatedActionFatigueReduction": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "actionCreatedByGlaze": false,
+    "controlIdentityCreatedByGlaze": false,
+    "resultCreatedByGlaze": false,
+    "providerTruthCreatedByGlaze": false,
+    "applicationStateChangedByGlaze": false,
+    "commandExecutedByGlaze": false,
+    "transferExecutedByGlaze": false,
+    "completionDeclaredByGlaze": false
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "reducedMotionUsesImmediateStateFeedback": true,
+    "motionRequiredToUnderstandResult": false,
+    "focusStateIndependentOfAnimation": true,
+    "accessibilityOutranksExpression": true,
+    "reducedTransparencyUsesSolidMaterialEquivalent": true
+  },
+  "fatigue": {
+    "repeatedActionsMaySuppressTravel": true,
+    "repeatedActionsMaySuppressScale": true,
+    "repeatedActionsMaySuppressIconMotion": true,
+    "authoritativeStateRemainsVisible": true,
+    "persistentOrContinuousDecorativeMotionAllowed": false
+  },
+  "performance": {
+    "optionalMotionMayDegrade": true,
+    "authoritativeStateMustRemainCorrect": true,
+    "degradationMayRemoveRequiredMeaning": false,
+    "measuredPerformanceAcceptanceEstablished": false
+  },
+  "glazeMotionBoundary": {
+    "experimentalFoundationVersion": "0.6.0",
+    "runtimeCompatibilityBaseline": "0.4.0",
+    "experimentalLifecyclePromoted": false,
+    "motionStudioPromoted": false,
+    "motionSpatialPromoted": false
+  },
+  "acceptanceBoundary": {
+    "sourceFoundationOnly": true,
+    "section22Complete": false,
+    "section23Complete": false,
+    "section24Complete": false,
+    "section25Complete": false,
+    "section26Complete": false,
+    "section27Complete": false,
+    "microinteractionCatalogImplemented": true,
+    "renderedAcceptanceEstablished": false,
+    "nativePlatformAcceptanceEstablished": false,
+    "assistiveTechnologyAcceptanceEstablished": false,
+    "performanceAcceptanceEstablished": false,
+    "motionFatigueAcceptanceEstablished": false,
+    "humanMotionReviewEstablished": false,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-signature-microinteractions.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-signature-microinteractions.dev.json",
+  "researchRecord": "docs/development/v1.7-signature-microinteractions-open-source-research-20260926.md",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}
