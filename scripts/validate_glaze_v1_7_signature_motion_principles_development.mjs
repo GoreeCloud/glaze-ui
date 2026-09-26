@@ -240,7 +240,7 @@ assert(glazeV17Development.signatureMotionPrinciplesFoundation==='js/glaze-v1.7-
 assert(glazeV17Development.glazeMotionExperimentalLifecyclePromoted===false,'aggregate must keep Glaze Motion Experimental');
 assert(glazeV17Development.providerTruthManufactured===false,'aggregate provider-truth boundary weakened');
 
-assert(spec.includes('1.7.0-dev.15'),'V1.7 plan authority boundary missing dev.15 source state');
+assert(spec.includes('dev.15 adds the bounded **Section 23 — Signature Motion Principles** source layer')&&spec.includes('dev.15 does **not** establish Section 23 completion'),'V1.7 plan authority boundary missing dev.15 Section 23 provenance');
 assert(planned.includes('1.7.0-dev.15')&&planned.includes('Signature Motion Principles'),'planned-feature control missing dev.15 state');
 assert(implemented.includes('Signature Motion Principles — `1.7.0-dev.15`'),'implemented-feature control missing dev.15');
 assert(changelog.includes('1.7.0-dev.15')&&changelog.includes('Signature Motion Principles'),'changelog missing dev.15');
