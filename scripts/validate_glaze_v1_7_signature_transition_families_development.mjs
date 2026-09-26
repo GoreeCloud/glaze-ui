@@ -110,7 +110,7 @@ for(const section of [22,23,24])assert(glazeV17Development.planV12FoundationSect
 assert(glazeV17Development.signatureTransitionFamiliesFoundation==='js/glaze-v1.7-signature-transition-families.dev.mjs','aggregate missing dev.16 foundation');
 assert(glazeV17Development.glazeMotionExperimentalLifecyclePromoted===false,'aggregate promoted Glaze Motion');
 
-assert(spec.includes('1.7.0-dev.16'),'plan authority boundary missing dev.16');
+assert(spec.includes('dev.16 adds the bounded **Section 24 — Glaze Signature Transition Families** semantic choreography layer')&&spec.includes('dev.16 does **not** establish Section 24 completion'),'plan authority boundary missing dev.16 Section 24 provenance');
 assert(planned.includes('1.7.0-dev.16')&&planned.includes('Signature Transition Families'),'planned-feature control missing dev.16');
 assert(implemented.includes('Signature Transition Families — `1.7.0-dev.16`'),'implemented-feature control missing dev.16');
 assert(changelog.includes('1.7.0-dev.16')&&changelog.includes('Signature Transition Families'),'changelog missing dev.16');
