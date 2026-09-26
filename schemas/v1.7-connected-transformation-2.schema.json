@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goreecloud.com/schemas/glaze-ui/v1.7-connected-transformation-2.schema.json",
+  "title": "Glaze UI V1.7 Connected Transformation 2.0 Development Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "contractId",
+    "name",
+    "version",
+    "lifecycle",
+    "stableBaseline",
+    "consumerEligible",
+    "planVersion",
+    "v12SpecificationSections",
+    "dependsOn",
+    "connectionOrder",
+    "connectionPolicy",
+    "requestPolicy",
+    "continuity",
+    "authority",
+    "accessibility",
+    "performance",
+    "glazeMotionBoundary",
+    "acceptanceBoundary",
+    "runtimeEntrypoint",
+    "developmentAggregateEntrypoint",
+    "tokenMap",
+    "sourceAuthorities"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../schemas/v1.7-connected-transformation-2.schema.json"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "contractId": {
+      "const": "goreecloud.glaze-ui.v1.7.connected-transformation-2"
+    },
+    "name": {
+      "const": "Glaze UI V1.7 Connected Transformation 2.0 Development Contract"
+    },
+    "version": {
+      "const": "1.7.0-dev.17"
+    },
+    "lifecycle": {
+      "const": "Development"
+    },
+    "stableBaseline": {
+      "const": "1.6.0"
+    },
+    "consumerEligible": {
+      "const": false
+    },
+    "planVersion": {
+      "const": "v1.2"
+    },
+    "v12SpecificationSections": {
+      "const": [
+        25
+      ]
+    },
+    "dependsOn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signatureTransitionFamiliesVersion",
+        "signatureTransitionFamiliesRuntime"
+      ],
+      "properties": {
+        "signatureTransitionFamiliesVersion": {
+          "const": "1.7.0-dev.16"
+        },
+        "signatureTransitionFamiliesRuntime": {
+          "const": "js/glaze-v1.7-signature-transition-families.dev.mjs"
+        }
+      }
+    },
+    "connectionOrder": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "connectionPolicy": {
+      "type": "object",
+      "minProperties": 12,
+      "maxProperties": 12
+    },
+    "requestPolicy": {
+      "type": "object",
+      "minProperties": 8
+    },
+    "continuity": {
+      "type": "object",
+      "minProperties": 10
+    },
+    "authority": {
+      "type": "object",
+      "minProperties": 10
+    },
+    "accessibility": {
+      "type": "object",
+      "minProperties": 6
+    },
+    "performance": {
+      "type": "object",
+      "minProperties": 5
+    },
+    "glazeMotionBoundary": {
+      "type": "object",
+      "minProperties": 5
+    },
+    "acceptanceBoundary": {
+      "type": "object",
+      "minProperties": 16
+    },
+    "runtimeEntrypoint": {
+      "const": "js/glaze-v1.7-connected-transformation-2.dev.mjs"
+    },
+    "developmentAggregateEntrypoint": {
+      "const": "js/glaze-v1.7-development.mjs"
+    },
+    "tokenMap": {
+      "const": "tokens/glaze-v1.7-connected-transformation-2.dev.json"
+    },
+    "sourceAuthorities": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
