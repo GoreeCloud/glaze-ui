@@ -103,13 +103,14 @@ assert(glazeMotion.glazeMotion.version==='0.6.0'&&glazeMotion.glazeMotion.status
 assert(glazeV17SignatureTransitionFamiliesDevelopmentContract.version==='1.7.0-dev.16','runtime contract version mismatch');
 assert(glazeV17SignatureTransitionFamiliesDevelopmentContract.section24Complete===false,'runtime contract completion overclaim');
 
-assert(glazeV17Development.version==='1.7.0-dev.16','aggregate version mismatch');
+const aggregateOrdinal=Number(glazeV17Development.version.match(/^1\.7\.0-dev\.(\d+)$/)?.[1]);
+assert(Number.isInteger(aggregateOrdinal)&&aggregateOrdinal>=16,'aggregate version regressed below dev.16');
 assert(glazeV17Development.planVersion==='v1.2'&&glazeV17Development.consumerEligible===false,'aggregate lifecycle mismatch');
 for(const section of [22,23,24])assert(glazeV17Development.planV12FoundationSections.includes(section),'aggregate missing v1.2 section '+section);
 assert(glazeV17Development.signatureTransitionFamiliesFoundation==='js/glaze-v1.7-signature-transition-families.dev.mjs','aggregate missing dev.16 foundation');
 assert(glazeV17Development.glazeMotionExperimentalLifecyclePromoted===false,'aggregate promoted Glaze Motion');
 
-assert(spec.includes('1.7.0-dev.16'),'plan authority boundary missing dev.16');
+assert(spec.includes('dev.16 adds the bounded **Section 24 — Glaze Signature Transition Families** semantic choreography layer')&&spec.includes('dev.16 does **not** establish Section 24 completion'),'plan authority boundary missing dev.16 Section 24 provenance');
 assert(planned.includes('1.7.0-dev.16')&&planned.includes('Signature Transition Families'),'planned-feature control missing dev.16');
 assert(implemented.includes('Signature Transition Families — `1.7.0-dev.16`'),'implemented-feature control missing dev.16');
 assert(changelog.includes('1.7.0-dev.16')&&changelog.includes('Signature Transition Families'),'changelog missing dev.16');
