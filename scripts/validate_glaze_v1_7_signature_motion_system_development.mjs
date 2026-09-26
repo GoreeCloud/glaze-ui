@@ -200,7 +200,7 @@ assert(glazeV17Development.glazeMotionExperimentalLifecyclePromoted===false,'agg
 assert(glazeV17Development.providerTruthManufactured===false,'aggregate provider-truth boundary weakened');
 
 assert(spec.includes('dev.14 is the first explicitly v1.2-bound source foundation for **Section 22 — Glaze Signature Motion System**')&&spec.includes('dev.14 does **not** establish Section 22 completion'),'V1.7 plan authority boundary missing dev.14 Section 22 provenance');
-assert(planned.includes('1.7.0-dev.14')&&planned.includes('Glaze Signature Motion System'),'planned-feature control missing dev.14 state');
+assert(planned.includes('1.7.0-dev.14')&&planned.includes('v1.2 Section 22')&&planned.includes('Signature Motion System'),'planned-feature control missing dev.14 provenance');
 assert(implemented.includes('Glaze Signature Motion System — `1.7.0-dev.14`'),'implemented-feature control missing dev.14');
 assert(changelog.includes('1.7.0-dev.14')&&changelog.includes('Glaze Signature Motion System'),'changelog missing dev.14');
 
