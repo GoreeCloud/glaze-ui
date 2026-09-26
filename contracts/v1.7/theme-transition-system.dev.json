@@ -1,0 +1,118 @@
+{
+  "$schema": "../../schemas/v1.7-theme-transition-system.schema.json",
+  "schemaVersion": 1,
+  "contractId": "goreecloud.glaze-ui.v1.7.theme-transition-system",
+  "name": "Glaze UI V1.7 Theme Transition System Development Contract",
+  "version": "1.7.0-dev.20",
+  "lifecycle": "Development",
+  "stableBaseline": "1.6.0",
+  "consumerEligible": false,
+  "planVersion": "v1.2",
+  "v12SpecificationSections": [28],
+  "dependsOn": {
+    "themeSemanticColorVersion": "1.7.0-dev.8",
+    "personalizationVersion": "1.7.0-dev.5",
+    "signatureTransitionFamiliesVersion": "1.7.0-dev.16",
+    "signatureMicrointeractionsVersion": "1.7.0-dev.19"
+  },
+  "governedProperties": [
+    "canvas-color",
+    "surface-color",
+    "accent-families",
+    "material-atmosphere",
+    "icon-tint",
+    "selection-color",
+    "decorative-color",
+    "appearance-mode"
+  ],
+  "requestPolicy": {
+    "modeRequired": true,
+    "supportedModes": ["preview", "apply"],
+    "phaseRequired": true,
+    "supportedPhases": ["intent", "result"],
+    "themeChangeAuthorityRequired": true,
+    "themeIdentityAuthorityRequired": true,
+    "changedPropertiesAuthorityRequired": true,
+    "resultAuthorityRequiredForResultPhase": true,
+    "previewCommitAllowed": false,
+    "rawTimingAccepted": false,
+    "rawChoreographyAccepted": false,
+    "directThemeMutationAccepted": false
+  },
+  "resultPolicy": {
+    "previewResultStates": ["cancelled", "unchanged"],
+    "applyResultStates": ["committed", "failed", "cancelled", "unchanged"],
+    "appliedOnlyAfterAuthoritativeCommittedResult": true,
+    "pendingApplicationIsNotApplied": true,
+    "failedOrCancelledApplicationReturnsSourceState": true
+  },
+  "transitionPolicy": {
+    "fullScreenSpectacleAllowed": false,
+    "geometryTravelAllowedByDefault": false,
+    "maximumSemanticChannels": 4,
+    "coordinatedColorMaterialContinuity": true,
+    "previewCancellable": true,
+    "applicationCommitOwnedByResponsibleSystem": true
+  },
+  "authority": {
+    "boundary": "presentation-only",
+    "themeIdentityCreatedByGlaze": false,
+    "changedPropertiesCreatedByGlaze": false,
+    "themeCommitCreatedByGlaze": false,
+    "themeConfigurationPersistedByGlaze": false,
+    "providerTruthCreatedByGlaze": false,
+    "applicationStateChangedByGlaze": false
+  },
+  "accessibility": {
+    "reducedMotionPrecedence": true,
+    "reducedMotionUsesImmediateThemeReplacement": true,
+    "reducedTransparencyUsesSolidMaterialEquivalent": true,
+    "forcedColorsAuthorityPreserved": true,
+    "motionRequiredToUnderstandThemeState": false,
+    "accessibilityOutranksExpression": true
+  },
+  "performance": {
+    "optionalInterpolationMayDegrade": true,
+    "authoritativeThemeStateMustRemainCorrect": true,
+    "degradationMayRemoveRequiredMeaning": false,
+    "measuredPerformanceAcceptanceEstablished": false
+  },
+  "glazeMotionBoundary": {
+    "experimentalFoundationVersion": "0.6.0",
+    "runtimeCompatibilityBaseline": "0.4.0",
+    "experimentalLifecyclePromoted": false,
+    "motionStudioPromoted": false,
+    "motionSpatialPromoted": false
+  },
+  "acceptanceBoundary": {
+    "sourceFoundationOnly": true,
+    "section22Complete": false,
+    "section23Complete": false,
+    "section24Complete": false,
+    "section25Complete": false,
+    "section26Complete": false,
+    "section27Complete": false,
+    "section28Complete": false,
+    "themeTransitionCatalogImplemented": true,
+    "renderedAcceptanceEstablished": false,
+    "nativePlatformAcceptanceEstablished": false,
+    "assistiveTechnologyAcceptanceEstablished": false,
+    "performanceAcceptanceEstablished": false,
+    "motionFatigueAcceptanceEstablished": false,
+    "humanMotionReviewEstablished": false,
+    "downstreamConsumerAcceptanceAutomatic": false,
+    "releasePromotionAutomatic": false,
+    "deploymentAcceptanceAutomatic": false,
+    "productionAcceptanceAutomatic": false
+  },
+  "runtimeEntrypoint": "js/glaze-v1.7-theme-transition-system.dev.mjs",
+  "developmentAggregateEntrypoint": "js/glaze-v1.7-development.mjs",
+  "tokenMap": "tokens/glaze-v1.7-theme-transition-system.dev.json",
+  "researchRecord": "docs/development/v1.7-theme-transition-system-open-source-research-20260926.md",
+  "sourceAuthorities": [
+    "GLAZE_UI_V1_7_PLANNED.md",
+    "PLANNED-FEATURES.md",
+    "IMPLEMENTED-FEATURES.md",
+    "CHANGELOGS.md"
+  ]
+}

@@ -5,6 +5,15 @@ All notable changes to the Glaze UI reference implementation are recorded here.
 ## Unreleased — GLAZE UI V1.7 Development
 
 
+- Added bounded `1.7.0-dev.20` **Theme Transition System** Development source for V1.7 v1.2 Section 28.
+- Added governed semantic theme-transition coordination for Canvas color, Surface color, Accent families, Material atmosphere, Icon tint, Selection color, Non-semantic decorative color, and Appearance mode without exposing application-facing raw timing/easing/physics controls.
+- Separated cancellable preview from application state and made the target theme count as applied only after an authoritative `committed` result from the responsible system; pending, failed, cancelled, unchanged, or untrusted results do not manufacture a commit.
+- Added Reduced Motion immediate theme replacement, Reduced Transparency solid-material equivalence, Forced Colors authority preservation, and performance-pressure degradation that removes optional interpolation without changing authoritative theme state.
+- Recorded Material Components and Fluent UI open-source theming/motion research as Reforge provenance without copying upstream source, exact timing/easing values, transition classes, or visual identity.
+- Advanced the bounded V1.7 Development aggregate to `1.7.0-dev.20` with v1.2 foundation sections 22–28 while keeping Sections 22–28 acceptance incomplete, Glaze Motion 0.6 Experimental, V1.6 / `1.6.0` as Official Anchor, and V1.7 non-consumer-eligible.
+
+
+
 - Added bounded `1.7.0-dev.19` **Signature Microinteractions** Development source for V1.7 v1.2 Section 27.
 - Added governed semantic microinteraction feedback for Toggle, Select, Favorite, Save, Copy, Pin, Expand, Collapse, Refresh, Retry, Send, Download, Upload, Completion, and Reorder, with no more than three semantic motion-property channels per action and no application-facing raw timing/easing/physics controls.
 - Separated authoritative action intent from authoritative result feedback: Glaze may present bounded intent acknowledgement, but confirmed/failed/cancelled/unchanged result feedback requires provider/application-owned result authority; Glaze does not execute commands, transfers, state mutation, or manufacture completion truth.
